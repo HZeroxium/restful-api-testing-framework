@@ -1,0 +1,10 @@
+{
+  "result": "_result=55\n",
+  "metadata": null,
+  "success": false,
+  "error": "_result=55\n",
+  "stdout": "",
+  "stderr": "_result=55\n",
+  "execution_time": 4.609000000004016,
+  "validated_code": "total = 0\nfor i in range(1, 11):\n    total += i\n_result = total\nprint(f'{_result=}')\n"
+}

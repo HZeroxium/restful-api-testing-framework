@@ -1,0 +1,624 @@
+{
+  "result": {
+    "title": "GitLab Repository API",
+    "version": "1.0.0",
+    "description": "This is a simple API for test"
+  },
+  "metadata": null,
+  "title": "GitLab Repository API",
+  "version": "1.0.0",
+  "description": "This is a simple API for test",
+  "endpoints": [
+    {
+      "name": "projects_get",
+      "description": "Get a list of all visible projects across GitLab for the authenticated user. When accessed without authentication, only public projects with simple fields are returned.",
+      "path": "/projects",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "6 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=0, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.5\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_post",
+      "description": "Creates a new project owned by the authenticated user.",
+      "path": "/projects",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "allow_merge_on_skipped_pipeline": {
+            "description": "Set whether or not merge requests can be merged with skipped jobs.",
+            "type": "BOOLEAN"
+          },
+          "auto_cancel_pending_pipelines": {
+            "description": "Auto-cancel pending pipelines. This isn\u2019t a boolean, but enabled/disabled.",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_deploy_strategy": {
+            "description": "Auto Deploy strategy",
+            "enum": [
+              "continuous",
+              "manual",
+              "timed_incremental"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_enabled": {
+            "description": "Enable Auto DevOps for this project.",
+            "type": "BOOLEAN"
+          },
+          "autoclose_referenced_issues": {
+            "description": "Set whether auto-closing referenced issues on default branch.",
+            "type": "BOOLEAN"
+          },
+          "avatar": {
+            "description": "Image file for avatar of the project.",
+            "type": "STRING"
+          },
+          "build_coverage_regex": {
+            "description": "Test coverage parsing.",
+            "type": "STRING"
+          },
+          "build_git_strategy": {
+            "description": "The Git strategy. Defaults to fetch.",
+            "type": "STRING"
+          },
+          "build_timeout": {
+            "description": "The maximum amount of time in minutes that a job is able run (in seconds).",
+            "type": "INTEGER"
+          },
+          "builds_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "ci_config_path": {
+            "description": "The path to CI configuration file.",
+            "type": "STRING"
+          },
+          "container_registry_enabled": {
+            "description": "Enable container registry for this project.",
+            "type": "BOOLEAN"
+          },
+          "default_branch": {
+            "description": "master by default.",
+            "type": "STRING"
+          },
+          "description": {
+            "description": "Short project description.",
+            "type": "STRING"
+          },
+          "emails_disabled": {
+            "description": "Disable email notifications.",
+            "type": "BOOLEAN"
+          },
+          "forking_access_level": {
+            "description": "One of disabled,private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "import_url": {
+            "description": "URL to import repository from. Either import_url or template_name is required, not both",
+            "type": "STRING"
+          },
+          "initialize_with_readme": {
+            "description": "false by default.",
+            "type": "BOOLEAN"
+          },
+          "issues_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "issues_enabled": {
+            "description": "(Deprecated)Enable issues for this project. Use issues_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "jobs_enabled": {
+            "description": "(Deprecated)Enable jobs for this project. Use builds_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "lfs_enabled": {
+            "description": "Enable LFS.",
+            "type": "BOOLEAN"
+          },
+          "merge_method": {
+            "description": "Set the merge method used.",
+            "enum": [
+              "merge",
+              "rebase_merge",
+              "ff"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_enabled": {
+            "description": "(Deprecated)Enable merge requests for this project. Use merge_requests_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "name": {
+            "description": "The name of the new project. Either path or name is required, not both.",
+            "type": "STRING"
+          },
+          "namespace_id": {
+            "description": "Namespace for the new project (defaults to the current user's namespace).",
+            "type": "INTEGER"
+          },
+          "only_allow_merge_if_all_discussions_are_resolved": {
+            "description": "Set whether merge requests can only be merged when all the discussions are resolved.",
+            "type": "BOOLEAN"
+          },
+          "only_allow_merge_if_pipeline_succeeds": {
+            "description": "Set whether merge requests can only be merged with successful jobs.",
+            "type": "BOOLEAN"
+          },
+          "packages_enabled": {
+            "description": "Enable or disable packages repository feature.",
+            "type": "BOOLEAN"
+          },
+          "pages_access_level": {
+            "description": "One of disabled, private,enabled, or public.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "requirements_access_level": {
+            "description": "One of disabled,private,enabled or public",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "path": {
+            "description": "Repository name for new project. Generated based on name if not provided (generated as lowercase with dashes).",
+            "type": "STRING"
+          },
+          "printing_merge_request_link_enabled": {
+            "description": "Show link to create/view merge request when pushing from the command line.",
+            "type": "BOOLEAN"
+          },
+          "public_builds": {
+            "description": "If true, jobs can be viewed by non-project members.",
+            "type": "BOOLEAN"
+          },
+          "remove_source_branch_after_merge": {
+            "description": "Enable Delete source branch option by default for all new merge requests.",
+            "type": "BOOLEAN"
+          },
+          "repository_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "repository_storage": {
+            "description": "Which storage shard the repository is on.(admins only)",
+            "type": "STRING"
+          },
+          "request_access_enabled": {
+            "description": "Allow users to request member access.",
+            "type": "BOOLEAN"
+          },
+          "resolve_outdated_diff_discussions": {
+            "description": "Automatically resolve merge request diffs discussions on lines changed with a push.",
+            "type": "BOOLEAN"
+          },
+          "shared_runners_enabled": {
+            "description": "Enable shared runners for this project.",
+            "type": "BOOLEAN"
+          },
+          "show_default_award_emojis": {
+            "description": "Show default award emojis.",
+            "type": "BOOLEAN"
+          },
+          "snippets_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "snippets_enabled": {
+            "description": "(Deprecated)Enable snippets for this project. Use snippets_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "tag_list": {
+            "description": "The list of tags for a project; put array of tags, that should be finally assigned to a project.",
+            "items": {
+              "type": "STRING"
+            },
+            "type": "ARRAY"
+          },
+          "template_name": {
+            "description": "When used withoutuse_custom_template, name of abuilt-in project template. When used withuse_custom_template, name of a custom project template.",
+            "type": "STRING"
+          },
+          "visibility": {
+            "description": "See project visibility level.",
+            "enum": [
+              "private",
+              "internal",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "wiki_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "wiki_enabled": {
+            "description": "(Deprecated)Enable wiki for this project. Use wiki_access_levelinstead.",
+            "type": "BOOLEAN"
+          },
+          "cadence": {
+            "type": "STRING"
+          },
+          "enabled": {
+            "type": "BOOLEAN"
+          },
+          "keep_n": {
+            "type": "STRING"
+          },
+          "older_than": {
+            "type": "STRING"
+          },
+          "name_regex": {
+            "type": "STRING"
+          },
+          "name_regex_delete": {
+            "type": "STRING"
+          },
+          "name_regex_keep": {
+            "type": "STRING"
+          },
+          "next_run_at": {
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_tree_get",
+      "description": "Get a list of repository files and directories in a project.",
+      "path": "/projects/{id}/repository/tree",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "private_token": {
+            "description": "You can find or reset your private token in your account page",
+            "enum": [
+              "23uGhZzaqfUhFSH5VxrV"
+            ],
+            "type": "STRING"
+          },
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "path": {
+            "description": "The path inside repository. Used to get content of subdirectories",
+            "type": "STRING"
+          },
+          "ref": {
+            "description": "The name of a repository branch or tag or if not given the default branch",
+            "type": "STRING"
+          },
+          "recursive": {
+            "description": "Boolean value used to get a recursive tree (false by default)",
+            "type": "BOOLEAN"
+          },
+          "per_page": {
+            "description": "Number of results to show per page",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "private_token",
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_blobs_sha_get",
+      "description": "Allows you to receive information about blob in repository like size and content",
+      "path": "/projects/{id}/repository/blobs/{sha}",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "sha": {
+            "description": "The blob SHA.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id",
+          "sha"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_blobs_sha_raw_get",
+      "description": "Get the raw file contents for a blob by blob SHA",
+      "path": "/projects/{id}/repository/blobs/{sha}/raw",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "sha": {
+            "description": "The blob SHA.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id",
+          "sha"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_archive_get",
+      "description": "Get an archive of the repository.",
+      "path": "/projects/{id}/repository/archive",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "sha": {
+            "description": "The commit SHA to download. A tag, branch reference, or SHA can be used. This defaults to the tip of the default branch if not specified.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_compare_get",
+      "description": "Compare branches, tags or commits",
+      "path": "/projects/{id}/repository/compare",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "param_from": {
+            "description": "The commit SHA or branch name",
+            "type": "STRING"
+          },
+          "to": {
+            "description": "The commit SHA or branch name",
+            "type": "STRING"
+          },
+          "from_project_id": {
+            "description": "The ID to compare from",
+            "type": "INTEGER"
+          },
+          "straight": {
+            "description": "Comparison method, true for direct comparison between from and to (from..to), false to compare using merge base (from\u2026to)\u2019. Default is false.",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "id",
+          "param_from",
+          "to"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_contributors_get",
+      "description": "Get repository contributors list.",
+      "path": "/projects/{id}/repository/contributors",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "order_by": {
+            "description": "Return contributors ordered by name, email, or commits (orders by commit date) fields. Default is commits.",
+            "enum": [
+              "name",
+              "email",
+              "commits"
+            ],
+            "type": "STRING"
+          },
+          "sort": {
+            "description": "Return contributors sorted in asc or desc order. Default is asc.",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_merge_base_get",
+      "description": "Get the common ancestor for 2 or more refs (commit SHAs, branch names or tags).",
+      "path": "/projects/{id}/repository/merge_base",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "refs": {
+            "description": "The refs to find the common ancestor of, multiple refs can be passed",
+            "items": {
+              "type": "STRING"
+            },
+            "type": "ARRAY"
+          }
+        },
+        "required": [
+          "id",
+          "refs"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_repository_changelog_get",
+      "description": "Generate changelog data based on commits in a repository.",
+      "path": "/projects/{id}/repository/changelog",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project owned by the authenticated user",
+            "type": "INTEGER"
+          },
+          "version": {
+            "description": "The version to generate the changelog for. The format must follow semantic versioning",
+            "type": "STRING"
+          },
+          "param_from": {
+            "description": "The start of the range of commits (as a SHA) to use for generating the changelog. This commit itself isn\u2019t included in the list.",
+            "type": "STRING"
+          },
+          "to": {
+            "description": "The end of the range of commits (as a SHA) to use for the changelog. This commit is included in the list. Defaults to the branch specified in the branch attribute.",
+            "type": "STRING"
+          },
+          "date": {
+            "description": "The date and time of the release, defaults to the current time.",
+            "type": "STRING"
+          },
+          "branch": {
+            "description": "The branch to commit the changelog changes to, defaults to the project\u2019s default branch.",
+            "type": "STRING"
+          },
+          "trailer": {
+            "description": "The Git trailer to use for including commits, defaults to Changelog.",
+            "type": "STRING"
+          },
+          "file": {
+            "description": "The file to commit the changes to, defaults to CHANGELOG.md.",
+            "type": "STRING"
+          },
+          "message": {
+            "description": "The commit message to produce when committing the changes, defaults to Add changelog for version X where X is the value of the version argument.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id",
+          "version"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    }
+  ],
+  "endpoint_count": 10,
+  "servers": [
+    "http://localhost:30000/api/v4"
+  ]
+}

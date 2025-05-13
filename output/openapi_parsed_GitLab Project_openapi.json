@@ -1,0 +1,1710 @@
+{
+  "result": {
+    "title": "GitLab Project API",
+    "version": "1.0.0",
+    "description": "This is a simple API for test"
+  },
+  "metadata": null,
+  "title": "GitLab Project API",
+  "version": "1.0.0",
+  "description": "This is a simple API for test",
+  "endpoints": [
+    {
+      "name": "projects_get",
+      "description": "Get a list of all visible projects across GitLab for the authenticated user. When accessed without authentication, only public projects with simple fields are returned.",
+      "path": "/projects",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "6 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=0, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.5\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_post",
+      "description": "Creates a new project owned by the authenticated user.",
+      "path": "/projects",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "allow_merge_on_skipped_pipeline": {
+            "description": "Set whether or not merge requests can be merged with skipped jobs.",
+            "type": "BOOLEAN"
+          },
+          "auto_cancel_pending_pipelines": {
+            "description": "Auto-cancel pending pipelines. This isn\u2019t a boolean, but enabled/disabled.",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_deploy_strategy": {
+            "description": "Auto Deploy strategy",
+            "enum": [
+              "continuous",
+              "manual",
+              "timed_incremental"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_enabled": {
+            "description": "Enable Auto DevOps for this project.",
+            "type": "BOOLEAN"
+          },
+          "autoclose_referenced_issues": {
+            "description": "Set whether auto-closing referenced issues on default branch.",
+            "type": "BOOLEAN"
+          },
+          "avatar": {
+            "description": "Image file for avatar of the project.",
+            "type": "STRING"
+          },
+          "build_coverage_regex": {
+            "description": "Test coverage parsing.",
+            "type": "STRING"
+          },
+          "build_git_strategy": {
+            "description": "The Git strategy. Defaults to fetch.",
+            "type": "STRING"
+          },
+          "build_timeout": {
+            "description": "The maximum amount of time in minutes that a job is able run (in seconds).",
+            "type": "INTEGER"
+          },
+          "builds_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "ci_config_path": {
+            "description": "The path to CI configuration file.",
+            "type": "STRING"
+          },
+          "container_registry_enabled": {
+            "description": "Enable container registry for this project.",
+            "type": "BOOLEAN"
+          },
+          "default_branch": {
+            "description": "master by default.",
+            "type": "STRING"
+          },
+          "description": {
+            "description": "Short project description.",
+            "type": "STRING"
+          },
+          "emails_disabled": {
+            "description": "Disable email notifications.",
+            "type": "BOOLEAN"
+          },
+          "forking_access_level": {
+            "description": "One of disabled,private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "import_url": {
+            "description": "URL to import repository from. Either import_url or template_name is required, not both",
+            "type": "STRING"
+          },
+          "initialize_with_readme": {
+            "description": "false by default.",
+            "type": "BOOLEAN"
+          },
+          "issues_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "issues_enabled": {
+            "description": "(Deprecated)Enable issues for this project. Use issues_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "jobs_enabled": {
+            "description": "(Deprecated)Enable jobs for this project. Use builds_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "lfs_enabled": {
+            "description": "Enable LFS.",
+            "type": "BOOLEAN"
+          },
+          "merge_method": {
+            "description": "Set the merge method used.",
+            "enum": [
+              "merge",
+              "rebase_merge",
+              "ff"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_enabled": {
+            "description": "(Deprecated)Enable merge requests for this project. Use merge_requests_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "name": {
+            "description": "The name of the new project. Either path or name is required, not both.",
+            "type": "STRING"
+          },
+          "namespace_id": {
+            "description": "Namespace for the new project (defaults to the current user's namespace).",
+            "type": "INTEGER"
+          },
+          "only_allow_merge_if_all_discussions_are_resolved": {
+            "description": "Set whether merge requests can only be merged when all the discussions are resolved.",
+            "type": "BOOLEAN"
+          },
+          "only_allow_merge_if_pipeline_succeeds": {
+            "description": "Set whether merge requests can only be merged with successful jobs.",
+            "type": "BOOLEAN"
+          },
+          "packages_enabled": {
+            "description": "Enable or disable packages repository feature.",
+            "type": "BOOLEAN"
+          },
+          "pages_access_level": {
+            "description": "One of disabled, private,enabled, or public.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "requirements_access_level": {
+            "description": "One of disabled,private,enabled or public",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "path": {
+            "description": "Repository name for new project. Generated based on name if not provided (generated as lowercase with dashes).",
+            "type": "STRING"
+          },
+          "printing_merge_request_link_enabled": {
+            "description": "Show link to create/view merge request when pushing from the command line.",
+            "type": "BOOLEAN"
+          },
+          "public_builds": {
+            "description": "If true, jobs can be viewed by non-project members.",
+            "type": "BOOLEAN"
+          },
+          "remove_source_branch_after_merge": {
+            "description": "Enable Delete source branch option by default for all new merge requests.",
+            "type": "BOOLEAN"
+          },
+          "repository_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "repository_storage": {
+            "description": "Which storage shard the repository is on.(admins only)",
+            "type": "STRING"
+          },
+          "request_access_enabled": {
+            "description": "Allow users to request member access.",
+            "type": "BOOLEAN"
+          },
+          "resolve_outdated_diff_discussions": {
+            "description": "Automatically resolve merge request diffs discussions on lines changed with a push.",
+            "type": "BOOLEAN"
+          },
+          "shared_runners_enabled": {
+            "description": "Enable shared runners for this project.",
+            "type": "BOOLEAN"
+          },
+          "show_default_award_emojis": {
+            "description": "Show default award emojis.",
+            "type": "BOOLEAN"
+          },
+          "snippets_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "snippets_enabled": {
+            "description": "(Deprecated)Enable snippets for this project. Use snippets_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "tag_list": {
+            "description": "The list of tags for a project; put array of tags, that should be finally assigned to a project.",
+            "items": {
+              "type": "STRING"
+            },
+            "type": "ARRAY"
+          },
+          "template_name": {
+            "description": "When used withoutuse_custom_template, name of abuilt-in project template. When used withuse_custom_template, name of a custom project template.",
+            "type": "STRING"
+          },
+          "visibility": {
+            "description": "See project visibility level.",
+            "enum": [
+              "private",
+              "internal",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "wiki_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "wiki_enabled": {
+            "description": "(Deprecated)Enable wiki for this project. Use wiki_access_levelinstead.",
+            "type": "BOOLEAN"
+          },
+          "cadence": {
+            "type": "STRING"
+          },
+          "enabled": {
+            "type": "BOOLEAN"
+          },
+          "keep_n": {
+            "type": "INTEGER"
+          },
+          "older_than": {
+            "type": "STRING"
+          },
+          "name_regex": {
+            "type": "STRING"
+          },
+          "name_regex_delete": {
+            "type": "STRING"
+          },
+          "name_regex_keep": {
+            "type": "STRING"
+          },
+          "next_run_at": {
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_user_user_id_post",
+      "description": "Creates a new project owned by the specified user. Available only for admins.",
+      "path": "/projects/user/{user_id}",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "allow_merge_on_skipped_pipeline": {
+            "description": "Set whether or not merge requests can be merged with skipped jobs.",
+            "type": "BOOLEAN"
+          },
+          "auto_cancel_pending_pipelines": {
+            "description": "Auto-cancel pending pipelines. This isn\u2019t a boolean, but enabled/disabled.",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_deploy_strategy": {
+            "description": "Auto Deploy strategy",
+            "enum": [
+              "continuous",
+              "manual",
+              "timed_incremental"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_enabled": {
+            "description": "Enable Auto DevOps for this project.",
+            "type": "BOOLEAN"
+          },
+          "autoclose_referenced_issues": {
+            "description": "Set whether auto-closing referenced issues on default branch.",
+            "type": "BOOLEAN"
+          },
+          "avatar": {
+            "description": "Image file for avatar of the project.",
+            "type": "STRING"
+          },
+          "build_coverage_regex": {
+            "description": "Test coverage parsing.",
+            "type": "STRING"
+          },
+          "build_git_strategy": {
+            "description": "The Git strategy. Defaults to fetch.",
+            "type": "STRING"
+          },
+          "build_timeout": {
+            "description": "The maximum amount of time in minutes that a job is able run (in seconds).",
+            "type": "INTEGER"
+          },
+          "builds_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "ci_config_path": {
+            "description": "The path to CI configuration file.",
+            "type": "STRING"
+          },
+          "container_registry_enabled": {
+            "description": "Enable container registry for this project.",
+            "type": "BOOLEAN"
+          },
+          "description": {
+            "description": "Short project description.",
+            "type": "STRING"
+          },
+          "emails_disabled": {
+            "description": "Disable email notifications.",
+            "type": "BOOLEAN"
+          },
+          "forking_access_level": {
+            "description": "One of disabled,private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "import_url": {
+            "description": "URL to import repository from. Either import_url or template_name is required, not both",
+            "type": "STRING"
+          },
+          "initialize_with_readme": {
+            "description": "false by default.",
+            "type": "BOOLEAN"
+          },
+          "issues_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "issues_enabled": {
+            "description": "(Deprecated)Enable issues for this project. Use issues_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "jobs_enabled": {
+            "description": "(Deprecated)Enable jobs for this project. Use builds_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "lfs_enabled": {
+            "description": "Enable LFS.",
+            "type": "BOOLEAN"
+          },
+          "merge_method": {
+            "description": "Set the merge method used.",
+            "enum": [
+              "merge",
+              "rebase_merge",
+              "ff"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_enabled": {
+            "description": "(Deprecated)Enable merge requests for this project. Use merge_requests_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "name": {
+            "description": "The name of the new project. Equals path if not provided.",
+            "type": "STRING"
+          },
+          "namespace_id": {
+            "description": "Namespace for the new project (defaults to the current user's namespace).",
+            "type": "INTEGER"
+          },
+          "only_allow_merge_if_all_discussions_are_resolved": {
+            "description": "Set whether merge requests can only be merged when all the discussions are resolved.",
+            "type": "BOOLEAN"
+          },
+          "only_allow_merge_if_pipeline_succeeds": {
+            "description": "Set whether merge requests can only be merged with successful jobs.",
+            "type": "BOOLEAN"
+          },
+          "packages_enabled": {
+            "description": "Enable or disable packages repository feature.",
+            "type": "BOOLEAN"
+          },
+          "pages_access_level": {
+            "description": "One of disabled, private,enabled, or public.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "requirements_access_level": {
+            "description": "One of disabled,private,enabled or public",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "path": {
+            "description": "Repository name for new project. Either path or name is required, not both.",
+            "type": "STRING"
+          },
+          "printing_merge_request_link_enabled": {
+            "description": "Show link to create/view merge request when pushing from the command line.",
+            "type": "BOOLEAN"
+          },
+          "public_builds": {
+            "description": "If true, jobs can be viewed by non-project members.",
+            "type": "BOOLEAN"
+          },
+          "remove_source_branch_after_merge": {
+            "description": "Enable Delete source branch option by default for all new merge requests.",
+            "type": "BOOLEAN"
+          },
+          "repository_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "repository_storage": {
+            "description": "Which storage shard the repository is on.(admins only)",
+            "type": "STRING"
+          },
+          "request_access_enabled": {
+            "description": "Allow users to request member access.",
+            "type": "BOOLEAN"
+          },
+          "resolve_outdated_diff_discussions": {
+            "description": "Automatically resolve merge request diffs discussions on lines changed with a push.",
+            "type": "BOOLEAN"
+          },
+          "shared_runners_enabled": {
+            "description": "Enable shared runners for this project.",
+            "type": "BOOLEAN"
+          },
+          "show_default_award_emojis": {
+            "description": "Show default award emojis.",
+            "type": "BOOLEAN"
+          },
+          "snippets_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "snippets_enabled": {
+            "description": "(Deprecated)Enable snippets for this project. Use snippets_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "suggestion_commit_message": {
+            "description": "The commit message used to apply merge request suggestions.",
+            "type": "STRING"
+          },
+          "tag_list": {
+            "description": "The list of tags for a project; put array of tags, that should be finally assigned to a project.",
+            "items": {
+              "type": "STRING"
+            },
+            "type": "ARRAY"
+          },
+          "template_name": {
+            "description": "When used without use_custom_template, name of abuilt-in project template. When used with use_custom_template, name of a custom project template.",
+            "type": "STRING"
+          },
+          "user_id": {
+            "description": "The user ID of the project owner.",
+            "type": "INTEGER"
+          },
+          "visibility": {
+            "description": "See project visibility level.",
+            "enum": [
+              "private",
+              "internal",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "wiki_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "wiki_enabled": {
+            "description": "(Deprecated)Enable wiki for this project. Use wiki_access_levelinstead.",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "user_id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_get",
+      "description": "Get a specific project. This endpoint can be accessed without authentication if the project is publicly accessible.",
+      "path": "/projects/{id}",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "STRING"
+          },
+          "license": {
+            "description": "Include project license data.",
+            "type": "BOOLEAN"
+          },
+          "statistics": {
+            "description": "Include project statistics.",
+            "type": "BOOLEAN"
+          },
+          "with_custom_attributes": {
+            "description": "Include custom attributes in response. (admins only)",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_put",
+      "description": "Updates an existing project.",
+      "path": "/projects/{id}",
+      "method": "PUT",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "allow_merge_on_skipped_pipeline": {
+            "description": "Set whether or not merge requests can be merged with skipped jobs.",
+            "type": "BOOLEAN"
+          },
+          "auto_cancel_pending_pipelines": {
+            "description": "Auto-cancel pending pipelines. This isn\u2019t a boolean, but enabled/disabled.",
+            "enum": [
+              "enabled",
+              "disabled"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_deploy_strategy": {
+            "description": "Auto Deploy strategy",
+            "enum": [
+              "continuous",
+              "manual",
+              "timed_incremental"
+            ],
+            "type": "STRING"
+          },
+          "auto_devops_enabled": {
+            "description": "Enable Auto DevOps for this project.",
+            "type": "BOOLEAN"
+          },
+          "autoclose_referenced_issues": {
+            "description": "Set whether auto-closing referenced issues on default branch.",
+            "type": "BOOLEAN"
+          },
+          "avatar": {
+            "description": "Image file for avatar of the project.",
+            "type": "STRING"
+          },
+          "build_coverage_regex": {
+            "description": "Test coverage parsing.",
+            "type": "STRING"
+          },
+          "build_git_strategy": {
+            "description": "The Git strategy. Defaults to fetch.",
+            "type": "STRING"
+          },
+          "build_timeout": {
+            "description": "The maximum amount of time in minutes that a job is able run (in seconds).",
+            "type": "INTEGER"
+          },
+          "builds_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "ci_config_path": {
+            "description": "The path to CI configuration file.",
+            "type": "STRING"
+          },
+          "ci_default_git_depth": {
+            "description": "Default number of revisions forshallow cloning.",
+            "maximum": 1000.0,
+            "type": "INTEGER"
+          },
+          "ci_forward_deployment_enabled": {
+            "description": "When a new deployment job starts,skip older deployment jobsthat are still pending",
+            "type": "BOOLEAN"
+          },
+          "container_registry_enabled": {
+            "description": "Enable container registry for this project.",
+            "type": "BOOLEAN"
+          },
+          "default_branch": {
+            "description": "master by default.",
+            "type": "STRING"
+          },
+          "description": {
+            "description": "Short project description.",
+            "type": "STRING"
+          },
+          "emails_disabled": {
+            "description": "Disable email notifications.",
+            "type": "BOOLEAN"
+          },
+          "forking_access_level": {
+            "description": "One of disabled,private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "import_url": {
+            "description": "URL to import repository from.",
+            "type": "STRING"
+          },
+          "issues_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "issues_enabled": {
+            "description": "(Deprecated)Enable issues for this project. Use issues_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "jobs_enabled": {
+            "description": "(Deprecated)Enable jobs for this project. Use builds_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "lfs_enabled": {
+            "description": "Enable LFS.",
+            "type": "BOOLEAN"
+          },
+          "merge_method": {
+            "description": "Set the merge method used.",
+            "enum": [
+              "merge",
+              "rebase_merge",
+              "ff"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "merge_requests_enabled": {
+            "description": "(Deprecated)Enable merge requests for this project. Use merge_requests_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "name": {
+            "description": "The name of the new project. Equals path if not provided.",
+            "type": "STRING"
+          },
+          "only_allow_merge_if_all_discussions_are_resolved": {
+            "description": "Set whether merge requests can only be merged when all the discussions are resolved.",
+            "type": "BOOLEAN"
+          },
+          "only_allow_merge_if_pipeline_succeeds": {
+            "description": "Set whether merge requests can only be merged with successful jobs.",
+            "type": "BOOLEAN"
+          },
+          "packages_enabled": {
+            "description": "Enable or disable packages repository feature.",
+            "type": "BOOLEAN"
+          },
+          "pages_access_level": {
+            "description": "One of disabled, private,enabled, or public.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "requirements_access_level": {
+            "description": "One of disabled,private,enabled or public",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "path": {
+            "description": "Repository name for new project.Either path or name is required, not both. Generated based on name if not provided (generated as lowercase with dashes).",
+            "type": "STRING"
+          },
+          "public_builds": {
+            "description": "If true, jobs can be viewed by non-project members.",
+            "type": "BOOLEAN"
+          },
+          "remove_source_branch_after_merge": {
+            "description": "Enable Delete source branch option by default for all new merge requests.",
+            "type": "BOOLEAN"
+          },
+          "repository_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "repository_storage": {
+            "description": "Which storage shard the repository is on.(admins only)",
+            "type": "STRING"
+          },
+          "request_access_enabled": {
+            "description": "Allow users to request member access.",
+            "type": "BOOLEAN"
+          },
+          "resolve_outdated_diff_discussions": {
+            "description": "Automatically resolve merge request diffs discussions on lines changed with a push.",
+            "type": "BOOLEAN"
+          },
+          "service_desk_enabled": {
+            "description": "Enable or disable Service Desk feature.",
+            "type": "BOOLEAN"
+          },
+          "shared_runners_enabled": {
+            "description": "Enable shared runners for this project.",
+            "type": "BOOLEAN"
+          },
+          "show_default_award_emojis": {
+            "description": "Show default award emojis.",
+            "type": "BOOLEAN"
+          },
+          "snippets_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "snippets_enabled": {
+            "description": "(Deprecated)Enable snippets for this project. Use snippets_access_level instead.",
+            "type": "BOOLEAN"
+          },
+          "suggestion_commit_message": {
+            "description": "The commit message used to apply merge request suggestions.",
+            "type": "STRING"
+          },
+          "tag_list": {
+            "description": "The list of tags for a project; put array of tags, that should be finally assigned to a project.",
+            "items": {
+              "type": "STRING"
+            },
+            "type": "ARRAY"
+          },
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "visibility": {
+            "description": "See project visibility level.",
+            "enum": [
+              "private",
+              "internal",
+              "public"
+            ],
+            "type": "STRING"
+          },
+          "wiki_access_level": {
+            "description": "One of disabled, private, or enabled.",
+            "enum": [
+              "disabled",
+              "private",
+              "enabled"
+            ],
+            "type": "STRING"
+          },
+          "wiki_enabled": {
+            "description": "(Deprecated)Enable wiki for this project. Use wiki_access_levelinstead.",
+            "type": "BOOLEAN"
+          },
+          "cadence": {
+            "type": "STRING"
+          },
+          "enabled": {
+            "type": "BOOLEAN"
+          },
+          "keep_n": {
+            "type": "INTEGER"
+          },
+          "older_than": {
+            "type": "STRING"
+          },
+          "name_regex": {
+            "type": "STRING"
+          },
+          "name_regex_delete": {
+            "type": "STRING"
+          },
+          "name_regex_keep": {
+            "type": "STRING"
+          },
+          "next_run_at": {
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_delete",
+      "description": "Get a specific project. This endpoint can be accessed without authentication if the project is publicly accessible.",
+      "path": "/projects/{id}",
+      "method": "DELETE",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_users_get",
+      "description": "Get the users list of a project.",
+      "path": "/projects/{id}/users",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "STRING"
+          },
+          "search": {
+            "description": "Search for specific users.",
+            "type": "STRING"
+          },
+          "skip_users": {
+            "description": "Filter out users with the specified IDs.",
+            "items": {
+              "type": "INTEGER"
+            },
+            "type": "ARRAY"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_fork_post",
+      "description": "Get a list of visible projects owned by the given user. When accessed without authentication, only public projects are returned.",
+      "path": "/projects/{id}/fork",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID orURL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "name": {
+            "description": "The name assigned to the resultant project after forking.",
+            "type": "STRING"
+          },
+          "namespace_id": {
+            "description": "The ID of the namespace that the project is forked to.",
+            "type": "INTEGER"
+          },
+          "namespace_path": {
+            "description": "The path of the namespace that the project is forked to.",
+            "type": "STRING"
+          },
+          "namespace": {
+            "description": "(Deprecated)The ID or path of the namespace that the project is forked to.",
+            "type": "INTEGER"
+          },
+          "path": {
+            "description": "The path assigned to the resultant project after forking. Either path or name is required, not both.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_fork_delete",
+      "description": "Delete an existing forked from relationship",
+      "path": "/projects/{id}/fork",
+      "method": "DELETE",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_forks_get",
+      "description": "List the projects accessible to the calling user that have an established, forked relationship with the specified project",
+      "path": "/projects/{id}/forks",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "6 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=0, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.5\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_star_post",
+      "description": "Stars a given project. Returns status code 304 if the project is already starred.",
+      "path": "/projects/{id}/star",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_unstar_post",
+      "description": "Unstars a given project. Returns status code 304 if the project is not starred.",
+      "path": "/projects/{id}/unstar",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_starrers_get",
+      "description": "List the users who starred the specified project.",
+      "path": "/projects/{id}/starrers",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "search": {
+            "description": "Search for specific users.",
+            "type": "STRING"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_languages_get",
+      "description": "Get languages used in a project with percentage value.",
+      "path": "/projects/{id}/languages",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_archive_post",
+      "description": "Archives the project if the user is either an administrator or the owner of this project. This action is idempotent, thus archiving an already archived project does not change the project.",
+      "path": "/projects/{id}/archive",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_unarchive_post",
+      "description": "Unarchives the project if the user is either an administrator or the owner of this project. This action is idempotent, thus unarchiving a non-archived project doesn\u2019t change the project.",
+      "path": "/projects/{id}/unarchive",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_restore_post",
+      "description": "Restores project marked for deletion.",
+      "path": "/projects/{id}/restore",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_uploads_post",
+      "description": "Uploads a file to the specified project to be used in an issue or merge request description, or a comment.",
+      "path": "/projects/{id}/uploads",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "": {
+            "properties": {
+              "file": {
+                "description": "The file to be uploaded.",
+                "type": "STRING"
+              }
+            },
+            "required": [
+              "file"
+            ],
+            "type": "OBJECT"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_share_post",
+      "description": "Allow to share project with group.",
+      "path": "/projects/{id}/share",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "5 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_share_group_id_delete",
+      "description": "Unshare the project from the group. Returns 204 and no content on success.",
+      "path": "/projects/{id}/share/{group_id}",
+      "method": "DELETE",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "group_id": {
+            "description": "The ID of the group to share with.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id",
+          "group_id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_hooks_get",
+      "description": "Get a list of project hooks.",
+      "path": "/projects/{id}/hooks",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_hooks_post",
+      "description": "Adds a hook to a specified project.",
+      "path": "/projects/{id}/hooks",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "confidential_issues_events": {
+            "description": "Trigger hook on confidential issues events.",
+            "type": "BOOLEAN"
+          },
+          "confidential_note_events": {
+            "description": "Trigger hook on confidential note events.",
+            "type": "BOOLEAN"
+          },
+          "deployment_events": {
+            "description": "Trigger hook on deployment events.",
+            "type": "BOOLEAN"
+          },
+          "enable_ssl_verification": {
+            "description": "Do SSL verification when triggering the hook.",
+            "type": "BOOLEAN"
+          },
+          "id": {
+            "description": "The ID orURL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "issues_events": {
+            "description": "Trigger hook on issues events.",
+            "type": "BOOLEAN"
+          },
+          "job_events": {
+            "description": "Trigger hook on job events.",
+            "type": "BOOLEAN"
+          },
+          "merge_requests_events": {
+            "description": "Trigger hook on merge requests events.",
+            "type": "BOOLEAN"
+          },
+          "note_events": {
+            "description": "Trigger hook on note events.",
+            "type": "BOOLEAN"
+          },
+          "pipeline_events": {
+            "description": "Trigger hook on pipeline events.",
+            "type": "BOOLEAN"
+          },
+          "push_events_branch_filter": {
+            "description": "Trigger hook on push events for matching branches only.",
+            "type": "STRING"
+          },
+          "push_events": {
+            "description": "Trigger hook on push events.",
+            "type": "BOOLEAN"
+          },
+          "tag_push_events": {
+            "description": "Trigger hook on tag push events.",
+            "type": "BOOLEAN"
+          },
+          "token": {
+            "description": "Secret token to validate received payloads; this is not returned in the response.",
+            "type": "STRING"
+          },
+          "url": {
+            "description": "The hook URL.",
+            "type": "STRING"
+          },
+          "wiki_page_events": {
+            "description": "Trigger hook on wiki events.",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "id",
+          "url"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_hooks_hook_id_get",
+      "description": "Get a specific hook for a project.",
+      "path": "/projects/{id}/hooks/{hook_id}",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "hook_id": {
+            "description": "The ID of a project hook.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id",
+          "hook_id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_hooks_hook_id_put",
+      "description": "Edits a hook for a specified project",
+      "path": "/projects/{id}/hooks/{hook_id}",
+      "method": "PUT",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "confidential_issues_events": {
+            "description": "Trigger hook on confidential issues events.",
+            "type": "BOOLEAN"
+          },
+          "confidential_note_events": {
+            "description": "Trigger hook on confidential note events.",
+            "type": "BOOLEAN"
+          },
+          "deployment_events": {
+            "description": "Trigger hook on deployment events.",
+            "type": "BOOLEAN"
+          },
+          "enable_ssl_verification": {
+            "description": "Do SSL verification when triggering the hook.",
+            "type": "BOOLEAN"
+          },
+          "hook_id": {
+            "description": "The ID of the project hook.",
+            "type": "INTEGER"
+          },
+          "id": {
+            "description": "The ID orURL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "issues_events": {
+            "description": "Trigger hook on issues events.",
+            "type": "BOOLEAN"
+          },
+          "job_events": {
+            "description": "Trigger hook on job events.",
+            "type": "BOOLEAN"
+          },
+          "merge_requests_events": {
+            "description": "Trigger hook on merge requests events.",
+            "type": "BOOLEAN"
+          },
+          "note_events": {
+            "description": "Trigger hook on note events.",
+            "type": "BOOLEAN"
+          },
+          "pipeline_events": {
+            "description": "Trigger hook on pipeline events.",
+            "type": "BOOLEAN"
+          },
+          "push_events_branch_filter": {
+            "description": "Trigger hook on push events for matching branches only.",
+            "type": "STRING"
+          },
+          "push_events": {
+            "description": "Trigger hook on push events.",
+            "type": "BOOLEAN"
+          },
+          "tag_push_events": {
+            "description": "Trigger hook on tag push events.",
+            "type": "BOOLEAN"
+          },
+          "token": {
+            "description": "Secret token to validate received payloads; this is not returned in the response.",
+            "type": "STRING"
+          },
+          "url": {
+            "description": "The hook URL.",
+            "type": "STRING"
+          },
+          "wiki_events": {
+            "description": "Trigger hook on wiki events.",
+            "type": "BOOLEAN"
+          },
+          "releases_events": {
+            "description": "Trigger hook on release events.",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "hook_id",
+          "id",
+          "url"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_hooks_hook_id_delete",
+      "description": "Removes a hook from a project. This is an idempotent method and can be called multiple times. Either the hook is available or not.",
+      "path": "/projects/{id}/hooks/{hook_id}",
+      "method": "DELETE",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "hook_id": {
+            "description": "The ID of the project hook.",
+            "type": "INTEGER"
+          },
+          "id": {
+            "description": "The ID orURL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "hook_id",
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_housekeeping_post",
+      "description": "Start the Housekeeping task for a project",
+      "path": "/projects/{id}/housekeeping",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_transfer_put",
+      "description": "Transfer a project to a new namespace",
+      "path": "/projects/{id}/transfer",
+      "method": "PUT",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "namespace": {
+            "description": "The ID or path of the namespace to transfer to project to.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "id",
+          "namespace"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_fork_forked_from_id_post",
+      "description": "Create a forked from/to relation between existing projects",
+      "path": "/projects/{id}/fork/{forked_from_id}",
+      "method": "POST",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "forked_from_id": {
+            "description": "The ID of the project that was forked from.",
+            "type": "INTEGER"
+          },
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          }
+        },
+        "required": [
+          "forked_from_id",
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "projects_id_snapshot_get",
+      "description": "Download snapshot of a Git repository",
+      "path": "/projects/{id}/snapshot",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "id": {
+            "description": "The ID or URL-encoded path of the project.",
+            "type": "INTEGER"
+          },
+          "wiki": {
+            "description": "Whether to download the wiki, rather than project, repository.",
+            "type": "BOOLEAN"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "users_user_id_projects_get",
+      "description": "Get a list of visible projects owned by the given user. When accessed without authentication, only public projects are returned.",
+      "path": "/users/{user_id}/projects",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "6 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=0, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.5\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "users_user_id_starred_projects_get",
+      "description": "Get a list of visible projects owned by the given user. When accessed without authentication, only public projects are returned.",
+      "path": "/users/{user_id}/starred_projects",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "error": "6 validation errors for Schema\nenum.0\n  Input should be a valid string [type=string_type, input_value=0, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.1\n  Input should be a valid string [type=string_type, input_value=10, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.2\n  Input should be a valid string [type=string_type, input_value=20, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.3\n  Input should be a valid string [type=string_type, input_value=30, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.4\n  Input should be a valid string [type=string_type, input_value=40, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\nenum.5\n  Input should be a valid string [type=string_type, input_value=50, input_type=int]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type"
+      },
+      "output_schema": {}
+    }
+  ],
+  "endpoint_count": 31,
+  "servers": [
+    "http://localhost:30000/api/v4"
+  ]
+}

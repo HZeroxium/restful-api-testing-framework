@@ -3,10 +3,10 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
-
-data
-.vscode
-docs
-example
 .env
-output
+.vscode
+
+# data
+# docs
+example
+# output

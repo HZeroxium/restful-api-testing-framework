@@ -1,0 +1,10 @@
+{
+  "result": "Sum of 5 and 7 is 12\n",
+  "metadata": null,
+  "success": false,
+  "error": "Sum of 5 and 7 is 12\n",
+  "stdout": "",
+  "stderr": "Sum of 5 and 7 is 12\n",
+  "execution_time": 3.2660000000032596,
+  "validated_code": "x = 5\ny = 7\nresult = x + y\nprint(f\"Sum of {x} and {y} is {result}\")\n_result = result\n"
+}

@@ -1,0 +1,177 @@
+{
+  "result": {
+    "title": "Canada Holidays API",
+    "version": "1.8.0",
+    "description": "This API lists all 31 public holidays for all 13 provinces and territories in Canada, including federal holidays."
+  },
+  "metadata": null,
+  "title": "Canada Holidays API",
+  "version": "1.8.0",
+  "description": "This API lists all 31 public holidays for all 13 provinces and territories in Canada, including federal holidays.",
+  "endpoints": [
+    {
+      "name": "root",
+      "description": "Returns a welcome message.",
+      "path": "/api/v1",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "holidays",
+      "description": "Returns Canadian public holidays. Each holiday lists the regions that observe it.",
+      "path": "/api/v1/holidays",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "year": {
+            "description": "A calendar year",
+            "maximum": 2029.0,
+            "minimum": 2016.0,
+            "type": "INTEGER"
+          },
+          "federal": {
+            "description": "A boolean parameter. If true or 1, will return only federal holidays. If false or 0, will return no federal holidays.",
+            "enum": [
+              "1",
+              "0",
+              "true",
+              "false"
+            ],
+            "type": "STRING"
+          },
+          "optional": {
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
+            "enum": [
+              "1",
+              "0",
+              "true",
+              "false"
+            ],
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "holiday",
+      "description": "Returns one Canadian statutory holiday by integer id. Returns a 404 response for invalid ids.",
+      "path": "/api/v1/holidays/{holidayId}",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "year": {
+            "description": "A calendar year",
+            "maximum": 2029.0,
+            "minimum": 2016.0,
+            "type": "INTEGER"
+          },
+          "optional": {
+            "description": "A boolean parameter. If false or 0 (default), will return provinces for which this is a legislated holiday. If true or 1, will return provinces which optionally celebrate this holiday.",
+            "enum": [
+              "1",
+              "0",
+              "true",
+              "false"
+            ],
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "provinces",
+      "description": "Returns provinces and territories in Canada. Each province or territory lists its associated holidays.",
+      "path": "/api/v1/provinces",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "year": {
+            "description": "A calendar year",
+            "maximum": 2029.0,
+            "minimum": 2016.0,
+            "type": "INTEGER"
+          },
+          "optional": {
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
+            "enum": [
+              "1",
+              "0",
+              "true",
+              "false"
+            ],
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "province",
+      "description": "Returns a Canadian province or territory with its associated holidays. Returns a 404 response for invalid abbreviations.",
+      "path": "/api/v1/provinces/{provinceId}",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "properties": {
+          "year": {
+            "description": "A calendar year",
+            "maximum": 2029.0,
+            "minimum": 2016.0,
+            "type": "INTEGER"
+          },
+          "optional": {
+            "description": "A boolean parameter (AB and BC only). If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
+            "enum": [
+              "1",
+              "0",
+              "true",
+              "false"
+            ],
+            "type": "STRING"
+          }
+        },
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    },
+    {
+      "name": "spec",
+      "description": "Gets the schema for the JSON API as a yaml file.",
+      "path": "/api/v1/spec",
+      "method": "GET",
+      "tags": [],
+      "auth_required": false,
+      "auth_type": null,
+      "input_schema": {
+        "type": "OBJECT"
+      },
+      "output_schema": {}
+    }
+  ],
+  "endpoint_count": 6,
+  "servers": [
+    "https://canada-holidays.ca"
+  ]
+}
