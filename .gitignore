@@ -1,12 +1,40 @@
+# Virtual Environment
 .venv
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-.env
-.vscode
+venv/
+env/
+ENV/
 
-# data
-# docs
-example
-# output
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables
+.env
+.env.*
+
+# IDE settings
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Project specific
+example/
+logs/
+*.log
+
+# Uncomment these if you want to include them in version control
+# data/
+# docs/
+# output/
