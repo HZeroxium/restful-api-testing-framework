@@ -4,13 +4,14 @@ import openai
 import uuid
 from hashlib import md5
 from llm.openai_call import OpenAICaller
-from llm.gemini_call import GeminiCaller
-from llm.groq_call import GroqCaller
+
+# from llm.gemini_call import GeminiCaller
+# from llm.groq_call import GroqCaller
 
 llm_clients = {
     "openai": OpenAICaller(),
-    "gemini": GeminiCaller(),
-    "groq": GroqCaller(),
+    # "gemini": GeminiCaller(),
+    # "groq": GroqCaller(),
 }
 
 

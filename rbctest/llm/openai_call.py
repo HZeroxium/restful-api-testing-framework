@@ -1,11 +1,19 @@
 import os
 from openai import OpenAI
 from llm.llm_interface import LLMInterface
+from dotenv import load_dotenv
 
 
-class OpenAICaller(LLMInterface):
+class OpenAICaller:
     def __init__(self):
-        self.client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+        load_dotenv(
+            dotenv_path="/media/aaronpham5504/New Volume/Research/restful-api-testing-framework/rbctest/llm/.env"
+        )
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise ValueError("OPENAI_API_KEY environment variable not set")
+
+        self.client = OpenAI(api_key=api_key)
 
     def send_prompt(
         self, prompt: str, system: str = "", temperature=0.2, top_p=0.9, max_tokens=-1
@@ -16,7 +24,7 @@ class OpenAICaller(LLMInterface):
         messages.append({"role": "user", "content": prompt})
 
         kwargs = {
-            "model": "gpt-4o",
+            "model": "gpt-4-turbo",
             "messages": messages,
             "temperature": temperature,
             "top_p": top_p,

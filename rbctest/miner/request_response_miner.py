@@ -1,17 +1,15 @@
-# Thông qua input parameter
 from core.data_model_building import *
-from constraint_extractor import *
-from parameter_mapper import *
+from miner.constraint_extractor import *
+from miner.parameter_mapper import *
 from utils.convert_to_excel_annotation_file import (
     convert_json_to_excel_response_property_constraints,
 )
 import openai
-
 import os
 import dotenv
 
-dotenv.load_dotenv()
-openai.api_key = os.getenv("OPENAI_KEY")
+# dotenv.load_dotenv()
+# openai.api_key = os.getenv("OPENAI_KEY")
 
 
 def main():
@@ -24,9 +22,10 @@ def main():
         print(rest_service)
         print("*" * 20)
 
-        openapi_path = f"RBCTest_dataset/{rest_service}/openapi.json"
-
+        openapi_path = f"example/{rest_service}/openapi.json"
         openapi_spec = load_openapi(openapi_path)
+        print(openapi_spec)
+
         service_name = openapi_spec["info"]["title"]  # type: ignore
         os.makedirs(f"{experiment_folder}/{service_name}", exist_ok=True)
 
@@ -58,9 +57,11 @@ def main():
                 indent=2,
             )
 
-        convert_json_to_excel_response_property_constraints(
-            outfile, openapi_path, outfile.replace(".json", ".xlsx")
-        )
+        print("Request Reponse Constraints Have Been Exported")
+
+        # convert_json_to_excel_response_property_constraints(
+        #     outfile, openapi_path, outfile.replace(".json", ".xlsx")
+        # )
 
 
 if __name__ == "__main__":

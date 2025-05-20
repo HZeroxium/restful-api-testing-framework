@@ -34,6 +34,15 @@ example/
 logs/
 *.log
 
+# GPT response folder
+gpt_response/
+
+# Eperiment folder
+experiment_our/
+
+# Simplify version of spec
+simplified_openapi.json
+
 # Uncomment these if you want to include them in version control
 # data/
 # docs/

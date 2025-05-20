@@ -101,11 +101,11 @@ def convert_json_to_excel_response_property_constraints(
     service_name = openapi_spec["info"]["title"]
 
     selected_operations = open(
-        "src/stripe_selected/selected_operations.txt", "r"
+        "stripe_selected/selected_operations.txt", "r"
     ).readlines()
     selected_operations = [operation.strip() for operation in selected_operations]
 
-    selected_schemas = open("src/stripe_selected/selected_schemas.txt", "r").readlines()
+    selected_schemas = open("stripe_selected/selected_schemas.txt", "r").readlines()
     selected_schemas = [schema.strip() for schema in selected_schemas]
 
     inside_response_body_constraints = json.load(open(json_file, "r"))
