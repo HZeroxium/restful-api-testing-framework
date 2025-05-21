@@ -1,5 +1,10 @@
 import json
-from utils.openapi_utils import *
+import re
+
+from oas_parser.spec_loader import load_openapi
+from oas_parser.param_utils import get_operation_params
+from oas_parser.schema_parser import get_relevant_schemas_of_operation
+
 from utils.gptcall import call_llm
 
 FIND_SCHEMA_KEYS = """Given a schema in an OpenAPI specification file, your responsibility is to identify one or some attributes in the schema that play the role of identifying the specific object (primary keys):

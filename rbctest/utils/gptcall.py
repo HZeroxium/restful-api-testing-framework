@@ -5,13 +5,15 @@ import uuid
 from hashlib import md5
 from llm.openai_call import OpenAICaller
 
-# from llm.gemini_call import GeminiCaller
-# from llm.groq_call import GroqCaller
+from llm.gemini_call import GeminiCaller
+from llm.groq_call import GroqCaller
+from llm.mistral_call import MistralCaller
 
 llm_clients = {
     "openai": OpenAICaller(),
-    # "gemini": GeminiCaller(),
-    # "groq": GroqCaller(),
+    "gemini": GeminiCaller(),
+    "groq": GroqCaller(),
+    "mistral": MistralCaller(),
 }
 
 
@@ -114,7 +116,7 @@ def find_previous_response(prompt: str) -> str:
 def call_llm(
     prompt: str,
     system: str = "",
-    model: str = "openai",
+    model: str = "groq",
     temperature: float = 0.2,
     top_p: float = 0.9,
     max_tokens: int = -1,

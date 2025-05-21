@@ -8,8 +8,8 @@ load_dotenv()
 
 class GeminiCaller(LLMInterface):
     def __init__(self):
-        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-        self.model = genai.GenerativeModel("gemini-pro")
+        genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))  # type: ignore
+        self.model = genai.GenerativeModel("gemini-2.5-pro-preview-03-25")  # type: ignore
 
     def send_prompt(
         self,

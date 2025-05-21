@@ -1,9 +1,13 @@
-from utils.openapi_utils import *
+from oas_parser.spec_loader import load_openapi
+from oas_parser.operation_utils import extract_operations
+from oas_parser.response_utils import get_relevent_response_schemas_of_operation
+from oas_parser.openapi_simplifier import simplify_openapi
+
 from utils.gptcall import call_llm
-import subprocess
 import re
 import json
 import os
+import copy
 
 ############################################# PROMPTS #############################################
 DESCRIPTION_OBSERVATION_PROMPT = """Given a description of an attribute in an OpenAPI Specification, your responsibility is to identify whether the description implies any constraints, rules, or limitations for legalizing the attribute itself.
@@ -533,8 +537,8 @@ class ConstraintExtractor:
                 for parameter in specification:
                     parameter_name = parameter
 
-                    # if "(description:" not in specification[parameter]:
-                    #     continue
+                    if "(description:" not in specification[parameter]:
+                        continue
 
                     data_type = (
                         specification[parameter_name].split("(description: ")[0].strip()

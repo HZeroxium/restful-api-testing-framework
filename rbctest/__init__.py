@@ -1,2 +1,2 @@
-from .core import *
+from .oas_parser import *
 from .utils import *

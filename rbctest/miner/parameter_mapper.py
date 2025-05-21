@@ -1,5 +1,15 @@
 import re
-from utils.openapi_utils import *
+import copy
+import json
+import os
+
+from oas_parser.spec_loader import load_openapi
+from oas_parser.schema_parser import (
+    get_relevant_schemas_of_operation,
+    get_simplified_schema,
+)
+from oas_parser.openapi_simplifier import simplify_openapi
+
 from utils.gptcall import call_llm
 
 PARAMETER_OBSERVATION = """Given the specification of an input parameter for a REST API, your responsibility is to provide a brief observation of that parameter.

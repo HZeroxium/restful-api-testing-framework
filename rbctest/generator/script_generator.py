@@ -1,5 +1,11 @@
 import pandas as pd
-from utils.openapi_utils import *
+import json
+import re
+import yaml
+import os
+
+from oas_parser.spec_loader import load_openapi
+from oas_parser.response_utils import get_response_body_name_and_type
 
 # from utils.gptcall import GPTChatCompletion
 from utils.gptcall import call_llm

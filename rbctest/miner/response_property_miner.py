@@ -1,4 +1,4 @@
-from core.data_model_building import *
+from oas_parser.data_model_building import *
 from miner.constraint_extractor import *
 from miner.parameter_mapper import *
 

@@ -37,8 +37,8 @@ class GroqCaller(LLMInterface):
         return response.choices[0].message.content
 
 
-if __name__ == "__main__":
-    key = os.getenv("GROQ_API_KEY")
-    model = os.getenv("GROQ_MODEL")
-    print(key)
-    print(model)
+# if __name__ == "__main__":
+#     key = os.getenv("GROQ_API_KEY")
+#     model = os.getenv("GROQ_MODEL")
+#     print(key)
+#     print(model)

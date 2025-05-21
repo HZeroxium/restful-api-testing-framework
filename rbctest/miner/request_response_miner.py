@@ -1,4 +1,4 @@
-from core.data_model_building import *
+from oas_parser.data_model_building import *
 from miner.constraint_extractor import *
 from miner.parameter_mapper import *
 from utils.convert_to_excel_annotation_file import (
@@ -8,14 +8,11 @@ import openai
 import os
 import dotenv
 
-# dotenv.load_dotenv()
-# openai.api_key = os.getenv("OPENAI_KEY")
-
 
 def main():
     experiment_folder = "experiment_our"
 
-    rest_services = ["Canada Holidays"]
+    rest_services = ["GitLab Branch"]
 
     for rest_service in rest_services:
         print("\n" + "*" * 20)
@@ -41,6 +38,7 @@ def main():
 
         outfile = f"{experiment_folder}/{service_name}/input_parameter.json"
         constraint_extractor.get_input_parameter_constraints(outfile=outfile)  # type: ignore
+
         with open(f"{experiment_folder}/{service_name}/input_parameter.json", "w") as f:
             json.dump(constraint_extractor.input_parameter_constraints, f, indent=2)  # type: ignore
         outfile = f"{

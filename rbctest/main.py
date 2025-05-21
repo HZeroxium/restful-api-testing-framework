@@ -1,6 +1,6 @@
 import json
 
-from utils.openapi_utils import simplify_openapi
+from oas_parser.openapi_simplifier import simplify_openapi
 
 
 def main():
