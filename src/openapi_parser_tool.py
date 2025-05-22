@@ -30,10 +30,10 @@ async def main():
             "source_type": SpecSourceType.FILE,
         },
         # Uncomment for additional examples
-        # "gitlab_repo_api": {
-        #     "spec_source": "data/RBCTest_dataset/GitLab Repository/openapi.json",
-        #     "source_type": SpecSourceType.FILE
-        # },
+        "gitlab_repo_api": {
+            "spec_source": "data/RBCTest_dataset/GitLab Repository/openapi.json",
+            "source_type": SpecSourceType.FILE,
+        },
         # "gitlab_project_api": {
         #     "spec_source": "data/RBCTest_dataset/GitLab Project/openapi.json",
         #     "source_type": SpecSourceType.FILE
