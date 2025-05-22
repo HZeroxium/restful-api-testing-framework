@@ -4,11 +4,49 @@ A comprehensive framework for automated testing of RESTful APIs, supporting Open
 
 ## Features
 
-- **OpenAPI Specification Testing**: Validate API implementations against their OpenAPI specifications
-- **Automated Test Generation**: Create test cases directly from OpenAPI specs
-- **Scenario-Based Testing**: Define and run complex test scenarios with dependencies
-- **Response Validation**: Automatically validate response formats and content
-- **Extensible Architecture**: Add custom validators and test helpers
+- **OpenAPI Specification Parser**: Analyze API specifications to extract endpoints, parameters, schemas, and authentication requirements
+- **Schema Validation**: Automatically validate request and response schemas against OpenAPI definitions
+- **API Testing**: Test RESTful APIs with built-in request building and response validation
+- **Code Execution**: Run Python code for test setup and validation
+- **Type-Safe Design**: Strongly typed interfaces for all components using Python type hints
+
+## Architecture
+
+The framework follows a modular architecture with the following key components:
+
+### Core Components
+
+- **BaseTool**: Abstract base class for all tools with standardized execution flow
+- **BaseAgent**: Foundation for agents that can coordinate multiple tools to perform complex tasks
+
+### Tools
+
+- **OpenAPIParserTool**: Parses OpenAPI/Swagger specifications to extract API details
+- **RESTAPICallerTool**: Performs HTTP requests to API endpoints with authentication support
+- **CodeExecutorTool**: Executes Python code snippets for test setup and validation
+
+### Agents
+
+- **RESTAPIAgent**: Coordinates API testing using results from OpenAPI parsing
+
+## Project Structure
+
+```
+restful-api-testing-framework/
+├── src/                        # Source code
+│   ├── agents/                 # Agent implementations
+│   ├── core/                   # Core abstractions (BaseTool, BaseAgent)
+│   ├── schemas/                # Pydantic schema definitions
+│   │   ├── core/               # Core schema definitions
+│   │   └── tools/              # Tool-specific schemas
+│   ├── tools/                  # Tool implementations
+│   └── utils/                  # Utility functions and helpers
+├── data/                       # Sample API specifications and test data
+│   ├── example/                # Example OpenAPI specs
+│   └── RBCTest_dataset/        # Test datasets for various APIs
+├── example/                    # Example code and usage patterns
+└── docs/                       # Documentation
+```
 
 ## Installation
 
@@ -23,24 +61,30 @@ cd restful-api-testing-framework
 pip install -r requirements.txt
 ```
 
-## Project Structure
+## Usage
 
-```bash
-restful-api-testing-framework/
-├── docs/                       # Documentation
-├── example/                    # Example implementations
-│   └── google-adk/             # Google ADK examples
-├── data/                       # Test data and OpenAPI specifications
-│   └── RBCTest_dataset/        # Sample API specifications
-├── src/                        # Source code
-├── tests/                      # Framework tests
-├── README.md                   # This file
-└── requirements.txt            # Dependencies
-```
-
-## Example Code
+### OpenAPI Specification Parsing
 
 ```python
-python -m src.examples.openapi_parser_tool
-python -m src.examples.python_executor_tool
+python ./src/openapi_parser_tool.py
 ```
+
+### Code Execution
+
+```python
+python ./src/code_executor_tool.py
+```
+
+### REST API Caller
+
+```python
+python ./src/rest_api_caller_tool.py
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
