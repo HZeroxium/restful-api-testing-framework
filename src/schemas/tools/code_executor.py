@@ -1,4 +1,4 @@
-# schemas/tools/python_executor.py
+# schemas/tools/code_executor.py
 
 from typing import Any, Dict, Optional
 from pydantic import Field, field_validator
@@ -6,7 +6,7 @@ from pydantic import Field, field_validator
 from ..core import ToolInput, ToolOutput
 
 
-class PythonScriptExecutorInput(ToolInput):
+class CodeExecutorInput(ToolInput):
     """Input schema for the Python Script Executor tool."""
 
     code: str = Field(..., description="Python code to execute")
@@ -18,7 +18,7 @@ class PythonScriptExecutorInput(ToolInput):
     )
 
 
-class PythonScriptExecutorOutput(ToolOutput):
+class CodeExecutorOutput(ToolOutput):
     """Output schema for the Python Script Executor tool."""
 
     success: bool = Field(..., description="Whether the execution was successful")

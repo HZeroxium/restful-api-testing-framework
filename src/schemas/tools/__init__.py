@@ -8,9 +8,9 @@ from .openapi_parser import (
     AuthType,
 )
 
-from .python_executor import (
-    PythonScriptExecutorInput,
-    PythonScriptExecutorOutput,
+from .code_executor import (
+    CodeExecutorInput,
+    CodeExecutorOutput,
 )
 
 __all__ = [
@@ -20,7 +20,7 @@ __all__ = [
     "SpecSourceType",
     "AuthType",
     "PythonScriptExecutorTool",
-    "PythonScriptExecutorInput",
-    "PythonScriptExecutorOutput",
+    "CodeExecutorInput",
+    "CodeExecutorOutput",
     "PythonScriptExecutionResult",
 ]
