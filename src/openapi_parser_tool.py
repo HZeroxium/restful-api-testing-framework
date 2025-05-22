@@ -1,10 +1,11 @@
-from src.tools import OpenAPIParserTool
-from src.schemas.tools.openapi_parser import SpecSourceType, OpenAPIParserOutput
+# /src/openapi_parser_tool.py
+
+from tools import OpenAPIParserTool
+from schemas.tools.openapi_parser import SpecSourceType, OpenAPIParserOutput
 import json
 from dotenv import load_dotenv
 import asyncio
 import os
-
 
 load_dotenv()
 
@@ -14,9 +15,7 @@ async def demonstrate_openapi_parser():
     print("\n--- OpenAPI Parser Tool Demo ---\n")
 
     # Create output directory if it doesn't exist
-    output_dir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "output"
-    )
+    output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
     os.makedirs(output_dir, exist_ok=True)
 
     # Initialize the tool
@@ -25,14 +24,14 @@ async def demonstrate_openapi_parser():
     # List of OpenAPI spec files to process
     spec_paths = [
         "data/example/openapi.yaml",
-        "data/RBCTest_dataset/GitLab Repository/openapi.json",
-        "data/RBCTest_dataset/GitLab Project/openapi.json",
-        "data/RBCTest_dataset/GitLab Issues/openapi.json",
-        "data/RBCTest_dataset/GitLab Groups/openapi.json",
-        "data/RBCTest_dataset/GitLab Commit/openapi.json",
-        "data/RBCTest_dataset/GitLab Branch/openapi.json",
+        # "data/RBCTest_dataset/GitLab Repository/openapi.json",
+        # "data/RBCTest_dataset/GitLab Project/openapi.json",
+        # "data/RBCTest_dataset/GitLab Issues/openapi.json",
+        # "data/RBCTest_dataset/GitLab Groups/openapi.json",
+        # "data/RBCTest_dataset/GitLab Commit/openapi.json",
+        # "data/RBCTest_dataset/GitLab Branch/openapi.json",
         # "data/RBCTest_dataset/StripeClone/openapi.json",
-        "data/RBCTest_dataset/Canada Holidays/openapi.json",
+        # "data/RBCTest_dataset/Canada Holidays/openapi.json",
     ]
 
     # Process each spec file

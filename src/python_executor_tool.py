@@ -1,10 +1,12 @@
+# /src/python_executor_tool.py
+
 import asyncio
 import os
 import json
 from dotenv import load_dotenv
 
 # Import our custom tools
-from src.tools import PythonScriptExecutorTool
+from tools import PythonScriptExecutorTool
 
 
 load_dotenv()

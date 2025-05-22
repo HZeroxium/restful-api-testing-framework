@@ -5,7 +5,7 @@ from typing import Any, Dict, List, Optional, Union
 from pydantic import ValidationError
 import logging
 
-from src.schemas.core import AgentInput, AgentOutput, AgentState
+from schemas.core import AgentInput, AgentOutput, AgentState
 from . import BaseTool
 
 

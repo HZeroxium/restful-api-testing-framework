@@ -11,8 +11,8 @@ from google.adk.tools import built_in_code_execution
 from google.genai import types
 
 # Local imports
-from src.core import BaseTool
-from src.schemas.tools import (
+from core import BaseTool
+from schemas.tools import (
     PythonScriptExecutorInput,
     PythonScriptExecutorOutput,
 )

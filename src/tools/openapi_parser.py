@@ -10,14 +10,14 @@ from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import (
     RestApiTool,
 )
 
-from src.core import BaseTool
-from src.schemas.tools.openapi_parser import (
+from core import BaseTool
+from schemas.tools.openapi_parser import (
     OpenAPIParserInput,
     OpenAPIParserOutput,
     EndpointInfo,
     SpecSourceType,
 )
-from src.utils.schema_utils import clean_schema_dict
+from utils.schema_utils import clean_schema_dict
 
 
 class OpenAPIParserTool(BaseTool):

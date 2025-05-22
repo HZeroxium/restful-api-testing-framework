@@ -6,7 +6,7 @@ from pydantic import ValidationError
 import logging
 import time
 
-from src.schemas.core import ToolInput, ToolOutput
+from schemas.core import ToolInput, ToolOutput
 
 
 class BaseTool(ABC):
