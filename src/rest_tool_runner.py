@@ -3,14 +3,12 @@
 import asyncio
 import os
 import json
-import sys
 from datetime import datetime
 
 # Import OpenAPIToolset from ADK
 from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import (
     OpenAPIToolset,
 )
-from google.adk.agents import Agent
 
 # Import our new RestApiAgent
 from agents import RestApiAgent

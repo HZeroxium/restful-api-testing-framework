@@ -37,5 +37,6 @@ class RestApiCallerInput(BaseModel):
 class RestApiCallerOutput(BaseModel):
     """Output schema from REST API Caller tool."""
 
+    request: RestRequest = Field(..., description="Original HTTP request")
     response: RestResponse = Field(..., description="Wrapped HTTP response")
     elapsed: float = Field(..., description="Time taken to perform the request (s)")

@@ -170,13 +170,44 @@ class EndpointSpecificRestApiCallerTool(RestApiCallerTool):
         """
         # If input is not already a RestApiCallerInput, process it appropriately
         if not isinstance(inp, RestApiCallerInput):
-            # Create RestRequest from input parameters
-            request = self._build_request(inp)
-            # Then create the proper input object
-            inp = RestApiCallerInput(request=request)
+            # Convert raw parameters to a proper RestRequest
+            url = f"{self.server_url}/{self.endpoint.path.lstrip('/')}"
 
-        # Now call the parent execute method with properly formatted input
-        return await super().execute(inp)
+            # Extract headers from parameters if any
+            headers = self.default_headers.copy()
+            params = {}
+            json_body = None
+
+            if isinstance(inp, dict):
+                # Handle special parameters like headers
+                for key, value in list(inp.items()):
+                    if key.startswith("header_"):
+                        header_name = key[7:]  # Remove 'header_' prefix
+                        headers[header_name] = value
+                    elif self.endpoint.method.upper() in ["GET", "DELETE"]:
+                        params[key] = value
+                    else:
+                        # For POST, PUT, PATCH: use as body
+                        if json_body is None:
+                            json_body = {}
+                        json_body[key] = value
+
+            # Create a RestRequest
+            request = RestRequest(
+                method=self.endpoint.method,
+                url=url,
+                headers=headers,
+                params=params,
+                json=json_body,
+            )
+
+            # Create the RestApiCallerInput
+            api_input = RestApiCallerInput(request=request)
+        else:
+            api_input = inp
+
+        # Execute the API call
+        return await self._execute(api_input)
 
     async def _execute(self, inp: RestApiCallerInput) -> Any:
         """

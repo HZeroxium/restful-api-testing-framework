@@ -69,7 +69,7 @@ class RestApiCallerTool(BaseTool):
             ),
         )
 
-        return RestApiCallerOutput(response=resp_model, elapsed=elapsed)
+        return RestApiCallerOutput(request=req, response=resp_model, elapsed=elapsed)
 
     async def cleanup(self) -> None:
         # Nothing to clean up here
