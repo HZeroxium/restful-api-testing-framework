@@ -7,14 +7,14 @@ import httpx
 
 from core import BaseTool
 from schemas.tools.rest_api_caller import (
-    RESTAPICallerInput,
-    RESTAPICallerOutput,
-    RESTRequest,
-    RESTResponse,
+    RestApiCallerInput,
+    RestApiCallerOutput,
+    RestRequest,
+    RestResponse,
 )
 
 
-class RESTAPICallerTool(BaseTool):
+class RestApiCallerTool(BaseTool):
     """
     A BaseTool that performs asynchronous REST calls via HTTPX.
     Strictly focuses on HTTP logic; I/O is external.
@@ -32,8 +32,8 @@ class RESTAPICallerTool(BaseTool):
         super().__init__(
             name=name,
             description=description,
-            input_schema=RESTAPICallerInput,
-            output_schema=RESTAPICallerOutput,
+            input_schema=RestApiCallerInput,
+            output_schema=RestApiCallerOutput,
             config=config,
             verbose=verbose,
             cache_enabled=cache_enabled,
@@ -41,8 +41,8 @@ class RESTAPICallerTool(BaseTool):
         # You can accept config overrides for timeouts, retries, etc.
         self._timeout = config.get("timeout", 10.0) if config else 10.0
 
-    async def _execute(self, inp: RESTAPICallerInput) -> RESTAPICallerOutput:
-        req: RESTRequest = inp.request  # already validated by Pydantic
+    async def _execute(self, inp: RestApiCallerInput) -> RestApiCallerOutput:
+        req: RestRequest = inp.request  # already validated by Pydantic
         start = time.perf_counter()
 
         # Use a shared AsyncClient for connection pooling :contentReference[oaicite:6]{index=6}
@@ -59,7 +59,7 @@ class RESTAPICallerTool(BaseTool):
         elapsed = time.perf_counter() - start
 
         # Wrap into our Response schema
-        resp_model = RESTResponse(
+        resp_model = RestResponse(
             status_code=response.status_code,
             headers=dict(response.headers),
             body=(
@@ -69,7 +69,7 @@ class RESTAPICallerTool(BaseTool):
             ),
         )
 
-        return RESTAPICallerOutput(response=resp_model, elapsed=elapsed)
+        return RestApiCallerOutput(response=resp_model, elapsed=elapsed)
 
     async def cleanup(self) -> None:
         # Nothing to clean up here
