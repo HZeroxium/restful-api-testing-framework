@@ -1,7 +1,7 @@
 # schemas/tools/test_data_generator.py
 
-from pydantic import BaseModel
-from typing import Any, Dict, List, Optional
+from pydantic import BaseModel, Field
+from typing import Any, Dict, List, Optional, Union
 
 from schemas.tools.openapi_parser import EndpointInfo
 
@@ -9,9 +9,23 @@ from schemas.tools.openapi_parser import EndpointInfo
 class TestDataGeneratorInput(BaseModel):
     """Input for TestDataGeneratorTool."""
 
-    endpoint_info: EndpointInfo
-    test_case_count: int = 1
-    include_invalid_data: bool = False
+    endpoint_info: Union[EndpointInfo, Dict[str, Any]] = Field(
+        ..., description="Endpoint information (can be EndpointInfo object or dict)"
+    )
+    test_case_count: int = Field(1, description="Number of test cases to generate")
+    include_invalid_data: bool = Field(
+        False, description="Whether to include invalid test data"
+    )
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    @property
+    def get_endpoint_info(self) -> EndpointInfo:
+        """Convert endpoint_info to EndpointInfo object if it's a dict"""
+        if isinstance(self.endpoint_info, dict):
+            return EndpointInfo(**self.endpoint_info)
+        return self.endpoint_info
 
 
 class TestCase(BaseModel):

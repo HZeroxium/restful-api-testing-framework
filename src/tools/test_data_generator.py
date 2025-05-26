@@ -39,7 +39,12 @@ class TestDataGeneratorTool(BaseTool):
 
     async def _execute(self, inp: TestDataGeneratorInput) -> TestDataGeneratorOutput:
         """Generate test data for the given endpoint."""
-        endpoint = inp.endpoint_info
+        # Get endpoint info using the property getter
+        endpoint = (
+            inp.get_endpoint_info
+            if hasattr(inp, "get_endpoint_info")
+            else inp.endpoint_info
+        )
         test_cases = []
 
         # Mock implementation - just create basic test cases

@@ -1,7 +1,5 @@
 # tools/test_report.py
 
-import os
-from datetime import datetime
 from typing import Dict, Optional
 
 from core.base_tool import BaseTool
