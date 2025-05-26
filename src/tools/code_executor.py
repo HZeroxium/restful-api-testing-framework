@@ -2,38 +2,30 @@
 
 import asyncio
 import re
+import sys
+import io
+import contextlib
 from typing import Any, Dict, List, Optional
-
-from google.adk.agents import LlmAgent
-from google.adk.runners import Runner
-from google.adk.sessions import InMemorySessionService
-from google.adk.tools import built_in_code_execution
-from google.genai import types
+import traceback
 
 from core import BaseTool
 from schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
 
-# Defaults (override via config)
-DEFAULT_MODEL = "gemini-2.0-flash"
-DEFAULT_APP_NAME = "code_executor_app"
-DEFAULT_USER_ID = "user_default"
-
 
 class CodeExecutorTool(BaseTool):
     """
-    Validates & executes Python code via a Genie LLM + built-in executor.
-    Strictly returns execution results; I/O (files/DB) happens externally.
+    Validates & executes Python code via native Python execution.
+    Executes Python functions with provided context variables and returns the result.
     """
 
     def __init__(
         self,
         *,
         name: str = "code_executor",
-        description: str = "LLM-backed Python code validator & executor",
+        description: str = "Python code validator & executor",
         config: Optional[Dict[str, Any]] = None,
         verbose: bool = False,
         cache_enabled: bool = False,
-        model: Optional[str] = None,
         restricted_modules: Optional[List[str]] = None,
     ):
         super().__init__(
@@ -48,123 +40,180 @@ class CodeExecutorTool(BaseTool):
 
         # Merge defaults with config
         cfg = config or {}
-        self.model = model or cfg.get("model", DEFAULT_MODEL)
         self.restricted_modules = restricted_modules or cfg.get(
             "restricted_modules", []
         )
-
-        # ADK setup
-        self.session_service = InMemorySessionService()
-        self.app_name = cfg.get("app_name", DEFAULT_APP_NAME)
-        self.user_id = cfg.get("user_id", DEFAULT_USER_ID)
-
-        # Initialize LLM agent + runner
-        self.agent = LlmAgent(
-            name=f"{name}_agent",
-            model=self.model,
-            tools=[built_in_code_execution],
-            instruction=(
-                "You are a secure Python code validator and executor. "
-                "1) Review the code for safety or syntax issues. "
-                "2) Fix any problems. "
-                "3) Execute the code. "
-                "4) Return only the execution result or a clear error."
-            ),
-            description="Validates, auto-fixes, and executes Python code via LLM.",
-        )
-        self.runner = Runner(
-            agent=self.agent,
-            app_name=self.app_name,
-            session_service=self.session_service,
-        )
+        self.timeout_seconds = cfg.get("timeout", 30)  # Default timeout: 30 seconds
 
     async def _execute(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
-        # 1) Create a unique session
-        session_id = f"session_{hash(inp.code)}"
-        self.session_service.create_session(
-            app_name=self.app_name, user_id=self.user_id, session_id=session_id
-        )
+        """Execute Python code natively"""
+        return await self._execute_native(inp)
 
-        # 2) Build LLM prompt
-        prompt = self._build_prompt(inp)
-        message = types.Content(role="user", parts=[types.Part(text=prompt)])
+    async def _execute_native(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
+        """Execute Python code natively using Python's built-in functions"""
+        code = inp.code
+        context_vars = inp.context_variables or {}
+        timeout = inp.timeout or self.timeout_seconds
 
-        # 3) Stream and collect results
-        code_variant = None
-        exec_outcome = None
-        exec_output = ""
-        final_response = ""
+        # Create a namespace for execution
+        namespace = {**context_vars}
+
+        # Prepare output capturing
+        stdout_capture = io.StringIO()
+        stderr_capture = io.StringIO()
+
+        # Track execution time
         start = asyncio.get_event_loop().time()
 
+        # Validate syntax first
         try:
-            async for event in self.runner.run_async(
-                user_id=self.user_id, session_id=session_id, new_message=message
-            ):
-                for part in event.content.parts or []:
-                    if part.executable_code:
-                        code_variant = part.executable_code.code
-                    if part.code_execution_result:
-                        exec_outcome = part.code_execution_result.outcome
-                        exec_output = part.code_execution_result.output or ""
-                    if part.text and event.is_final_response():
-                        final_response = part.text.strip()
-
+            compiled_code = compile(code, "<string>", "exec")
+        except SyntaxError as e:
             elapsed = asyncio.get_event_loop().time() - start
-
-            # 4) Decide success/failure
-            success = exec_outcome == "SUCCESS"
-            # catch hidden errors in a successful run
-            if success and exec_output:
-                lowered = exec_output.lower()
-                for kw in ("error:", "exception:", "traceback:"):
-                    if kw in lowered:
-                        self.logger.warning("LLM reported success but found error text")
-                        break
-
-            # extract specific error if failure
-            error_msg = None
-            if not success:
-                match = re.search(
-                    r"(error|exception):\s*(.*)", exec_output, re.IGNORECASE
-                )
-                error_msg = (
-                    match.group(2).strip() if match else exec_output or final_response
-                )
-
             return CodeExecutorOutput(
-                result=exec_output or final_response or "",
-                success=success,
-                error=None if success else error_msg,
-                stdout=exec_output if success else "",
-                stderr=exec_output if not success else "",
+                result="",
+                success=False,
+                error=f"Syntax error: {str(e)}",
+                stdout="",
+                stderr=str(e),
                 execution_time=elapsed,
-                validated_code=code_variant or inp.code,
+                validated_code=code,
             )
 
-        finally:
-            # always tear down session
-            try:
-                self.session_service.delete_session(
-                    app_name=self.app_name, user_id=self.user_id, session_id=session_id
-                )
-            except Exception as e:
-                self.logger.warning("Failed to clean session: %s", e)
-
-    def _build_prompt(self, inp: CodeExecutorInput) -> str:
-        parts = [
-            "Validate and execute this Python code safely:",
-            "\n```python",
-            inp.code,
-            "```",
-        ]
-        if inp.context_variables:
-            parts.append("\n# Context variables:")
-            for k, v in inp.context_variables.items():
-                parts.append(f"{k} = {v!r}")
-        if inp.timeout:
-            parts.append(f"\n# Timeout: {inp.timeout}s")
+        # Check for restricted modules
         if self.restricted_modules:
-            parts.append("\n# Disallowed imports:")
-            for m in self.restricted_modules:
-                parts.append(f"- {m}")
-        return "\n".join(parts)
+            import_pattern = r"^\s*(?:import|from)\s+([a-zA-Z0-9_\.]+)"
+            for line in code.split("\n"):
+                match = re.match(import_pattern, line)
+                if match:
+                    module_name = match.group(1).split(".")[0]
+                    if module_name in self.restricted_modules:
+                        elapsed = asyncio.get_event_loop().time() - start
+                        return CodeExecutorOutput(
+                            result="",
+                            success=False,
+                            error=f"ImportError: Use of restricted module '{module_name}' is not allowed",
+                            stdout="",
+                            stderr=f"ImportError: Use of restricted module '{module_name}' is not allowed",
+                            execution_time=elapsed,
+                            validated_code=code,
+                        )
+
+        # Execute with timeout and output capturing
+        async def execute_with_timeout():
+            try:
+                with contextlib.redirect_stdout(
+                    stdout_capture
+                ), contextlib.redirect_stderr(stderr_capture):
+                    # Execute the code in the namespace
+                    exec(compiled_code, namespace)
+
+                    # Check if the code defines any functions
+                    functions = {
+                        name: obj
+                        for name, obj in namespace.items()
+                        if callable(obj)
+                        and name not in context_vars
+                        and not name.startswith("__")
+                    }
+
+                    # If there's a function defined and no explicit _result,
+                    # try to execute the first function with available context
+                    result = namespace.get("_result", None)
+                    if result is None and functions:
+                        # Get the first defined function
+                        func_name, func = next(iter(functions.items()))
+
+                        # Check if we have matching parameters for this function
+                        import inspect
+
+                        sig = inspect.signature(func)
+                        params = sig.parameters
+
+                        # If we have parameters to pass
+                        if params:
+                            # Try to match parameter names with context variables
+                            args = {}
+                            for param_name in params:
+                                if param_name in context_vars:
+                                    args[param_name] = context_vars[param_name]
+
+                            # Execute the function with matched args
+                            if args:
+                                result = func(**args)
+                            else:
+                                # Try to execute without args if no match found
+                                result = func()
+                        else:
+                            # Function takes no arguments
+                            result = func()
+
+                    return True, result
+            except Exception as e:
+                return False, e
+
+        try:
+            success, result = await asyncio.wait_for(
+                execute_with_timeout(), timeout=timeout
+            )
+        except asyncio.TimeoutError:
+            elapsed = asyncio.get_event_loop().time() - start
+            return CodeExecutorOutput(
+                result="",
+                success=False,
+                error=f"Execution timed out after {timeout} seconds",
+                stdout=stdout_capture.getvalue(),
+                stderr=f"TimeoutError: Execution exceeded {timeout} seconds",
+                execution_time=elapsed,
+                validated_code=code,
+            )
+
+        elapsed = asyncio.get_event_loop().time() - start
+        stdout_value = stdout_capture.getvalue()
+        stderr_value = stderr_capture.getvalue()
+
+        if success:
+            # If result is an exception, it's a failure
+            if isinstance(result, Exception):
+                error_msg = str(result)
+                return CodeExecutorOutput(
+                    result="",
+                    success=False,
+                    error=error_msg,
+                    stdout=stdout_value,
+                    stderr=stderr_value or error_msg,
+                    execution_time=elapsed,
+                    validated_code=code,
+                )
+
+            # Success case - return the result or stdout if result is None
+            return CodeExecutorOutput(
+                result=str(result) if result is not None else stdout_value,
+                success=True,
+                error=None,
+                stdout=stdout_value,
+                stderr=stderr_value,
+                execution_time=elapsed,
+                validated_code=code,
+            )
+        else:
+            # Handle execution error
+            error_msg = (
+                str(result) if isinstance(result, Exception) else "Execution failed"
+            )
+            tb = ""
+            if isinstance(result, Exception):
+                tb = "".join(
+                    traceback.format_exception(
+                        type(result), result, result.__traceback__
+                    )
+                )
+            return CodeExecutorOutput(
+                result="",
+                success=False,
+                error=error_msg,
+                stdout=stdout_value,
+                stderr=tb or error_msg,
+                execution_time=elapsed,
+                validated_code=code,
+            )

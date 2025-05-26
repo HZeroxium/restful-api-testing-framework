@@ -4,9 +4,8 @@ import asyncio
 import json
 import re
 import streamlit as st
-from schemas.tools.openapi_parser import EndpointInfo
 from utils.api_utils import execute_api_call
-from ui.components import show_endpoint_card, render_method_badge
+from ui.components import show_endpoint_card
 
 
 def render_explorer_tab():
