@@ -27,6 +27,14 @@ MAIN_STYLE = """
         border-left: 5px solid #4c78e0;
         box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+    .collection-card {
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+        background-color: white;
+        border-left: 5px solid #4c78e0;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
     .get-method { border-left: 5px solid #61affe; }
     .post-method { border-left: 5px solid #49cc90; }
     .put-method { border-left: 5px solid #fca130; }
@@ -122,6 +130,18 @@ MAIN_STYLE = """
         font-size: 12px;
         color: #666;
         text-transform: uppercase;
+    }
+    
+    /* Tag styling */
+    .tag {
+        display: inline-block;
+        background-color: #e9ecef;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        margin-right: 5px;
+        margin-bottom: 5px;
+        color: #495057;
     }
 </style>
 """

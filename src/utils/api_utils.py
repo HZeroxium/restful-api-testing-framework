@@ -98,17 +98,16 @@ async def execute_api_call(endpoint: EndpointInfo, params: Dict[str, Any]) -> An
     tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
 
     if tool_key in st.session_state.endpoint_tools:
-        tool = st.session_state.endpoint_tools[tool_key]["tool"]
-        try:
-            return await tool.execute(params)
-        except Exception as e:
-            st.error(f"API call failed: {str(e)}")
-            return None
+        tool_info = st.session_state.endpoint_tools[tool_key]
+        return await tool_info["tool"].execute(params)
     else:
-        st.error(
-            f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
-        )
-        return None
+        # Create the tool if not found
+        tool = factory.create_tool_from_endpoint(endpoint=endpoint)
+        st.session_state.endpoint_tools[tool_key] = {
+            "endpoint": endpoint,
+            "tool": tool,
+        }
+        return await tool.execute(params)
 
 
 async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> List[dict]:
