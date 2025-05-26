@@ -13,6 +13,35 @@ from .code_executor import (
     CodeExecutorOutput,
 )
 
+from .rest_api_caller import (
+    RestApiCallerInput,
+    RestApiCallerOutput,
+    RestRequest,
+    RestResponse,
+)
+
+from .test_data_generator import (
+    TestDataGeneratorInput,
+    TestDataGeneratorOutput,
+    TestCase,
+)
+
+from .test_script_generator import (
+    TestScriptGeneratorInput,
+    TestScriptGeneratorOutput,
+    ValidationScript,
+)
+
+from .test_report import (
+    TestReportInput,
+    TestReportOutput,
+    TestStatus,
+    ValidationResult,
+    TestCaseResult,
+    TestReport,
+    TestSummary,
+)
+
 __all__ = [
     "OpenAPIParserInput",
     "OpenAPIParserOutput",
@@ -23,4 +52,21 @@ __all__ = [
     "CodeExecutorInput",
     "CodeExecutorOutput",
     "PythonScriptExecutionResult",
+    "RestApiCallerInput",
+    "RestApiCallerOutput",
+    "RestRequest",
+    "RestResponse",
+    "TestDataGeneratorInput",
+    "TestDataGeneratorOutput",
+    "TestCase",
+    "TestScriptGeneratorInput",
+    "TestScriptGeneratorOutput",
+    "ValidationScript",
+    "TestReportInput",
+    "TestReportOutput",
+    "TestStatus",
+    "ValidationResult",
+    "TestCaseResult",
+    "TestReport",
+    "TestSummary",
 ]

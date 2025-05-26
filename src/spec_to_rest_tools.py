@@ -1,4 +1,4 @@
-# src/api_test_suite_generator.py
+# src/spec_to_rest_tools.py
 
 import asyncio
 import json
