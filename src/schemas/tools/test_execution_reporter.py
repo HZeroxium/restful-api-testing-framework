@@ -1,4 +1,4 @@
-# schemas/tools/test_report.py
+# schemas/tools/test_execution_reporter.py
 
 from enum import Enum
 from pydantic import BaseModel
@@ -36,8 +36,8 @@ class TestCaseResult(BaseModel):
     message: Optional[str] = None
 
 
-class TestReportInput(BaseModel):
-    """Input for TestReportTool."""
+class TestExecutionReporterInput(BaseModel):
+    """Input for TestExecutionReporterTool."""
 
     api_name: str
     api_version: str
@@ -75,8 +75,8 @@ class TestReport(BaseModel):
     total_time: float
 
 
-class TestReportOutput(BaseModel):
-    """Output from TestReportTool."""
+class TestExecutionReporterOutput(BaseModel):
+    """Output from TestExecutionReporterTool."""
 
     report: TestReport
     report_path: Optional[str] = None  # If saved to file

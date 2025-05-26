@@ -1,17 +1,19 @@
 # schemas/tools/test_script_generator.py
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import List
 
 from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.test_data_generator import TestCase
+from schemas.tools.test_data_generator import TestData
 
 
 class TestScriptGeneratorInput(BaseModel):
     """Input for TestScriptGeneratorTool."""
 
     endpoint_info: EndpointInfo
-    test_case: TestCase
+    test_data: TestData = Field(
+        ..., description="Test data to generate validation scripts for"
+    )
 
 
 class ValidationScript(BaseModel):

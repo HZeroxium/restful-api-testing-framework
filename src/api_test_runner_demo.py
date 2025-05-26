@@ -5,15 +5,12 @@ import os
 import time
 import json
 from datetime import datetime
-from typing import List
+from typing import List, Dict, Any
 
 from tools import OpenAPIParserTool, RestApiCallerTool
-from tools.test_data_generator import TestDataGeneratorTool
-from tools.test_script_generator import TestScriptGeneratorTool
-from tools.test_report import TestReportTool
-from utils.rest_api_caller_factory import (
-    RestApiCallerFactory,
-)
+from tools.test_execution_reporter import TestExecutionReporterTool
+from tools.test_collection_generator import TestCollectionGeneratorTool
+from utils.rest_api_caller_factory import RestApiCallerFactory
 
 from schemas.tools.openapi_parser import (
     OpenAPIParserInput,
@@ -21,126 +18,92 @@ from schemas.tools.openapi_parser import (
     OpenAPIParserOutput,
     EndpointInfo,
 )
-
-from schemas.tools.rest_api_caller import (
-    RestApiCallerOutput,
-)
-
-from schemas.tools.test_data_generator import (
-    TestDataGeneratorInput,
-    TestDataGeneratorOutput,
-    TestCase,
-)
-from schemas.tools.test_script_generator import (
-    TestScriptGeneratorInput,
-    TestScriptGeneratorOutput,
-)
-from schemas.tools.test_report import (
-    TestReportInput,
+from schemas.tools.rest_api_caller import RestApiCallerOutput
+from schemas.tools.test_collection_generator import TestCollectionGeneratorInput
+from schemas.tools.test_suite_generator import TestSuite
+from schemas.tools.test_execution_reporter import (
+    TestExecutionReporterInput,
     TestCaseResult,
     ValidationResult,
     TestStatus,
 )
 
 
-async def run_test_for_endpoint(
+async def execute_test_suite(
     api_name: str,
     api_version: str,
-    endpoint: EndpointInfo,
+    test_suite: TestSuite,
     endpoint_tool: RestApiCallerTool,
-    report_output_dir: str,
     verbose: bool = False,
-) -> None:
-    """Run tests for a single API endpoint."""
-    print(f"\nTesting endpoint: [{endpoint.method.upper()}] {endpoint.path}")
+) -> List[TestCaseResult]:
+    """
+    Execute all test cases in a test suite.
 
-    # Initialize tools
-    test_data_generator = TestDataGeneratorTool(verbose=verbose)
-    test_script_generator = TestScriptGeneratorTool(verbose=verbose)
-    test_report_tool = TestReportTool(verbose=verbose)
+    Args:
+        api_name: Name of the API
+        api_version: Version of the API
+        test_suite: The test suite to execute
+        endpoint_tool: Tool to call the endpoint
+        verbose: Enable verbose logging
 
-    # Record start time
-    started_at = datetime.now()
-
-    # Step 1: Generate test data
-    test_data_input = TestDataGeneratorInput(
-        endpoint_info=endpoint, test_case_count=2, include_invalid_data=True
-    )
-    test_data_output: TestDataGeneratorOutput = await test_data_generator.execute(
-        test_data_input
-    )
-    test_cases: list[TestCase] = test_data_output.test_cases
-
-    print(f"  Generated {len(test_cases)} test cases")
-
-    # Step 2: Generate test scripts for each test case
-    all_test_case_results = []
-
-    for test_case in test_cases:
-        print(f"  Running test case: {test_case.name}")
-
-        # Generate validation scripts
-        script_input = TestScriptGeneratorInput(
-            endpoint_info=endpoint, test_case=test_case
+    Returns:
+        List of test case results
+    """
+    endpoint = test_suite.endpoint_info
+    if verbose:
+        print(
+            f"\nExecuting test suite for: [{endpoint.method.upper()}] {endpoint.path}"
         )
-        script_output: TestScriptGeneratorOutput = await test_script_generator.execute(
-            script_input
-        )
-        validation_scripts = script_output.validation_scripts
+        print(f"  Test cases: {len(test_suite.test_cases)}")
 
-        print(f"    Generated {len(validation_scripts)} validation scripts")
+    test_case_results = []
 
-        # Step 3: Execute the API call using the endpoint-specific tool
-        print(f"    Executing API call: {endpoint.method.upper()} {endpoint.path}")
+    for test_case in test_suite.test_cases:
+        if verbose:
+            print(f"  Running test case: {test_case.name}")
+
+        # Execute the API call
         test_start_time = time.perf_counter()
 
         try:
-            # Use the endpoint-specific tool directly with parameters
-            # This tool handles all the URL construction and parameter mapping
+            # Prepare parameters for API call
             params = {}
 
-            # For path parameters, use the request_params if they exist
-            if hasattr(test_case, "request_params") and test_case.request_params:
+            # Handle request parameters
+            if test_case.request_params:
                 params.update(test_case.request_params)
 
-            # For query parameters, also use request_params if available
-            # (already handled in the previous step)
-
-            # Add headers if any and if the attribute exists
-            if hasattr(test_case, "request_headers") and test_case.request_headers:
+            # Handle headers
+            if test_case.request_headers:
                 for k, v in test_case.request_headers.items():
-                    # Add header prefix to parameter names for the RestApiCallerTool
                     params[f"header_{k}"] = v
 
-            # Add body parameters if any and if the attribute exists
-            if hasattr(test_case, "request_body") and test_case.request_body:
+            # Handle body
+            if test_case.request_body:
                 if isinstance(test_case.request_body, dict):
                     params.update(test_case.request_body)
                 else:
-                    # If it's not a dict, convert it to a string and pass it as 'body'
                     params["body"] = str(test_case.request_body)
 
-            # # Store the original request information
-            # request_info = {
-            #     "method": endpoint.method,
-            #     "url": f"{factory.server_url}/{endpoint.path.lstrip('/')}",
-            #     "headers": test_case.request_headers or {},
-            #     "params": test_case.request_params or {},
-            #     "json": test_case.request_body or None,
-            # }
+            # Execute API call
+            if verbose:
+                print(
+                    f"    Executing API call: {endpoint.method.upper()} {endpoint.path}"
+                )
 
-            # Execute the API call - directly pass the params dict like in api_test_suite_generator.py
             api_response: RestApiCallerOutput = await endpoint_tool.execute(params)
             test_elapsed_time = time.perf_counter() - test_start_time
-            print(
-                f"    Received response with status code: {api_response.response.status_code}"
-            )
 
-            # Step 4: Run validation scripts
+            if verbose:
+                print(
+                    f"    Received response with status code: {api_response.response.status_code}"
+                )
+
+            # Run validation scripts
             validation_results = []
             test_status = TestStatus.PASS  # Assume success initially
 
-            for script in validation_scripts:
+            for script in test_case.validation_scripts:
                 try:
                     # In a real implementation, we'd execute the script.
                     # Here we'll just simulate success or failure based on expected status code
@@ -172,7 +135,8 @@ async def run_test_for_endpoint(
                         )
                     )
 
-                    print(f"    Validation '{script.name}': {status}")
+                    if verbose:
+                        print(f"    Validation '{script.name}': {status}")
 
                 except Exception as e:
                     # If an exception occurs, mark as error
@@ -185,9 +149,10 @@ async def run_test_for_endpoint(
                         )
                     )
                     test_status = TestStatus.ERROR
-                    print(f"    Validation '{script.name}': ERROR - {str(e)}")
+                    if verbose:
+                        print(f"    Validation '{script.name}': ERROR - {str(e)}")
 
-            # Step 5: Create test case result
+            # Create test case result
             test_case_result = TestCaseResult(
                 test_case_id=test_case.id,
                 test_case_name=test_case.name,
@@ -203,12 +168,14 @@ async def run_test_for_endpoint(
                 ),
             )
 
-            print(f"    Test case status: {test_status}")
-            all_test_case_results.append(test_case_result)
+            if verbose:
+                print(f"    Test case status: {test_status}")
+
+            test_case_results.append(test_case_result)
 
         except Exception as e:
             test_elapsed_time = time.perf_counter() - test_start_time
-            # Create a result with error status since the API call failed
+            # Create a result with error status
             test_case_result = TestCaseResult(
                 test_case_id=test_case.id,
                 test_case_name=test_case.name,
@@ -219,53 +186,183 @@ async def run_test_for_endpoint(
                 validation_results=[],
                 message=f"Error executing API call: {str(e)}",
             )
-            all_test_case_results.append(test_case_result)
-            print(f"    Error executing API call: {str(e)}")
+            test_case_results.append(test_case_result)
+            if verbose:
+                print(f"    Error executing API call: {str(e)}")
 
-    # Record finish time
-    finished_at = datetime.now()
+    return test_case_results
 
-    # Step 6: Generate test report
-    report_input = TestReportInput(
+
+async def generate_and_execute_test_collection(
+    api_name: str,
+    api_version: str,
+    endpoints: List[EndpointInfo],
+    factory: RestApiCallerFactory,
+    report_output_dir: str,
+    verbose: bool = False,
+) -> Dict[str, Any]:
+    """
+    Generate a test collection, execute tests, and generate reports.
+
+    Args:
+        api_name: Name of the API
+        api_version: Version of the API
+        endpoints: List of endpoints to test
+        factory: Factory for creating endpoint-specific tools
+        report_output_dir: Directory to save test reports
+        verbose: Enable verbose logging
+
+    Returns:
+        Summary of test results
+    """
+    if verbose:
+        print(f"\nGenerating test collection for {api_name} v{api_version}")
+        print(f"Endpoints to test: {len(endpoints)}")
+
+    # Initialize the test collection generator
+    test_collection_generator = TestCollectionGeneratorTool(verbose=verbose)
+
+    # Generate the test collection
+    collection_input = TestCollectionGeneratorInput(
         api_name=api_name,
         api_version=api_version,
-        endpoint_name=endpoint.name,
-        endpoint_path=endpoint.path,
-        endpoint_method=endpoint.method,
-        test_case_results=all_test_case_results,
-        started_at=started_at,
-        finished_at=finished_at,
+        endpoints=endpoints,
+        test_case_count=2,  # Generate 2 test cases per endpoint
+        include_invalid_data=True,  # Include invalid data for negative testing
     )
 
-    report_output = await test_report_tool.execute(report_input)
-
-    # Save the report to file (moved from TestReportTool)
-    safe_endpoint_name = (
-        endpoint.name.replace("/", "_").replace("{", "").replace("}", "")
-    )
-    filename = f"{api_name}_{safe_endpoint_name}.json"
-    report_path = os.path.join(report_output_dir, filename)
-
-    os.makedirs(os.path.dirname(report_path), exist_ok=True)
-    with open(report_path, "w") as f:
-        json.dump(report_output.report.model_dump(), f, indent=2, default=str)
-
-    # Update the report_output with the saved path
-    report_output.report_path = report_path
+    collection_output = await test_collection_generator.execute(collection_input)
+    test_collection = collection_output.test_collection
 
     if verbose:
-        print(f"Test report saved to: {report_path}")
+        print(
+            f"Generated test collection with {len(test_collection.test_suites)} test suites"
+        )
 
-    # Print report summary
-    report = report_output.report
-    print(f"\nTest Report Summary for {endpoint.method.upper()} {endpoint.path}:")
-    print(f"  Total tests: {report.summary.total_tests}")
-    print(f"  Passed: {report.summary.passed}")
-    print(f"  Failed: {report.summary.failed}")
-    print(f"  Errors: {report.summary.errors}")
-    print(f"  Success rate: {report.summary.success_rate:.1f}%")
-    print(f"  Total time: {report.total_time:.2f} seconds")
-    print(f"  Report saved to: {report_path}")
+    # Initialize the report tool
+    test_report_tool = TestExecutionReporterTool(verbose=verbose)
+
+    # Execute each test suite and generate reports
+    all_reports = []
+    summary = {
+        "total_suites": len(test_collection.test_suites),
+        "total_cases": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+    }
+
+    for test_suite in test_collection.test_suites:
+        # Get the endpoint-specific tool
+        endpoint = test_suite.endpoint_info
+        tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
+
+        if tool_key not in factory.create_tools_from_endpoints([endpoint]):
+            if verbose:
+                print(
+                    f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
+                )
+            continue
+
+        endpoint_tool = factory.create_tool_from_endpoint(endpoint)
+
+        # Record start time
+        started_at = datetime.now()
+
+        # Execute all test cases in the suite
+        test_case_results = await execute_test_suite(
+            api_name=api_name,
+            api_version=api_version,
+            test_suite=test_suite,
+            endpoint_tool=endpoint_tool,
+            verbose=verbose,
+        )
+
+        # Record finish time
+        finished_at = datetime.now()
+
+        # Update summary statistics
+        summary["total_cases"] += len(test_case_results)
+        for result in test_case_results:
+            if result.status == TestStatus.PASS:
+                summary["passed"] += 1
+            elif result.status == TestStatus.FAIL:
+                summary["failed"] += 1
+            elif result.status == TestStatus.ERROR:
+                summary["errors"] += 1
+            elif result.status == TestStatus.SKIPPED:
+                summary["skipped"] += 1
+
+        # Generate a report for this test suite
+        report_input = TestExecutionReporterInput(
+            api_name=api_name,
+            api_version=api_version,
+            endpoint_name=endpoint.name,
+            endpoint_path=endpoint.path,
+            endpoint_method=endpoint.method,
+            test_case_results=test_case_results,
+            started_at=started_at,
+            finished_at=finished_at,
+        )
+
+        report_output = await test_report_tool.execute(report_input)
+
+        # Save the report to a file
+        safe_endpoint_name = (
+            endpoint.name.replace("/", "_").replace("{", "").replace("}", "")
+        )
+        filename = f"{api_name}_{safe_endpoint_name}.json"
+        report_path = os.path.join(report_output_dir, filename)
+
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
+        with open(report_path, "w") as f:
+            json.dump(report_output.report.model_dump(), f, indent=2, default=str)
+
+        # Add the report path to the output
+        report_data = report_output.report.model_dump()
+        report_data["report_path"] = report_path
+        all_reports.append(report_data)
+
+        if verbose:
+            print(f"Test report saved to: {report_path}")
+            print(
+                f"\nTest Report Summary for {endpoint.method.upper()} {endpoint.path}:"
+            )
+            print(f"  Total tests: {report_output.report.summary.total_tests}")
+            print(f"  Passed: {report_output.report.summary.passed}")
+            print(f"  Failed: {report_output.report.summary.failed}")
+            print(f"  Errors: {report_output.report.summary.errors}")
+            print(f"  Success rate: {report_output.report.summary.success_rate:.1f}%")
+            print(f"  Total time: {report_output.report.total_time:.2f} seconds")
+
+    # Calculate overall success rate
+    total_tests = summary["total_cases"]
+    if total_tests > 0:
+        summary["success_rate"] = (summary["passed"] / total_tests) * 100
+    else:
+        summary["success_rate"] = 0
+
+    # Add reports to summary
+    summary["reports"] = all_reports
+
+    # Create a summary file
+    summary_path = os.path.join(report_output_dir, "summary.json")
+    with open(summary_path, "w") as f:
+        json.dump(summary, f, indent=2, default=str)
+
+    if verbose:
+        print("\nOverall Test Summary:")
+        print(f"  Total test suites: {summary['total_suites']}")
+        print(f"  Total test cases: {summary['total_cases']}")
+        print(f"  Passed: {summary['passed']}")
+        print(f"  Failed: {summary['failed']}")
+        print(f"  Errors: {summary['errors']}")
+        print(f"  Skipped: {summary['skipped']}")
+        print(f"  Overall success rate: {summary['success_rate']:.1f}%")
+        print(f"  Summary saved to: {summary_path}")
+
+    return summary
 
 
 def select_endpoints_to_test(endpoints: List[EndpointInfo]) -> List[EndpointInfo]:
@@ -303,7 +400,7 @@ def select_endpoints_to_test(endpoints: List[EndpointInfo]) -> List[EndpointInfo
 
 
 async def main():
-    """Demo showcasing the complete API testing workflow."""
+    """Demo showcasing the complete API testing workflow using the new component structure."""
     # Create timestamped output directory for test reports
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     report_output_dir = os.path.join("output", "test_reports", timestamp)
@@ -346,36 +443,23 @@ async def main():
         cache_enabled=False,
     )
 
-    # Create tools for all endpoints
-    endpoint_tools = {}
-    for endpoint in parser_output.endpoints:
-        tool = factory.create_tool_from_endpoint(endpoint=endpoint)
-        # Use the same path transformation method here as in the lookup
-        tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
-        endpoint_tools[tool_key] = {
-            "endpoint": endpoint,
-            "tool": tool,
-        }
-
     # Step 3: Let user select which endpoints to test
     selected_endpoints = select_endpoints_to_test(parser_output.endpoints)
 
-    # Step 4: Run tests for each selected endpoint
-    for endpoint in selected_endpoints:
-        tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
-        if tool_key in endpoint_tools:
-            await run_test_for_endpoint(
-                api_name=api_name,
-                api_version=api_version,
-                endpoint=endpoint,
-                endpoint_tool=endpoint_tools[tool_key]["tool"],
-                report_output_dir=report_output_dir,
-                verbose=True,
-            )
-        else:
-            print(
-                f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
-            )
+    # Step 4: Generate test collection, execute tests, and create reports
+    summary = await generate_and_execute_test_collection(
+        api_name=api_name,
+        api_version=api_version,
+        endpoints=selected_endpoints,
+        factory=factory,
+        report_output_dir=report_output_dir,
+        verbose=True,
+    )
+
+    print(f"\nTest execution completed. Reports saved to: {report_output_dir}")
+    print(
+        f"Summary: {summary['passed']}/{summary['total_cases']} tests passed ({summary['success_rate']:.1f}%)"
+    )
 
 
 if __name__ == "__main__":

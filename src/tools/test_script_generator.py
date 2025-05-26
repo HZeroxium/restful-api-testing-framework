@@ -39,13 +39,13 @@ class TestScriptGeneratorTool(BaseTool):
     async def _execute(
         self, inp: TestScriptGeneratorInput
     ) -> TestScriptGeneratorOutput:
-        """Generate validation scripts for the given test case."""
+        """Generate validation scripts for the given test data."""
         endpoint = inp.endpoint_info
-        test_case = inp.test_case
+        test_data = inp.test_data  # Now this is always TestData
         validation_scripts = []
 
-        # Mock implementation - just create basic scripts
-        # In a real implementation, we'd analyze the expected behavior and generate appropriate validation scripts
+        # Get expected status code
+        expected_status_code = test_data.expected_status_code
 
         # Status code validation
         validation_scripts.append(
@@ -53,13 +53,13 @@ class TestScriptGeneratorTool(BaseTool):
                 id=str(uuid.uuid4()),
                 name="Status code validation",
                 script_type="status_code",
-                validation_code=f"assert response.status_code == {test_case.expected_status_code}",
-                description=f"Validate that status code is {test_case.expected_status_code}",
+                validation_code=f"assert response.status_code == {expected_status_code}",
+                description=f"Validate that status code is {expected_status_code}",
             )
         )
 
         # Response format validation (if success expected)
-        if test_case.expected_status_code < 400:
+        if expected_status_code < 400:
             validation_scripts.append(
                 ValidationScript(
                     id=str(uuid.uuid4()),

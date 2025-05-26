@@ -23,7 +23,7 @@ from .rest_api_caller import (
 from .test_data_generator import (
     TestDataGeneratorInput,
     TestDataGeneratorOutput,
-    TestCase,
+    TestData,
 )
 
 from .test_script_generator import (
@@ -32,14 +32,32 @@ from .test_script_generator import (
     ValidationScript,
 )
 
-from .test_report import (
-    TestReportInput,
-    TestReportOutput,
+from .test_execution_reporter import (
+    TestExecutionReporterInput,
+    TestExecutionReporterOutput,
     TestStatus,
     ValidationResult,
     TestCaseResult,
     TestReport,
     TestSummary,
+)
+
+from .test_suite_generator import (
+    TestSuite,
+    TestSuiteGeneratorInput,
+    TestSuiteGeneratorOutput,
+)
+
+from .test_case_generator import (
+    TestCaseGeneratorInput,
+    TestCaseGeneratorOutput,
+    TestCase,  # Now importing TestCase only from test_case.py
+)
+
+from .test_collection_generator import (
+    TestCollection,
+    TestCollectionGeneratorInput,
+    TestCollectionGeneratorOutput,
 )
 
 __all__ = [
@@ -58,15 +76,24 @@ __all__ = [
     "RestResponse",
     "TestDataGeneratorInput",
     "TestDataGeneratorOutput",
-    "TestCase",
+    "TestData",
     "TestScriptGeneratorInput",
     "TestScriptGeneratorOutput",
     "ValidationScript",
-    "TestReportInput",
-    "TestReportOutput",
+    "TestExecutionReporterInput",
+    "TestExecutionReporterOutput",
     "TestStatus",
     "ValidationResult",
     "TestCaseResult",
     "TestReport",
     "TestSummary",
+    "TestSuite",
+    "TestSuiteGeneratorInput",
+    "TestSuiteGeneratorOutput",
+    "TestCaseGeneratorInput",
+    "TestCaseGeneratorOutput",
+    "TestCase",
+    "TestCollection",
+    "TestCollectionGeneratorInput",
+    "TestCollectionGeneratorOutput",
 ]

@@ -28,8 +28,8 @@ class TestDataGeneratorInput(BaseModel):
         return self.endpoint_info
 
 
-class TestCase(BaseModel):
-    """A single test case with test data."""
+class TestData(BaseModel):
+    """Raw test data for a single test scenario."""
 
     id: str
     name: str
@@ -45,4 +45,7 @@ class TestCase(BaseModel):
 class TestDataGeneratorOutput(BaseModel):
     """Output from TestDataGeneratorTool."""
 
-    test_cases: List[TestCase]
+    test_data_collection: List[TestData]
+
+
+# TestCase class has been removed - use the one from schemas.tools.test_case

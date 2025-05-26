@@ -6,7 +6,10 @@ from .openapi_parser import OpenAPIParserTool
 from .rest_api_caller import RestApiCallerTool
 from .test_data_generator import TestDataGeneratorTool
 from .test_script_generator import TestScriptGeneratorTool
-from .test_report import TestReportTool
+from .test_execution_reporter import TestExecutionReporterTool
+from .test_suite_generator import TestSuiteGeneratorTool
+from .test_case_generator import TestCaseGeneratorTool
+from .test_collection_generator import TestCollectionGeneratorTool
 
 
 __all__ = [
@@ -15,5 +18,8 @@ __all__ = [
     "RestApiCallerTool",
     "TestDataGeneratorTool",
     "TestScriptGeneratorTool",
-    "TestReportTool",
+    "TestExecutionReporterTool",
+    "TestSuiteGeneratorTool",
+    "TestCaseGeneratorTool",
+    "TestCollectionGeneratorTool",
 ]

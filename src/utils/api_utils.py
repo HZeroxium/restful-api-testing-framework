@@ -1,3 +1,5 @@
+# utils/api_utils.py
+
 """Utility functions for API operations."""
 
 import time
@@ -13,16 +15,17 @@ from schemas.tools.openapi_parser import (
     EndpointInfo,
 )
 from schemas.tools.test_data_generator import TestDataGeneratorInput
-from schemas.tools.test_script_generator import TestScriptGeneratorInput
-from schemas.tools.test_report import (
-    TestReportInput,
+from schemas.tools.test_case_generator import TestCaseGeneratorInput
+from schemas.tools.test_execution_reporter import (
+    TestExecutionReporterInput,
     TestCaseResult,
     TestStatus,
     ValidationResult,
 )
 from tools.test_data_generator import TestDataGeneratorTool
+from tools.test_case_generator import TestCaseGeneratorTool
 from tools.test_script_generator import TestScriptGeneratorTool
-from tools.test_report import TestReportTool
+from tools.test_execution_reporter import TestExecutionReporterTool
 from typing import Dict, Any, List, Tuple
 
 
@@ -124,8 +127,9 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
     api_version = api_info["version"]
 
     test_data_generator = TestDataGeneratorTool(verbose=False)
+    test_case_generator = TestCaseGeneratorTool(verbose=False)
     test_script_generator = TestScriptGeneratorTool(verbose=False)
-    test_report_tool = TestReportTool(verbose=False)
+    test_report_tool = TestExecutionReporterTool(verbose=False)
 
     for endpoint in selected_endpoints:
         with st.spinner(f"Testing {endpoint.method.upper()} {endpoint.path}..."):
@@ -144,17 +148,17 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                 include_invalid_data=True,
             )
             test_data_output = await test_data_generator.execute(test_data_input)
-            test_cases = test_data_output.test_cases
 
+            # Now we need to convert TestData to TestCase
             all_test_case_results = []
 
-            for test_case in test_cases:
-                # Generate validation scripts
-                script_input = TestScriptGeneratorInput(
-                    endpoint_info=endpoint, test_case=test_case
+            for test_data in test_data_output.test_data_collection:
+                # Use TestCaseGenerator to create TestCase with validation scripts
+                case_input = TestCaseGeneratorInput(
+                    endpoint_info=endpoint, test_data=test_data
                 )
-                script_output = await test_script_generator.execute(script_input)
-                validation_scripts = script_output.validation_scripts
+                case_output = await test_case_generator.execute(case_input)
+                test_case = case_output.test_case
 
                 # Execute API call
                 factory = st.session_state.factory
@@ -188,7 +192,7 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                         validation_results = []
                         test_status = TestStatus.PASS
 
-                        for script in validation_scripts:
+                        for script in test_case.validation_scripts:
                             script_passed = True
                             if (
                                 script.script_type == "status_code"
@@ -252,7 +256,7 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
             finished_at = datetime.now()
 
             # Generate test report
-            report_input = TestReportInput(
+            report_input = TestExecutionReporterInput(
                 api_name=api_name,
                 api_version=api_version,
                 endpoint_name=endpoint.name,

@@ -4,18 +4,17 @@ import uuid
 from typing import Dict, Optional
 
 from core.base_tool import BaseTool
-from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.test_data_generator import (
     TestDataGeneratorInput,
     TestDataGeneratorOutput,
-    TestCase,
+    TestData,
 )
 
 
 class TestDataGeneratorTool(BaseTool):
     """
     Tool for generating test data for API endpoints.
-    Currently returns mock data for demonstration purposes.
+    This tool focuses on creating raw test data without validation scripts.
     """
 
     def __init__(
@@ -45,14 +44,14 @@ class TestDataGeneratorTool(BaseTool):
             if hasattr(inp, "get_endpoint_info")
             else inp.endpoint_info
         )
-        test_cases = []
+        test_data_collection = []
 
-        # Mock implementation - just create basic test cases
+        # Mock implementation - just create basic test data
         # In a real implementation, we'd analyze the input schema and generate appropriate test data
 
-        # Generate a success test case
-        test_cases.append(
-            TestCase(
+        # Generate a success test data
+        test_data_collection.append(
+            TestData(
                 id=str(uuid.uuid4()),
                 name=f"Success test for {endpoint.name}",
                 description=f"Test {endpoint.method} {endpoint.path} with valid data",
@@ -74,14 +73,14 @@ class TestDataGeneratorTool(BaseTool):
             )
         )
 
-        # Generate a validation error test case
+        # Generate a validation error test data
         if inp.include_invalid_data and endpoint.method.upper() in [
             "POST",
             "PUT",
             "PATCH",
         ]:
-            test_cases.append(
-                TestCase(
+            test_data_collection.append(
+                TestData(
                     id=str(uuid.uuid4()),
                     name=f"Validation error test for {endpoint.name}",
                     description=f"Test {endpoint.method} {endpoint.path} with invalid data",
@@ -97,10 +96,10 @@ class TestDataGeneratorTool(BaseTool):
                 )
             )
 
-        # Generate an unauthorized test case if auth is required
+        # Generate an unauthorized test data if auth is required
         if endpoint.auth_required:
-            test_cases.append(
-                TestCase(
+            test_data_collection.append(
+                TestData(
                     id=str(uuid.uuid4()),
                     name=f"Unauthorized test for {endpoint.name}",
                     description=f"Test {endpoint.method} {endpoint.path} without authorization",
@@ -116,7 +115,7 @@ class TestDataGeneratorTool(BaseTool):
                 )
             )
 
-        return TestDataGeneratorOutput(test_cases=test_cases)
+        return TestDataGeneratorOutput(test_data_collection=test_data_collection)
 
     async def cleanup(self) -> None:
         """Clean up any resources."""

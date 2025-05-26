@@ -1,18 +1,18 @@
-# tools/test_report.py
+# tools/test_execution_reporter.py
 
 from typing import Dict, Optional
 
 from core.base_tool import BaseTool
-from schemas.tools.test_report import (
-    TestReportInput,
-    TestReportOutput,
+from schemas.tools.test_execution_reporter import (
+    TestExecutionReporterInput,
+    TestExecutionReporterOutput,
     TestReport,
     TestSummary,
     TestStatus,
 )
 
 
-class TestReportTool(BaseTool):
+class TestExecutionReporterTool(BaseTool):
     """
     Tool for generating test reports for API endpoint tests.
     This tool collects test results and generates human-readable reports.
@@ -30,14 +30,16 @@ class TestReportTool(BaseTool):
         super().__init__(
             name=name,
             description=description,
-            input_schema=TestReportInput,
-            output_schema=TestReportOutput,
+            input_schema=TestExecutionReporterInput,
+            output_schema=TestExecutionReporterOutput,
             config=config,
             verbose=verbose,
             cache_enabled=cache_enabled,
         )
 
-    async def _execute(self, inp: TestReportInput) -> TestReportOutput:
+    async def _execute(
+        self, inp: TestExecutionReporterInput
+    ) -> TestExecutionReporterOutput:
         """Generate a test report for the given test results."""
         # Calculate summary statistics
         total = len(inp.test_case_results)
@@ -80,7 +82,7 @@ class TestReportTool(BaseTool):
             )
 
         # Return the report without saving to file
-        return TestReportOutput(report=report)
+        return TestExecutionReporterOutput(report=report)
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
