@@ -26,7 +26,8 @@ from tools.test_data_generator import TestDataGeneratorTool
 from tools.test_case_generator import TestCaseGeneratorTool
 from tools.test_script_generator import TestScriptGeneratorTool
 from tools.test_execution_reporter import TestExecutionReporterTool
-from typing import Dict, List, Any, Optional
+from tools.code_executor import CodeExecutorTool
+from typing import Dict, List, Any, Tuple
 
 
 async def load_openapi_spec(
@@ -128,6 +129,8 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
     test_data_generator = TestDataGeneratorTool(verbose=False)
     test_case_generator = TestCaseGeneratorTool(verbose=False)
     test_script_generator = TestScriptGeneratorTool(verbose=False)
+
+    code_executor = CodeExecutorTool(verbose=False)
 
     for endpoint in selected_endpoints:
         with st.spinner(f"Testing {endpoint.method.upper()} {endpoint.path}..."):
