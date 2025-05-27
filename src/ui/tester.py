@@ -1,3 +1,5 @@
+# ui/tester.py
+
 """API Testing tab component for the API Testing Platform."""
 
 import asyncio
@@ -108,7 +110,6 @@ def save_results_as_collection():
                 return
 
             try:
-                # Convert test results to test suites
                 from schemas.tools.test_suite_generator import (
                     TestSuite,
                     TestCase,
@@ -165,17 +166,33 @@ def validate_status_code(request, response):
                             request_data = test_case_result.get("request", {})
                             response_data = test_case_result.get("response", {})
 
-                            # Create test case
+                            # Extract test data if available
+                            test_data = test_case_result.get("test_data", {})
+
+                            # Create test case with test data preserved
                             test_case = TestCase(
                                 id=f"test_case_{i}",
                                 name=f"Test case {i+1}",
                                 description=f"Test case generated from results",
-                                expected_status_code=response_data.get(
-                                    "status_code", 200
+                                expected_status_code=test_data.get(
+                                    "expected_status_code",
+                                    response_data.get("status_code", 200),
                                 ),
-                                request_params=request_data.get("params", {}),
-                                request_headers=request_data.get("headers", {}),
-                                request_body=request_data.get("body", {}),
+                                request_params=test_data.get(
+                                    "request_params", request_data.get("params", {})
+                                ),
+                                request_headers=test_data.get(
+                                    "request_headers", request_data.get("headers", {})
+                                ),
+                                request_body=test_data.get(
+                                    "request_body", request_data.get("body", {})
+                                ),
+                                expected_response_schema=test_data.get(
+                                    "expected_response_schema", {}
+                                ),
+                                expected_response_contains=test_data.get(
+                                    "expected_response_contains", []
+                                ),
                                 validation_scripts=validation_scripts,
                             )
                             test_cases.append(test_case)

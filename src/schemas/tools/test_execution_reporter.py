@@ -35,6 +35,9 @@ class TestCaseResult(BaseModel):
     response: Dict[str, Any]
     validation_results: List[ValidationResult]
     message: Optional[str] = None
+    test_data: Optional[Dict[str, Any]] = (
+        None  # Add test data field to preserve original test data
+    )
 
 
 class TestExecutionReporterInput(BaseModel):

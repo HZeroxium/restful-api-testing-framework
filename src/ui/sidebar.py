@@ -1,3 +1,5 @@
+# ui/sidebar.py
+
 """Sidebar component for the API Testing Platform."""
 
 import os

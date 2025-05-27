@@ -1,7 +1,9 @@
 # tools/test_data_generator.py
 
 import uuid
-from typing import Dict, Optional
+import json
+from typing import Dict, Optional, List
+import asyncio
 
 from core.base_tool import BaseTool
 from schemas.tools.test_data_generator import (
@@ -9,19 +11,20 @@ from schemas.tools.test_data_generator import (
     TestDataGeneratorOutput,
     TestData,
 )
+from config.settings import settings
 
 
 class TestDataGeneratorTool(BaseTool):
     """
-    Tool for generating test data for API endpoints.
-    This tool focuses on creating raw test data without validation scripts.
+    Tool for generating intelligent test data for API endpoints using LLM.
+    This tool analyzes API schemas and generates realistic test scenarios.
     """
 
     def __init__(
         self,
         *,
         name: str = "test_data_generator",
-        description: str = "Generates test data for API endpoints",
+        description: str = "Generates intelligent test data for API endpoints",
         config: Optional[Dict] = None,
         verbose: bool = False,
         cache_enabled: bool = False,
@@ -37,19 +40,257 @@ class TestDataGeneratorTool(BaseTool):
         )
 
     async def _execute(self, inp: TestDataGeneratorInput) -> TestDataGeneratorOutput:
-        """Generate test data for the given endpoint."""
+        """Generate test data for the given endpoint using LLM."""
         # Get endpoint info using the property getter
         endpoint = (
             inp.get_endpoint_info
             if hasattr(inp, "get_endpoint_info")
             else inp.endpoint_info
         )
+        test_case_count = inp.test_case_count
+        include_invalid_data = inp.include_invalid_data
+
+        if self.verbose:
+            print(
+                f"Generating {test_case_count} test cases for {endpoint.method.upper()} {endpoint.path}"
+                f" (include invalid data: {include_invalid_data})"
+            )
+
+        # Try to generate test data using LLM
+        try:
+            test_data_collection = await self._generate_llm_test_data(
+                endpoint, test_case_count, include_invalid_data
+            )
+
+            # Validate and ensure we have the correct number of test cases
+            if len(test_data_collection) < test_case_count:
+                if self.verbose:
+                    print(
+                        f"LLM returned {len(test_data_collection)} test cases, but {test_case_count} were requested. "
+                        "Generating additional test cases using fallback method."
+                    )
+                # Generate additional test cases to meet the requested count
+                fallback_count = test_case_count - len(test_data_collection)
+                fallback_data = self._generate_fallback_test_data(
+                    endpoint, fallback_count, include_invalid_data
+                )
+                test_data_collection.extend(fallback_data.test_data_collection)
+
+            return TestDataGeneratorOutput(test_data_collection=test_data_collection)
+        except Exception as e:
+            if self.verbose:
+                print(
+                    f"Error during LLM test data generation: {str(e)}. Using fallback test data."
+                )
+            return self._generate_fallback_test_data(
+                endpoint, test_case_count, include_invalid_data
+            )
+
+    async def _generate_llm_test_data(
+        self, endpoint, test_case_count, include_invalid_data
+    ) -> List[TestData]:
+        """Generate test data using LLM with improved error handling."""
+        # Import required modules
+        from google.adk.agents import LlmAgent
+        from google.adk.runners import Runner
+        from google.adk.sessions import InMemorySessionService
+        from google.adk.artifacts import InMemoryArtifactService
+        from google.adk.memory import InMemoryMemoryService
+        from google.genai import types
+
+        # Set up session services
+        session_service = InMemorySessionService()
+        artifact_service = InMemoryArtifactService()
+        memory_service = InMemoryMemoryService()
+        session_id = str(uuid.uuid4())
+        user_id = "system"
+
+        # Initialize session
+        session_service.create_session(
+            app_name="test_data_generator",
+            user_id=user_id,
+            session_id=session_id,
+            state={},
+        )
+
+        # Prepare the endpoint info as JSON for the LLM prompt
+        endpoint_json = {
+            "method": endpoint.method,
+            "path": endpoint.path,
+            "description": endpoint.description,
+            "input_schema": endpoint.input_schema,
+            "output_schema": endpoint.output_schema,
+            "auth_required": endpoint.auth_required,
+            "auth_type": endpoint.auth_type,
+            "tags": endpoint.tags,
+        }
+
+        # Prepare a structured prompt with clear instructions and expected output format
+        prompt = f"""You are a Test Data Generator for API testing. Your task is to create realistic test data for API endpoints.
+
+INPUT:
+I'm providing information about an API endpoint:
+{json.dumps(endpoint_json, indent=2)}
+
+I need you to generate {test_case_count} test cases for this endpoint.
+{"Include some invalid test data for negative testing." if include_invalid_data else "All test cases should be valid."}
+
+OUTPUT:
+Return a JSON object with an array of test cases using EXACTLY this format:
+```json
+{{
+  "test_cases": [
+    {{
+      "name": "Get all products - basic request",
+      "description": "Verify retrieving all products with default parameters",
+      "request_params": {{"page": 1}},
+      "request_headers": {{"Authorization": "Bearer valid_token"}},
+      "request_body": null,
+      "expected_status_code": 200,
+      "expected_response_schema": {{"type": "object"}},
+      "expected_response_contains": ["data", "current_page"],
+      "is_valid_request": true
+    }},
+    // Additional test cases...
+  ]
+}}
+```
+GUIDELINES:
+- For {endpoint.method} requests, focus on {'query parameters' if endpoint.method.upper() == 'GET' else 'request body data'}
+- {'Create invalid test cases that should trigger error responses' if include_invalid_data else 'Create valid test cases with different parameter combinations'}
+- For valid cases, use expected_status_code 200 for GET, 201 for POST, etc.
+- For invalid cases, use status codes like 400, 401, 403, 404, etc.
+- {"Include authorization headers since auth is required" if endpoint.auth_required else "No authorization is required for this endpoint"}
+- Test parameters with different values and combinations
+- Each test case should be realistic and test a specific scenario
+
+Review your JSON output before responding to ensure it's valid and matches the requested format exactly.
+"""
+
+        # Create the LLM agent without specifying output schema
+        llm_agent = LlmAgent(
+            name="llm_test_data_generator",
+            model=settings.llm.LLM_MODEL,
+            instruction="You are an API test data generator. Generate test cases in the format requested.",
+            disallow_transfer_to_parent=True,
+            disallow_transfer_to_peers=True,
+        )
+
+        # Create a runner
+        runner = Runner(
+            app_name="test_data_generator",
+            agent=llm_agent,
+            session_service=session_service,
+            artifact_service=artifact_service,
+            memory_service=memory_service,
+        )
+
+        # Prepare input for the LLM
+        user_input = types.Content(role="user", parts=[types.Part(text=prompt)])
+
+        # Run the agent with timeout protection
+        raw_text = None
+        try:
+            # Add timeout to prevent hanging if the LLM response is delayed
+            async def get_llm_response():
+                for event in runner.run(
+                    session_id=session_id,
+                    user_id=user_id,
+                    new_message=user_input,
+                ):
+                    if event.content:
+                        return "".join(part.text for part in event.content.parts)
+                return None
+
+            # Set a reasonable timeout (30 seconds)
+            raw_text = await asyncio.wait_for(get_llm_response(), timeout=60)
+
+        except asyncio.TimeoutError:
+            if self.verbose:
+                print("LLM request timed out after 60 seconds")
+            return []
+        except Exception as e:
+            if self.verbose:
+                print(f"Error during LLM processing: {str(e)}")
+            return []
+
+        if not raw_text:
+            if self.verbose:
+                print("No response received from LLM")
+            return []
+
+        # Extract JSON from the response text
+        try:
+            # Look for JSON content that might be wrapped in markdown code blocks
+            json_match = None
+            if "```json" in raw_text:
+                json_parts = raw_text.split("```json")
+                if len(json_parts) > 1:
+                    json_content = json_parts[1].split("```")[0].strip()
+                    json_match = json_content
+            elif "```" in raw_text:
+                json_parts = raw_text.split("```")
+                if len(json_parts) > 1:
+                    json_content = json_parts[1].strip()
+                    json_match = json_content
+            else:
+                # Try to find JSON object directly
+                import re
+
+                pattern = r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}"
+                matches = re.findall(pattern, raw_text)
+                if matches:
+                    json_match = matches[0]
+
+            if not json_match:
+                json_match = raw_text
+
+            # Parse the JSON
+            raw_json = json.loads(json_match)
+        except json.JSONDecodeError:
+            if self.verbose:
+                print(f"Failed to decode JSON from LLM response: {raw_text[:100]}...")
+            return []
+
+        # Convert LLM output to TestData objects
         test_data_collection = []
 
-        # Mock implementation - just create basic test data
-        # In a real implementation, we'd analyze the input schema and generate appropriate test data
+        if "test_cases" in raw_json:
+            for test_case in raw_json["test_cases"]:
+                # Ensure all required fields are present
+                name = test_case.get(
+                    "name", f"Test case for {endpoint.method} {endpoint.path}"
+                )
+                description = test_case.get(
+                    "description", f"Testing {endpoint.method} {endpoint.path}"
+                )
+                expected_status_code = test_case.get("expected_status_code", 200)
 
-        # Generate a success test data
+                # Create TestData object
+                test_data = TestData(
+                    id=str(uuid.uuid4()),
+                    name=name,
+                    description=description,
+                    request_params=test_case.get("request_params"),
+                    request_headers=test_case.get("request_headers"),
+                    request_body=test_case.get("request_body"),
+                    expected_status_code=expected_status_code,
+                    expected_response_schema=test_case.get("expected_response_schema"),
+                    expected_response_contains=test_case.get(
+                        "expected_response_contains"
+                    ),
+                )
+                test_data_collection.append(test_data)
+
+        return test_data_collection
+
+    def _generate_fallback_test_data(
+        self, endpoint, test_case_count: int, include_invalid_data: bool
+    ) -> TestDataGeneratorOutput:
+        """Generate basic test data as a fallback when LLM fails."""
+        test_data_collection = []
+
+        # Always include at least one success case
         test_data_collection.append(
             TestData(
                 id=str(uuid.uuid4()),
@@ -73,44 +314,92 @@ class TestDataGeneratorTool(BaseTool):
             )
         )
 
-        # Generate a validation error test data
-        if inp.include_invalid_data and endpoint.method.upper() in [
-            "POST",
-            "PUT",
-            "PATCH",
-        ]:
+        # Add invalid data test if requested
+        if include_invalid_data and test_case_count > 1:
+            # Validation error test
+            if endpoint.method.upper() in ["POST", "PUT", "PATCH"]:
+                test_data_collection.append(
+                    TestData(
+                        id=str(uuid.uuid4()),
+                        name=f"Validation error test for {endpoint.name}",
+                        description=f"Test {endpoint.method} {endpoint.path} with invalid data",
+                        request_params={},
+                        request_headers=(
+                            {"Authorization": "Bearer mock_token"}
+                            if endpoint.auth_required
+                            else {}
+                        ),
+                        request_body={"invalid_field": "invalid_value"},
+                        expected_status_code=400,
+                        expected_response_schema={},
+                    )
+                )
+
+            # Unauthorized test if auth is required
+            if endpoint.auth_required and len(test_data_collection) < test_case_count:
+                test_data_collection.append(
+                    TestData(
+                        id=str(uuid.uuid4()),
+                        name=f"Unauthorized test for {endpoint.name}",
+                        description=f"Test {endpoint.method} {endpoint.path} without authorization",
+                        request_params={} if endpoint.method.upper() == "GET" else None,
+                        request_headers={},  # No auth header
+                        request_body=(
+                            {}
+                            if endpoint.method.upper() in ["POST", "PUT", "PATCH"]
+                            else None
+                        ),
+                        expected_status_code=401,
+                        expected_response_schema={},
+                    )
+                )
+
+            # Not found test for GET requests with IDs
+            if (
+                endpoint.method.upper() == "GET"
+                and ("{id}" in endpoint.path or "/:id" in endpoint.path)
+                and len(test_data_collection) < test_case_count
+            ):
+                test_data_collection.append(
+                    TestData(
+                        id=str(uuid.uuid4()),
+                        name=f"Not found test for {endpoint.name}",
+                        description=f"Test {endpoint.method} {endpoint.path} with non-existent ID",
+                        request_params={},
+                        request_headers=(
+                            {"Authorization": "Bearer mock_token"}
+                            if endpoint.auth_required
+                            else {}
+                        ),
+                        request_body=None,
+                        expected_status_code=404,
+                        expected_response_schema={},
+                    )
+                )
+
+        # Fill remaining slots with variations of success cases if needed
+        while len(test_data_collection) < test_case_count:
             test_data_collection.append(
                 TestData(
                     id=str(uuid.uuid4()),
-                    name=f"Validation error test for {endpoint.name}",
-                    description=f"Test {endpoint.method} {endpoint.path} with invalid data",
-                    request_params={},
+                    name=f"Success test variant for {endpoint.name} (#{len(test_data_collection)+1})",
+                    description=f"Additional test for {endpoint.method} {endpoint.path} with valid data",
+                    request_params={} if endpoint.method.upper() == "GET" else None,
                     request_headers=(
                         {"Authorization": "Bearer mock_token"}
                         if endpoint.auth_required
                         else {}
                     ),
-                    request_body={"invalid_field": "invalid_value"},
-                    expected_status_code=400,
-                    expected_response_schema={},
-                )
-            )
-
-        # Generate an unauthorized test data if auth is required
-        if endpoint.auth_required:
-            test_data_collection.append(
-                TestData(
-                    id=str(uuid.uuid4()),
-                    name=f"Unauthorized test for {endpoint.name}",
-                    description=f"Test {endpoint.method} {endpoint.path} without authorization",
-                    request_params={} if endpoint.method.upper() == "GET" else None,
-                    request_headers={},  # No auth header
                     request_body=(
                         {}
                         if endpoint.method.upper() in ["POST", "PUT", "PATCH"]
                         else None
                     ),
-                    expected_status_code=401,
+                    expected_status_code=(
+                        200
+                        if endpoint.method.upper() == "GET"
+                        else 201 if endpoint.method.upper() == "POST" else 200
+                    ),
                     expected_response_schema={},
                 )
             )

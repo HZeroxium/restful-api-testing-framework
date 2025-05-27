@@ -36,7 +36,7 @@ The framework follows a modular architecture with the following key components:
 
 ## Project Structure
 
-```
+```plaintext
 restful-api-testing-framework/
 ├── src/                        # Source code
 │   ├── agents/                 # Agent implementations

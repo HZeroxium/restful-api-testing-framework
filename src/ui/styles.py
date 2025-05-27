@@ -1,3 +1,5 @@
+# ui/styles.py
+
 """CSS styles for the API Testing Platform UI."""
 
 # Main CSS style definition for the entire application

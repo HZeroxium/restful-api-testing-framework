@@ -210,6 +210,15 @@ async def execute_test_suite(
                     if test_status == TestStatus.PASS
                     else "Test failed"
                 ),
+                # Include the original test data for reference
+                test_data={
+                    "expected_status_code": test_case.expected_status_code,
+                    "request_params": test_case.request_params,
+                    "request_headers": test_case.request_headers,
+                    "request_body": test_case.request_body,
+                    "expected_response_schema": test_case.expected_response_schema,
+                    "expected_response_contains": test_case.expected_response_contains,
+                },
             )
 
             if verbose:
@@ -229,6 +238,15 @@ async def execute_test_suite(
                 response={"error": str(e)},
                 validation_results=[],
                 message=f"Error executing API call: {str(e)}",
+                # Include the original test data even for errors
+                test_data={
+                    "expected_status_code": test_case.expected_status_code,
+                    "request_params": test_case.request_params,
+                    "request_headers": test_case.request_headers,
+                    "request_body": test_case.request_body,
+                    "expected_response_schema": test_case.expected_response_schema,
+                    "expected_response_contains": test_case.expected_response_contains,
+                },
             )
             test_case_results.append(test_case_result)
             if verbose:
@@ -243,6 +261,8 @@ async def generate_and_execute_test_collection(
     endpoints: List[EndpointInfo],
     factory: RestApiCallerFactory,
     report_output_dir: str,
+    test_case_count: int = 2,
+    include_invalid_data: bool = True,
     verbose: bool = False,
 ) -> Dict[str, Any]:
     """
@@ -254,6 +274,8 @@ async def generate_and_execute_test_collection(
         endpoints: List of endpoints to test
         factory: Factory for creating endpoint-specific tools
         report_output_dir: Directory to save test reports
+        test_case_count: Number of test cases per endpoint
+        include_invalid_data: Whether to include invalid test data
         verbose: Enable verbose logging
 
     Returns:
@@ -262,6 +284,8 @@ async def generate_and_execute_test_collection(
     if verbose:
         print(f"\nGenerating test collection for {api_name} v{api_version}")
         print(f"Endpoints to test: {len(endpoints)}")
+        print(f"Test cases per endpoint: {test_case_count}")
+        print(f"Include invalid data: {include_invalid_data}")
 
     # Initialize the test collection generator
     test_collection_generator = TestCollectionGeneratorTool(verbose=verbose)
@@ -271,8 +295,8 @@ async def generate_and_execute_test_collection(
         api_name=api_name,
         api_version=api_version,
         endpoints=endpoints,
-        test_case_count=2,  # Generate 2 test cases per endpoint
-        include_invalid_data=True,  # Include invalid data for negative testing
+        test_case_count=test_case_count,  # Use the parameter value
+        include_invalid_data=include_invalid_data,  # Use the parameter value
     )
 
     collection_output = await test_collection_generator.execute(collection_input)
@@ -490,13 +514,38 @@ async def main():
     # Step 3: Let user select which endpoints to test
     selected_endpoints = select_endpoints_to_test(parser_output.endpoints)
 
-    # Step 4: Generate test collection, execute tests, and create reports
+    # Step 4: Allow user to configure testing parameters
+    test_case_count_input = input(
+        "\nEnter number of test cases per endpoint (default: 2): "
+    )
+    test_case_count = 2
+    try:
+        test_case_count = (
+            int(test_case_count_input) if test_case_count_input.strip() else 2
+        )
+        if test_case_count < 1:
+            test_case_count = 1
+            print("Test case count must be at least 1, using 1.")
+        elif test_case_count > 10:
+            test_case_count = 10
+            print("Maximum test case count is 10, using 10.")
+    except ValueError:
+        print("Invalid number, using default of 2 test cases per endpoint.")
+
+    include_invalid_input = input(
+        "Include invalid test data for negative testing? (Y/n): "
+    )
+    include_invalid_data = include_invalid_input.strip().lower() not in ["n", "no"]
+
+    # Step 5: Generate test collection, execute tests, and create reports
     summary = await generate_and_execute_test_collection(
         api_name=api_name,
         api_version=api_version,
         endpoints=selected_endpoints,
         factory=factory,
         report_output_dir=report_output_dir,
+        test_case_count=test_case_count,  # Pass the user-specified value
+        include_invalid_data=include_invalid_data,  # Pass the user-specified value
         verbose=True,
     )
 

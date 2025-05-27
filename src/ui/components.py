@@ -1,3 +1,5 @@
+# ui/components.py
+
 """Reusable UI components for the API Testing Platform."""
 
 import streamlit as st

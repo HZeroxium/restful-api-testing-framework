@@ -1,3 +1,5 @@
+# ui/collections.py
+
 """UI component for managing test collections."""
 
 import asyncio
