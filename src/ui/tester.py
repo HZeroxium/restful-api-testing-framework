@@ -145,7 +145,18 @@ def save_results_as_collection():
                                     id=f"script_{i}_{j}",
                                     name=validation.get("script_name", "Validation"),
                                     script_type="status_code",
-                                    script="status_code == expected_status_code",
+                                    validation_code="""
+def validate_status_code(request, response):
+    \"\"\"Validate response status code\"\"\"
+    try:
+        # Handle both dictionary and object access
+        if isinstance(response, dict):
+            return response.get("status_code") == expected_status_code
+        else:
+            return getattr(response, "status_code", None) == expected_status_code
+    except Exception as e:
+        return False
+""",
                                     description="Validates response status code",
                                 )
                                 validation_scripts.append(script)

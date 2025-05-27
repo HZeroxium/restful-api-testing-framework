@@ -7,7 +7,7 @@ import json
 from datetime import datetime
 from typing import List, Dict, Any
 
-from tools import OpenAPIParserTool, RestApiCallerTool
+from tools import OpenAPIParserTool, RestApiCallerTool, CodeExecutorTool
 from tools.test_execution_reporter import TestExecutionReporterTool
 from tools.test_collection_generator import TestCollectionGeneratorTool
 from utils.rest_api_caller_factory import RestApiCallerFactory
@@ -55,6 +55,13 @@ async def execute_test_suite(
             f"\nExecuting test suite for: [{endpoint.method.upper()}] {endpoint.path}"
         )
         print(f"  Test cases: {len(test_suite.test_cases)}")
+
+    # Initialize the code executor tool for validating scripts
+    code_executor = CodeExecutorTool(
+        verbose=verbose,
+        cache_enabled=False,
+        restricted_modules=["os", "sys", "subprocess"],
+    )
 
     test_case_results = []
 
@@ -105,22 +112,55 @@ async def execute_test_suite(
 
             for script in test_case.validation_scripts:
                 try:
-                    # In a real implementation, we'd execute the script.
-                    # Here we'll just simulate success or failure based on expected status code
-                    script_passed = True
-                    if (
-                        script.script_type == "status_code"
-                        and api_response.response.status_code
-                        != test_case.expected_status_code
-                    ):
-                        script_passed = False
+                    # Create context variables for the script execution
+                    context_variables = {
+                        "request": api_response.request.model_dump(),
+                        "response": api_response.response.model_dump(),
+                        "expected_status_code": test_case.expected_status_code,
+                    }
+
+                    # Extract the main function name from the validation script
+                    import re
+
+                    function_match = re.search(
+                        r"def\s+([a-zA-Z0-9_]+)\s*\(", script.validation_code
+                    )
+                    function_name = function_match.group(1) if function_match else None
+
+                    # Add code to call the function with the context variables
+                    modified_code = script.validation_code
+                    if function_name:
+                        modified_code += (
+                            f"\n\n_result = {function_name}(request, response)"
+                        )
+
+                    # Execute the validation script using CodeExecutorTool
+                    executor_input = {
+                        "code": modified_code,
+                        "context_variables": context_variables,
+                        "timeout": 5.0,  # 5 seconds timeout should be enough for validation scripts
+                    }
+
+                    if verbose:
+                        print(f"    Executing validation script: {script.name}")
+
+                    execution_result = await code_executor.execute(executor_input)
+
+                    # Determine if the script passed based on execution result
+                    script_passed = execution_result.success and execution_result.result
+                    # The result should be 'True' string for passing validation
+                    if script_passed:
+                        script_passed = execution_result.result.lower() == "true"
 
                     status = TestStatus.PASS if script_passed else TestStatus.FAIL
-                    message = (
-                        "Validation passed"
-                        if script_passed
-                        else f"Expected status {test_case.expected_status_code}, got {api_response.response.status_code}"
-                    )
+
+                    if script_passed:
+                        message = "Validation passed"
+                    else:
+                        # Get detailed error message from execution result
+                        message = execution_result.error or "Validation failed"
+                        if execution_result.stderr:
+                            message += f": {execution_result.stderr}"
 
                     # If any script fails, the whole test fails
                     if status == TestStatus.FAIL:
@@ -132,11 +172,14 @@ async def execute_test_suite(
                             script_name=script.name,
                             status=status,
                             message=message,
+                            validation_code=script.validation_code,  # Include the validation code
                         )
                     )
 
                     if verbose:
                         print(f"    Validation '{script.name}': {status}")
+                        if status == TestStatus.FAIL:
+                            print(f"    Error: {message}")
 
                 except Exception as e:
                     # If an exception occurs, mark as error
@@ -146,6 +189,7 @@ async def execute_test_suite(
                             script_name=script.name,
                             status=TestStatus.ERROR,
                             message=f"Error executing script: {str(e)}",
+                            validation_code=script.validation_code,  # Include the validation code
                         )
                     )
                     test_status = TestStatus.ERROR

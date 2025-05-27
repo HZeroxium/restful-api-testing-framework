@@ -9,6 +9,8 @@ A comprehensive framework for automated testing of RESTful APIs, supporting Open
 - **API Testing**: Test RESTful APIs with built-in request building and response validation
 - **Code Execution**: Run Python code for test setup and validation
 - **Type-Safe Design**: Strongly typed interfaces for all components using Python type hints
+- **Constraint Mining**: Automatically identify constraints and generate validation scripts
+- **Validation Framework**: Execute validation scripts against API responses
 
 ## Architecture
 
@@ -24,6 +26,9 @@ The framework follows a modular architecture with the following key components:
 - **OpenAPIParserTool**: Parses OpenAPI/Swagger specifications to extract API details
 - **RESTAPICallerTool**: Performs HTTP requests to API endpoints with authentication support
 - **CodeExecutorTool**: Executes Python code snippets for test setup and validation
+- **StaticConstraintMinerTool**: Analyzes API specs to identify constraints
+- **TestScriptGeneratorTool**: Generates validation scripts from constraints
+- **TestExecutionReporterTool**: Collects and formats test execution results
 
 ### Agents
 

@@ -21,6 +21,7 @@ class ValidationResult(BaseModel):
     status: TestStatus
     message: Optional[str] = None
     details: Optional[Dict[str, Any]] = None
+    validation_code: Optional[str] = None  # Adding the validation code field
 
 
 class TestCaseResult(BaseModel):

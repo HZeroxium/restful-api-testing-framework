@@ -184,8 +184,15 @@ def render_collections_list():
                     for j, test_case in enumerate(suite.test_cases):
                         st.markdown(f"##### {test_case.name}")
                         st.markdown(f"- **Description:** {test_case.description}")
+                        # Display with better formatting
+                        status_color = (
+                            "green"
+                            if 200 <= test_case.expected_status_code < 300
+                            else "red"
+                        )
                         st.markdown(
-                            f"- **Expected Status:** {test_case.expected_status_code}"
+                            f"- **Expected Status:** <span style='color:{status_color};'>{test_case.expected_status_code}</span>",
+                            unsafe_allow_html=True,
                         )
 
             # Actions for the collection

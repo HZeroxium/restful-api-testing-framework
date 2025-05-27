@@ -329,7 +329,12 @@ def render_api_response():
         st.markdown("### Response")
 
         # Response status
-        status_code = response.response.status_code
+        # Get status code from the response, handling both object and dict access
+        if hasattr(response.response, "status_code"):
+            status_code = response.response.status_code
+        else:
+            status_code = response.response.get("status_code", 500)
+
         status_color = "green" if 200 <= status_code < 300 else "red"
         st.markdown(
             f"**Status Code:** <span style='color:{status_color};'>{status_code}</span>",

@@ -26,7 +26,7 @@ from tools.test_data_generator import TestDataGeneratorTool
 from tools.test_case_generator import TestCaseGeneratorTool
 from tools.test_script_generator import TestScriptGeneratorTool
 from tools.test_execution_reporter import TestExecutionReporterTool
-from typing import Dict, Any, List, Tuple
+from typing import Dict, List, Any, Optional
 
 
 async def load_openapi_spec(
@@ -128,7 +128,6 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
     test_data_generator = TestDataGeneratorTool(verbose=False)
     test_case_generator = TestCaseGeneratorTool(verbose=False)
     test_script_generator = TestScriptGeneratorTool(verbose=False)
-    test_report_tool = TestExecutionReporterTool(verbose=False)
 
     for endpoint in selected_endpoints:
         with st.spinner(f"Testing {endpoint.method.upper()} {endpoint.path}..."):
@@ -193,12 +192,24 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
 
                         for script in test_case.validation_scripts:
                             script_passed = True
-                            if (
-                                script.script_type == "status_code"
-                                and api_response.response.status_code
-                                != test_case.expected_status_code
-                            ):
-                                script_passed = False
+                            # Execute the validation function with proper parameters
+                            # The script now contains a function that we'll execute
+                            if script.script_type == "status_code":
+                                # Extract the function from the script and execute it
+                                code_executor_input = {
+                                    "code": script.validation_code,
+                                    "context_variables": {
+                                        "request": api_response.request.model_dump(),
+                                        "response": api_response.response.model_dump(),
+                                        "expected_status_code": test_case.expected_status_code,
+                                    },
+                                }
+                                result = await code_executor.execute(
+                                    code_executor_input
+                                )
+                                script_passed = (
+                                    result.success and result.result.lower() == "true"
+                                )
 
                             status = (
                                 TestStatus.PASS if script_passed else TestStatus.FAIL
@@ -265,6 +276,8 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                 started_at=started_at,
                 finished_at=finished_at,
             )
+
+            test_report_tool = TestExecutionReporterTool(verbose=False)
 
             report_output = await test_report_tool.execute(report_input)
             results.append(report_output.report.model_dump())
