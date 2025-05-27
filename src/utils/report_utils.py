@@ -32,9 +32,15 @@ def analyze_test_result(test_case_result: Dict[str, Any]) -> Dict[str, Any]:
         analysis["error"] = "Missing test data or response for comparison"
         return analysis
 
-    # Check status code
+    # Check status code - handle both object and dict access
     expected_status = test_data.get("expected_status_code")
-    actual_status = response.get("status_code")
+    actual_status = None
+
+    # Handle different response formats
+    if isinstance(response, dict):
+        actual_status = response.get("status_code")
+    else:
+        actual_status = getattr(response, "status_code", None)
 
     if expected_status and actual_status and expected_status != actual_status:
         analysis["discrepancies"].append(
@@ -60,6 +66,31 @@ def analyze_test_result(test_case_result: Dict[str, Any]) -> Dict[str, Any]:
             (passes / len(validation_results) * 100) if validation_results else 0
         ),
     }
+
+    # Provide clearer analysis of common issues
+    for validation in validation_results:
+        if validation.get("status") != "pass":
+            message = validation.get("message", "")
+
+            # Check for common attribute errors
+            if "'dict' object has no attribute" in message:
+                analysis.setdefault("common_issues", []).append(
+                    {
+                        "issue_type": "dict_attribute_access",
+                        "message": "Validation script is trying to access attributes on a dictionary object. Use dict['key'] instead of dict.key",
+                        "validation": validation.get("script_name"),
+                        "details": message,
+                    }
+                )
+            elif "AttributeError" in message:
+                analysis.setdefault("common_issues", []).append(
+                    {
+                        "issue_type": "attribute_error",
+                        "message": "Validation script is trying to access a non-existent attribute",
+                        "validation": validation.get("script_name"),
+                        "details": message,
+                    }
+                )
 
     return analysis
 

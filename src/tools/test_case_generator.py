@@ -104,7 +104,7 @@ class TestCaseGeneratorTool(BaseTool):
 
         try:
             if self.verbose:
-                print(f"Mining constraints for {endpoint_key}")
+                print(f"TestCaseGenerator: Mining constraints for {endpoint_key}")
 
             # Create input for constraint miner
             miner_input = StaticConstraintMinerInput(

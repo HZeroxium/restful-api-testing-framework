@@ -57,6 +57,26 @@ def render_adhoc_testing():
 
     selected_endpoints = [st.session_state.endpoints[i] for i in selected_indices]
 
+    # Add test customization options
+    st.markdown("### Test Settings")
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        test_case_count = st.number_input(
+            "Test Cases per Endpoint",
+            min_value=1,
+            max_value=5,
+            value=2,
+            help="Number of test cases to generate for each selected endpoint",
+        )
+
+    with col2:
+        include_invalid_data = st.checkbox(
+            "Include Invalid Test Data",
+            value=True,
+            help="Generate test cases that should trigger error responses",
+        )
+
     col1, col2 = st.columns([1, 1])
 
     with col1:
@@ -68,8 +88,13 @@ def render_adhoc_testing():
 
         try:
             with st.spinner("Running tests..."):
+                # Pass the test customization parameters to the run_tests_for_endpoints function
                 test_results = loop.run_until_complete(
-                    run_tests_for_endpoints(selected_endpoints)
+                    run_tests_for_endpoints(
+                        selected_endpoints,
+                        test_case_count=test_case_count,
+                        include_invalid_data=include_invalid_data,
+                    )
                 )
                 st.session_state.test_results = test_results
                 st.success(f"Tests completed for {len(test_results)} endpoints!")

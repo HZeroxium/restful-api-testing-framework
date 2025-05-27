@@ -335,10 +335,14 @@ def render_api_response():
 
         # Response status
         # Get status code from the response, handling both object and dict access
+        status_code = None
         if hasattr(response.response, "status_code"):
             status_code = response.response.status_code
+        elif isinstance(response.response, dict) and "status_code" in response.response:
+            status_code = response.response["status_code"]
         else:
-            status_code = response.response.get("status_code", 500)
+            status_code = 500
+            st.warning("Could not determine status code from response")
 
         status_color = "green" if 200 <= status_code < 300 else "red"
         st.markdown(
@@ -349,19 +353,35 @@ def render_api_response():
         # Response time
         st.markdown(f"**Response Time:** {response.elapsed:.3f} seconds")
 
-        # Response headers
+        # Response headers - handle both object and dict access
         with st.expander("Response Headers"):
-            for header, value in response.response.headers.items():
-                st.markdown(f"**{header}:** {value}")
+            headers = {}
+            if hasattr(response.response, "headers"):
+                headers = response.response.headers
+            elif isinstance(response.response, dict) and "headers" in response.response:
+                headers = response.response["headers"]
 
-        # Response body
+            if headers:
+                for header, value in headers.items():
+                    st.markdown(f"**{header}:** {value}")
+            else:
+                st.info("No headers found in response")
+
+        # Response body - handle both object and dict access
         st.markdown("**Response Body:**")
-        if isinstance(response.response.body, dict) or isinstance(
-            response.response.body, list
-        ):
-            st.json(response.response.body)
+        body = None
+        if hasattr(response.response, "body"):
+            body = response.response.body
+        elif isinstance(response.response, dict) and "body" in response.response:
+            body = response.response["body"]
+
+        if body is not None:
+            if isinstance(body, dict) or isinstance(body, list):
+                st.json(body)
+            else:
+                st.text(body)
         else:
-            st.text(response.response.body)
+            st.info("No body found in response")
 
 
 def render_test_results():

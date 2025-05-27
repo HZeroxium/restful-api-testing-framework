@@ -48,7 +48,7 @@ class StaticConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(f"Mining constraints for {endpoint.method.upper()} {endpoint.path}")
+            print(f"StaticConstraintMiner: Mining constraints for {endpoint.method.upper()} {endpoint.path}")
 
         # Initialize LLM components
         from google.adk.agents import LlmAgent

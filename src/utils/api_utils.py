@@ -111,11 +111,17 @@ async def execute_api_call(endpoint: EndpointInfo, params: Dict[str, Any]) -> An
         return await tool.execute(params)
 
 
-async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> List[dict]:
+async def run_tests_for_endpoints(
+    selected_endpoints: List[EndpointInfo],
+    test_case_count: int = 2,
+    include_invalid_data: bool = True,
+) -> List[dict]:
     """Run tests for multiple endpoints and return results
 
     Args:
         selected_endpoints: List of endpoints to test
+        test_case_count: Number of test cases per endpoint
+        include_invalid_data: Whether to include invalid test data
 
     Returns:
         List of test results
@@ -145,8 +151,8 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
             )
             test_data_input = TestDataGeneratorInput(
                 endpoint_info=endpoint_dict,  # Pass as dict instead of direct object
-                test_case_count=1,
-                include_invalid_data=True,
+                test_case_count=test_case_count,  # Use the parameter value
+                include_invalid_data=include_invalid_data,  # Use the parameter value
             )
             test_data_output = await test_data_generator.execute(test_data_input)
 
@@ -194,46 +200,98 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                         test_status = TestStatus.PASS
 
                         for script in test_case.validation_scripts:
-                            script_passed = True
-                            # Execute the validation function with proper parameters
-                            # The script now contains a function that we'll execute
-                            if script.script_type == "status_code":
-                                # Extract the function from the script and execute it
-                                code_executor_input = {
-                                    "code": script.validation_code,
-                                    "context_variables": {
-                                        "request": api_response.request.model_dump(),
-                                        "response": api_response.response.model_dump(),
-                                        "expected_status_code": test_case.expected_status_code,
-                                    },
+                            try:
+                                # Create context variables for the script execution
+                                context_variables = {
+                                    "request": api_response.request.model_dump(),
+                                    "response": api_response.response.model_dump(),
+                                    "expected_status_code": test_case.expected_status_code,
                                 }
-                                result = await code_executor.execute(
-                                    code_executor_input
+
+                                # Extract the main function name from the validation script
+                                import re
+
+                                function_match = re.search(
+                                    r"def\s+([a-zA-Z0-9_]+)\s*\(",
+                                    script.validation_code,
                                 )
+                                function_name = (
+                                    function_match.group(1) if function_match else None
+                                )
+
+                                # Add code to call the function with the context variables
+                                modified_code = script.validation_code
+                                if function_name:
+                                    modified_code += f"\n\n_result = {function_name}(request, response)"
+
+                                # Execute the validation script using CodeExecutorTool
+                                executor_input = {
+                                    "code": modified_code,
+                                    "context_variables": context_variables,
+                                    "timeout": 5.0,  # 5 seconds timeout should be enough for validation scripts
+                                }
+
+                                execution_result = await code_executor.execute(
+                                    executor_input
+                                )
+
+                                # Determine if the script passed based on execution result
                                 script_passed = (
-                                    result.success and result.result.lower() == "true"
+                                    execution_result.success and execution_result.result
+                                )
+                                # The result should be 'True' string for passing validation
+                                if script_passed:
+                                    script_passed = (
+                                        execution_result.result.lower() == "true"
+                                    )
+
+                                status = (
+                                    TestStatus.PASS
+                                    if script_passed
+                                    else TestStatus.FAIL
                                 )
 
-                            status = (
-                                TestStatus.PASS if script_passed else TestStatus.FAIL
-                            )
-                            message = (
-                                "Validation passed"
-                                if script_passed
-                                else f"Expected status {test_case.expected_status_code}, got {api_response.response.status_code}"
-                            )
+                                if script_passed:
+                                    message = "Validation passed"
+                                else:
+                                    # Get detailed error message from execution result
+                                    message = (
+                                        execution_result.error or "Validation failed"
+                                    )
+                                    if execution_result.stderr:
+                                        message += f": {execution_result.stderr}"
 
-                            if status == TestStatus.FAIL:
-                                test_status = TestStatus.FAIL
+                                # If any script fails, the whole test fails
+                                if status == TestStatus.FAIL:
+                                    test_status = TestStatus.FAIL
 
-                            validation_results.append(
-                                ValidationResult(
-                                    script_id=script.id,
-                                    script_name=script.name,
-                                    status=status,
-                                    message=message,
+                                validation_results.append(
+                                    ValidationResult(
+                                        script_id=script.id,
+                                        script_name=script.name,
+                                        status=status,
+                                        message=message,
+                                        validation_code=script.validation_code,
+                                    )
                                 )
-                            )
+                            except Exception as e:
+                                # Handle execution errors for individual scripts
+                                validation_results.append(
+                                    ValidationResult(
+                                        script_id=script.id,
+                                        script_name=script.name,
+                                        status=TestStatus.ERROR,
+                                        message=f"Error executing script: {str(e)}",
+                                        validation_code=script.validation_code,
+                                    )
+                                )
+                                # Don't fail the entire test for script execution errors
+                                # unless there are no passing validations
+                                if all(
+                                    v.status != TestStatus.PASS
+                                    for v in validation_results
+                                ):
+                                    test_status = TestStatus.ERROR
 
                         test_case_result = TestCaseResult(
                             test_case_id=test_case.id,
@@ -248,10 +306,20 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                                 if test_status == TestStatus.PASS
                                 else "Test failed"
                             ),
+                            # Include the original test data for reference
+                            test_data={
+                                "expected_status_code": test_case.expected_status_code,
+                                "request_params": test_case.request_params,
+                                "request_headers": test_case.request_headers,
+                                "request_body": test_case.request_body,
+                                "expected_response_schema": test_case.expected_response_schema,
+                                "expected_response_contains": test_case.expected_response_contains,
+                            },
                         )
 
                     except Exception as e:
                         test_elapsed_time = time.perf_counter() - test_start_time
+                        # Create a result with error status
                         test_case_result = TestCaseResult(
                             test_case_id=test_case.id,
                             test_case_name=test_case.name,
@@ -261,6 +329,15 @@ async def run_tests_for_endpoints(selected_endpoints: List[EndpointInfo]) -> Lis
                             response={"error": str(e)},
                             validation_results=[],
                             message=f"Error executing API call: {str(e)}",
+                            # Include the original test data even for errors
+                            test_data={
+                                "expected_status_code": test_case.expected_status_code,
+                                "request_params": test_case.request_params,
+                                "request_headers": test_case.request_headers,
+                                "request_body": test_case.request_body,
+                                "expected_response_schema": test_case.expected_response_schema,
+                                "expected_response_contains": test_case.expected_response_contains,
+                            },
                         )
 
                     all_test_case_results.append(test_case_result)

@@ -674,8 +674,28 @@ async def run_collection_tests(collection):
     # Extract endpoints from test suites
     endpoints = [suite.endpoint_info for suite in collection.test_suites]
 
-    # Run tests
-    reports = await run_tests_for_endpoints(endpoints)
+    # Display progress information
+    if hasattr(st, "status"):
+        with st.status("Running tests...", expanded=True) as status:
+            st.write(f"Starting tests for {len(endpoints)} endpoints")
+
+            # Run tests with specific parameters from collection if available
+            test_case_count = getattr(collection, "test_case_count", 2)
+            include_invalid_data = getattr(collection, "include_invalid_data", True)
+
+            # Run tests
+            reports = await run_tests_for_endpoints(
+                endpoints,
+                test_case_count=test_case_count,
+                include_invalid_data=include_invalid_data,
+            )
+
+            st.write(f"Completed tests for {len(reports)} endpoints")
+            status.update(label="Tests completed", state="complete")
+    else:
+        # Fallback for older Streamlit versions
+        # Run tests
+        reports = await run_tests_for_endpoints(endpoints)
 
     # Calculate overall summary
     total_tests = 0
