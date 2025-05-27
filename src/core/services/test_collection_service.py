@@ -4,7 +4,7 @@ import logging
 from typing import List, Optional
 
 from schemas.test_collection import TestCollectionModel
-from repositories.file_repository import FileTestCollectionRepository
+from core.repositories.file_repository import FileTestCollectionRepository
 
 
 class TestCollectionService:

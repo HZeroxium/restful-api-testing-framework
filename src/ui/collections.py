@@ -3,14 +3,12 @@
 import asyncio
 import streamlit as st
 import pandas as pd
-import json
 from datetime import datetime
 import plotly.express as px
 
-from services.test_collection_service import TestCollectionService
-from services.test_execution_service import TestExecutionService
-from schemas.test_collection import TestCollectionModel, TestExecutionModel
-from schemas.tools.test_suite_generator import TestSuite
+from core.services.test_collection_service import TestCollectionService
+from core.services.test_execution_service import TestExecutionService
+from schemas.test_collection import TestCollectionModel
 from ui.components import (
     show_metrics_summary,
     show_test_result_card,

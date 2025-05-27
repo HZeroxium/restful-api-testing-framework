@@ -5,7 +5,7 @@ import json
 import yaml
 import re
 import logging
-from typing import Any, Dict, List, Optional, Union, Set, Tuple
+from typing import Any, Dict, List, Optional
 from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import (
     OpenAPIToolset,
     RestApiTool,

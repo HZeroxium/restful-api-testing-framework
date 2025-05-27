@@ -2,7 +2,6 @@
 
 import asyncio
 import re
-import sys
 import io
 import contextlib
 from typing import Any, Dict, List, Optional

@@ -11,8 +11,8 @@ from ui.components import (
     show_metrics_summary,
     show_validation_result,
 )
-from services.test_collection_service import TestCollectionService
-from services.test_execution_service import TestExecutionService
+from core.services.test_collection_service import TestCollectionService
+from core.services.test_execution_service import TestExecutionService
 from schemas.test_collection import TestCollectionModel
 from ui.collections import get_summary_value
 

@@ -10,6 +10,7 @@ from .test_execution_reporter import TestExecutionReporterTool
 from .test_suite_generator import TestSuiteGeneratorTool
 from .test_case_generator import TestCaseGeneratorTool
 from .test_collection_generator import TestCollectionGeneratorTool
+from .static_constraint_miner import StaticConstraintMinerTool
 
 
 __all__ = [
@@ -22,4 +23,5 @@ __all__ = [
     "TestSuiteGeneratorTool",
     "TestCaseGeneratorTool",
     "TestCollectionGeneratorTool",
+    "StaticConstraintMinerTool",
 ]

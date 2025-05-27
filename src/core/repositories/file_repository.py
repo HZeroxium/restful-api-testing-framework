@@ -10,7 +10,10 @@ import logging
 
 from pydantic import BaseModel
 
-from repositories.interfaces import TestCollectionRepository, TestExecutionRepository
+from core.repositories.interfaces import (
+    TestCollectionRepository,
+    TestExecutionRepository,
+)
 
 
 # Type for models that can be stored

@@ -86,7 +86,7 @@ def main():
     if st.session_state.collection_to_run:
         from ui.collections import run_collection_tests
         import asyncio
-        from services.test_execution_service import TestExecutionService
+        from core.services.test_execution_service import TestExecutionService
 
         collection = st.session_state.collection_to_run
 
