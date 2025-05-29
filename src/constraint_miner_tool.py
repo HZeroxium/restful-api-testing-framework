@@ -1,4 +1,4 @@
-# src/constraint_miner_demo.py
+# src/constraint_miner_tool.py
 
 import asyncio
 import os
