@@ -272,6 +272,7 @@ async def run_tests_for_endpoints(
                                         status=status,
                                         message=message,
                                         validation_code=script.validation_code,
+                                        script_type=script.script_type,  # Add script_type
                                     )
                                 )
                             except Exception as e:
@@ -283,6 +284,7 @@ async def run_tests_for_endpoints(
                                         status=TestStatus.ERROR,
                                         message=f"Error executing script: {str(e)}",
                                         validation_code=script.validation_code,
+                                        script_type=script.script_type,  # Add script_type
                                     )
                                 )
                                 # Don't fail the entire test for script execution errors
@@ -293,6 +295,7 @@ async def run_tests_for_endpoints(
                                 ):
                                     test_status = TestStatus.ERROR
 
+                        # Create test case result with validation scripts included
                         test_case_result = TestCaseResult(
                             test_case_id=test_case.id,
                             test_case_name=test_case.name,
@@ -306,7 +309,7 @@ async def run_tests_for_endpoints(
                                 if test_status == TestStatus.PASS
                                 else "Test failed"
                             ),
-                            # Include the original test data for reference
+                            # Include the original test data and validation scripts for reference
                             test_data={
                                 "expected_status_code": test_case.expected_status_code,
                                 "request_params": test_case.request_params,
@@ -314,6 +317,9 @@ async def run_tests_for_endpoints(
                                 "request_body": test_case.request_body,
                                 "expected_response_schema": test_case.expected_response_schema,
                                 "expected_response_contains": test_case.expected_response_contains,
+                                "validation_scripts": [
+                                    s.model_dump() for s in test_case.validation_scripts
+                                ],
                             },
                         )
 

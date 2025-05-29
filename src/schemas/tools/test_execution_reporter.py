@@ -7,6 +7,8 @@ from datetime import datetime
 
 
 class TestStatus(str, Enum):
+    """Status of a test or validation."""
+
     PASS = "pass"
     FAIL = "fail"
     ERROR = "error"
@@ -14,18 +16,18 @@ class TestStatus(str, Enum):
 
 
 class ValidationResult(BaseModel):
-    """Result of a single validation script."""
+    """Result of a validation script execution."""
 
     script_id: str
     script_name: str
     status: TestStatus
     message: Optional[str] = None
-    details: Optional[Dict[str, Any]] = None
-    validation_code: Optional[str] = None  # Adding the validation code field
+    validation_code: Optional[str] = None  # Include the validation code
+    script_type: Optional[str] = None  # Add script_type field
 
 
 class TestCaseResult(BaseModel):
-    """Result of a single test case."""
+    """Result of a test case execution."""
 
     test_case_id: str
     test_case_name: str
@@ -35,9 +37,34 @@ class TestCaseResult(BaseModel):
     response: Dict[str, Any]
     validation_results: List[ValidationResult]
     message: Optional[str] = None
-    test_data: Optional[Dict[str, Any]] = (
-        None  # Add test data field to preserve original test data
-    )
+    test_data: Optional[Dict[str, Any]] = None
+
+
+class TestSummary(BaseModel):
+    """Summary statistics for a test report."""
+
+    total_tests: int
+    passed: int
+    failed: int
+    errors: int
+    skipped: int = 0
+    success_rate: float  # percentage
+
+
+class TestReport(BaseModel):
+    """Complete test execution report for an endpoint."""
+
+    id: str
+    api_name: str
+    api_version: str
+    endpoint_name: str
+    endpoint_path: str
+    endpoint_method: str
+    summary: TestSummary
+    test_case_results: List[TestCaseResult]
+    started_at: datetime
+    finished_at: datetime
+    total_time: float  # seconds
 
 
 class TestExecutionReporterInput(BaseModel):
@@ -53,34 +80,7 @@ class TestExecutionReporterInput(BaseModel):
     finished_at: datetime
 
 
-class TestSummary(BaseModel):
-    """Summary statistics for test results."""
-
-    total_tests: int
-    passed: int
-    failed: int
-    errors: int
-    skipped: int
-    success_rate: float  # percentage
-
-
-class TestReport(BaseModel):
-    """Complete test report."""
-
-    api_name: str
-    api_version: str
-    endpoint_name: str
-    endpoint_path: str
-    endpoint_method: str
-    summary: TestSummary
-    test_case_results: List[TestCaseResult]
-    started_at: datetime
-    finished_at: datetime
-    total_time: float
-
-
 class TestExecutionReporterOutput(BaseModel):
     """Output from TestExecutionReporterTool."""
 
     report: TestReport
-    report_path: Optional[str] = None  # If saved to file

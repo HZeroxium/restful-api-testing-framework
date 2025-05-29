@@ -15,7 +15,7 @@ from ui.sidebar import render_sidebar
 from ui.explorer import render_explorer_tab
 from ui.tester import render_tester_tab
 from ui.collections import render_collections_tab, render_edit_collection
-from ui.components import show_welcome_screen
+from ui.components.common import show_welcome_screen
 
 
 # Initialize session state

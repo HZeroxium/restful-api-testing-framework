@@ -1,6 +1,7 @@
 # tools/test_execution_reporter.py
 
 from typing import Dict, Optional
+import uuid  # Add import for UUID generation
 
 from core.base_tool import BaseTool
 from schemas.tools.test_execution_reporter import (
@@ -62,8 +63,12 @@ class TestExecutionReporterTool(BaseTool):
 
         total_time = (inp.finished_at - inp.started_at).total_seconds()
 
+        # Generate a unique ID for the report
+        report_id = str(uuid.uuid4())
+
         # Create test report
         report = TestReport(
+            id=report_id,  # Add the generated ID
             api_name=inp.api_name,
             api_version=inp.api_version,
             endpoint_name=inp.endpoint_name,

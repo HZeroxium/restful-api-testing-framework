@@ -9,6 +9,7 @@ from schemas.tools.test_script_generator import (
     TestScriptGeneratorOutput,
     ValidationScript,
 )
+from schemas.tools.test_data_generator import TestData
 from schemas.tools.constraint_miner import ApiConstraint
 from config.settings import settings
 from config.constants import LLM_INSTRUCTIONS
@@ -70,7 +71,7 @@ class TestScriptGeneratorTool(BaseTool):
 
         return TestScriptGeneratorOutput(validation_scripts=validation_scripts)
 
-    def _generate_basic_scripts(self, test_data) -> List[ValidationScript]:
+    def _generate_basic_scripts(self, test_data: TestData) -> List[ValidationScript]:
         """Generate basic validation scripts that don't require LLM."""
         validation_scripts = []
         expected_status_code = test_data.expected_status_code
