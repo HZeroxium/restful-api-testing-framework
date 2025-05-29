@@ -67,6 +67,13 @@ from .constraint_miner import (
     ConstraintType,
 )
 
+from .operation_sequencer import (
+    OperationSequence,
+    OperationDependency,
+    OperationSequencerInput,
+    OperationSequencerOutput,
+)
+
 __all__ = [
     "OpenAPIParserInput",
     "OpenAPIParserOutput",
@@ -107,4 +114,8 @@ __all__ = [
     "StaticConstraintMinerOutput",
     "ApiConstraint",
     "ConstraintType",
+    "OperationSequence",
+    "OperationDependency",
+    "OperationSequencerInput",
+    "OperationSequencerOutput",
 ]

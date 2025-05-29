@@ -139,7 +139,7 @@ async def run_llm_agent(
         return None
 
 
-async def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
+def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
     """
     Extract JSON content from text that may contain markdown code blocks or other text.
 
@@ -149,6 +149,9 @@ async def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
     Returns:
         Extracted JSON as a dictionary, or None if extraction failed
     """
+    if not text:
+        return None
+
     try:
         # Try several methods to extract JSON
 
@@ -163,19 +166,26 @@ async def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
         elif "```" in text:
             json_parts = text.split("```")
             if len(json_parts) > 1:
-                json_content = json_parts[1].strip()
-                return json.loads(json_content)
+                for part in json_parts[1::2]:  # Look at all code block parts
+                    try:
+                        return json.loads(part.strip())
+                    except json.JSONDecodeError:
+                        continue
 
         # Method 3: Try to find JSON object using regex
         pattern = r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}"
         matches = re.findall(pattern, text)
         if matches:
-            return json.loads(matches[0])
+            for match in matches:
+                try:
+                    return json.loads(match)
+                except json.JSONDecodeError:
+                    continue
 
         # Method 4: Try parsing the entire text as JSON
         return json.loads(text)
 
-    except json.JSONDecodeError:
+    except (json.JSONDecodeError, TypeError):
         return None
 
 

@@ -11,6 +11,7 @@ from .test_suite_generator import TestSuiteGeneratorTool
 from .test_case_generator import TestCaseGeneratorTool
 from .test_collection_generator import TestCollectionGeneratorTool
 from .static_constraint_miner import StaticConstraintMinerTool
+from .operation_sequencer import OperationSequencerTool
 
 
 __all__ = [
@@ -24,4 +25,5 @@ __all__ = [
     "TestCaseGeneratorTool",
     "TestCollectionGeneratorTool",
     "StaticConstraintMinerTool",
+    "OperationSequencerTool",
 ]
