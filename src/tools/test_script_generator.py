@@ -11,6 +11,7 @@ from schemas.tools.test_script_generator import (
 )
 from schemas.tools.constraint_miner import ApiConstraint
 from config.settings import settings
+from config.constants import LLM_INSTRUCTIONS
 
 
 class TestScriptGeneratorTool(BaseTool):
@@ -221,49 +222,7 @@ def validate_content_type(request, response):
         script_generator_agent = LlmAgent(
             name="llm_script_generator",
             model=settings.llm.LLM_MODEL,
-            instruction="""
-You are a Validation Script Generator for API testing. Your task is to create Python validation scripts based on API constraints.
-
-INPUT:
-  You will receive information about:
-  1. An API endpoint
-  2. Test data that will be used for the API call
-  3. A list of API constraints discovered through static analysis
-
-OUTPUT:
-  Return a JSON object matching the ValidationScriptOutput schema with a list of validation scripts.
-  Each validation script should:
-  - Have a descriptive name
-  - Include actual Python code in validation_code that can be executed to verify the constraint
-  - Use the following variables in your code:
-    - 'request' - contains the request data (params, headers, body)
-    - 'response' - contains the response with properties: status_code, headers, body
-
-IMPORTANT:
-  - ALWAYS wrap your validation code in a function named 'validate_*' that takes 'request' and 'response' as parameters
-  - The function MUST return True if the validation passes, False if it fails
-  - Make scripts specific to the constraint they validate
-  - Handle possible null values and edge cases
-  - Use clear, concise naming that describes what is being validated
-  - Each script_type should match the constraint type (request_response or response_property)
-  - Use try-except blocks to handle potential exceptions
-  - Do not use print statements, all validation should be done through conditionals
-
-EXAMPLE VALIDATION SCRIPT:
-```python
-def validate_response_has_data(request, response):
-    \"\"\"Validate that response contains data array\"\"\"
-    try:
-        # Validate that response contains data array
-        if 'body' not in response or not isinstance(response['body'], list):
-            return False
-        
-        # Check if data array is not empty
-        return len(response['body']) > 0
-    except Exception as e:
-        return False
-```
-""",
+            instruction=LLM_INSTRUCTIONS["test_script_generator"],
             input_schema=LlmScriptGeneratorInput,
             output_schema=ValidationScriptOutput,
             disallow_transfer_to_parent=True,

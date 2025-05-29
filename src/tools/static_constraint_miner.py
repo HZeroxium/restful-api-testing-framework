@@ -11,6 +11,7 @@ from schemas.tools.constraint_miner import (
     ConstraintType,
 )
 from config.settings import settings
+from config.constants import LLM_INSTRUCTIONS
 
 
 class StaticConstraintMinerTool(BaseTool):
@@ -48,7 +49,9 @@ class StaticConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(f"StaticConstraintMiner: Mining constraints for {endpoint.method.upper()} {endpoint.path}")
+            print(
+                f"StaticConstraintMiner: Mining constraints for {endpoint.method.upper()} {endpoint.path}"
+            )
 
         # Initialize LLM components
         from google.adk.agents import LlmAgent
@@ -115,27 +118,7 @@ class StaticConstraintMinerTool(BaseTool):
             #     # max_tokens=settings.llm.MAX_TOKENS,
             # ),
             model=settings.llm.LLM_MODEL,
-            instruction=""",
-You are a Constraint Miner for REST APIs. Your job is to analyze an API endpoint specification and extract two types of constraints:
-
-1. Request-Response Constraints: These are constraints between request parameters and response properties. These indicate how specific request parameters affect what's returned in the response.
-
-2. Response-Property Constraints: These are constraints on the response properties themselves, such as rules about what values they can have or relationships between different response properties.
-
-INPUT:
-  You will receive a JSON object matching the EndpointInfo schema containing information about an API endpoint.
-
-OUTPUT:
-  Return a JSON object exactly matching the ConstraintExtractionResult schema with extracted constraints.
-  
-EXAMPLES OF CONSTRAINTS:
-- Request-Response: "The 'page' parameter determines which subset of results appears in the response data array"
-- Request-Response: "When 'is_rental' is true, only products with is_rental=true will be included in results"
-- Response-Property: "The 'total' property must be greater than or equal to the number of items in the 'data' array"
-- Response-Property: "When 'last_page' equals 'current_page', the 'to' property equals 'total'"
-
-Be thorough and extract all constraints you can identify. For each constraint, provide a clear description and indicate the severity (info, warning, error).
-""",
+            instruction=LLM_INSTRUCTIONS["constraint_miner"],
             input_schema=type(endpoint),
             output_schema=ConstraintExtractionResult,
             disallow_transfer_to_parent=True,
