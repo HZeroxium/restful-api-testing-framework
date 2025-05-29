@@ -165,11 +165,51 @@ def _render_test_case_results(test_case_results, expanderId):
             if hasattr(test_case, "message") and test_case.message:
                 st.markdown(f"**Message:** {test_case.message}")
 
-        # Display validation results
+        # Display validation results without expanders
         if hasattr(test_case, "validation_results") and test_case.validation_results:
             st.markdown("##### Validations:")
-            for validation in test_case.validation_results:
-                show_validation_result(validation)
+            # Group validations by status for better organization
+            tabs = st.tabs(["All", "Failed", "Passed", "Errors"])
+
+            with tabs[0]:  # All validations
+                for validation in test_case.validation_results:
+                    show_validation_result(validation)
+
+            with tabs[1]:  # Failed validations
+                failed_validations = [
+                    v
+                    for v in test_case.validation_results
+                    if hasattr(v, "status") and v.status.lower() == "fail"
+                ]
+                if failed_validations:
+                    for validation in failed_validations:
+                        show_validation_result(validation)
+                else:
+                    st.info("No failed validations")
+
+            with tabs[2]:  # Passed validations
+                passed_validations = [
+                    v
+                    for v in test_case.validation_results
+                    if hasattr(v, "status") and v.status.lower() == "pass"
+                ]
+                if passed_validations:
+                    for validation in passed_validations:
+                        show_validation_result(validation)
+                else:
+                    st.info("No passed validations")
+
+            with tabs[3]:  # Error validations
+                error_validations = [
+                    v
+                    for v in test_case.validation_results
+                    if hasattr(v, "status") and v.status.lower() == "error"
+                ]
+                if error_validations:
+                    for validation in error_validations:
+                        show_validation_result(validation)
+                else:
+                    st.info("No validation errors")
 
         # Display request/response details
         req_resp_tab1, req_resp_tab2 = st.tabs(["Request", "Response"])

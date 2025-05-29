@@ -51,14 +51,26 @@ def render_collection_creation():
             with st.expander(
                 f"{path_group.capitalize()} ({len(group_endpoints)} endpoints)"
             ):
-                for endpoint in group_endpoints:
-                    endpoint_key = f"{endpoint.method.upper()}_{endpoint.path}"
-                    selected = st.checkbox(
-                        f"{endpoint.method.upper()} {endpoint.path}",
-                        key=f"create_endpoint_{endpoint_key}",
-                    )
-                    if selected:
-                        selected_endpoints.append(endpoint)
+                # Use vertical arrangement to make selection clearer
+                st.write("Select endpoints to include in the collection:")
+
+                # Use a more efficient selection mechanism
+                all_endpoints_in_group = [
+                    f"{endpoint.method.upper()} {endpoint.path}"
+                    for endpoint in group_endpoints
+                ]
+
+                # Create checkboxes with improved layout
+                cols = st.columns(2)
+                for i, endpoint in enumerate(group_endpoints):
+                    with cols[i % 2]:
+                        endpoint_key = f"{endpoint.method.upper()}_{endpoint.path}"
+                        selected = st.checkbox(
+                            f"{endpoint.method.upper()} {endpoint.path}",
+                            key=f"create_endpoint_{endpoint_key}",
+                        )
+                        if selected:
+                            selected_endpoints.append(endpoint)
 
         # Include invalid test data
         include_invalid = st.checkbox("Include Invalid Test Data", value=True)

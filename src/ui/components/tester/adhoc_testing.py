@@ -117,9 +117,8 @@ def save_results_as_collection():
                 from schemas.tools.test_suite_generator import (
                     TestSuite,
                     TestCase,
-                    ValidationScript,
                 )
-                from schemas.tools.test_collection_generator import TestCollection
+                from schemas.tools.test_script_generator import ValidationScript
 
                 test_suites = []
 
@@ -149,8 +148,12 @@ def save_results_as_collection():
                                 script = ValidationScript(
                                     id=f"script_{i}_{j}",
                                     name=validation.get("script_name", "Validation"),
-                                    script_type="status_code",
-                                    validation_code="""
+                                    script_type=validation.get(
+                                        "script_type", "status_code"
+                                    ),
+                                    validation_code=validation.get(
+                                        "validation_code",
+                                        """
 def validate_status_code(request, response):
     \"\"\"Validate response status code\"\"\"
     try:
@@ -162,6 +165,7 @@ def validate_status_code(request, response):
     except Exception as e:
         return False
 """,
+                                    ),
                                     description="Validates response status code",
                                 )
                                 validation_scripts.append(script)
@@ -201,9 +205,12 @@ def validate_status_code(request, response):
                             )
                             test_cases.append(test_case)
 
-                        # Create test suite
+                        # Create test suite with a name based on the endpoint
                         test_suite = TestSuite(
-                            endpoint_info=endpoint, test_cases=test_cases
+                            name=f"Suite for {endpoint.method.upper()} {endpoint.path}",
+                            description=f"Test suite for endpoint {endpoint.method.upper()} {endpoint.path}",
+                            endpoint_info=endpoint,
+                            test_cases=test_cases,
                         )
                         test_suites.append(test_suite)
 

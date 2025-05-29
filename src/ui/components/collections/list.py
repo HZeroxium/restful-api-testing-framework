@@ -170,17 +170,38 @@ def _render_test_cases(test_cases):
             unsafe_allow_html=True,
         )
 
-        # Show validation scripts in a dropdown
+        # Show validation scripts without using an expander (since we're already in an expander)
         if hasattr(test_case, "validation_scripts") and test_case.validation_scripts:
-            with st.expander(
-                f"View Validation Scripts ({len(test_case.validation_scripts)})"
-            ):
-                for script in test_case.validation_scripts:
-                    from ui.components.common.validation import (
-                        show_validation_script_details,
-                    )
+            scripts_count = len(test_case.validation_scripts)
+            st.markdown(f"###### Validation Scripts ({scripts_count})")
 
-                    show_validation_script_details(script)
+            # Use a toggle button instead of an expander
+            show_scripts = st.checkbox(
+                f"Show validation scripts", key=f"toggle_scripts_{j}_{test_case.id}"
+            )
+
+            if show_scripts:
+                # Create a container with a light background for visual grouping
+                with st.container():
+                    st.markdown(
+                        "<div style='background-color:#f0f2f6; padding:10px; border-radius:5px;'>",
+                        unsafe_allow_html=True,
+                    )
+                    for script in test_case.validation_scripts:
+                        from ui.components.common.validation import (
+                            show_validation_script_details,
+                        )
+
+                        # Pass use_expander=False to avoid nesting expanders
+                        show_validation_script_details(script, use_expander=False)
+
+                        # Add a visual separator between scripts if not the last one
+                        if script != test_case.validation_scripts[-1]:
+                            st.markdown(
+                                "<hr style='margin:10px 0; border-top:1px solid #ddd;'>",
+                                unsafe_allow_html=True,
+                            )
+                    st.markdown("</div>", unsafe_allow_html=True)
 
 
 def _render_collection_actions(selected_collection):

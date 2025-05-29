@@ -45,11 +45,21 @@ def show_constraint(constraint):
         unsafe_allow_html=True,
     )
 
-    # Show constraint details if available
+    # Show constraint details if available, but avoid using an expander
+    # to prevent nesting expanders when this function is called from within an expander
     if details:
-        with st.expander("Constraint Details"):
-            for key, value in details.items():
-                st.markdown(f"**{key.replace('_', ' ').title()}:** {value}")
+        # Instead of using an expander, display details with visual separation
+        st.markdown(
+            """
+        <div style="background-color: #f0f2f6; padding: 8px 15px; border-radius: 4px; margin-top: 5px;">
+            <span style="font-weight: bold;">Constraint Details:</span>
+        </div>
+        """,
+            unsafe_allow_html=True,
+        )
+
+        for key, value in details.items():
+            st.markdown(f"**{key.replace('_', ' ').title()}:** {value}")
 
 
 def show_constraints_section(constraints, title="API Constraints"):

@@ -53,6 +53,7 @@ def show_validation_script_details(validation, use_expander=True):
         status = validation.get("status", "").lower()
         validation_code = validation.get("validation_code", "")
         message = validation.get("message", "")
+        script_id = validation.get("script_id", "")
     else:
         # It's a Pydantic model object
         script_name = getattr(validation, "script_name", "") or getattr(
@@ -66,6 +67,9 @@ def show_validation_script_details(validation, use_expander=True):
         )
         validation_code = getattr(validation, "validation_code", "")
         message = getattr(validation, "message", "")
+        script_id = getattr(validation, "script_id", "") or getattr(
+            validation, "id", ""
+        )
 
     # Create a status badge if status is available
     status_badge = ""
@@ -86,12 +90,11 @@ def show_validation_script_details(validation, use_expander=True):
             if validation_code:
                 st.code(validation_code, language="python")
     else:
-        # Display without an expander - create a visually distinct section instead
+        # Display without an expander - enhanced visual styling for better clarity
         st.markdown(
-            f"""<div class="validation-code-section">
-               <div class="validation-header">
-                  <span class="validation-title">{script_name}</span>
-                  <span class="validation-type">{script_type or 'validation'}</span>
+            f"""<div style="background-color:#f8f9fa; padding:5px; border-left:3px solid #4b7bec; margin-bottom:10px;">
+               <div style="font-weight:bold; margin-bottom:5px;">
+                  {script_name} <span style="color:#666; font-size:0.9em;">({script_type or 'validation'})</span>
                </div>
             </div>""",
             unsafe_allow_html=True,
@@ -102,7 +105,15 @@ def show_validation_script_details(validation, use_expander=True):
 
         # Use a collapsible container with a toggle button instead of an expander
         if validation_code:
-            code_key = f"code_{script_name}_{hash(validation_code)}"
-            show_code = st.checkbox(f"Show code", key=f"toggle_{code_key}")
+            # Create a truly unique key by combining script_id and script_name
+            # If script_id is not available, use a random uuid
+            if not script_id:
+                import uuid
+
+                script_id = str(uuid.uuid4())
+
+            # Create a unique key that includes both id and name
+            unique_key = f"code_{script_id}_{script_name}"
+            show_code = st.checkbox(f"Show code", key=f"toggle_{unique_key}")
             if show_code:
                 st.code(validation_code, language="python")

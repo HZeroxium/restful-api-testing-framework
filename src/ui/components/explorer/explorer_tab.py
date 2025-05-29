@@ -26,5 +26,8 @@ def render_explorer_tab():
     # Show form for testing endpoint if selected
     render_endpoint_test_form()
 
+    # Show API response if available
+    render_api_response()
+
     # Show test results if available
     render_explorer_test_results()

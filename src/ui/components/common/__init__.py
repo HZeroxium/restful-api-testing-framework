@@ -15,6 +15,10 @@ from ui.components.common.validation import (
     show_validation_result,
     show_validation_script_details,
 )
+from ui.components.common.constraints import (
+    show_constraint,
+    show_constraints_section,
+)
 from ui.components.common.metrics import show_metrics_summary
 from ui.components.common.welcome import show_welcome_screen
 

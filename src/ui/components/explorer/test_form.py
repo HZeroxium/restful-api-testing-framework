@@ -95,16 +95,23 @@ def render_endpoint_test_form():
 
         submitted = st.form_submit_button("Send Request")
         if submitted:
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
+            with st.spinner(
+                f"Sending {endpoint.method.upper()} request to {endpoint.path}..."
+            ):
+                loop = asyncio.new_event_loop()
+                asyncio.set_event_loop(loop)
 
-            try:
-                response = loop.run_until_complete(
-                    execute_api_call(endpoint, all_params)
-                )
-                st.session_state.last_response = response
-            except Exception as e:
-                st.error(f"Error executing API call: {str(e)}")
+                try:
+                    response = loop.run_until_complete(
+                        execute_api_call(endpoint, all_params)
+                    )
+                    st.session_state.last_response = response
+
+                    # Clear loop before exiting
+                    loop.close()
+
+                except Exception as e:
+                    st.error(f"Error executing API call: {str(e)}")
 
 
 def render_headers_section(endpoint):

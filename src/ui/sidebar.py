@@ -54,6 +54,12 @@ def render_sidebar():
                     st.session_state.api_info = api_info
                     st.session_state.endpoints = endpoints
                     st.session_state.factory = factory
+
+                    # Add debug information
+                    if "endpoint_tools" in st.session_state:
+                        tool_count = len(st.session_state.endpoint_tools)
+                        st.info(f"Successfully loaded {tool_count} endpoint tools")
+
                 st.success(
                     f"API loaded successfully! Found {len(endpoints)} endpoints."
                 )
