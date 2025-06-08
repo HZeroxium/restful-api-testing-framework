@@ -9,6 +9,7 @@ from typing import Dict, List, Optional, Any
 from .loaders import load_openapi, load_spec_from_url
 from .schema import SchemaProcessor
 from .operations import OperationProcessor
+from .utils import extract_operations
 from schemas.openapi import (
     OpenAPIParserInput,
     OpenAPIParserOutput,
@@ -124,65 +125,86 @@ class OpenAPIParser:
 
     def parse(self, input_params: OpenAPIParserInput) -> OpenAPIParserOutput:
         """
-        Parse an OpenAPI specification based on input parameters.
+        Parse OpenAPI specification and extract information.
 
         Args:
-            input_params: Parameters for parsing the OpenAPI spec
+            input_params: Input parameters for parsing
 
         Returns:
-            Structured output containing parsed information
+            Parsed OpenAPI information
         """
-        self.logger.info(f"Parsing OpenAPI spec from {input_params.spec_source}")
+        try:
+            self.logger.info(f"Parsing OpenAPI spec from {input_params.spec_source}")
 
-        # Load the OpenAPI specification
-        spec = self._load_spec(input_params.spec_source, input_params.source_type)
+            # Load the OpenAPI specification
+            spec = self._load_spec(
+                input_params.spec_source, input_params.spec_source_type
+            )
+            self.spec = spec
 
-        # Initialize processors
-        schema_processor = SchemaProcessor(spec)
-        operation_processor = OperationProcessor(spec)
+            # Initialize processors
+            operation_processor = OperationProcessor(spec)
+            schema_processor = SchemaProcessor(spec)
 
-        # Extract basic info
-        title = spec.get("info", {}).get("title", "Unknown API")
-        version = spec.get("info", {}).get("version", "Unknown")
-        description = spec.get("info", {}).get("description", "")
+            # Extract operations
+            operations = extract_operations(spec)
+            self.logger.info(f"Found {len(operations)} operations")
 
-        # Extract servers
-        servers = []
-        for server in spec.get("servers", []):
-            if "url" in server:
-                servers.append(server["url"])
+            # Simplify endpoints
+            simplified_spec = operation_processor.simplify_openapi()
 
-        # Extract endpoints
-        endpoints = self._extract_endpoints(
-            spec,
-            operation_processor,
-            filter_paths=input_params.filter_paths,
-            filter_methods=input_params.filter_methods,
-            filter_tags=input_params.filter_tags,
-            include_deprecated=input_params.include_deprecated,
-        )
+            # Validate that all simplified endpoints have required fields
+            for operation_id, endpoint_data in simplified_spec.items():
+                if "method" not in endpoint_data or "path" not in endpoint_data:
+                    self.logger.error(
+                        f"Missing method or path for operation {operation_id}"
+                    )
+                    # Extract from operation_id as fallback
+                    method = operation_id.split("-")[0]
+                    path = "-".join(operation_id.split("-")[1:])
+                    endpoint_data["method"] = method
+                    endpoint_data["path"] = path
 
-        # Simplify the OpenAPI structure
-        simplified_spec = operation_processor.simplify_openapi()
+            # Get simplified schemas
+            simplified_schemas = schema_processor.get_simplified_schema()
 
-        # Extract simplified schemas
-        simplified_schemas = self._extract_simplified_schemas(spec)
+            # Extract basic API info
+            info = spec.get("info", {})
+            servers = [server.get("url", "") for server in spec.get("servers", [])]
 
-        # Create output object
-        output = OpenAPIParserOutput(
-            title=title,
-            version=version,
-            description=description,
-            servers=servers,
-            endpoints=endpoints,
-            simplified_endpoints=simplified_spec,
-            simplified_schemas=simplified_schemas,
-            raw_spec=spec,
-            endpoint_count=len(endpoints),
-        )
+            # Convert operations to endpoints
+            endpoints = []
+            for op_id, op_data in simplified_spec.items():
+                endpoint = EndpointInfo(
+                    name=op_data.get("operationId", op_id),
+                    description=op_data.get("description", ""),
+                    path=op_data.get("path", ""),
+                    method=op_data.get("method", "").upper(),
+                    tags=op_data.get("tags", []),
+                    input_schema=op_data.get("requestBody", {}),
+                    output_schema=op_data.get("responseBody", {}),
+                )
+                endpoints.append(endpoint)
 
-        self.logger.info(f"Parsed {len(endpoints)} endpoints from {title} v{version}")
-        return output
+            # Create output
+            output = OpenAPIParserOutput(
+                title=info.get("title", "Unknown API"),
+                version=info.get("version", "1.0.0"),
+                description=info.get("description"),
+                servers=servers,
+                endpoints=endpoints,
+                operations=operations,
+                simplified_endpoints=simplified_spec,
+                simplified_schemas=simplified_schemas,
+                full_spec=spec,
+            )
+
+            self.logger.info("Successfully parsed OpenAPI specification")
+            return output
+
+        except Exception as e:
+            self.logger.error(f"Error parsing OpenAPI specification: {str(e)}")
+            raise
 
     def _load_spec(
         self, spec_source: str, source_type: SpecSourceType

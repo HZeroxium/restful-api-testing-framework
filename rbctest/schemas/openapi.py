@@ -3,12 +3,12 @@ Pydantic models for OpenAPI specifications and parser inputs/outputs.
 """
 
 from enum import Enum
-from typing import Dict, List, Optional, Union, Any
+from typing import Dict, List, Optional, Any, Union
 from pydantic import BaseModel, Field
 
 
 class SpecSourceType(str, Enum):
-    """Source type for OpenAPI specification."""
+    """Enumeration for OpenAPI specification source types."""
 
     FILE = "file"
     URL = "url"
@@ -136,25 +136,45 @@ class OpenAPISpec(BaseModel):
 class OpenAPIParserInput(BaseModel):
     """Input parameters for the OpenAPI parser."""
 
-    spec_source: str
-    source_type: SpecSourceType
-    filter_paths: Optional[List[str]] = None
-    filter_methods: Optional[List[str]] = None
-    filter_tags: Optional[List[str]] = None
-    include_deprecated: bool = False
+    spec_source: str = Field(
+        ...,
+        description="Path to OpenAPI spec file, URL, or raw content",
+    )
+    spec_source_type: SpecSourceType = Field(
+        default=SpecSourceType.FILE,
+        description="Type of the specification source",
+    )
+    filter_paths: Optional[List[str]] = Field(
+        default=None,
+        description="List of paths to include (if None, include all)",
+    )
+    filter_methods: Optional[List[str]] = Field(
+        default=None,
+        description="List of HTTP methods to include (if None, include all)",
+    )
+    filter_tags: Optional[List[str]] = Field(
+        default=None,
+        description="List of tags to include (if None, include all)",
+    )
+    include_deprecated: bool = Field(
+        default=False,
+        description="Whether to include deprecated endpoints",
+    )
 
 
 class SimplifiedEndpoint(BaseModel):
     """Simplified information about an API endpoint."""
 
-    method: str
-    path: str
-    operation_id: Optional[str] = None
-    summary: Optional[str] = None
-    description: Optional[str] = None
-    parameters: Dict[str, Any] = Field(default_factory=dict)
-    requestBody: Optional[Dict[str, Any]] = None
-    responseBody: Optional[Dict[str, Any]] = None
+    method: str = Field(..., description="HTTP method (GET, POST, etc.)")
+    path: str = Field(..., description="API endpoint path")
+    summary: Optional[str] = Field(None, description="Operation summary")
+    parameters: Optional[Dict[str, Any]] = Field(None, description="Request parameters")
+    requestBody: Optional[Dict[str, Any]] = Field(
+        None, description="Request body schema"
+    )
+    responseBody: Optional[Dict[str, Any]] = Field(
+        None, description="Response body schema"
+    )
     tags: List[str] = Field(default_factory=list)
 
 
@@ -175,7 +195,16 @@ class OpenAPIParserOutput(BaseModel):
     description: Optional[str] = None
     servers: List[str] = Field(default_factory=list)
     endpoints: List[EndpointInfo] = Field(default_factory=list)
-    simplified_endpoints: Dict[str, SimplifiedEndpoint] = Field(default_factory=dict)
-    simplified_schemas: Dict[str, Dict[str, Any]] = Field(default_factory=dict)
+    operations: List[str] = Field(default_factory=list)
+    simplified_endpoints: Dict[str, Any] = Field(default_factory=dict)
+    simplified_schemas: Dict[str, Any] = Field(default_factory=dict)
+    full_spec: Dict[str, Any] = Field(default_factory=dict)
+
+    # Add alias for backward compatibility
     raw_spec: Dict[str, Any] = Field(default_factory=dict)
-    endpoint_count: int = 0
+
+    def __init__(self, **data):
+        # Ensure raw_spec is populated with full_spec for backward compatibility
+        if "full_spec" in data and "raw_spec" not in data:
+            data["raw_spec"] = data["full_spec"]
+        super().__init__(**data)

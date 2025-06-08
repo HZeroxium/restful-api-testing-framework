@@ -41,13 +41,13 @@ def main():
 
     # Define examples to parse
     examples = [
-        {
-            "name": "toolshop_api",
-            "input": OpenAPIParserInput(
-                spec_source="data/toolshop/openapi.json",
-                source_type=SpecSourceType.FILE,
-            ),
-        },
+        # {
+        #     "name": "toolshop_api",
+        #     "input": OpenAPIParserInput(
+        #         spec_source="data/toolshop/openapi.json",
+        #         source_type=SpecSourceType.FILE,
+        #     ),
+        # },
         {
             "name": "gitlab_repository_api",
             "input": OpenAPIParserInput(
@@ -78,7 +78,7 @@ def main():
                 else f"Description: {result.description}"
             )
             print(f"Servers: {', '.join(result.servers)}")
-            print(f"Total endpoints: {result.endpoint_count}")
+            # print(f"Total endpoints: {result.endpoint_count}")
 
             # Show a sample of endpoints
             if result.endpoints:

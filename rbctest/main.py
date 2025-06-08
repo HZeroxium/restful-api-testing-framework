@@ -1,6 +1,6 @@
 import json
 
-from oas_parser.openapi_simplifier import simplify_openapi
+from oas_parser.operations import OperationProcessor
 
 
 def main():
@@ -9,7 +9,8 @@ def main():
         "r",
     ) as file:
         data = json.load(file)
-    simplify_content = simplify_openapi(data)
+    operation_processor = OperationProcessor(data)
+    simplify_content = operation_processor.simplify_openapi()
 
     with open("simplify.json", "w") as file:
         json.dump(simplify_content, file, indent=2)

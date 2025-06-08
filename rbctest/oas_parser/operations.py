@@ -98,11 +98,11 @@ class OperationProcessor:
         self, operation: Dict[str, Any], path_item: Dict[str, Any]
     ) -> List[Dict[str, Any]]:
         """
-        Extract all parameters from an operation.
+        Extract parameters from an operation.
 
         Args:
             operation: Operation object
-            path_item: Path item object containing the operation
+            path_item: Path item containing the operation
 
         Returns:
             List of parameter objects
@@ -112,7 +112,11 @@ class OperationProcessor:
 
         # Add path-level parameters
         if "parameters" in path_item:
-            parameters.extend(path_item["parameters"])
+            for param in path_item["parameters"]:
+                # Resolve $ref if present
+                if "$ref" in param:
+                    param = get_ref(self.spec, param["$ref"])
+                parameters.append(param)
 
         # Add operation-level parameters (these take precedence)
         if "parameters" in operation:
@@ -120,29 +124,25 @@ class OperationProcessor:
 
             # For each operation parameter, check if it overrides a path parameter
             for op_param in operation_params:
-                # Check if parameter has a name (could be a $ref)
+                # Resolve $ref if present
                 if "$ref" in op_param:
-                    # Resolve reference
-                    ref_param = get_ref(self.spec, op_param["$ref"])
-                    op_param = ref_param
+                    op_param = get_ref(self.spec, op_param["$ref"])
 
                 # If it has a name, check for overrides
                 if "name" in op_param and "in" in op_param:
                     # Check if this parameter overrides a path parameter
                     override = False
                     for i, path_param in enumerate(parameters):
-                        if "$ref" in path_param:
-                            path_param = get_ref(self.spec, path_param["$ref"])
-
-                        if "name" in path_param and "in" in path_param:
-                            if (
-                                path_param["name"] == op_param["name"]
-                                and path_param["in"] == op_param["in"]
-                            ):
-                                # Override the path parameter
-                                parameters[i] = op_param
-                                override = True
-                                break
+                        if (
+                            "name" in path_param
+                            and "in" in path_param
+                            and path_param["name"] == op_param["name"]
+                            and path_param["in"] == op_param["in"]
+                        ):
+                            # Override the path parameter
+                            parameters[i] = op_param
+                            override = True
+                            break
 
                     # If not an override, add it
                     if not override:
@@ -166,56 +166,62 @@ class OperationProcessor:
         for operation in operations:
             method = operation.split("-")[0]
             path = "-".join(operation.split("-")[1:])
-            obj = copy.deepcopy(self.spec["paths"][path][method])
 
-            simple_operation_spec = {}
+            # Ensure the path exists in the spec
+            if path not in self.spec.get("paths", {}):
+                continue
+            if method not in self.spec["paths"][path]:
+                continue
+
+            obj = copy.deepcopy(self.spec["paths"][path][method])
+            path_item = self.spec["paths"][path]
+
+            simple_operation_spec = {"method": method, "path": path}
 
             if "summary" in obj:
                 simple_operation_spec["summary"] = obj["summary"]
 
-            # Process parameters
-            if "parameters" in obj and obj["parameters"]:
-                params = obj["parameters"]
+            # Process parameters - combine path and operation level parameters
+            all_parameters = self.extract_parameters(obj, path_item)
+
+            if all_parameters:
                 param_entry = {}
 
-                for param in params:
-                    if "$ref" in param:
-                        param = get_ref(self.spec, param["$ref"])
-
+                for param in all_parameters:
                     # Get description string
                     description_string = ""
-                    description_parent = find_object_with_key(param, "description")
-                    if description_parent and not isinstance(
-                        description_parent["description"], dict
-                    ):
+                    if "description" in param and isinstance(param["description"], str):
                         description_string = (
-                            " (description: "
-                            + description_parent["description"].strip(" .")
-                            + ")"
+                            " (description: " + param["description"].strip(" .") + ")"
                         )
 
-                    name, dtype = None, None
-                    name_parent = find_object_with_key(param, "name")
-                    type_parent = find_object_with_key(param, "type")
-                    param_schema_parent = find_object_with_key(param, "$ref")
+                    name = param.get("name")
+                    dtype = None
 
-                    if name_parent:
-                        name = name_parent["name"]
-                    if type_parent:
-                        dtype = type_parent["type"]
+                    # Get type from schema or direct type field
+                    if "schema" in param:
+                        schema = param["schema"]
+                        if "$ref" in schema:
+                            ref_schema = get_ref(self.spec, schema["$ref"])
+                            param_entry[name] = self.schema_processor.get_schema_params(
+                                ref_schema
+                            )
+                        elif "type" in schema:
+                            dtype = schema["type"]
+                        else:
+                            dtype = "object"
+                    elif "type" in param:
+                        dtype = param["type"]
+                    else:
+                        dtype = "string"  # Default type
 
-                    if name is not None and param_schema_parent is not None:
-                        param_schema = get_ref(self.spec, param_schema_parent["$ref"])
-                        param_entry[name] = self.schema_processor.get_schema_params(
-                            param_schema
-                        )
-                    elif name is not None and dtype is not None:
+                    if name and dtype:
                         param_entry[name] = dtype + description_string
 
                 if param_entry:
                     simple_operation_spec["parameters"] = param_entry
 
-            # Process request body
+            # Process requestBody
             if "requestBody" in obj:
                 body_entry = {}
 
@@ -229,7 +235,7 @@ class OperationProcessor:
                 if body_entry:
                     simple_operation_spec["requestBody"] = body_entry
 
-            # Process response body
+            # Process responseBody
             if "responses" in obj:
                 response_entry = {}
 
