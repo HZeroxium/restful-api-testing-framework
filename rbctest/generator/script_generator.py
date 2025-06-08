@@ -3,13 +3,23 @@ import json
 import re
 import yaml
 import os
+import urllib.parse
 
 from oas_parser.spec_loader import load_openapi
 from oas_parser.response_utils import get_response_body_name_and_type
 
-# from utils.gptcall import GPTChatCompletion
 from utils.gptcall import call_llm
 from utils.dict_utils import filter_dict_by_key
+from rbctest.config.prompts.script_generation import (
+    INSIDE_RESPONSEBODY_SCRIPT_GEN_PROMPT as CONST_INSIDE_RESPONSEBODY_SCRIPT_GEN_PROMPT,
+    INSIDE_RESPONSEBODY_SCRIPT_CONFIRM_PROMPT as CONST_INSIDE_RESPONSEBODY_SCRIPT_CONFIRM_PROMPT,
+    RESPONSEBODY_PARAM_SCRIPT_GEN_PROMPT as CONST_RESPONSEBODY_PARAM_SCRIPT_GEN_PROMPT,
+    RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT as CONST_RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT,
+)
+from rbctest.config.template.execution import (
+    GENERATOR_EXECUTION_SCRIPT as EXECUTION_SCRIPT,
+    GENERATOR_INPUT_PARAM_EXECUTION_SCRIPT as INPUT_PARAM_EXECUTION_SCRIPT,
+)
 
 
 def extract_response_field(response, field):
@@ -34,161 +44,6 @@ def unescape_string(escaped_str):
         return bytes(escaped_str, "utf-8").decode("unicode_escape")
     except:
         return escaped_str
-
-
-CONST_INSIDE_RESPONSEBODY_SCRIPT_GEN_PROMPT = """Given a description implying constraints, rules, or limitations of an attribute in a REST API's response, your responsibility is to generate a corresponding Python script to check whether these constraints are satisfied through the API response.
-
-Below is the attribute's description:
-- "{attribute}": "{description}"
-
-Below is the API response's schema:
-{response_schema_specification}
-
-Now, help to generate a Python script to verify the attribute "{attribute}" in the API response. Follow these rules below:
-
-Rules:
-- Ensure that the generated Python code can verify fully these identified constraints of the provided attribute.
-- Note that all values in the description are examples.
-- The generated Python code does not include any example of usages.
-- The generated script should include segments of code to assert the satisfaction of constraints using a try-catch block.
-- You will generate a Python script using the response body variable named 'latest_response' (already defined as a JSON object) to verify the given constraint. 
-- Format your answer as shown in the backtick block below.
-```python
-def verify_latest_response(latest_response):
-    // deploy verification flow...
-    // return 1 if the constraint is satisfied, -1 otherwise, and 0 if the response lacks sufficient information to verify the constraint (e.g., the attribute does not exist).
-```
-- No explanation is needed.
-"""
-
-
-CONST_INSIDE_RESPONSEBODY_SCRIPT_CONFIRM_PROMPT = """Given a description implying constraints, rules, or limitations of an attribute in a REST API's response, your responsibility is to confirm whether the provided Python script can verify these constraints through the API response. 
-This is the attribute's description:
-- "{attribute}": "{description}"
-
-This is the API response's schema:
-{response_schema_specification}
-
-This is the generated Python script to verify the attribute "{attribute}" in the API response:
-```python
-{generated_verification_script}
-```
-
-Task 1: Confirm whether the provided Python script can verify the constraints of the attribute "{attribute}" in the API response.
-If the script is correct, please type "yes". Incorrect, please type "no".
-
-
-Task 2: If the script is incorrect, please provide a revised Python script to verify the constraints of the attribute "{attribute}" in the API response.
-In your code, no need to fix the latest_response variable, just focus on the verification flow.
-Do not repeat the old script.
-Format your answer as shown in the backtick block below.
-```python
-// import section
-
-def verify_latest_response(latest_response):
-    // deploy verification flow...
-    // return 1 if the constraint is satisfied, -1 otherwise, and 0 if the response lacks sufficient information to verify the constraint (e.g., the attribute does not exist).
-```
-
-"""
-
-CONST_RESPONSEBODY_PARAM_SCRIPT_GEN_PROMPT = """Given a description implying constraints, rules, or limitations of an input parameter in a REST API, your responsibility is to generate a corresponding Python script to check whether these constraints are satisfied through the REST API's response.
-
-Below is the input parameter's description:
-- "{parameter}": "{parameter_description}"
-
-
-Below is the API response's schema:
-{response_schema_specification}
-
-Below is the corresponding attribute of the provided input parameter in the API response:
-{attribute_information}
-
-Now, based on the provided request information, input parameter, and the corresponding attribute in the API response,
-help generate a Python script to verify the '{attribute}' attribute in the API response against the constraints of the input parameter '{parameter}'. 
-Follow the rules below:
-
-Rules:
-- The input parameter can be null or not exist in the request_info dictionary.
-- The attribute in the latest_response may not exist or be null.
-- Ensure that the generated Python code can verify fully these identified constraints of the provided attribute {parameter}.
-- Note that all values in the description are examples.
-- The generated Python code does not include any example of usages.
-- The generated script should include segments of code to assert the satisfaction of constraints using a try-catch block.
-- 'request_info' is a dictionary containing the information of the request to the API. for example {{"created[gt]": "1715605373"}}
-- You will generate a Python script using the response body variable named 'latest_response' (already defined as a JSON object) to verify the given constraint. The script should be formatted within triple backticks as shown below: 
-```python
-def verify_latest_response(latest_response, request_info):
-    // deploy verification flow...
-    // return 1 if the constraint is satisfied, -1 otherwise, and 0 if the response lacks sufficient information to verify the constraint (e.g., the attribute does not exist).
-```
-- No explanation is needed."""
-
-CONST_RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT = """Given a description implying constraints, rules, or limitations of an input parameter in a REST API, your responsibility is to confirm whether the provided Python script can verify these constraints through the REST API's response.
-
-Below is the input parameter's description:
-- "{parameter}": "{parameter_description}"
-
-Below is the API response's schema:
-{response_schema_specification}
-
-Below is the corresponding attribute of the provided input parameter in the API response:
-{attribute_information}
-
-This is the generated Python script to verify the '{attribute}' attribute in the API response against the constraints of the input parameter '{parameter}':
-
-```python
-{generated_verification_script}
-```
-
-Task 1: Confirm whether the provided Python script can verify the constraints of the attribute "{attribute}" in the API response.
-If the script is correct, please type "yes". Incorrect, please type "no".
-
-Task 2: If the script is incorrect, please provide a revised Python script to verify the constraints of the attribute "{attribute}" in the API response.
-In your code, no need to fix the latest_response variable, just focus on the verification flow.
-Do not repeat the old script.
-Check those rules below:
-- Ensure that the generated Python code can verify fully these identified constraints of the provided attribute.
-- Note that all values in the description are examples.
-- The generated Python code does not include any example of usages.
-- The generated script should include segments of code to assert the satisfaction of constraints using a try-catch block.
-- 'request_info' is a dictionary containing the information of the request to the API. for example {{"created[gt]": "1715605373"}}
-- Remember to cast the request_info values to the appropriate data type before comparing them with the response attribute.
-- You will generate a Python script using the response body variable named 'latest_response' (already defined as a JSON object) to verify the given constraint. The script should be formatted within triple backticks as shown below: 
-
-Format your answer as shown in the backtick block below.
-```python
-// import section
-
-def verify_latest_response(latest_response, request_info):
-    // deploy verification flow...
-    // return 1 if the constraint is satisfied, -1 otherwise, and 0 if the response lacks sufficient information to verify the constraint (e.g., the attribute does not exist).
-
-```
-"""
-
-
-EXECUTION_SCRIPT = """\
-{generated_verification_script}
-
-import json
-latest_response = json.loads('''{api_response}''')
-status = verify_latest_response(latest_response)
-print(status)
-"""
-
-INPUT_PARAM_EXECUTION_SCRIPT = """\
-{generated_verification_script}
-
-import json
-
-
-latest_response = json.loads('''{api_response}''')
-request_info = json.loads('''{request_info}''')
-status = verify_latest_response(latest_response, request_info)
-print(status)
-"""
-import urllib.parse
 
 
 def is_valid_url(url):
@@ -771,49 +626,6 @@ class VerificationScriptGenerator:
             verification_scripts[index] = python_verification_script  # type: ignore
             # executable_scripts[index] = script_string
             statuses[index] = "unknown"  # type: ignore
-
-            # generating_script["verification_script"] = python_verification_script
-            # generating_script["executable_script"] = script_string
-            # generating_script["status"] = status
-
-            # self.generated_verification_scripts_responsebody_input_parameter.append(generating_script)
-
-            # # Confirm the generated script
-            # python_verification_script_confirm_prompt = CONST_RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT.format(
-            #     parameter = corresponding_attribute,
-            #     parameter_description = corresponding_description,
-            #     response_schema_specification = response_schema_specification,
-            #     attribute_information = attribute_information,
-            #     attribute = attribute,
-            #     generated_verification_script = python_verification_script
-            # )
-
-            # confirmation_response = GPTChatCompletion(python_verification_script_confirm_prompt, model="gpt-4-turbo")
-            # export_file(python_verification_script_confirm_prompt, confirmation_response, f"constraint_{index}.txt")
-            # # input("Press Enter to continue...")
-
-            # firstline = confirmation_response.split("\n")[0]
-
-            # if "yes" in firstline:
-            #     confirmations[index] = "yes"
-            # else:
-            #     confirmation_answer = "no"
-
-            #     revised_script = extract_python_code(confirmation_response)
-            #     revised_script = unescape_string(revised_script)
-
-            #     confirmations[index] = confirmation_answer
-            #     revised_scripts[index] = revised_script
-
-            #     revised_script_string, revised_status = execute_request_parameter_constraint_verification_script(revised_script, row['API response'], row['request information'])
-
-            #     revised_script_statuses[index] = revised_status
-            #     revised_executable_scripts[index] = revised_script_string
-
-            #     generating_script["confirmation"] = confirmation_answer
-            #     generating_script["revised_script"] = revised_script
-            #     generating_script["revised_executable_script"] = revised_script_string
-            #     generating_script["revised_status"] = revised_status
 
             self.request_response_constraints_df["verification script"] = pd.array(
                 verification_scripts
