@@ -1,19 +1,14 @@
 import json
 import os
-import openai
 import uuid
 from hashlib import md5
-from llm.openai_call import OpenAICaller
+from rbctest.llm.providers.openai import OpenAICaller
 
-from llm.gemini_call import GeminiCaller
-from llm.groq_call import GroqCaller
-from llm.mistral_call import MistralCaller
+from rbctest.llm.providers.gemini import GeminiCaller
 
 llm_clients = {
     "openai": OpenAICaller(),
     "gemini": GeminiCaller(),
-    "groq": GroqCaller(),
-    "mistral": MistralCaller(),
 }
 
 
@@ -76,41 +71,6 @@ def find_previous_response(prompt: str) -> str:
                 return data["response"]
     return None  # type: ignore
 
-
-# def GPTChatCompletion(
-#     prompt, system="", model="gpt-4-turbo", temperature=0.2, top_p=0.9, max_tokens=-1
-# ):
-#     previous_response = find_previous_response(prompt)
-#     if previous_response:
-#         return previous_response
-
-#     if system:
-#         messages = [
-#             {"role": "system", "content": system},
-#             {"role": "user", "content": prompt},
-#         ]
-#     else:
-#         messages = [{"role": "user", "content": prompt}]
-
-#     try:
-#         if max_tokens == -1:
-#             response = openai.chat.completions.create(
-#                 model=model, messages=messages, temperature=temperature, top_p=top_p
-#             )
-#         else:
-#             response = openai.chat.completions.create(
-#                 model=model,
-#                 messages=messages,
-#                 temperature=temperature,
-#                 max_tokens=max_tokens,
-#                 top_p=top_p,
-#             )
-
-#         store_response(prompt, response.choices[0].message.content)
-#         return response.choices[0].message.content
-#     except Exception as e:
-#         print(e)
-#         return None
 
 
 def call_llm(
