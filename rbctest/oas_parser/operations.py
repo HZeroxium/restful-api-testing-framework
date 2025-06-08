@@ -5,7 +5,7 @@ OpenAPI operation and parameter processing functionality.
 import copy
 from typing import Dict, Any, List
 
-from .helpers import find_object_with_key
+from .utils import find_object_with_key
 from .schema import SchemaProcessor
 from .loaders import get_ref
 
@@ -333,39 +333,5 @@ class OperationProcessor:
 
         return main_response_schemas
 
-    def get_relevant_schemas_of_operation(self, operation: str) -> tuple:
-        """
-        Get relevant response schemas for an operation.
 
-        Args:
-            operation: Operation identifier in format "method-path"
-
-        Returns:
-            Tuple of (main_schemas, all_relevant_schemas)
-        """
-        main_response_schemas = []
-        relevant_schemas = []
-
-        method = operation.split("-")[0]
-        path = "-".join(operation.split("-")[1:])
-
-        operation_spec = self.spec["paths"][path][method]
-
-        if "responses" in operation_spec:
-            for response_code in operation_spec["responses"]:
-                if is_success_status_code(response_code):
-                    main_schema_ref = find_object_with_key(
-                        operation_spec["responses"][response_code], "$ref"
-                    )
-                    if main_schema_ref:
-                        main_response_schemas.append(
-                            main_schema_ref["$ref"].split("/")[-1]
-                        )
-                        _, new_relevant_schemas = (
-                            self.schema_processor.get_schema_recursive(
-                                operation_spec["responses"][response_code]
-                            )
-                        )
-                        relevant_schemas.extend(new_relevant_schemas)
-
-        return main_response_schemas, list(set(relevant_schemas))
+operation_processor = OperationProcessor({})  # Empty spec for compatibility

@@ -414,3 +414,6 @@ class SchemaProcessor:
             return schema_name, response_type
 
         return None, response_type
+
+
+schema_processor = SchemaProcessor({})  # Empty spec for compatibility

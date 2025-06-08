@@ -21,7 +21,6 @@ from .parser import OpenAPIParser
 from .schema import SchemaProcessor
 from .operations import OperationProcessor, extract_operations, is_success_status_code
 from .loaders import load_openapi, load_spec_from_url, get_ref
-from .helpers import find_object_with_key, extract_ref_values
 
 # For backwards compatibility
 # These imports ensure that code importing from the old files will still work

@@ -1,7 +1,10 @@
 from rbctest.oas_parser.parser import OpenAPIParser
 from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
-from rbctest.oas_parser.operations import extract_operations, OperationProcessor
-from rbctest.oas_parser.operations import is_success_status_code
+from rbctest.oas_parser.operations import extract_operations
+from oas_parser.response_utils import (
+    get_response_body_name_and_type,
+    get_relevent_response_schemas_of_operation
+)
 
 from rbctest.config.prompts.constraint_extraction import (
     DESCRIPTION_OBSERVATION_PROMPT,

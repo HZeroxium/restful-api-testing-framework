@@ -1,6 +1,6 @@
-from oas_parser.helpers import find_object_with_key
-from oas_parser.operation_utils import is_success_status_code
-from oas_parser.schema_parser import get_schema_recursive
+from oas_parser.utils import find_object_with_key
+from oas_parser.operations import is_success_status_code
+from oas_parser.schema import get_schema_recursive
 
 """
 Analyze the response & response schema

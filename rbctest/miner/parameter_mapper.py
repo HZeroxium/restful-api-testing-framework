@@ -5,15 +5,8 @@ import os
 
 from rbctest.oas_parser.parser import OpenAPIParser
 from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+from oas_parser.schema import SchemaProcessor
 
-from rbctest.oas_parser.schema import SchemaProcessor
-from rbctest.oas_parser.operations import OperationProcessor, extract_operations
-
-from oas_parser.schema_parser import (
-    get_relevant_schemas_of_operation,
-    get_simplified_schema,
-)
-from oas_parser.openapi_simplifier import simplify_openapi
 
 from utils.gptcall import call_llm
 from rbctest.config.prompts.parameter_mapping import (
@@ -133,6 +126,7 @@ class ParameterResponseMapper:
         is_naive=False,
     ):
         self.openapi_spec = load_api_specification(openapi_path)
+        self.schema_processor = SchemaProcessor(self.openapi_spec)
         self.except_attributes_found_constraints = (
             except_attributes_found_constraints_inside_response_body
         )
@@ -252,8 +246,8 @@ class ParameterResponseMapper:
             if not full_operation_spec:
                 continue
 
-            main_repsonse_schemas, _ = get_relevant_schemas_of_operation(
-                operation, self.openapi_spec
+            main_repsonse_schemas, _ = (
+                self.schema_processor.get_relevant_schemas_of_operation(operation)
             )
             print(
                 f"Operation: {operation}, Main response schemas: {
@@ -495,8 +489,8 @@ class ParameterResponseMapper:
             if not full_operation_spec:
                 continue
 
-            main_repsonse_schemas, _ = get_relevant_schemas_of_operation(
-                operation, self.openapi_spec
+            main_repsonse_schemas, _ = (
+                self.schema_processor.get_relevant_schemas_of_operation(operation)
             )
             print(
                 f"Operation: {operation}, Main response schemas: {

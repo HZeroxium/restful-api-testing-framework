@@ -2,8 +2,7 @@ from rbctest.oas_parser.operations import OperationProcessor
 from rbctest.oas_parser.schema import SchemaProcessor
 from rbctest.oas_parser.operations import is_success_status_code
 
-from oas_parser.openapi_simplifier import simplify_openapi
-from oas_parser.schema_parser import get_simplified_schema
+from oas_parser.operations import OperationProcessor
 from oas_parser.response_utils import (
     get_main_response_schemas_of_operation,
     get_relevent_response_schemas_of_operation,
@@ -21,8 +20,9 @@ def convert_json_to_excel_request_response_constraints(
         print(f"File {json_file} does not exist")
         return
     openapi_spec = json.load(open(openapi_spec_file, "r", encoding="utf-8"))
-    simplified_openapi = simplify_openapi(openapi_spec)
-    simplified_schemas = get_simplified_schema(openapi_spec)
+    operation_processor = OperationProcessor(openapi_spec)
+    simplified_openapi = operation_processor.simplify_openapi()
+    simplified_schemas = operation_processor.get_simplified_schema()
 
     selected_operations = open(
         "src/stripe_selected/selected_operations.txt", "r"
@@ -107,8 +107,12 @@ def convert_json_to_excel_response_property_constraints(
         return
 
     openapi_spec = json.load(open(openapi_spec_file, "r", encoding="utf-8-sig"))
-    simplified_openapi = simplify_openapi(openapi_spec)
-    simplified_schemas = get_simplified_schema(openapi_spec)
+
+    operation_processor = OperationProcessor(openapi_spec)
+    schema_processor = SchemaProcessor(openapi_spec)
+
+    simplified_openapi = operation_processor.simplify_openapi()
+    simplified_schemas = schema_processor.get_simplified_schema()
 
     service_name = openapi_spec["info"]["title"]
 

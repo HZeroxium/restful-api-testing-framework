@@ -9,7 +9,7 @@ from typing import Dict, List, Optional, Any
 from .loaders import load_openapi, load_spec_from_url
 from .schema import SchemaProcessor
 from .operations import OperationProcessor
-from rbctest.schemas.openapi import (
+from schemas.openapi import (
     OpenAPIParserInput,
     OpenAPIParserOutput,
     EndpointInfo,

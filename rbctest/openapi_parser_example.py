@@ -4,11 +4,10 @@ Example usage of the OpenAPI Parser.
 
 import json
 import os
-import asyncio
 from datetime import datetime
 
-from rbctest.oas_parser.parser import OpenAPIParser
-from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+from oas_parser.parser import OpenAPIParser
+from schemas.openapi import OpenAPIParserInput, SpecSourceType
 
 
 def save_output_to_file(output_dict, file_path):

@@ -5,22 +5,22 @@ import yaml
 import os
 import urllib.parse
 
-from rbctest.oas_parser.parser import OpenAPIParser
-from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+from oas_parser.parser import OpenAPIParser
+from schemas.openapi import OpenAPIParserInput, SpecSourceType
 
-from rbctest.oas_parser.operations import OperationProcessor
-
-from oas_parser.response_utils import get_response_body_name_and_type
+from oas_parser.response_utils import (
+    get_response_body_name_and_type,
+)
 
 from utils.gptcall import call_llm
 from utils.dict_utils import filter_dict_by_key
-from rbctest.config.prompts.script_generation import (
+from config.prompts.script_generation import (
     INSIDE_RESPONSEBODY_SCRIPT_GEN_PROMPT as CONST_INSIDE_RESPONSEBODY_SCRIPT_GEN_PROMPT,
     INSIDE_RESPONSEBODY_SCRIPT_CONFIRM_PROMPT as CONST_INSIDE_RESPONSEBODY_SCRIPT_CONFIRM_PROMPT,
     RESPONSEBODY_PARAM_SCRIPT_GEN_PROMPT as CONST_RESPONSEBODY_PARAM_SCRIPT_GEN_PROMPT,
     RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT as CONST_RESPONSEBODY_PARAM_SCRIPT_CONFIRM_PROMPT,
 )
-from rbctest.config.template.execution import (
+from config.template.execution import (
     GENERATOR_EXECUTION_SCRIPT as EXECUTION_SCRIPT,
     GENERATOR_INPUT_PARAM_EXECUTION_SCRIPT as INPUT_PARAM_EXECUTION_SCRIPT,
 )
