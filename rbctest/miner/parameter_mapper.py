@@ -3,7 +3,12 @@ import copy
 import json
 import os
 
-from oas_parser.spec_loader import load_openapi
+from rbctest.oas_parser.parser import OpenAPIParser
+from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+
+from rbctest.oas_parser.schema import SchemaProcessor
+from rbctest.oas_parser.operations import OperationProcessor, extract_operations
+
 from oas_parser.schema_parser import (
     get_relevant_schemas_of_operation,
     get_simplified_schema,
@@ -127,7 +132,7 @@ class ParameterResponseMapper:
         experiment_folder="experiment_our",
         is_naive=False,
     ):
-        self.openapi_spec = load_openapi(openapi_path)
+        self.openapi_spec = load_api_specification(openapi_path)
         self.except_attributes_found_constraints = (
             except_attributes_found_constraints_inside_response_body
         )
@@ -652,3 +657,12 @@ class ParameterResponseMapper:
                     except Exception as e:
                         print(f"Error: {e}")
                         continue
+
+
+def load_api_specification(spec_path):
+    """Load the OpenAPI specification from a file."""
+    parser = OpenAPIParser(verbose=False)
+    input_params = OpenAPIParserInput(
+        spec_source=spec_path, source_type=SpecSourceType.FILE
+    )
+    return parser.parse(input_params)

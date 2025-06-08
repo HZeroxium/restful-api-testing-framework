@@ -1,13 +1,7 @@
-from oas_parser.spec_loader import load_openapi
-from oas_parser.operation_utils import extract_operations
-from oas_parser.response_utils import get_relevent_response_schemas_of_operation
-from oas_parser.openapi_simplifier import simplify_openapi
-
-from utils.gptcall import call_llm
-import re
-import json
-import os
-import copy
+from rbctest.oas_parser.parser import OpenAPIParser
+from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+from rbctest.oas_parser.operations import extract_operations, OperationProcessor
+from rbctest.oas_parser.operations import is_success_status_code
 
 from rbctest.config.prompts.constraint_extraction import (
     DESCRIPTION_OBSERVATION_PROMPT,
@@ -17,88 +11,11 @@ from rbctest.config.prompts.constraint_extraction import (
     IDL_TRANSFORMATION_PROMPT,
 )
 
-####################################################################################################
-
-
-def extract_variables(statement):
-    variable_pattern = r"\b[a-zA-Z_][a-zA-Z0-9_]*\b"
-    matches = re.findall(variable_pattern, statement)
-
-    keywords = {
-        "IF",
-        "THEN",
-        "Or",
-        "OnlyOne",
-        "AllOrNone",
-        "ZeroOrOne",
-        "AND",
-        "OR",
-        "NOT",
-        "==",
-        "!=",
-        "<=",
-        "<",
-        ">=",
-        ">",
-        "+",
-        "-",
-        "*",
-        "/",
-        "True",
-        "False",
-        "true",
-        "false",
-    }
-
-    variables = []
-    for match in matches:
-        if match not in keywords:
-            preceding_text = statement[: statement.find(match)]
-            if not (
-                preceding_text.count('"') % 2 != 0 or preceding_text.count("'") % 2 != 0
-            ):
-                variables.append(match)
-
-    return list(set(variables))
-
-
-def extract_values(statement):
-    pattern = r"\'(.*?)\'|\"(.*?)\"|(\d+\.?\d*)"
-    matches = re.findall(pattern, statement)
-
-    values = [match[0] or match[1] or match[2] for match in matches]
-    return values
-
-
-# This is used to extract attributes specified in OpenAPI spec (except OpenAPI keywords)
-def extract_dict_attributes(input_dict, keys_list=None):
-    if keys_list is None:
-        keys_list = []
-
-    for key, value in input_dict.items():
-        if not key.startswith("array of") and not key.startswith("schema of"):
-            keys_list.append(key)
-        if isinstance(value, dict):
-            extract_dict_attributes(value, keys_list)
-        elif isinstance(value, list):
-            for item in value:
-                if isinstance(item, dict):
-                    extract_dict_attributes(item, keys_list)
-    return keys_list
-
-
-def extract_python_code(response):
-    if response is None:
-        return None
-
-    pattern = r"```python\n(.*?)```"
-    match = re.search(pattern, response, re.DOTALL)
-
-    if match:
-        python_code = match.group(1)
-        return python_code
-    else:
-        return None
+from utils.gptcall import call_llm
+import re
+import json
+import os
+import copy
 
 
 def extract_answer(response):
@@ -118,56 +35,6 @@ def extract_answer(response):
         return response.lower()
 
 
-def extract_summary_constraint(response):
-    if response is None:
-        return None
-
-    pattern = r"```constraint\n(.*?)```"
-    match = re.search(pattern, response, re.DOTALL)
-
-    if match:
-        constraint = match.group(1)
-        return constraint.strip()
-    else:
-        return None
-
-
-def extract_idl(response):
-    if response is None:
-        return None
-
-    pattern = r"```IDL\n(.*?)```"
-    match = re.search(pattern, response, re.DOTALL)
-
-    if match:
-        constraint = match.group(1)
-        return constraint.strip()
-    else:
-        return None
-
-
-def is_construct_json_object(text):
-    try:
-        json.loads(text)
-        return True
-    except:
-        return False
-
-
-def standardize_returned_idl(idl_sentence):
-    if idl_sentence is None:
-        return None
-
-    idl_lines = idl_sentence.split("\n")
-    for i, line in enumerate(idl_lines):
-        if ":" in line:
-            idl_lines[i] = line.split(":", 1)[1].lstrip()
-
-    result = "\n".join(idl_lines).strip("`\"'")
-
-    return result
-
-
 # Method of test_data.TestDataGenerator class
 class ConstraintExtractor:
     def __init__(
@@ -185,10 +52,15 @@ class ConstraintExtractor:
         self.filter_params_w_descr()
 
     def initialize(self):
-        self.openapi_spec = load_openapi(self.openapi_path)
-        self.service_name = self.openapi_spec["info"]["title"]  # type: ignore
+        parser = OpenAPIParser(verbose=False)
+        input_params = OpenAPIParserInput(
+            spec_source=self.openapi_path, source_type=SpecSourceType.FILE
+        )
+        self.parser_output = parser.parse(input_params)
+        self.openapi_spec = self.parser_output.raw_spec
+        self.simplified_openapi = self.parser_output.simplified_endpoints
 
-        self.simplified_openapi = simplify_openapi(self.openapi_spec)  # type: ignore
+        self.service_name = self.openapi_spec["info"]["title"]  # type: ignore
 
         self.mappings_checked = []
         self.input_parameters_checked = []
@@ -250,7 +122,7 @@ class ConstraintExtractor:
                                     operation
                                 ][part][param] = value
 
-    def checkedMapping(self, mapping):
+    def checked_mapping(self, mapping):
         for check_mapping in self.mappings_checked:
             if check_mapping[0] == mapping:
                 return check_mapping
@@ -302,7 +174,7 @@ class ConstraintExtractor:
                         .strip()
                     )
 
-                    check_mapping = self.checkedMapping(mapping)
+                    check_mapping = self.checked_mapping(mapping)
                     if check_mapping:
                         confirmation_status = check_mapping[1]
                         if confirmation_status != "yes":
@@ -472,20 +344,6 @@ class ConstraintExtractor:
                     print(
                         f"Observing operation: {operation} - part: {part} - parameter: {parameter_name}"
                     )
-                    # description_observation_response = GPTChatCompletion(description_observation_prompt,model = "gpt-4-turbo")
-                    # print(description_observation_response)
-                    # constraint_confirmation_prompt = CONSTRAINT_CONFIRMATION.format(
-                    #     attribute = parameter_name,
-                    #     data_type = data_type,
-                    #     description_observation = description_observation_response,
-                    #     description = description,
-                    #     param_schema = param_schema
-                    # )
-
-                    # constraint_confirmation_response = GPTChatCompletion(constraint_confirmation_prompt, model = "gpt-4-turbo")
-                    # print("---\n", constraint_confirmation_prompt)
-                    # confirmation = extract_answer(constraint_confirmation_response) # 'yes' or 'no'
-                    # print (f"Operation: {operation} - part: {part} - parameter: {parameter_name} - Confirmation: {confirmation}")
 
                     confirmation = "yes"
                     if confirmation == "yes":

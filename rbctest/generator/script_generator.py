@@ -5,7 +5,11 @@ import yaml
 import os
 import urllib.parse
 
-from oas_parser.spec_loader import load_openapi
+from rbctest.oas_parser.parser import OpenAPIParser
+from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+
+from rbctest.oas_parser.operations import OperationProcessor
+
 from oas_parser.response_utils import get_response_body_name_and_type
 
 from utils.gptcall import call_llm
@@ -133,17 +137,27 @@ def export_file(prompt, response, filename):
         file.write(f"Response:\n{response}\n")
 
 
+def initialize_parser(spec_path):
+    """Initialize the OpenAPI parser with the given spec."""
+    parser = OpenAPIParser(verbose=False)
+    input_params = OpenAPIParserInput(
+        spec_source=spec_path, source_type=SpecSourceType.FILE
+    )
+    output = parser.parse(input_params)
+    return output.raw_spec, output.simplified_endpoints, output.simplified_schemas
+
+
 class VerificationScriptGenerator:
-    def __init__(
+    def __init(
         self,
         service_name,
         experiment_dir,
         request_response_constraints_file=None,
         response_property_constraints_file=None,
     ):
-        self.openapi_spec = load_openapi(f"example/{service_name}/openapi.json")
-        self.simplified_openapi = simplify_openapi(self.openapi_spec)  # type: ignore
-        self.simplified_schemas = get_simplified_schema(self.openapi_spec)  # type: ignore
+        self.openapi_spec, self.simplified_openapi, self.simplified_schemas = (
+            initialize_parser(f"example/{service_name}/openapi.json")
+        )
         self.experiment_dir = experiment_dir
         with open("simplified_openapi.json", "w") as file:
             json.dump(self.simplified_openapi, file, indent=2)

@@ -33,7 +33,7 @@ def extract_operations(spec):
     return operations
 
 
-def isSuccessStatusCode(x):
+def is_success_status_code(x):
     if isinstance(x, int):
         return success_code(x)
     elif isinstance(x, str):

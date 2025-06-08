@@ -1,6 +1,6 @@
 from oas_parser.helpers import find_object_with_key, extract_ref_values
-from oas_parser.spec_loader import get_ref
-from oas_parser.operation_utils import extract_operations, isSuccessStatusCode
+from oas_parser.loaders import get_ref
+from oas_parser.operation_utils import extract_operations, is_success_status_code
 
 import copy
 
@@ -22,7 +22,7 @@ def get_simplified_schema(
             responses = obj["responses"]
             success_response = None
             for rk, rv in responses.items():
-                if isSuccessStatusCode(rk):
+                if is_success_status_code(rk):
                     success_response = rv
 
                     schema_ref = find_object_with_key(success_response, "$ref")
@@ -343,7 +343,7 @@ def get_relevant_schemas_of_operation(operation, openapi_spec):
 
     if "responses" in operation_spec:
         for response_code in operation_spec["responses"]:
-            if isSuccessStatusCode(response_code):
+            if is_success_status_code(response_code):
                 _, new_relevant_schemas = get_schema_recursive(
                     operation_spec["responses"][response_code], openapi_spec
                 )

@@ -1,7 +1,7 @@
 from oas_parser.helpers import find_object_with_key
-from oas_parser.operation_utils import extract_operations, isSuccessStatusCode
+from oas_parser.operation_utils import extract_operations, is_success_status_code
 from oas_parser.schema_parser import get_schema_params
-from oas_parser.spec_loader import get_ref
+from oas_parser.loaders import get_ref
 
 import copy
 
@@ -91,7 +91,7 @@ def simplify_openapi(openapi: dict):
                 success_response = None
 
                 for rk, rv in responses.items():
-                    if isSuccessStatusCode(rk):
+                    if is_success_status_code(rk):
                         success_response = rv
                         break
 

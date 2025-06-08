@@ -1,11 +1,15 @@
 import json
 import re
 
-from oas_parser.spec_loader import load_openapi
+from rbctest.oas_parser.loaders import load_openapi
+from rbctest.oas_parser.operations import OperationProcessor
+from rbctest.oas_parser.schema import SchemaProcessor
 from oas_parser.response_utils import get_response_body_name_and_type
-
+from oas_parser.schema_parser import (
+    get_simplified_schema,
+    get_relevant_schemas_of_operation,
+)
 from utils.gptcall import call_llm
-from utils.dict_utils import filter_dict_by_key
 from rbctest.config.prompts.data_model import FIND_SCHEMA_KEYS, DATA_MODEL_PROMPT
 
 
@@ -117,11 +121,6 @@ class DataModelBuilder:
                 schema_specification=json.dumps(self.simplified_schemas[schema])
             )
             response = call_llm(prompt, system="")
-
-            # print(f"Prompt:\n{prompt}")
-            # print("_"*20)
-            # print(f"Response:\n{response}")
-            # print("_"*20)
 
             if response:
                 keys = [key.strip() for key in response.split(",")]

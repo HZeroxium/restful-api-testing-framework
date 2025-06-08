@@ -51,13 +51,6 @@ def filter_dict(d, path):
     return None
 
 
-def filter_dict_by_key_val(d, target_key, target_val):
-    path = find_key_path(d, target_key, target_val)  # type: ignore
-    if not path:
-        return {}
-    return filter_dict(d, path)
-
-
 def filter_dict_by_key(d, target_key):
     path = find_key_path(d, target_key)
     if not path:

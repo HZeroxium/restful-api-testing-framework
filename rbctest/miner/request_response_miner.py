@@ -1,4 +1,5 @@
-from oas_parser.data_model_building import *
+from rbctest.oas_parser.operations import OperationProcessor
+from rbctest.oas_parser.loaders import load_openapi
 from miner.constraint_extractor import *
 from miner.parameter_mapper import *
 from utils.convert_to_excel_annotation_file import (

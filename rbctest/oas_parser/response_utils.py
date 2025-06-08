@@ -1,5 +1,5 @@
 from oas_parser.helpers import find_object_with_key
-from oas_parser.operation_utils import isSuccessStatusCode
+from oas_parser.operation_utils import is_success_status_code
 from oas_parser.schema_parser import get_schema_recursive
 
 """
@@ -17,7 +17,7 @@ def get_main_response_schemas_of_operation(openapi_spec, operation):
 
     if "responses" in operation_spec:
         for response_code in operation_spec["responses"]:
-            if isSuccessStatusCode(response_code):
+            if is_success_status_code(response_code):
                 main_schema_ref = find_object_with_key(
                     operation_spec["responses"][response_code], "$ref"
                 )
@@ -42,7 +42,7 @@ def get_response_body_name_and_type(openapi, operation):
 
     success_response = None
     for rk, rv in response_spec.items():
-        if isSuccessStatusCode(rk):
+        if is_success_status_code(rk):
             success_response = rv
             break
 
@@ -79,7 +79,7 @@ def get_relevent_response_schemas_of_operation(openapi_spec, operation):
 
     if "responses" in operation_spec:
         for response_code in operation_spec["responses"]:
-            if isSuccessStatusCode(response_code):
+            if is_success_status_code(response_code):
                 main_schema_ref = find_object_with_key(
                     operation_spec["responses"][response_code], "$ref"
                 )
