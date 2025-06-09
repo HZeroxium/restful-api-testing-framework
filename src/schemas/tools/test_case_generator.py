@@ -6,6 +6,7 @@ from typing import Dict, List, Optional, Any
 from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.test_script_generator import ValidationScript
 from schemas.tools.test_data_generator import TestData
+from schemas.tools.constraint_miner import ApiConstraint
 
 
 class TestCase(BaseModel):
@@ -27,6 +28,7 @@ class TestCaseGeneratorInput(BaseModel):
     """Input for TestCaseGeneratorTool."""
 
     endpoint_info: EndpointInfo
+    constraints: Optional[List[ApiConstraint]] = None
     test_data: TestData  # Now using the TestData model directly
     name: Optional[str] = None
     description: Optional[str] = None

@@ -9,7 +9,11 @@ from schemas.tools.test_case_generator import (
     TestCase,
 )
 from schemas.tools.test_script_generator import TestScriptGeneratorInput
-from schemas.tools.constraint_miner import StaticConstraintMinerInput, ApiConstraint
+from schemas.tools.constraint_miner import (
+    StaticConstraintMinerInput,
+    ApiConstraint,
+    StaticConstraintMinerOutput,
+)
 from tools.test_script_generator import TestScriptGeneratorTool
 from tools.static_constraint_miner import StaticConstraintMinerTool
 
@@ -61,19 +65,55 @@ class TestCaseGeneratorTool(BaseTool):
         name = inp.name or test_data.name
         description = inp.description or test_data.description
 
-        # Generate or retrieve constraints for the endpoint
-        constraints = await self._get_constraints_for_endpoint(endpoint_info)
+        if self.verbose:
+            print(f"\n{'='*60}")
+            print(f"GENERATING TEST CASE: {name}")
+            print(f"{'='*60}")
+            print(f"Endpoint: {endpoint_info.method.upper()} {endpoint_info.path}")
+            print(f"Test data ID: {test_data.id}")
 
-        if self.verbose and constraints:
-            print(f"Using {len(constraints)} constraints for test case generation")
+        constraint = None
+
+        if inp.constraints:
+            # Use provided constraints if available
+            constraints = inp.constraints
+            if self.verbose:
+                print(f"Using provided constraints: {len(constraints)}")
+        else:
+            # If no constraints provided, mine them from the endpoint
+            if self.verbose:
+                print(f"No constraints provided, mining constraints for endpoint...")
+            # Generate or retrieve constraints for the endpoint
+            constraints = await self._get_constraints_for_endpoint(endpoint_info)
+
+        if self.verbose:
+            print(f"Constraints available: {len(constraints)}")
+            if constraints:
+                constraint_breakdown = {}
+                for constraint in constraints:
+                    constraint_type = constraint.type
+                    constraint_breakdown[constraint_type] = (
+                        constraint_breakdown.get(constraint_type, 0) + 1
+                    )
+
+                for constraint_type, count in constraint_breakdown.items():
+                    print(f"  - {constraint_type}: {count}")
 
         # Generate validation scripts for this test data using the constraints
+        if self.verbose:
+            print(f"Generating validation scripts...")
+
         script_input = TestScriptGeneratorInput(
             endpoint_info=endpoint_info,
             test_data=test_data,
             constraints=constraints,
         )
         script_output = await self.test_script_generator.execute(script_input)
+
+        if self.verbose:
+            print(
+                f"Generated {len(script_output.validation_scripts)} validation scripts"
+            )
 
         # Create the TestCase by combining test data with validation scripts
         test_case = TestCase(
@@ -89,6 +129,9 @@ class TestCaseGeneratorTool(BaseTool):
             validation_scripts=script_output.validation_scripts,
         )
 
+        if self.verbose:
+            print(f"✓ Test case generated successfully")
+
         return TestCaseGeneratorOutput(test_case=test_case)
 
     async def _get_constraints_for_endpoint(self, endpoint_info) -> List[ApiConstraint]:
@@ -99,12 +142,14 @@ class TestCaseGeneratorTool(BaseTool):
         # Return cached constraints if available
         if endpoint_key in self._constraint_cache:
             if self.verbose:
-                print(f"Using cached constraints for {endpoint_key}")
+                print(
+                    f"Using cached constraints for {endpoint_key} ({len(self._constraint_cache[endpoint_key])} constraints)"
+                )
             return self._constraint_cache[endpoint_key]
 
         try:
             if self.verbose:
-                print(f"TestCaseGenerator: Mining constraints for {endpoint_key}")
+                print(f"Mining constraints for {endpoint_key}...")
 
             # Create input for constraint miner
             miner_input = StaticConstraintMinerInput(
@@ -115,7 +160,9 @@ class TestCaseGeneratorTool(BaseTool):
             )
 
             # Execute the constraint miner
-            miner_output = await self.constraint_miner.execute(miner_input)
+            miner_output: StaticConstraintMinerOutput = (
+                await self.constraint_miner.execute(miner_input)
+            )
 
             # Combine all constraints from the new structure
             all_constraints = (
@@ -125,6 +172,9 @@ class TestCaseGeneratorTool(BaseTool):
                 + miner_output.request_response_constraints
             )
 
+            if self.verbose:
+                print(f"Mined {len(all_constraints)} constraints total")
+
             # Cache the constraints for future use
             self._constraint_cache[endpoint_key] = all_constraints
 
@@ -133,7 +183,10 @@ class TestCaseGeneratorTool(BaseTool):
         except Exception as e:
             # If constraint mining fails, log the error and return empty list
             if self.verbose:
-                print(f"Error mining constraints: {str(e)}")
+                print(f"❌ Error mining constraints: {str(e)}")
+                import traceback
+
+                traceback.print_exc()
             return []
 
     async def cleanup(self) -> None:

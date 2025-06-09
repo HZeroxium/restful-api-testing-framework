@@ -1,10 +1,9 @@
 # tools/constraint_miner/response_property_constraint_miner.py
 
 """Response property constraint mining tool."""
-
 import uuid
-from typing import Dict, List, Optional
 import json
+from typing import Dict, List, Optional
 
 from core.base_tool import BaseTool
 from schemas.tools.constraint_miner import (
@@ -125,7 +124,7 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
             # If LLM didn't return constraints, use fallback
             if not constraints:
                 if self.verbose:
-                    print("No constraints from LLM, using fallback...")
+                    print("No constraints from LLM, generating fallback...")
                 return self._generate_fallback_constraints(endpoint)
 
             if self.verbose:

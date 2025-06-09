@@ -11,10 +11,10 @@ from schemas.core.base_tool import ToolInput, ToolOutput
 class ConstraintType(str, Enum):
     """Types of API constraints."""
 
-    REQUEST_RESPONSE = "request_response"  # Constraints between request and response
-    RESPONSE_PROPERTY = "response_property"  # Constraints on response properties
     REQUEST_PARAM = "request_param"  # Constraints on request parameters
     REQUEST_BODY = "request_body"  # Constraints on request body
+    RESPONSE_PROPERTY = "response_property"  # Constraints on response properties
+    REQUEST_RESPONSE = "request_response"  # Constraints between request and response
 
 
 # Keep the original flexible constraint detail types but with strict schema configuration
@@ -94,9 +94,9 @@ class ApiConstraint(BaseModel):
     )
 
 
-# Input schemas for specialized constraint miners (unchanged)
-class RequestParamConstraintMinerInput(ToolInput):
-    """Input for RequestParamConstraintMinerTool."""
+# Base input for all constraint miners
+class BaseConstraintMinerInput(BaseModel):
+    """Base input for constraint mining tools."""
 
     endpoint_info: EndpointInfo = Field(
         ..., description="Endpoint information to analyze"
@@ -104,45 +104,36 @@ class RequestParamConstraintMinerInput(ToolInput):
     include_examples: bool = Field(
         default=True, description="Whether to include examples in analysis"
     )
+
+
+# Input schemas for specialized constraint miners (unchanged)
+class RequestParamConstraintMinerInput(BaseConstraintMinerInput):
+    """Input for RequestParamConstraintMinerTool."""
+
     focus_on_validation: bool = Field(
         default=True, description="Whether to focus on parameter validation constraints"
     )
 
 
-class RequestBodyConstraintMinerInput(ToolInput):
+class RequestBodyConstraintMinerInput(BaseConstraintMinerInput):
     """Input for RequestBodyConstraintMinerTool."""
 
-    endpoint_info: EndpointInfo = Field(
-        ..., description="Endpoint information to analyze"
-    )
-    include_examples: bool = Field(
-        default=True, description="Whether to include examples in analysis"
-    )
     focus_on_schema: bool = Field(
         default=True, description="Whether to focus on schema-based constraints"
     )
 
 
-class ResponsePropertyConstraintMinerInput(ToolInput):
+class ResponsePropertyConstraintMinerInput(BaseConstraintMinerInput):
     """Input for ResponsePropertyConstraintMinerTool."""
 
-    endpoint_info: EndpointInfo = Field(
-        ..., description="Endpoint information to analyze"
-    )
-    include_examples: bool = Field(
-        default=True, description="Whether to include examples in analysis"
-    )
     analyze_structure: bool = Field(
         default=True, description="Whether to analyze response structure constraints"
     )
 
 
-class RequestResponseConstraintMinerInput(ToolInput):
+class RequestResponseConstraintMinerInput(BaseConstraintMinerInput):
     """Input for RequestResponseConstraintMinerTool."""
 
-    endpoint_info: EndpointInfo = Field(
-        ..., description="Endpoint information to analyze"
-    )
     include_correlations: bool = Field(
         default=True, description="Whether to include request-response correlations"
     )
@@ -152,7 +143,7 @@ class RequestResponseConstraintMinerInput(ToolInput):
 
 
 # Output schemas for specialized constraint miners (unchanged)
-class RequestParamConstraintMinerOutput(ToolOutput):
+class RequestParamConstraintMinerOutput(BaseModel):
     """Output from RequestParamConstraintMinerTool."""
 
     endpoint_method: str = Field(
@@ -166,7 +157,7 @@ class RequestParamConstraintMinerOutput(ToolOutput):
     result: Dict[str, Any] = Field(..., description="Summary of the mining results")
 
 
-class RequestBodyConstraintMinerOutput(ToolOutput):
+class RequestBodyConstraintMinerOutput(BaseModel):
     """Output from RequestBodyConstraintMinerTool."""
 
     endpoint_method: str = Field(
@@ -180,7 +171,7 @@ class RequestBodyConstraintMinerOutput(ToolOutput):
     result: Dict[str, Any] = Field(..., description="Summary of the mining results")
 
 
-class ResponsePropertyConstraintMinerOutput(ToolOutput):
+class ResponsePropertyConstraintMinerOutput(BaseModel):
     """Output from ResponsePropertyConstraintMinerTool."""
 
     endpoint_method: str = Field(
@@ -194,7 +185,7 @@ class ResponsePropertyConstraintMinerOutput(ToolOutput):
     result: Dict[str, Any] = Field(..., description="Summary of the mining results")
 
 
-class RequestResponseConstraintMinerOutput(ToolOutput):
+class RequestResponseConstraintMinerOutput(BaseModel):
     """Output from RequestResponseConstraintMinerTool."""
 
     endpoint_method: str = Field(
@@ -209,7 +200,7 @@ class RequestResponseConstraintMinerOutput(ToolOutput):
 
 
 # Main orchestrator schemas (unchanged)
-class StaticConstraintMinerInput(ToolInput):
+class StaticConstraintMinerInput(BaseModel):
     """Input for StaticConstraintMinerTool."""
 
     endpoint_info: EndpointInfo = Field(
@@ -226,13 +217,11 @@ class StaticConstraintMinerInput(ToolInput):
     )
 
 
-class StaticConstraintMinerOutput(ToolOutput):
+class StaticConstraintMinerOutput(BaseModel):
     """Output from StaticConstraintMinerTool."""
 
-    endpoint_method: str = Field(
-        ..., description="HTTP method of the analyzed endpoint"
-    )
-    endpoint_path: str = Field(..., description="Path of the analyzed endpoint")
+    endpoint_method: str
+    endpoint_path: str
     request_param_constraints: List[ApiConstraint] = Field(
         default_factory=list, description="Constraints on request parameters"
     )

@@ -213,21 +213,21 @@ class RequestParamConstraintMinerTool(BaseTool):
 
         # Add common fallback constraints
         if not constraints:
-            constraints.append(
-                ApiConstraint(
-                    id=str(uuid.uuid4()),
-                    type=ConstraintType.REQUEST_PARAM,
-                    description="All query parameters should be properly URL encoded",
-                    severity="info",
-                    source="fallback",
-                    details={
-                        "parameter_name": "*",
-                        "parameter_type": "query",
-                        "constraint_type": "encoding",
-                        "validation_rule": "url_encoding",
-                    },
-                )
+            # Generate basic parameter validation constraint
+            constraint = ApiConstraint(
+                id=str(uuid.uuid4()),
+                type=ConstraintType.REQUEST_PARAM,
+                description="Basic parameter validation",
+                severity="info",
+                source="fallback",
+                details={
+                    "parameter_name": "general",
+                    "parameter_type": "query",
+                    "constraint_type": "basic_validation",
+                    "validation_rule": "basic_param_check",
+                },
             )
+            constraints.append(constraint)
 
         result_summary = {
             "endpoint": f"{endpoint.method.upper()} {endpoint.path}",

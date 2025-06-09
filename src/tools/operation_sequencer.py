@@ -14,7 +14,7 @@ from schemas.tools.operation_sequencer import (
     OperationSequence,
     OperationDependency,
 )
-from utils.llm_utils import extract_json_from_text
+from utils.llm_utils import extract_json_from_response as extract_json_from_text
 from config.settings import settings
 from config.constants import DEFAULT_LLM_TIMEOUT
 

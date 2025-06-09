@@ -1,13 +1,13 @@
 # utils/llm_utils.py
 
-"""Utility functions for working with LLM agents."""
-
-import uuid
-import json
+"""LLM utilities for the testing framework."""
 import asyncio
+import json
+import os
 import re
 import time
-from typing import Any, Dict, Optional, Type, TypeVar, List, Union, Callable
+import uuid
+from typing import Any, Dict, Optional, Type, TypeVar, Union, Callable
 from pydantic import BaseModel
 
 from google.adk.agents import LlmAgent
@@ -94,6 +94,55 @@ def prepare_endpoint_data_for_llm(endpoint_data: Dict) -> Dict:
 
     # Parse back to dict
     return json.loads(sanitized_json)
+
+
+def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
+    """
+    Extract JSON data from LLM response text, handling various formats.
+
+    Args:
+        response_text: Raw response text from LLM
+
+    Returns:
+        Parsed JSON dictionary or None if parsing fails
+    """
+    if not response_text:
+        return None
+
+    # Try to find JSON in code blocks first
+    json_patterns = [
+        r"```json\s*\n(.*?)\n```",
+        r"```\s*\n(.*?)\n```",
+        r"```json(.*?)```",
+        r"```(.*?)```",
+    ]
+
+    for pattern in json_patterns:
+        matches = re.findall(pattern, response_text, re.DOTALL)
+        for match in matches:
+            try:
+                return json.loads(match.strip())
+            except json.JSONDecodeError:
+                continue
+
+    # Try to parse the entire response as JSON
+    try:
+        return json.loads(response_text.strip())
+    except json.JSONDecodeError:
+        pass
+
+    # Try to find JSON object in the text
+    json_start = response_text.find("{")
+    json_end = response_text.rfind("}")
+
+    if json_start != -1 and json_end != -1 and json_end > json_start:
+        try:
+            json_text = response_text[json_start : json_end + 1]
+            return json.loads(json_text)
+        except json.JSONDecodeError:
+            pass
+
+    return None
 
 
 class LlmExecutor:
@@ -185,7 +234,7 @@ class LlmExecutor:
                     return None
 
                 # Parse JSON response
-                json_data = extract_json_from_text(raw_text)
+                json_data = extract_json_from_response(raw_text)
 
                 if json_data is None:
                     if self.verbose:
@@ -228,29 +277,45 @@ class LlmExecutor:
                 if hasattr(runner_result, "__aiter__"):
                     # Async iterator
                     async for event in runner_result:
-                        if event.content:
-                            for part in event.content.parts:
-                                if hasattr(part, "text") and part.text:
-                                    response_parts.append(part.text)
+                        if hasattr(event, "content") and event.content:
+                            if hasattr(event.content, "parts"):
+                                for part in event.content.parts:
+                                    if hasattr(part, "text") and part.text:
+                                        response_parts.append(part.text)
+                                        if self.verbose:
+                                            print(
+                                                f"LLM Response Part: {part.text[:100]}..."
+                                            )
                 elif hasattr(runner_result, "__iter__"):
                     # Regular iterator - convert to async
-                    import asyncio
-
                     for event in runner_result:
-                        # Yield control to allow other async operations
-                        await asyncio.sleep(0)
-                        if event.content:
-                            for part in event.content.parts:
-                                if hasattr(part, "text") and part.text:
-                                    response_parts.append(part.text)
+                        if hasattr(event, "content") and event.content:
+                            if hasattr(event.content, "parts"):
+                                for part in event.content.parts:
+                                    if hasattr(part, "text") and part.text:
+                                        response_parts.append(part.text)
+                                        if self.verbose:
+                                            print(
+                                                f"LLM Response Part: {part.text[:100]}..."
+                                            )
                 else:
                     # Direct result
                     if hasattr(runner_result, "content"):
-                        for part in runner_result.content.parts:
-                            if hasattr(part, "text") and part.text:
-                                response_parts.append(part.text)
+                        if hasattr(runner_result.content, "parts"):
+                            for part in runner_result.content.parts:
+                                if hasattr(part, "text") and part.text:
+                                    response_parts.append(part.text)
+                                    if self.verbose:
+                                        print(
+                                            f"LLM Response Part: {part.text[:100]}..."
+                                        )
 
-                return "".join(response_parts) if response_parts else None
+                full_response = "".join(response_parts) if response_parts else None
+
+                if self.verbose and full_response:
+                    print(f"Full LLM Response: {full_response[:500]}...")
+
+                return full_response
             except Exception as e:
                 if self.verbose:
                     print(f"Error during LLM generation: {str(e)}")
@@ -319,102 +384,172 @@ async def create_and_execute_llm_agent(
         return None
 
 
-def extract_json_from_text(text: str) -> Optional[Dict[str, Any]]:
+def clean_json_response(response_text: str) -> str:
     """
-    Extract JSON content from text that may contain markdown code blocks or other text.
+    Clean and fix common JSON formatting issues in LLM responses.
 
     Args:
-        text: The text containing JSON
+        response_text: Raw response text
 
     Returns:
-        Extracted JSON as a dictionary, or None if extraction failed
+        Cleaned JSON string
     """
-    if not text:
-        return None
+    if not response_text:
+        return "{}"
+
+    # Remove common prefixes/suffixes
+    text = response_text.strip()
+
+    # Remove markdown code block markers
+    text = re.sub(r"^```json\s*\n", "", text, flags=re.MULTILINE)
+    text = re.sub(r"^```\s*\n", "", text, flags=re.MULTILINE)
+    text = re.sub(r"\n```$", "", text, flags=re.MULTILINE)
+
+    # Fix common JSON issues
+    # Remove trailing commas
+    text = re.sub(r",(\s*[}\]])", r"\1", text)
+
+    # Fix unescaped quotes in strings
+    text = re.sub(r'(?<!\\)"(?=.*".*:)', '\\"', text)
+
+    # Ensure proper quote escaping in validation_code
+    lines = text.split("\n")
+    in_validation_code = False
+    cleaned_lines = []
+
+    for line in lines:
+        if '"validation_code"' in line:
+            in_validation_code = True
+        elif in_validation_code and (
+            line.strip().endswith('"')
+            or line.strip().endswith('",')
+            or line.strip().endswith('",')
+        ):
+            in_validation_code = False
+
+        if (
+            in_validation_code
+            and line.strip().startswith('"')
+            and not line.strip().startswith('"validation_code"')
+        ):
+            # This is part of the validation code string - escape internal quotes
+            line = line.replace('"', '\\"')
+
+        cleaned_lines.append(line)
+
+    return "\n".join(cleaned_lines)
+
+
+def validate_json_structure(json_data: Dict[str, Any], required_fields: list) -> bool:
+    """
+    Validate that JSON data has required structure.
+
+    Args:
+        json_data: Parsed JSON data
+        required_fields: List of required field names
+
+    Returns:
+        True if structure is valid
+    """
+    if not isinstance(json_data, dict):
+        return False
+
+    for field in required_fields:
+        if field not in json_data:
+            return False
+
+    return True
+
+
+def log_request_to_file(app_name: str, agent_name: str, prompt: str, input_data: Any):
+    """Log LLM request to file for debugging."""
+    import os
+    from datetime import datetime
 
     try:
-        # Try several methods to extract JSON
+        log_dir = "logs/llm_requests"
+        os.makedirs(log_dir, exist_ok=True)
 
-        # Method 1: Look for JSON content in markdown code blocks
-        if "```json" in text:
-            json_parts = text.split("```json")
-            if len(json_parts) > 1:
-                json_content = json_parts[1].split("```")[0].strip()
-                return json.loads(json_content)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = os.path.join(
+            log_dir, f"{app_name}_{agent_name}_{timestamp}_request.log"
+        )
 
-        # Method 2: Look for any code blocks
-        elif "```" in text:
-            json_parts = text.split("```")
-            if len(json_parts) > 1:
-                for part in json_parts[1::2]:  # Look at all code block parts
-                    try:
-                        return json.loads(part.strip())
-                    except json.JSONDecodeError:
-                        continue
-
-        # Method 3: Try to find JSON object using regex
-        pattern = r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}"
-        matches = re.findall(pattern, text)
-        if matches:
-            for match in matches:
-                try:
-                    return json.loads(match)
-                except json.JSONDecodeError:
-                    continue
-
-        # Method 4: Try parsing the entire text as JSON
-        return json.loads(text)
-
-    except (json.JSONDecodeError, TypeError):
-        return None
+        with open(log_file, "w", encoding="utf-8") as f:
+            f.write(f"App: {app_name}\n")
+            f.write(f"Agent: {agent_name}\n")
+            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
+            f.write("=" * 80 + "\n")
+            f.write("PROMPT:\n")
+            f.write(prompt)
+            f.write("\n" + "=" * 80 + "\n")
+            f.write("INPUT DATA:\n")
+            f.write(str(input_data))
+            f.write("\n")
+    except Exception:
+        pass  # Ignore logging errors
 
 
-async def execute_llm_with_structured_output(
-    app_name: str,
-    agent_name: str,
-    instruction: str,
-    input_data: Union[str, Dict, BaseModel],
-    output_processor: Callable[[Dict[str, Any]], Any],
-    input_schema: Optional[Type] = None,
-    output_schema: Optional[Type] = None,
-    timeout: float = DEFAULT_LLM_TIMEOUT,
-    max_retries: int = 2,
-    retry_delay: float = 1.0,
-    verbose: bool = False,
-) -> Any:
-    """
-    Execute LLM agent and process the output with a custom processor function.
+def log_response_to_file(app_name: str, agent_name: str, response: str):
+    """Log LLM response to file for debugging."""
+    import os
+    from datetime import datetime
 
-    Args:
-        app_name: Name of the application
-        agent_name: Name of the LLM agent
-        instruction: Instruction for the agent
-        input_data: Input data for the agent
-        output_processor: Function to process the LLM output
-        input_schema: Optional input schema for validation
-        output_schema: Optional output schema for validation
-        timeout: Timeout for LLM execution
-        max_retries: Maximum number of retries
-        retry_delay: Delay between retries
-        verbose: Whether to print verbose output
+    try:
+        log_dir = "logs/llm_responses"
+        os.makedirs(log_dir, exist_ok=True)
 
-    Returns:
-        Processed output from the output_processor function
-    """
-    raw_json = await create_and_execute_llm_agent(
-        app_name=app_name,
-        agent_name=agent_name,
-        instruction=instruction,
-        input_data=input_data,
-        input_schema=input_schema,
-        output_schema=output_schema,
-        timeout=timeout,
-        max_retries=max_retries,
-        retry_delay=retry_delay,
-        verbose=verbose,
-    )
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = os.path.join(
+            log_dir, f"{app_name}_{agent_name}_{timestamp}_response.log"
+        )
 
-    if raw_json is None:
-        return None
+        with open(log_file, "w", encoding="utf-8") as f:
+            f.write(f"App: {app_name}\n")
+            f.write(f"Agent: {agent_name}\n")
+            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
+            f.write("=" * 80 + "\n")
+            f.write("RAW RESPONSE:\n")
+            f.write(str(response))
+            f.write("\n" + "=" * 80 + "\n")
 
-    return output_processor(raw_json)
+            # Try to parse and pretty-print JSON
+            try:
+                json_data = extract_json_from_response(str(response))
+                if json_data:
+                    f.write("PARSED JSON:\n")
+                    f.write(json.dumps(json_data, indent=2))
+                    f.write("\n")
+            except Exception:
+                f.write("JSON PARSING FAILED\n")
+    except Exception:
+        pass  # Ignore logging errors
+
+
+def log_error_to_file(app_name: str, agent_name: str, error: str, traceback_str: str):
+    """Log LLM error to file for debugging."""
+    import os
+    from datetime import datetime
+
+    try:
+        log_dir = "logs/llm_errors"
+        os.makedirs(log_dir, exist_ok=True)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = os.path.join(
+            log_dir, f"{app_name}_{agent_name}_{timestamp}_error.log"
+        )
+
+        with open(log_file, "w", encoding="utf-8") as f:
+            f.write(f"App: {app_name}\n")
+            f.write(f"Agent: {agent_name}\n")
+            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
+            f.write("=" * 80 + "\n")
+            f.write("ERROR:\n")
+            f.write(error)
+            f.write("\n" + "=" * 80 + "\n")
+            f.write("TRACEBACK:\n")
+            f.write(traceback_str)
+            f.write("\n")
+    except Exception:
+        pass  # Ignore logging errors

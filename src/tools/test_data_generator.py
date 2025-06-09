@@ -148,8 +148,12 @@ Review your JSON output before responding to ensure it's valid and matches the r
         raw_json = await create_and_execute_llm_agent(
             app_name="test_data_generator",
             agent_name="llm_test_data_generator",
-            instruction="You are an API test data generator. Generate test cases in the format requested.",
-            input_data=prompt,
+            instruction=prompt,
+            input_data={
+                "endpoint": endpoint_json,
+                "test_case_count": test_case_count,
+                "include_invalid_data": include_invalid_data,
+            },
             timeout=60.0,
             max_retries=2,
             retry_delay=1.0,

@@ -80,110 +80,163 @@ class StaticConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
+            print(f"\n{'='*80}")
             print(
-                f"StaticConstraintMiner: Orchestrating constraint mining for {endpoint.method.upper()} {endpoint.path}"
+                f"STATIC CONSTRAINT MINING FOR {endpoint.method.upper()} {endpoint.path}"
+            )
+            print(f"{'='*80}")
+            print(f"Configuration:")
+            print(f"  - Include examples: {inp.include_examples}")
+            print(f"  - Include schema constraints: {inp.include_schema_constraints}")
+            print(
+                f"  - Include correlation constraints: {inp.include_correlation_constraints}"
             )
 
         # Initialize result containers
-        request_param_constraints: List[ApiConstraint] = []
-        request_body_constraints: List[ApiConstraint] = []
-        response_property_constraints: List[ApiConstraint] = []
-        request_response_constraints: List[ApiConstraint] = []
-
+        request_param_constraints = []
+        request_body_constraints = []
+        response_property_constraints = []
+        request_response_constraints = []
         mining_results = {}
 
         try:
             # 1. Mine request parameter constraints
             if self.verbose:
-                print("Mining request parameter constraints...")
+                print(f"\nStep 1: Mining request parameter constraints...")
 
             param_input = RequestParamConstraintMinerInput(
                 endpoint_info=endpoint,
                 include_examples=inp.include_examples,
                 focus_on_validation=True,
             )
+
             param_output = await self.request_param_miner.execute(param_input)
             request_param_constraints = param_output.param_constraints
-            mining_results["param_mining"] = param_output.result
+            mining_results["param_mining"] = {
+                "count": len(request_param_constraints),
+                "status": "success",
+            }
+
+            if self.verbose:
+                print(
+                    f"  ✓ Found {len(request_param_constraints)} parameter constraints"
+                )
 
         except Exception as e:
             if self.verbose:
-                print(f"Error mining parameter constraints: {str(e)}")
+                print(f"  ❌ Error mining parameter constraints: {str(e)}")
             mining_results["param_mining"] = {
-                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
-                "error": str(e),
+                "count": 0,
                 "status": "failed",
+                "error": str(e),
             }
 
         try:
             # 2. Mine request body constraints
             if self.verbose:
-                print("Mining request body constraints...")
+                print(f"\nStep 2: Mining request body constraints...")
 
             body_input = RequestBodyConstraintMinerInput(
                 endpoint_info=endpoint,
                 include_examples=inp.include_examples,
                 focus_on_schema=inp.include_schema_constraints,
             )
+
             body_output = await self.request_body_miner.execute(body_input)
             request_body_constraints = body_output.body_constraints
-            mining_results["body_mining"] = body_output.result
+            mining_results["body_mining"] = {
+                "count": len(request_body_constraints),
+                "status": "success",
+            }
+
+            if self.verbose:
+                print(f"  ✓ Found {len(request_body_constraints)} body constraints")
 
         except Exception as e:
             if self.verbose:
-                print(f"Error mining request body constraints: {str(e)}")
+                print(f"  ❌ Error mining body constraints: {str(e)}")
             mining_results["body_mining"] = {
-                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
-                "error": str(e),
+                "count": 0,
                 "status": "failed",
+                "error": str(e),
             }
 
         try:
             # 3. Mine response property constraints
             if self.verbose:
-                print("Mining response property constraints...")
+                print(f"\nStep 3: Mining response property constraints...")
 
             response_input = ResponsePropertyConstraintMinerInput(
                 endpoint_info=endpoint,
                 include_examples=inp.include_examples,
                 analyze_structure=inp.include_schema_constraints,
             )
+
             response_output = await self.response_property_miner.execute(response_input)
             response_property_constraints = response_output.response_constraints
-            mining_results["response_mining"] = response_output.result
+            mining_results["response_mining"] = {
+                "count": len(response_property_constraints),
+                "status": "success",
+            }
+
+            if self.verbose:
+                print(
+                    f"  ✓ Found {len(response_property_constraints)} response constraints"
+                )
 
         except Exception as e:
             if self.verbose:
-                print(f"Error mining response property constraints: {str(e)}")
+                print(f"  ❌ Error mining response constraints: {str(e)}")
             mining_results["response_mining"] = {
-                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
-                "error": str(e),
+                "count": 0,
                 "status": "failed",
+                "error": str(e),
             }
 
         try:
             # 4. Mine request-response correlation constraints
-            if self.verbose:
-                print("Mining request-response correlation constraints...")
+            if inp.include_correlation_constraints:
+                if self.verbose:
+                    print(
+                        f"\nStep 4: Mining request-response correlation constraints..."
+                    )
 
-            correlation_input = RequestResponseConstraintMinerInput(
-                endpoint_info=endpoint,
-                include_correlations=inp.include_correlation_constraints,
-                analyze_status_codes=True,
-            )
-            correlation_output = await self.request_response_miner.execute(
-                correlation_input
-            )
-            request_response_constraints = correlation_output.correlation_constraints
-            mining_results["correlation_mining"] = correlation_output.result
+                correlation_input = RequestResponseConstraintMinerInput(
+                    endpoint_info=endpoint,
+                    include_correlations=True,
+                    analyze_status_codes=True,
+                )
+
+                correlation_output = await self.request_response_miner.execute(
+                    correlation_input
+                )
+                request_response_constraints = (
+                    correlation_output.correlation_constraints
+                )
+                mining_results["correlation_mining"] = {
+                    "count": len(request_response_constraints),
+                    "status": "success",
+                }
+
+                if self.verbose:
+                    print(
+                        f"  ✓ Found {len(request_response_constraints)} correlation constraints"
+                    )
+            else:
+                if self.verbose:
+                    print(f"\nStep 4: Skipping correlation constraints (disabled)")
+                mining_results["correlation_mining"] = {
+                    "count": 0,
+                    "status": "skipped",
+                }
 
         except Exception as e:
             if self.verbose:
-                print(f"Error mining correlation constraints: {str(e)}")
+                print(f"  ❌ Error mining correlation constraints: {str(e)}")
             mining_results["correlation_mining"] = {
-                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
-                "error": str(e),
+                "count": 0,
                 "status": "failed",
+                "error": str(e),
             }
 
         # Calculate totals
@@ -194,32 +247,32 @@ class StaticConstraintMinerTool(BaseTool):
             + len(request_response_constraints)
         )
 
-        # Create comprehensive result summary
+        if self.verbose:
+            print(f"\n{'='*60}")
+            print(f"CONSTRAINT MINING COMPLETED")
+            print(f"{'='*60}")
+            print(f"Endpoint: {endpoint.method.upper()} {endpoint.path}")
+            print(f"Total constraints found: {total_constraints}")
+            print(f"Breakdown:")
+            print(f"  - Parameter constraints: {len(request_param_constraints)}")
+            print(f"  - Body constraints: {len(request_body_constraints)}")
+            print(f"  - Response constraints: {len(response_property_constraints)}")
+            print(f"  - Correlation constraints: {len(request_response_constraints)}")
+            print(f"Status: Success")
+
+        # Create result summary
         result_summary = {
             "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
             "total_constraints": total_constraints,
-            "constraint_breakdown": {
-                "request_param_count": len(request_param_constraints),
-                "request_body_count": len(request_body_constraints),
-                "response_property_count": len(response_property_constraints),
-                "request_response_count": len(request_response_constraints),
-            },
             "mining_results": mining_results,
-            "orchestration_status": "success",
-            "timestamp": str(__import__("uuid").uuid4()),
+            "status": "success",
+            "constraint_breakdown": {
+                "request_param": len(request_param_constraints),
+                "request_body": len(request_body_constraints),
+                "response_property": len(response_property_constraints),
+                "request_response": len(request_response_constraints),
+            },
         }
-
-        if self.verbose:
-            print(f"Constraint mining completed:")
-            print(f"  - Parameter constraints: {len(request_param_constraints)}")
-            print(f"  - Request body constraints: {len(request_body_constraints)}")
-            print(
-                f"  - Response property constraints: {len(response_property_constraints)}"
-            )
-            print(
-                f"  - Request-response constraints: {len(request_response_constraints)}"
-            )
-            print(f"  - Total constraints: {total_constraints}")
 
         return StaticConstraintMinerOutput(
             endpoint_method=endpoint.method,
