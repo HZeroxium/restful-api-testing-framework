@@ -17,7 +17,6 @@ from typing import List, Dict, Any
 from tools import OpenAPIParserTool
 from tools.static_constraint_miner import StaticConstraintMinerTool
 from tools.test_data_generator import TestDataGeneratorTool
-from tools.test_script_generator import TestScriptGeneratorTool
 from tools.test_case_generator import TestCaseGeneratorTool
 
 from schemas.tools.openapi_parser import (
@@ -25,10 +24,13 @@ from schemas.tools.openapi_parser import (
     SpecSourceType,
     EndpointInfo,
 )
-from schemas.tools.test_data_generator import TestDataGeneratorInput
-from schemas.tools.constraint_miner import StaticConstraintMinerInput
-from schemas.tools.test_script_generator import TestScriptGeneratorInput
+from schemas.tools.constraint_miner import (
+    StaticConstraintMinerInput,
+    StaticConstraintMinerOutput,
+    ApiConstraint,
+)
 from schemas.tools.test_case_generator import TestCaseGeneratorInput
+from schemas.tools.test_data_generator import TestDataGeneratorInput
 
 
 async def parse_openapi_spec(spec_source: str) -> Dict[str, Any]:
@@ -147,39 +149,35 @@ async def generate_test_case(
     )
 
     print("Step 2: Mining API constraints...")
-    constraint_output = await constraint_miner.execute(constraint_input)
+    constraint_output: StaticConstraintMinerOutput = await constraint_miner.execute(
+        constraint_input
+    )
 
-    constraints = []
-    constraints.extend(constraint_output.request_response_constraints)
+    # Combine all constraint types from the new structure
+    constraints: List[ApiConstraint] = []
+    constraints.extend(constraint_output.request_param_constraints)
+    constraints.extend(constraint_output.request_body_constraints)
     constraints.extend(constraint_output.response_property_constraints)
+    constraints.extend(constraint_output.request_response_constraints)
 
     print(f"  Mined {len(constraints)} constraints")
 
     # 3. Create test cases with validation scripts for each test data
     test_cases = []
-    test_script_generator = TestScriptGeneratorTool(verbose=verbose)
     test_case_generator = TestCaseGeneratorTool(verbose=verbose)
 
     print("Step 3: Generating test cases with validation scripts...")
     for i, test_data in enumerate(test_data_collection):
-        print(
-            f"  Generating validation scripts for test case {i+1}/{len(test_data_collection)}"
-        )
+        print(f"  Generating test case {i+1}/{len(test_data_collection)}")
 
-        # Generate validation scripts based on constraints and test data
-        script_input = TestScriptGeneratorInput(
-            endpoint_info=endpoint,
-            test_data=test_data,
-            constraints=constraints,
-        )
-        script_output = await test_script_generator.execute(script_input)
-        validation_scripts = script_output.validation_scripts
-
-        # Generate a complete test case
+        # Generate a complete test case with validation scripts
+        # The TestCaseGeneratorTool now handles script generation internally
         case_input = TestCaseGeneratorInput(
             endpoint_info=endpoint,
+            constraints=constraints,
             test_data=test_data,
-            validation_scripts=validation_scripts,
+            name=f"Test case {i+1} for {endpoint.method.upper()} {endpoint.path}",
+            description=f"Generated test case {i+1} based on constraints and test data",
         )
         case_output = await test_case_generator.execute(case_input)
         test_case = case_output.test_case
@@ -206,6 +204,20 @@ async def generate_test_case(
                 len(tc.get("validation_scripts", [])) for tc in test_cases
             ),
             "include_invalid_data": include_invalid_data,
+            "constraint_breakdown": {
+                "request_param_constraints": len(
+                    constraint_output.request_param_constraints
+                ),
+                "request_body_constraints": len(
+                    constraint_output.request_body_constraints
+                ),
+                "response_property_constraints": len(
+                    constraint_output.response_property_constraints
+                ),
+                "request_response_constraints": len(
+                    constraint_output.request_response_constraints
+                ),
+            },
         },
     }
 

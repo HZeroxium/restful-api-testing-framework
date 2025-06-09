@@ -62,21 +62,25 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
         print(
             f"  - {len(output.response_property_constraints)} response property constraints"
         )
+        print(
+            f"  - {len(output.request_param_constraints)} request parameter constraints"
+        )
+        print(f"  - {len(output.request_body_constraints)} request body constraints")
 
         # Display a few example constraints if available
-        if output.request_response_constraints:
-            print("\nExample request-response constraints:")
-            for i, constraint in enumerate(output.request_response_constraints[:3]):
-                print(
-                    f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
-                )
+        # if output.request_response_constraints:
+        #     print("\nExample request-response constraints:")
+        #     for i, constraint in enumerate(output.request_response_constraints[:3]):
+        #         print(
+        #             f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
+        #         )
 
-        if output.response_property_constraints:
-            print("\nExample response property constraints:")
-            for i, constraint in enumerate(output.response_property_constraints[:3]):
-                print(
-                    f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
-                )
+        # if output.response_property_constraints:
+        #     print("\nExample response property constraints:")
+        #     for i, constraint in enumerate(output.response_property_constraints[:3]):
+        #         print(
+        #             f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
+        #         )
 
         # Save the result to a file
         safe_endpoint_name = (
