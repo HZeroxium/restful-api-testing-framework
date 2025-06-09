@@ -1,4 +1,4 @@
-"""Constraint miner tools package."""
+"""Constraint mining tools package."""
 
 from .request_param_constraint_miner import RequestParamConstraintMinerTool
 from .request_body_constraint_miner import RequestBodyConstraintMinerTool

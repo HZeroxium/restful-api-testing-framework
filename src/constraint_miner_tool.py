@@ -25,6 +25,7 @@ from utils.demo_utils import (
     validate_file_exists,
     get_default_spec_path,
 )
+from report_visualizer import export_constraint_report_to_excel
 
 
 async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str, Any]:
@@ -90,6 +91,17 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
             json.dump(output.model_dump(), f, indent=2, default=str)
 
         print(f"Constraints saved to: {output_path}")
+
+        # Export to Excel automatically
+        try:
+            excel_path = export_constraint_report_to_excel(
+                output_path,
+                output_path.replace(".json", ".xlsx"),
+                include_analysis=True,
+            )
+            print(f"Excel report created: {excel_path}")
+        except Exception as e:
+            print(f"Warning: Could not create Excel report: {str(e)}")
 
         # Return the output for potential further processing
         return output.model_dump()
