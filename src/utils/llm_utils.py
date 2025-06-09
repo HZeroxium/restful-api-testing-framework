@@ -41,6 +41,59 @@ class LlmSession:
         )
 
 
+def sanitize_instruction_for_adk(instruction: str) -> str:
+    """
+    Sanitize instruction text to prevent Google ADK from interpreting
+    path parameters as template variables.
+
+    This replaces curly braces in path parameters and other content
+    that should not be treated as template variables.
+    """
+    import re
+
+    # Replace path parameter patterns like {userId}, {brandId}, etc.
+    # with escaped versions that won't trigger ADK template substitution
+    path_param_pattern = r"\{([a-zA-Z_][a-zA-Z0-9_]*)\}"
+
+    def replace_path_param(match):
+        param_name = match.group(1)
+        # Use a different bracket style that ADK won't interpret as template variables
+        return f"[{param_name}]"
+
+    sanitized = re.sub(path_param_pattern, replace_path_param, instruction)
+
+    # Also handle any other potential conflicts with ADK template syntax
+    # ADK uses {+variable} syntax, so we need to be careful with any {+...} patterns
+    sanitized = sanitized.replace("{+", "{{+")
+
+    return sanitized
+
+
+def prepare_endpoint_data_for_llm(endpoint_data: Dict) -> Dict:
+    """
+    Prepare endpoint data for LLM analysis by sanitizing path parameters
+    and other content that might conflict with Google ADK template system.
+    """
+    import json
+
+    # Convert to JSON string and back to handle nested structures
+    json_str = json.dumps(endpoint_data)
+
+    # Replace path parameters in the JSON string
+    import re
+
+    path_param_pattern = r"\{([a-zA-Z_][a-zA-Z0-9_]*)\}"
+
+    def replace_path_param(match):
+        param_name = match.group(1)
+        return f"[{param_name}]"
+
+    sanitized_json = re.sub(path_param_pattern, replace_path_param, json_str)
+
+    # Parse back to dict
+    return json.loads(sanitized_json)
+
+
 class LlmExecutor:
     """Handles LLM agent execution with standardized error handling and retries."""
 
@@ -58,7 +111,8 @@ class LlmExecutor:
     ):
         self.session = session
         self.agent_name = agent_name
-        self.instruction = instruction
+        # Sanitize instruction to prevent ADK template variable conflicts
+        self.instruction = sanitize_instruction_for_adk(instruction)
         self.input_schema = input_schema
         self.output_schema = output_schema
         self.timeout = timeout
@@ -70,7 +124,7 @@ class LlmExecutor:
         self.agent = LlmAgent(
             name=agent_name,
             model=settings.llm.LLM_MODEL,
-            instruction=instruction,
+            instruction=self.instruction,
             input_schema=input_schema,
             output_schema=output_schema,
             disallow_transfer_to_parent=True,
@@ -90,13 +144,18 @@ class LlmExecutor:
         self, input_data: Union[str, Dict, BaseModel]
     ) -> Optional[Dict[str, Any]]:
         """Execute the LLM agent with retry logic and error handling."""
-        # Prepare input
+        # Prepare input - sanitize if it's a dict containing endpoint data
         if isinstance(input_data, BaseModel):
-            user_message = input_data.model_dump_json()
+            # Convert to dict first to allow sanitization
+            input_dict = input_data.model_dump()
+            sanitized_input = prepare_endpoint_data_for_llm(input_dict)
+            user_message = json.dumps(sanitized_input)
         elif isinstance(input_data, dict):
-            user_message = json.dumps(input_data)
+            sanitized_input = prepare_endpoint_data_for_llm(input_data)
+            user_message = json.dumps(sanitized_input)
         else:
-            user_message = str(input_data)
+            # For string input, also sanitize potential path parameters
+            user_message = sanitize_instruction_for_adk(str(input_data))
 
         user_input = types.Content(role="user", parts=[types.Part(text=user_message)])
 
@@ -235,10 +294,14 @@ async def create_and_execute_llm_agent(
     """
     try:
         session = LlmSession(app_name)
+
+        # Sanitize instruction to prevent path parameter conflicts
+        sanitized_instruction = sanitize_instruction_for_adk(instruction)
+
         executor = LlmExecutor(
             session=session,
             agent_name=agent_name,
-            instruction=instruction,
+            instruction=sanitized_instruction,
             input_schema=input_schema,
             output_schema=output_schema,
             timeout=timeout,

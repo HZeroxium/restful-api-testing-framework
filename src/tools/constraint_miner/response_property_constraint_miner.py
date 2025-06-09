@@ -2,6 +2,7 @@
 
 import uuid
 from typing import Dict, List, Optional
+import json
 
 from core.base_tool import BaseTool
 from schemas.tools.constraint_miner import (
@@ -66,9 +67,15 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
             constraints: List[ResponsePropertyConstraint] = Field(default_factory=list)
 
         try:
-            # Format the prompt with endpoint data
+            # Format the prompt with sanitized endpoint data
+            from utils.llm_utils import prepare_endpoint_data_for_llm
+
+            sanitized_endpoint_data = prepare_endpoint_data_for_llm(
+                endpoint.model_dump()
+            )
+
             formatted_prompt = RESPONSE_PROPERTY_CONSTRAINT_PROMPT.format(
-                endpoint_data=endpoint.model_dump_json(indent=2)
+                endpoint_data=json.dumps(sanitized_endpoint_data, indent=2)
             )
 
             # Execute LLM analysis
@@ -76,7 +83,7 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
                 app_name="response_property_miner",
                 agent_name="response_constraint_analyzer",
                 instruction=formatted_prompt,
-                input_data=endpoint.model_dump(),
+                input_data=sanitized_endpoint_data,
                 input_schema=type(endpoint),
                 output_schema=ResponsePropertyConstraintResult,
                 timeout=self.config.get("timeout", 60.0) if self.config else 60.0,

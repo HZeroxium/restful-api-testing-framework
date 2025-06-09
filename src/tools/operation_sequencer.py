@@ -155,7 +155,7 @@ class OperationSequencerTool(BaseTool):
                 )
 
                 # Use simple fixed instruction string that matches successful tools
-                instruction = "You are an API Operation Sequencer. Analyze endpoints and create sequences of operations with dependencies."
+                instruction = "You are an API Operation Sequencer. Analyze endpoints and create sequences of operations with dependencies. Note: Path parameters are shown in square brackets like [userId] instead of curly braces."
 
                 # Create the LLM agent without schema validation to prevent errors
                 sequencer_agent = LlmAgent(
@@ -180,6 +180,8 @@ class OperationSequencerTool(BaseTool):
 Analyze these API endpoints and identify dependencies between operations. 
 Create sequences of operations that should be executed in order.
 
+Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces.
+
 Focus on:
 1. Path parameters that match IDs returned by other endpoints
 2. Request body fields that require data from GET responses
@@ -191,12 +193,12 @@ Return a JSON object with this structure:
     {
       "name": "Descriptive name of the sequence",
       "description": "Detailed explanation of the sequence's purpose",
-      "operations": ["GET /path1", "POST /path2", "PUT /path3/{id}"],
+      "operations": ["GET /path1", "POST /path2", "PUT /path3/[id]"],
       "dependencies": [
         {
-          "source": "PUT /path3/{id}",
+          "source": "PUT /path3/[id]",
           "target": "POST /path2",
-          "reason": "Need ID from POST /path2 response to use in PUT /path3/{id} path",
+          "reason": "Need ID from POST /path2 response to use in PUT /path3/[id] path",
           "data_mapping": {"id": "response.id"}
         }
       ]
@@ -210,8 +212,13 @@ Explain why each dependency exists.
 Here are the endpoints to analyze:
 """
 
-                # Create complete user message with prompt and endpoint data
-                user_message = prompt + "\n" + json.dumps(llm_input, indent=2)
+                # Sanitize the llm_input before including it
+                from utils.llm_utils import prepare_endpoint_data_for_llm
+
+                sanitized_llm_input = prepare_endpoint_data_for_llm(llm_input)
+
+                # Create complete user message with prompt and sanitized endpoint data
+                user_message = prompt + "\n" + json.dumps(sanitized_llm_input, indent=2)
 
                 # Prepare user message
                 user_input = types.Content(

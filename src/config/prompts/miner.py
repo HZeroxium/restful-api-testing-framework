@@ -5,6 +5,8 @@ You are an expert API security and validation analyst. Your task is to analyze O
 
 Given the endpoint information below, identify and extract constraints that apply to request parameters (query, path, header parameters).
 
+Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces to avoid template conflicts.
+
 Focus on:
 1. Required vs optional parameters
 2. Data type validation constraints
@@ -64,6 +66,8 @@ You are an expert API security and validation analyst. Your task is to analyze O
 
 Given the endpoint information below, identify and extract constraints that apply to request body fields and structure.
 
+Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces to avoid template conflicts.
+
 Focus on:
 1. Required vs optional fields in request body
 2. Data type validation for body fields
@@ -92,6 +96,8 @@ RESPONSE_PROPERTY_CONSTRAINT_PROMPT = """
 You are an expert API design and validation analyst. Your task is to analyze OpenAPI endpoint information and identify constraints related to response properties and structure.
 
 Given the endpoint information below, identify and extract constraints that apply to response content, headers, and structure.
+
+Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces to avoid template conflicts.
 
 Focus on:
 1. Required response properties and their data types
@@ -148,6 +154,8 @@ REQUEST_RESPONSE_CONSTRAINT_PROMPT = """
 You are an expert API design analyst specializing in request-response correlations. Your task is to analyze OpenAPI endpoint information and identify constraints that define relationships between request inputs and response outputs.
 
 Given the endpoint information below, identify and extract constraints that show how request parameters/body influence the response.
+
+Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces to avoid template conflicts.
 
 Focus on:
 1. Request parameter values affecting response content
