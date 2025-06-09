@@ -2,9 +2,9 @@ import json
 import os
 import uuid
 from hashlib import md5
-from rbctest.llm.providers.openai import OpenAICaller
+from llm.providers.openai import OpenAICaller
 
-from rbctest.llm.providers.gemini import GeminiCaller
+from llm.providers.gemini import GeminiCaller
 
 llm_clients = {
     "openai": OpenAICaller(),
@@ -70,7 +70,6 @@ def find_previous_response(prompt: str) -> str:
             if data["prompt_hash"] == md5(prompt.encode()).hexdigest():
                 return data["response"]
     return None  # type: ignore
-
 
 
 def call_llm(

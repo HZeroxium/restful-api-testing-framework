@@ -15,3 +15,5 @@ data/collections
 data/executions
 
 my_visualizations
+experiment_results
+rbctest_output

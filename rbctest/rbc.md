@@ -5,7 +5,7 @@ This project is designed to **automatically mine and verify constraints** from A
 1. **Constraint Mining** (via the `miner/` folder)
 2. **Constraint Verification** (via the `verifier/` folder)
 
-The overall pipeline extracts request-response and response-property constraints from an API, saves them into an Excel file, and performs semantic verification of those constraints.
+The overall pipeline extracts request-response and response-property constraints from an API, saves them into structured formats, and performs semantic verification of those constraints.
 
 ---
 

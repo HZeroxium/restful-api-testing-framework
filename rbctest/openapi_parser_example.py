@@ -22,7 +22,7 @@ def save_output_to_file(output_dict, file_path):
     print(f"Output saved to {file_path}")
 
 
-def create_output_dir(base_dir="output"):
+def create_output_dir(base_dir="rbctest_output"):
     """Create a timestamped output directory."""
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     output_dir = os.path.join(base_dir, "openapi_parser", timestamp)
@@ -41,13 +41,13 @@ def main():
 
     # Define examples to parse
     examples = [
-        # {
-        #     "name": "toolshop_api",
-        #     "input": OpenAPIParserInput(
-        #         spec_source="data/toolshop/openapi.json",
-        #         source_type=SpecSourceType.FILE,
-        #     ),
-        # },
+        {
+            "name": "toolshop_api",
+            "input": OpenAPIParserInput(
+                spec_source="data/toolshop/openapi.json",
+                source_type=SpecSourceType.FILE,
+            ),
+        },
         {
             "name": "gitlab_repository_api",
             "input": OpenAPIParserInput(

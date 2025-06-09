@@ -1,6 +1,7 @@
 from oas_parser.utils import find_object_with_key
 from oas_parser.operations import is_success_status_code
-from oas_parser.schema import get_schema_recursive
+from oas_parser.schema import SchemaProcessor
+
 
 """
 Analyze the response & response schema
@@ -72,6 +73,8 @@ def get_relevent_response_schemas_of_operation(openapi_spec, operation):
     main_response_schemas = []
     relevant_schemas = []
 
+    schema_processor = SchemaProcessor(openapi_spec)
+
     method = operation.split("-")[0]
     path = "-".join(operation.split("-")[1:])
 
@@ -85,7 +88,7 @@ def get_relevent_response_schemas_of_operation(openapi_spec, operation):
                 )
                 if main_schema_ref:
                     main_response_schemas.append(main_schema_ref["$ref"].split("/")[-1])
-                    _, new_relevant_schemas = get_schema_recursive(
+                    _, new_relevant_schemas = schema_processor.get_schema_recursive(
                         operation_spec["responses"][response_code], openapi_spec
                     )
                     relevant_schemas.extend(new_relevant_schemas)

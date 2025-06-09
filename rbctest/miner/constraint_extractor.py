@@ -1,17 +1,12 @@
-from rbctest.oas_parser.parser import OpenAPIParser
-from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
-from rbctest.oas_parser.operations import extract_operations
-from oas_parser.response_utils import (
-    get_response_body_name_and_type,
-    get_relevent_response_schemas_of_operation
-)
+from oas_parser.parser import OpenAPIParser
+from schemas.openapi import OpenAPIParserInput, SpecSourceType
+from oas_parser.operations import extract_operations
+from oas_parser.response_utils import get_relevent_response_schemas_of_operation
 
-from rbctest.config.prompts.constraint_extraction import (
+from config.prompts.constraint_extraction import (
     DESCRIPTION_OBSERVATION_PROMPT,
     NAIVE_CONSTRAINT_DETECTION_PROMPT,
     CONSTRAINT_CONFIRMATION,
-    GROOVY_SCRIPT_VERIFICATION_GENERATION_PROMPT,
-    IDL_TRANSFORMATION_PROMPT,
 )
 
 from utils.gptcall import call_llm

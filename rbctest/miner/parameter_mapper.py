@@ -3,13 +3,13 @@ import copy
 import json
 import os
 
-from rbctest.oas_parser.parser import OpenAPIParser
-from rbctest.schemas.openapi import OpenAPIParserInput, SpecSourceType
+from oas_parser.parser import OpenAPIParser
+from schemas.openapi import OpenAPIParserInput, SpecSourceType
 from oas_parser.schema import SchemaProcessor
 
 
 from utils.gptcall import call_llm
-from rbctest.config.prompts.parameter_mapping import (
+from config.prompts.parameter_mapping import (
     PARAMETER_OBSERVATION,
     SCHEMA_OBSERVATION,
     PARAMETER_SCHEMA_MAPPING_PROMPT,
@@ -47,10 +47,6 @@ def extract_coresponding_attribute(response):
         return answer.strip().replace('"', "").replace("'", "")
     else:
         return ""
-
-
-def standardize_string(string):
-    return string.strip().replace('"', "")
 
 
 def get_data_type(attr_simplified_spec):
