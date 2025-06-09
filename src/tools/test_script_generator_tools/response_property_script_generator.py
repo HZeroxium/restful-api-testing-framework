@@ -3,6 +3,7 @@
 import uuid
 from typing import Dict, List, Optional
 import json
+import math
 
 from core.base_tool import BaseTool
 from schemas.tools.test_script_generator import (
@@ -26,6 +27,8 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         config: Optional[Dict] = None,
         verbose: bool = False,
         cache_enabled: bool = False,
+        chunk_threshold: int = 20,
+        max_chunk_size: int = 15,
     ):
         super().__init__(
             name=name,
@@ -36,6 +39,8 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
             verbose=verbose,
             cache_enabled=cache_enabled,
         )
+        self.chunk_threshold = chunk_threshold
+        self.max_chunk_size = max_chunk_size
 
     async def _execute(
         self, inp: TestScriptGeneratorInput
@@ -62,134 +67,31 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
                 validation_scripts=self._generate_basic_response_scripts(test_data)
             )
 
-        # Define LLM response schema
-        class ScriptOutput(BaseModel):
-            name: str
-            script_type: str
-            validation_code: str
-            description: str
+        # Determine if chunking is needed
+        if len(response_constraints) <= self.chunk_threshold:
+            # Process as single chunk
+            return await self._process_single_chunk(
+                endpoint, test_data, response_constraints
+            )
+        else:
+            # Process in multiple chunks
+            return await self._process_multiple_chunks(
+                endpoint, test_data, response_constraints
+            )
 
-        class ValidationScriptResult(BaseModel):
-            validation_scripts: List[ScriptOutput] = Field(default_factory=list)
+    async def _process_single_chunk(
+        self, endpoint, test_data, response_constraints: List
+    ) -> TestScriptGeneratorOutput:
+        """Process all constraints as a single chunk."""
+        if self.verbose:
+            print(
+                f"Processing as single chunk ({len(response_constraints)} constraints)"
+            )
 
         try:
-            # Prepare data for LLM
-            from utils.llm_utils import prepare_endpoint_data_for_llm
-
-            sanitized_endpoint_data = prepare_endpoint_data_for_llm(
-                endpoint.model_dump()
+            validation_scripts = await self._generate_scripts_for_chunk(
+                endpoint, test_data, response_constraints, chunk_index=0, total_chunks=1
             )
-
-            formatted_prompt = RESPONSE_PROPERTY_SCRIPT_PROMPT.format(
-                endpoint_data=json.dumps(sanitized_endpoint_data, indent=2),
-                constraints_data=json.dumps(
-                    [c.model_dump() for c in response_constraints], indent=2
-                ),
-                test_data=json.dumps(test_data.model_dump(), indent=2),
-                constraint_count=len(response_constraints),
-            )
-
-            # Execute LLM analysis
-            raw_json = await create_and_execute_llm_agent(
-                app_name="response_property_script_generator",
-                agent_name="response_script_analyzer",
-                instruction=formatted_prompt,
-                input_data={
-                    "endpoint": sanitized_endpoint_data,
-                    "constraints": [c.model_dump() for c in response_constraints],
-                    "test_data": test_data.model_dump(),
-                    "constraint_count": len(response_constraints),
-                },
-                output_schema=ValidationScriptResult,
-                timeout=self.config.get("timeout", 150.0) if self.config else 150.0,
-                max_retries=self.config.get("max_retries", 3) if self.config else 3,
-                verbose=self.verbose,
-            )
-
-            validation_scripts = []
-            if self.verbose:
-                print(f"Raw JSON from LLM: {raw_json}")
-
-            if (
-                raw_json
-                and isinstance(raw_json, dict)
-                and "validation_scripts" in raw_json
-            ):
-                scripts_data = raw_json["validation_scripts"]
-                if not isinstance(scripts_data, list):
-                    if self.verbose:
-                        print(
-                            f"Warning: validation_scripts is not a list: {type(scripts_data)}"
-                        )
-                    scripts_data = []
-
-                for i, script_data in enumerate(scripts_data):
-                    if not isinstance(script_data, dict):
-                        if self.verbose:
-                            print(
-                                f"Warning: script_data {i} is not a dict: {type(script_data)}"
-                            )
-                        continue
-
-                    validation_code = script_data.get("validation_code", "")
-                    if not validation_code:
-                        if self.verbose:
-                            print(f"Warning: Empty validation_code for script {i}")
-                        continue
-
-                    # Clean up validation code - remove JSON escaping
-                    validation_code = validation_code.replace("\\n", "\n").replace(
-                        '\\"', '"'
-                    )
-
-                    # Ensure the code is properly formatted as a function
-                    if not validation_code.strip().startswith("def "):
-                        function_name = f"validate_response_{i}"
-                        validation_code = f"""
-def {function_name}(request, response):
-    \"\"\"Auto-wrapped response validation function\"\"\"
-    try:
-{self._indent_code(validation_code, 8)}
-    except Exception as e:
-        return False
-"""
-
-                    # Map to corresponding constraint
-                    constraint_id = None
-                    if i < len(response_constraints):
-                        constraint_id = response_constraints[i].id
-
-                    script = ValidationScript(
-                        id=str(uuid.uuid4()),
-                        name=script_data.get("name", f"Response validation {i + 1}"),
-                        script_type="response_property",
-                        validation_code=validation_code,
-                        description=script_data.get(
-                            "description", "Response property validation"
-                        ),
-                        constraint_id=constraint_id,
-                    )
-                    validation_scripts.append(script)
-            else:
-                if self.verbose:
-                    print(
-                        f"Warning: Invalid or missing validation_scripts in LLM response"
-                    )
-
-            # Ensure we have the right number of scripts
-            if len(validation_scripts) != len(response_constraints):
-                if self.verbose:
-                    print(
-                        f"⚠️  Generated {len(validation_scripts)} scripts but expected {len(response_constraints)}"
-                    )
-
-                # Fill missing scripts with constraint-specific ones
-                while len(validation_scripts) < len(response_constraints):
-                    missing_constraint = response_constraints[len(validation_scripts)]
-                    basic_script = self._generate_constraint_specific_script(
-                        missing_constraint, len(validation_scripts)
-                    )
-                    validation_scripts.append(basic_script)
 
             if not validation_scripts:
                 validation_scripts = self._generate_basic_response_scripts(test_data)
@@ -203,15 +105,271 @@ def {function_name}(request, response):
 
         except Exception as e:
             if self.verbose:
-                print(f"Error generating response scripts: {str(e)}")
+                print(f"Error in single chunk processing: {str(e)}")
                 import traceback
 
                 traceback.print_exc()
+
             return TestScriptGeneratorOutput(
                 validation_scripts=self._generate_constraint_based_fallback_scripts(
                     response_constraints, test_data
                 )
             )
+
+    async def _process_multiple_chunks(
+        self, endpoint, test_data, response_constraints: List
+    ) -> TestScriptGeneratorOutput:
+        """Process constraints in multiple chunks."""
+        num_chunks = math.ceil(len(response_constraints) / self.max_chunk_size)
+
+        if self.verbose:
+            print(
+                f"Processing in {num_chunks} chunks ({len(response_constraints)} constraints, max {self.max_chunk_size} per chunk)"
+            )
+
+        all_validation_scripts = []
+        chunk_results = []
+
+        for chunk_index in range(num_chunks):
+            start_idx = chunk_index * self.max_chunk_size
+            end_idx = min(start_idx + self.max_chunk_size, len(response_constraints))
+            chunk_constraints = response_constraints[start_idx:end_idx]
+
+            if self.verbose:
+                print(
+                    f"Processing chunk {chunk_index + 1}/{num_chunks}: constraints {start_idx + 1}-{end_idx} ({len(chunk_constraints)} constraints)"
+                )
+
+            try:
+                chunk_scripts = await self._generate_scripts_for_chunk(
+                    endpoint, test_data, chunk_constraints, chunk_index, num_chunks
+                )
+
+                all_validation_scripts.extend(chunk_scripts)
+                chunk_results.append(
+                    {
+                        "chunk_index": chunk_index,
+                        "constraints_processed": len(chunk_constraints),
+                        "scripts_generated": len(chunk_scripts),
+                        "status": "success",
+                    }
+                )
+
+                if self.verbose:
+                    print(
+                        f"Chunk {chunk_index + 1} completed: {len(chunk_scripts)} scripts generated"
+                    )
+
+            except Exception as e:
+                if self.verbose:
+                    print(f"Error in chunk {chunk_index + 1}: {str(e)}")
+
+                # Generate fallback scripts for this chunk
+                fallback_scripts = self._generate_constraint_based_fallback_scripts(
+                    chunk_constraints, test_data
+                )
+                all_validation_scripts.extend(fallback_scripts)
+
+                chunk_results.append(
+                    {
+                        "chunk_index": chunk_index,
+                        "constraints_processed": len(chunk_constraints),
+                        "scripts_generated": len(fallback_scripts),
+                        "status": "fallback",
+                        "error": str(e),
+                    }
+                )
+
+        # Ensure we have scripts for all constraints
+        if len(all_validation_scripts) < len(response_constraints):
+            if self.verbose:
+                print(
+                    f"⚠️  Generated {len(all_validation_scripts)} scripts but expected {len(response_constraints)}"
+                )
+
+            # Fill missing scripts with constraint-specific ones
+            while len(all_validation_scripts) < len(response_constraints):
+                missing_constraint = response_constraints[len(all_validation_scripts)]
+                basic_script = self._generate_constraint_specific_script(
+                    missing_constraint, len(all_validation_scripts)
+                )
+                all_validation_scripts.append(basic_script)
+
+        if not all_validation_scripts:
+            all_validation_scripts = self._generate_basic_response_scripts(test_data)
+
+        if self.verbose:
+            print(
+                f"Multi-chunk processing completed: {len(all_validation_scripts)} total scripts generated"
+            )
+            for result in chunk_results:
+                status_emoji = "✅" if result["status"] == "success" else "⚠️"
+                print(
+                    f"  {status_emoji} Chunk {result['chunk_index'] + 1}: {result['scripts_generated']} scripts ({result['status']})"
+                )
+
+        return TestScriptGeneratorOutput(validation_scripts=all_validation_scripts)
+
+    async def _generate_scripts_for_chunk(
+        self,
+        endpoint,
+        test_data,
+        chunk_constraints: List,
+        chunk_index: int,
+        total_chunks: int,
+    ) -> List[ValidationScript]:
+        """Generate validation scripts for a specific chunk of constraints."""
+
+        # Define LLM response schema
+        class ScriptOutput(BaseModel):
+            name: str
+            script_type: str
+            validation_code: str
+            description: str
+
+        class ValidationScriptResult(BaseModel):
+            validation_scripts: List[ScriptOutput] = Field(default_factory=list)
+
+        # Prepare data for LLM
+        from utils.llm_utils import prepare_endpoint_data_for_llm
+
+        sanitized_endpoint_data = prepare_endpoint_data_for_llm(endpoint.model_dump())
+
+        # Create chunk-specific prompt
+        chunk_info = (
+            f" (Chunk {chunk_index + 1} of {total_chunks})" if total_chunks > 1 else ""
+        )
+
+        formatted_prompt = RESPONSE_PROPERTY_SCRIPT_PROMPT.format(
+            endpoint_data=json.dumps(sanitized_endpoint_data, indent=2),
+            constraints_data=json.dumps(
+                [c.model_dump() for c in chunk_constraints], indent=2
+            ),
+            test_data=json.dumps(test_data.model_dump(), indent=2),
+            constraint_count=len(chunk_constraints),
+        )
+
+        # Add chunk-specific instructions if processing multiple chunks
+        if total_chunks > 1:
+            formatted_prompt += f"""
+
+CHUNK PROCESSING NOTICE{chunk_info}:
+- You are processing {len(chunk_constraints)} constraints out of a total larger set
+- Focus on generating exactly {len(chunk_constraints)} validation scripts
+- Each script should correspond to one constraint in the provided list
+- Ensure script names and descriptions are specific to avoid conflicts with other chunks
+- Include constraint IDs in script comments for traceability
+"""
+
+        # Execute LLM analysis
+        raw_json = await create_and_execute_llm_agent(
+            app_name=f"response_property_script_generator_chunk_{chunk_index}",
+            agent_name=f"response_script_analyzer_chunk_{chunk_index}",
+            instruction=formatted_prompt,
+            input_data={
+                "endpoint": sanitized_endpoint_data,
+                "constraints": [c.model_dump() for c in chunk_constraints],
+                "test_data": test_data.model_dump(),
+                "constraint_count": len(chunk_constraints),
+                "chunk_index": chunk_index,
+                "total_chunks": total_chunks,
+            },
+            output_schema=ValidationScriptResult,
+            timeout=self.config.get("timeout", 150.0) if self.config else 150.0,
+            max_retries=self.config.get("max_retries", 3) if self.config else 3,
+            verbose=self.verbose,
+        )
+
+        validation_scripts = []
+        if self.verbose:
+            print(f"Raw JSON from LLM (chunk {chunk_index + 1}): {raw_json}")
+
+        if raw_json and isinstance(raw_json, dict) and "validation_scripts" in raw_json:
+            scripts_data = raw_json["validation_scripts"]
+            if not isinstance(scripts_data, list):
+                if self.verbose:
+                    print(
+                        f"Warning: validation_scripts is not a list: {type(scripts_data)}"
+                    )
+                scripts_data = []
+
+            for i, script_data in enumerate(scripts_data):
+                if not isinstance(script_data, dict):
+                    if self.verbose:
+                        print(
+                            f"Warning: script_data {i} is not a dict: {type(script_data)}"
+                        )
+                    continue
+
+                validation_code = script_data.get("validation_code", "")
+                if not validation_code:
+                    if self.verbose:
+                        print(f"Warning: Empty validation_code for script {i}")
+                    continue
+
+                # Clean up validation code - remove JSON escaping
+                validation_code = validation_code.replace("\\n", "\n").replace(
+                    '\\"', '"'
+                )
+
+                # Ensure the code is properly formatted as a function
+                if not validation_code.strip().startswith("def "):
+                    function_name = f"validate_response_chunk_{chunk_index}_{i}"
+                    validation_code = f"""
+def {function_name}(request, response):
+    \"\"\"Auto-wrapped response validation function\"\"\"
+    try:
+{self._indent_code(validation_code, 8)}
+    except Exception as e:
+        return False
+"""
+
+                # Map to corresponding constraint
+                constraint_id = None
+                if i < len(chunk_constraints):
+                    constraint_id = chunk_constraints[i].id
+
+                # Create unique script name to avoid conflicts across chunks
+                script_name = script_data.get("name", f"Response validation {i + 1}")
+                if total_chunks > 1:
+                    script_name = f"{script_name} (Chunk {chunk_index + 1})"
+
+                script = ValidationScript(
+                    id=str(uuid.uuid4()),
+                    name=script_name,
+                    script_type="response_property",
+                    validation_code=validation_code,
+                    description=script_data.get(
+                        "description", "Response property validation"
+                    ),
+                    constraint_id=constraint_id,
+                )
+                validation_scripts.append(script)
+        else:
+            if self.verbose:
+                print(
+                    f"Warning: Invalid or missing validation_scripts in LLM response for chunk {chunk_index + 1}"
+                )
+
+        # Ensure we have the right number of scripts for this chunk
+        if len(validation_scripts) != len(chunk_constraints):
+            if self.verbose:
+                print(
+                    f"⚠️  Chunk {chunk_index + 1}: Generated {len(validation_scripts)} scripts but expected {len(chunk_constraints)}"
+                )
+
+            # Fill missing scripts with constraint-specific ones
+            while len(validation_scripts) < len(chunk_constraints):
+                missing_constraint = chunk_constraints[len(validation_scripts)]
+                basic_script = self._generate_constraint_specific_script(
+                    missing_constraint, len(validation_scripts)
+                )
+                # Update script name for chunk context
+                if total_chunks > 1:
+                    basic_script.name = f"{basic_script.name} (Chunk {chunk_index + 1})"
+                validation_scripts.append(basic_script)
+
+        return validation_scripts
 
     def _generate_constraint_specific_script(
         self, constraint, index: int
