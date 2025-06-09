@@ -7,15 +7,25 @@ from pydantic import BaseModel, Field
 class ToolInput(BaseModel):
     """Base schema for tool inputs."""
 
-    parameters: Dict[str, Any] = Field(
-        default_factory=dict, description="Parameters for the tool execution"
+    # Base fields that all tool inputs should have
+    metadata: Optional[Dict[str, Any]] = Field(
+        default=None, description="Additional metadata for the tool execution"
     )
 
 
 class ToolOutput(BaseModel):
     """Base schema for tool outputs."""
 
-    result: Any = Field(..., description="The result of the tool execution")
+    # Base fields that all tool outputs should have
+    success: bool = Field(
+        default=True, description="Whether the tool execution was successful"
+    )
+    error_message: Optional[str] = Field(
+        default=None, description="Error message if execution failed"
+    )
+    execution_time: Optional[float] = Field(
+        default=None, description="Time taken for execution in seconds"
+    )
     metadata: Optional[Dict[str, Any]] = Field(
-        default=None, description="Additional metadata about the execution"
+        default=None, description="Additional metadata from the tool execution"
     )

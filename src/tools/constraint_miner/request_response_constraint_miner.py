@@ -1,0 +1,190 @@
+"""Request-response correlation constraint mining tool."""
+
+import uuid
+from typing import Dict, List, Optional
+
+from core.base_tool import BaseTool
+from schemas.tools.constraint_miner import (
+    RequestResponseConstraintMinerInput,
+    RequestResponseConstraintMinerOutput,
+    ApiConstraint,
+    ConstraintType,
+)
+from utils.llm_utils import create_and_execute_llm_agent
+from config.prompts.miner import REQUEST_RESPONSE_CONSTRAINT_PROMPT
+from pydantic import BaseModel, Field
+
+
+class RequestResponseConstraintMinerTool(BaseTool):
+    """Tool for mining request-response correlation constraints using LLM analysis."""
+
+    def __init__(
+        self,
+        *,
+        name: str = "request_response_constraint_miner",
+        description: str = "Mines correlation constraints between requests and responses",
+        config: Optional[Dict] = None,
+        verbose: bool = False,
+        cache_enabled: bool = False,
+    ):
+        super().__init__(
+            name=name,
+            description=description,
+            input_schema=RequestResponseConstraintMinerInput,
+            output_schema=RequestResponseConstraintMinerOutput,
+            config=config,
+            verbose=verbose,
+            cache_enabled=cache_enabled,
+        )
+
+    async def _execute(
+        self, inp: RequestResponseConstraintMinerInput
+    ) -> RequestResponseConstraintMinerOutput:
+        """Mine request-response correlation constraints from endpoint information."""
+        endpoint = inp.endpoint_info
+
+        if self.verbose:
+            print(
+                f"RequestResponseConstraintMiner: Analyzing {endpoint.method.upper()} {endpoint.path}"
+            )
+
+        # Define simplified LLM response schema without additionalProperties issues
+        class RequestResponseConstraint(BaseModel):
+            request_element: str = Field(
+                ..., description="Request parameter/field name"
+            )
+            request_location: str = Field(
+                ..., description="Location: query, path, body, header"
+            )
+            response_element: str = Field(
+                ..., description="Response property or status affected"
+            )
+            description: str = Field(..., description="Constraint description")
+            constraint_type: str = Field(..., description="Type of correlation")
+            severity: str = Field(default="info", description="Severity level")
+            validation_rule: str = Field(..., description="Validation rule identifier")
+            # Simplified additional fields
+            condition: Optional[str] = Field(
+                None, description="Condition for the constraint"
+            )
+
+        class RequestResponseConstraintResult(BaseModel):
+            constraints: List[RequestResponseConstraint] = Field(default_factory=list)
+
+        try:
+            # Format the prompt with endpoint data
+            formatted_prompt = REQUEST_RESPONSE_CONSTRAINT_PROMPT.format(
+                endpoint_data=endpoint.model_dump_json(indent=2)
+            )
+
+            # Execute LLM analysis
+            raw_json = await create_and_execute_llm_agent(
+                app_name="request_response_miner",
+                agent_name="correlation_constraint_analyzer",
+                instruction=formatted_prompt,
+                input_data=endpoint.model_dump(),
+                input_schema=type(endpoint),
+                output_schema=RequestResponseConstraintResult,
+                timeout=self.config.get("timeout", 60.0) if self.config else 60.0,
+                max_retries=self.config.get("max_retries", 2) if self.config else 2,
+                verbose=self.verbose,
+            )
+
+            constraints = []
+            if raw_json and "constraints" in raw_json:
+                for constraint_data in raw_json["constraints"]:
+                    # Create details dict from the constraint data
+                    details = {
+                        "request_element": constraint_data.get("request_element", ""),
+                        "request_location": constraint_data.get("request_location", ""),
+                        "response_element": constraint_data.get("response_element", ""),
+                        "constraint_type": constraint_data.get("constraint_type", ""),
+                        "validation_rule": constraint_data.get("validation_rule", ""),
+                    }
+
+                    # Add optional fields if present
+                    if constraint_data.get("condition"):
+                        details["condition"] = constraint_data["condition"]
+
+                    constraint = ApiConstraint(
+                        id=str(uuid.uuid4()),
+                        type=ConstraintType.REQUEST_RESPONSE,
+                        description=constraint_data.get("description", ""),
+                        severity=constraint_data.get("severity", "info"),
+                        source="llm",
+                        details=details,
+                    )
+                    constraints.append(constraint)
+
+            if self.verbose:
+                print(
+                    f"Found {len(constraints)} request-response correlation constraints"
+                )
+
+            result_summary = {
+                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
+                "total_constraints": len(constraints),
+                "source": "llm",
+                "status": "success",
+                "constraint_types": list(
+                    set(c.details.get("constraint_type", "") for c in constraints)
+                ),
+            }
+
+            return RequestResponseConstraintMinerOutput(
+                endpoint_method=endpoint.method,
+                endpoint_path=endpoint.path,
+                correlation_constraints=constraints,
+                total_constraints=len(constraints),
+                result=result_summary,
+            )
+
+        except Exception as e:
+            if self.verbose:
+                print(f"Error in request-response constraint mining: {str(e)}")
+
+            return self._generate_fallback_constraints(endpoint)
+
+    def _generate_fallback_constraints(
+        self, endpoint
+    ) -> RequestResponseConstraintMinerOutput:
+        """Generate basic correlation constraints when LLM fails."""
+        constraints = []
+
+        # Generate basic request-response correlations
+        if endpoint.method.upper() == "POST":
+            constraints.append(
+                ApiConstraint(
+                    id=str(uuid.uuid4()),
+                    type=ConstraintType.REQUEST_RESPONSE,
+                    description="Valid POST request should return 201 status with location header",
+                    severity="info",
+                    source="fallback",
+                    details={
+                        "request_element": "body",
+                        "request_location": "body",
+                        "response_element": "status_code",
+                        "constraint_type": "status_mapping",
+                        "validation_rule": "post_success_201",
+                    },
+                )
+            )
+
+        result_summary = {
+            "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
+            "total_constraints": len(constraints),
+            "source": "fallback",
+            "status": "success_fallback",
+        }
+
+        return RequestResponseConstraintMinerOutput(
+            endpoint_method=endpoint.method,
+            endpoint_path=endpoint.path,
+            correlation_constraints=constraints,
+            total_constraints=len(constraints),
+            result=result_summary,
+        )
+
+    async def cleanup(self) -> None:
+        """Clean up resources."""
+        pass

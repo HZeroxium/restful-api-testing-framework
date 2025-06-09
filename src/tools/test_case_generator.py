@@ -117,10 +117,12 @@ class TestCaseGeneratorTool(BaseTool):
             # Execute the constraint miner
             miner_output = await self.constraint_miner.execute(miner_input)
 
-            # Combine all constraints
+            # Combine all constraints from the new structure
             all_constraints = (
-                miner_output.request_response_constraints
+                miner_output.request_param_constraints
+                + miner_output.request_body_constraints
                 + miner_output.response_property_constraints
+                + miner_output.request_response_constraints
             )
 
             # Cache the constraints for future use
