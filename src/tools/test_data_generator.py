@@ -11,7 +11,6 @@ from schemas.tools.test_data_generator import (
     TestDataGeneratorOutput,
     TestData,
 )
-from config.settings import settings
 
 
 class TestDataGeneratorTool(BaseTool):
@@ -90,28 +89,7 @@ class TestDataGeneratorTool(BaseTool):
         self, endpoint, test_case_count, include_invalid_data
     ) -> List[TestData]:
         """Generate test data using LLM with improved error handling."""
-        # Import required modules
-        from google.adk.agents import LlmAgent
-        from google.adk.runners import Runner
-        from google.adk.sessions import InMemorySessionService
-        from google.adk.artifacts import InMemoryArtifactService
-        from google.adk.memory import InMemoryMemoryService
-        from google.genai import types
-
-        # Set up session services
-        session_service = InMemorySessionService()
-        artifact_service = InMemoryArtifactService()
-        memory_service = InMemoryMemoryService()
-        session_id = str(uuid.uuid4())
-        user_id = "system"
-
-        # Initialize session
-        session_service.create_session(
-            app_name="test_data_generator",
-            user_id=user_id,
-            session_id=session_id,
-            state={},
-        )
+        from utils.llm_utils import create_and_execute_llm_agent
 
         # Prepare the endpoint info as JSON for the LLM prompt
         endpoint_json = {
@@ -167,89 +145,21 @@ GUIDELINES:
 Review your JSON output before responding to ensure it's valid and matches the requested format exactly.
 """
 
-        # Create the LLM agent without specifying output schema
-        llm_agent = LlmAgent(
-            name="llm_test_data_generator",
-            model=settings.llm.LLM_MODEL,
-            instruction="You are an API test data generator. Generate test cases in the format requested.",
-            disallow_transfer_to_parent=True,
-            disallow_transfer_to_peers=True,
-        )
-
-        # Create a runner
-        runner = Runner(
+        # Execute LLM agent
+        raw_json = await create_and_execute_llm_agent(
             app_name="test_data_generator",
-            agent=llm_agent,
-            session_service=session_service,
-            artifact_service=artifact_service,
-            memory_service=memory_service,
+            agent_name="llm_test_data_generator",
+            instruction="You are an API test data generator. Generate test cases in the format requested.",
+            input_data=prompt,
+            timeout=60.0,
+            max_retries=2,
+            retry_delay=1.0,
+            verbose=self.verbose,
         )
 
-        # Prepare input for the LLM
-        user_input = types.Content(role="user", parts=[types.Part(text=prompt)])
-
-        # Run the agent with timeout protection
-        raw_text = None
-        try:
-            # Add timeout to prevent hanging if the LLM response is delayed
-            async def get_llm_response():
-                for event in runner.run(
-                    session_id=session_id,
-                    user_id=user_id,
-                    new_message=user_input,
-                ):
-                    if event.content:
-                        return "".join(part.text for part in event.content.parts)
-                return None
-
-            # Set a reasonable timeout (30 seconds)
-            raw_text = await asyncio.wait_for(get_llm_response(), timeout=60)
-
-        except asyncio.TimeoutError:
-            if self.verbose:
-                print("LLM request timed out after 60 seconds")
-            return []
-        except Exception as e:
-            if self.verbose:
-                print(f"Error during LLM processing: {str(e)}")
-            return []
-
-        if not raw_text:
+        if raw_json is None:
             if self.verbose:
                 print("No response received from LLM")
-            return []
-
-        # Extract JSON from the response text
-        try:
-            # Look for JSON content that might be wrapped in markdown code blocks
-            json_match = None
-            if "```json" in raw_text:
-                json_parts = raw_text.split("```json")
-                if len(json_parts) > 1:
-                    json_content = json_parts[1].split("```")[0].strip()
-                    json_match = json_content
-            elif "```" in raw_text:
-                json_parts = raw_text.split("```")
-                if len(json_parts) > 1:
-                    json_content = json_parts[1].strip()
-                    json_match = json_content
-            else:
-                # Try to find JSON object directly
-                import re
-
-                pattern = r"\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}"
-                matches = re.findall(pattern, raw_text)
-                if matches:
-                    json_match = matches[0]
-
-            if not json_match:
-                json_match = raw_text
-
-            # Parse the JSON
-            raw_json = json.loads(json_match)
-        except json.JSONDecodeError:
-            if self.verbose:
-                print(f"Failed to decode JSON from LLM response: {raw_text[:100]}...")
             return []
 
         # Convert LLM output to TestData objects

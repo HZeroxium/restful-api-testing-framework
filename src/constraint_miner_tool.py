@@ -5,7 +5,6 @@ import os
 import json
 import argparse
 from typing import List, Dict, Any
-from datetime import datetime
 
 from tools import OpenAPIParserTool, StaticConstraintMinerTool
 from schemas.tools.openapi_parser import (
@@ -17,75 +16,15 @@ from schemas.tools.constraint_miner import (
     StaticConstraintMinerInput,
     StaticConstraintMinerOutput,
 )
-
-
-async def parse_openapi_spec(spec_source: str) -> Dict[str, Any]:
-    """
-    Parse an OpenAPI specification and extract endpoints.
-
-    Args:
-        spec_source: Path to the OpenAPI specification file
-
-    Returns:
-        Dictionary containing API info and endpoints
-    """
-    parser_tool = OpenAPIParserTool(verbose=True)
-
-    parser_input = OpenAPIParserInput(
-        spec_source=spec_source, source_type=SpecSourceType.FILE
-    )
-
-    print(f"Parsing OpenAPI specification: {spec_source}")
-    parser_output = await parser_tool.execute(parser_input)
-
-    api_info = {
-        "title": parser_output.title,
-        "version": parser_output.version,
-        "description": parser_output.description,
-        "servers": parser_output.servers,
-        "endpoints": parser_output.endpoints,
-    }
-
-    print(f"API: {api_info['title']} v{api_info['version']}")
-    print(f"Found {len(parser_output.endpoints)} endpoints")
-
-    return api_info
-
-
-def select_endpoints(endpoints: List[EndpointInfo]) -> List[EndpointInfo]:
-    """
-    Allow user to select which endpoints to analyze.
-
-    Args:
-        endpoints: List of available endpoints
-
-    Returns:
-        List of selected endpoints
-    """
-    print("\nAvailable endpoints:")
-    for i, endpoint in enumerate(endpoints):
-        print(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
-
-    # Allow selection of multiple endpoints
-    selected_indices = input(
-        "\nEnter endpoint numbers to analyze (comma-separated, or 'all'): "
-    )
-
-    if selected_indices.lower() == "all":
-        return endpoints
-
-    try:
-        indices = [int(idx.strip()) - 1 for idx in selected_indices.split(",")]
-        selected = [endpoints[idx] for idx in indices if 0 <= idx < len(endpoints)]
-        if not selected:
-            print(
-                "No valid endpoints selected, analyzing the first endpoint by default."
-            )
-            return [endpoints[0]]
-        return selected
-    except (ValueError, IndexError):
-        print("Invalid selection, analyzing the first endpoint by default.")
-        return [endpoints[0]]
+from utils.demo_utils import (
+    parse_openapi_spec,
+    select_endpoints,
+    create_timestamped_output_dir,
+    print_endpoint_summary,
+    save_summary_file,
+    validate_file_exists,
+    get_default_spec_path,
+)
 
 
 async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str, Any]:
@@ -99,7 +38,7 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
     Returns:
         Dictionary containing constraint information
     """
-    print(f"\nMining constraints for: [{endpoint.method.upper()}] {endpoint.path}")
+    print_endpoint_summary(endpoint, "Mining constraints for")
 
     # Create the miner tool
     miner_tool = StaticConstraintMinerTool(verbose=True)
@@ -166,25 +105,35 @@ async def main():
     parser.add_argument(
         "--spec",
         type=str,
-        default="data/toolshop/openapi.json",
+        default=get_default_spec_path(),
         help="Path to OpenAPI specification file",
+    )
+    parser.add_argument(
+        "--verbose",
+        action="store_true",
+        help="Enable verbose output",
     )
     args = parser.parse_args()
 
-    # Create timestamped output directory
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = os.path.join("output", "constraints", timestamp)
-    os.makedirs(output_dir, exist_ok=True)
+    # Validate input file
+    if not validate_file_exists(args.spec):
+        return
+
+    # Create output directory
+    output_dir = create_timestamped_output_dir("output", "constraints")
 
     # Parse OpenAPI spec
-    api_info = await parse_openapi_spec(args.spec)
+    api_info = await parse_openapi_spec(args.spec, verbose=True)
 
     if not api_info["endpoints"]:
         print("No endpoints found in the OpenAPI specification.")
         return
 
     # Select endpoints to analyze
-    selected_endpoints = select_endpoints(api_info["endpoints"])
+    selected_endpoints = select_endpoints(
+        api_info["endpoints"],
+        "Enter endpoint numbers to analyze (comma-separated, or 'all'): ",
+    )
 
     # Mine constraints from selected endpoints
     all_constraints = []
@@ -193,18 +142,12 @@ async def main():
         all_constraints.append(constraints)
 
     # Create a summary file
-    summary = {
-        "api_name": api_info["title"],
-        "api_version": api_info["version"],
-        "timestamp": timestamp,
+    summary_data = {
         "endpoints_analyzed": len(selected_endpoints),
         "constraints": all_constraints,
     }
 
-    summary_path = os.path.join(output_dir, "summary.json")
-    with open(summary_path, "w") as f:
-        json.dump(summary, f, indent=2, default=str)
-
+    summary_path = save_summary_file(output_dir, api_info, summary_data)
     print(f"\nAnalysis completed. Summary saved to: {summary_path}")
 
 

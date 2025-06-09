@@ -11,7 +11,7 @@ from schemas.tools.test_script_generator import (
 )
 from schemas.tools.test_data_generator import TestData
 from schemas.tools.constraint_miner import ApiConstraint
-from config.settings import settings
+from utils.llm_utils import create_and_execute_llm_agent
 from config.constants import LLM_INSTRUCTIONS
 
 
@@ -156,19 +156,10 @@ def validate_content_type(request, response):
         self, endpoint, test_data, constraints: List[ApiConstraint]
     ) -> List[ValidationScript]:
         """Generate validation scripts based on the provided constraints using LLM."""
-        # Initialize LLM components - similar to StaticConstraintMinerTool
-        import json
-        import uuid
-        from google.adk.agents import LlmAgent
-        from google.adk.runners import Runner
-        from google.adk.sessions import InMemorySessionService
-        from google.adk.artifacts import InMemoryArtifactService
-        from google.adk.memory import InMemoryMemoryService
-        from google.genai import types
         from pydantic import BaseModel, Field
         from typing import List, Dict, Any
 
-        # Define a schema for LLM input
+        # Define schemas for LLM interaction
         class LlmScriptGeneratorInput(BaseModel):
             endpoint: Dict[str, Any] = Field(
                 ..., description="API endpoint information"
@@ -180,8 +171,6 @@ def validate_content_type(request, response):
                 ..., description="Constraints to validate against"
             )
 
-        # Define a schema for LLM output - using a simplified version for the LLM
-        # but will map to our full ValidationScript schema
         class LlmValidationScriptOutput(BaseModel):
             name: str
             script_type: str
@@ -190,23 +179,6 @@ def validate_content_type(request, response):
 
         class ValidationScriptOutput(BaseModel):
             validation_scripts: List[LlmValidationScriptOutput]
-
-        # Set up session services
-        session_service = InMemorySessionService()
-        artifact_service = InMemoryArtifactService()
-        memory_service = InMemoryMemoryService()
-
-        # Create a unique session ID
-        session_id = str(uuid.uuid4())
-        user_id = "system"
-
-        # Initialize session
-        session_service.create_session(
-            app_name="validation_script_generator",
-            user_id=user_id,
-            session_id=session_id,
-            state={},
-        )
 
         # Prepare input data for LLM
         llm_input = LlmScriptGeneratorInput(
@@ -219,65 +191,34 @@ def validate_content_type(request, response):
             constraints=[c.model_dump() for c in constraints],
         )
 
-        # Create the LLM agent
-        script_generator_agent = LlmAgent(
-            name="llm_script_generator",
-            model=settings.llm.LLM_MODEL,
+        # Execute LLM agent
+        raw_json = await create_and_execute_llm_agent(
+            app_name="validation_script_generator",
+            agent_name="llm_script_generator",
             instruction=LLM_INSTRUCTIONS["test_script_generator"],
+            input_data=llm_input,
             input_schema=LlmScriptGeneratorInput,
             output_schema=ValidationScriptOutput,
-            disallow_transfer_to_parent=True,
-            disallow_transfer_to_peers=True,
+            timeout=self.config.get("timeout", 60.0),
+            max_retries=self.config.get("max_retries", 2),
+            retry_delay=self.config.get("retry_delay", 1.0),
+            verbose=self.verbose,
         )
 
-        # Create a runner
-        runner = Runner(
-            app_name="validation_script_generator",
-            agent=script_generator_agent,
-            session_service=session_service,
-            artifact_service=artifact_service,
-            memory_service=memory_service,
-        )
-
-        # Prepare input for the LLM
-        user_input = types.Content(
-            role="user", parts=[types.Part(text=llm_input.model_dump_json())]
-        )
-
-        # Run the agent
-        raw_json = None
-        try:
+        if raw_json is None:
             if self.verbose:
-                print(f"Running LLM to generate validation scripts")
-
-            for event in runner.run(
-                session_id=session_id,
-                user_id=user_id,
-                new_message=user_input,
-            ):
-                if event.content:
-                    text = "".join(part.text for part in event.content.parts)
-                    try:
-                        raw_json = json.loads(text)
-                        break  # We got valid JSON, exit the loop
-                    except json.JSONDecodeError:
-                        if self.verbose:
-                            print(
-                                "Failed to decode JSON from agent response. Continuing..."
-                            )
-                        continue
-
-            if raw_json is None:
-                if self.verbose:
-                    print("No valid response received from the agent.")
-                return []
-
-        except Exception as e:
-            if self.verbose:
-                print(f"Error during LLM processing: {str(e)}")
+                print(
+                    "No valid response received from LLM for constraint-based scripts"
+                )
             return []
 
-        # Convert LLM output to ValidationScript objects
+        # Process LLM output into ValidationScript objects
+        return self._process_llm_script_output(raw_json, constraints)
+
+    def _process_llm_script_output(
+        self, raw_json: Dict, constraints: List[ApiConstraint]
+    ) -> List[ValidationScript]:
+        """Process LLM output into ValidationScript objects."""
         validation_scripts = []
 
         if "validation_scripts" in raw_json:

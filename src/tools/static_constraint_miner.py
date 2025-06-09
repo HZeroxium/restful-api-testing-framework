@@ -1,5 +1,6 @@
+# tools/static_constraint_miner.py
+
 import uuid
-import json
 from typing import Dict, List, Optional
 from pydantic import BaseModel, Field
 
@@ -10,7 +11,7 @@ from schemas.tools.constraint_miner import (
     ApiConstraint,
     ConstraintType,
 )
-from config.settings import settings
+from utils.llm_utils import create_and_execute_llm_agent
 from config.constants import LLM_INSTRUCTIONS
 
 
@@ -53,16 +54,7 @@ class StaticConstraintMinerTool(BaseTool):
                 f"StaticConstraintMiner: Mining constraints for {endpoint.method.upper()} {endpoint.path}"
             )
 
-        # Initialize LLM components
-        from google.adk.agents import LlmAgent
-        from google.adk.runners import Runner
-        from google.adk.sessions import InMemorySessionService
-        from google.adk.artifacts import InMemoryArtifactService
-        from google.adk.memory import InMemoryMemoryService
-        from google.adk.models.lite_llm import LiteLlm
-        from google.genai import types
-
-        # Define a schema for LLM output that matches what we expect to get from the LLM
+        # Define schemas for LLM interaction
         class RequestResponseConstraint(BaseModel):
             param: str = Field(
                 ..., description="Name of the request parameter or body field"
@@ -92,152 +84,131 @@ class StaticConstraintMinerTool(BaseTool):
                 default_factory=list
             )
 
-        # Set up session services
-        session_service = InMemorySessionService()
-        artifact_service = InMemoryArtifactService()
-        memory_service = InMemoryMemoryService()
-
-        # Create a unique session ID
-        session_id = str(uuid.uuid4())
-        user_id = "system"
-
-        # Initialize session
-        session_service.create_session(
-            app_name="constraint_miner",
-            user_id=user_id,
-            session_id=session_id,
-            state={},
-        )
-
-        # Create the LLM agent
-        constraint_miner_agent = LlmAgent(
-            name="llm_constraint_miner",
-            # model=LiteLlm(
-            #     model=settings.llm.LLM_MODEL,
-            #     # temperature=settings.llm.TEMPERATURE,
-            #     # max_tokens=settings.llm.MAX_TOKENS,
-            # ),
-            model=settings.llm.LLM_MODEL,
-            instruction=LLM_INSTRUCTIONS["constraint_miner"],
-            input_schema=type(endpoint),
-            output_schema=ConstraintExtractionResult,
-            disallow_transfer_to_parent=True,
-            disallow_transfer_to_peers=True,
-        )
-
-        # Create a runner
-        runner = Runner(
-            app_name="constraint_miner",
-            agent=constraint_miner_agent,
-            session_service=session_service,
-            artifact_service=artifact_service,
-            memory_service=memory_service,
-        )
-
-        # Prepare input for the LLM
-        user_input = types.Content(
-            role="user", parts=[types.Part(text=json.dumps(endpoint.model_dump()))]
-        )
-
-        # Run the agent and get constraints
-        raw_json = None
         try:
+            # Execute LLM agent with proper error handling
             if self.verbose:
-                print(
-                    f"Running LLM to extract constraints for {endpoint.method.upper()} {endpoint.path}"
-                )
+                print("Executing LLM agent for constraint extraction...")
 
-            for event in runner.run(
-                session_id=session_id,
-                user_id=user_id,
-                new_message=user_input,
-            ):
-                if event.content:
-                    text = "".join(part.text for part in event.content.parts)
-                    try:
-                        raw_json = json.loads(text)
-                        break  # We got valid JSON, exit the loop
-                    except json.JSONDecodeError:
-                        if self.verbose:
-                            print(
-                                "Failed to decode JSON from agent response. Continuing..."
-                            )
-                        continue
+            raw_json = await create_and_execute_llm_agent(
+                app_name="constraint_miner",
+                agent_name="llm_constraint_miner",
+                instruction=LLM_INSTRUCTIONS.get(
+                    "constraint_miner",
+                    "Extract constraints from the API endpoint specification.",
+                ),
+                input_data=endpoint.model_dump(),
+                input_schema=type(endpoint),
+                output_schema=ConstraintExtractionResult,
+                timeout=self.config.get("timeout", 60.0) if self.config else 60.0,
+                max_retries=self.config.get("max_retries", 2) if self.config else 2,
+                retry_delay=self.config.get("retry_delay", 1.0) if self.config else 1.0,
+                verbose=self.verbose,
+            )
 
             if raw_json is None:
                 if self.verbose:
-                    print("No valid response received from the agent.")
-                return StaticConstraintMinerOutput(
-                    endpoint_method=endpoint.method,
-                    endpoint_path=endpoint.path,
-                    total_constraints=0,
-                    result={"error": "No valid response received from LLM"},
+                    print("LLM failed, falling back to static constraint generation...")
+                return self._generate_fallback_constraints(endpoint)
+
+            # Process LLM output into constraints
+            request_response_constraints, response_property_constraints = (
+                self._process_llm_output(raw_json)
+            )
+
+            total_constraints = len(request_response_constraints) + len(
+                response_property_constraints
+            )
+
+            # Create result summary
+            result_summary = {
+                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
+                "total_constraints": total_constraints,
+                "request_response_count": len(request_response_constraints),
+                "response_property_count": len(response_property_constraints),
+                "source": "llm",
+                "status": "success",
+            }
+
+            if self.verbose:
+                print(
+                    f"Found {total_constraints} constraints for {endpoint.method.upper()} {endpoint.path}"
                 )
 
-        except Exception as e:
-            if self.verbose:
-                print(f"Error during LLM processing: {str(e)}")
             return StaticConstraintMinerOutput(
                 endpoint_method=endpoint.method,
                 endpoint_path=endpoint.path,
-                total_constraints=0,
-                result={"error": str(e)},
+                request_response_constraints=request_response_constraints,
+                response_property_constraints=response_property_constraints,
+                total_constraints=total_constraints,
+                result=result_summary,
             )
 
-        # Convert LLM output to our constraint format
+        except Exception as e:
+            error_msg = f"Error during constraint mining: {str(e)}"
+            if self.verbose:
+                print(f"{error_msg}, falling back to static constraints...")
+            return self._generate_fallback_constraints(endpoint)
+
+    def _generate_fallback_constraints(self, endpoint) -> StaticConstraintMinerOutput:
+        """Generate basic constraints when LLM fails."""
         request_response_constraints = []
         response_property_constraints = []
 
-        # Process request-response constraints
-        if "request_response_constraints" in raw_json:
-            for constraint in raw_json["request_response_constraints"]:
-                constraint_id = str(uuid.uuid4())
-                request_response_constraints.append(
-                    ApiConstraint(
-                        id=constraint_id,
-                        type=ConstraintType.REQUEST_RESPONSE,
-                        description=constraint["description"],
-                        severity=constraint.get("severity", "info"),
-                        source="llm",
-                        details={
-                            "parameter": constraint["param"],
-                            "response_property": constraint["property"],
-                        },
-                    )
+        # Generate basic constraints based on endpoint method
+        if endpoint.method.upper() == "GET":
+            # Basic GET constraints
+            request_response_constraints.append(
+                ApiConstraint(
+                    id=str(uuid.uuid4()),
+                    type=ConstraintType.REQUEST_RESPONSE,
+                    description="GET request should return 200 status for valid requests",
+                    severity="info",
+                    source="fallback",
+                    details={
+                        "parameter": "general",
+                        "response_property": "status_code",
+                    },
                 )
+            )
 
-        # Process response-property constraints
-        if "response_property_constraints" in raw_json:
-            for constraint in raw_json["response_property_constraints"]:
-                constraint_id = str(uuid.uuid4())
-                response_property_constraints.append(
-                    ApiConstraint(
-                        id=constraint_id,
-                        type=ConstraintType.RESPONSE_PROPERTY,
-                        description=constraint["description"],
-                        severity=constraint.get("severity", "info"),
-                        source="llm",
-                        details={"property": constraint["property"]},
-                    )
+            response_property_constraints.append(
+                ApiConstraint(
+                    id=str(uuid.uuid4()),
+                    type=ConstraintType.RESPONSE_PROPERTY,
+                    description="Response should have valid JSON structure",
+                    severity="info",
+                    source="fallback",
+                    details={"property": "structure"},
                 )
+            )
+
+        elif endpoint.method.upper() == "POST":
+            request_response_constraints.append(
+                ApiConstraint(
+                    id=str(uuid.uuid4()),
+                    type=ConstraintType.REQUEST_RESPONSE,
+                    description="POST request should return 201 status for successful creation",
+                    severity="info",
+                    source="fallback",
+                    details={"parameter": "body", "response_property": "status_code"},
+                )
+            )
 
         total_constraints = len(request_response_constraints) + len(
             response_property_constraints
         )
 
-        # Create result summary
         result_summary = {
             "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
             "total_constraints": total_constraints,
             "request_response_count": len(request_response_constraints),
             "response_property_count": len(response_property_constraints),
-            "source": "llm",
+            "source": "fallback",
+            "status": "success_fallback",
         }
 
         if self.verbose:
-            print(
-                f"Found {total_constraints} constraints for {endpoint.method.upper()} {endpoint.path}"
-            )
+            print(f"Generated {total_constraints} fallback constraints")
 
         return StaticConstraintMinerOutput(
             endpoint_method=endpoint.method,
@@ -247,6 +218,72 @@ class StaticConstraintMinerTool(BaseTool):
             total_constraints=total_constraints,
             result=result_summary,
         )
+
+    def _create_empty_result(
+        self, endpoint, error_message: str
+    ) -> StaticConstraintMinerOutput:
+        """Create an empty result with error information."""
+        return StaticConstraintMinerOutput(
+            endpoint_method=endpoint.method,
+            endpoint_path=endpoint.path,
+            request_response_constraints=[],
+            response_property_constraints=[],
+            total_constraints=0,
+            result={
+                "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
+                "error": error_message,
+                "status": "failed",
+            },
+        )
+
+    def _process_llm_output(
+        self, raw_json: Dict
+    ) -> tuple[List[ApiConstraint], List[ApiConstraint]]:
+        """Process LLM output into ApiConstraint objects."""
+        request_response_constraints = []
+        response_property_constraints = []
+
+        try:
+            # Process request-response constraints
+            if "request_response_constraints" in raw_json:
+                for constraint in raw_json["request_response_constraints"]:
+                    if isinstance(constraint, dict):
+                        constraint_id = str(uuid.uuid4())
+                        request_response_constraints.append(
+                            ApiConstraint(
+                                id=constraint_id,
+                                type=ConstraintType.REQUEST_RESPONSE,
+                                description=constraint.get("description", ""),
+                                severity=constraint.get("severity", "info"),
+                                source="llm",
+                                details={
+                                    "parameter": constraint.get("param", ""),
+                                    "response_property": constraint.get("property", ""),
+                                },
+                            )
+                        )
+
+            # Process response-property constraints
+            if "response_property_constraints" in raw_json:
+                for constraint in raw_json["response_property_constraints"]:
+                    if isinstance(constraint, dict):
+                        constraint_id = str(uuid.uuid4())
+                        response_property_constraints.append(
+                            ApiConstraint(
+                                id=constraint_id,
+                                type=ConstraintType.RESPONSE_PROPERTY,
+                                description=constraint.get("description", ""),
+                                severity=constraint.get("severity", "info"),
+                                source="llm",
+                                details={"property": constraint.get("property", "")},
+                            )
+                        )
+
+        except Exception as e:
+            if self.verbose:
+                print(f"Error processing LLM output: {str(e)}")
+
+        return request_response_constraints, response_property_constraints
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
