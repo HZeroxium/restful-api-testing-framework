@@ -1,3 +1,5 @@
+# tools/constraint_miner/response_property_constraint_miner.py
+
 """Response property constraint mining tool."""
 
 import uuid
@@ -12,7 +14,7 @@ from schemas.tools.constraint_miner import (
     ConstraintType,
 )
 from utils.llm_utils import create_and_execute_llm_agent
-from config.prompts.miner import RESPONSE_PROPERTY_CONSTRAINT_PROMPT
+from config.prompts.constraint_miner import RESPONSE_PROPERTY_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
 
 

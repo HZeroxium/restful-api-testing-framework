@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# src/sequences_visualizer.py
 """
 Sequences Visualizer
 

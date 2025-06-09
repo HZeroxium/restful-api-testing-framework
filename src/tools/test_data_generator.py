@@ -3,7 +3,6 @@
 import uuid
 import json
 from typing import Dict, Optional, List
-import asyncio
 
 from core.base_tool import BaseTool
 from schemas.tools.test_data_generator import (

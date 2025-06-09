@@ -1,4 +1,4 @@
-# /src/api_test_gui.py
+# src/api_test_gui.py
 
 """
 API Testing Platform GUI Application.

@@ -1,3 +1,5 @@
+# src/constraint_miner_sub_tool.py
+
 """
 Testing tool for individual constraint mining sub-tools.
 Allows testing each constraint miner individually for debugging and validation.

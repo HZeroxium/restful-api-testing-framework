@@ -1,4 +1,4 @@
-# /src/code_executor_tool.py
+# src/code_executor_tool.py
 
 import asyncio
 import os

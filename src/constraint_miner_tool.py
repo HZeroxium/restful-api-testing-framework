@@ -4,12 +4,10 @@ import asyncio
 import os
 import json
 import argparse
-from typing import List, Dict, Any
+from typing import Dict, Any
 
-from tools import OpenAPIParserTool, StaticConstraintMinerTool
+from tools import StaticConstraintMinerTool
 from schemas.tools.openapi_parser import (
-    OpenAPIParserInput,
-    SpecSourceType,
     EndpointInfo,
 )
 from schemas.tools.constraint_miner import (

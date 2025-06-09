@@ -1,10 +1,11 @@
+# src/report_visualizer.py
+
 """
 Report visualizer for constraint mining results.
 Exports JSON constraint mining results to Excel format for easy analysis.
 """
 
 import os
-import json
 import argparse
 from typing import Dict, Any, List, Optional, Tuple
 from datetime import datetime
@@ -13,8 +14,6 @@ try:
     import pandas as pd
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-    from openpyxl.utils.dataframe import dataframe_to_rows
-    from openpyxl.worksheet.worksheet import Worksheet
 
     EXCEL_AVAILABLE = True
 except ImportError:

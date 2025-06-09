@@ -1,7 +1,7 @@
 # tools/test_execution_reporter.py
 
 from typing import Dict, Optional
-import uuid  # Add import for UUID generation
+import uuid
 
 from core.base_tool import BaseTool
 from schemas.tools.test_execution_reporter import (

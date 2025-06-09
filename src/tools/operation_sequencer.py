@@ -1,9 +1,11 @@
+# tools/operation_sequencer.py
+
 import uuid
 import json
 import asyncio
 import time
 import re
-from typing import Dict, List, Optional, Any, Union
+from typing import Dict, List, Optional, Any
 
 from core.base_tool import BaseTool
 from schemas.tools.operation_sequencer import (

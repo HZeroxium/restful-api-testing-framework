@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+# src/test_data_generator_tool.py
+
 """
 Test Data Generator Tool
 
@@ -10,13 +11,10 @@ import asyncio
 import os
 import json
 import argparse
-from typing import List, Dict, Any
+from typing import List
 
-from tools import OpenAPIParserTool
 from tools.test_data_generator import TestDataGeneratorTool
 from schemas.tools.openapi_parser import (
-    OpenAPIParserInput,
-    SpecSourceType,
     EndpointInfo,
 )
 from schemas.tools.test_data_generator import (
