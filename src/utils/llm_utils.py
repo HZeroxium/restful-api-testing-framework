@@ -282,10 +282,10 @@ class LlmExecutor:
                                 for part in event.content.parts:
                                     if hasattr(part, "text") and part.text:
                                         response_parts.append(part.text)
-                                        if self.verbose:
-                                            print(
-                                                f"LLM Response Part: {part.text[:100]}..."
-                                            )
+                                        # if self.verbose:
+                                        #     print(
+                                        #         f"LLM Response Part: {part.text[:100]}..."
+                                        #     )
                 elif hasattr(runner_result, "__iter__"):
                     # Regular iterator - convert to async
                     for event in runner_result:
@@ -294,10 +294,10 @@ class LlmExecutor:
                                 for part in event.content.parts:
                                     if hasattr(part, "text") and part.text:
                                         response_parts.append(part.text)
-                                        if self.verbose:
-                                            print(
-                                                f"LLM Response Part: {part.text[:100]}..."
-                                            )
+                                        # if self.verbose:
+                                        #     print(
+                                        #         f"LLM Response Part: {part.text[:100]}..."
+                                        #     )
                 else:
                     # Direct result
                     if hasattr(runner_result, "content"):
@@ -305,15 +305,15 @@ class LlmExecutor:
                             for part in runner_result.content.parts:
                                 if hasattr(part, "text") and part.text:
                                     response_parts.append(part.text)
-                                    if self.verbose:
-                                        print(
-                                            f"LLM Response Part: {part.text[:100]}..."
-                                        )
+                                    # if self.verbose:
+                                    #     print(
+                                    #         f"LLM Response Part: {part.text[:100]}..."
+                                    #     )
 
                 full_response = "".join(response_parts) if response_parts else None
 
-                if self.verbose and full_response:
-                    print(f"Full LLM Response: {full_response[:500]}...")
+                # if self.verbose and full_response:
+                #     print(f"Full LLM Response: {full_response[:500]}...")
 
                 return full_response
             except Exception as e:

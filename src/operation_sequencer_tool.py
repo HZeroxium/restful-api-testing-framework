@@ -14,87 +14,22 @@ import asyncio
 import os
 import json
 import argparse
-from datetime import datetime
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any
 
-from tools import OpenAPIParserTool, OperationSequencerTool
-from schemas.tools.openapi_parser import (
-    OpenAPIParserInput,
-    SpecSourceType,
-    EndpointInfo,
-)
+from tools import OperationSequencerTool
+from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.operation_sequencer import (
     OperationSequencerInput,
     OperationSequencerOutput,
-    OperationSequence,
 )
-
-
-async def parse_openapi_spec(spec_source: str) -> Dict[str, Any]:
-    """
-    Parse an OpenAPI specification and extract endpoints.
-
-    Args:
-        spec_source: Path to the OpenAPI specification file
-
-    Returns:
-        Dictionary containing API info and endpoints
-    """
-    parser_tool = OpenAPIParserTool(verbose=True)
-
-    parser_input = OpenAPIParserInput(
-        spec_source=spec_source, source_type=SpecSourceType.FILE
-    )
-
-    print(f"Parsing OpenAPI specification: {spec_source}")
-    parser_output = await parser_tool.execute(parser_input)
-
-    api_info = {
-        "title": parser_output.title,
-        "version": parser_output.version,
-        "description": parser_output.description,
-        "servers": parser_output.servers,
-        "endpoints": parser_output.endpoints,
-    }
-
-    print(f"API: {api_info['title']} v{api_info['version']}")
-    print(f"Found {len(parser_output.endpoints)} endpoints")
-
-    return api_info
-
-
-def select_endpoints(endpoints: List[EndpointInfo]) -> List[EndpointInfo]:
-    """
-    Allow user to select which endpoints to analyze.
-
-    Args:
-        endpoints: List of available endpoints
-
-    Returns:
-        List of selected endpoints
-    """
-    print("\nAvailable endpoints:")
-    for i, endpoint in enumerate(endpoints):
-        print(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
-
-    # Allow selection of multiple endpoints
-    selected_indices = input(
-        "\nEnter endpoint numbers to analyze (comma-separated, or 'all'): "
-    )
-
-    if selected_indices.lower() == "all":
-        return endpoints
-
-    try:
-        indices = [int(idx.strip()) - 1 for idx in selected_indices.split(",")]
-        selected = [endpoints[idx] for idx in indices if 0 <= idx < len(endpoints)]
-        if not selected:
-            print("No valid endpoints selected, analyzing all endpoints by default.")
-            return endpoints
-        return selected
-    except (ValueError, IndexError):
-        print("Invalid selection, analyzing all endpoints by default.")
-        return endpoints
+from utils.demo_utils import (
+    parse_openapi_spec,
+    select_endpoints,
+    create_timestamped_output_dir,
+    save_summary_file,
+    validate_file_exists,
+    get_default_spec_path,
+)
 
 
 async def sequence_operations(
@@ -175,25 +110,31 @@ async def main():
     parser.add_argument(
         "--spec",
         type=str,
-        default="data/toolshop/openapi.json",
+        default=get_default_spec_path(),
         help="Path to OpenAPI specification file",
     )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
+    # Validate input file
+    if not validate_file_exists(args.spec):
+        return
+
     # Create timestamped output directory
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    output_dir = os.path.join("output", "operation_sequences", timestamp)
-    os.makedirs(output_dir, exist_ok=True)
+    output_dir = create_timestamped_output_dir("output", "operation_sequences")
 
     # Parse OpenAPI spec
-    api_info = await parse_openapi_spec(args.spec)
+    api_info = await parse_openapi_spec(args.spec, verbose=args.verbose)
 
     if not api_info["endpoints"]:
         print("No endpoints found in the OpenAPI specification.")
         return
 
     # Select endpoints to analyze
-    selected_endpoints = select_endpoints(api_info["endpoints"])
+    selected_endpoints = select_endpoints(
+        api_info["endpoints"],
+        "Enter endpoint numbers to analyze (comma-separated, or 'all'): ",
+    )
 
     # Sequence operations
     sequencing_result = await sequence_operations(
@@ -201,18 +142,13 @@ async def main():
     )
 
     # Create a summary file
-    summary = {
-        "api_name": api_info["title"],
-        "api_version": api_info["version"],
-        "timestamp": timestamp,
+    summary_data = {
         "endpoints_analyzed": len(selected_endpoints),
         "total_sequences": sequencing_result.get("total_sequences", 0),
         "result": sequencing_result.get("result", {}),
     }
 
-    summary_path = os.path.join(output_dir, "summary.json")
-    with open(summary_path, "w") as f:
-        json.dump(summary, f, indent=2, default=str)
+    summary_path = save_summary_file(output_dir, api_info, summary_data)
 
     print(f"\nAnalysis completed. Summary saved to: {summary_path}")
     print(f"\nTo visualize these sequences, use the sequences_visualizer.py tool:")

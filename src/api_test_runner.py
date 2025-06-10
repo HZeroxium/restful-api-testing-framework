@@ -4,6 +4,7 @@ import asyncio
 import os
 import time
 import json
+import argparse
 from datetime import datetime
 from typing import List, Dict, Any
 
@@ -12,12 +13,7 @@ from tools.test_execution_reporter import TestExecutionReporterTool
 from tools.test_collection_generator import TestCollectionGeneratorTool
 from utils.rest_api_caller_factory import RestApiCallerFactory
 
-from schemas.tools.openapi_parser import (
-    OpenAPIParserInput,
-    SpecSourceType,
-    OpenAPIParserOutput,
-    EndpointInfo,
-)
+from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.rest_api_caller import RestApiCallerOutput
 from schemas.tools.test_collection_generator import TestCollectionGeneratorInput
 from schemas.tools.test_suite_generator import TestSuite
@@ -26,6 +22,17 @@ from schemas.tools.test_execution_reporter import (
     TestCaseResult,
     ValidationResult,
     TestStatus,
+)
+from utils.demo_utils import (
+    parse_openapi_spec,
+    select_endpoints,
+    create_timestamped_output_dir,
+    save_summary_file,
+    validate_file_exists,
+    get_default_spec_path,
+    get_user_test_preferences,
+    setup_api_factory,
+    get_server_url_from_api_info,
 )
 
 
@@ -127,40 +134,76 @@ async def execute_test_suite(
                     )
                     function_name = function_match.group(1) if function_match else None
 
-                    # Add code to call the function with the context variables
+                    # Add code to call the function and capture the result
                     modified_code = script.validation_code
                     if function_name:
-                        modified_code += (
-                            f"\n\n_result = {function_name}(request, response)"
-                        )
+                        # Add code to call the function and print the result so we can capture it
+                        modified_code += f"""
+
+# Execute the validation function and capture result
+try:
+    _validation_result = {function_name}(request, response)
+    print(f"VALIDATION_RESULT: {{_validation_result}}")
+except Exception as e:
+    print(f"VALIDATION_ERROR: {{str(e)}}")
+    _validation_result = False
+"""
 
                     # Execute the validation script using CodeExecutorTool
-                    executor_input = {
-                        "code": modified_code,
-                        "context_variables": context_variables,
-                        "timeout": 5.0,  # 5 seconds timeout should be enough for validation scripts
-                    }
+                    from schemas.tools.code_executor import CodeExecutorInput
+
+                    executor_input = CodeExecutorInput(
+                        code=modified_code,
+                        context_variables=context_variables,
+                        timeout=5.0,  # 5 seconds timeout should be enough for validation scripts
+                    )
 
                     if verbose:
                         print(f"    Executing validation script: {script.name}")
 
                     execution_result = await code_executor.execute(executor_input)
 
-                    # Determine if the script passed based on execution result
-                    script_passed = execution_result.success and execution_result.result
-                    # The result should be 'True' string for passing validation
-                    if script_passed:
-                        script_passed = execution_result.result.lower() == "true"
+                    # Extract validation result from stdout
+                    script_passed = False
+                    error_message = "Validation failed"
+
+                    if execution_result.success:
+                        # Look for validation result in stdout
+                        if execution_result.stdout:
+                            stdout_lines = execution_result.stdout.strip().split("\n")
+                            for line in stdout_lines:
+                                if line.startswith("VALIDATION_RESULT:"):
+                                    result_str = line.replace(
+                                        "VALIDATION_RESULT:", ""
+                                    ).strip()
+                                    script_passed = result_str.lower() == "true"
+                                    break
+                                elif line.startswith("VALIDATION_ERROR:"):
+                                    error_message = line.replace(
+                                        "VALIDATION_ERROR:", ""
+                                    ).strip()
+                                    script_passed = False
+                                    break
+
+                        # If no explicit result found, check if there were any errors
+                        if not any(
+                            line.startswith(("VALIDATION_RESULT:", "VALIDATION_ERROR:"))
+                            for line in execution_result.stdout.split("\n")
+                        ):
+                            # Fallback: assume success if no errors and code executed successfully
+                            script_passed = True
+                            error_message = "Validation passed"
+                    else:
+                        # Execution failed
+                        script_passed = False
+                        error_message = (
+                            execution_result.error or "Script execution failed"
+                        )
+                        if execution_result.stderr:
+                            error_message += f": {execution_result.stderr}"
 
                     status = TestStatus.PASS if script_passed else TestStatus.FAIL
-
-                    if script_passed:
-                        message = "Validation passed"
-                    else:
-                        # Get detailed error message from execution result
-                        message = execution_result.error or "Validation failed"
-                        if execution_result.stderr:
-                            message += f": {execution_result.stderr}"
+                    message = "Validation passed" if script_passed else error_message
 
                     # If any script fails, the whole test fails
                     if status == TestStatus.FAIL:
@@ -172,7 +215,7 @@ async def execute_test_suite(
                             script_name=script.name,
                             status=status,
                             message=message,
-                            validation_code=script.validation_code,  # Include the validation code
+                            validation_code=script.validation_code,
                         )
                     )
 
@@ -189,7 +232,7 @@ async def execute_test_suite(
                             script_name=script.name,
                             status=TestStatus.ERROR,
                             message=f"Error executing script: {str(e)}",
-                            validation_code=script.validation_code,  # Include the validation code
+                            validation_code=script.validation_code,
                         )
                     )
                     test_status = TestStatus.ERROR
@@ -366,7 +409,7 @@ async def generate_and_execute_test_collection(
         report_input = TestExecutionReporterInput(
             api_name=api_name,
             api_version=api_version,
-            endpoint_name=endpoint.name,
+            endpoint_name=endpoint.name or endpoint.path,
             endpoint_path=endpoint.path,
             endpoint_method=endpoint.method,
             test_case_results=test_case_results,
@@ -378,7 +421,10 @@ async def generate_and_execute_test_collection(
 
         # Save the report to a file
         safe_endpoint_name = (
-            endpoint.name.replace("/", "_").replace("{", "").replace("}", "")
+            (endpoint.name or endpoint.path)
+            .replace("/", "_")
+            .replace("{", "")
+            .replace("}", "")
         )
         filename = f"{api_name}_{safe_endpoint_name}.json"
         report_path = os.path.join(report_output_dir, filename)
@@ -433,123 +479,115 @@ async def generate_and_execute_test_collection(
     return summary
 
 
-def select_endpoints_to_test(endpoints: List[EndpointInfo]) -> List[EndpointInfo]:
-    """
-    Allow user to select which endpoints to test.
-
-    Args:
-        endpoints: List of available endpoints
-
-    Returns:
-        List of selected endpoints to test
-    """
-    print("\nAvailable endpoints:")
-    for i, endpoint in enumerate(endpoints):
-        print(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
-
-    # Allow selection of multiple endpoints
-    selected_indices = input(
-        "\nEnter endpoint numbers to test (comma-separated, or 'all'): "
-    )
-
-    if selected_indices.lower() == "all":
-        return endpoints
-
-    try:
-        indices = [int(idx.strip()) - 1 for idx in selected_indices.split(",")]
-        selected = [endpoints[idx] for idx in indices if 0 <= idx < len(endpoints)]
-        if not selected:
-            print("No valid endpoints selected, testing the first endpoint by default.")
-            return [endpoints[0]]
-        return selected
-    except (ValueError, IndexError):
-        print("Invalid selection, testing the first endpoint by default.")
-        return [endpoints[0]]
-
-
 async def main():
     """Demo showcasing the complete API testing workflow using the new component structure."""
+    parser = argparse.ArgumentParser(description="Execute API tests")
+    parser.add_argument(
+        "--spec",
+        type=str,
+        default=get_default_spec_path(),
+        help="Path to OpenAPI specification file",
+    )
+    parser.add_argument(
+        "--test-cases",
+        type=int,
+        help="Number of test cases per endpoint",
+    )
+    parser.add_argument(
+        "--invalid",
+        action="store_true",
+        help="Include invalid test data for negative testing",
+    )
+    parser.add_argument(
+        "--no-invalid",
+        action="store_true",
+        help="Exclude invalid test data",
+    )
+    parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
+    args = parser.parse_args()
+
+    # Validate input file
+    if not validate_file_exists(args.spec):
+        return
+
     # Create timestamped output directory for test reports
-    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-    report_output_dir = os.path.join("output", "test_reports", timestamp)
-    os.makedirs(report_output_dir, exist_ok=True)
+    report_output_dir = create_timestamped_output_dir("output", "test_reports")
 
-    # Step 1: Parse OpenAPI spec
-    parser_tool = OpenAPIParserTool(verbose=True)
+    # Parse OpenAPI spec
+    api_info = await parse_openapi_spec(args.spec, verbose=True)
 
-    # Choose one of the available specs
-    spec_source = "data/toolshop/openapi.json"
-    # spec_source = "data/json_place_holder/openapi.yaml"
-
-    parser_input = OpenAPIParserInput(
-        spec_source=spec_source, source_type=SpecSourceType.FILE
-    )
-
-    print(f"Parsing OpenAPI spec: {spec_source}")
-    parser_output: OpenAPIParserOutput = await parser_tool.execute(parser_input)
-
-    api_name = parser_output.title
-    api_version = parser_output.version
-    server_url = (
-        parser_output.servers[0] if parser_output.servers else "http://localhost"
-    )
-
-    print(f"\nAPI: {api_name} v{api_version}")
-    print(f"Server URL: {server_url}")
-    print(f"Found {len(parser_output.endpoints)} endpoints")
-
-    if not parser_output.endpoints:
+    if not api_info["endpoints"]:
         print("No endpoints found in the OpenAPI specification.")
         return
 
-    # Step 2: Create a factory to generate endpoint-specific tools
-    factory = RestApiCallerFactory(
-        server_url=server_url,
-        default_headers={"Content-Type": "application/json"},
-        timeout=10.0,
-        verbose=True,
-        cache_enabled=False,
+    api_name = api_info["title"]
+    api_version = api_info["version"]
+    server_url = get_server_url_from_api_info(api_info)
+
+    print(f"\nAPI: {api_name} v{api_version}")
+    print(f"Server URL: {server_url}")
+
+    # Create factory for endpoint-specific tools
+    factory = setup_api_factory(server_url, verbose=args.verbose)
+
+    # Select endpoints to test
+    selected_endpoints = select_endpoints(
+        api_info["endpoints"],
+        "Enter endpoint numbers to test (comma-separated, or 'all'): ",
     )
 
-    # Step 3: Let user select which endpoints to test
-    selected_endpoints = select_endpoints_to_test(parser_output.endpoints)
-
-    # Step 4: Allow user to configure testing parameters
-    test_case_count_input = input(
-        "\nEnter number of test cases per endpoint (default: 2): "
-    )
-    test_case_count = 2
-    try:
-        test_case_count = (
-            int(test_case_count_input) if test_case_count_input.strip() else 2
-        )
+    # Get test configuration
+    if args.test_cases is not None:
+        test_case_count = args.test_cases
+        # Validate test case count
         if test_case_count < 1:
             test_case_count = 1
             print("Test case count must be at least 1, using 1.")
         elif test_case_count > 10:
             test_case_count = 10
             print("Maximum test case count is 10, using 10.")
-    except ValueError:
-        print("Invalid number, using default of 2 test cases per endpoint.")
+    else:
+        test_case_count = None
 
-    include_invalid_input = input(
-        "Include invalid test data for negative testing? (Y/n): "
-    )
-    include_invalid_data = include_invalid_input.strip().lower() not in ["n", "no"]
+    if args.invalid:
+        include_invalid_data = True
+    elif args.no_invalid:
+        include_invalid_data = False
+    else:
+        include_invalid_data = None
 
-    # Step 5: Generate test collection, execute tests, and create reports
+    # Get user input if not provided via command line
+    if test_case_count is None or include_invalid_data is None:
+        user_test_case_count, user_include_invalid = get_user_test_preferences()
+        if test_case_count is None:
+            test_case_count = user_test_case_count
+        if include_invalid_data is None:
+            include_invalid_data = user_include_invalid
+
+    # Generate test collection, execute tests, and create reports
     summary = await generate_and_execute_test_collection(
         api_name=api_name,
         api_version=api_version,
         endpoints=selected_endpoints,
         factory=factory,
         report_output_dir=report_output_dir,
-        test_case_count=test_case_count,  # Pass the user-specified value
-        include_invalid_data=include_invalid_data,  # Pass the user-specified value
-        verbose=True,
+        test_case_count=test_case_count,
+        include_invalid_data=include_invalid_data,
+        verbose=args.verbose,
     )
 
+    # Save summary
+    summary_data = {
+        "endpoints_tested": len(selected_endpoints),
+        "test_case_count": test_case_count,
+        "include_invalid_data": include_invalid_data,
+        **summary,
+    }
+
+    summary_path = save_summary_file(report_output_dir, api_info, summary_data)
+
     print(f"\nTest execution completed. Reports saved to: {report_output_dir}")
+    print(f"Summary saved to: {summary_path}")
     print(
         f"Summary: {summary['passed']}/{summary['total_cases']} tests passed ({summary['success_rate']:.1f}%)"
     )

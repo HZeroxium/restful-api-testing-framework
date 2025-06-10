@@ -233,3 +233,52 @@ def setup_output_directory(tool_name: str) -> str:
         Path to the output directory
     """
     return create_timestamped_output_dir("output", tool_name)
+
+
+def get_user_test_preferences():
+    """Get user preferences for test configuration."""
+    # Test case count
+    test_case_count_input = input(
+        "\nEnter number of test cases per endpoint (default: 2): "
+    )
+    try:
+        test_case_count = (
+            int(test_case_count_input) if test_case_count_input.strip() else 2
+        )
+    except ValueError:
+        print("Invalid input, using default of 2 test cases per endpoint.")
+        test_case_count = 2
+
+    # Validate test case count
+    if test_case_count < 1:
+        test_case_count = 1
+        print("Test case count must be at least 1, using 1.")
+    elif test_case_count > 10:
+        test_case_count = 10
+        print("Maximum test case count is 10, using 10.")
+
+    # Include invalid data
+    include_invalid_input = input(
+        "Include invalid test data for negative testing? (Y/n): "
+    )
+    include_invalid_data = include_invalid_input.strip().lower() not in ["n", "no"]
+
+    return test_case_count, include_invalid_data
+
+
+def setup_api_factory(server_url: str, verbose: bool = False):
+    """Set up REST API factory with common configuration."""
+    from utils.rest_api_caller_factory import RestApiCallerFactory
+
+    return RestApiCallerFactory(
+        server_url=server_url,
+        default_headers={"Content-Type": "application/json"},
+        timeout=10.0,
+        verbose=verbose,
+        cache_enabled=False,
+    )
+
+
+def get_server_url_from_api_info(api_info: Dict[str, Any]) -> str:
+    """Extract server URL from API info."""
+    return api_info["servers"][0] if api_info["servers"] else "http://localhost"
