@@ -10,6 +10,7 @@ from schemas.tools.test_case_generator import TestCase
 class TestSuite(BaseModel):
     """A suite of test cases for a specific API endpoint."""
 
+    id: Optional[str] = None
     name: str
     description: Optional[str] = None
     endpoint_info: EndpointInfo

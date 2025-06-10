@@ -107,8 +107,8 @@ class RequestResponseScriptGeneratorTool(BaseTool):
             )
 
             validation_scripts = []
-            if self.verbose:
-                print(f"Raw JSON from LLM: {raw_json}")
+            # if self.verbose:
+            #     print(f"Raw JSON from LLM: {raw_json}")
 
             if (
                 raw_json

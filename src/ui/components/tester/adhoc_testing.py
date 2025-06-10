@@ -4,6 +4,7 @@ import asyncio
 import streamlit as st
 from datetime import datetime
 from typing import List
+import uuid
 
 from utils.api_utils import run_tests_for_endpoints
 from ui.components.common.metrics import show_metrics_summary
@@ -207,6 +208,7 @@ def validate_status_code(request, response):
 
                         # Create test suite with a name based on the endpoint
                         test_suite = TestSuite(
+                            id=str(uuid.uuid4()),
                             name=f"Suite for {endpoint.method.upper()} {endpoint.path}",
                             description=f"Test suite for endpoint {endpoint.method.upper()} {endpoint.path}",
                             endpoint_info=endpoint,

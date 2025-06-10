@@ -281,8 +281,8 @@ CHUNK PROCESSING NOTICE{chunk_info}:
         )
 
         validation_scripts = []
-        if self.verbose:
-            print(f"Raw JSON from LLM (chunk {chunk_index + 1}): {raw_json}")
+        # if self.verbose:
+        #     print(f"Raw JSON from LLM (chunk {chunk_index + 1}): {raw_json}")
 
         if raw_json and isinstance(raw_json, dict) and "validation_scripts" in raw_json:
             scripts_data = raw_json["validation_scripts"]

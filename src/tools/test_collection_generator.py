@@ -39,6 +39,7 @@ class TestCollectionGeneratorTool(BaseTool):
         self.test_suite_generator = TestSuiteGeneratorTool(
             verbose=verbose,
             cache_enabled=cache_enabled,
+            config=config,
         )
 
     async def _execute(

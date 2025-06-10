@@ -125,8 +125,7 @@ class TestSuiteGeneratorTool(BaseTool):
                 id=str(uuid.uuid4()),
                 name=f"Test Suite for {endpoint_info.method.upper()} {endpoint_info.path}",
                 description=f"Generated test suite for {endpoint_info.name or endpoint_info.path}",
-                endpoint_method=endpoint_info.method,
-                endpoint_path=endpoint_info.path,
+                endpoint_info=endpoint_info,
                 test_cases=test_cases,
             )
 
@@ -153,8 +152,7 @@ class TestSuiteGeneratorTool(BaseTool):
                 id=str(uuid.uuid4()),
                 name=f"Error Test Suite for {endpoint_info.method.upper()} {endpoint_info.path}",
                 description=f"Error occurred during generation: {str(e)}",
-                endpoint_method=endpoint_info.method,
-                endpoint_path=endpoint_info.path,
+                endpoint_info=endpoint_info,
                 test_cases=[],
             )
 
