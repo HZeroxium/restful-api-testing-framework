@@ -7,6 +7,7 @@ from typing import List, Dict, Any, Optional
 from uuid import uuid4
 
 from schemas.test_collection import TestExecutionModel, TestSummary
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestExecutionService:
@@ -16,6 +17,13 @@ class TestExecutionService:
         """Initialize the test execution service."""
         self.executions_dir = "data/executions"
         os.makedirs(self.executions_dir, exist_ok=True)
+
+        # Initialize custom logger
+        self.logger = LoggerFactory.get_logger(
+            name="test-execution-service",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
 
     async def create_execution(
         self, collection_id: str, collection_name: str, reports: List[Dict[str, Any]]
@@ -97,6 +105,11 @@ class TestExecutionService:
         # Save the execution
         await self._save_execution(execution)
 
+        self.logger.info(
+            f"Created execution record for collection {collection_name} with ID {execution_id}"
+        )
+        self.logger.debug(f"Execution summary: {summary}")
+
         return execution
 
     async def _save_execution(self, execution: TestExecutionModel) -> None:
@@ -108,9 +121,15 @@ class TestExecutionService:
         filename = f"execution_{execution.collection_id}_{execution.id}.json"
         filepath = os.path.join(self.executions_dir, filename)
 
-        # Convert to dict and save to file
-        with open(filepath, "w") as f:
-            json.dump(execution.model_dump(), f, indent=2, default=str)
+        try:
+            # Convert to dict and save to file
+            with open(filepath, "w") as f:
+                json.dump(execution.model_dump(), f, indent=2, default=str)
+
+            self.logger.debug(f"Saved execution to {filepath}")
+        except Exception as e:
+            self.logger.error(f"Failed to save execution to {filepath}: {e}")
+            raise
 
     async def get_all_executions(self) -> List[TestExecutionModel]:
         """Get all execution records.
@@ -168,12 +187,17 @@ class TestExecutionService:
                             execution = TestExecutionModel(**data)
                             executions.append(execution)
                     except Exception as e:
-                        print(f"Error loading execution from {filepath}: {str(e)}")
+                        self.logger.error(
+                            f"Error loading execution from {filepath}: {str(e)}"
+                        )
         except Exception as e:
-            print(f"Error accessing executions directory: {str(e)}")
+            self.logger.error(f"Error accessing executions directory: {str(e)}")
 
         # Sort by timestamp (newest first)
-        return sorted(executions, key=lambda x: x.timestamp, reverse=True)
+        sorted_executions = sorted(executions, key=lambda x: x.timestamp, reverse=True)
+        self.logger.debug(f"Retrieved {len(sorted_executions)} execution records")
+
+        return sorted_executions
 
     async def get_execution_by_id(
         self, execution_id: str
@@ -189,7 +213,10 @@ class TestExecutionService:
         all_executions = await self.get_all_executions()
         for execution in all_executions:
             if execution.id == execution_id:
+                self.logger.debug(f"Found execution with ID {execution_id}")
                 return execution
+
+        self.logger.warning(f"Execution with ID {execution_id} not found")
         return None
 
     async def get_executions_by_collection_id(
@@ -204,8 +231,13 @@ class TestExecutionService:
             List of execution records for the collection
         """
         all_executions = await self.get_all_executions()
-        return [
+        collection_executions = [
             execution
             for execution in all_executions
             if execution.collection_id == collection_id
         ]
+
+        self.logger.debug(
+            f"Found {len(collection_executions)} executions for collection {collection_id}"
+        )
+        return collection_executions

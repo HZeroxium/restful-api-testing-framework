@@ -3,10 +3,10 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Union
 from pydantic import ValidationError
-import logging
 
 from schemas.core import AgentInput, AgentOutput, AgentState
 from . import BaseTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class BaseAgent(ABC):
@@ -38,13 +38,12 @@ class BaseAgent(ABC):
         self.max_iterations = max_iterations
         self.verbose = verbose
         self.state = AgentState()
-        self.logger = logging.getLogger(f"agent.{name}")
 
-        # Set up logging
-        if verbose:
-            self.logger.setLevel(logging.DEBUG)
-        else:
-            self.logger.setLevel(logging.INFO)
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"agent.{name}", logger_type=LoggerType.STANDARD, level=log_level
+        )
 
     def add_tool(self, tool: BaseTool) -> None:
         """Add a tool to the agent's toolset."""

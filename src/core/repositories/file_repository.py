@@ -6,7 +6,6 @@ import uuid
 import asyncio
 from datetime import datetime
 from typing import List, Optional, Dict, Any, Generic, TypeVar, Type, Union
-import logging
 
 from pydantic import BaseModel
 
@@ -14,6 +13,7 @@ from core.repositories.interfaces import (
     TestCollectionRepository,
     TestExecutionRepository,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 # Type for models that can be stored
@@ -34,7 +34,13 @@ class FileRepository(Generic[T]):
         self.directory = directory
         self.file_prefix = file_prefix
         self.model_class = model_class
-        self.logger = logging.getLogger(f"{self.__class__.__name__}")
+
+        # Initialize custom logger
+        self.logger = LoggerFactory.get_logger(
+            name=f"file-repository-{file_prefix.rstrip('_')}",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
 
         # Create directory if it doesn't exist
         os.makedirs(directory, exist_ok=True)
@@ -59,7 +65,9 @@ class FileRepository(Generic[T]):
 
         try:
             with open(file_path, "r") as f:
-                return json.load(f)
+                data = json.load(f)
+                self.logger.debug(f"Loaded data from {file_path}")
+                return data
         except Exception as e:
             self.logger.error(f"Error loading from {file_path}: {e}")
             return None
@@ -72,6 +80,9 @@ class FileRepository(Generic[T]):
                 for f in os.listdir(self.directory)
                 if f.startswith(prefix) and f.endswith(".json")
             ]
+            self.logger.debug(
+                f"Found {len(files)} files with prefix '{prefix}' in {self.directory}"
+            )
             return files
         except Exception as e:
             self.logger.error(f"Error listing files in {self.directory}: {e}")
@@ -99,6 +110,7 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
                 except Exception as e:
                     self.logger.error(f"Error parsing collection from {file}: {e}")
 
+        self.logger.info(f"Retrieved {len(collections)} test collections")
         return collections
 
     async def get_by_id(self, id: str) -> Optional[T]:
@@ -107,9 +119,13 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
         data = await self._load_from_file(filename)
         if data:
             try:
-                return self.model_class(**data)
+                collection = self.model_class(**data)
+                self.logger.debug(f"Found collection with ID {id}")
+                return collection
             except Exception as e:
                 self.logger.error(f"Error parsing collection from {filename}: {e}")
+
+        self.logger.debug(f"Collection with ID {id} not found")
         return None
 
     async def get_by_name(self, name: str) -> Optional[T]:
@@ -117,7 +133,10 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
         collections = await self.get_all()
         for collection in collections:
             if collection.name == name:
+                self.logger.debug(f"Found collection with name '{name}'")
                 return collection
+
+        self.logger.debug(f"Collection with name '{name}' not found")
         return None
 
     async def create(self, item: T) -> T:
@@ -132,7 +151,11 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
         await self._save_to_file(filename, data)
 
         # Return updated item
-        return self.model_class(**data)
+        created_item = self.model_class(**data)
+        self.logger.info(
+            f"Created collection '{created_item.name}' with ID {data['id']}"
+        )
+        return created_item
 
     async def update(self, id: str, item: T) -> T:
         """Update an existing test collection."""
@@ -142,7 +165,9 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
         filename = f"{self.file_prefix}{id}.json"
         await self._save_to_file(filename, data)
 
-        return self.model_class(**data)
+        updated_item = self.model_class(**data)
+        self.logger.info(f"Updated collection '{updated_item.name}' with ID {id}")
+        return updated_item
 
     async def delete(self, id: str) -> bool:
         """Delete a test collection."""
@@ -152,10 +177,13 @@ class FileTestCollectionRepository(TestCollectionRepository[T], FileRepository[T
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
+                self.logger.info(f"Deleted collection with ID {id}")
                 return True
             except Exception as e:
                 self.logger.error(f"Error deleting {file_path}: {e}")
                 return False
+
+        self.logger.warning(f"Collection file {filename} not found for deletion")
         return False
 
 
@@ -180,6 +208,7 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
                 except Exception as e:
                     self.logger.error(f"Error parsing execution from {file}: {e}")
 
+        self.logger.info(f"Retrieved {len(executions)} test executions")
         return executions
 
     async def get_by_id(self, id: str) -> Optional[T]:
@@ -188,9 +217,13 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
         data = await self._load_from_file(filename)
         if data:
             try:
-                return self.model_class(**data)
+                execution = self.model_class(**data)
+                self.logger.debug(f"Found execution with ID {id}")
+                return execution
             except Exception as e:
                 self.logger.error(f"Error parsing execution from {filename}: {e}")
+
+        self.logger.debug(f"Execution with ID {id} not found")
         return None
 
     async def get_by_collection_id(self, collection_id: str) -> List[T]:
@@ -207,6 +240,9 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
                 except Exception as e:
                     self.logger.error(f"Error parsing execution from {file}: {e}")
 
+        self.logger.debug(
+            f"Found {len(executions)} executions for collection {collection_id}"
+        )
         return executions
 
     async def create(self, item: T) -> T:
@@ -220,7 +256,9 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
         filename = f"{self.file_prefix}{data['id']}.json"
         await self._save_to_file(filename, data)
 
-        return self.model_class(**data)
+        created_item = self.model_class(**data)
+        self.logger.info(f"Created execution with ID {data['id']}")
+        return created_item
 
     async def create_execution(self, collection_id: str, execution: T) -> T:
         """Create a new test execution for a collection."""
@@ -236,7 +274,11 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
         filename = f"{self.file_prefix}{collection_id}_{execution_id}.json"
         await self._save_to_file(filename, data)
 
-        return self.model_class(**data)
+        created_execution = self.model_class(**data)
+        self.logger.info(
+            f"Created execution {execution_id} for collection {collection_id}"
+        )
+        return created_execution
 
     async def update(self, id: str, item: T) -> T:
         """Update an existing test execution."""
@@ -246,7 +288,9 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
         filename = f"{self.file_prefix}{id}.json"
         await self._save_to_file(filename, data)
 
-        return self.model_class(**data)
+        updated_item = self.model_class(**data)
+        self.logger.info(f"Updated execution with ID {id}")
+        return updated_item
 
     async def delete(self, id: str) -> bool:
         """Delete a test execution."""
@@ -256,8 +300,11 @@ class FileTestExecutionRepository(TestExecutionRepository[T], FileRepository[T])
         if os.path.exists(file_path):
             try:
                 os.remove(file_path)
+                self.logger.info(f"Deleted execution with ID {id}")
                 return True
             except Exception as e:
                 self.logger.error(f"Error deleting {file_path}: {e}")
                 return False
+
+        self.logger.warning(f"Execution file {filename} not found for deletion")
         return False
