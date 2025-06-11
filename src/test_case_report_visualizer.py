@@ -17,9 +17,6 @@ try:
     EXCEL_AVAILABLE = True
 except ImportError:
     EXCEL_AVAILABLE = False
-    print(
-        "Warning: Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
-    )
 
 from utils.test_case_report_utils import (
     load_test_case_report,
@@ -27,14 +24,28 @@ from utils.test_case_report_utils import (
     generate_constraint_script_mapping,
     generate_test_case_insights,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestCaseReportVisualizer:
     """Visualizes test case generation results and exports to Excel."""
 
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
         if not EXCEL_AVAILABLE:
             raise ImportError("Excel functionality requires pandas and openpyxl")
+
+        # Initialize logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name="test-case-report-visualizer",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
+        if not EXCEL_AVAILABLE:
+            self.logger.warning(
+                "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
+            )
 
         # Define color schemes
         self.colors = {
@@ -76,6 +87,15 @@ class TestCaseReportVisualizer:
         Returns:
             Path to the created Excel file
         """
+        self.logger.info("Starting Excel export of test case report")
+        self.logger.add_context(
+            output_path=output_path,
+            include_detailed_analysis=include_detailed_analysis,
+            total_test_cases=test_case_data.get("summary", {}).get(
+                "total_test_cases", 0
+            ),
+        )
+
         # Ensure output directory exists
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -84,6 +104,8 @@ class TestCaseReportVisualizer:
 
         # Remove default sheet
         wb.remove(wb.active)
+
+        self.logger.debug("Creating Excel worksheets...")
 
         # Create sheets
         self._create_overview_sheet(wb, test_case_data)
@@ -98,6 +120,8 @@ class TestCaseReportVisualizer:
 
         # Save workbook
         wb.save(output_path)
+
+        self.logger.info(f"Excel report successfully created: {output_path}")
         return output_path
 
     def _create_overview_sheet(self, wb: Workbook, data: Dict[str, Any]) -> None:
@@ -860,64 +884,67 @@ class TestCaseReportVisualizer:
         recommendations = []
         analysis = analyze_test_case_report(data)
 
+        self.logger.debug("Generating recommendations based on analysis")
+
         # Coverage recommendations
         coverage_rate = analysis["constraint_coverage"]["coverage_rate"]
         if coverage_rate < 70:
-            recommendations.append(
-                f"🎯 Low constraint coverage ({coverage_rate}%). Review constraint-to-script mapping and ensure all constraints have corresponding validation scripts"
-            )
+            recommendation = f"🎯 Low constraint coverage ({coverage_rate}%). Review constraint-to-script mapping and ensure all constraints have corresponding validation scripts"
+            recommendations.append(recommendation)
+            self.logger.debug(f"Added coverage recommendation: {coverage_rate}%")
 
         # Quality recommendations
         quality_score = analysis["quality_metrics"]["overall_quality_score"]
         if quality_score < 70:
-            recommendations.append(
-                f"📈 Quality score is {quality_score}/100. Focus on improving script generation rate and constraint coverage"
-            )
+            recommendation = f"📈 Quality score is {quality_score}/100. Focus on improving script generation rate and constraint coverage"
+            recommendations.append(recommendation)
+            self.logger.debug(f"Added quality recommendation: {quality_score}/100")
 
         # Script complexity recommendations
         complexity = analysis["script_complexity"]
         if complexity["complex_scripts"] > complexity["simple_scripts"]:
-            recommendations.append(
-                "🔧 High number of complex scripts detected. Consider refactoring for better maintainability"
-            )
+            recommendation = "🔧 High number of complex scripts detected. Consider refactoring for better maintainability"
+            recommendations.append(recommendation)
+            self.logger.debug("Added script complexity recommendation")
 
         # Script duplication recommendations
         duplication_rate = analysis["validation_script_analysis"]["duplication_rate"]
         if duplication_rate > 30:
-            recommendations.append(
-                f"🔄 High script duplication rate ({duplication_rate}%). Consider creating reusable validation functions"
-            )
+            recommendation = f"🔄 High script duplication rate ({duplication_rate}%). Consider creating reusable validation functions"
+            recommendations.append(recommendation)
+            self.logger.debug(f"Added duplication recommendation: {duplication_rate}%")
 
         # Test data recommendations
         test_data = analysis["test_data_analysis"]
         if test_data["parameter_usage_rate"] < 50:
-            recommendations.append(
-                "📝 Low parameter usage in test data. Consider adding more diverse test scenarios with parameters"
-            )
+            recommendation = "📝 Low parameter usage in test data. Consider adding more diverse test scenarios with parameters"
+            recommendations.append(recommendation)
+            self.logger.debug("Added parameter usage recommendation")
 
         # Constraint type balance
         constraint_analysis = analysis["constraint_analysis"]
         if constraint_analysis["by_type"].get("request_param", 0) == 0:
-            recommendations.append(
-                "📋 No request parameter constraints found. Consider adding parameter validation rules"
-            )
+            recommendation = "📋 No request parameter constraints found. Consider adding parameter validation rules"
+            recommendations.append(recommendation)
+            self.logger.debug("Added request parameter constraint recommendation")
 
         if constraint_analysis["by_type"].get("response_property", 0) == 0:
-            recommendations.append(
-                "📊 No response property constraints found. Consider adding response validation rules"
-            )
+            recommendation = "📊 No response property constraints found. Consider adding response validation rules"
+            recommendations.append(recommendation)
+            self.logger.debug("Added response property constraint recommendation")
 
         # Positive recommendations
         if coverage_rate >= 90 and quality_score >= 80:
-            recommendations.append(
-                "✅ Excellent test case generation! Your API has comprehensive validation coverage"
-            )
+            recommendation = "✅ Excellent test case generation! Your API has comprehensive validation coverage"
+            recommendations.append(recommendation)
+            self.logger.debug("Added positive recommendation for excellent coverage")
 
         if not recommendations:
-            recommendations.append(
-                "✅ Test case generation completed successfully with good overall quality"
-            )
+            recommendation = "✅ Test case generation completed successfully with good overall quality"
+            recommendations.append(recommendation)
+            self.logger.debug("Added default positive recommendation")
 
+        self.logger.info(f"Generated {len(recommendations)} recommendations")
         return recommendations
 
 
@@ -925,6 +952,7 @@ def export_test_case_report_to_excel(
     json_file_path: str,
     output_path: Optional[str] = None,
     include_detailed_analysis: bool = True,
+    verbose: bool = False,
 ) -> str:
     """
     Export test case JSON report to Excel format.
@@ -933,32 +961,56 @@ def export_test_case_report_to_excel(
         json_file_path: Path to the JSON test case report
         output_path: Optional output path (auto-generated if not provided)
         include_detailed_analysis: Whether to include detailed analysis sheets
+        verbose: Enable verbose logging
 
     Returns:
         Path to the created Excel file
     """
+    # Initialize logger
+    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="test-case-excel-exporter",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
     if not EXCEL_AVAILABLE:
-        raise ImportError(
-            "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
-        )
+        error_msg = "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
+        logger.error(error_msg)
+        raise ImportError(error_msg)
+
+    logger.info("Starting test case report Excel export")
+    logger.add_context(
+        input_file=json_file_path,
+        output_path=output_path,
+        include_detailed_analysis=include_detailed_analysis,
+    )
 
     # Load the JSON data
     test_case_data = load_test_case_report(json_file_path)
 
     if "error" in test_case_data:
-        raise ValueError(f"Error loading test case report: {test_case_data['error']}")
+        error_msg = f"Error loading test case report: {test_case_data['error']}"
+        logger.error(error_msg)
+        raise ValueError(error_msg)
 
     # Generate output path if not provided
     if output_path is None:
         base_name = os.path.splitext(os.path.basename(json_file_path))[0]
         output_dir = os.path.dirname(json_file_path)
         output_path = os.path.join(output_dir, f"{base_name}_report.xlsx")
+        logger.debug(f"Auto-generated output path: {output_path}")
 
     # Create visualizer and export
-    visualizer = TestCaseReportVisualizer()
-    return visualizer.export_to_excel(
+    visualizer = TestCaseReportVisualizer(verbose=verbose)
+    result_path = visualizer.export_to_excel(
         test_case_data, output_path, include_detailed_analysis
     )
+
+    logger.info("Excel export completed successfully")
+    logger.add_context(result_path=result_path)
+
+    return result_path
 
 
 def main():
@@ -979,19 +1031,42 @@ def main():
 
     args = parser.parse_args()
 
+    # Initialize logger
+    log_level = LogLevel.DEBUG if args.verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="test-case-report-visualizer-main",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
     if not EXCEL_AVAILABLE:
-        print("Error: Excel export requires pandas and openpyxl")
-        print("Install with: pip install pandas openpyxl")
+        logger.error("Excel export requires pandas and openpyxl")
+        logger.error("Install with: pip install pandas openpyxl")
         return 1
+
+    logger.info("Starting test case report visualizer")
+    logger.add_context(
+        input_file=args.input_file,
+        output_file=args.output,
+        skip_analysis=args.no_analysis,
+        verbose=args.verbose,
+    )
 
     try:
         output_path = export_test_case_report_to_excel(
-            args.input_file, args.output, include_detailed_analysis=not args.no_analysis
+            args.input_file,
+            args.output,
+            include_detailed_analysis=not args.no_analysis,
+            verbose=args.verbose,
         )
 
-        print(f"✅ Excel report created successfully:")
-        print(f"   Input:  {args.input_file}")
-        print(f"   Output: {output_path}")
+        logger.info("Excel report created successfully")
+        logger.add_context(input_file=args.input_file, output_file=output_path)
+
+        # Final status using logger
+        logger.info(f"✅ Excel report created successfully:")
+        logger.info(f"   Input:  {args.input_file}")
+        logger.info(f"   Output: {output_path}")
 
         if args.verbose:
             # Load and show summary
@@ -1002,22 +1077,22 @@ def main():
                 f"{endpoint.get('method', '').upper()} {endpoint.get('path', '')}"
             )
 
-            print(f"\n📊 Report Summary:")
-            print(f"   Endpoint: {endpoint_name}")
-            print(f"   Test Cases: {summary.get('total_test_cases', 0)}")
-            print(f"   Constraints: {summary.get('total_constraints', 0)}")
-            print(
+            logger.info("📊 Report Summary:")
+            logger.info(f"   Endpoint: {endpoint_name}")
+            logger.info(f"   Test Cases: {summary.get('total_test_cases', 0)}")
+            logger.info(f"   Constraints: {summary.get('total_constraints', 0)}")
+            logger.info(
                 f"   Validation Scripts: {summary.get('total_validation_scripts', 0)}"
             )
 
         return 0
 
     except Exception as e:
-        print(f"❌ Error creating Excel report: {str(e)}")
+        logger.error(f"Error creating Excel report: {str(e)}")
         if args.verbose:
             import traceback
 
-            traceback.print_exc()
+            logger.debug(f"Traceback: {traceback.format_exc()}")
         return 1
 
 

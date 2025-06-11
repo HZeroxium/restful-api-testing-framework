@@ -18,23 +18,34 @@ try:
     EXCEL_AVAILABLE = True
 except ImportError:
     EXCEL_AVAILABLE = False
-    print(
-        "Warning: Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
-    )
 
 from utils.report_utils import (
     load_constraint_mining_report,
     analyze_constraint_mining_result,
     generate_constraint_insights,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ConstraintReportVisualizer:
     """Visualizes constraint mining results and exports to Excel."""
 
-    def __init__(self):
+    def __init__(self, verbose: bool = False):
         if not EXCEL_AVAILABLE:
             raise ImportError("Excel functionality requires pandas and openpyxl")
+
+        # Initialize logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name="constraint-report-visualizer",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
+        if not EXCEL_AVAILABLE:
+            self.logger.warning(
+                "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
+            )
 
         # Define color schemes
         self.colors = {
@@ -72,6 +83,13 @@ class ConstraintReportVisualizer:
         Returns:
             Path to the created Excel file
         """
+        self.logger.info("Starting Excel export of constraint mining report")
+        self.logger.add_context(
+            output_path=output_path,
+            include_analysis=include_analysis,
+            total_constraints=constraint_data.get("total_constraints", 0),
+        )
+
         # Ensure output directory exists
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
@@ -80,6 +98,8 @@ class ConstraintReportVisualizer:
 
         # Remove default sheet
         wb.remove(wb.active)
+
+        self.logger.debug("Creating Excel worksheets...")
 
         # Create sheets
         self._create_summary_sheet(wb, constraint_data)
@@ -91,6 +111,8 @@ class ConstraintReportVisualizer:
 
         # Save workbook
         wb.save(output_path)
+
+        self.logger.info(f"Excel report successfully created: {output_path}")
         return output_path
 
     def _create_summary_sheet(self, wb: Workbook, data: Dict[str, Any]) -> None:
@@ -499,6 +521,8 @@ class ConstraintReportVisualizer:
         recommendations = []
         analysis = analyze_constraint_mining_result(data)
 
+        self.logger.debug("Generating recommendations based on constraint analysis")
+
         # Check for missing constraints
         total = analysis["constraint_summary"]["total_constraints"]
         if total == 0:
@@ -508,45 +532,51 @@ class ConstraintReportVisualizer:
             recommendations.append(
                 "📝 Review your API documentation for implicit validation rules that could be made explicit"
             )
+            self.logger.debug("Added recommendations for missing constraints")
             return recommendations
 
         # Error severity recommendations
         error_count = analysis["severity_analysis"]["counts"]["error"]
         if error_count > 5:
-            recommendations.append(
-                f"🔴 High number of error-level constraints ({error_count}). Prioritize implementing validation for these critical requirements"
+            recommendation = f"🔴 High number of error-level constraints ({error_count}). Prioritize implementing validation for these critical requirements"
+            recommendations.append(recommendation)
+            self.logger.debug(
+                f"Added error severity recommendation: {error_count} errors"
             )
 
         # Missing request validation
         if analysis["constraint_summary"]["request_param_count"] == 0:
-            recommendations.append(
-                "📝 No request parameter constraints found. Consider adding parameter validation rules"
-            )
+            recommendation = "📝 No request parameter constraints found. Consider adding parameter validation rules"
+            recommendations.append(recommendation)
+            self.logger.debug("Added request parameter validation recommendation")
 
         # Missing response validation
         if analysis["constraint_summary"]["response_property_count"] == 0:
-            recommendations.append(
-                "📋 No response property constraints found. Consider defining response schema validation"
-            )
+            recommendation = "📋 No response property constraints found. Consider defining response schema validation"
+            recommendations.append(recommendation)
+            self.logger.debug("Added response property validation recommendation")
 
         # Low LLM success rate
         quality = analysis["mining_quality"]
         if quality["fallback_sourced"] > quality["llm_sourced"]:
-            recommendations.append(
-                "🤖 LLM analysis had limited success. Consider improving OpenAPI descriptions and examples"
-            )
+            recommendation = "🤖 LLM analysis had limited success. Consider improving OpenAPI descriptions and examples"
+            recommendations.append(recommendation)
+            self.logger.debug("Added LLM success rate recommendation")
 
         # Good coverage
         if analysis["constraint_types"]["unique_types"] > 7:
-            recommendations.append(
-                "✅ Excellent constraint diversity detected. Your API has comprehensive validation coverage"
-            )
+            recommendation = "✅ Excellent constraint diversity detected. Your API has comprehensive validation coverage"
+            recommendations.append(recommendation)
+            self.logger.debug("Added positive recommendation for constraint diversity")
 
         if not recommendations:
-            recommendations.append(
+            recommendation = (
                 "✅ Constraint mining completed successfully with good coverage"
             )
+            recommendations.append(recommendation)
+            self.logger.debug("Added default positive recommendation")
 
+        self.logger.info(f"Generated {len(recommendations)} recommendations")
         return recommendations
 
 
@@ -554,6 +584,7 @@ def export_constraint_report_to_excel(
     json_file_path: str,
     output_path: Optional[str] = None,
     include_analysis: bool = True,
+    verbose: bool = False,
 ) -> str:
     """
     Export constraint mining JSON report to Excel format.
@@ -562,30 +593,56 @@ def export_constraint_report_to_excel(
         json_file_path: Path to the JSON constraint mining report
         output_path: Optional output path (auto-generated if not provided)
         include_analysis: Whether to include analysis sheets
+        verbose: Enable verbose logging
 
     Returns:
         Path to the created Excel file
     """
+    # Initialize logger
+    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="constraint-excel-exporter",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
     if not EXCEL_AVAILABLE:
-        raise ImportError(
-            "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
-        )
+        error_msg = "Excel export requires pandas and openpyxl. Install with: pip install pandas openpyxl"
+        logger.error(error_msg)
+        raise ImportError(error_msg)
+
+    logger.info("Starting constraint mining report Excel export")
+    logger.add_context(
+        input_file=json_file_path,
+        output_path=output_path,
+        include_analysis=include_analysis,
+    )
 
     # Load the JSON data
     constraint_data = load_constraint_mining_report(json_file_path)
 
     if "error" in constraint_data:
-        raise ValueError(f"Error loading constraint report: {constraint_data['error']}")
+        error_msg = f"Error loading constraint report: {constraint_data['error']}"
+        logger.error(error_msg)
+        raise ValueError(error_msg)
 
     # Generate output path if not provided
     if output_path is None:
         base_name = os.path.splitext(os.path.basename(json_file_path))[0]
         output_dir = os.path.dirname(json_file_path)
         output_path = os.path.join(output_dir, f"{base_name}_report.xlsx")
+        logger.debug(f"Auto-generated output path: {output_path}")
 
     # Create visualizer and export
-    visualizer = ConstraintReportVisualizer()
-    return visualizer.export_to_excel(constraint_data, output_path, include_analysis)
+    visualizer = ConstraintReportVisualizer(verbose=verbose)
+    result_path = visualizer.export_to_excel(
+        constraint_data, output_path, include_analysis
+    )
+
+    logger.info("Excel export completed successfully")
+    logger.add_context(result_path=result_path)
+
+    return result_path
 
 
 def main():
@@ -606,37 +663,61 @@ def main():
 
     args = parser.parse_args()
 
+    # Initialize logger
+    log_level = LogLevel.DEBUG if args.verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="constraint-report-visualizer-main",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
     if not EXCEL_AVAILABLE:
-        print("Error: Excel export requires pandas and openpyxl")
-        print("Install with: pip install pandas openpyxl")
+        logger.error("Excel export requires pandas and openpyxl")
+        logger.error("Install with: pip install pandas openpyxl")
         return 1
+
+    logger.info("Starting constraint mining report visualizer")
+    logger.add_context(
+        input_file=args.input_file,
+        output_file=args.output,
+        skip_analysis=args.no_analysis,
+        verbose=args.verbose,
+    )
 
     try:
         output_path = export_constraint_report_to_excel(
-            args.input_file, args.output, include_analysis=not args.no_analysis
+            args.input_file,
+            args.output,
+            include_analysis=not args.no_analysis,
+            verbose=args.verbose,
         )
 
-        print(f"✅ Excel report created successfully:")
-        print(f"   Input:  {args.input_file}")
-        print(f"   Output: {output_path}")
+        logger.info("Excel report created successfully")
+        logger.add_context(input_file=args.input_file, output_file=output_path)
+
+        # Final status using logger
+        logger.info("✅ Excel report created successfully:")
+        logger.info(f"   Input:  {args.input_file}")
+        logger.info(f"   Output: {output_path}")
 
         if args.verbose:
             # Load and show summary
             data = load_constraint_mining_report(args.input_file)
             total = data.get("total_constraints", 0)
             endpoint = f"{data.get('endpoint_method', '').upper()} {data.get('endpoint_path', '')}"
-            print(f"\n📊 Report Summary:")
-            print(f"   Endpoint: {endpoint}")
-            print(f"   Total Constraints: {total}")
+
+            logger.info("📊 Report Summary:")
+            logger.info(f"   Endpoint: {endpoint}")
+            logger.info(f"   Total Constraints: {total}")
 
         return 0
 
     except Exception as e:
-        print(f"❌ Error creating Excel report: {str(e)}")
+        logger.error(f"Error creating Excel report: {str(e)}")
         if args.verbose:
             import traceback
 
-            traceback.print_exc()
+            logger.debug(f"Traceback: {traceback.format_exc()}")
         return 1
 
 

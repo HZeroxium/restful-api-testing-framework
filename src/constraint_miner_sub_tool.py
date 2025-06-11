@@ -45,6 +45,7 @@ from utils.demo_utils import (
     validate_file_exists,
     get_default_spec_path,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ConstraintMinerTester:
@@ -52,6 +53,15 @@ class ConstraintMinerTester:
 
     def __init__(self, verbose: bool = True):
         self.verbose = verbose
+
+        # Initialize logger for the tester
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name="constraint-miner-tester",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         self.tools = {
             "param": RequestParamConstraintMinerTool(verbose=verbose),
             "body": RequestBodyConstraintMinerTool(verbose=verbose),
@@ -63,9 +73,13 @@ class ConstraintMinerTester:
         self, endpoint: EndpointInfo, output_dir: str
     ) -> Dict[str, Any]:
         """Test request parameter constraint miner."""
-        print("\n" + "=" * 60)
-        print("TESTING REQUEST PARAMETER CONSTRAINT MINER")
-        print("=" * 60)
+        self.logger.info("Starting request parameter constraint miner test")
+        self.logger.add_context(
+            tool_type="param_miner",
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+        )
+
         print_endpoint_summary(endpoint, "Testing parameter constraints for")
 
         try:
@@ -77,50 +91,57 @@ class ConstraintMinerTester:
             )
 
             # Execute the tool
-            print("Running parameter constraint miner...")
+            self.logger.debug("Executing parameter constraint miner")
             output = await self.tools["param"].execute(miner_input)
 
             # Display results
-            print(f"\nParameter Constraint Mining Results:")
-            print(f"  - Total constraints found: {output.total_constraints}")
-            print(f"  - Source: {output.result.get('source', 'unknown')}")
-            print(f"  - Status: {output.result.get('status', 'unknown')}")
+            self.logger.info(f"Parameter constraint mining completed")
+            self.logger.add_context(
+                total_constraints=output.total_constraints,
+                source=output.result.get("source", "unknown"),
+                status=output.result.get("status", "unknown"),
+            )
 
             if output.param_constraints:
-                print(f"\nConstraints found:")
+                self.logger.debug(
+                    f"Found {len(output.param_constraints)} parameter constraints:"
+                )
                 for i, constraint in enumerate(output.param_constraints, 1):
-                    print(f"  {i}. {constraint.description}")
-                    print(
+                    self.logger.debug(f"  {i}. {constraint.description}")
+                    self.logger.debug(
                         f"     Type: {constraint.type.value}, Severity: {constraint.severity}"
                     )
-                    print(f"     Details: {constraint.details}")
             else:
-                print("  No parameter constraints found")
+                self.logger.warning("No parameter constraints found")
 
             # Save results
             filename = f"param_constraints_{endpoint.method.lower()}_{endpoint.path.replace('/', '_').replace('{', '').replace('}', '')}.json"
             output_path = os.path.join(output_dir, filename)
             with open(output_path, "w") as f:
                 json.dump(output.model_dump(), f, indent=2, default=str)
-            print(f"\nResults saved to: {output_path}")
+            self.logger.info(f"Results saved to: {output_path}")
 
             return output.model_dump()
 
         except Exception as e:
-            print(f"Error testing parameter miner: {str(e)}")
+            self.logger.error(f"Error testing parameter miner: {str(e)}")
             if self.verbose:
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
             return {"error": str(e), "tool": "param_miner"}
 
     async def test_body_miner(
         self, endpoint: EndpointInfo, output_dir: str
     ) -> Dict[str, Any]:
         """Test request body constraint miner."""
-        print("\n" + "=" * 60)
-        print("TESTING REQUEST BODY CONSTRAINT MINER")
-        print("=" * 60)
+        self.logger.info("Starting request body constraint miner test")
+        self.logger.add_context(
+            tool_type="body_miner",
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+        )
+
         print_endpoint_summary(endpoint, "Testing body constraints for")
 
         try:
@@ -132,50 +153,57 @@ class ConstraintMinerTester:
             )
 
             # Execute the tool
-            print("Running body constraint miner...")
+            self.logger.debug("Executing body constraint miner")
             output = await self.tools["body"].execute(miner_input)
 
             # Display results
-            print(f"\nRequest Body Constraint Mining Results:")
-            print(f"  - Total constraints found: {output.total_constraints}")
-            print(f"  - Source: {output.result.get('source', 'unknown')}")
-            print(f"  - Status: {output.result.get('status', 'unknown')}")
+            self.logger.info(f"Request body constraint mining completed")
+            self.logger.add_context(
+                total_constraints=output.total_constraints,
+                source=output.result.get("source", "unknown"),
+                status=output.result.get("status", "unknown"),
+            )
 
             if output.body_constraints:
-                print(f"\nConstraints found:")
+                self.logger.debug(
+                    f"Found {len(output.body_constraints)} body constraints:"
+                )
                 for i, constraint in enumerate(output.body_constraints, 1):
-                    print(f"  {i}. {constraint.description}")
-                    print(
+                    self.logger.debug(f"  {i}. {constraint.description}")
+                    self.logger.debug(
                         f"     Type: {constraint.type.value}, Severity: {constraint.severity}"
                     )
-                    print(f"     Details: {constraint.details}")
             else:
-                print("  No body constraints found")
+                self.logger.warning("No body constraints found")
 
             # Save results
             filename = f"body_constraints_{endpoint.method.lower()}_{endpoint.path.replace('/', '_').replace('{', '').replace('}', '')}.json"
             output_path = os.path.join(output_dir, filename)
             with open(output_path, "w") as f:
                 json.dump(output.model_dump(), f, indent=2, default=str)
-            print(f"\nResults saved to: {output_path}")
+            self.logger.info(f"Results saved to: {output_path}")
 
             return output.model_dump()
 
         except Exception as e:
-            print(f"Error testing body miner: {str(e)}")
+            self.logger.error(f"Error testing body miner: {str(e)}")
             if self.verbose:
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
             return {"error": str(e), "tool": "body_miner"}
 
     async def test_response_miner(
         self, endpoint: EndpointInfo, output_dir: str
     ) -> Dict[str, Any]:
         """Test response property constraint miner."""
-        print("\n" + "=" * 60)
-        print("TESTING RESPONSE PROPERTY CONSTRAINT MINER")
-        print("=" * 60)
+        self.logger.info("Starting response property constraint miner test")
+        self.logger.add_context(
+            tool_type="response_miner",
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+        )
+
         print_endpoint_summary(endpoint, "Testing response constraints for")
 
         try:
@@ -187,50 +215,57 @@ class ConstraintMinerTester:
             )
 
             # Execute the tool
-            print("Running response constraint miner...")
+            self.logger.debug("Executing response constraint miner")
             output = await self.tools["response"].execute(miner_input)
 
             # Display results
-            print(f"\nResponse Property Constraint Mining Results:")
-            print(f"  - Total constraints found: {output.total_constraints}")
-            print(f"  - Source: {output.result.get('source', 'unknown')}")
-            print(f"  - Status: {output.result.get('status', 'unknown')}")
+            self.logger.info(f"Response property constraint mining completed")
+            self.logger.add_context(
+                total_constraints=output.total_constraints,
+                source=output.result.get("source", "unknown"),
+                status=output.result.get("status", "unknown"),
+            )
 
             if output.response_constraints:
-                print(f"\nConstraints found:")
+                self.logger.debug(
+                    f"Found {len(output.response_constraints)} response constraints:"
+                )
                 for i, constraint in enumerate(output.response_constraints, 1):
-                    print(f"  {i}. {constraint.description}")
-                    print(
+                    self.logger.debug(f"  {i}. {constraint.description}")
+                    self.logger.debug(
                         f"     Type: {constraint.type.value}, Severity: {constraint.severity}"
                     )
-                    print(f"     Details: {constraint.details}")
             else:
-                print("  No response constraints found")
+                self.logger.warning("No response constraints found")
 
             # Save results
             filename = f"response_constraints_{endpoint.method.lower()}_{endpoint.path.replace('/', '_').replace('{', '').replace('}', '')}.json"
             output_path = os.path.join(output_dir, filename)
             with open(output_path, "w") as f:
                 json.dump(output.model_dump(), f, indent=2, default=str)
-            print(f"\nResults saved to: {output_path}")
+            self.logger.info(f"Results saved to: {output_path}")
 
             return output.model_dump()
 
         except Exception as e:
-            print(f"Error testing response miner: {str(e)}")
+            self.logger.error(f"Error testing response miner: {str(e)}")
             if self.verbose:
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
             return {"error": str(e), "tool": "response_miner"}
 
     async def test_correlation_miner(
         self, endpoint: EndpointInfo, output_dir: str
     ) -> Dict[str, Any]:
         """Test request-response correlation constraint miner."""
-        print("\n" + "=" * 60)
-        print("TESTING REQUEST-RESPONSE CORRELATION CONSTRAINT MINER")
-        print("=" * 60)
+        self.logger.info("Starting request-response correlation constraint miner test")
+        self.logger.add_context(
+            tool_type="correlation_miner",
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+        )
+
         print_endpoint_summary(endpoint, "Testing correlation constraints for")
 
         try:
@@ -242,53 +277,62 @@ class ConstraintMinerTester:
             )
 
             # Execute the tool
-            print("Running correlation constraint miner...")
+            self.logger.debug("Executing correlation constraint miner")
             output = await self.tools["correlation"].execute(miner_input)
 
             # Display results
-            print(f"\nRequest-Response Correlation Constraint Mining Results:")
-            print(f"  - Total constraints found: {output.total_constraints}")
-            print(f"  - Source: {output.result.get('source', 'unknown')}")
-            print(f"  - Status: {output.result.get('status', 'unknown')}")
+            self.logger.info(
+                f"Request-response correlation constraint mining completed"
+            )
+            self.logger.add_context(
+                total_constraints=output.total_constraints,
+                source=output.result.get("source", "unknown"),
+                status=output.result.get("status", "unknown"),
+            )
 
             if output.correlation_constraints:
-                print(f"\nConstraints found:")
+                self.logger.debug(
+                    f"Found {len(output.correlation_constraints)} correlation constraints:"
+                )
                 for i, constraint in enumerate(output.correlation_constraints, 1):
-                    print(f"  {i}. {constraint.description}")
-                    print(
+                    self.logger.debug(f"  {i}. {constraint.description}")
+                    self.logger.debug(
                         f"     Type: {constraint.type.value}, Severity: {constraint.severity}"
                     )
-                    print(f"     Details: {constraint.details}")
             else:
-                print("  No correlation constraints found")
+                self.logger.warning("No correlation constraints found")
 
             # Save results
             filename = f"correlation_constraints_{endpoint.method.lower()}_{endpoint.path.replace('/', '_').replace('{', '').replace('}', '')}.json"
             output_path = os.path.join(output_dir, filename)
             with open(output_path, "w") as f:
                 json.dump(output.model_dump(), f, indent=2, default=str)
-            print(f"\nResults saved to: {output_path}")
+            self.logger.info(f"Results saved to: {output_path}")
 
             return output.model_dump()
 
         except Exception as e:
-            print(f"Error testing correlation miner: {str(e)}")
+            self.logger.error(f"Error testing correlation miner: {str(e)}")
             if self.verbose:
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
             return {"error": str(e), "tool": "correlation_miner"}
 
     async def test_all_miners(
         self, endpoint: EndpointInfo, output_dir: str
     ) -> Dict[str, Any]:
         """Test all constraint miners on the given endpoint."""
-        results = {}
+        self.logger.info("Starting comprehensive constraint mining test for all tools")
+        self.logger.add_context(
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+            test_type="comprehensive",
+        )
 
-        print("\n" + "=" * 80)
-        print(f"TESTING ALL CONSTRAINT MINERS")
-        print("=" * 80)
         print_endpoint_summary(endpoint, "Running comprehensive constraint mining for")
+
+        results = {}
 
         # Test each miner
         results["param"] = await self.test_param_miner(endpoint, output_dir)
@@ -323,26 +367,36 @@ class ConstraintMinerTester:
         with open(summary_path, "w") as f:
             json.dump(summary, f, indent=2, default=str)
 
-        print("\n" + "=" * 80)
-        print("COMPREHENSIVE TESTING SUMMARY")
-        print("=" * 80)
-        print(f"Endpoint: {endpoint.method.upper()} {endpoint.path}")
-        print(f"Total constraints found: {total_constraints}")
-        print(f"Successful tools: {successful_tools}/4")
+        self.logger.info("Comprehensive testing completed")
+        self.logger.add_context(
+            total_constraints_found=total_constraints,
+            successful_tools=successful_tools,
+            failed_tools_count=len(failed_tools),
+        )
+
         if failed_tools:
-            print(f"Failed tools: {', '.join(failed_tools)}")
-        print(f"Summary saved to: {summary_path}")
+            self.logger.warning(f"Failed tools: {', '.join(failed_tools)}")
+
+        self.logger.info(f"Summary saved to: {summary_path}")
 
         return summary
 
     async def cleanup(self):
         """Clean up all tools."""
+        self.logger.debug("Cleaning up constraint miner tester tools")
         for tool in self.tools.values():
             await tool.cleanup()
 
 
 async def main():
     """Main function to run the constraint miner sub-tool tester."""
+    # Initialize logger for the demo
+    logger = LoggerFactory.get_logger(
+        name="constraint-miner-sub-tool-demo",
+        logger_type=LoggerType.STANDARD,
+        level=LogLevel.INFO,
+    )
+
     parser = argparse.ArgumentParser(
         description="Test individual constraint mining tools"
     )
@@ -366,19 +420,34 @@ async def main():
     )
     args = parser.parse_args()
 
+    # Update logger level if verbose
+    if args.verbose:
+        logger.set_level(LogLevel.DEBUG)
+
+    logger.info("Starting constraint miner sub-tool testing")
+    logger.add_context(
+        spec_file=args.spec, tool_to_test=args.tool, verbose=args.verbose
+    )
+
     # Validate input file
     if not validate_file_exists(args.spec):
+        logger.error(f"Specification file not found: {args.spec}")
         return
 
     # Create output directory
     output_dir = create_timestamped_output_dir("output", "constraint_mining_tests")
+    logger.add_context(output_directory=output_dir)
 
     # Parse OpenAPI spec
     api_info = await parse_openapi_spec(args.spec, verbose=args.verbose)
 
     if not api_info["endpoints"]:
-        print("No endpoints found in the OpenAPI specification.")
+        logger.error("No endpoints found in the OpenAPI specification")
         return
+
+    logger.info(
+        f"Found {len(api_info['endpoints'])} endpoints in API: {api_info['title']} v{api_info['version']}"
+    )
 
     # Select endpoints to analyze
     selected_endpoints = select_endpoints(
@@ -386,13 +455,17 @@ async def main():
         "Enter endpoint numbers to test (comma-separated, or 'all'): ",
     )
 
+    logger.info(f"Selected {len(selected_endpoints)} endpoints for testing")
+
     # Initialize tester
     tester = ConstraintMinerTester(verbose=args.verbose)
 
     try:
         # Test each selected endpoint
         all_results = []
-        for endpoint in selected_endpoints:
+        for i, endpoint in enumerate(selected_endpoints, 1):
+            logger.info(f"Testing endpoint {i}/{len(selected_endpoints)}")
+
             if args.tool == "all":
                 result = await tester.test_all_miners(endpoint, output_dir)
             elif args.tool == "param":
@@ -426,12 +499,12 @@ async def main():
             filename="constraint_mining_test_summary.json",
         )
 
-        print(f"\n{'='*80}")
-        print("FINAL TESTING SUMMARY")
-        print(f"{'='*80}")
-        print(f"Tool(s) tested: {args.tool}")
-        print(f"Endpoints tested: {len(selected_endpoints)}")
-        print(f"Overall summary saved to: {summary_path}")
+        logger.info("Testing completed successfully")
+        logger.add_context(
+            tool_tested=args.tool,
+            endpoints_tested=len(selected_endpoints),
+            summary_path=summary_path,
+        )
 
     finally:
         # Clean up

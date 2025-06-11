@@ -30,10 +30,14 @@ from utils.demo_utils import (
     validate_file_exists,
     get_default_spec_path,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def sequence_operations(
-    endpoints: List[EndpointInfo], api_info: Dict[str, Any], output_dir: str
+    endpoints: List[EndpointInfo],
+    api_info: Dict[str, Any],
+    output_dir: str,
+    verbose: bool = False,
 ) -> Dict[str, Any]:
     """
     Sequence operations based on dependencies using OperationSequencerTool.
@@ -42,14 +46,29 @@ async def sequence_operations(
         endpoints: List of endpoints to analyze
         api_info: Information about the API
         output_dir: Directory to save output
+        verbose: Enable verbose logging
 
     Returns:
         Dictionary containing sequencing information
     """
-    print(f"\nSequencing operations for {len(endpoints)} endpoints")
+    # Initialize logger for operation sequencing
+    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="operation-sequencer-demo",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
+    logger.info(f"Sequencing operations for {len(endpoints)} endpoints")
+    logger.add_context(
+        endpoints_count=len(endpoints),
+        api_name=api_info.get("title", "Unknown"),
+        api_version=api_info.get("version", "Unknown"),
+        output_directory=output_dir,
+    )
 
     # Create the sequencer tool
-    sequencer_tool = OperationSequencerTool(verbose=True)
+    sequencer_tool = OperationSequencerTool(verbose=verbose)
 
     # Create input for the tool
     sequencer_input = OperationSequencerInput(
@@ -60,30 +79,37 @@ async def sequence_operations(
 
     # Execute the tool
     try:
-        print("Running operation sequencer...")
+        logger.info("Running operation sequencer...")
         output: OperationSequencerOutput = await sequencer_tool.execute(sequencer_input)
 
-        print(f"Found {output.total_sequences} operation sequences")
+        logger.info(f"Found {output.total_sequences} operation sequences")
+        logger.add_context(
+            total_sequences=output.total_sequences,
+            has_dependencies=any(seq.dependencies for seq in output.sequences),
+        )
 
         # Display a few example sequences
         if output.sequences:
-            print("\nExample operation sequences:")
+            logger.info("Example operation sequences:")
             for i, sequence in enumerate(output.sequences[:3]):
-                print(f"\nSequence {i+1}: {sequence.name}")
-                print(f"Description: {sequence.description}")
-                print(f"Operations ({len(sequence.operations)}):")
-                for j, op in enumerate(sequence.operations):
-                    print(f"  {j+1}. {op}")
+                logger.info(f"Sequence {i+1}: {sequence.name}")
+                logger.add_context(sequence_name=sequence.name)
 
-                if sequence.dependencies:
-                    print(f"Dependencies ({len(sequence.dependencies)}):")
-                    for j, dep in enumerate(sequence.dependencies[:3]):
-                        print(
-                            f"  {j+1}. {dep.source_operation} depends on {dep.target_operation}"
-                        )
-                        print(f"     Reason: {dep.reason}")
-                        if dep.data_mapping:
-                            print(f"     Data mapping: {dep.data_mapping}")
+                if verbose:
+                    logger.debug(f"Description: {sequence.description}")
+                    logger.debug(f"Operations ({len(sequence.operations)}):")
+                    for j, op in enumerate(sequence.operations):
+                        logger.debug(f"  {j+1}. {op}")
+
+                    if sequence.dependencies:
+                        logger.debug(f"Dependencies ({len(sequence.dependencies)}):")
+                        for j, dep in enumerate(sequence.dependencies[:3]):
+                            logger.debug(
+                                f"  {j+1}. {dep.source_operation} depends on {dep.target_operation}"
+                            )
+                            logger.debug(f"     Reason: {dep.reason}")
+                            if dep.data_mapping:
+                                logger.debug(f"     Data mapping: {dep.data_mapping}")
 
         # Save the result to a file
         filename = f"operation_sequences.json"
@@ -92,13 +118,17 @@ async def sequence_operations(
         with open(output_path, "w") as f:
             json.dump(output.model_dump(), f, indent=2, default=str)
 
-        print(f"Operation sequences saved to: {output_path}")
+        logger.info(f"Operation sequences saved to: {output_path}")
 
         # Return the output for potential further processing
         return output.model_dump()
 
     except Exception as e:
-        print(f"Error sequencing operations: {str(e)}")
+        logger.error(f"Error sequencing operations: {str(e)}")
+        if verbose:
+            import traceback
+
+            logger.debug(f"Traceback: {traceback.format_exc()}")
         return {"error": str(e)}
 
 
@@ -116,19 +146,39 @@ async def main():
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
+    # Initialize main logger
+    log_level = LogLevel.DEBUG if args.verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="operation-sequencer-main",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
+    logger.info("Starting operation sequencing demo")
+    logger.add_context(
+        spec_file=args.spec,
+        verbose=args.verbose,
+    )
+
     # Validate input file
     if not validate_file_exists(args.spec):
+        logger.error(f"Specification file not found: {args.spec}")
         return
 
     # Create timestamped output directory
     output_dir = create_timestamped_output_dir("output", "operation_sequences")
+    logger.add_context(output_directory=output_dir)
 
     # Parse OpenAPI spec
     api_info = await parse_openapi_spec(args.spec, verbose=args.verbose)
 
     if not api_info["endpoints"]:
-        print("No endpoints found in the OpenAPI specification.")
+        logger.error("No endpoints found in the OpenAPI specification.")
         return
+
+    logger.info(
+        f"Found {len(api_info['endpoints'])} endpoints in API: {api_info['title']} v{api_info['version']}"
+    )
 
     # Select endpoints to analyze
     selected_endpoints = select_endpoints(
@@ -136,9 +186,11 @@ async def main():
         "Enter endpoint numbers to analyze (comma-separated, or 'all'): ",
     )
 
+    logger.info(f"Selected {len(selected_endpoints)} endpoints for analysis")
+
     # Sequence operations
     sequencing_result = await sequence_operations(
-        selected_endpoints, api_info, output_dir
+        selected_endpoints, api_info, output_dir, verbose=args.verbose
     )
 
     # Create a summary file
@@ -150,6 +202,14 @@ async def main():
 
     summary_path = save_summary_file(output_dir, api_info, summary_data)
 
+    logger.info("Analysis completed successfully")
+    logger.add_context(
+        summary_path=summary_path,
+        endpoints_analyzed=len(selected_endpoints),
+        total_sequences=sequencing_result.get("total_sequences", 0),
+    )
+
+    # Final output
     print(f"\nAnalysis completed. Summary saved to: {summary_path}")
     print(f"\nTo visualize these sequences, use the sequences_visualizer.py tool:")
     print(

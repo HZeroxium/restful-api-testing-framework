@@ -34,6 +34,7 @@ from utils.demo_utils import (
     setup_api_factory,
     get_server_url_from_api_info,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def execute_test_suite(
@@ -56,12 +57,28 @@ async def execute_test_suite(
     Returns:
         List of test case results
     """
+    # Initialize logger for test suite execution
+    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="test-suite-executor",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
     endpoint = test_suite.endpoint_info
+    logger.info(
+        f"Executing test suite for: [{endpoint.method.upper()}] {endpoint.path}"
+    )
+    logger.add_context(
+        api_name=api_name,
+        api_version=api_version,
+        endpoint_method=endpoint.method.upper(),
+        endpoint_path=endpoint.path,
+        test_cases_count=len(test_suite.test_cases),
+    )
+
     if verbose:
-        print(
-            f"\nExecuting test suite for: [{endpoint.method.upper()}] {endpoint.path}"
-        )
-        print(f"  Test cases: {len(test_suite.test_cases)}")
+        logger.debug(f"Test cases: {len(test_suite.test_cases)}")
 
     # Initialize the code executor tool for validating scripts
     code_executor = CodeExecutorTool(
@@ -73,8 +90,8 @@ async def execute_test_suite(
     test_case_results = []
 
     for test_case in test_suite.test_cases:
-        if verbose:
-            print(f"  Running test case: {test_case.name}")
+        logger.debug(f"Running test case: {test_case.name}")
+        logger.add_context(test_case_id=test_case.id, test_case_name=test_case.name)
 
         # Execute the API call
         test_start_time = time.perf_counter()
@@ -100,18 +117,20 @@ async def execute_test_suite(
                     params["body"] = str(test_case.request_body)
 
             # Execute API call
-            if verbose:
-                print(
-                    f"    Executing API call: {endpoint.method.upper()} {endpoint.path}"
-                )
+            logger.debug(
+                f"Executing API call: {endpoint.method.upper()} {endpoint.path}"
+            )
 
             api_response: RestApiCallerOutput = await endpoint_tool.execute(params)
             test_elapsed_time = time.perf_counter() - test_start_time
 
-            if verbose:
-                print(
-                    f"    Received response with status code: {api_response.response.status_code}"
-                )
+            logger.info(
+                f"Received response with status code: {api_response.response.status_code}"
+            )
+            logger.add_context(
+                status_code=api_response.response.status_code,
+                response_time=f"{test_elapsed_time:.3f}s",
+            )
 
             # Run validation scripts
             validation_results = []
@@ -158,8 +177,7 @@ except Exception as e:
                         timeout=5.0,  # 5 seconds timeout should be enough for validation scripts
                     )
 
-                    if verbose:
-                        print(f"    Executing validation script: {script.name}")
+                    logger.debug(f"Executing validation script: {script.name}")
 
                     execution_result = await code_executor.execute(executor_input)
 
@@ -220,9 +238,12 @@ except Exception as e:
                     )
 
                     if verbose:
-                        print(f"    Validation '{script.name}': {status}")
-                        if status == TestStatus.FAIL:
-                            print(f"    Error: {message}")
+                        if status == TestStatus.PASS:
+                            logger.debug(f"Validation '{script.name}': PASSED")
+                        else:
+                            logger.warning(
+                                f"Validation '{script.name}': FAILED - {message}"
+                            )
 
                 except Exception as e:
                     # If an exception occurs, mark as error
@@ -236,8 +257,7 @@ except Exception as e:
                         )
                     )
                     test_status = TestStatus.ERROR
-                    if verbose:
-                        print(f"    Validation '{script.name}': ERROR - {str(e)}")
+                    logger.error(f"Validation '{script.name}': ERROR - {str(e)}")
 
             # Create test case result
             test_case_result = TestCaseResult(
@@ -264,8 +284,9 @@ except Exception as e:
                 },
             )
 
-            if verbose:
-                print(f"    Test case status: {test_status}")
+            logger.info(
+                f"Test case '{test_case.name}' completed with status: {test_status}"
+            )
 
             test_case_results.append(test_case_result)
 
@@ -292,9 +313,13 @@ except Exception as e:
                 },
             )
             test_case_results.append(test_case_result)
-            if verbose:
-                print(f"    Error executing API call: {str(e)}")
+            logger.error(
+                f"Error executing API call for test case '{test_case.name}': {str(e)}"
+            )
 
+    logger.info(
+        f"Test suite execution completed: {len(test_case_results)} test cases executed"
+    )
     return test_case_results
 
 
@@ -324,11 +349,28 @@ async def generate_and_execute_test_collection(
     Returns:
         Summary of test results
     """
+    # Initialize logger for test collection execution
+    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="test-collection-executor",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
+    logger.info(f"Generating test collection for {api_name} v{api_version}")
+    logger.add_context(
+        api_name=api_name,
+        api_version=api_version,
+        endpoints_count=len(endpoints),
+        test_case_count=test_case_count,
+        include_invalid_data=include_invalid_data,
+        output_dir=report_output_dir,
+    )
+
     if verbose:
-        print(f"\nGenerating test collection for {api_name} v{api_version}")
-        print(f"Endpoints to test: {len(endpoints)}")
-        print(f"Test cases per endpoint: {test_case_count}")
-        print(f"Include invalid data: {include_invalid_data}")
+        logger.debug(f"Endpoints to test: {len(endpoints)}")
+        logger.debug(f"Test cases per endpoint: {test_case_count}")
+        logger.debug(f"Include invalid data: {include_invalid_data}")
 
     # Initialize the test collection generator
     test_collection_generator = TestCollectionGeneratorTool(verbose=verbose)
@@ -345,10 +387,9 @@ async def generate_and_execute_test_collection(
     collection_output = await test_collection_generator.execute(collection_input)
     test_collection = collection_output.test_collection
 
-    if verbose:
-        print(
-            f"Generated test collection with {len(test_collection.test_suites)} test suites"
-        )
+    logger.info(
+        f"Generated test collection with {len(test_collection.test_suites)} test suites"
+    )
 
     # Initialize the report tool
     test_report_tool = TestExecutionReporterTool(verbose=verbose)
@@ -364,16 +405,17 @@ async def generate_and_execute_test_collection(
         "skipped": 0,
     }
 
-    for test_suite in test_collection.test_suites:
+    for i, test_suite in enumerate(test_collection.test_suites, 1):
+        logger.info(f"Processing test suite {i}/{len(test_collection.test_suites)}")
+
         # Get the endpoint-specific tool
         endpoint = test_suite.endpoint_info
         tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
 
         if tool_key not in factory.create_tools_from_endpoints([endpoint]):
-            if verbose:
-                print(
-                    f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
-                )
+            logger.warning(
+                f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
+            )
             continue
 
         endpoint_tool = factory.create_tool_from_endpoint(endpoint)
@@ -438,17 +480,20 @@ async def generate_and_execute_test_collection(
         report_data["report_path"] = report_path
         all_reports.append(report_data)
 
+        logger.info(f"Test report saved to: {report_path}")
+
         if verbose:
-            print(f"Test report saved to: {report_path}")
-            print(
-                f"\nTest Report Summary for {endpoint.method.upper()} {endpoint.path}:"
+            logger.debug(
+                f"Test Report Summary for {endpoint.method.upper()} {endpoint.path}:"
             )
-            print(f"  Total tests: {report_output.report.summary.total_tests}")
-            print(f"  Passed: {report_output.report.summary.passed}")
-            print(f"  Failed: {report_output.report.summary.failed}")
-            print(f"  Errors: {report_output.report.summary.errors}")
-            print(f"  Success rate: {report_output.report.summary.success_rate:.1f}%")
-            print(f"  Total time: {report_output.report.total_time:.2f} seconds")
+            logger.debug(f"  Total tests: {report_output.report.summary.total_tests}")
+            logger.debug(f"  Passed: {report_output.report.summary.passed}")
+            logger.debug(f"  Failed: {report_output.report.summary.failed}")
+            logger.debug(f"  Errors: {report_output.report.summary.errors}")
+            logger.debug(
+                f"  Success rate: {report_output.report.summary.success_rate:.1f}%"
+            )
+            logger.debug(f"  Total time: {report_output.report.total_time:.2f} seconds")
 
     # Calculate overall success rate
     total_tests = summary["total_cases"]
@@ -465,16 +510,28 @@ async def generate_and_execute_test_collection(
     with open(summary_path, "w") as f:
         json.dump(summary, f, indent=2, default=str)
 
+    logger.info("Test collection execution completed successfully")
+    logger.add_context(
+        total_suites=summary["total_suites"],
+        total_cases=summary["total_cases"],
+        passed=summary["passed"],
+        failed=summary["failed"],
+        errors=summary["errors"],
+        skipped=summary["skipped"],
+        success_rate=round(summary["success_rate"], 1),
+        summary_path=summary_path,
+    )
+
     if verbose:
-        print("\nOverall Test Summary:")
-        print(f"  Total test suites: {summary['total_suites']}")
-        print(f"  Total test cases: {summary['total_cases']}")
-        print(f"  Passed: {summary['passed']}")
-        print(f"  Failed: {summary['failed']}")
-        print(f"  Errors: {summary['errors']}")
-        print(f"  Skipped: {summary['skipped']}")
-        print(f"  Overall success rate: {summary['success_rate']:.1f}%")
-        print(f"  Summary saved to: {summary_path}")
+        logger.debug("Overall Test Summary:")
+        logger.debug(f"  Total test suites: {summary['total_suites']}")
+        logger.debug(f"  Total test cases: {summary['total_cases']}")
+        logger.debug(f"  Passed: {summary['passed']}")
+        logger.debug(f"  Failed: {summary['failed']}")
+        logger.debug(f"  Errors: {summary['errors']}")
+        logger.debug(f"  Skipped: {summary['skipped']}")
+        logger.debug(f"  Overall success rate: {summary['success_rate']:.1f}%")
+        logger.debug(f"  Summary saved to: {summary_path}")
 
     return summary
 
@@ -506,26 +563,51 @@ async def main():
     parser.add_argument("--verbose", action="store_true", help="Enable verbose output")
     args = parser.parse_args()
 
+    # Initialize main logger
+    log_level = LogLevel.DEBUG if args.verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="api-test-runner-main",
+        logger_type=LoggerType.STANDARD,
+        level=log_level,
+    )
+
+    logger.info("Starting API test runner")
+    logger.add_context(
+        spec_file=args.spec,
+        verbose=args.verbose,
+        test_cases=args.test_cases,
+        include_invalid=args.invalid,
+        exclude_invalid=args.no_invalid,
+    )
+
     # Validate input file
     if not validate_file_exists(args.spec):
+        logger.error(f"Specification file not found: {args.spec}")
         return
 
     # Create timestamped output directory for test reports
     report_output_dir = create_timestamped_output_dir("output", "test_reports")
+    logger.add_context(output_directory=report_output_dir)
 
     # Parse OpenAPI spec
     api_info = await parse_openapi_spec(args.spec, verbose=True)
 
     if not api_info["endpoints"]:
-        print("No endpoints found in the OpenAPI specification.")
+        logger.error("No endpoints found in the OpenAPI specification.")
         return
 
     api_name = api_info["title"]
     api_version = api_info["version"]
     server_url = get_server_url_from_api_info(api_info)
 
-    print(f"\nAPI: {api_name} v{api_version}")
-    print(f"Server URL: {server_url}")
+    logger.info(f"API: {api_name} v{api_version}")
+    logger.info(f"Server URL: {server_url}")
+    logger.add_context(
+        api_name=api_name,
+        api_version=api_version,
+        server_url=server_url,
+        total_endpoints=len(api_info["endpoints"]),
+    )
 
     # Create factory for endpoint-specific tools
     factory = setup_api_factory(server_url, verbose=args.verbose)
@@ -536,16 +618,18 @@ async def main():
         "Enter endpoint numbers to test (comma-separated, or 'all'): ",
     )
 
+    logger.info(f"Selected {len(selected_endpoints)} endpoints for testing")
+
     # Get test configuration
     if args.test_cases is not None:
         test_case_count = args.test_cases
         # Validate test case count
         if test_case_count < 1:
             test_case_count = 1
-            print("Test case count must be at least 1, using 1.")
+            logger.warning("Test case count must be at least 1, using 1.")
         elif test_case_count > 10:
             test_case_count = 10
-            print("Maximum test case count is 10, using 10.")
+            logger.warning("Maximum test case count is 10, using 10.")
     else:
         test_case_count = None
 
@@ -563,6 +647,11 @@ async def main():
             test_case_count = user_test_case_count
         if include_invalid_data is None:
             include_invalid_data = user_include_invalid
+
+    logger.add_context(
+        test_case_count=test_case_count,
+        include_invalid_data=include_invalid_data,
+    )
 
     # Generate test collection, execute tests, and create reports
     summary = await generate_and_execute_test_collection(
@@ -586,6 +675,15 @@ async def main():
 
     summary_path = save_summary_file(report_output_dir, api_info, summary_data)
 
+    logger.info("Test execution completed successfully")
+    logger.add_context(
+        summary_path=summary_path,
+        tests_passed=summary["passed"],
+        total_tests=summary["total_cases"],
+        success_rate=round(summary["success_rate"], 1),
+    )
+
+    # Final summary
     print(f"\nTest execution completed. Reports saved to: {report_output_dir}")
     print(f"Summary saved to: {summary_path}")
     print(
