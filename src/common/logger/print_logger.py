@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 from datetime import datetime
 
 from .logger_interface import LoggerInterface, LogLevel
@@ -125,6 +125,22 @@ class PrintLogger(LoggerInterface):
     def set_level(self, level: LogLevel) -> None:
         """Set minimum log level"""
         self.level = level
+
+    def set_console_level(self, level: LogLevel) -> None:
+        """Set minimum log level for console output (same as set_level for PrintLogger)"""
+        self.set_level(level)
+
+    def set_file_level(self, level: LogLevel) -> None:
+        """Set minimum log level for file output (no-op for PrintLogger)"""
+        pass  # PrintLogger doesn't support file output
+
+    def get_console_level(self) -> LogLevel:
+        """Get current console log level"""
+        return self.level
+
+    def get_file_level(self) -> Optional[LogLevel]:
+        """Get current file log level (None for PrintLogger)"""
+        return None
 
     def add_context(self, **context: Any) -> None:
         """Add contextual information to logs"""

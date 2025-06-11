@@ -64,6 +64,17 @@ class ColorFormatter(logging.Formatter):
             return super().format(record)
 
 
+class LevelFilter(logging.Filter):
+    """Filter to control log levels for specific handlers"""
+
+    def __init__(self, min_level: int):
+        super().__init__()
+        self.min_level = min_level
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        return record.levelno >= self.min_level
+
+
 class StandardLogger(LoggerInterface):
     """Standard logger implementation using Python's logging library"""
 
@@ -71,6 +82,8 @@ class StandardLogger(LoggerInterface):
         self,
         name: str = "restful-api-testing",
         level: LogLevel = LogLevel.INFO,
+        console_level: Optional[LogLevel] = None,
+        file_level: Optional[LogLevel] = None,
         use_colors: bool = True,
         log_file: Optional[str] = None,
     ):
@@ -78,34 +91,67 @@ class StandardLogger(LoggerInterface):
         self.logger = logging.getLogger(name)
         self.context: Dict[str, Any] = {}
         self.use_colors = use_colors
+        self.log_file = log_file
+
+        # Set default levels
+        self._console_level = console_level or level
+        self._file_level = file_level or level if log_file else None
 
         # Clear any existing handlers
         self.logger.handlers.clear()
         self.logger.propagate = False
 
-        # Set initial level
-        self.set_level(level)
+        # Set logger to DEBUG to allow all messages through
+        # Individual handlers will filter based on their levels
+        self.logger.setLevel(logging.DEBUG)
 
         # Setup console handler
-        self._setup_console_handler()
+        self.console_handler = self._setup_console_handler()
 
         # Setup file handler if specified
+        self.file_handler = None
         if log_file:
-            self._setup_file_handler(log_file)
+            self.file_handler = self._setup_file_handler(log_file)
 
-    def _setup_console_handler(self) -> None:
-        """Setup colored console handler"""
+    def _setup_console_handler(self) -> logging.StreamHandler:
+        """Setup colored console handler with level filtering"""
         console_handler = logging.StreamHandler(sys.stdout)
+
+        # Add level filter for console
+        level_mapping = {
+            LogLevel.DEBUG: logging.DEBUG,
+            LogLevel.INFO: logging.INFO,
+            LogLevel.WARNING: logging.WARNING,
+            LogLevel.ERROR: logging.ERROR,
+            LogLevel.CRITICAL: logging.CRITICAL,
+        }
+
+        console_filter = LevelFilter(level_mapping[self._console_level])
+        console_handler.addFilter(console_filter)
 
         # Use colored formatter for console
         console_formatter = ColorFormatter(use_colors=self.use_colors)
         console_handler.setFormatter(console_formatter)
 
         self.logger.addHandler(console_handler)
+        return console_handler
 
-    def _setup_file_handler(self, log_file: str) -> None:
-        """Setup file handler without colors"""
+    def _setup_file_handler(self, log_file: str) -> logging.FileHandler:
+        """Setup file handler without colors and with level filtering"""
         file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
+
+        # Add level filter for file if file_level is set
+        if self._file_level:
+            level_mapping = {
+                LogLevel.DEBUG: logging.DEBUG,
+                LogLevel.INFO: logging.INFO,
+                LogLevel.WARNING: logging.WARNING,
+                LogLevel.ERROR: logging.ERROR,
+                LogLevel.CRITICAL: logging.CRITICAL,
+            }
+
+            file_filter = LevelFilter(level_mapping[self._file_level])
+            file_handler.addFilter(file_filter)
 
         # Use plain formatter for file
         file_formatter = logging.Formatter(
@@ -115,6 +161,7 @@ class StandardLogger(LoggerInterface):
         file_handler.setFormatter(file_formatter)
 
         self.logger.addHandler(file_handler)
+        return file_handler
 
     def _log_with_context(self, level: int, message: str, *args, **kwargs) -> None:
         """Internal method to log with context"""
@@ -158,7 +205,42 @@ class StandardLogger(LoggerInterface):
         self._log_with_context(level_mapping[level], message, *args, **kwargs)
 
     def set_level(self, level: LogLevel) -> None:
-        """Set minimum log level"""
+        """Set minimum log level (backward compatibility - affects both console and file)"""
+        self.set_console_level(level)
+        if self.file_handler:
+            self.set_file_level(level)
+
+    def set_console_level(self, level: LogLevel) -> None:
+        """Set minimum log level for console output"""
+        self._console_level = level
+
+        # Update console handler filter
+        if self.console_handler:
+            # Remove old filters
+            self.console_handler.filters.clear()
+
+            # Add new filter
+            level_mapping = {
+                LogLevel.DEBUG: logging.DEBUG,
+                LogLevel.INFO: logging.INFO,
+                LogLevel.WARNING: logging.WARNING,
+                LogLevel.ERROR: logging.ERROR,
+                LogLevel.CRITICAL: logging.CRITICAL,
+            }
+
+            console_filter = LevelFilter(level_mapping[level])
+            self.console_handler.addFilter(console_filter)
+
+    def set_file_level(self, level: LogLevel) -> None:
+        """Set minimum log level for file output"""
+        if not self.file_handler:
+            return
+
+        self._file_level = level
+
+        # Update file handler filter
+        self.file_handler.filters.clear()
+
         level_mapping = {
             LogLevel.DEBUG: logging.DEBUG,
             LogLevel.INFO: logging.INFO,
@@ -167,7 +249,16 @@ class StandardLogger(LoggerInterface):
             LogLevel.CRITICAL: logging.CRITICAL,
         }
 
-        self.logger.setLevel(level_mapping[level])
+        file_filter = LevelFilter(level_mapping[level])
+        self.file_handler.addFilter(file_filter)
+
+    def get_console_level(self) -> LogLevel:
+        """Get current console log level"""
+        return self._console_level
+
+    def get_file_level(self) -> Optional[LogLevel]:
+        """Get current file log level (None if no file logging)"""
+        return self._file_level
 
     def add_context(self, **context: Any) -> None:
         """Add contextual information to logs"""

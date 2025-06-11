@@ -24,6 +24,8 @@ class LoggerFactory:
         name: str = "restful-api-testing",
         logger_type: LoggerType = LoggerType.STANDARD,
         level: LogLevel = LogLevel.INFO,
+        console_level: Optional[LogLevel] = None,
+        file_level: Optional[LogLevel] = None,
         use_colors: bool = True,
         log_file: Optional[str] = None,
         **kwargs: Any,
@@ -34,7 +36,9 @@ class LoggerFactory:
         Args:
             name: Logger name
             logger_type: Type of logger to create
-            level: Log level
+            level: Default log level (backward compatibility)
+            console_level: Log level for console output (overrides level)
+            file_level: Log level for file output (overrides level)
             use_colors: Whether to use colored output
             log_file: Optional log file path (for StandardLogger)
             **kwargs: Additional arguments for logger construction
@@ -49,13 +53,18 @@ class LoggerFactory:
                 logger = StandardLogger(
                     name=name,
                     level=level,
+                    console_level=console_level,
+                    file_level=file_level,
                     use_colors=use_colors,
                     log_file=log_file,
                     **kwargs,
                 )
             elif logger_type == LoggerType.PRINT:
                 logger = PrintLogger(
-                    name=name, level=level, use_colors=use_colors, **kwargs
+                    name=name,
+                    level=console_level or level,
+                    use_colors=use_colors,
+                    **kwargs,
                 )
             else:
                 raise ValueError(f"Unknown logger type: {logger_type}")
@@ -70,6 +79,8 @@ class LoggerFactory:
         name: str,
         logger_type: LoggerType = LoggerType.STANDARD,
         level: LogLevel = LogLevel.INFO,
+        console_level: Optional[LogLevel] = None,
+        file_level: Optional[LogLevel] = None,
         use_colors: bool = True,
         log_file: Optional[str] = None,
         **kwargs: Any,
@@ -80,7 +91,9 @@ class LoggerFactory:
         Args:
             name: Logger name
             logger_type: Type of logger to create
-            level: Log level
+            level: Default log level (backward compatibility)
+            console_level: Log level for console output (overrides level)
+            file_level: Log level for file output (overrides level)
             use_colors: Whether to use colored output
             log_file: Optional log file path (for StandardLogger)
             **kwargs: Additional arguments for logger construction
@@ -92,12 +105,16 @@ class LoggerFactory:
             return StandardLogger(
                 name=name,
                 level=level,
+                console_level=console_level,
+                file_level=file_level,
                 use_colors=use_colors,
                 log_file=log_file,
                 **kwargs,
             )
         elif logger_type == LoggerType.PRINT:
-            return PrintLogger(name=name, level=level, use_colors=use_colors, **kwargs)
+            return PrintLogger(
+                name=name, level=console_level or level, use_colors=use_colors, **kwargs
+            )
         else:
             raise ValueError(f"Unknown logger type: {logger_type}")
 

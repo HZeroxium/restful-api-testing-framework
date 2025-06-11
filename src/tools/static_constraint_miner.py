@@ -101,9 +101,10 @@ class StaticConstraintMinerTool(BaseTool):
 
         if self.verbose:
             self.logger.debug(
-                f"Configuration details - include_examples: {inp.include_examples}, "
-                f"include_schema_constraints: {inp.include_schema_constraints}, "
-                f"include_correlation_constraints: {inp.include_correlation_constraints}"
+                "Configuration details",
+                include_examples=inp.include_examples,
+                include_schema_constraints=inp.include_schema_constraints,
+                include_correlation_constraints=inp.include_correlation_constraints,
             )
 
         # Initialize result containers
@@ -259,10 +260,11 @@ class StaticConstraintMinerTool(BaseTool):
 
         if self.verbose:
             self.logger.debug(
-                f"Constraint breakdown - parameter_constraints: {len(request_param_constraints)}, "
-                f"body_constraints: {len(request_body_constraints)}, "
-                f"response_constraints: {len(response_property_constraints)}, "
-                f"correlation_constraints: {len(request_response_constraints)}"
+                "Constraint breakdown",
+                parameter_constraints=len(request_param_constraints),
+                body_constraints=len(request_body_constraints),
+                response_constraints=len(response_property_constraints),
+                correlation_constraints=len(request_response_constraints),
             )
 
         # Create result summary

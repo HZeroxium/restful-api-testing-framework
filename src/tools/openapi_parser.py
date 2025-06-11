@@ -59,14 +59,14 @@ class OpenAPIParserTool(BaseTool):
     async def _execute(self, input_data: OpenAPIParserInput) -> OpenAPIParserOutput:
         """Execute the OpenAPI parser tool."""
         self.logger.info(f"Starting OpenAPI specification parsing")
-        # self.logger.add_context(
-        #     source_type=input_data.source_type.value,
-        #     spec_source=(
-        #         input_data.spec_source
-        #         if len(input_data.spec_source) < 100
-        #         else "large_spec"
-        #     ),
-        # )
+        self.logger.add_context(
+            source_type=input_data.source_type.value,
+            spec_source=(
+                input_data.spec_source
+                if len(input_data.spec_source) < 100
+                else "large_spec"
+            ),
+        )
 
         try:
             spec_content = await self._load_spec(

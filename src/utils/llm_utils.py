@@ -9,6 +9,7 @@ import time
 import uuid
 from typing import Any, Dict, Optional, Type, TypeVar, Union, Callable
 from pydantic import BaseModel
+from pathlib import Path
 
 from google.adk.agents import LlmAgent
 from google.adk.runners import Runner
@@ -19,8 +20,65 @@ from google.genai import types
 
 from config.settings import settings
 from config.constants import LLM_INSTRUCTIONS, DEFAULT_LLM_TIMEOUT
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 T = TypeVar("T", bound=BaseModel)
+
+
+# Initialize specialized loggers for LLM operations
+def _get_llm_loggers():
+    """Get specialized loggers for LLM operations with file outputs."""
+    # Ensure logs/llm directory exists
+    logs_dir = Path("logs/llm")
+    logs_dir.mkdir(parents=True, exist_ok=True)
+
+    # Request logger - logs all LLM requests
+    # Console: INFO and above, File: DEBUG and above
+    request_logger = LoggerFactory.create_logger(
+        name="llm.requests",
+        logger_type=LoggerType.STANDARD,
+        console_level=LogLevel.INFO,
+        file_level=LogLevel.DEBUG,
+        log_file=str(logs_dir / "requests.log"),
+        use_colors=False,
+    )
+
+    # Response logger - logs all LLM responses
+    # Console: INFO and above, File: DEBUG and above
+    response_logger = LoggerFactory.create_logger(
+        name="llm.responses",
+        logger_type=LoggerType.STANDARD,
+        console_level=LogLevel.INFO,
+        file_level=LogLevel.DEBUG,
+        log_file=str(logs_dir / "responses.log"),
+        use_colors=False,
+    )
+
+    # Error logger - logs all LLM errors
+    # Console: WARNING and above, File: DEBUG and above
+    error_logger = LoggerFactory.create_logger(
+        name="llm.errors",
+        logger_type=LoggerType.STANDARD,
+        console_level=LogLevel.WARNING,
+        file_level=LogLevel.DEBUG,
+        log_file=str(logs_dir / "errors.log"),
+        use_colors=False,
+    )
+
+    # General LLM logger for console output
+    # Console: INFO and above, no separate file
+    general_logger = LoggerFactory.get_logger(
+        name="llm.utils",
+        logger_type=LoggerType.STANDARD,
+        console_level=LogLevel.INFO,
+        use_colors=True,
+    )
+
+    return request_logger, response_logger, error_logger, general_logger
+
+
+# Initialize loggers
+_request_logger, _response_logger, _error_logger, _general_logger = _get_llm_loggers()
 
 
 class LlmSession:
@@ -40,6 +98,13 @@ class LlmSession:
             user_id=self.user_id,
             session_id=self.session_id,
             state={},
+        )
+
+        _general_logger.debug(f"Created LLM session for app: {app_name}")
+        _general_logger.add_context(
+            app_name=app_name,
+            session_id=self.session_id,
+            user_id=self.user_id,
         )
 
 
@@ -68,6 +133,7 @@ def sanitize_instruction_for_adk(instruction: str) -> str:
     # ADK uses {+variable} syntax, so we need to be careful with any {+...} patterns
     sanitized = sanitized.replace("{+", "{{+")
 
+    _general_logger.debug("Sanitized instruction for ADK compatibility")
     return sanitized
 
 
@@ -93,7 +159,10 @@ def prepare_endpoint_data_for_llm(endpoint_data: Dict) -> Dict:
     sanitized_json = re.sub(path_param_pattern, replace_path_param, json_str)
 
     # Parse back to dict
-    return json.loads(sanitized_json)
+    result = json.loads(sanitized_json)
+
+    _general_logger.debug("Prepared endpoint data for LLM analysis")
+    return result
 
 
 def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
@@ -107,7 +176,12 @@ def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
         Parsed JSON dictionary or None if parsing fails
     """
     if not response_text:
+        _general_logger.warning("Empty response text provided for JSON extraction")
         return None
+
+    _general_logger.debug(
+        f"Attempting to extract JSON from response ({len(response_text)} chars)"
+    )
 
     # Try to find JSON in code blocks first
     json_patterns = [
@@ -121,13 +195,17 @@ def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
         matches = re.findall(pattern, response_text, re.DOTALL)
         for match in matches:
             try:
-                return json.loads(match.strip())
+                result = json.loads(match.strip())
+                _general_logger.debug("Successfully extracted JSON from code block")
+                return result
             except json.JSONDecodeError:
                 continue
 
     # Try to parse the entire response as JSON
     try:
-        return json.loads(response_text.strip())
+        result = json.loads(response_text.strip())
+        _general_logger.debug("Successfully parsed entire response as JSON")
+        return result
     except json.JSONDecodeError:
         pass
 
@@ -138,10 +216,13 @@ def extract_json_from_response(response_text: str) -> Optional[Dict[str, Any]]:
     if json_start != -1 and json_end != -1 and json_end > json_start:
         try:
             json_text = response_text[json_start : json_end + 1]
-            return json.loads(json_text)
+            result = json.loads(json_text)
+            _general_logger.debug("Successfully extracted JSON object from text")
+            return result
         except json.JSONDecodeError:
             pass
 
+    _general_logger.warning("Failed to extract valid JSON from response text")
     return None
 
 
@@ -171,6 +252,25 @@ class LlmExecutor:
         self.retry_delay = retry_delay
         self.verbose = verbose
 
+        # Initialize logger with context and separate console/file levels
+        console_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"llm.executor.{agent_name}",
+            logger_type=LoggerType.STANDARD,
+            console_level=console_level,
+            file_level=LogLevel.DEBUG,  # Always log DEBUG to file
+        )
+
+        self.logger.add_context(
+            agent_name=agent_name,
+            app_name=session.app_name,
+            session_id=session.session_id,
+            timeout=timeout,
+            max_retries=max_retries,
+        )
+
+        self.logger.info(f"Initializing LLM executor for agent: {agent_name}")
+
         # Create the LLM agent
         self.agent = LlmAgent(
             name=agent_name,
@@ -191,6 +291,8 @@ class LlmExecutor:
             memory_service=session.memory_service,
         )
 
+        self.logger.debug("LLM agent and runner created successfully")
+
     async def execute(
         self, input_data: Union[str, Dict, BaseModel]
     ) -> Optional[Dict[str, Any]]:
@@ -210,51 +312,129 @@ class LlmExecutor:
 
         user_input = types.Content(role="user", parts=[types.Part(text=user_message)])
 
+        # Log the request
+        _request_logger.info("LLM Request Initiated")
+        _request_logger.add_context(
+            agent_name=self.agent_name,
+            app_name=self.session.app_name,
+            session_id=self.session.session_id,
+            timeout=self.timeout,
+            max_retries=self.max_retries,
+            input_type=type(input_data).__name__,
+            message_length=len(user_message),
+        )
+        _request_logger.debug(f"Request instruction: {self.instruction}...")
+        _request_logger.debug(f"Request message: {user_message}...")
+
+        self.logger.info("Starting LLM agent execution")
+        self.logger.add_context(input_type=type(input_data).__name__)
+
         # Execute with retries
         for retry in range(self.max_retries + 1):
             if retry > 0:
+                self.logger.info(
+                    f"Retry {retry}/{self.max_retries} after waiting {self.retry_delay}s"
+                )
                 if self.verbose:
-                    print(
-                        f"Retry {retry}/{self.max_retries} after waiting {self.retry_delay}s..."
+                    self.logger.debug(
+                        f"Retry attempt {retry} for agent {self.agent_name}"
                     )
                 await asyncio.sleep(self.retry_delay)
 
             try:
                 if self.verbose:
-                    print(f"Running LLM agent: {self.agent_name}")
+                    self.logger.debug(f"Running LLM agent: {self.agent_name}")
 
                 start_time = time.time()
                 raw_text = await self._get_llm_response(user_input)
 
                 if not raw_text:
-                    if self.verbose:
-                        print("No response received from LLM")
+                    self.logger.warning("No response received from LLM")
                     if retry < self.max_retries:
                         continue
+
+                    # Log the error
+                    _error_logger.error(
+                        "No response received from LLM after all retries"
+                    )
+                    _error_logger.add_context(
+                        agent_name=self.agent_name,
+                        session_id=self.session.session_id,
+                        total_retries=retry + 1,
+                        reason="empty_response",
+                    )
                     return None
+
+                # Log the response
+                execution_time = round(time.time() - start_time, 2)
+                _response_logger.info("LLM Response Received")
+                _response_logger.add_context(
+                    agent_name=self.agent_name,
+                    session_id=self.session.session_id,
+                    execution_time=execution_time,
+                    response_length=len(raw_text),
+                    retry_count=retry,
+                )
+                _response_logger.debug(f"Raw response: {raw_text}...")
 
                 # Parse JSON response
                 json_data = extract_json_from_response(raw_text)
 
                 if json_data is None:
+                    self.logger.warning("Failed to extract JSON from LLM response")
                     if self.verbose:
-                        print(f"Failed to extract JSON from LLM response")
-                        print(f"Raw response preview: {raw_text[:200]}...")
+                        self.logger.debug(f"Raw response preview: {raw_text}...")
+
                     if retry < self.max_retries:
                         continue
+
+                    # Log the parsing error
+                    _error_logger.error("Failed to parse JSON from LLM response")
+                    _error_logger.add_context(
+                        agent_name=self.agent_name,
+                        session_id=self.session.session_id,
+                        response_preview=raw_text[:1000],  # Preview first 1000 chars
+                        total_retries=retry + 1,
+                        reason="json_parse_failure",
+                    )
                     return None
 
+                self.logger.info(
+                    f"LLM execution completed successfully in {execution_time}s"
+                )
                 if self.verbose:
-                    execution_time = round(time.time() - start_time, 2)
-                    print(f"LLM execution completed in {execution_time}s")
+                    self.logger.debug(
+                        f"Parsed JSON keys: {list(json_data.keys()) if isinstance(json_data, dict) else 'non-dict result'}"
+                    )
 
                 return json_data
 
             except Exception as e:
-                if self.verbose:
-                    print(f"Error during LLM processing: {str(e)}")
+                error_msg = str(e)
+                self.logger.error(f"Error during LLM processing: {error_msg}")
+
+                # Log the error in detail
+                _error_logger.error("Exception during LLM processing")
+                _error_logger.add_context(
+                    agent_name=self.agent_name,
+                    session_id=self.session.session_id,
+                    error_type=type(e).__name__,
+                    error_message=error_msg,
+                    retry_count=retry,
+                    total_retries=self.max_retries,
+                )
+
                 if retry < self.max_retries:
                     continue
+
+                # Final error after all retries
+                _error_logger.critical("LLM execution failed after all retries")
+                _error_logger.add_context(
+                    agent_name=self.agent_name,
+                    session_id=self.session.session_id,
+                    final_error=error_msg,
+                    total_attempts=retry + 1,
+                )
                 return None
 
         return None
@@ -282,10 +462,10 @@ class LlmExecutor:
                                 for part in event.content.parts:
                                     if hasattr(part, "text") and part.text:
                                         response_parts.append(part.text)
-                                        # if self.verbose:
-                                        #     print(
-                                        #         f"LLM Response Part: {part.text[:100]}..."
-                                        #     )
+                                        if self.verbose:
+                                            self.logger.debug(
+                                                f"LLM Response Part received ({len(part.text)} chars)"
+                                            )
                 elif hasattr(runner_result, "__iter__"):
                     # Regular iterator - convert to async
                     for event in runner_result:
@@ -294,10 +474,10 @@ class LlmExecutor:
                                 for part in event.content.parts:
                                     if hasattr(part, "text") and part.text:
                                         response_parts.append(part.text)
-                                        # if self.verbose:
-                                        #     print(
-                                        #         f"LLM Response Part: {part.text[:100]}..."
-                                        #     )
+                                        if self.verbose:
+                                            self.logger.debug(
+                                                f"LLM Response Part received ({len(part.text)} chars)"
+                                            )
                 else:
                     # Direct result
                     if hasattr(runner_result, "content"):
@@ -305,27 +485,54 @@ class LlmExecutor:
                             for part in runner_result.content.parts:
                                 if hasattr(part, "text") and part.text:
                                     response_parts.append(part.text)
-                                    # if self.verbose:
-                                    #     print(
-                                    #         f"LLM Response Part: {part.text[:100]}..."
-                                    #     )
+                                    if self.verbose:
+                                        self.logger.debug(
+                                            f"LLM Response Part received ({len(part.text)} chars)"
+                                        )
 
                 full_response = "".join(response_parts) if response_parts else None
 
-                # if self.verbose and full_response:
-                #     print(f"Full LLM Response: {full_response[:500]}...")
+                if self.verbose and full_response:
+                    self.logger.debug(
+                        f"Full LLM Response assembled ({len(full_response)} chars)"
+                    )
 
                 return full_response
             except Exception as e:
-                if self.verbose:
-                    print(f"Error during LLM generation: {str(e)}")
+                error_msg = str(e)
+                self.logger.error(f"Error during LLM generation: {error_msg}")
+
+                # Log the generation error
+                _error_logger.error("Error during LLM response generation")
+                _error_logger.add_context(
+                    agent_name=self.agent_name,
+                    session_id=self.session.session_id,
+                    error_type=type(e).__name__,
+                    error_message=error_msg,
+                    stage="response_generation",
+                )
                 return None
 
         try:
-            return await asyncio.wait_for(get_response(), timeout=self.timeout)
+            result = await asyncio.wait_for(get_response(), timeout=self.timeout)
+            if result:
+                self.logger.debug("LLM response received within timeout")
+            return result
         except asyncio.TimeoutError:
+            timeout_msg = f"LLM request timed out after {self.timeout} seconds"
+            self.logger.error(timeout_msg)
+
+            # Log the timeout error
+            _error_logger.error("LLM request timeout")
+            _error_logger.add_context(
+                agent_name=self.agent_name,
+                session_id=self.session.session_id,
+                timeout_seconds=self.timeout,
+                error_type="timeout",
+            )
+
             if self.verbose:
-                print(f"LLM request timed out after {self.timeout} seconds")
+                self.logger.debug(f"Timeout occurred for agent {self.agent_name}")
             return None
 
 
@@ -359,6 +566,24 @@ async def create_and_execute_llm_agent(
     Returns:
         Parsed JSON response from LLM or None if failed
     """
+    # Initialize logger for this function with separate console/file levels
+    console_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+    logger = LoggerFactory.get_logger(
+        name="llm.create_and_execute",
+        logger_type=LoggerType.STANDARD,
+        console_level=console_level,
+        file_level=LogLevel.DEBUG,  # Always log DEBUG to file
+    )
+
+    logger.add_context(
+        app_name=app_name,
+        agent_name=agent_name,
+        timeout=timeout,
+        max_retries=max_retries,
+    )
+
+    logger.info(f"Creating and executing LLM agent: {agent_name}")
+
     try:
         session = LlmSession(app_name)
 
@@ -377,179 +602,30 @@ async def create_and_execute_llm_agent(
             verbose=verbose,
         )
 
-        return await executor.execute(input_data)
+        result = await executor.execute(input_data)
+
+        if result:
+            logger.info("LLM agent execution completed successfully")
+            if verbose:
+                logger.debug(f"Result type: {type(result).__name__}")
+        else:
+            logger.warning("LLM agent execution returned no result")
+
+        return result
     except Exception as e:
+        error_msg = str(e)
+        logger.error(f"Error in create_and_execute_llm_agent: {error_msg}")
+
+        # Log the high-level error
+        _error_logger.error("Error in create_and_execute_llm_agent function")
+        _error_logger.add_context(
+            app_name=app_name,
+            agent_name=agent_name,
+            error_type=type(e).__name__,
+            error_message=error_msg,
+            function="create_and_execute_llm_agent",
+        )
+
         if verbose:
-            print(f"Error in create_and_execute_llm_agent: {str(e)}")
+            logger.debug(f"Exception details: {error_msg}")
         return None
-
-
-def clean_json_response(response_text: str) -> str:
-    """
-    Clean and fix common JSON formatting issues in LLM responses.
-
-    Args:
-        response_text: Raw response text
-
-    Returns:
-        Cleaned JSON string
-    """
-    if not response_text:
-        return "{}"
-
-    # Remove common prefixes/suffixes
-    text = response_text.strip()
-
-    # Remove markdown code block markers
-    text = re.sub(r"^```json\s*\n", "", text, flags=re.MULTILINE)
-    text = re.sub(r"^```\s*\n", "", text, flags=re.MULTILINE)
-    text = re.sub(r"\n```$", "", text, flags=re.MULTILINE)
-
-    # Fix common JSON issues
-    # Remove trailing commas
-    text = re.sub(r",(\s*[}\]])", r"\1", text)
-
-    # Fix unescaped quotes in strings
-    text = re.sub(r'(?<!\\)"(?=.*".*:)', '\\"', text)
-
-    # Ensure proper quote escaping in validation_code
-    lines = text.split("\n")
-    in_validation_code = False
-    cleaned_lines = []
-
-    for line in lines:
-        if '"validation_code"' in line:
-            in_validation_code = True
-        elif in_validation_code and (
-            line.strip().endswith('"')
-            or line.strip().endswith('",')
-            or line.strip().endswith('",')
-        ):
-            in_validation_code = False
-
-        if (
-            in_validation_code
-            and line.strip().startswith('"')
-            and not line.strip().startswith('"validation_code"')
-        ):
-            # This is part of the validation code string - escape internal quotes
-            line = line.replace('"', '\\"')
-
-        cleaned_lines.append(line)
-
-    return "\n".join(cleaned_lines)
-
-
-def validate_json_structure(json_data: Dict[str, Any], required_fields: list) -> bool:
-    """
-    Validate that JSON data has required structure.
-
-    Args:
-        json_data: Parsed JSON data
-        required_fields: List of required field names
-
-    Returns:
-        True if structure is valid
-    """
-    if not isinstance(json_data, dict):
-        return False
-
-    for field in required_fields:
-        if field not in json_data:
-            return False
-
-    return True
-
-
-def log_request_to_file(app_name: str, agent_name: str, prompt: str, input_data: Any):
-    """Log LLM request to file for debugging."""
-    import os
-    from datetime import datetime
-
-    try:
-        log_dir = "logs/llm_requests"
-        os.makedirs(log_dir, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_file = os.path.join(
-            log_dir, f"{app_name}_{agent_name}_{timestamp}_request.log"
-        )
-
-        with open(log_file, "w", encoding="utf-8") as f:
-            f.write(f"App: {app_name}\n")
-            f.write(f"Agent: {agent_name}\n")
-            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
-            f.write("=" * 80 + "\n")
-            f.write("PROMPT:\n")
-            f.write(prompt)
-            f.write("\n" + "=" * 80 + "\n")
-            f.write("INPUT DATA:\n")
-            f.write(str(input_data))
-            f.write("\n")
-    except Exception:
-        pass  # Ignore logging errors
-
-
-def log_response_to_file(app_name: str, agent_name: str, response: str):
-    """Log LLM response to file for debugging."""
-    import os
-    from datetime import datetime
-
-    try:
-        log_dir = "logs/llm_responses"
-        os.makedirs(log_dir, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_file = os.path.join(
-            log_dir, f"{app_name}_{agent_name}_{timestamp}_response.log"
-        )
-
-        with open(log_file, "w", encoding="utf-8") as f:
-            f.write(f"App: {app_name}\n")
-            f.write(f"Agent: {agent_name}\n")
-            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
-            f.write("=" * 80 + "\n")
-            f.write("RAW RESPONSE:\n")
-            f.write(str(response))
-            f.write("\n" + "=" * 80 + "\n")
-
-            # Try to parse and pretty-print JSON
-            try:
-                json_data = extract_json_from_response(str(response))
-                if json_data:
-                    f.write("PARSED JSON:\n")
-                    f.write(json.dumps(json_data, indent=2))
-                    f.write("\n")
-            except Exception:
-                f.write("JSON PARSING FAILED\n")
-    except Exception:
-        pass  # Ignore logging errors
-
-
-def log_error_to_file(app_name: str, agent_name: str, error: str, traceback_str: str):
-    """Log LLM error to file for debugging."""
-    import os
-    from datetime import datetime
-
-    try:
-        log_dir = "logs/llm_errors"
-        os.makedirs(log_dir, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_file = os.path.join(
-            log_dir, f"{app_name}_{agent_name}_{timestamp}_error.log"
-        )
-
-        with open(log_file, "w", encoding="utf-8") as f:
-            f.write(f"App: {app_name}\n")
-            f.write(f"Agent: {agent_name}\n")
-            f.write(f"Timestamp: {datetime.now().isoformat()}\n")
-            f.write("=" * 80 + "\n")
-            f.write("ERROR:\n")
-            f.write(error)
-            f.write("\n" + "=" * 80 + "\n")
-            f.write("TRACEBACK:\n")
-            f.write(traceback_str)
-            f.write("\n")
-    except Exception:
-        pass  # Ignore logging errors

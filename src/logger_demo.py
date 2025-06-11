@@ -274,6 +274,59 @@ def demo_performance_comparison():
     print(f"   Difference: {abs(standard_time - print_time):.3f} seconds")
 
 
+def demo_separate_console_file_levels():
+    """Demonstrate separate console and file log levels"""
+    print("\n" + "=" * 80)
+    print("🎯 DEMO 9: Separate Console and File Log Levels")
+    print("=" * 80)
+
+    # Create logs directory if it doesn't exist
+    log_dir = Path("logs")
+    log_dir.mkdir(exist_ok=True)
+    log_file = log_dir / "console_file_demo.log"
+
+    print(f"\n📝 Creating logger with separate levels:")
+    print("   - Console: INFO and above")
+    print("   - File: DEBUG and above")
+    print(f"   - Log file: {log_file}")
+
+    # Create logger with separate console and file levels
+    logger = StandardLogger(
+        name="console-file-demo",
+        console_level=LogLevel.INFO,  # Only INFO+ to console
+        file_level=LogLevel.DEBUG,  # DEBUG+ to file
+        log_file=str(log_file),
+        use_colors=True,
+    )
+
+    logger.add_context(demo="separate-levels", test_case="llm_logging")
+
+    print("\n📝 Testing log levels (check console vs file):")
+    logger.debug("This DEBUG message should appear ONLY in file")
+    logger.info("This INFO message should appear in BOTH console and file")
+    logger.warning("This WARNING message should appear in BOTH console and file")
+    logger.error("This ERROR message should appear in BOTH console and file")
+
+    print(f"\n📄 Check the log file {log_file} to see DEBUG messages")
+
+    # Demonstrate dynamic level changes
+    print("\n📝 Changing console level to DEBUG:")
+    logger.set_console_level(LogLevel.DEBUG)
+    logger.debug("Now this DEBUG message appears in BOTH console and file")
+
+    print("\n📝 Changing file level to WARNING:")
+    logger.set_file_level(LogLevel.WARNING)
+    logger.debug("This DEBUG message appears ONLY on console now")
+    logger.info("This INFO message appears ONLY on console now")
+    logger.warning("This WARNING message appears in BOTH console and file")
+
+    print(f"\n📊 Current levels:")
+    print(f"   - Console level: {logger.get_console_level().value}")
+    print(
+        f"   - File level: {logger.get_file_level().value if logger.get_file_level() else 'None'}"
+    )
+
+
 def main():
     """Run all logging demos"""
     print("🎉 Welcome to the Extensible Logging System Demo!")
@@ -281,13 +334,14 @@ def main():
 
     # Run all demos
     demo_basic_logging()
-    # demo_context_logging()
-    # demo_different_loggers()
-    # demo_log_levels()
-    # demo_factory_pattern()
-    # demo_file_logging()
-    # demo_api_testing_scenario()
-    # demo_performance_comparison()
+    demo_context_logging()
+    demo_different_loggers()
+    demo_log_levels()
+    demo_factory_pattern()
+    demo_file_logging()
+    demo_api_testing_scenario()
+    demo_performance_comparison()
+    demo_separate_console_file_levels()  # New demo
 
     print("\n" + "=" * 80)
     print("🎊 Demo completed! The logging system is ready for use.")

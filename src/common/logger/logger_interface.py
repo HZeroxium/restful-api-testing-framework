@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any
+from typing import Any, Optional
 from enum import Enum
 
 
@@ -59,4 +59,24 @@ class LoggerInterface(ABC):
     @abstractmethod
     def clear_context(self) -> None:
         """Clear contextual information"""
+        pass
+
+    @abstractmethod
+    def set_console_level(self, level: LogLevel) -> None:
+        """Set minimum log level for console output"""
+        pass
+
+    @abstractmethod
+    def set_file_level(self, level: LogLevel) -> None:
+        """Set minimum log level for file output"""
+        pass
+
+    @abstractmethod
+    def get_console_level(self) -> LogLevel:
+        """Get current console log level"""
+        pass
+
+    @abstractmethod
+    def get_file_level(self) -> Optional[LogLevel]:
+        """Get current file log level (None if no file logging)"""
         pass
