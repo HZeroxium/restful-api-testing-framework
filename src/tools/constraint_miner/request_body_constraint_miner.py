@@ -16,6 +16,7 @@ from schemas.tools.constraint_miner import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.constraint_miner import REQUEST_BODY_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestBodyConstraintMinerTool(BaseTool):
@@ -40,6 +41,14 @@ class RequestBodyConstraintMinerTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"constraint-miner.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: RequestBodyConstraintMinerInput
     ) -> RequestBodyConstraintMinerOutput:
@@ -47,14 +56,12 @@ class RequestBodyConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(
-                f"RequestBodyConstraintMiner: Analyzing {endpoint.method.upper()} {endpoint.path}"
-            )
+            self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
 
         # Skip if method typically doesn't use request body
         if endpoint.method.upper() in ["GET", "DELETE", "HEAD", "OPTIONS"]:
             if self.verbose:
-                print(
+                self.logger.info(
                     f"Skipping request body analysis for {endpoint.method.upper()} method"
                 )
 
@@ -140,7 +147,7 @@ class RequestBodyConstraintMinerTool(BaseTool):
                     constraints.append(constraint)
 
             if self.verbose:
-                print(f"Found {len(constraints)} request body constraints")
+                self.logger.info(f"Found {len(constraints)} request body constraints")
 
             result_summary = {
                 "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
@@ -161,9 +168,7 @@ class RequestBodyConstraintMinerTool(BaseTool):
             )
 
         except Exception as e:
-            if self.verbose:
-                print(f"Error in request body constraint mining: {str(e)}")
-
+            self.logger.error(f"Error in request body constraint mining: {str(e)}")
             return self._generate_fallback_constraints(endpoint)
 
     def _generate_fallback_constraints(

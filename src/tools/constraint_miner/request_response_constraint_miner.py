@@ -16,6 +16,7 @@ from schemas.tools.constraint_miner import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.constraint_miner import REQUEST_RESPONSE_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestResponseConstraintMinerTool(BaseTool):
@@ -40,6 +41,14 @@ class RequestResponseConstraintMinerTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"constraint-miner.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: RequestResponseConstraintMinerInput
     ) -> RequestResponseConstraintMinerOutput:
@@ -47,9 +56,7 @@ class RequestResponseConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(
-                f"RequestResponseConstraintMiner: Analyzing {endpoint.method.upper()} {endpoint.path}"
-            )
+            self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
 
         # Define simplified LLM response schema without additionalProperties issues
         class RequestResponseConstraint(BaseModel):
@@ -126,7 +133,7 @@ class RequestResponseConstraintMinerTool(BaseTool):
                     constraints.append(constraint)
 
             if self.verbose:
-                print(
+                self.logger.info(
                     f"Found {len(constraints)} request-response correlation constraints"
                 )
 
@@ -149,9 +156,7 @@ class RequestResponseConstraintMinerTool(BaseTool):
             )
 
         except Exception as e:
-            if self.verbose:
-                print(f"Error in request-response constraint mining: {str(e)}")
-
+            self.logger.error(f"Error in request-response constraint mining: {str(e)}")
             return self._generate_fallback_constraints(endpoint)
 
     def _generate_fallback_constraints(

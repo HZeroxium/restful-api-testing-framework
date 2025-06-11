@@ -16,6 +16,7 @@ from schemas.tools.constraint_miner import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.constraint_miner import RESPONSE_PROPERTY_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ResponsePropertyConstraintMinerTool(BaseTool):
@@ -44,6 +45,14 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
         self.chunk_threshold = chunk_threshold
         self.max_chunk_size = max_chunk_size
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"constraint-miner.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: ResponsePropertyConstraintMinerInput
     ) -> ResponsePropertyConstraintMinerOutput:
@@ -51,16 +60,16 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(
-                f"ResponsePropertyConstraintMiner: Analyzing {endpoint.method.upper()} {endpoint.path}"
-            )
+            self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
 
         try:
             # Estimate complexity and determine if chunking is needed
             complexity_estimate = self._estimate_response_complexity(endpoint)
 
             if self.verbose:
-                print(f"Estimated complexity: {complexity_estimate} properties")
+                self.logger.debug(
+                    f"Estimated complexity: {complexity_estimate} properties"
+                )
 
             if complexity_estimate <= self.chunk_threshold:
                 # Process as single chunk
@@ -72,8 +81,7 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
                 )
 
         except Exception as e:
-            if self.verbose:
-                print(f"Error in response property constraint mining: {str(e)}")
+            self.logger.error(f"Error in response property constraint mining: {str(e)}")
             return self._generate_fallback_constraints(endpoint)
 
     def _estimate_response_complexity(self, endpoint) -> int:
@@ -122,7 +130,9 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
     ) -> ResponsePropertyConstraintMinerOutput:
         """Process the entire endpoint as a single chunk."""
         if self.verbose:
-            print(f"Processing as single chunk (complexity: {complexity_estimate})")
+            self.logger.info(
+                f"Processing as single chunk (complexity: {complexity_estimate})"
+            )
 
         constraints = await self._mine_constraints_for_chunk(
             endpoint, chunk_index=0, total_chunks=1, focus_areas=["all"]
@@ -152,7 +162,7 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
         num_chunks = math.ceil(complexity_estimate / self.max_chunk_size)
 
         if self.verbose:
-            print(
+            self.logger.info(
                 f"Processing in {num_chunks} chunks (complexity: {complexity_estimate})"
             )
 
@@ -164,7 +174,7 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
 
         for chunk_index in range(num_chunks):
             if self.verbose:
-                print(
+                self.logger.debug(
                     f"Processing chunk {chunk_index + 1}/{num_chunks}: {focus_areas[chunk_index]}"
                 )
 
@@ -187,13 +197,12 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
                 )
 
                 if self.verbose:
-                    print(
+                    self.logger.debug(
                         f"Chunk {chunk_index + 1} completed: {len(chunk_constraints)} constraints"
                     )
 
             except Exception as e:
-                if self.verbose:
-                    print(f"Error in chunk {chunk_index + 1}: {str(e)}")
+                self.logger.error(f"Error in chunk {chunk_index + 1}: {str(e)}")
 
                 chunk_results.append(
                     {
@@ -400,10 +409,14 @@ Important:
                 seen.add(key)
                 deduplicated.append(constraint)
             elif self.verbose:
-                print(f"Removed duplicate constraint: {constraint.description[:50]}...")
+                self.logger.debug(
+                    f"Removed duplicate constraint: {constraint.description[:50]}..."
+                )
 
         if self.verbose and len(constraints) != len(deduplicated):
-            print(f"Deduplicated {len(constraints)} -> {len(deduplicated)} constraints")
+            self.logger.info(
+                f"Deduplicated {len(constraints)} -> {len(deduplicated)} constraints"
+            )
 
         return deduplicated
 

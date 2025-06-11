@@ -16,6 +16,7 @@ from schemas.tools.constraint_miner import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.constraint_miner import REQUEST_PARAM_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestParamConstraintMinerTool(BaseTool):
@@ -40,6 +41,14 @@ class RequestParamConstraintMinerTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"constraint-miner.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: RequestParamConstraintMinerInput
     ) -> RequestParamConstraintMinerOutput:
@@ -47,9 +56,7 @@ class RequestParamConstraintMinerTool(BaseTool):
         endpoint = inp.endpoint_info
 
         if self.verbose:
-            print(
-                f"RequestParamConstraintMiner: Analyzing {endpoint.method.upper()} {endpoint.path}"
-            )
+            self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
 
         # Define simplified LLM response schema without additionalProperties issues
         class ParameterConstraint(BaseModel):
@@ -132,11 +139,13 @@ class RequestParamConstraintMinerTool(BaseTool):
             # If no constraints found, generate fallback
             if not constraints:
                 if self.verbose:
-                    print("No constraints from LLM, generating fallback...")
+                    self.logger.warning(
+                        "No constraints from LLM, generating fallback..."
+                    )
                 return self._generate_fallback_constraints(endpoint)
 
             if self.verbose:
-                print(f"Found {len(constraints)} parameter constraints")
+                self.logger.info(f"Found {len(constraints)} parameter constraints")
 
             result_summary = {
                 "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
@@ -157,9 +166,7 @@ class RequestParamConstraintMinerTool(BaseTool):
             )
 
         except Exception as e:
-            if self.verbose:
-                print(f"Error in parameter constraint mining: {str(e)}")
-
+            self.logger.error(f"Error in parameter constraint mining: {str(e)}")
             # Return fallback constraints
             return self._generate_fallback_constraints(endpoint)
 
