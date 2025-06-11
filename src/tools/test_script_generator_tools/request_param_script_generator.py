@@ -13,6 +13,7 @@ from schemas.tools.test_script_generator import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.test_script_generator import REQUEST_PARAM_SCRIPT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestParamScriptGeneratorTool(BaseTool):
@@ -37,6 +38,14 @@ class RequestParamScriptGeneratorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"script-generator.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: TestScriptGeneratorInput
     ) -> TestScriptGeneratorOutput:
@@ -48,16 +57,14 @@ class RequestParamScriptGeneratorTool(BaseTool):
         # Filter constraints to only request parameter constraints
         param_constraints = [c for c in constraints if c.type == "request_param"]
 
+        self.logger.info(f"Processing {len(param_constraints)} parameter constraints")
         if self.verbose:
-            print(
-                f"RequestParamScriptGenerator: Processing {len(param_constraints)} parameter constraints"
-            )
+            self.logger.debug(f"Endpoint: {endpoint.method.upper()} {endpoint.path}")
 
         if not param_constraints:
-            if self.verbose:
-                print(
-                    "No request parameter constraints found, generating basic scripts"
-                )
+            self.logger.warning(
+                "No request parameter constraints found, generating basic scripts"
+            )
             return TestScriptGeneratorOutput(
                 validation_scripts=self._generate_basic_param_scripts()
             )
@@ -89,10 +96,9 @@ class RequestParamScriptGeneratorTool(BaseTool):
                 constraint_count=len(param_constraints),
             )
 
-            if self.verbose:
-                print(
-                    f"Sending prompt to LLM with {len(param_constraints)} constraints..."
-                )
+            self.logger.debug(
+                f"Sending prompt to LLM with {len(param_constraints)} constraints"
+            )
 
             # Execute LLM analysis
             raw_json = await create_and_execute_llm_agent(
@@ -112,8 +118,6 @@ class RequestParamScriptGeneratorTool(BaseTool):
             )
 
             validation_scripts = []
-            # if self.verbose:
-            #     print(f"Raw JSON from LLM: {raw_json}")
 
             if (
                 raw_json
@@ -122,24 +126,21 @@ class RequestParamScriptGeneratorTool(BaseTool):
             ):
                 scripts_data = raw_json["validation_scripts"]
                 if not isinstance(scripts_data, list):
-                    if self.verbose:
-                        print(
-                            f"Warning: validation_scripts is not a list: {type(scripts_data)}"
-                        )
+                    self.logger.warning(
+                        f"validation_scripts is not a list: {type(scripts_data)}"
+                    )
                     scripts_data = []
 
                 for i, script_data in enumerate(scripts_data):
                     if not isinstance(script_data, dict):
-                        if self.verbose:
-                            print(
-                                f"Warning: script_data {i} is not a dict: {type(script_data)}"
-                            )
+                        self.logger.warning(
+                            f"script_data {i} is not a dict: {type(script_data)}"
+                        )
                         continue
 
                     validation_code = script_data.get("validation_code", "")
                     if not validation_code:
-                        if self.verbose:
-                            print(f"Warning: Empty validation_code for script {i}")
+                        self.logger.warning(f"Empty validation_code for script {i}")
                         continue
 
                     # Clean up validation code - remove JSON escaping
@@ -179,23 +180,20 @@ def {function_name}(request, response):
                     )
                     validation_scripts.append(script)
             else:
-                if self.verbose:
-                    print(
-                        f"Warning: Invalid or missing validation_scripts in LLM response"
-                    )
+                self.logger.warning(
+                    "Invalid or missing validation_scripts in LLM response"
+                )
 
             # Log parsing results
-            if self.verbose:
-                print(
-                    f"Successfully parsed {len(validation_scripts)} scripts from LLM response"
-                )
+            self.logger.debug(
+                f"Successfully parsed {len(validation_scripts)} scripts from LLM response"
+            )
 
             # Ensure we have the right number of scripts
             if len(validation_scripts) != len(param_constraints):
-                if self.verbose:
-                    print(
-                        f"⚠️  Generated {len(validation_scripts)} scripts but expected {len(param_constraints)}"
-                    )
+                self.logger.warning(
+                    f"Generated {len(validation_scripts)} scripts but expected {len(param_constraints)}"
+                )
 
                 # Fill missing scripts with basic ones
                 while len(validation_scripts) < len(param_constraints):
@@ -208,19 +206,18 @@ def {function_name}(request, response):
             if not validation_scripts:
                 validation_scripts = self._generate_basic_param_scripts()
 
-            if self.verbose:
-                print(
-                    f"Generated {len(validation_scripts)} parameter validation scripts"
-                )
+            self.logger.info(
+                f"Generated {len(validation_scripts)} parameter validation scripts"
+            )
 
             return TestScriptGeneratorOutput(validation_scripts=validation_scripts)
 
         except Exception as e:
+            self.logger.error(f"Error generating parameter scripts: {str(e)}")
             if self.verbose:
-                print(f"Error generating parameter scripts: {str(e)}")
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
             # Generate fallback scripts based on constraints
             return TestScriptGeneratorOutput(
                 validation_scripts=self._generate_constraint_based_fallback_scripts(
@@ -235,6 +232,8 @@ def {function_name}(request, response):
         param_name = constraint.details.get("parameter_name", f"param_{index}")
         constraint_type = constraint.details.get("constraint_type", "type")
         expected_type = constraint.details.get("expected_type", "string").lower()
+
+        self.logger.debug(f"Generating constraint-specific script for {param_name}")
 
         # Map expected types to Python types
         type_mapping = {
@@ -273,6 +272,7 @@ def validate_{param_name}_{constraint_type}(request, response):
         self, constraints
     ) -> List[ValidationScript]:
         """Generate fallback scripts based on actual constraints."""
+        self.logger.info("Generating constraint-based fallback scripts")
         scripts = []
         for i, constraint in enumerate(constraints):
             script = self._generate_constraint_specific_script(constraint, i)
@@ -285,6 +285,7 @@ def validate_{param_name}_{constraint_type}(request, response):
 
     def _generate_basic_param_scripts(self) -> List[ValidationScript]:
         """Generate basic parameter validation scripts as fallback."""
+        self.logger.info("Generating basic parameter validation scripts")
         return [
             ValidationScript(
                 id=str(uuid.uuid4()),
@@ -318,4 +319,4 @@ def validate_basic_parameters(request, response):
 
     async def cleanup(self) -> None:
         """Clean up resources."""
-        pass
+        self.logger.debug("Cleaning up RequestParamScriptGeneratorTool resources")

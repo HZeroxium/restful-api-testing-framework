@@ -14,6 +14,7 @@ from schemas.tools.test_script_generator import (
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.test_script_generator import RESPONSE_PROPERTY_SCRIPT_PROMPT
 from pydantic import BaseModel, Field
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ResponsePropertyScriptGeneratorTool(BaseTool):
@@ -42,6 +43,14 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         self.chunk_threshold = chunk_threshold
         self.max_chunk_size = max_chunk_size
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"script-generator.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: TestScriptGeneratorInput
     ) -> TestScriptGeneratorOutput:
@@ -53,16 +62,14 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         # Filter constraints to only response property constraints
         response_constraints = [c for c in constraints if c.type == "response_property"]
 
+        self.logger.info(f"Processing {len(response_constraints)} response constraints")
         if self.verbose:
-            print(
-                f"ResponsePropertyScriptGenerator: Processing {len(response_constraints)} response constraints"
-            )
+            self.logger.debug(f"Endpoint: {endpoint.method.upper()} {endpoint.path}")
 
         if not response_constraints:
-            if self.verbose:
-                print(
-                    "No response property constraints found, generating basic scripts"
-                )
+            self.logger.warning(
+                "No response property constraints found, generating basic scripts"
+            )
             return TestScriptGeneratorOutput(
                 validation_scripts=self._generate_basic_response_scripts(test_data)
             )
@@ -83,10 +90,9 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         self, endpoint, test_data, response_constraints: List
     ) -> TestScriptGeneratorOutput:
         """Process all constraints as a single chunk."""
-        if self.verbose:
-            print(
-                f"Processing as single chunk ({len(response_constraints)} constraints)"
-            )
+        self.logger.info(
+            f"Processing as single chunk ({len(response_constraints)} constraints)"
+        )
 
         try:
             validation_scripts = await self._generate_scripts_for_chunk(
@@ -96,19 +102,18 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
             if not validation_scripts:
                 validation_scripts = self._generate_basic_response_scripts(test_data)
 
-            if self.verbose:
-                print(
-                    f"Generated {len(validation_scripts)} response validation scripts"
-                )
+            self.logger.info(
+                f"Generated {len(validation_scripts)} response validation scripts"
+            )
 
             return TestScriptGeneratorOutput(validation_scripts=validation_scripts)
 
         except Exception as e:
+            self.logger.error(f"Error in single chunk processing: {str(e)}")
             if self.verbose:
-                print(f"Error in single chunk processing: {str(e)}")
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
 
             return TestScriptGeneratorOutput(
                 validation_scripts=self._generate_constraint_based_fallback_scripts(
@@ -122,10 +127,9 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         """Process constraints in multiple chunks."""
         num_chunks = math.ceil(len(response_constraints) / self.max_chunk_size)
 
-        if self.verbose:
-            print(
-                f"Processing in {num_chunks} chunks ({len(response_constraints)} constraints, max {self.max_chunk_size} per chunk)"
-            )
+        self.logger.info(
+            f"Processing in {num_chunks} chunks ({len(response_constraints)} constraints, max {self.max_chunk_size} per chunk)"
+        )
 
         all_validation_scripts = []
         chunk_results = []
@@ -135,10 +139,9 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
             end_idx = min(start_idx + self.max_chunk_size, len(response_constraints))
             chunk_constraints = response_constraints[start_idx:end_idx]
 
-            if self.verbose:
-                print(
-                    f"Processing chunk {chunk_index + 1}/{num_chunks}: constraints {start_idx + 1}-{end_idx} ({len(chunk_constraints)} constraints)"
-                )
+            self.logger.debug(
+                f"Processing chunk {chunk_index + 1}/{num_chunks}: constraints {start_idx + 1}-{end_idx} ({len(chunk_constraints)} constraints)"
+            )
 
             try:
                 chunk_scripts = await self._generate_scripts_for_chunk(
@@ -155,14 +158,12 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
                     }
                 )
 
-                if self.verbose:
-                    print(
-                        f"Chunk {chunk_index + 1} completed: {len(chunk_scripts)} scripts generated"
-                    )
+                self.logger.debug(
+                    f"Chunk {chunk_index + 1} completed: {len(chunk_scripts)} scripts generated"
+                )
 
             except Exception as e:
-                if self.verbose:
-                    print(f"Error in chunk {chunk_index + 1}: {str(e)}")
+                self.logger.error(f"Error in chunk {chunk_index + 1}: {str(e)}")
 
                 # Generate fallback scripts for this chunk
                 fallback_scripts = self._generate_constraint_based_fallback_scripts(
@@ -182,10 +183,9 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
 
         # Ensure we have scripts for all constraints
         if len(all_validation_scripts) < len(response_constraints):
-            if self.verbose:
-                print(
-                    f"⚠️  Generated {len(all_validation_scripts)} scripts but expected {len(response_constraints)}"
-                )
+            self.logger.warning(
+                f"Generated {len(all_validation_scripts)} scripts but expected {len(response_constraints)}"
+            )
 
             # Fill missing scripts with constraint-specific ones
             while len(all_validation_scripts) < len(response_constraints):
@@ -198,14 +198,15 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         if not all_validation_scripts:
             all_validation_scripts = self._generate_basic_response_scripts(test_data)
 
+        self.logger.info(
+            f"Multi-chunk processing completed: {len(all_validation_scripts)} total scripts generated"
+        )
+
         if self.verbose:
-            print(
-                f"Multi-chunk processing completed: {len(all_validation_scripts)} total scripts generated"
-            )
             for result in chunk_results:
                 status_emoji = "✅" if result["status"] == "success" else "⚠️"
-                print(
-                    f"  {status_emoji} Chunk {result['chunk_index'] + 1}: {result['scripts_generated']} scripts ({result['status']})"
+                self.logger.debug(
+                    f"{status_emoji} Chunk {result['chunk_index'] + 1}: {result['scripts_generated']} scripts ({result['status']})"
                 )
 
         return TestScriptGeneratorOutput(validation_scripts=all_validation_scripts)
@@ -261,6 +262,10 @@ CHUNK PROCESSING NOTICE{chunk_info}:
 - Include constraint IDs in script comments for traceability
 """
 
+        self.logger.debug(
+            f"Sending chunk {chunk_index + 1} to LLM with {len(chunk_constraints)} constraints"
+        )
+
         # Execute LLM analysis
         raw_json = await create_and_execute_llm_agent(
             app_name=f"response_property_script_generator_chunk_{chunk_index}",
@@ -281,30 +286,25 @@ CHUNK PROCESSING NOTICE{chunk_info}:
         )
 
         validation_scripts = []
-        # if self.verbose:
-        #     print(f"Raw JSON from LLM (chunk {chunk_index + 1}): {raw_json}")
 
         if raw_json and isinstance(raw_json, dict) and "validation_scripts" in raw_json:
             scripts_data = raw_json["validation_scripts"]
             if not isinstance(scripts_data, list):
-                if self.verbose:
-                    print(
-                        f"Warning: validation_scripts is not a list: {type(scripts_data)}"
-                    )
+                self.logger.warning(
+                    f"validation_scripts is not a list: {type(scripts_data)}"
+                )
                 scripts_data = []
 
             for i, script_data in enumerate(scripts_data):
                 if not isinstance(script_data, dict):
-                    if self.verbose:
-                        print(
-                            f"Warning: script_data {i} is not a dict: {type(script_data)}"
-                        )
+                    self.logger.warning(
+                        f"script_data {i} is not a dict: {type(script_data)}"
+                    )
                     continue
 
                 validation_code = script_data.get("validation_code", "")
                 if not validation_code:
-                    if self.verbose:
-                        print(f"Warning: Empty validation_code for script {i}")
+                    self.logger.warning(f"Empty validation_code for script {i}")
                     continue
 
                 # Clean up validation code - remove JSON escaping
@@ -346,17 +346,15 @@ def {function_name}(request, response):
                 )
                 validation_scripts.append(script)
         else:
-            if self.verbose:
-                print(
-                    f"Warning: Invalid or missing validation_scripts in LLM response for chunk {chunk_index + 1}"
-                )
+            self.logger.warning(
+                f"Invalid or missing validation_scripts in LLM response for chunk {chunk_index + 1}"
+            )
 
         # Ensure we have the right number of scripts for this chunk
         if len(validation_scripts) != len(chunk_constraints):
-            if self.verbose:
-                print(
-                    f"⚠️  Chunk {chunk_index + 1}: Generated {len(validation_scripts)} scripts but expected {len(chunk_constraints)}"
-                )
+            self.logger.warning(
+                f"Chunk {chunk_index + 1}: Generated {len(validation_scripts)} scripts but expected {len(chunk_constraints)}"
+            )
 
             # Fill missing scripts with constraint-specific ones
             while len(validation_scripts) < len(chunk_constraints):
@@ -378,6 +376,8 @@ def {function_name}(request, response):
         property_path = constraint.details.get("property_path", f"property_{index}")
         constraint_type = constraint.details.get("constraint_type", "type")
         data_type = constraint.details.get("data_type", "string").lower()
+
+        self.logger.debug(f"Generating constraint-specific script for {property_path}")
 
         # Map data types to Python types
         type_mapping = {
@@ -432,6 +432,7 @@ def validate_{property_path.replace('.', '_').replace('[*]', '_array')}_{constra
         self, constraints, test_data
     ) -> List[ValidationScript]:
         """Generate fallback scripts based on actual constraints."""
+        self.logger.info("Generating constraint-based fallback scripts")
         scripts = []
         for i, constraint in enumerate(constraints):
             script = self._generate_constraint_specific_script(constraint, i)
@@ -444,6 +445,7 @@ def validate_{property_path.replace('.', '_').replace('[*]', '_array')}_{constra
 
     def _generate_basic_response_scripts(self, test_data) -> List[ValidationScript]:
         """Generate basic response validation scripts as fallback."""
+        self.logger.info("Generating basic response validation scripts")
         expected_status_code = test_data.expected_status_code
 
         return [
@@ -496,4 +498,4 @@ def validate_response_format(request, response):
 
     async def cleanup(self) -> None:
         """Clean up resources."""
-        pass
+        self.logger.debug("Cleaning up ResponsePropertyScriptGeneratorTool resources")
