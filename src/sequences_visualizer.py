@@ -15,7 +15,7 @@ import json
 import argparse
 import time
 from datetime import datetime
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict
 
 
 def create_static_visualization(G, sequence, index, output_dir):

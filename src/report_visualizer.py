@@ -7,7 +7,7 @@ Exports JSON constraint mining results to Excel format for easy analysis.
 
 import os
 import argparse
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 
 try:

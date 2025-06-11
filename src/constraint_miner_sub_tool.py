@@ -9,9 +9,8 @@ import asyncio
 import os
 import json
 import argparse
-from typing import List, Dict, Any, Optional
+from typing import Dict, Any
 
-from tools.openapi_parser import OpenAPIParserTool
 from tools.constraint_miner.request_param_constraint_miner import (
     RequestParamConstraintMinerTool,
 )
@@ -26,8 +25,6 @@ from tools.constraint_miner.request_response_constraint_miner import (
 )
 
 from schemas.tools.openapi_parser import (
-    OpenAPIParserInput,
-    SpecSourceType,
     EndpointInfo,
 )
 from schemas.tools.constraint_miner import (

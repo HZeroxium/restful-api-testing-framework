@@ -5,14 +5,13 @@ Exports JSON test case results to Excel format for easy analysis.
 
 import os
 import argparse
-from typing import Dict, Any, List, Optional, Tuple
+from typing import Dict, Any, List, Optional
 from datetime import datetime
 
 try:
     import pandas as pd
     from openpyxl import Workbook
     from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
-    from openpyxl.utils.dataframe import dataframe_to_rows
 
     EXCEL_AVAILABLE = True
 except ImportError:
