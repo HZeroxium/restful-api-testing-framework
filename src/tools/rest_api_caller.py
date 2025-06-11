@@ -12,6 +12,7 @@ from schemas.tools.rest_api_caller import (
     RestRequest,
     RestResponse,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RestApiCallerTool(BaseTool):
@@ -38,39 +39,86 @@ class RestApiCallerTool(BaseTool):
             verbose=verbose,
             cache_enabled=cache_enabled,
         )
+
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         # You can accept config overrides for timeouts, retries, etc.
         self._timeout = config.get("timeout", 10.0) if config else 10.0
 
     async def _execute(self, inp: RestApiCallerInput) -> RestApiCallerOutput:
         req: RestRequest = inp.request  # already validated by Pydantic
-        start = time.perf_counter()
 
-        # Use a shared AsyncClient for connection pooling :contentReference[oaicite:6]{index=6}
-        async with httpx.AsyncClient(timeout=self._timeout) as client:
-            # Dynamically choose the HTTP method
-            response = await client.request(
-                method=req.method.upper(),
-                url=req.url,
-                headers=req.headers or {},
-                params=req.params or {},
-                json=req.json,
-            )
-
-        elapsed = time.perf_counter() - start
-
-        # Wrap into our Response schema
-        resp_model = RestResponse(
-            status_code=response.status_code,
-            headers=dict(response.headers),
-            body=(
-                response.json()
-                if "application/json" in response.headers.get("content-type", "")
-                else response.text
-            ),
+        self.logger.info(f"Making {req.method.upper()} request to {req.url}")
+        self.logger.add_context(
+            method=req.method.upper(),
+            url=req.url,
+            has_params=bool(req.params),
+            has_headers=bool(req.headers),
+            has_json=bool(req.json),
+            timeout=self._timeout,
         )
 
-        return RestApiCallerOutput(request=req, response=resp_model, elapsed=elapsed)
+        start = time.perf_counter()
+
+        try:
+            # Use a shared AsyncClient for connection pooling
+            async with httpx.AsyncClient(timeout=self._timeout) as client:
+                self.logger.debug("Executing HTTP request")
+
+                # Dynamically choose the HTTP method
+                response = await client.request(
+                    method=req.method.upper(),
+                    url=req.url,
+                    headers=req.headers or {},
+                    params=req.params or {},
+                    json=req.json,
+                )
+
+            elapsed = time.perf_counter() - start
+
+            self.logger.info(
+                f"Request completed: {response.status_code} in {elapsed:.3f}s"
+            )
+            self.logger.add_context(
+                status_code=response.status_code,
+                response_time=f"{elapsed:.3f}s",
+                response_size=len(response.content) if response.content else 0,
+            )
+
+            # Wrap into our Response schema
+            resp_model = RestResponse(
+                status_code=response.status_code,
+                headers=dict(response.headers),
+                body=(
+                    response.json()
+                    if "application/json" in response.headers.get("content-type", "")
+                    else response.text
+                ),
+            )
+
+            return RestApiCallerOutput(
+                request=req, response=resp_model, elapsed=elapsed
+            )
+
+        except httpx.TimeoutException as e:
+            elapsed = time.perf_counter() - start
+            self.logger.error(f"Request timed out after {self._timeout}s")
+            raise
+        except httpx.RequestError as e:
+            elapsed = time.perf_counter() - start
+            self.logger.error(f"Request error: {str(e)}")
+            raise
+        except Exception as e:
+            elapsed = time.perf_counter() - start
+            self.logger.error(f"Unexpected error during request: {str(e)}")
+            raise
 
     async def cleanup(self) -> None:
         # Nothing to clean up here
-        pass
+        self.logger.debug("RestApiCallerTool cleanup completed")

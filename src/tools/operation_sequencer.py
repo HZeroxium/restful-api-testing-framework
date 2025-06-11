@@ -17,6 +17,7 @@ from schemas.tools.operation_sequencer import (
 from utils.llm_utils import extract_json_from_response as extract_json_from_text
 from config.settings import settings
 from config.constants import DEFAULT_LLM_TIMEOUT
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class OperationSequencerTool(BaseTool):
@@ -46,26 +47,35 @@ class OperationSequencerTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(self, inp: OperationSequencerInput) -> OperationSequencerOutput:
         """Sequence operations based on dependencies using LLM."""
         endpoints = inp.endpoints
         collection_name = inp.collection_name or "API Operations"
         include_data_mapping = inp.include_data_mapping
 
-        if self.verbose:
-            print(
-                f"OperationSequencer: Analyzing {len(endpoints)} operations for {collection_name}"
-            )
+        self.logger.info(f"Analyzing {len(endpoints)} operations for {collection_name}")
+        self.logger.add_context(
+            endpoints_count=len(endpoints),
+            collection_name=collection_name,
+            include_data_mapping=include_data_mapping,
+        )
 
         # Check if we have too many endpoints and batch them if needed
         MAX_ENDPOINTS_PER_BATCH = (
             20  # Limit endpoints per analysis to prevent context overflow
         )
         if len(endpoints) > MAX_ENDPOINTS_PER_BATCH:
-            if self.verbose:
-                print(
-                    f"Large number of endpoints detected ({len(endpoints)}). Processing in batches..."
-                )
+            self.logger.info(
+                f"Large number of endpoints detected ({len(endpoints)}). Processing in batches..."
+            )
 
             return await self._process_in_batches(
                 endpoints, collection_name, include_data_mapping
@@ -126,10 +136,9 @@ class OperationSequencerTool(BaseTool):
 
         for retry in range(max_retries + 1):
             if retry > 0:
-                if self.verbose:
-                    print(
-                        f"Retry {retry}/{max_retries} after waiting {retry_delay}s..."
-                    )
+                self.logger.info(
+                    f"Retry {retry}/{max_retries} after waiting {retry_delay}s..."
+                )
                 await asyncio.sleep(retry_delay)
 
             try:
@@ -227,8 +236,7 @@ Here are the endpoints to analyze:
                     role="user", parts=[types.Part(text=user_message)]
                 )
 
-                if self.verbose:
-                    print(f"Running LLM to identify operation sequences")
+                self.logger.debug("Running LLM to identify operation sequences")
 
                 # Execute with timeout protection
                 start_time = time.time()
@@ -247,8 +255,7 @@ Here are the endpoints to analyze:
                                 )
                         return result_text
                     except Exception as e:
-                        if self.verbose:
-                            print(f"Error during LLM generation: {str(e)}")
+                        self.logger.debug(f"Error during LLM generation: {str(e)}")
                         return ""
 
                 # Execute with timeout protection
@@ -257,14 +264,14 @@ Here are the endpoints to analyze:
                         get_llm_response(), timeout=timeout
                     )
                 except asyncio.TimeoutError:
-                    if self.verbose:
-                        print(f"LLM request timed out after {timeout} seconds")
+                    self.logger.warning(
+                        f"LLM request timed out after {timeout} seconds"
+                    )
                     raw_text = ""
 
                 # Process the LLM response
                 if not raw_text:
-                    if self.verbose:
-                        print("No response received from LLM")
+                    self.logger.warning("No response received from LLM")
                     # If this isn't the last retry, continue to the next iteration
                     if retry < max_retries:
                         continue
@@ -301,10 +308,9 @@ Here are the endpoints to analyze:
                             if matches:
                                 json_data = json.loads(matches.group(0))
                     except Exception:
-                        if self.verbose:
-                            print(
-                                "Failed to extract JSON from text with standard methods"
-                            )
+                        self.logger.debug(
+                            "Failed to extract JSON from text with standard methods"
+                        )
                         json_data = None
 
                 # If we still don't have JSON data, try the utility function
@@ -316,9 +322,9 @@ Here are the endpoints to analyze:
 
                 # If still no valid JSON, return error
                 if not json_data:
+                    self.logger.error(f"Failed to extract JSON from LLM response")
                     if self.verbose:
-                        print(f"Failed to extract JSON from LLM response")
-                        print(f"Raw response preview: {raw_text[:200]}...")
+                        self.logger.debug(f"Raw response preview: {raw_text[:200]}...")
                     return OperationSequencerOutput(
                         sequences=[],
                         total_sequences=0,
@@ -336,10 +342,9 @@ Here are the endpoints to analyze:
                         if not all(
                             key in seq for key in ["name", "description", "operations"]
                         ):
-                            if self.verbose:
-                                print(
-                                    f"Skipping incomplete sequence: {seq.get('name', 'unnamed')}"
-                                )
+                            self.logger.debug(
+                                f"Skipping incomplete sequence: {seq.get('name', 'unnamed')}"
+                            )
                             continue
 
                         dependencies = []
@@ -375,8 +380,9 @@ Here are the endpoints to analyze:
                                     )
                                 )
                             except Exception as e:
-                                if self.verbose:
-                                    print(f"Error creating dependency: {str(e)}")
+                                self.logger.debug(
+                                    f"Error creating dependency: {str(e)}"
+                                )
                                 continue
 
                         # Create sequence
@@ -390,8 +396,7 @@ Here are the endpoints to analyze:
                             )
                             operation_sequences.append(sequence)
                         except Exception as e:
-                            if self.verbose:
-                                print(f"Error creating sequence: {str(e)}")
+                            self.logger.debug(f"Error creating sequence: {str(e)}")
                             continue
 
                 # Create result summary
@@ -405,24 +410,31 @@ Here are the endpoints to analyze:
                     "execution_time": round(time.time() - start_time, 2),
                 }
 
-                if self.verbose:
-                    print(f"Found {len(operation_sequences)} operation sequences")
+                self.logger.info(
+                    f"Found {len(operation_sequences)} operation sequences"
+                )
+                self.logger.add_context(
+                    sequences_found=len(operation_sequences),
+                    execution_time=result_summary["execution_time"],
+                )
 
-                    # Print a few examples
+                # Print a few examples for verbose mode
+                if self.verbose and operation_sequences:
                     for i, seq in enumerate(operation_sequences[:2]):
-                        print(f"\nSequence {i+1}: {seq.name}")
-                        print(f"Description: {seq.description}")
-                        print(f"Operations ({len(seq.operations)}):")
-                        for op in seq.operations:
-                            print(f"  - {op}")
+                        self.logger.debug(f"Sequence {i+1}: {seq.name}")
+                        self.logger.debug(f"Description: {seq.description}")
+                        self.logger.debug(
+                            f"Operations ({len(seq.operations)}): {seq.operations}"
+                        )
                         if seq.dependencies:
-                            print(f"Dependencies ({len(seq.dependencies)}):")
                             for dep in seq.dependencies[:3]:
-                                print(
-                                    f"  - {dep.source_operation} depends on {dep.target_operation}: {dep.reason}"
+                                self.logger.debug(
+                                    f"Dependency: {dep.source_operation} depends on {dep.target_operation}: {dep.reason}"
                                 )
                                 if dep.data_mapping:
-                                    print(f"    Data mapping: {dep.data_mapping}")
+                                    self.logger.debug(
+                                        f"Data mapping: {dep.data_mapping}"
+                                    )
 
                 return OperationSequencerOutput(
                     sequences=operation_sequences,
@@ -431,8 +443,7 @@ Here are the endpoints to analyze:
                 )
 
             except Exception as e:
-                if self.verbose:
-                    print(f"Error during LLM processing: {str(e)}")
+                self.logger.error(f"Error during LLM processing: {str(e)}")
                 return OperationSequencerOutput(
                     sequences=[],
                     total_sequences=0,
@@ -462,10 +473,9 @@ Here are the endpoints to analyze:
         group_count = 0
         for group_name, group_endpoints in endpoint_groups.items():
             group_count += 1
-            if self.verbose:
-                print(
-                    f"Processing endpoint group '{group_name}' with {len(group_endpoints)} endpoints"
-                )
+            self.logger.info(
+                f"Processing endpoint group '{group_name}' with {len(group_endpoints)} endpoints"
+            )
 
             # Further batch if the group is still too large
             batch_num = 0
@@ -473,8 +483,9 @@ Here are the endpoints to analyze:
                 batch_num += 1
                 batch = group_endpoints[i : i + BATCH_SIZE]
 
-                if self.verbose:
-                    print(f"Processing batch {batch_num} ({len(batch)} endpoints)")
+                self.logger.debug(
+                    f"Processing batch {batch_num} ({len(batch)} endpoints)"
+                )
 
                 # Create input for this batch
                 batch_input = OperationSequencerInput(
@@ -495,8 +506,7 @@ Here are the endpoints to analyze:
                     if batch_output.sequences:
                         all_sequences.extend(batch_output.sequences)
                 except Exception as e:
-                    if self.verbose:
-                        print(f"Error processing batch: {str(e)}")
+                    self.logger.error(f"Error processing batch: {str(e)}")
                     batch_results[f"{group_name}_batch{batch_num}"] = {
                         "endpoints": len(batch),
                         "sequences": 0,
@@ -517,10 +527,9 @@ Here are the endpoints to analyze:
             "batch_results": batch_results,
         }
 
-        if self.verbose:
-            print(
-                f"Combined results: Found {len(all_sequences)} operation sequences from all batches"
-            )
+        self.logger.info(
+            f"Combined results: Found {len(all_sequences)} operation sequences from all batches"
+        )
 
         return OperationSequencerOutput(
             sequences=all_sequences,
@@ -549,4 +558,4 @@ Here are the endpoints to analyze:
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
-        pass
+        self.logger.debug("Cleaning up OperationSequencerTool resources")

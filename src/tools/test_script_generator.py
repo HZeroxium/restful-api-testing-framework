@@ -20,6 +20,7 @@ from tools.test_script_generator_tools.response_property_script_generator import
 from tools.test_script_generator_tools.request_response_script_generator import (
     RequestResponseScriptGeneratorTool,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestScriptGeneratorTool(BaseTool):
@@ -52,6 +53,14 @@ class TestScriptGeneratorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         # Initialize specialized script generation tools
         self.request_param_generator = RequestParamScriptGeneratorTool(
             verbose=verbose, cache_enabled=cache_enabled, config=config
@@ -77,13 +86,22 @@ class TestScriptGeneratorTool(BaseTool):
         test_data = inp.test_data
         constraints = inp.constraints or []
 
+        self.logger.info(
+            f"Starting test script generation for {endpoint.method.upper()} {endpoint.path}"
+        )
+        self.logger.add_context(
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+            input_constraints=len(constraints),
+        )
+
         if self.verbose:
-            print(f"\n{'='*80}")
-            print(
+            self.logger.debug("=" * 80)
+            self.logger.debug(
                 f"TEST SCRIPT GENERATION FOR {endpoint.method.upper()} {endpoint.path}"
             )
-            print(f"{'='*80}")
-            print(f"Input constraints: {len(constraints)}")
+            self.logger.debug("=" * 80)
+            self.logger.debug(f"Input constraints: {len(constraints)}")
 
             # Log constraint breakdown
             constraint_types = {}
@@ -94,7 +112,7 @@ class TestScriptGeneratorTool(BaseTool):
                 )
 
             for constraint_type, count in constraint_types.items():
-                print(f"  - {constraint_type}: {count}")
+                self.logger.debug(f"  - {constraint_type}: {count}")
 
         # Initialize result container
         all_validation_scripts: List[ValidationScript] = []
@@ -102,8 +120,9 @@ class TestScriptGeneratorTool(BaseTool):
 
         try:
             # 1. Generate request parameter validation scripts
-            if self.verbose:
-                print(f"\nStep 1: Generating request parameter validation scripts...")
+            self.logger.debug(
+                "Step 1: Generating request parameter validation scripts..."
+            )
 
             param_output = await self.request_param_generator.execute(inp)
             all_validation_scripts.extend(param_output.validation_scripts)
@@ -112,14 +131,12 @@ class TestScriptGeneratorTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Generated {len(param_output.validation_scripts)} parameter scripts"
-                )
+            self.logger.debug(
+                f"Generated {len(param_output.validation_scripts)} parameter scripts"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error generating parameter scripts: {str(e)}")
+            self.logger.error(f"Error generating parameter scripts: {str(e)}")
             generation_results["param_scripts"] = {
                 "count": 0,
                 "status": "failed",
@@ -128,8 +145,7 @@ class TestScriptGeneratorTool(BaseTool):
 
         try:
             # 2. Generate request body validation scripts
-            if self.verbose:
-                print(f"\nStep 2: Generating request body validation scripts...")
+            self.logger.debug("Step 2: Generating request body validation scripts...")
 
             body_output = await self.request_body_generator.execute(inp)
             all_validation_scripts.extend(body_output.validation_scripts)
@@ -138,14 +154,12 @@ class TestScriptGeneratorTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Generated {len(body_output.validation_scripts)} body scripts"
-                )
+            self.logger.debug(
+                f"Generated {len(body_output.validation_scripts)} body scripts"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error generating body scripts: {str(e)}")
+            self.logger.error(f"Error generating body scripts: {str(e)}")
             generation_results["body_scripts"] = {
                 "count": 0,
                 "status": "failed",
@@ -154,8 +168,9 @@ class TestScriptGeneratorTool(BaseTool):
 
         try:
             # 3. Generate response property validation scripts
-            if self.verbose:
-                print(f"\nStep 3: Generating response property validation scripts...")
+            self.logger.debug(
+                "Step 3: Generating response property validation scripts..."
+            )
 
             response_output = await self.response_property_generator.execute(inp)
             all_validation_scripts.extend(response_output.validation_scripts)
@@ -164,14 +179,12 @@ class TestScriptGeneratorTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Generated {len(response_output.validation_scripts)} response scripts"
-                )
+            self.logger.debug(
+                f"Generated {len(response_output.validation_scripts)} response scripts"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error generating response scripts: {str(e)}")
+            self.logger.error(f"Error generating response scripts: {str(e)}")
             generation_results["response_scripts"] = {
                 "count": 0,
                 "status": "failed",
@@ -180,10 +193,9 @@ class TestScriptGeneratorTool(BaseTool):
 
         try:
             # 4. Generate request-response correlation validation scripts
-            if self.verbose:
-                print(
-                    f"\nStep 4: Generating request-response correlation validation scripts..."
-                )
+            self.logger.debug(
+                "Step 4: Generating request-response correlation validation scripts..."
+            )
 
             correlation_output = await self.request_response_generator.execute(inp)
             all_validation_scripts.extend(correlation_output.validation_scripts)
@@ -192,14 +204,12 @@ class TestScriptGeneratorTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Generated {len(correlation_output.validation_scripts)} correlation scripts"
-                )
+            self.logger.debug(
+                f"Generated {len(correlation_output.validation_scripts)} correlation scripts"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error generating correlation scripts: {str(e)}")
+            self.logger.error(f"Error generating correlation scripts: {str(e)}")
             generation_results["correlation_scripts"] = {
                 "count": 0,
                 "status": "failed",
@@ -208,37 +218,55 @@ class TestScriptGeneratorTool(BaseTool):
 
         # If no scripts were generated from any tool, generate basic fallback scripts
         if not all_validation_scripts:
-            if self.verbose:
-                print(
-                    f"\n⚠️  No scripts generated from specialized tools, creating basic fallback scripts"
-                )
+            self.logger.warning(
+                "No scripts generated from specialized tools, creating basic fallback scripts"
+            )
             all_validation_scripts = self._generate_basic_fallback_scripts(test_data)
 
+        # Log summary results
+        total_scripts = len(all_validation_scripts)
+        self.logger.info(
+            f"Script generation completed: {total_scripts} scripts generated"
+        )
+        self.logger.add_context(
+            total_scripts=total_scripts,
+            param_scripts=generation_results.get("param_scripts", {}).get("count", 0),
+            body_scripts=generation_results.get("body_scripts", {}).get("count", 0),
+            response_scripts=generation_results.get("response_scripts", {}).get(
+                "count", 0
+            ),
+            correlation_scripts=generation_results.get("correlation_scripts", {}).get(
+                "count", 0
+            ),
+        )
+
         if self.verbose:
-            print(f"\n{'='*60}")
-            print(f"SCRIPT GENERATION COMPLETED")
-            print(f"{'='*60}")
-            print(f"Script breakdown:")
-            print(
+            self.logger.debug("=" * 60)
+            self.logger.debug("SCRIPT GENERATION COMPLETED")
+            self.logger.debug("=" * 60)
+            self.logger.debug("Script breakdown:")
+            self.logger.debug(
                 f"  - Parameter scripts: {generation_results.get('param_scripts', {}).get('count', 0)}"
             )
-            print(
+            self.logger.debug(
                 f"  - Body scripts: {generation_results.get('body_scripts', {}).get('count', 0)}"
             )
-            print(
+            self.logger.debug(
                 f"  - Response scripts: {generation_results.get('response_scripts', {}).get('count', 0)}"
             )
-            print(
+            self.logger.debug(
                 f"  - Correlation scripts: {generation_results.get('correlation_scripts', {}).get('count', 0)}"
             )
-            print(f"Total scripts generated: {len(all_validation_scripts)}")
-            print(f"Status: Success")
+            self.logger.debug(f"Total scripts generated: {total_scripts}")
+            self.logger.debug("Status: Success")
 
         return TestScriptGeneratorOutput(validation_scripts=all_validation_scripts)
 
     def _generate_basic_fallback_scripts(self, test_data) -> List[ValidationScript]:
         """Generate basic validation scripts as fallback when all specialized tools fail."""
         import uuid
+
+        self.logger.debug("Generating basic fallback validation scripts")
 
         expected_status_code = test_data.expected_status_code
 
@@ -282,6 +310,7 @@ def validate_basic_response_structure(request, response):
 
     async def cleanup(self) -> None:
         """Clean up all specialized script generation tools."""
+        self.logger.debug("Cleaning up TestScriptGeneratorTool resources")
         await self.request_param_generator.cleanup()
         await self.request_body_generator.cleanup()
         await self.response_property_generator.cleanup()

@@ -9,6 +9,7 @@ import traceback
 
 from core import BaseTool
 from schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class CodeExecutorTool(BaseTool):
@@ -37,6 +38,14 @@ class CodeExecutorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         # Merge defaults with config
         cfg = config or {}
         self.restricted_modules = restricted_modules or cfg.get(
@@ -46,6 +55,13 @@ class CodeExecutorTool(BaseTool):
 
     async def _execute(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
         """Execute Python code natively"""
+        self.logger.debug("Starting code execution")
+        self.logger.add_context(
+            code_length=len(inp.code),
+            has_context_vars=bool(inp.context_variables),
+            timeout=inp.timeout or self.timeout_seconds,
+        )
+
         return await self._execute_native(inp)
 
     async def _execute_native(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
@@ -53,6 +69,9 @@ class CodeExecutorTool(BaseTool):
         code = inp.code
         context_vars = inp.context_variables or {}
         timeout = inp.timeout or self.timeout_seconds
+
+        self.logger.debug("Preparing code execution environment")
+        self.logger.add_context(context_var_count=len(context_vars))
 
         # Create a namespace for execution
         namespace = {**context_vars}
@@ -67,8 +86,10 @@ class CodeExecutorTool(BaseTool):
         # Validate syntax first
         try:
             compiled_code = compile(code, "<string>", "exec")
+            self.logger.debug("Code syntax validation successful")
         except SyntaxError as e:
             elapsed = asyncio.get_event_loop().time() - start
+            self.logger.error(f"Syntax error in code: {str(e)}")
             return CodeExecutorOutput(
                 result="",
                 success=False,
@@ -88,6 +109,9 @@ class CodeExecutorTool(BaseTool):
                     module_name = match.group(1).split(".")[0]
                     if module_name in self.restricted_modules:
                         elapsed = asyncio.get_event_loop().time() - start
+                        self.logger.warning(
+                            f"Restricted module usage detected: {module_name}"
+                        )
                         return CodeExecutorOutput(
                             result="",
                             success=False,
@@ -97,6 +121,8 @@ class CodeExecutorTool(BaseTool):
                             execution_time=elapsed,
                             validated_code=code,
                         )
+
+        self.logger.debug("Starting code execution with timeout", timeout=timeout)
 
         # Execute with timeout and output capturing
         async def execute_with_timeout():
@@ -122,6 +148,7 @@ class CodeExecutorTool(BaseTool):
                     if result is None and functions:
                         # Get the first defined function
                         func_name, func = next(iter(functions.items()))
+                        self.logger.debug(f"Executing function: {func_name}")
 
                         # Check if we have matching parameters for this function
                         import inspect
@@ -139,16 +166,22 @@ class CodeExecutorTool(BaseTool):
 
                             # Execute the function with matched args
                             if args:
+                                self.logger.debug(
+                                    f"Calling function with args: {list(args.keys())}"
+                                )
                                 result = func(**args)
                             else:
                                 # Try to execute without args if no match found
+                                self.logger.debug("Calling function without args")
                                 result = func()
                         else:
                             # Function takes no arguments
+                            self.logger.debug("Calling function with no parameters")
                             result = func()
 
                     return True, result
             except Exception as e:
+                self.logger.debug(f"Code execution error: {str(e)}")
                 return False, e
 
         try:
@@ -157,6 +190,7 @@ class CodeExecutorTool(BaseTool):
             )
         except asyncio.TimeoutError:
             elapsed = asyncio.get_event_loop().time() - start
+            self.logger.error(f"Code execution timed out after {timeout} seconds")
             return CodeExecutorOutput(
                 result="",
                 success=False,
@@ -175,6 +209,7 @@ class CodeExecutorTool(BaseTool):
             # If result is an exception, it's a failure
             if isinstance(result, Exception):
                 error_msg = str(result)
+                self.logger.error(f"Code execution resulted in exception: {error_msg}")
                 return CodeExecutorOutput(
                     result="",
                     success=False,
@@ -186,6 +221,8 @@ class CodeExecutorTool(BaseTool):
                 )
 
             # Success case - return the result or stdout if result is None
+            self.logger.info(f"Code execution successful in {elapsed:.3f}s")
+            self.logger.debug(f"Result type: {type(result).__name__}")
             return CodeExecutorOutput(
                 result=str(result) if result is not None else stdout_value,
                 success=True,
@@ -207,6 +244,7 @@ class CodeExecutorTool(BaseTool):
                         type(result), result, result.__traceback__
                     )
                 )
+            self.logger.error(f"Code execution failed: {error_msg}")
             return CodeExecutorOutput(
                 result="",
                 success=False,

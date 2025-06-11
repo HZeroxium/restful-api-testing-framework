@@ -13,6 +13,7 @@ from schemas.tools.test_case_generator import TestCase, TestCaseGeneratorInput
 from schemas.tools.test_data_generator import TestDataGeneratorInput
 from tools.test_data_generator import TestDataGeneratorTool
 from tools.test_case_generator import TestCaseGeneratorTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestSuiteGeneratorTool(BaseTool):
@@ -44,6 +45,14 @@ class TestSuiteGeneratorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         # Initialize required tools
         self.test_data_generator = TestDataGeneratorTool(
             verbose=verbose,
@@ -63,20 +72,29 @@ class TestSuiteGeneratorTool(BaseTool):
         test_case_count = inp.test_case_count or 2
         include_invalid_data = inp.include_invalid_data or False
 
+        self.logger.info(
+            f"Generating test suite for {endpoint_info.method.upper()} {endpoint_info.path}"
+        )
+        self.logger.add_context(
+            endpoint_method=endpoint_info.method.upper(),
+            endpoint_path=endpoint_info.path,
+            test_case_count=test_case_count,
+            include_invalid_data=include_invalid_data,
+        )
+
         if self.verbose:
-            print(f"\n{'='*80}")
-            print(
+            self.logger.debug("=" * 80)
+            self.logger.debug(
                 f"GENERATING TEST SUITE FOR {endpoint_info.method.upper()} {endpoint_info.path}"
             )
-            print(f"{'='*80}")
-            print(f"Parameters:")
-            print(f"  - Test case count: {test_case_count}")
-            print(f"  - Include invalid data: {include_invalid_data}")
+            self.logger.debug("=" * 80)
+            self.logger.debug("Parameters:")
+            self.logger.debug(f"  - Test case count: {test_case_count}")
+            self.logger.debug(f"  - Include invalid data: {include_invalid_data}")
 
         try:
             # Step 1: Generate test data
-            if self.verbose:
-                print(f"\nStep 1: Generating test data...")
+            self.logger.debug("Step 1: Generating test data...")
 
             data_input = TestDataGeneratorInput(
                 endpoint_info=endpoint_info,
@@ -87,19 +105,20 @@ class TestSuiteGeneratorTool(BaseTool):
             data_output = await self.test_data_generator.execute(data_input)
             test_data_collection = data_output.test_data_collection
 
-            if self.verbose:
-                print(f"  ✓ Generated {len(test_data_collection)} test data items")
+            self.logger.debug(f"Generated {len(test_data_collection)} test data items")
 
             # Step 2: Generate test cases with validation scripts
-            if self.verbose:
-                print(f"\nStep 2: Generating test cases with validation scripts...")
+            self.logger.debug(
+                "Step 2: Generating test cases with validation scripts..."
+            )
 
             test_cases = []
             total_validation_scripts = 0
 
             for i, test_data in enumerate(test_data_collection):
-                if self.verbose:
-                    print(f"  Generating test case {i+1}/{len(test_data_collection)}")
+                self.logger.debug(
+                    f"Generating test case {i+1}/{len(test_data_collection)}"
+                )
 
                 case_input = TestCaseGeneratorInput(
                     endpoint_info=endpoint_info,
@@ -115,10 +134,9 @@ class TestSuiteGeneratorTool(BaseTool):
                 scripts_count = len(test_case.validation_scripts)
                 total_validation_scripts += scripts_count
 
-                if self.verbose:
-                    print(
-                        f"    ✓ Generated {scripts_count} validation scripts for test case {i+1}"
-                    )
+                self.logger.debug(
+                    f"Generated {scripts_count} validation scripts for test case {i+1}"
+                )
 
             # Step 3: Create test suite
             test_suite = TestSuite(
@@ -129,23 +147,32 @@ class TestSuiteGeneratorTool(BaseTool):
                 test_cases=test_cases,
             )
 
+            self.logger.info(f"Test suite generation completed successfully")
+            self.logger.add_context(
+                test_suite_id=test_suite.id,
+                total_test_cases=len(test_cases),
+                total_validation_scripts=total_validation_scripts,
+            )
+
             if self.verbose:
-                print(f"\n{'='*60}")
-                print(f"TEST SUITE GENERATION COMPLETED")
-                print(f"{'='*60}")
-                print(f"Test Suite: {test_suite.name}")
-                print(f"Total test cases: {len(test_cases)}")
-                print(f"Total validation scripts: {total_validation_scripts}")
-                print(f"Status: Success")
+                self.logger.debug("=" * 60)
+                self.logger.debug("TEST SUITE GENERATION COMPLETED")
+                self.logger.debug("=" * 60)
+                self.logger.debug(f"Test Suite: {test_suite.name}")
+                self.logger.debug(f"Total test cases: {len(test_cases)}")
+                self.logger.debug(
+                    f"Total validation scripts: {total_validation_scripts}"
+                )
+                self.logger.debug("Status: Success")
 
             return TestSuiteGeneratorOutput(test_suite=test_suite)
 
         except Exception as e:
+            self.logger.error(f"Error in test suite generation: {str(e)}")
             if self.verbose:
-                print(f"\n❌ ERROR in test suite generation: {str(e)}")
                 import traceback
 
-                traceback.print_exc()
+                self.logger.debug(f"Traceback: {traceback.format_exc()}")
 
             # Return minimal test suite with error information
             error_test_suite = TestSuite(
@@ -156,9 +183,11 @@ class TestSuiteGeneratorTool(BaseTool):
                 test_cases=[],
             )
 
+            self.logger.warning(f"Returning error test suite due to generation failure")
             return TestSuiteGeneratorOutput(test_suite=error_test_suite)
 
     async def cleanup(self) -> None:
         """Clean up resources."""
+        self.logger.debug("Cleaning up TestSuiteGeneratorTool resources")
         await self.test_data_generator.cleanup()
         await self.test_case_generator.cleanup()

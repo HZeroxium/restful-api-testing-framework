@@ -24,6 +24,7 @@ from tools.constraint_miner.response_property_constraint_miner import (
 from tools.constraint_miner.request_response_constraint_miner import (
     RequestResponseConstraintMinerTool,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class StaticConstraintMinerTool(BaseTool):
@@ -56,6 +57,14 @@ class StaticConstraintMinerTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
         # Initialize specialized constraint mining tools
         self.request_param_miner = RequestParamConstraintMinerTool(
             verbose=verbose, cache_enabled=cache_enabled, config=config
@@ -79,17 +88,23 @@ class StaticConstraintMinerTool(BaseTool):
         """Orchestrate constraint mining using specialized tools."""
         endpoint = inp.endpoint_info
 
+        self.logger.info(
+            f"Starting static constraint mining for {endpoint.method.upper()} {endpoint.path}"
+        )
+        self.logger.add_context(
+            endpoint_method=endpoint.method,
+            endpoint_path=endpoint.path,
+            include_examples=inp.include_examples,
+            include_schema_constraints=inp.include_schema_constraints,
+            include_correlation_constraints=inp.include_correlation_constraints,
+        )
+
         if self.verbose:
-            print(f"\n{'='*80}")
-            print(
-                f"STATIC CONSTRAINT MINING FOR {endpoint.method.upper()} {endpoint.path}"
-            )
-            print(f"{'='*80}")
-            print(f"Configuration:")
-            print(f"  - Include examples: {inp.include_examples}")
-            print(f"  - Include schema constraints: {inp.include_schema_constraints}")
-            print(
-                f"  - Include correlation constraints: {inp.include_correlation_constraints}"
+            self.logger.debug(
+                "Configuration details",
+                include_examples=inp.include_examples,
+                include_schema_constraints=inp.include_schema_constraints,
+                include_correlation_constraints=inp.include_correlation_constraints,
             )
 
         # Initialize result containers
@@ -101,8 +116,7 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 1. Mine request parameter constraints
-            if self.verbose:
-                print(f"\nStep 1: Mining request parameter constraints...")
+            self.logger.debug("Mining request parameter constraints")
 
             param_input = RequestParamConstraintMinerInput(
                 endpoint_info=endpoint,
@@ -117,14 +131,12 @@ class StaticConstraintMinerTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Found {len(request_param_constraints)} parameter constraints"
-                )
+            self.logger.debug(
+                f"Found {len(request_param_constraints)} parameter constraints"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error mining parameter constraints: {str(e)}")
+            self.logger.error(f"Error mining parameter constraints: {str(e)}")
             mining_results["param_mining"] = {
                 "count": 0,
                 "status": "failed",
@@ -133,8 +145,7 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 2. Mine request body constraints
-            if self.verbose:
-                print(f"\nStep 2: Mining request body constraints...")
+            self.logger.debug("Mining request body constraints")
 
             body_input = RequestBodyConstraintMinerInput(
                 endpoint_info=endpoint,
@@ -149,12 +160,10 @@ class StaticConstraintMinerTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(f"  ✓ Found {len(request_body_constraints)} body constraints")
+            self.logger.debug(f"Found {len(request_body_constraints)} body constraints")
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error mining body constraints: {str(e)}")
+            self.logger.error(f"Error mining body constraints: {str(e)}")
             mining_results["body_mining"] = {
                 "count": 0,
                 "status": "failed",
@@ -163,8 +172,7 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 3. Mine response property constraints
-            if self.verbose:
-                print(f"\nStep 3: Mining response property constraints...")
+            self.logger.debug("Mining response property constraints")
 
             response_input = ResponsePropertyConstraintMinerInput(
                 endpoint_info=endpoint,
@@ -179,14 +187,12 @@ class StaticConstraintMinerTool(BaseTool):
                 "status": "success",
             }
 
-            if self.verbose:
-                print(
-                    f"  ✓ Found {len(response_property_constraints)} response constraints"
-                )
+            self.logger.debug(
+                f"Found {len(response_property_constraints)} response constraints"
+            )
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error mining response constraints: {str(e)}")
+            self.logger.error(f"Error mining response constraints: {str(e)}")
             mining_results["response_mining"] = {
                 "count": 0,
                 "status": "failed",
@@ -196,10 +202,7 @@ class StaticConstraintMinerTool(BaseTool):
         try:
             # 4. Mine request-response correlation constraints
             if inp.include_correlation_constraints:
-                if self.verbose:
-                    print(
-                        f"\nStep 4: Mining request-response correlation constraints..."
-                    )
+                self.logger.debug("Mining request-response correlation constraints")
 
                 correlation_input = RequestResponseConstraintMinerInput(
                     endpoint_info=endpoint,
@@ -218,21 +221,18 @@ class StaticConstraintMinerTool(BaseTool):
                     "status": "success",
                 }
 
-                if self.verbose:
-                    print(
-                        f"  ✓ Found {len(request_response_constraints)} correlation constraints"
-                    )
+                self.logger.debug(
+                    f"Found {len(request_response_constraints)} correlation constraints"
+                )
             else:
-                if self.verbose:
-                    print(f"\nStep 4: Skipping correlation constraints (disabled)")
+                self.logger.debug("Skipping correlation constraints (disabled)")
                 mining_results["correlation_mining"] = {
                     "count": 0,
                     "status": "skipped",
                 }
 
         except Exception as e:
-            if self.verbose:
-                print(f"  ❌ Error mining correlation constraints: {str(e)}")
+            self.logger.error(f"Error mining correlation constraints: {str(e)}")
             mining_results["correlation_mining"] = {
                 "count": 0,
                 "status": "failed",
@@ -247,18 +247,25 @@ class StaticConstraintMinerTool(BaseTool):
             + len(request_response_constraints)
         )
 
+        self.logger.info(
+            f"Constraint mining completed: {total_constraints} total constraints found"
+        )
+        self.logger.add_context(
+            total_constraints=total_constraints,
+            param_constraints=len(request_param_constraints),
+            body_constraints=len(request_body_constraints),
+            response_constraints=len(response_property_constraints),
+            correlation_constraints=len(request_response_constraints),
+        )
+
         if self.verbose:
-            print(f"\n{'='*60}")
-            print(f"CONSTRAINT MINING COMPLETED")
-            print(f"{'='*60}")
-            print(f"Endpoint: {endpoint.method.upper()} {endpoint.path}")
-            print(f"Total constraints found: {total_constraints}")
-            print(f"Breakdown:")
-            print(f"  - Parameter constraints: {len(request_param_constraints)}")
-            print(f"  - Body constraints: {len(request_body_constraints)}")
-            print(f"  - Response constraints: {len(response_property_constraints)}")
-            print(f"  - Correlation constraints: {len(request_response_constraints)}")
-            print(f"Status: Success")
+            self.logger.debug(
+                "Constraint breakdown",
+                parameter_constraints=len(request_param_constraints),
+                body_constraints=len(request_body_constraints),
+                response_constraints=len(response_property_constraints),
+                correlation_constraints=len(request_response_constraints),
+            )
 
         # Create result summary
         result_summary = {
@@ -287,6 +294,7 @@ class StaticConstraintMinerTool(BaseTool):
 
     async def cleanup(self) -> None:
         """Clean up all specialized mining tools."""
+        self.logger.debug("Cleaning up static constraint miner tools")
         await self.request_param_miner.cleanup()
         await self.request_body_miner.cleanup()
         await self.response_property_miner.cleanup()

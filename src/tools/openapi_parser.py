@@ -4,7 +4,6 @@ import os
 import json
 import yaml
 import re
-import logging
 from typing import Any, Dict, List, Optional
 from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import (
     OpenAPIToolset,
@@ -25,6 +24,7 @@ from utils.schema_utils import (
     create_normalized_schema,
     ResponseSchema,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class OpenAPIParserTool(BaseTool):
@@ -47,75 +47,111 @@ class OpenAPIParserTool(BaseTool):
             verbose=verbose,
             cache_enabled=cache_enabled,
         )
-        self.logger = logging.getLogger(self.__class__.__name__)
+
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
 
     async def _execute(self, input_data: OpenAPIParserInput) -> OpenAPIParserOutput:
         """Execute the OpenAPI parser tool."""
-        spec_content = await self._load_spec(
-            input_data.spec_source, input_data.source_type
-        )
-
-        # Parse the specification
-        toolset = OpenAPIToolset(
-            spec_str=spec_content,
-            spec_str_type=(
-                input_data.source_type.value
-                if input_data.source_type != SpecSourceType.FILE
-                else "yaml"
+        self.logger.info(f"Starting OpenAPI specification parsing")
+        self.logger.add_context(
+            source_type=input_data.source_type.value,
+            spec_source=(
+                input_data.spec_source
+                if len(input_data.spec_source) < 100
+                else "large_spec"
             ),
         )
 
-        # Get the API tools
-        api_tools: List[RestApiTool] = toolset.get_tools()
+        try:
+            spec_content = await self._load_spec(
+                input_data.spec_source, input_data.source_type
+            )
+            self.logger.debug(
+                f"Loaded specification content ({len(spec_content)} characters)"
+            )
 
-        # Extract API metadata
-        api_info = self._extract_api_info(spec_content, input_data.source_type)
+            # Parse the specification
+            toolset = OpenAPIToolset(
+                spec_str=spec_content,
+                spec_str_type=(
+                    input_data.source_type.value
+                    if input_data.source_type != SpecSourceType.FILE
+                    else "yaml"
+                ),
+            )
 
-        # Process endpoints
-        endpoints = []
-        for tool in api_tools:
-            # Apply filtering if specified
-            if self._should_filter_endpoint(tool, input_data):
-                continue
+            # Get the API tools
+            api_tools: List[RestApiTool] = toolset.get_tools()
+            self.logger.debug(
+                f"Extracted {len(api_tools)} API tools from specification"
+            )
 
-            endpoint_info = self._extract_endpoint_info(tool)
-            endpoints.append(endpoint_info)
+            # Extract API metadata
+            api_info = self._extract_api_info(spec_content, input_data.source_type)
+            self.logger.debug(
+                f"Extracted API info: {api_info.get('title', 'Unknown')} v{api_info.get('version', 'Unknown')}"
+            )
 
-        # When creating the output, include a result field that contains the most important data
-        parsed_spec_data = {
-            "title": api_info.get("title", "Unknown API"),
-            "version": api_info.get("version", "Unknown"),
-            "description": api_info.get("description"),
-        }
+            # Process endpoints
+            endpoints = []
+            filtered_count = 0
+            for tool in api_tools:
+                # Apply filtering if specified
+                if self._should_filter_endpoint(tool, input_data):
+                    filtered_count += 1
+                    continue
 
-        return OpenAPIParserOutput(
-            title=api_info.get("title", "Unknown API"),
-            version=api_info.get("version", "Unknown"),
-            description=api_info.get("description"),
-            endpoints=endpoints,
-            servers=api_info.get("servers", []),
-            endpoint_count=len(endpoints),
-            result=parsed_spec_data,
-        )
+                endpoint_info = self._extract_endpoint_info(tool)
+                endpoints.append(endpoint_info)
+
+            if filtered_count > 0:
+                self.logger.debug(
+                    f"Filtered out {filtered_count} endpoints based on criteria"
+                )
+
+            self.logger.info(
+                f"Successfully parsed OpenAPI spec: {len(endpoints)} endpoints extracted"
+            )
+
+            # When creating the output, include a result field that contains the most important data
+            parsed_spec_data = {
+                "title": api_info.get("title", "Unknown API"),
+                "version": api_info.get("version", "Unknown"),
+                "description": api_info.get("description"),
+            }
+
+            return OpenAPIParserOutput(
+                title=api_info.get("title", "Unknown API"),
+                version=api_info.get("version", "Unknown"),
+                description=api_info.get("description"),
+                endpoints=endpoints,
+                servers=api_info.get("servers", []),
+                endpoint_count=len(endpoints),
+                result=parsed_spec_data,
+            )
+        except Exception as e:
+            self.logger.error(f"Error parsing OpenAPI specification: {str(e)}")
+            raise
 
     def _should_filter_endpoint(
         self, tool: RestApiTool, input_data: OpenAPIParserInput
     ) -> bool:
-        """Determine if an endpoint should be filtered out based on input criteria.
-
-        Args:
-            tool: The RestApiTool representing an endpoint
-            input_data: The input data containing filter criteria
-
-        Returns:
-            True if the endpoint should be filtered out, False otherwise
-        """
+        """Determine if an endpoint should be filtered out based on input criteria."""
         # Filter by tags if specified
         if (
             input_data.filter_tags
             and hasattr(tool, "tags")
             and not any(tag in tool.tags for tag in input_data.filter_tags)
         ):
+            self.logger.debug(
+                f"Filtering endpoint by tags: {getattr(tool, 'tags', [])}"
+            )
             return True
 
         # Filter by paths if specified
@@ -124,6 +160,9 @@ class OpenAPIParserTool(BaseTool):
             and hasattr(tool, "path")
             and not self._matches_path_filter(tool.path, input_data.filter_paths)
         ):
+            self.logger.debug(
+                f"Filtering endpoint by path: {getattr(tool, 'path', '')}"
+            )
             return True
 
         # Filter by methods if specified
@@ -133,30 +172,42 @@ class OpenAPIParserTool(BaseTool):
             and tool.method.upper()
             not in [m.upper() for m in input_data.filter_methods]
         ):
+            self.logger.debug(
+                f"Filtering endpoint by method: {getattr(tool, 'method', '')}"
+            )
             return True
 
         return False
 
     async def _load_spec(self, source: str, source_type: SpecSourceType) -> str:
         """Load the OpenAPI specification from various sources."""
+        self.logger.debug(f"Loading specification from {source_type.value}")
+
         if source_type == SpecSourceType.FILE:
             # Load from file
             if not os.path.exists(source):
+                self.logger.error(f"Specification file not found: {source}")
                 raise FileNotFoundError(f"Specification file not found: {source}")
 
+            self.logger.debug(f"Reading specification file: {source}")
             with open(source, "r") as f:
-                return f.read()
+                content = f.read()
+            self.logger.debug(f"Successfully loaded file ({len(content)} characters)")
+            return content
 
         elif source_type == SpecSourceType.URL:
             # For URL sources, you would need to implement HTTP fetching
             # This is a placeholder for that functionality
+            self.logger.error("URL source type is not yet implemented")
             raise NotImplementedError("URL source type is not yet implemented")
 
         elif source_type in (SpecSourceType.YAML, SpecSourceType.JSON):
             # Direct string content
+            self.logger.debug(f"Using direct {source_type.value} content")
             return source
 
         else:
+            self.logger.error(f"Unsupported source type: {source_type}")
             raise ValueError(f"Unsupported source type: {source_type}")
 
     def _extract_api_info(
@@ -172,12 +223,17 @@ class OpenAPIParserTool(BaseTool):
             info = spec_dict.get("info", {})
             servers = [server.get("url") for server in spec_dict.get("servers", [])]
 
-            return {
+            api_info = {
                 "title": info.get("title", "Unknown API"),
                 "version": info.get("version", "Unknown"),
                 "description": info.get("description"),
                 "servers": servers,
             }
+
+            self.logger.debug(
+                f"Extracted API info: {api_info['title']} v{api_info['version']}"
+            )
+            return api_info
         except Exception as e:
             self.logger.error(f"Error extracting API info: {e}")
             return {
@@ -189,6 +245,8 @@ class OpenAPIParserTool(BaseTool):
 
     def _extract_endpoint_info(self, tool: RestApiTool) -> EndpointInfo:
         """Extract information about an API endpoint from a RestApiTool."""
+        self.logger.debug(f"Extracting endpoint info for: {tool.name}")
+
         # Parse the endpoint attributes
         endpoint_attrs = self._parse_endpoint_attributes(tool)
 
@@ -199,7 +257,7 @@ class OpenAPIParserTool(BaseTool):
         output_schema = self._extract_output_schema(tool)
 
         # Create the endpoint info with all extracted data
-        return EndpointInfo(
+        endpoint_info = EndpointInfo(
             name=tool.name,
             description=tool.description or "",
             method=endpoint_attrs["method"],
@@ -210,6 +268,11 @@ class OpenAPIParserTool(BaseTool):
             auth_type=endpoint_attrs["auth_type"],
             tags=endpoint_attrs["tags"],
         )
+
+        self.logger.debug(
+            f"Successfully extracted endpoint: {endpoint_attrs['method']} {endpoint_attrs['path']}"
+        )
+        return endpoint_info
 
     def _parse_endpoint_attributes(self, tool: RestApiTool) -> Dict[str, Any]:
         """Parse various attributes from the endpoint tool.

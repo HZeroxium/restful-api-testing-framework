@@ -10,6 +10,7 @@ from schemas.tools.test_data_generator import (
     TestDataGeneratorOutput,
     TestData,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestDataGeneratorTool(BaseTool):
@@ -37,6 +38,14 @@ class TestDataGeneratorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(self, inp: TestDataGeneratorInput) -> TestDataGeneratorOutput:
         """Generate test data for the given endpoint using LLM."""
         # Get endpoint info using the property getter
@@ -48,11 +57,15 @@ class TestDataGeneratorTool(BaseTool):
         test_case_count = inp.test_case_count
         include_invalid_data = inp.include_invalid_data
 
-        if self.verbose:
-            print(
-                f"Generating {test_case_count} test cases for {endpoint.method.upper()} {endpoint.path}"
-                f" (include invalid data: {include_invalid_data})"
-            )
+        self.logger.info(
+            f"Generating {test_case_count} test cases for {endpoint.method.upper()} {endpoint.path}"
+        )
+        self.logger.add_context(
+            endpoint_method=endpoint.method.upper(),
+            endpoint_path=endpoint.path,
+            test_case_count=test_case_count,
+            include_invalid_data=include_invalid_data,
+        )
 
         # Try to generate test data using LLM
         try:
@@ -62,11 +75,9 @@ class TestDataGeneratorTool(BaseTool):
 
             # Validate and ensure we have the correct number of test cases
             if len(test_data_collection) < test_case_count:
-                if self.verbose:
-                    print(
-                        f"LLM returned {len(test_data_collection)} test cases, but {test_case_count} were requested. "
-                        "Generating additional test cases using fallback method."
-                    )
+                self.logger.warning(
+                    f"LLM returned {len(test_data_collection)} test cases, but {test_case_count} were requested. Generating additional test cases using fallback method."
+                )
                 # Generate additional test cases to meet the requested count
                 fallback_count = test_case_count - len(test_data_collection)
                 fallback_data = self._generate_fallback_test_data(
@@ -76,10 +87,9 @@ class TestDataGeneratorTool(BaseTool):
 
             return TestDataGeneratorOutput(test_data_collection=test_data_collection)
         except Exception as e:
-            if self.verbose:
-                print(
-                    f"Error during LLM test data generation: {str(e)}. Using fallback test data."
-                )
+            self.logger.error(
+                f"Error during LLM test data generation: {str(e)}. Using fallback test data."
+            )
             return self._generate_fallback_test_data(
                 endpoint, test_case_count, include_invalid_data
             )
@@ -101,6 +111,8 @@ class TestDataGeneratorTool(BaseTool):
             "auth_type": endpoint.auth_type,
             "tags": endpoint.tags,
         }
+
+        self.logger.debug("Preparing LLM prompt for test data generation")
 
         # Prepare a structured prompt with clear instructions and expected output format
         prompt = f"""You are a Test Data Generator for API testing. Your task is to create realistic test data for API endpoints.
@@ -145,6 +157,8 @@ Review your JSON output before responding to ensure it's valid and matches the r
 """
 
         # Execute LLM agent
+        self.logger.debug("Executing LLM agent for test data generation")
+
         raw_json = await create_and_execute_llm_agent(
             app_name="test_data_generator",
             agent_name="llm_test_data_generator",
@@ -161,14 +175,17 @@ Review your JSON output before responding to ensure it's valid and matches the r
         )
 
         if raw_json is None:
-            if self.verbose:
-                print("No response received from LLM")
+            self.logger.warning("No response received from LLM")
             return []
 
         # Convert LLM output to TestData objects
         test_data_collection = []
 
         if "test_cases" in raw_json:
+            self.logger.debug(
+                f"Processing {len(raw_json['test_cases'])} test cases from LLM response"
+            )
+
             for test_case in raw_json["test_cases"]:
                 # Ensure all required fields are present
                 name = test_case.get(
@@ -195,12 +212,17 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 )
                 test_data_collection.append(test_data)
 
+        self.logger.info(
+            f"Generated {len(test_data_collection)} test data items from LLM"
+        )
         return test_data_collection
 
     def _generate_fallback_test_data(
         self, endpoint, test_case_count: int, include_invalid_data: bool
     ) -> TestDataGeneratorOutput:
         """Generate basic test data as a fallback when LLM fails."""
+        self.logger.info("Generating fallback test data")
+
         test_data_collection = []
 
         # Always include at least one success case
@@ -317,8 +339,11 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 )
             )
 
+        self.logger.info(
+            f"Generated {len(test_data_collection)} fallback test data items"
+        )
         return TestDataGeneratorOutput(test_data_collection=test_data_collection)
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
-        pass
+        self.logger.debug("Cleaning up TestDataGeneratorTool resources")

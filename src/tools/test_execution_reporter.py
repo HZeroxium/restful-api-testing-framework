@@ -11,6 +11,7 @@ from schemas.tools.test_execution_reporter import (
     TestSummary,
     TestStatus,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestExecutionReporterTool(BaseTool):
@@ -38,10 +39,22 @@ class TestExecutionReporterTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}",
+            logger_type=LoggerType.STANDARD,
+            level=log_level,
+        )
+
     async def _execute(
         self, inp: TestExecutionReporterInput
     ) -> TestExecutionReporterOutput:
         """Generate a test report for the given test results."""
+        self.logger.info(
+            f"Generating test report for {inp.endpoint_method.upper()} {inp.endpoint_path}"
+        )
+
         # Calculate summary statistics
         total = len(inp.test_case_results)
         passed = sum(1 for r in inp.test_case_results if r.status == TestStatus.PASS)
@@ -51,6 +64,15 @@ class TestExecutionReporterTool(BaseTool):
             1 for r in inp.test_case_results if r.status == TestStatus.SKIPPED
         )
         success_rate = (passed / total) * 100 if total > 0 else 0
+
+        self.logger.add_context(
+            total_tests=total,
+            passed_tests=passed,
+            failed_tests=failed,
+            error_tests=errors,
+            skipped_tests=skipped,
+            success_rate=round(success_rate, 2),
+        )
 
         summary = TestSummary(
             total_tests=total,
@@ -81,14 +103,14 @@ class TestExecutionReporterTool(BaseTool):
             total_time=total_time,
         )
 
-        if self.verbose:
-            print(
-                f"Test report generated for: {inp.endpoint_method.upper()} {inp.endpoint_path}"
-            )
+        self.logger.info(
+            f"Test report generated successfully for {inp.endpoint_method.upper()} {inp.endpoint_path}"
+        )
+        self.logger.debug(f"Report ID: {report_id}, Total time: {total_time:.2f}s")
 
         # Return the report without saving to file
         return TestExecutionReporterOutput(report=report)
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
-        pass
+        self.logger.debug("Cleaning up TestExecutionReporterTool resources")
