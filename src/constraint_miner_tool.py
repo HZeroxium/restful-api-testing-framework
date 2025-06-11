@@ -53,7 +53,7 @@ async def mine_constraints(
     )
 
     # Create the miner tool
-    miner_tool = StaticConstraintMinerTool(verbose=True)
+    miner_tool = StaticConstraintMinerTool(verbose=False)
 
     # Create input for the tool
     miner_input = StaticConstraintMinerInput(
@@ -164,7 +164,7 @@ async def main():
     logger.add_context(output_directory=output_dir)
 
     # Parse OpenAPI spec
-    api_info = await parse_openapi_spec(args.spec, verbose=True)
+    api_info = await parse_openapi_spec(args.spec, verbose=False)
 
     if not api_info["endpoints"]:
         logger.error("No endpoints found in the OpenAPI specification")
