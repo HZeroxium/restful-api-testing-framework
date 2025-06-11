@@ -271,10 +271,13 @@ class LlmExecutor:
 
         self.logger.info(f"Initializing LLM executor for agent: {agent_name}")
 
+        from google.adk.models.lite_llm import LiteLlm
+
         # Create the LLM agent
         self.agent = LlmAgent(
             name=agent_name,
-            model=settings.llm.LLM_MODEL,
+            # model=settings.llm.LLM_MODEL,
+            model=LiteLlm(model="openai/gpt-4o"),
             instruction=self.instruction,
             input_schema=input_schema,
             output_schema=output_schema,
