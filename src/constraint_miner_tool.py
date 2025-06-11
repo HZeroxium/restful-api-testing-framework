@@ -24,20 +24,33 @@ from utils.demo_utils import (
     get_default_spec_path,
 )
 from report_visualizer import export_constraint_report_to_excel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
-async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str, Any]:
+async def mine_constraints(
+    endpoint: EndpointInfo, output_dir: str, logger
+) -> Dict[str, Any]:
     """
     Mine constraints from an endpoint using the StaticConstraintMinerTool.
 
     Args:
         endpoint: The endpoint to analyze
         output_dir: Directory to save output
+        logger: Logger instance for logging
 
     Returns:
         Dictionary containing constraint information
     """
     print_endpoint_summary(endpoint, "Mining constraints for")
+
+    logger.info(
+        f"Starting constraint mining for endpoint: {endpoint.method.upper()} {endpoint.path}"
+    )
+    logger.add_context(
+        endpoint_method=endpoint.method.upper(),
+        endpoint_path=endpoint.path,
+        endpoint_name=endpoint.name,
+    )
 
     # Create the miner tool
     miner_tool = StaticConstraintMinerTool(verbose=True)
@@ -52,35 +65,33 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
 
     # Execute the tool
     try:
-        print("Running constraint miner...")
+        logger.debug("Executing constraint mining tool")
         output: StaticConstraintMinerOutput = await miner_tool.execute(miner_input)
 
-        print(f"Found {output.total_constraints} constraints:")
-        print(
+        constraint_summary = {
+            "total": output.total_constraints,
+            "request_response": len(output.request_response_constraints),
+            "response_property": len(output.response_property_constraints),
+            "request_param": len(output.request_param_constraints),
+            "request_body": len(output.request_body_constraints),
+        }
+
+        logger.info(f"Constraint mining completed successfully")
+        logger.add_context(**constraint_summary)
+
+        logger.debug(f"Found {output.total_constraints} constraints:")
+        logger.debug(
             f"  - {len(output.request_response_constraints)} request-response constraints"
         )
-        print(
+        logger.debug(
             f"  - {len(output.response_property_constraints)} response property constraints"
         )
-        print(
+        logger.debug(
             f"  - {len(output.request_param_constraints)} request parameter constraints"
         )
-        print(f"  - {len(output.request_body_constraints)} request body constraints")
-
-        # Display a few example constraints if available
-        # if output.request_response_constraints:
-        #     print("\nExample request-response constraints:")
-        #     for i, constraint in enumerate(output.request_response_constraints[:3]):
-        #         print(
-        #             f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
-        #         )
-
-        # if output.response_property_constraints:
-        #     print("\nExample response property constraints:")
-        #     for i, constraint in enumerate(output.response_property_constraints[:3]):
-        #         print(
-        #             f"  {i+1}. {constraint.description} (Severity: {constraint.severity})"
-        #         )
+        logger.debug(
+            f"  - {len(output.request_body_constraints)} request body constraints"
+        )
 
         # Save the result to a file
         safe_endpoint_name = (
@@ -92,7 +103,7 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
         with open(output_path, "w") as f:
             json.dump(output.model_dump(), f, indent=2, default=str)
 
-        print(f"Constraints saved to: {output_path}")
+        logger.info(f"Constraints saved to: {output_path}")
 
         # Export to Excel automatically
         try:
@@ -101,20 +112,27 @@ async def mine_constraints(endpoint: EndpointInfo, output_dir: str) -> Dict[str,
                 output_path.replace(".json", ".xlsx"),
                 include_analysis=True,
             )
-            print(f"Excel report created: {excel_path}")
+            logger.info(f"Excel report created: {excel_path}")
         except Exception as e:
-            print(f"Warning: Could not create Excel report: {str(e)}")
+            logger.warning(f"Could not create Excel report: {str(e)}")
 
         # Return the output for potential further processing
         return output.model_dump()
 
     except Exception as e:
-        print(f"Error mining constraints: {str(e)}")
+        logger.error(f"Error mining constraints: {str(e)}")
         return {"error": str(e)}
 
 
 async def main():
     """Main function to run the constraint mining demo."""
+    # Initialize logger for the demo
+    logger = LoggerFactory.get_logger(
+        name="constraint-miner-demo",
+        logger_type=LoggerType.STANDARD,
+        level=LogLevel.INFO,
+    )
+
     parser = argparse.ArgumentParser(description="Mine constraints from API endpoints")
     parser.add_argument(
         "--spec",
@@ -129,19 +147,32 @@ async def main():
     )
     args = parser.parse_args()
 
+    # Update logger level if verbose
+    if args.verbose:
+        logger.set_level(LogLevel.DEBUG)
+
+    logger.info("Starting constraint mining demo")
+    logger.add_context(spec_file=args.spec, verbose=args.verbose)
+
     # Validate input file
     if not validate_file_exists(args.spec):
+        logger.error(f"Specification file not found: {args.spec}")
         return
 
     # Create output directory
     output_dir = create_timestamped_output_dir("output", "constraints")
+    logger.add_context(output_directory=output_dir)
 
     # Parse OpenAPI spec
     api_info = await parse_openapi_spec(args.spec, verbose=True)
 
     if not api_info["endpoints"]:
-        print("No endpoints found in the OpenAPI specification.")
+        logger.error("No endpoints found in the OpenAPI specification")
         return
+
+    logger.info(
+        f"Found {len(api_info['endpoints'])} endpoints in API: {api_info['title']} v{api_info['version']}"
+    )
 
     # Select endpoints to analyze
     selected_endpoints = select_endpoints(
@@ -149,10 +180,13 @@ async def main():
         "Enter endpoint numbers to analyze (comma-separated, or 'all'): ",
     )
 
+    logger.info(f"Selected {len(selected_endpoints)} endpoints for constraint mining")
+
     # Mine constraints from selected endpoints
     all_constraints = []
-    for endpoint in selected_endpoints:
-        constraints = await mine_constraints(endpoint, output_dir)
+    for i, endpoint in enumerate(selected_endpoints, 1):
+        logger.info(f"Processing endpoint {i}/{len(selected_endpoints)}")
+        constraints = await mine_constraints(endpoint, output_dir, logger)
         all_constraints.append(constraints)
 
     # Create a summary file
@@ -162,7 +196,7 @@ async def main():
     }
 
     summary_path = save_summary_file(output_dir, api_info, summary_data)
-    print(f"\nAnalysis completed. Summary saved to: {summary_path}")
+    logger.info(f"Analysis completed successfully. Summary saved to: {summary_path}")
 
 
 if __name__ == "__main__":

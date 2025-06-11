@@ -7,12 +7,23 @@ from datetime import datetime
 
 from tools.rest_api_caller import RestApiCallerTool
 from schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def main():
+    # Initialize logger for the demo
+    logger = LoggerFactory.get_logger(
+        name="rest-api-caller-demo",
+        logger_type=LoggerType.STANDARD,
+        level=LogLevel.INFO,
+    )
+
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_dir = os.path.join("output", "rest_api_caller", ts)
     os.makedirs(out_dir, exist_ok=True)
+
+    logger.info("Starting REST API Caller Tool demo")
+    logger.add_context(output_directory=out_dir, timestamp=ts)
 
     tool = RestApiCallerTool(verbose=True, cache_enabled=False, config={"timeout": 5})
 
@@ -96,15 +107,39 @@ async def main():
         ),
     }
 
-    for name, req in examples.items():
-        print(f"\n--- Example: {name} ---")
-        inp = RestApiCallerInput(request=req)
-        result = await tool.execute(inp)
+    logger.info(f"Running {len(examples)} REST API examples")
 
-        path = os.path.join(out_dir, f"{name}.json")
-        with open(path, "w") as f:
-            json.dump(result.model_dump(), f, indent=2)
-        print(f"Wrote {path}")
+    for name, req in examples.items():
+        logger.info(f"Executing example: {name}")
+        logger.add_context(
+            example_name=name,
+            method=req.method,
+            url=req.url,
+            has_params=bool(req.params),
+            has_json=bool(req.json),
+        )
+
+        try:
+            inp = RestApiCallerInput(request=req)
+            result = await tool.execute(inp)
+
+            path = os.path.join(out_dir, f"{name}.json")
+            with open(path, "w") as f:
+                json.dump(result.model_dump(), f, indent=2)
+
+            logger.info(f"Example '{name}' completed successfully")
+            logger.add_context(
+                status_code=result.response.status_code,
+                response_time=f"{result.elapsed:.3f}s",
+                output_file=path,
+            )
+            logger.debug(f"Response saved to: {path}")
+
+        except Exception as e:
+            logger.error(f"Error executing example '{name}': {str(e)}")
+            logger.add_context(error=str(e))
+
+    logger.info("REST API Caller Tool demo completed successfully")
 
 
 if __name__ == "__main__":

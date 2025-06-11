@@ -6,6 +6,7 @@ import json
 from datetime import datetime
 
 from tools import CodeExecutorTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def load_and_execute_from_file(
@@ -34,10 +35,21 @@ async def load_and_execute_from_file(
 
 
 async def main():
+    """Main function for code executor demo."""
+    # Initialize logger for the demo
+    logger = LoggerFactory.get_logger(
+        name="code-executor-demo",
+        logger_type=LoggerType.STANDARD,
+        level=LogLevel.INFO,
+    )
+
     # build a timestamped directory
     ts = datetime.now().strftime("%Y%m%d_%H%M%S")
     out_dir = os.path.join("output", "code_executor", ts)
     os.makedirs(out_dir, exist_ok=True)
+
+    logger.info("Starting Code Executor Tool demo")
+    logger.add_context(output_directory=out_dir, timestamp=ts)
 
     # Create base directory for scripts if it doesn't exist
     scripts_dir = os.path.join("data", "scripts")
@@ -162,9 +174,12 @@ def generate_data():
     }
 
     # Run direct examples
-    print("\n=== Running examples directly from code variables ===\n")
+    logger.info("Running examples directly from code variables")
+    logger.debug(f"Total examples to process: {len(examples)}")
+
     for name, example in examples.items():
-        print(f"\nExecuting example: {name}")
+        logger.info(f"Executing example: {name}")
+        logger.add_context(example_name=name)
 
         # Execute with tool
         result = await tool.execute(example)
@@ -174,12 +189,14 @@ def generate_data():
         with open(os.path.join(out_dir, filename), "w") as f:
             json.dump(result.model_dump(), f, indent=2)
 
-        # Print brief result summary
-        print(f"Success: {result.success}")
-        print(f"Result: {result.result}")
-        if not result.success:
-            print(f"Error: {result.error}")
-        print(f"Wrote {filename}")
+        # Log result summary
+        if result.success:
+            logger.info(f"Example '{name}' executed successfully")
+            logger.debug(f"Result: {result.result}")
+        else:
+            logger.error(f"Example '{name}' failed: {result.error}")
+
+        logger.debug(f"Results saved to: {filename}")
 
     # ===== APPROACH 2: Load examples from files =====
     # Define file-based examples to run
@@ -196,10 +213,13 @@ def generate_data():
         {"name": "complex_result", "context": False},
     ]
 
-    print("\n=== Running examples loaded from files ===\n")
+    logger.info("Running examples loaded from files")
+    logger.debug(f"Total file examples to process: {len(file_examples)}")
+
     for example in file_examples:
         name = example["name"]
-        print(f"\nExecuting file example: {name}")
+        logger.info(f"Executing file example: {name}")
+        logger.add_context(example_name=name, example_type="file")
 
         script_path = os.path.join(scripts_dir, f"{name}.py")
         context_path = (
@@ -219,12 +239,16 @@ def generate_data():
         with open(os.path.join(out_dir, filename), "w") as f:
             json.dump(result.model_dump(), f, indent=2)
 
-        # Print brief result summary
-        print(f"Success: {result.success}")
-        print(f"Result: {result.result}")
-        if not result.success:
-            print(f"Error: {result.error}")
-        print(f"Wrote {filename}")
+        # Log result summary
+        if result.success:
+            logger.info(f"File example '{name}' executed successfully")
+            logger.debug(f"Result: {result.result}")
+        else:
+            logger.error(f"File example '{name}' failed: {result.error}")
+
+        logger.debug(f"Results saved to: {filename}")
+
+    logger.info("Code Executor Tool demo completed successfully")
 
 
 if __name__ == "__main__":
