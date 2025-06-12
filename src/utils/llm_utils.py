@@ -276,8 +276,8 @@ class LlmExecutor:
         # Create the LLM agent
         self.agent = LlmAgent(
             name=agent_name,
-            # model=settings.llm.LLM_MODEL,
-            model=LiteLlm(model="openai/gpt-4o"),
+            model=settings.llm.LLM_MODEL,
+            # model=LiteLlm(model="openai/gpt-4o"),
             instruction=self.instruction,
             input_schema=input_schema,
             output_schema=output_schema,

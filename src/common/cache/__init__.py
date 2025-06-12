@@ -1,3 +1,6 @@
+# common/cache/__init__.py
+
+
 from .cache_interface import CacheInterface, CacheStatus, CacheStats
 from .in_memory_cache import InMemoryCache
 from .redis_cache import RedisCache

@@ -1,3 +1,5 @@
+# src/cache_demo.py
+
 """
 Comprehensive demonstration of the extensible caching system
 """
@@ -686,17 +688,17 @@ def main():
     try:
         # Run all demos
         demo_basic_cache_operations()
-        demo_ttl_functionality()
-        demo_different_cache_types()
-        demo_cache_factory()
-        demo_cache_decorators()
-        demo_lru_eviction()
-        demo_performance_comparison()
-        demo_api_testing_scenario()
-        demo_cache_invalidation()
-        demo_cache_serialization()
-        demo_error_handling()
-        demo_monitoring_and_stats()
+        # demo_ttl_functionality()
+        # demo_different_cache_types()
+        # demo_cache_factory()
+        # demo_cache_decorators()
+        # demo_lru_eviction()
+        # demo_performance_comparison()
+        # demo_api_testing_scenario()
+        # demo_cache_invalidation()
+        # demo_cache_serialization()
+        # demo_error_handling()
+        # demo_monitoring_and_stats()
 
         logger.info("\n" + "=" * 80)
         logger.info("🎊 Demo completed! The caching system is ready for use.")
