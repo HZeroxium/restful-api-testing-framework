@@ -9,4 +9,15 @@ __pycache__
 # data
 # docs
 example
-# output
+output
+data/scripts
+data/collections
+data/executions
+
+my_visualizations
+experiment_results
+rbctest_output
+gpt_response
+experiment_our
+scripts
+logs

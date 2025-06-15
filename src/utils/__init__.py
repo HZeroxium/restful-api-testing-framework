@@ -1,1 +1,1 @@
-"""Utility functions for the API testing framework."""
+"""Utilities package for the API Testing Platform."""

@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
-from src.schemas.core.base_tool import ToolInput, ToolOutput
+from schemas.core.base_tool import ToolInput, ToolOutput
 
 
 class SpecSourceType(str, Enum):

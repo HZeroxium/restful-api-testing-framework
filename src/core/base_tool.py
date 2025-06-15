@@ -3,10 +3,10 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict, Optional, Type, Union
 from pydantic import ValidationError
-import logging
 import time
 
-from src.schemas.core import ToolInput, ToolOutput
+from schemas.core import ToolInput, ToolOutput
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class BaseTool(ABC):
@@ -41,18 +41,17 @@ class BaseTool(ABC):
         self.output_schema = output_schema
         self.config = config or {}
         self.verbose = verbose
-        self.logger = logging.getLogger(f"tool.{name}")
+
+        # Initialize custom logger
+        log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+        self.logger = LoggerFactory.get_logger(
+            name=f"tool.{name}", logger_type=LoggerType.STANDARD, level=log_level
+        )
 
         # Cache configuration
         self.cache_enabled = cache_enabled
         self.cache_ttl = cache_ttl
         self._cache = {}  # {input_hash: (output, timestamp)}
-
-        # Set up logging
-        if verbose:
-            self.logger.setLevel(logging.DEBUG)
-        else:
-            self.logger.setLevel(logging.INFO)
 
     @abstractmethod
     async def _execute(self, input_data: ToolInput) -> Any:
