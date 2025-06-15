@@ -1,0 +1,12 @@
+{
+  "get-/api/v1/holidays/{holidayId}": {
+    "Holiday": {
+      "holidayId": "id"
+    }
+  },
+  "get-/api/v1/provinces/{provinceId}": {
+    "Province": {
+      "provinceId": "id"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+index,data,expected_status_code
+1,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""year"": 2019, ""federal"": ""0"", ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""year"": 2035, ""federal"": ""true"", ""optional"": ""1""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""year"": 2014, ""federal"": ""false"", ""optional"": ""0""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""year"": 2022, ""federal"": ""1"", ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""year"": 2036, ""federal"": ""1"", ""optional"": ""false""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""year"": 2025, ""federal"": ""invalid"", ""optional"": ""false""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""invalid""}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""year"": -1, ""federal"": """", ""optional"": """"}, ""expected_code"": """"}",4xx
+13,"{""data"": {""year"": ""123456"", ""federal"": """", ""optional"": """"}, ""expected_code"": """"}",4xx
+14,"{""data"": {""year"": -1, ""federal"": 123456789, ""optional"": """"}, ""expected_code"": """"}",4xx
+15,"{""data"": {""year"": -1, ""federal"": """", ""optional"": 123456789}, ""expected_code"": """"}",4xx
+16,"{""data"": {""year"": ""123456"", ""federal"": """", ""optional"": 123456789}, ""expected_code"": """"}",4xx
+17,"{""data"": {""year"": ""123456"", ""federal"": 123456789, ""optional"": 123456789}, ""expected_code"": """"}",4xx

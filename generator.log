@@ -1,0 +1,60 @@
+2025-06-15 22:42:14,412 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-15 22:42:14,413 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-15 22:42:14,413 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-15 22:42:14,413 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-15 22:42:14,413 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-15 22:42:14,413 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-15 22:42:14,416 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-15 22:42:14,416 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-15 22:42:14,417 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-15 22:42:14,417 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-15 22:42:14,417 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-15 22:42:14,417 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-15 22:42:17,866 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:19,311 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:21,606 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:23,689 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:25,242 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:26,678 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:28,572 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:30,552 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:33,004 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:34,649 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:37,880 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:40,124 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:42,357 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:43,831 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:46,580 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:42:48,126 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:45,458 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:46,105 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:47,034 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:47,632 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-15 22:51:47,707 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-15 22:51:47,710 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-15 22:51:47,711 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-15 22:51:47,711 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-15 22:51:47,711 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-15 22:51:47,711 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-15 22:51:47,711 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-15 22:51:49,647 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:51,032 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:54,381 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:55,867 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:51:57,993 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:00,086 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:03,426 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:05,644 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:07,729 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:08,967 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:11,500 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:13,627 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:15,455 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:16,594 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:18,842 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-15 22:52:22,179 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

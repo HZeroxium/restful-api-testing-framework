@@ -1,0 +1,21 @@
+index,data,expected_status_code
+1,"{""data"": {""holidayId"": 1, ""year"": 2023, ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""holidayId"": 15, ""year"": 2026, ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""holidayId"": 32, ""year"": 2016, ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""holidayId"": 8, ""year"": 2029, ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""holidayId"": 20, ""year"": 2020, ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""holidayId"": 1, ""year"": 2023, ""optional"": ""false"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""holidayId"": 1, ""year"": 2023, ""optional"": ""false"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""holidayId"": 1, ""year"": 2023, ""optional"": ""false"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""holidayId"": 0}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""holidayId"": 33}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""year"": 2015}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""year"": 2030}, ""expected_code"": ""4xx""}",4xx
+13,"{""data"": {""optional"": ""2""}, ""expected_code"": ""4xx""}",4xx
+14,"{""data"": {""holidayId"": -9999999.0, ""year"": -9999999.0, ""optional"": """"}, ""expected_code"": """"}",4xx
+15,"{""data"": {""holidayId"": null, ""year"": -9999999.0, ""optional"": """"}, ""expected_code"": """"}",4xx
+16,"{""data"": {""holidayId"": ""123456"", ""year"": -9999999.0, ""optional"": """"}, ""expected_code"": """"}",4xx
+17,"{""data"": {""holidayId"": -9999999.0, ""year"": ""123456"", ""optional"": """"}, ""expected_code"": """"}",4xx
+18,"{""data"": {""holidayId"": -9999999.0, ""year"": -9999999.0, ""optional"": 123456789}, ""expected_code"": """"}",4xx
+19,"{""data"": {""holidayId"": -9999999.0, ""year"": ""123456"", ""optional"": 123456789}, ""expected_code"": """"}",4xx
+20,"{""data"": {""holidayId"": ""123456"", ""year"": ""123456"", ""optional"": 123456789}, ""expected_code"": """"}",4xx

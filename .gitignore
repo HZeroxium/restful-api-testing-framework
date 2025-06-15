@@ -5,8 +5,36 @@ __pycache__
 *.pyd
 .env
 .vscode
-
+venv/
+.venv
+.DS_Store
 # data
 # docs
 example
-# output
+output
+data/scripts
+data/collections
+data/executions
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.env
+.venv
+env/
+venv/
+.idea/
+*.sqlite3
+
+
+my_visualizations
+experiment_results
+rbctest_output
+gpt_response
+experiment_our
+scripts
+logs

@@ -1,0 +1,61 @@
+{
+  "test_case": {
+    "id": "_api_v1_holidays_holidayId__Holiday_1_1",
+    "name": "_api_v1_holidays_holidayId__Holiday_1_1",
+    "description": "Test case for endpoint get-/api/v1/holidays/{holidayId}",
+    "endpoint": "get-/api/v1/holidays/{holidayId}",
+    "sequence_index": 1,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/api/v1/holidays",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {
+          "year": null,
+          "federal": null,
+          "optional": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/api/v1/holidays/{holidayId}",
+        "method": "GET",
+        "path_variables": {
+          "holidayId": null
+        },
+        "query_parameters": {
+          "year": null,
+          "optional": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "holidayId": {
+            "from_step": 1,
+            "field_mappings": {
+              "holidayId": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

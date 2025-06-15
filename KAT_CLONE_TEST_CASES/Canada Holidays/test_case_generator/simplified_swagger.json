@@ -1,0 +1,220 @@
+{
+  "get-/api/v1": {
+    "tags": [
+      "info"
+    ],
+    "summary": "root",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1/Root",
+    "responseBody": {
+      "_links": "object",
+      "message": "string"
+    },
+    "available_test_data": {}
+  },
+  "get-/api/v1/holidays": {
+    "tags": [
+      "holidays"
+    ],
+    "summary": "Get all holidays",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1_holidays/Holidays",
+    "parameters": {
+      "year": "QUERY PARAMETER",
+      "federal": "QUERY PARAMETER",
+      "optional": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Holiday": {
+        "holidays": {
+          "array of Holiday objects": [
+            {
+              "date": "string",
+              "federal": "integer",
+              "id": "integer",
+              "nameEn": "string",
+              "nameFr": "string",
+              "observedDate": "string",
+              "optional": "integer",
+              "provinces": {
+                "array of Province objects": [
+                  {
+                    "id": "string",
+                    "nameEn": "string",
+                    "nameFr": "string",
+                    "optional": "integer",
+                    "provinces": {
+                      "array of Holiday objects": [
+                        null
+                      ]
+                    },
+                    "sourceEn": "string",
+                    "sourceLink": "string"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_api_v1_holidays_Holidays_param"
+    }
+  },
+  "get-/api/v1/holidays/{holidayId}": {
+    "tags": [
+      "holidays"
+    ],
+    "summary": "Get a holiday by id",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1_holidays_holidayId_/Holiday",
+    "parameters": {
+      "holidayId": "PATH VARIABLE",
+      "year": "QUERY PARAMETER",
+      "optional": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Holiday": {
+        "holiday": {
+          "schema of Holiday": {
+            "date": "string",
+            "federal": "integer",
+            "id": "integer",
+            "nameEn": "string",
+            "nameFr": "string",
+            "observedDate": "string",
+            "optional": "integer",
+            "provinces": {
+              "array of Province objects": [
+                {
+                  "id": "string",
+                  "nameEn": "string",
+                  "nameFr": "string",
+                  "optional": "integer",
+                  "provinces": {
+                    "array of Holiday objects": [
+                      null
+                    ]
+                  },
+                  "sourceEn": "string",
+                  "sourceLink": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_api_v1_holidays_holidayId__Holiday_param"
+    }
+  },
+  "get-/api/v1/provinces": {
+    "tags": [
+      "provinces"
+    ],
+    "summary": "Get all provinces",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1_provinces/Provinces",
+    "parameters": {
+      "year": "QUERY PARAMETER",
+      "optional": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Province": {
+        "provinces": {
+          "array of Province objects": [
+            {
+              "id": "string",
+              "nameEn": "string",
+              "nameFr": "string",
+              "nextHoliday": {
+                "schema of Holiday": {
+                  "date": "string",
+                  "federal": "integer",
+                  "id": "integer",
+                  "nameEn": "string",
+                  "nameFr": "string",
+                  "observedDate": "string",
+                  "optional": "integer",
+                  "provinces": {
+                    "array of Province objects": [
+                      null
+                    ]
+                  }
+                }
+              },
+              "optional": "integer",
+              "provinces": {
+                "array of Holiday objects": [
+                  null
+                ]
+              },
+              "sourceEn": "string",
+              "sourceLink": "string"
+            }
+          ]
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_api_v1_provinces_Provinces_param"
+    }
+  },
+  "get-/api/v1/provinces/{provinceId}": {
+    "tags": [
+      "provinces"
+    ],
+    "summary": "Get a province or territory by abbreviation",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1_provinces_provinceId_/Province",
+    "parameters": {
+      "year": "QUERY PARAMETER",
+      "optional": "QUERY PARAMETER",
+      "provinceId": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of Province": {
+        "province": {
+          "schema of Province": {
+            "id": "string",
+            "nameEn": "string",
+            "nameFr": "string",
+            "nextHoliday": {
+              "schema of Holiday": {
+                "date": "string",
+                "federal": "integer",
+                "id": "integer",
+                "nameEn": "string",
+                "nameFr": "string",
+                "observedDate": "string",
+                "optional": "integer",
+                "provinces": {
+                  "array of Province objects": [
+                    null
+                  ]
+                }
+              }
+            },
+            "optional": "integer",
+            "provinces": {
+              "array of Holiday objects": [
+                null
+              ]
+            },
+            "sourceEn": "string",
+            "sourceLink": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_api_v1_provinces_provinceId__Province_param"
+    }
+  },
+  "get-/api/v1/spec": {
+    "tags": [
+      "info"
+    ],
+    "summary": "Get JSON schema",
+    "test_object": "Object Repository/Canada Holidays API/_api_v1_spec/Spec",
+    "responseBody": "string",
+    "available_test_data": {}
+  }
+}

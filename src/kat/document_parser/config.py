@@ -1,0 +1,1 @@
+valid_methods = ['get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'trace']
