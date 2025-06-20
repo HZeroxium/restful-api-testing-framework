@@ -1,0 +1,23 @@
+index,data,expected_status_code
+1,"{""data"": {""billId"": 123, ""billStageId"": 456, ""amendmentId"": 789}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""billId"": 456, ""billStageId"": 789, ""amendmentId"": 101112}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""billId"": 789, ""billStageId"": 101112, ""amendmentId"": 131415}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""billId"": 101112, ""billStageId"": 131415, ""amendmentId"": 161718}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""billId"": 131415, ""billStageId"": 161718, ""amendmentId"": 192021}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""billId"": 123, ""billStageId"": 456, ""amendmentId"": 789, ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""billId"": 123, ""billStageId"": 456, ""amendmentId"": 789, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""billId"": 123, ""billStageId"": 456, ""amendmentId"": 789, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""billId"": 0, ""billStageId"": 1, ""amendmentId"": 1}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""billId"": 1, ""billStageId"": 0, ""amendmentId"": 1}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""billId"": 1, ""billStageId"": 1, ""amendmentId"": 0}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+13,"{""data"": {""billId"": null, ""billStageId"": null, ""amendmentId"": null}, ""expected_code"": """"}",4xx
+14,"{""data"": {""billId"": null, ""billStageId"": -9999999.0, ""amendmentId"": null}, ""expected_code"": """"}",4xx
+15,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""amendmentId"": null}, ""expected_code"": """"}",4xx
+16,"{""data"": {""billId"": -1, ""billStageId"": null, ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+17,"{""data"": {""billId"": null, ""billStageId"": -9999999.0, ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+18,"{""data"": {""billId"": ""123456"", ""billStageId"": -9999999.0, ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+19,"{""data"": {""billId"": -1, ""billStageId"": ""123456"", ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+20,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""amendmentId"": ""123456""}, ""expected_code"": """"}",4xx
+21,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": -1}, ""expected_code"": """"}",4xx
+22,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": ""123456""}, ""expected_code"": """"}",4xx

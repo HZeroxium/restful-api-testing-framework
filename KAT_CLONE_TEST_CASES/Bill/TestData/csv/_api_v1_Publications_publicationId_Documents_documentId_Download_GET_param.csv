@@ -1,0 +1,18 @@
+index,data,expected_status_code
+1,"{""data"": {""publicationId"": 123, ""documentId"": 456}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""publicationId"": 789, ""documentId"": 101112}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""publicationId"": 222, ""documentId"": 333}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""publicationId"": 444, ""documentId"": 555}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""publicationId"": 777, ""documentId"": 888}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""publicationId"": 123, ""documentId"": 456, ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""publicationId"": 123, ""documentId"": 456, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""publicationId"": 123, ""documentId"": 456, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""publicationId"": ""abc"", ""documentId"": 123}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""publicationId"": 456, ""documentId"": ""def""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""publicationId"": -1, ""documentId"": -1}, ""expected_code"": """"}",4xx
+12,"{""data"": {""publicationId"": null, ""documentId"": null}, ""expected_code"": """"}",4xx
+13,"{""data"": {""publicationId"": -1, ""documentId"": null}, ""expected_code"": """"}",4xx
+14,"{""data"": {""publicationId"": null, ""documentId"": -1}, ""expected_code"": """"}",4xx
+15,"{""data"": {""publicationId"": ""123456"", ""documentId"": -1}, ""expected_code"": """"}",4xx
+16,"{""data"": {""publicationId"": -1, ""documentId"": ""123456""}, ""expected_code"": """"}",4xx
+17,"{""data"": {""publicationId"": ""123456"", ""documentId"": ""123456""}, ""expected_code"": """"}",4xx

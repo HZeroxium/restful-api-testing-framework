@@ -1,0 +1,11 @@
+[
+  "post-/projects",
+  "get-/projects",
+  "post-/projects/{id}/repository/branches",
+  "get-/projects/{id}/repository/branches",
+  "get-/projects/{id}/repository/branches/{branch}",
+  "post-/projects/{id}/protected_branches",
+  "delete-/projects/{id}/protected_branches/{name}",
+  "delete-/projects/{id}/repository/branches/{branch}",
+  "delete-/projects/{id}/repository/merged_branches"
+]

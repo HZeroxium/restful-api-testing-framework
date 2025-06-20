@@ -58,3 +58,302 @@
 2025-06-15 22:52:16,594 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-06-15 22:52:18,842 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
 2025-06-15 22:52:22,179 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:18:20,966 - ERROR - Error in run_generator.py: No module named 'pyvis'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 6, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 1, in <module>
+    import pyvis.network as net
+ModuleNotFoundError: No module named 'pyvis'
+2025-06-16 20:19:03,396 - ERROR - Error in run_generator.py: No module named 'pyvis'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 6, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 1, in <module>
+    import pyvis.network as net
+ModuleNotFoundError: No module named 'pyvis'
+2025-06-16 20:22:29,641 - ERROR - Error in run_generator.py: No module named 'yaml'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 6, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 12, in <module>
+    from kat.operation_dependency_graph.odg_heuristic import heuristically_generate_dependencies
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_heuristic.py", line 5, in <module>
+    from kat.utils.swagger_utils.swagger_utils import find_object_with_key
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\__init__.py", line 3, in <module>
+    from .swagger_utils import get_ref, find_object_with_key, get_schema_params
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 2, in <module>
+    import json, yaml
+ModuleNotFoundError: No module named 'yaml'
+2025-06-16 20:23:02,305 - ERROR - Error in run_generator.py: No module named 'openai'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 6, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 17, in <module>
+    from kat.utils.llm.gpt.gpt import GPTChatCompletion
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\llm\gpt\__init__.py", line 1, in <module>
+    import openai
+ModuleNotFoundError: No module named 'openai'
+2025-06-16 20:23:38,846 - ERROR - Error in run_generator.py: No module named 'dotenv'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 6, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 17, in <module>
+    from kat.utils.llm.gpt.gpt import GPTChatCompletion
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\llm\gpt\__init__.py", line 5, in <module>
+    from dotenv import load_dotenv
+ModuleNotFoundError: No module named 'dotenv'
+2025-06-16 20:23:48,142 - ERROR - Error in run_generator.py: No module named 'pandas'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.data_generator.data_generator import TestDataGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\data_generator\data_generator.py", line 8, in <module>
+    import pandas as pd
+ModuleNotFoundError: No module named 'pandas'
+2025-06-16 20:26:33,914 - ERROR - Error in run_generator.py: Swagger spec file for service Bil not found. Please put it according the path: "KataApiTestGen/input/Bil/Bil.json"
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 29, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 87, in __init__
+    raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"KataApiTestGen/input/{service_name}/{service_name}.json\"")
+Exception: Swagger spec file for service Bil not found. Please put it according the path: "KataApiTestGen/input/Bil/Bil.json"
+2025-06-16 20:28:46,265 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:47,445 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:49,059 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:51,784 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:52,919 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:53,585 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:54,765 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:55,273 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:56,438 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:57,249 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:58,202 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:59,050 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:28:59,819 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:02,106 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:03,329 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:04,822 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:05,585 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:07,716 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:09,705 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:11,503 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:12,602 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:13,303 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:14,300 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:16,055 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:17,053 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:17,994 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:18,609 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:19,992 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-06-16 20:29:20,146 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-06-16 20:29:20,147 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-06-16 20:29:20,148 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-06-16 20:29:20,148 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-06-16 20:29:20,148 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-06-16 20:29:20,151 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-06-16 20:29:20,151 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-06-16 20:29:20,151 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-06-16 20:29:20,152 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-06-16 20:29:20,153 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-06-16 20:29:23,723 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:25,310 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:28,024 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:30,556 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:31,123 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:33,132 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:34,507 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:35,582 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:37,293 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:39,892 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:42,212 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:45,407 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:47,702 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:51,832 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:53,575 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:57,034 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:29:58,820 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:01,998 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:03,448 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:05,506 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:07,518 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:09,647 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:11,196 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:12,464 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:13,486 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:18,454 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:20,850 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:22,224 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:23,184 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:25,526 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:26,831 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:28,480 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:29,333 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:33,788 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:36,493 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:38,007 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:39,404 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:42,331 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:43,843 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:45,976 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:47,333 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:47,886 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:49,976 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:51,961 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:53,390 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:54,421 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:55,693 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:30:58,428 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:00,252 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:01,878 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:03,634 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:05,727 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:06,904 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:07,562 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:09,958 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 20:31:11,656 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:36:54,328 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:36:56,003 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:36:57,237 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:36:58,035 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-16 21:36:58,137 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-16 21:36:58,139 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-06-16 21:36:58,139 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-06-16 21:36:58,139 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-06-16 21:36:58,139 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-06-16 21:36:58,139 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-06-16 21:36:58,140 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-06-16 21:36:59,646 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:01,751 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:04,262 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:06,223 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:08,421 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:10,071 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:12,217 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:13,926 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:15,034 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:16,031 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:18,811 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:21,357 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:22,711 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:24,481 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:26,446 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-16 21:37:28,310 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:27,422 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:28,431 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:29,520 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:30,249 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:31,841 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:32,432 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:33,729 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:34,557 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:35,298 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:37,170 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:38,717 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:39,896 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:41,226 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:42,444 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:42,971 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:43,096 - WARNING - Request body of get-/projects is not a dictionary
+2025-06-20 22:25:43,096 - WARNING - Request body of post-/projects is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-06-20 22:25:43,097 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-06-20 22:25:43,098 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-06-20 22:25:43,099 - WARNING - Request body of get-/projects is not a dictionary
+2025-06-20 22:25:43,099 - WARNING - Request body of post-/projects is not a dictionary
+2025-06-20 22:25:43,099 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-06-20 22:25:43,100 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-06-20 22:25:43,973 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:45,307 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:48,043 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:51,354 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:52,805 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:53,863 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:56,461 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:57,415 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:58,053 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:25:59,069 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:00,717 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:02,210 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:05,015 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:07,509 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:12,586 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:24,615 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:27,075 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:28,432 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:31,329 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:34,766 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:36,586 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:38,082 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:40,186 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:41,774 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:42,925 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:44,726 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:46,636 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:47,777 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:50,338 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:53,372 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:26:58,468 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:27:00,361 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:27:01,448 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:27:02,605 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:27:04,566 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-06-20 22:27:06,876 - INFO - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"

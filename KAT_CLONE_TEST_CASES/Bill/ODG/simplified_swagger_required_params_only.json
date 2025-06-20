@@ -1,0 +1,841 @@
+{
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments": {
+    "tags": [
+      "Amendments"
+    ],
+    "summary": "Returns a list of amendments.",
+    "parameters": {
+      "billId": "integer (description: Amendments relating to a Bill with Bill ID specified)",
+      "billStageId": "integer (description: Amendments relating to a Bill stage with Bill stage ID specified)"
+    },
+    "responseBody": {
+      "schema of AmendmentSearchItemSearchResult": {
+        "items": {
+          "array of AmendmentSearchItem objects": [
+            {
+              "id": "integer",
+              "billId": "integer",
+              "billStageId": "integer",
+              "statusIndicator": "string",
+              "decision": {
+                "schema of AmendmentDecision": "string"
+              },
+              "decisionExplanation": "string",
+              "sponsors": {
+                "array of AmendmentMember objects": [
+                  {
+                    "memberId": "integer",
+                    "name": "string",
+                    "party": "string",
+                    "partyColour": "string",
+                    "house": {
+                      "schema of House": "string"
+                    },
+                    "memberPhoto": "string",
+                    "memberPage": "string",
+                    "memberFrom": "string",
+                    "sortOrder": "integer",
+                    "isLead": "boolean"
+                  }
+                ]
+              },
+              "amendmentId": "integer",
+              "amendmentType": {
+                "schema of AmendmentType": "string"
+              },
+              "clause": "integer",
+              "schedule": "integer",
+              "pageNumber": "integer",
+              "lineNumber": "integer",
+              "amendmentPosition": "string",
+              "marshalledListText": "string",
+              "summaryText": "array"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}": {
+    "tags": [
+      "Amendments"
+    ],
+    "summary": "Returns an amendment.",
+    "parameters": {
+      "billId": "integer (description: Amendment relating to a bill with bill ID specified)",
+      "billStageId": "integer (description: Amendment relating to a bill stage with bill stage ID specified)",
+      "amendmentId": "integer (description: Amendment with amendment ID specified)"
+    },
+    "responseBody": {
+      "schema of AmendmentDetail": {
+        "id": "integer",
+        "billId": "integer",
+        "billStageId": "integer",
+        "statusIndicator": "string",
+        "decision": {
+          "schema of AmendmentDecision": "string"
+        },
+        "decisionExplanation": "string",
+        "sponsors": {
+          "array of AmendmentMember objects": [
+            {
+              "memberId": "integer",
+              "name": "string",
+              "party": "string",
+              "partyColour": "string",
+              "house": {
+                "schema of House": "string"
+              },
+              "memberPhoto": "string",
+              "memberPage": "string",
+              "memberFrom": "string",
+              "sortOrder": "integer",
+              "isLead": "boolean"
+            }
+          ]
+        },
+        "amendmentId": "integer",
+        "amendmentType": {
+          "schema of AmendmentType": "string"
+        },
+        "clause": "integer",
+        "schedule": "integer",
+        "pageNumber": "integer",
+        "lineNumber": "integer",
+        "amendmentPosition": "string",
+        "marshalledListText": "string",
+        "amendmentLines": {
+          "array of AmendmentLine objects": [
+            {
+              "text": "string",
+              "indentation": "integer",
+              "hangingIndentation": "string",
+              "isImage": "boolean",
+              "imageType": "string"
+            }
+          ]
+        },
+        "explanatoryTextPrefix": "string",
+        "explanatoryText": "string",
+        "amendmentNote": "string",
+        "amendmentLocation": "string",
+        "mainHeader": "string"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/NewsArticles": {
+    "tags": [
+      "Bill News"
+    ],
+    "summary": "Returns a list of news articles for a Bill.",
+    "parameters": {
+      "billId": "integer"
+    },
+    "responseBody": {
+      "schema of NewsArticlesSummarySearchResult": {
+        "items": {
+          "array of NewsArticlesSummary objects": [
+            {
+              "id": "integer",
+              "title": "string",
+              "content": "string",
+              "displayDate": "string"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/BillTypes": {
+    "tags": [
+      "Bill Types"
+    ],
+    "summary": "Returns a list of Bill types.",
+    "responseBody": {
+      "schema of BillTypeSearchResult": {
+        "items": {
+          "array of BillType objects": [
+            {
+              "id": "integer",
+              "category": {
+                "schema of BillTypeCategory": "string"
+              },
+              "name": "string",
+              "description": "string"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Bills": {
+    "tags": [
+      "Bills"
+    ],
+    "summary": "Returns a list of Bills.",
+    "responseBody": {
+      "schema of BillSummarySearchResult": {
+        "items": {
+          "array of BillSummary objects": [
+            {
+              "billId": "integer",
+              "shortTitle": "string",
+              "formerShortTitle": "string",
+              "currentHouse": {
+                "schema of House": "string"
+              },
+              "lastUpdate": "string",
+              "billWithdrawn": "string",
+              "isDefeated": "boolean",
+              "billTypeId": "integer",
+              "introducedSessionId": "integer",
+              "includedSessionIds": "array",
+              "isAct": "boolean",
+              "currentStage": {
+                "schema of StageSummary": {
+                  "id": "integer",
+                  "stageId": "integer",
+                  "sessionId": "integer",
+                  "description": "string",
+                  "abbreviation": "string",
+                  "stageSittings": {
+                    "array of BillStageSitting objects": [
+                      {
+                        "id": "integer",
+                        "stageId": "integer",
+                        "billStageId": "integer",
+                        "billId": "integer",
+                        "date": "string"
+                      }
+                    ]
+                  },
+                  "sortOrder": "integer"
+                }
+              }
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}": {
+    "tags": [
+      "Bills"
+    ],
+    "summary": "Return a Bill.",
+    "parameters": {
+      "billId": "integer (description: Bill with ID specified)"
+    },
+    "responseBody": {
+      "schema of Bill": {
+        "billId": "integer",
+        "shortTitle": "string",
+        "formerShortTitle": "string",
+        "currentHouse": {
+          "schema of House": "string"
+        },
+        "lastUpdate": "string",
+        "billWithdrawn": "string",
+        "isDefeated": "boolean",
+        "billTypeId": "integer",
+        "introducedSessionId": "integer",
+        "includedSessionIds": "array",
+        "isAct": "boolean",
+        "currentStage": {
+          "schema of StageSummary": {
+            "id": "integer",
+            "stageId": "integer",
+            "sessionId": "integer",
+            "description": "string",
+            "abbreviation": "string",
+            "stageSittings": {
+              "array of BillStageSitting objects": [
+                {
+                  "id": "integer",
+                  "stageId": "integer",
+                  "billStageId": "integer",
+                  "billId": "integer",
+                  "date": "string"
+                }
+              ]
+            },
+            "sortOrder": "integer"
+          }
+        },
+        "longTitle": "string",
+        "summary": "string",
+        "sponsors": {
+          "array of Sponsor objects": [
+            {
+              "member": {
+                "schema of Member": {
+                  "memberId": "integer",
+                  "name": "string",
+                  "party": "string",
+                  "partyColour": "string",
+                  "memberPhoto": "string",
+                  "memberPage": "string",
+                  "memberFrom": "string"
+                }
+              },
+              "organisation": {
+                "schema of Organisation": {
+                  "name": "string",
+                  "url": "string"
+                }
+              },
+              "sortOrder": "integer"
+            }
+          ]
+        },
+        "promoters": {
+          "array of Promoter objects": [
+            {
+              "organisationName": "string",
+              "organisationUrl": "string"
+            }
+          ]
+        },
+        "petitioningPeriod": "string",
+        "petitionInformation": "string",
+        "agent": {
+          "schema of BillAgent": {
+            "name": "string",
+            "address": "string",
+            "phoneNo": "string",
+            "email": "string",
+            "website": "string"
+          }
+        }
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}": {
+    "tags": [
+      "Bills"
+    ],
+    "summary": "Returns a Bill stage.",
+    "parameters": {
+      "billId": "integer (description: Bill stage relating to Bill with Bill ID specified)",
+      "billStageId": "integer (description: Bill stage with ID specified)"
+    },
+    "responseBody": {
+      "schema of BillStageDetails": {
+        "id": "integer",
+        "stageId": "integer",
+        "sessionId": "integer",
+        "description": "string",
+        "abbreviation": "string",
+        "house": {
+          "schema of House": "string"
+        },
+        "stageSittings": {
+          "array of BillStageSitting objects": [
+            {
+              "id": "integer",
+              "stageId": "integer",
+              "billStageId": "integer",
+              "billId": "integer",
+              "date": "string"
+            }
+          ]
+        },
+        "sortOrder": "integer",
+        "committee": {
+          "schema of Committee": {
+            "id": "integer",
+            "name": "string",
+            "category": "string",
+            "house": {
+              "schema of CommitteeHouse": "string"
+            },
+            "url": "string"
+          }
+        },
+        "nextStageBillStageId": "integer",
+        "previousStageBillStageId": "integer",
+        "lastUpdate": "string",
+        "hasMotions": "boolean"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages": {
+    "tags": [
+      "Bills"
+    ],
+    "summary": "Returns all Bill stages.",
+    "parameters": {
+      "billId": "integer (description: Stages relating to a Bill with Bill ID specified)"
+    },
+    "responseBody": {
+      "schema of StageSummarySearchResult": {
+        "items": {
+          "array of StageSummary objects": [
+            {
+              "id": "integer",
+              "stageId": "integer",
+              "sessionId": "integer",
+              "description": "string",
+              "abbreviation": "string",
+              "house": {
+                "schema of House": "string"
+              },
+              "stageSittings": {
+                "array of BillStageSitting objects": [
+                  {
+                    "id": "integer",
+                    "stageId": "integer",
+                    "billStageId": "integer",
+                    "billId": "integer",
+                    "date": "string"
+                  }
+                ]
+              },
+              "sortOrder": "integer"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}": {
+    "tags": [
+      "Documents"
+    ],
+    "summary": "Return information on a document.",
+    "parameters": {
+      "publicationId": "integer (description: Document with publication Id specified)",
+      "documentId": "integer (description: Document with Id specified)"
+    },
+    "responseBody": {
+      "schema of PublicationDocument": {
+        "id": "integer",
+        "filename": "string",
+        "contentType": "string",
+        "contentLength": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download": {
+    "tags": [
+      "Documents"
+    ],
+    "summary": "Return a document.",
+    "parameters": {
+      "publicationId": "integer (description: Document with publication Id specified)",
+      "documentId": "integer (description: Document with Id specified)"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": {
+    "tags": [
+      "Ping Pong Items"
+    ],
+    "summary": "Returns a list of motions or amendments.",
+    "parameters": {
+      "billId": "integer (description: Motions or amendments relating to a Bill with Bill ID specified)",
+      "billStageId": "integer (description: Motions or amendments relating to a Bill stage with Bill stage ID specified)"
+    },
+    "responseBody": {
+      "schema of AmendmentSummaryMotionSummaryPingPongItemSearchResult": {
+        "items": {
+          "array of AmendmentSummaryMotionSummaryPingPongItem objects": [
+            {
+              "type": {
+                "schema of PingpongItemType": "string"
+              },
+              "amendment": {
+                "schema of PingPongAmendmentSummary": {
+                  "id": "integer",
+                  "billId": "integer",
+                  "billStageId": "integer",
+                  "statusIndicator": "string",
+                  "decision": {
+                    "schema of AmendmentDecision": "string"
+                  },
+                  "decisionExplanation": "string",
+                  "sponsors": {
+                    "array of AmendmentMember objects": [
+                      {
+                        "memberId": "integer",
+                        "name": "string",
+                        "party": "string",
+                        "partyColour": "string",
+                        "house": {
+                          "schema of House": "string"
+                        },
+                        "memberPhoto": "string",
+                        "memberPage": "string",
+                        "memberFrom": "string",
+                        "sortOrder": "integer",
+                        "isLead": "boolean"
+                      }
+                    ]
+                  },
+                  "number": "string",
+                  "summary": "string"
+                }
+              },
+              "motion": {
+                "schema of MotionSummary": {
+                  "id": "integer",
+                  "billId": "integer",
+                  "billStageId": "integer",
+                  "statusIndicator": "string",
+                  "decisionExplanation": "string",
+                  "sponsors": {
+                    "array of AmendmentMember objects": [
+                      null
+                    ]
+                  },
+                  "number": "string",
+                  "summary": "string"
+                }
+              }
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": {
+    "tags": [
+      "Ping Pong Items"
+    ],
+    "summary": "Returns amendment or motion detail.",
+    "parameters": {
+      "billId": "integer (description: Motions or amendments relating to a bill with bill ID specified)",
+      "billStageId": "integer (description: Motions or amendments relating to a bill stage with bill stage ID specified)",
+      "pingPongItemId": "integer (description: Motions or amendments with ping pong item ID specified)"
+    },
+    "responseBody": {
+      "schema of AmendmentDetailMotionDetailPingPongItem": {
+        "type": {
+          "schema of PingpongItemType": "string"
+        },
+        "amendment": {
+          "schema of PingPongAmendmentDetail": {
+            "id": "integer",
+            "billId": "integer",
+            "billStageId": "integer",
+            "statusIndicator": "string",
+            "decision": {
+              "schema of AmendmentDecision": "string"
+            },
+            "decisionExplanation": "string",
+            "sponsors": {
+              "array of AmendmentMember objects": [
+                {
+                  "memberId": "integer",
+                  "name": "string",
+                  "party": "string",
+                  "partyColour": "string",
+                  "house": {
+                    "schema of House": "string"
+                  },
+                  "memberPhoto": "string",
+                  "memberPage": "string",
+                  "memberFrom": "string",
+                  "sortOrder": "integer",
+                  "isLead": "boolean"
+                }
+              ]
+            },
+            "number": "string",
+            "summary": "string",
+            "amendmentGroups": {
+              "array of AmendmentGroup objects": [
+                {
+                  "text": {
+                    "array of AmendmentLine objects": [
+                      {
+                        "text": "string",
+                        "indentation": "integer",
+                        "hangingIndentation": "string",
+                        "isImage": "boolean",
+                        "imageType": "string"
+                      }
+                    ]
+                  },
+                  "amendments": {
+                    "array of PingPongAmendment objects": [
+                      {
+                        "number": "string",
+                        "sortOrder": "integer",
+                        "text": {
+                          "array of AmendmentLine objects": [
+                            null
+                          ]
+                        },
+                        "sponsors": {
+                          "array of AmendmentMember objects": [
+                            null
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "sortOrder": "integer"
+                }
+              ]
+            }
+          }
+        },
+        "motion": {
+          "schema of MotionDetail": {
+            "id": "integer",
+            "billId": "integer",
+            "billStageId": "integer",
+            "statusIndicator": "string",
+            "decisionExplanation": "string",
+            "sponsors": {
+              "array of AmendmentMember objects": [
+                null
+              ]
+            },
+            "number": "string",
+            "summary": "string",
+            "motionGroups": {
+              "array of MotionGroup objects": [
+                {
+                  "text": {
+                    "array of AmendmentLine objects": [
+                      null
+                    ]
+                  },
+                  "amendments": {
+                    "array of PingPongAmendment objects": [
+                      null
+                    ]
+                  },
+                  "sortOrder": "integer"
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "get-/api/v1/PublicationTypes": {
+    "tags": [
+      "Publication Types"
+    ],
+    "summary": "Returns a list of publication types.",
+    "responseBody": {
+      "schema of PublicationTypeSearchResult": {
+        "items": {
+          "array of PublicationType objects": [
+            {
+              "id": "integer",
+              "name": "string",
+              "description": "string"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Publications": {
+    "tags": [
+      "Publications"
+    ],
+    "summary": "Return a list of Bill publications.",
+    "parameters": {
+      "billId": "integer (description: Publications relating to Bill with Bill ID specified)"
+    },
+    "responseBody": {
+      "schema of BillPublicationList": {
+        "billId": "integer",
+        "publications": {
+          "array of BillPublication objects": [
+            {
+              "id": "integer",
+              "title": "string",
+              "publicationType": {
+                "schema of PublicationType": {
+                  "id": "integer",
+                  "name": "string",
+                  "description": "string"
+                }
+              },
+              "displayDate": "string",
+              "links": {
+                "array of PublicationLink objects": [
+                  {
+                    "id": "integer",
+                    "title": "string",
+                    "url": "string",
+                    "contentType": "string"
+                  }
+                ]
+              },
+              "files": {
+                "array of PublicationDocument objects": [
+                  {
+                    "id": "integer",
+                    "filename": "string",
+                    "contentType": "string",
+                    "contentLength": "integer"
+                  }
+                ]
+              },
+              "house": {
+                "schema of House": "string"
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": {
+    "tags": [
+      "Publications"
+    ],
+    "summary": "Return a list of Bill stage publications.",
+    "parameters": {
+      "billId": "integer",
+      "stageId": "integer"
+    },
+    "responseBody": {
+      "schema of BillStagePublicationList": {
+        "billStageId": "integer",
+        "publications": {
+          "array of Publication objects": [
+            {
+              "id": "integer",
+              "title": "string",
+              "publicationType": {
+                "schema of PublicationType": {
+                  "id": "integer",
+                  "name": "string",
+                  "description": "string"
+                }
+              },
+              "displayDate": "string",
+              "links": {
+                "array of PublicationLink objects": [
+                  {
+                    "id": "integer",
+                    "title": "string",
+                    "url": "string",
+                    "contentType": "string"
+                  }
+                ]
+              },
+              "files": {
+                "array of PublicationDocument objects": [
+                  {
+                    "id": "integer",
+                    "filename": "string",
+                    "contentType": "string",
+                    "contentLength": "integer"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "sittings": {
+          "array of BillStageSittingPublicationList objects": [
+            {
+              "sittingId": "integer",
+              "publications": {
+                "array of Publication objects": [
+                  null
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  "get-/api/v1/Rss/allbills.rss": {
+    "tags": [
+      "RSS"
+    ],
+    "summary": "Returns an Rss feed of all Bills."
+  },
+  "get-/api/v1/Rss/publicbills.rss": {
+    "tags": [
+      "RSS"
+    ],
+    "summary": "Returns an Rss feed of public Bills."
+  },
+  "get-/api/v1/Rss/privatebills.rss": {
+    "tags": [
+      "RSS"
+    ],
+    "summary": "Returns an Rss feed of private Bills."
+  },
+  "get-/api/v1/Rss/Bills/{id}.rss": {
+    "tags": [
+      "RSS"
+    ],
+    "summary": "Returns an Rss feed of a certain Bill.",
+    "parameters": {
+      "id": "integer (description: Id of Bill)"
+    }
+  },
+  "get-/api/v1/Sittings": {
+    "tags": [
+      "Sittings"
+    ],
+    "summary": "Returns a list of Sittings.",
+    "responseBody": {
+      "schema of BillStageSittingSearchResult": {
+        "items": {
+          "array of BillStageSitting objects": [
+            {
+              "id": "integer",
+              "stageId": "integer",
+              "billStageId": "integer",
+              "billId": "integer",
+              "date": "string"
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  },
+  "get-/api/v1/Stages": {
+    "tags": [
+      "Stages"
+    ],
+    "summary": "Returns a list of Bill stages.",
+    "responseBody": {
+      "schema of StageReferenceSearchResult": {
+        "items": {
+          "array of StageReference objects": [
+            {
+              "id": "integer",
+              "name": "string",
+              "house": {
+                "schema of House": "string"
+              }
+            }
+          ]
+        },
+        "totalResults": "integer",
+        "itemsPerPage": "integer"
+      }
+    }
+  }
+}

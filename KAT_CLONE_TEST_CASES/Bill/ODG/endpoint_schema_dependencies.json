@@ -1,0 +1,195 @@
+{
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments": {
+    "BillStageSitting": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "AmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "PingPongAmendmentSummary": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "AmendmentSearchItem": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}": {
+    "AmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "amendmentId": "amendmentId"
+    },
+    "BillStageSitting": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "AmendmentSearchItem": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "amendmentId": "amendmentId"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "amendmentId": "amendmentId"
+    },
+    "PingPongAmendmentSummary": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "amendmentId": "amendmentId"
+    },
+    "BillStagePublicationList": {
+      "billId": "billStageId",
+      "billStageId": "billStageId",
+      "amendmentId": "billStageId"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/NewsArticles": {
+    "Bill": {
+      "billId": "billId"
+    },
+    "NewsArticlesSummary": {
+      "billId": "id"
+    }
+  },
+  "get-/api/v1/Bills/{billId}": {
+    "Bill": {
+      "billId": "billId"
+    },
+    "BillSummary": {
+      "billId": "billId"
+    },
+    "BillStageSitting": {
+      "id": "billId"
+    },
+    "BillPublicationList": {
+      "billId": "billId"
+    },
+    "BillType": {
+      "id": "billTypeId"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}": {
+    "BillStageSitting": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "BillStageDetails": {
+      "stageId": "id",
+      "nextStageBillStageId": "id",
+      "previousStageBillStageId": "id"
+    },
+    "Bill": {
+      "billId": "billId"
+    },
+    "BillStagePublicationList": {
+      "billStageId": "billStageId"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages": {
+    "BillStageDetails": {
+      "billId": "billId"
+    },
+    "BillStageSitting": {
+      "billId": "billId"
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}": {
+    "PublicationDocument": {
+      "publicationId": "id",
+      "documentId": "id"
+    },
+    "Publication": {
+      "publicationId": "id"
+    },
+    "PublicationLink": {
+      "documentId": "id"
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download": {
+    "PublicationDocument": {
+      "publicationId": "id",
+      "documentId": "id"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": {
+    "BillStageSitting": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "BillStagePublicationList": {
+      "billStageId": "billStageId"
+    },
+    "PingPongAmendmentSummary": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": {
+    "PingPongAmendmentSummary": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "pingPongItemId": "id"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId",
+      "billStageId": "billStageId",
+      "pingPongItemId": "id"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Publications": {
+    "BillPublicationList": {
+      "billId": "billId"
+    },
+    "Publication": {
+      "id": "id"
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": {
+    "BillStagePublicationList": {
+      "billId": "billStageId",
+      "stageId": "billStageId"
+    },
+    "BillStageSitting": {
+      "stageId": "stageId",
+      "billId": "billId"
+    },
+    "BillStageSittingPublicationList": {
+      "stageId": "sittingId"
+    },
+    "BillPublicationList": {
+      "billId": "billId"
+    }
+  },
+  "get-/api/v1/Rss/Bills/{id}.rss": {
+    "BillSummary": {
+      "id": "billId"
+    },
+    "BillType": {
+      "id": "id"
+    },
+    "BillStageSitting": {
+      "id": "id",
+      "stageId": "stageId",
+      "billId": "billId"
+    },
+    "BillStageDetails": {
+      "id": "id",
+      "stageId": "stageId",
+      "sessionId": "sessionId"
+    },
+    "BillAgent": {}
+  }
+}

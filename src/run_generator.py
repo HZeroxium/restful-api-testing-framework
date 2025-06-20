@@ -20,30 +20,24 @@ print("🚀 Starting Test Case Generator")
 print("=" * 60)
 
 try:
-    print("📦 Importing TestCaseGenerator...")
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
-    print("✅ Import successful!")
     
     # Khởi tạo generator với service name và collection name
-    print("🔧 Initializing generator...")
     generator = TestCaseGenerator(
-        service_name="Canada Holidays",  # Sửa tên từ "Canada Holiday" thành "Canada Holidays"
+        service_name="GitLab Branch",  # Sửa tên từ "Bil" thành "Bill" để match với thư mục Dataset
         collection="Default",    # Tên collection mặc định
         save_prompts=True,
         regenerate_test_data=False,
         data_generation_mode="all"
     )
-    print("✅ Generator initialized successfully!")
     
     # Chạy generator
-    print("🏃 Running generator...")
-    print("This may take a few minutes, please wait...")
+
     
     result = generator.run()
     
     print("✅ Generator completed successfully!")
-    print("📁 Check the output directory for generated test cases.")
-    print("=" * 60)
+
     
 except Exception as e:
     print(f"❌ Error occurred: {e}")

@@ -1,0 +1,23 @@
+index,data,expected_status_code
+1,"{""data"": {""id"": 123, ""name"": ""main"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": true}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""id"": 456, ""name"": ""feature"", ""push_access_level"": 30, ""merge_access_level"": 30, ""unprotect_access_level"": 30, ""allow_force_push"": false}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""id"": 789, ""name"": ""bugfix"", ""push_access_level"": 60, ""merge_access_level"": 60, ""unprotect_access_level"": 60, ""allow_force_push"": true}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""id"": 101, ""name"": ""hotfix"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": false}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""id"": 202, ""name"": ""experimental"", ""push_access_level"": 30, ""merge_access_level"": 30, ""unprotect_access_level"": 30, ""allow_force_push"": true}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""id"": 123, ""name"": ""main"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": true, ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""id"": 123, ""name"": ""main"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": true, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""id"": 123, ""name"": ""main"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": true, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""id"": ""abc"", ""name"": ""main"", ""push_access_level"": ""50"", ""merge_access_level"": 70, ""unprotect_access_level"": -10, ""allow_force_push"": ""yes""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""id"": 0, ""name"": ""feature"", ""push_access_level"": 60, ""merge_access_level"": 50, ""unprotect_access_level"": 40, ""allow_force_push"": ""true""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""id"": 9999999999, ""name"": ""bugfix"", ""push_access_level"": 35, ""merge_access_level"": 45, ""unprotect_access_level"": 55, ""allow_force_push"": ""no""}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""id"": -1, ""name"": ""release"", ""push_access_level"": 70, ""merge_access_level"": 80, ""unprotect_access_level"": 90, ""allow_force_push"": ""false""}, ""expected_code"": ""4xx""}",4xx
+13,"{""data"": {""id"": 100, ""name"": ""hotfix"", ""push_access_level"": 20, ""merge_access_level"": 30, ""unprotect_access_level"": 10, ""allow_force_push"": ""invalid""}, ""expected_code"": ""4xx""}",4xx
+14,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+15,"{""data"": {""id"": null, ""name"": null, ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+16,"{""data"": {""id"": -9999999.0, ""name"": null, ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+17,"{""data"": {""id"": null, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+18,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+19,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+20,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+21,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx
+22,"{""data"": {""id"": -9999999.0, ""name"": """", ""push_access_level"": -1, ""merge_access_level"": -1, ""unprotect_access_level"": -9999999.0, ""allow_force_push"": -1}, ""expected_code"": """"}",4xx

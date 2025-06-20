@@ -1,18 +1,18 @@
-index,data,expected_status_code
-1,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB""}, ""expected_code"": ""2xx""}",2xx
-2,"{""data"": {""year"": 2018, ""optional"": ""true"", ""provinceId"": ""BC""}, ""expected_code"": ""2xx""}",2xx
-3,"{""data"": {""year"": 2029, ""optional"": ""false"", ""provinceId"": ""ON""}, ""expected_code"": ""2xx""}",2xx
-4,"{""data"": {""year"": 2016, ""optional"": ""true"", ""provinceId"": ""NS""}, ""expected_code"": ""2xx""}",2xx
-5,"{""data"": {""year"": 2025, ""optional"": ""false"", ""provinceId"": ""YT""}, ""expected_code"": ""2xx""}",2xx
-6,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-7,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
-8,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
-9,"{""data"": {""year"": 2030, ""optional"": ""0"", ""provinceId"": ""AB""}, ""expected_code"": ""4xx""}",4xx
-10,"{""data"": {""year"": 2022, ""optional"": ""invalid"", ""provinceId"": ""BC""}, ""expected_code"": ""4xx""}",4xx
-11,"{""data"": {""year"": -9999999.0, ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
-12,"{""data"": {""year"": -9999999.0, ""optional"": """", ""provinceId"": null}, ""expected_code"": """"}",4xx
-13,"{""data"": {""year"": ""123456"", ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
-14,"{""data"": {""year"": -9999999.0, ""optional"": 123456789, ""provinceId"": """"}, ""expected_code"": """"}",4xx
-15,"{""data"": {""year"": -9999999.0, ""optional"": """", ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
-16,"{""data"": {""year"": -9999999.0, ""optional"": 123456789, ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
-17,"{""data"": {""year"": ""123456"", ""optional"": 123456789, ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
+index,data,expected_status_code
+1,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""year"": 2018, ""optional"": ""true"", ""provinceId"": ""BC""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""year"": 2029, ""optional"": ""false"", ""provinceId"": ""ON""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""year"": 2016, ""optional"": ""true"", ""provinceId"": ""NS""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""year"": 2025, ""optional"": ""false"", ""provinceId"": ""YT""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""year"": 2030, ""optional"": ""1"", ""provinceId"": ""AB""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""year"": 2022, ""optional"": ""invalid"", ""provinceId"": ""BC""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
+12,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": null}, ""expected_code"": """"}",4xx
+13,"{""data"": {""year"": ""123456"", ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
+14,"{""data"": {""year"": -1, ""optional"": 123456789, ""provinceId"": """"}, ""expected_code"": """"}",4xx
+15,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
+16,"{""data"": {""year"": ""123456"", ""optional"": """", ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
+17,"{""data"": {""year"": ""123456"", ""optional"": 123456789, ""provinceId"": 123456789}, ""expected_code"": """"}",4xx

@@ -1,0 +1,15 @@
+index,data,expected_status_code
+1,"{""data"": {""id"": 123, ""branch"": ""main""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""id"": 456, ""branch"": ""feature-branch""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""id"": 789, ""branch"": ""bugfix/issue-123""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""id"": 101, ""branch"": ""development""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""id"": 202, ""branch"": ""release-v1.0""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""id"": 123, ""branch"": ""main"", ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""id"": 123, ""branch"": ""main"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""id"": 123, ""branch"": ""main"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""id"": ""invalid_id"", ""branch"": ""123""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""id"": -9999999.0, ""branch"": """"}, ""expected_code"": """"}",4xx
+11,"{""data"": {""id"": null, ""branch"": null}, ""expected_code"": """"}",4xx
+12,"{""data"": {""id"": -9999999.0, ""branch"": null}, ""expected_code"": """"}",4xx
+13,"{""data"": {""id"": null, ""branch"": """"}, ""expected_code"": """"}",4xx
+14,"{""data"": {""id"": -9999999.0, ""branch"": """"}, ""expected_code"": """"}",4xx

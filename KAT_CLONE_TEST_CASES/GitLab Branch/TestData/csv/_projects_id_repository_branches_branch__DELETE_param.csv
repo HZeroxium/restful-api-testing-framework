@@ -1,0 +1,19 @@
+index,data,expected_status_code
+1,"{""data"": {""id"": 12345, ""branch"": ""main""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""id"": 67890, ""branch"": ""feature-branch""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""id"": 24680, ""branch"": ""development""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""id"": 13579, ""branch"": ""bug-fix""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""id"": 54321, ""branch"": ""release-1.0""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""id"": 12345, ""branch"": ""main"", ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""id"": 12345, ""branch"": ""main"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""id"": 12345, ""branch"": ""main"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""id"": ""project123"", ""branch"": ""main""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""id"": 3.14, ""branch"": ""feature""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""id"": -1, ""branch"": ""bugfix""}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""id"": 2147483649, ""branch"": ""release""}, ""expected_code"": ""4xx""}",4xx
+13,"{""data"": {""id"": ""12345"", ""branch"": 12345}, ""expected_code"": ""4xx""}",4xx
+14,"{""data"": {""id"": -1, ""branch"": """"}, ""expected_code"": """"}",4xx
+15,"{""data"": {""id"": null, ""branch"": null}, ""expected_code"": """"}",4xx
+16,"{""data"": {""id"": -1, ""branch"": null}, ""expected_code"": """"}",4xx
+17,"{""data"": {""id"": null, ""branch"": """"}, ""expected_code"": """"}",4xx
+18,"{""data"": {""id"": -1, ""branch"": """"}, ""expected_code"": """"}",4xx

@@ -84,7 +84,8 @@ class TestCaseGenerator():
         self.test_data_working_directory = get_test_data_working_dir(service_name)
         
         if not os.path.exists(get_data_dir_file(service_name)):
-            raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"KataApiTestGen/input/{service_name}/{service_name}.json\"")
+            print(get_data_dir_file(service_name))
+            raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
         
         # Create object repository
         self.object_repository_generator = ObjectRepoGenerator(service_name, collection)        

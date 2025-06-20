@@ -135,7 +135,7 @@ python-dotenv==1.1.0
 python-multipart==0.0.20
 PythonQwt==0.14.5
 pytz==2025.2
-pyvis==0.3.2
+pyvis
 PyYAML==6.0.2
 QtPy==2.4.3
 redis==6.2.0

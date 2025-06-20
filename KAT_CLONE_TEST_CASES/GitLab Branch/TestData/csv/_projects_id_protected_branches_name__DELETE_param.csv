@@ -1,0 +1,16 @@
+index,data,expected_status_code
+1,"{""data"": {""id"": 123, ""name"": ""main""}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""id"": 456, ""name"": ""feature""}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""id"": 789, ""name"": ""bugfix""}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""id"": 101, ""name"": ""hotfix""}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""id"": 202, ""name"": ""release""}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""id"": 123, ""name"": ""main"", ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""id"": 123, ""name"": ""main"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""id"": 123, ""name"": ""main"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""id"": ""abc"", ""name"": ""main""}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""id"": 999999999999, ""name"": ""main""}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""id"": -1, ""name"": """"}, ""expected_code"": """"}",4xx
+12,"{""data"": {""id"": null, ""name"": null}, ""expected_code"": """"}",4xx
+13,"{""data"": {""id"": -1, ""name"": null}, ""expected_code"": """"}",4xx
+14,"{""data"": {""id"": null, ""name"": """"}, ""expected_code"": """"}",4xx
+15,"{""data"": {""id"": -1, ""name"": """"}, ""expected_code"": """"}",4xx

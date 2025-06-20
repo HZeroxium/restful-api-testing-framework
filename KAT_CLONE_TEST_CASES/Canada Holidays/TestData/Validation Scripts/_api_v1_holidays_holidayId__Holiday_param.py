@@ -2,22 +2,23 @@
 def validate_request_data(request_data_item):
     try:
         # Check dependency 1
-        if "holidayId" not in request_data_item or not isinstance(request_data_item["holidayId"], int):
-            return False
-        if "year" not in request_data_item or not isinstance(request_data_item["year"], int):
-            return False
+        if "year" in request_data_item and "optional" in request_data_item:
+            # Perform validation for dependency 1
+            if request_data_item["year"] is not None and request_data_item["optional"] is not None:
+                # Add specific validation logic for dependency 1
+                pass
+            else:
+                return False
     except:
         pass  # Skip this dependency if an error occurs
 
     try:
         # Check dependency 2
-        if "holidayId" not in request_data_item or not isinstance(request_data_item["holidayId"], int):
-            return False
-        if "optional" not in request_data_item or not isinstance(request_data_item["optional"], str):
-            return False
+        # Add specific validation logic for dependency 2
     except:
-        pass  # Skip this dependency if an error occurs
+        pass
 
+    # ... (continue checking other dependencies)
     return True
 ```
 

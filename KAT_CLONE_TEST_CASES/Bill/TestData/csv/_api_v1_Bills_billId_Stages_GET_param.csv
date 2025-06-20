@@ -1,0 +1,21 @@
+index,data,expected_status_code
+1,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""billId"": 456, ""Skip"": 5, ""Take"": 20}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""billId"": 789, ""Skip"": 0, ""Take"": 5}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""billId"": 100, ""Skip"": 10, ""Take"": 15}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""billId"": 200, ""Skip"": 15, ""Take"": 25}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""billId"": -1, ""Skip"": 10, ""Take"": 100}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""billId"": 0, ""Skip"": -10, ""Take"": 100}, ""expected_code"": ""4xx""}",4xx
+11,"{""data"": {""billId"": 1, ""Skip"": 10, ""Take"": -100}, ""expected_code"": ""4xx""}",4xx
+12,"{""data"": {""billId"": 2, ""Skip"": ""invalid"", ""Take"": 100}, ""expected_code"": ""4xx""}",4xx
+13,"{""data"": {""billId"": 3, ""Skip"": 10, ""Take"": ""invalid""}, ""expected_code"": ""4xx""}",4xx
+14,"{""data"": {""billId"": -1, ""Skip"": -1, ""Take"": -1}, ""expected_code"": """"}",4xx
+15,"{""data"": {""billId"": null, ""Skip"": -1, ""Take"": -1}, ""expected_code"": """"}",4xx
+16,"{""data"": {""billId"": ""123456"", ""Skip"": -1, ""Take"": -1}, ""expected_code"": """"}",4xx
+17,"{""data"": {""billId"": -1, ""Skip"": ""123456"", ""Take"": -1}, ""expected_code"": """"}",4xx
+18,"{""data"": {""billId"": -1, ""Skip"": -1, ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+19,"{""data"": {""billId"": ""123456"", ""Skip"": ""123456"", ""Take"": -1}, ""expected_code"": """"}",4xx
+20,"{""data"": {""billId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx

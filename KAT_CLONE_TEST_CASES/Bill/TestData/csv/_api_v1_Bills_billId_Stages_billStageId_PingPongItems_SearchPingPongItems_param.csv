@@ -1,0 +1,26 @@
+index,data,expected_status_code
+1,"{""data"": {""billId"": 123, ""billStageId"": 456, ""SearchTerm"": ""amendment"", ""Decision"": ""Agreed"", ""MemberId"": 789, ""Skip"": 0, ""Take"": 10}, ""expected_code"": ""2xx""}",2xx
+2,"{""data"": {""billId"": 789, ""billStageId"": 101, ""SearchTerm"": ""motion"", ""Decision"": ""NoDecision"", ""MemberId"": 654, ""Skip"": 5, ""Take"": 20}, ""expected_code"": ""2xx""}",2xx
+3,"{""data"": {""billId"": 555, ""billStageId"": 222, ""SearchTerm"": ""amendment"", ""Decision"": ""Withdrawn"", ""MemberId"": 333, ""Skip"": 15, ""Take"": 5}, ""expected_code"": ""2xx""}",2xx
+4,"{""data"": {""billId"": 777, ""billStageId"": 888, ""SearchTerm"": ""motion"", ""Decision"": ""NotSelected"", ""MemberId"": 999, ""Skip"": 3, ""Take"": 15}, ""expected_code"": ""2xx""}",2xx
+5,"{""data"": {""billId"": 111, ""billStageId"": 222, ""SearchTerm"": ""amendment"", ""Decision"": ""Disagreed"", ""MemberId"": 333, ""Skip"": 10, ""Take"": 8}, ""expected_code"": ""2xx""}",2xx
+6,"{""data"": {""billId"": 123, ""billStageId"": 456, ""SearchTerm"": ""amendment"", ""Decision"": ""Agreed"", ""MemberId"": 789, ""Skip"": 0, ""Take"": 10, ""data"": null, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+7,"{""data"": {""billId"": 123, ""billStageId"": 456, ""SearchTerm"": ""amendment"", ""Decision"": ""Agreed"", ""MemberId"": 789, ""Skip"": 0, ""Take"": 10, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
+8,"{""data"": {""billId"": 123, ""billStageId"": 456, ""SearchTerm"": ""amendment"", ""Decision"": ""Agreed"", ""MemberId"": 789, ""Skip"": 0, ""Take"": 10, ""data"": null}, ""expected_code"": ""2xx""}",2xx
+9,"{""data"": {""billId"": 0, ""billStageId"": 1, ""SearchTerm"": ""ThisSearchTermIsWayTooLongAndExceedsTheMaximumLength"", ""Decision"": ""InvalidDecision"", ""MemberId"": ""NotAnInteger"", ""Skip"": 0, ""Take"": 0}, ""expected_code"": ""4xx""}",4xx
+10,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+11,"{""data"": {""billId"": null, ""billStageId"": null, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+12,"{""data"": {""billId"": -1, ""billStageId"": null, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+13,"{""data"": {""billId"": null, ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+14,"{""data"": {""billId"": ""123456"", ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+15,"{""data"": {""billId"": -1, ""billStageId"": ""123456"", ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+16,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""SearchTerm"": 123456789, ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+17,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": ""123456"", ""Skip"": -9999999.0, ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+18,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": ""123456"", ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+19,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+20,"{""data"": {""billId"": ""123456"", ""billStageId"": -9999999.0, ""SearchTerm"": """", ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": ""123456"", ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+21,"{""data"": {""billId"": -1, ""billStageId"": ""123456"", ""SearchTerm"": 123456789, ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": ""123456"", ""Take"": -9999999.0}, ""expected_code"": """"}",4xx
+22,"{""data"": {""billId"": ""123456"", ""billStageId"": -9999999.0, ""SearchTerm"": 123456789, ""Decision"": """", ""MemberId"": -9999999.0, ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+23,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""SearchTerm"": """", ""Decision"": """", ""MemberId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+24,"{""data"": {""billId"": -1, ""billStageId"": ""123456"", ""SearchTerm"": 123456789, ""Decision"": """", ""MemberId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+25,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""SearchTerm"": 123456789, ""Decision"": """", ""MemberId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx
