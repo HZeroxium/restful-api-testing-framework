@@ -32,7 +32,7 @@ async def main():
     logger.add_context(output_directory=out_dir, timestamp=ts)
 
     # Initialize the tool
-    tool = OpenAPIParserTool(verbose=True, cache_enabled=False)
+    tool = OpenAPIParserTool(verbose=False, cache_enabled=False)
 
     # Define examples dictionary mapping names to input parameters
     examples = {
@@ -45,19 +45,28 @@ async def main():
             "source_type": SpecSourceType.FILE,
         },
         # Uncomment for additional examples
-        # "gitlab_repo_api": {
-        #     "spec_source": "data/RBCTest_dataset/GitLab Repository/openapi.json",
+        # "gitlab_branch_api": {
+        #     "spec_source": "data/RBCTest_dataset/GitLab Branch/openapi.json",
         #     "source_type": SpecSourceType.FILE,
         # },
-        # "gitlab_project_api": {
-        #     "spec_source": "data/RBCTest_dataset/GitLab Project/openapi.json",
-        #     "source_type": SpecSourceType.FILE
-        # },
-        # "gitlab_issues_api": {
-        #     "spec_source": "data/RBCTest_dataset/GitLab Issues/openapi.json",
-        #     "source_type": SpecSourceType.FILE,
-        #     "filter_tags": ["issues"]
-        # },
+        "gitlab_commit_api": {
+            "spec_source": "data/RBCTest_dataset/GitLab Commit/openapi.json",
+            "source_type": SpecSourceType.FILE,
+        },
+        "gitlab_project_api": {
+            "spec_source": "data/RBCTest_dataset/GitLab Project/openapi.json",
+            "source_type": SpecSourceType.FILE,
+        },
+        "gitlab_issues_api": {
+            "spec_source": "data/RBCTest_dataset/GitLab Issues/openapi.json",
+            "source_type": SpecSourceType.FILE,
+            # "filter_tags": ["issues"]
+        },
+        "gitlab_repository_api": {
+            "spec_source": "data/RBCTest_dataset/GitLab Repository/openapi.json",
+            "source_type": SpecSourceType.FILE,
+            # "filter_tags": ["repository"]
+        },
     }
 
     logger.info(f"Processing {len(examples)} OpenAPI specifications")

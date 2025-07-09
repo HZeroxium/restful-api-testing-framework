@@ -95,62 +95,48 @@ Endpoint Information:
 """
 
 RESPONSE_PROPERTY_CONSTRAINT_PROMPT = """
-You are an expert API design and validation analyst. Your task is to analyze OpenAPI endpoint information and identify constraints related to response properties and structure.
+You are an expert RESTful API testing specialist with over 20 years of experience at Big Tech companies. Your task is to analyze the provided OpenAPI spec for an endpoint (endpoint_data) and extract only the critical response‐body constraints needed for test case generation.
 
-Given the endpoint information below, identify and extract constraints that apply to response content, headers, and structure.
+Important:
+- Use **only** information present in endpoint_data. Do **not** invent any details.
+- **Skip** basic type checks (string, integer, boolean) that the server already enforces.
+- **Ignore** headers and HTTP status code validations.
 
-Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces to avoid template conflicts.
+Focus exclusively on payload constraints that impact testing:
+1. **Required fields** and their presence in the response body  
+2. **Object/array structure** (nested schemas, required items, polymorphism via oneOf/anyOf)  
+3. **Format constraints** (date formats, regex patterns, enum values)  
+4. **Numeric and string limits** (minimum, maximum, minLength, maxLength)  
+5. **Cross‐field consistency** or conditional requirements  
+6. **Example‐driven constraints** if defined in the spec
 
-Focus on:
-1. Required response properties and their data types
-2. Response structure constraints
-3. Status code-specific response requirements
-4. Header constraints (Content-Type, caching, etc.)
-5. Data format constraints (dates, IDs, enums)
-6. Response validation constraints
-7. Consistency requirements across responses
-8. Security-related response constraints
+For each constraint found, provide a JSON entry with:
+- **property_path**: JSON pointer to the field (e.g., data.items[0].id)  
+- **description**: Clear human‐readable description of the constraint  
+- **constraint_type**: one of `required`, `structure`, `format`, `limit`, `consistency`  
+- **severity**: `error`|`warning`|`info`  
+- **validation_rule**: Spec keyword (e.g., `required`, `pattern`, `enum`, `minLength`)  
+- **details**: Additional parameters (e.g., allowed enum values, numeric bounds, regex)
 
-For each constraint found, provide:
-- property_path: Path to property in response (e.g., "data[*].id", "meta.total_count")
-- description: Clear description of the constraint
-- constraint_type: Type of constraint (format, structure, required, etc.)
-- severity: "error" for validation failures, "warning" for inconsistencies, "info" for best practices
-- validation_rule: Identifier for the validation rule
-- applies_to_status: List of HTTP status codes this constraint applies to
-- details: Additional constraint-specific information
-
-Return your analysis in the specified JSON format with a "constraints" array.
-
-Endpoint Information:
-{endpoint_data}
-
-Your task is to identify constraints on response properties such as:
-- Required response fields
-- Data type validation
-- Format constraints
-- Status code specific constraints
-- Response structure requirements
-- Header constraints
-
-Return your analysis as a JSON object with this structure:
+Return your analysis as a JSON object in this exact template:
 {{
   "constraints": [
     {{
       "property_path": "path.to.property",
-      "description": "Human readable constraint description",
-      "constraint_type": "required|type|format|structure|header",
-      "severity": "error|warning|info",
+      "description": "Human‐readable constraint description",
+      "constraint_type": "required|structure|format|limit|consistency",
+      "applies_to_status": [200, 201, 400, ...],
+      "severity": "error|warning|info", 
       "validation_rule": "rule_identifier",
-      "applies_to_status": [200, 201, 400],
-      "data_type": "string|integer|boolean|object|array" (optional),
-      "format": "email|url|date|uuid" (optional)
+      "details": {{}}
     }}
   ]
 }}
 
-Focus on practical, testable constraints that would be important for API validation.
+Endpoint Information:
+{endpoint_data}
 """
+
 
 REQUEST_RESPONSE_CONSTRAINT_PROMPT = """
 You are an expert API design analyst specializing in request-response correlations. Your task is to analyze OpenAPI endpoint information and identify constraints that define relationships between request inputs and response outputs.

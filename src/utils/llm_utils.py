@@ -3,11 +3,10 @@
 """LLM utilities for the testing framework."""
 import asyncio
 import json
-import os
 import re
 import time
 import uuid
-from typing import Any, Dict, Optional, Type, TypeVar, Union, Callable
+from typing import Any, Dict, Optional, Type, TypeVar, Union
 from pydantic import BaseModel
 from pathlib import Path
 
@@ -19,7 +18,7 @@ from google.adk.memory import InMemoryMemoryService
 from google.genai import types
 
 from config.settings import settings
-from config.constants import LLM_INSTRUCTIONS, DEFAULT_LLM_TIMEOUT
+from config.constants import DEFAULT_LLM_TIMEOUT
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 T = TypeVar("T", bound=BaseModel)

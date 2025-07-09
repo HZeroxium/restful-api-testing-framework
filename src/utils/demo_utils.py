@@ -219,7 +219,8 @@ def get_default_spec_path() -> str:
     Returns:
         Default path to OpenAPI specification
     """
-    return "data/toolshop/openapi.json"
+    # return "data/toolshop/openapi.json"
+    return "data/RBCTest_dataset/Canada Holidays/openapi.json"
 
 
 def setup_output_directory(tool_name: str) -> str:

@@ -25,6 +25,12 @@ from utils.schema_utils import (
     ResponseSchema,
 )
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from tools.openapi_parser_tools.openapi_parser_helper import (
+    OpenAPISpecNormalizer,
+    OpenAPICompatibilityChecker,
+    OpenAPISpecSchemaFixer,
+)
+from tools.openapi_parser_tools.complex_schema_handler import ComplexSchemaHandler
 
 
 class OpenAPIParserTool(BaseTool):
@@ -56,6 +62,12 @@ class OpenAPIParserTool(BaseTool):
             level=log_level,
         )
 
+        # Initialize helper classes
+        self.normalizer = OpenAPISpecNormalizer(verbose=verbose)
+        self.compatibility_checker = OpenAPICompatibilityChecker(verbose=verbose)
+        self.schema_fixer = OpenAPISpecSchemaFixer(verbose=verbose)
+        self.complex_handler = ComplexSchemaHandler(verbose=verbose)
+
     async def _execute(self, input_data: OpenAPIParserInput) -> OpenAPIParserOutput:
         """Execute the OpenAPI parser tool."""
         self.logger.info(f"Starting OpenAPI specification parsing")
@@ -76,15 +88,18 @@ class OpenAPIParserTool(BaseTool):
                 f"Loaded specification content ({len(spec_content)} characters)"
             )
 
-            # Parse the specification
-            toolset = OpenAPIToolset(
-                spec_str=spec_content,
-                spec_str_type=(
-                    input_data.source_type.value
-                    if input_data.source_type != SpecSourceType.FILE
-                    else "yaml"
-                ),
+            # Determine spec format
+            spec_format = self._determine_spec_format(
+                spec_content, input_data.source_type
             )
+
+            # Apply comprehensive specification fixes with enhanced error handling
+            fixed_spec_content = await self._fix_specification_with_fallbacks(
+                spec_content, spec_format, input_data.spec_source
+            )
+
+            # Parse the specification with the fixed content
+            toolset = await self._create_toolset_safely(fixed_spec_content, spec_format)
 
             # Get the API tools
             api_tools: List[RestApiTool] = toolset.get_tools()
@@ -93,7 +108,9 @@ class OpenAPIParserTool(BaseTool):
             )
 
             # Extract API metadata
-            api_info = self._extract_api_info(spec_content, input_data.source_type)
+            api_info = self._extract_api_info(
+                fixed_spec_content, input_data.source_type
+            )
             self.logger.debug(
                 f"Extracted API info: {api_info.get('title', 'Unknown')} v{api_info.get('version', 'Unknown')}"
             )
@@ -138,6 +155,436 @@ class OpenAPIParserTool(BaseTool):
         except Exception as e:
             self.logger.error(f"Error parsing OpenAPI specification: {str(e)}")
             raise
+
+    async def _fix_specification_with_fallbacks(
+        self, spec_content: str, spec_format: str, spec_source: str
+    ) -> str:
+        """Apply comprehensive fixes with multiple fallback strategies.
+
+        Args:
+            spec_content: Raw specification content
+            spec_format: Format of the specification
+            spec_source: Source identifier for context
+
+        Returns:
+            Fixed specification content
+        """
+        try:
+            # Parse the specification first
+            if spec_format.lower() == "json":
+                spec_dict = json.loads(spec_content)
+            else:
+                spec_dict = yaml.safe_load(spec_content)
+
+            self.logger.debug(
+                f"Applying comprehensive fixes to spec: {spec_dict.get('info', {}).get('title', 'Unknown')}"
+            )
+
+            # Strategy 1: Apply basic schema fixes
+            fixed_spec_dict = self.schema_fixer.fix_schema_description_errors(spec_dict)
+
+            # Strategy 2: Apply complex schema handling based on spec characteristics
+            if self._requires_complex_handling(fixed_spec_dict, spec_source):
+                self.logger.debug("Applying complex schema handling")
+                fixed_spec_dict = await self._apply_complex_fixes(
+                    fixed_spec_dict, spec_source
+                )
+
+            # Strategy 3: Apply normalization fixes
+            normalized_spec_dict = self.normalizer._apply_normalizations(
+                fixed_spec_dict
+            )
+
+            # Convert back to JSON for consistent toolset creation
+            return json.dumps(normalized_spec_dict, indent=2)
+
+        except Exception as e:
+            self.logger.warning(f"Comprehensive spec fixes failed: {e}")
+            # Fallback: try minimal fixes
+            return await self._apply_minimal_fixes(spec_content, spec_format)
+
+    def _requires_complex_handling(
+        self, spec_dict: Dict[str, Any], spec_source: str
+    ) -> bool:
+        """Determine if the specification requires complex handling.
+
+        Args:
+            spec_dict: Parsed specification dictionary
+            spec_source: Source identifier
+
+        Returns:
+            True if complex handling is required
+        """
+        # Check for Swagger 2.0
+        if "swagger" in spec_dict:
+            return True
+
+        # Check for GitLab-specific patterns
+        if "gitlab" in spec_source.lower() or "branch" in spec_source.lower():
+            return True
+
+        # Check for complex array definitions without items
+        definitions = spec_dict.get("definitions", {})
+        for def_name, def_schema in definitions.items():
+            if isinstance(def_schema, dict):
+                if def_schema.get("type") == "array" and "items" not in def_schema:
+                    return True
+
+        # Check for missing response descriptions
+        paths = spec_dict.get("paths", {})
+        for path_item in paths.values():
+            if isinstance(path_item, dict):
+                for operation in path_item.values():
+                    if isinstance(operation, dict) and "responses" in operation:
+                        responses = operation["responses"]
+                        for response in responses.values():
+                            if (
+                                isinstance(response, dict)
+                                and "description" not in response
+                            ):
+                                return True
+
+        return False
+
+    async def _apply_complex_fixes(
+        self, spec_dict: Dict[str, Any], spec_source: str
+    ) -> Dict[str, Any]:
+        """Apply complex fixes based on the specification characteristics.
+
+        Args:
+            spec_dict: Specification dictionary
+            spec_source: Source identifier
+
+        Returns:
+            Fixed specification dictionary
+        """
+        fixed_spec = spec_dict
+
+        # Apply Swagger 2.0 specific fixes
+        if self.complex_handler._is_swagger_2(fixed_spec):
+            fixed_spec = self.complex_handler.handle_swagger_2_complex_issues(
+                fixed_spec
+            )
+
+        # Apply GitLab-specific fixes
+        if "gitlab" in spec_source.lower() or "branch" in spec_source.lower():
+            fixed_spec = self.complex_handler.fix_gitlab_branch_specific_issues(
+                fixed_spec
+            )
+
+        return fixed_spec
+
+    async def _apply_minimal_fixes(self, spec_content: str, spec_format: str) -> str:
+        """Apply minimal fixes as a last resort.
+
+        Args:
+            spec_content: Raw specification content
+            spec_format: Format of the specification
+
+        Returns:
+            Minimally fixed specification content
+        """
+        try:
+            if spec_format.lower() == "json":
+                spec_dict = json.loads(spec_content)
+            else:
+                spec_dict = yaml.safe_load(spec_content)
+
+            # Apply only the most critical fixes
+            self._apply_critical_fixes(spec_dict)
+
+            return json.dumps(spec_dict, indent=2)
+
+        except Exception as e:
+            self.logger.warning(f"Minimal fixes failed: {e}")
+            # Return original content as absolute fallback
+            if spec_format.lower() == "json":
+                return spec_content
+            else:
+                # Convert YAML to JSON
+                try:
+                    spec_dict = yaml.safe_load(spec_content)
+                    return json.dumps(spec_dict, indent=2)
+                except:
+                    return spec_content
+
+    def _apply_critical_fixes(self, spec_dict: Dict[str, Any]) -> None:
+        """Apply only the most critical fixes for toolset compatibility.
+
+        Args:
+            spec_dict: Specification dictionary to fix in-place
+        """
+        # Ensure info section exists
+        if "info" not in spec_dict:
+            spec_dict["info"] = {"title": "API", "version": "1.0.0"}
+
+        # Ensure paths section exists
+        if "paths" not in spec_dict:
+            spec_dict["paths"] = {}
+
+        # Fix all schema objects to have descriptions
+        def add_descriptions_recursively(obj):
+            if isinstance(obj, dict):
+                # Add description to schema objects
+                if (
+                    "type" in obj or "properties" in obj or "$ref" in obj
+                ) and "description" not in obj:
+                    obj["description"] = ""
+
+                for value in obj.values():
+                    add_descriptions_recursively(value)
+            elif isinstance(obj, list):
+                for item in obj:
+                    add_descriptions_recursively(item)
+
+        add_descriptions_recursively(spec_dict)
+
+    def _determine_spec_format(
+        self, spec_content: str, source_type: SpecSourceType
+    ) -> str:
+        """Determine the format of the OpenAPI specification.
+
+        Args:
+            spec_content: Raw specification content
+            source_type: Source type of the specification
+
+        Returns:
+            Format string ('json' or 'yaml')
+        """
+        if source_type == SpecSourceType.JSON:
+            return "json"
+        elif source_type == SpecSourceType.YAML:
+            return "yaml"
+        elif source_type == SpecSourceType.FILE:
+            # Try to determine from content
+            spec_content_stripped = spec_content.strip()
+            if spec_content_stripped.startswith("{"):
+                return "json"
+            else:
+                return "yaml"
+        else:
+            # Default fallback - try to parse as JSON first
+            try:
+                json.loads(spec_content)
+                return "json"
+            except json.JSONDecodeError:
+                return "yaml"
+
+    async def _create_toolset_safely(
+        self, spec_content: str, spec_format: str
+    ) -> OpenAPIToolset:
+        """Create OpenAPIToolset with enhanced error handling and multiple fallback strategies.
+
+        Args:
+            spec_content: Fixed specification content
+            spec_format: Format of the specification
+
+        Returns:
+            OpenAPIToolset instance
+
+        Raises:
+            Exception: If all attempts to create the toolset fail
+        """
+        # Attempt 1: Try with fixed content
+        try:
+            toolset = OpenAPIToolset(
+                spec_str=spec_content,
+                spec_str_type="json",  # Always use JSON after fixing
+            )
+            self.logger.debug("Successfully created toolset with fixed specification")
+            return toolset
+        except Exception as primary_error:
+            self.logger.warning(f"Primary toolset creation failed: {primary_error}")
+
+            # Attempt 2: Try with additional schema repairs
+            try:
+                repaired_spec_content = await self._repair_specification_for_toolset(
+                    spec_content
+                )
+                toolset = OpenAPIToolset(
+                    spec_str=repaired_spec_content,
+                    spec_str_type="json",
+                )
+                self.logger.debug(
+                    "Successfully created toolset with repaired specification"
+                )
+                return toolset
+            except Exception as secondary_error:
+                self.logger.warning(
+                    f"Secondary toolset creation failed: {secondary_error}"
+                )
+
+                # Attempt 3: Try with manual schema fixing
+                try:
+                    return await self._create_toolset_with_manual_fixes(
+                        spec_content, "json"
+                    )
+                except Exception as tertiary_error:
+                    self.logger.warning(f"Manual fixes failed: {tertiary_error}")
+
+                    # Attempt 4: Try with aggressive schema simplification
+                    try:
+                        return await self._create_toolset_with_aggressive_fixes(
+                            spec_content
+                        )
+                    except Exception as quaternary_error:
+                        self.logger.error(
+                            f"All toolset creation attempts failed. Last error: {quaternary_error}"
+                        )
+                        raise Exception(
+                            f"Unable to create OpenAPI toolset after multiple attempts: {primary_error}"
+                        )
+
+    async def _repair_specification_for_toolset(self, spec_content: str) -> str:
+        """Apply additional repairs specifically for toolset creation.
+
+        Args:
+            spec_content: Specification content to repair
+
+        Returns:
+            Repaired specification content
+        """
+        try:
+            spec_dict = json.loads(spec_content)
+
+            # Apply toolset-specific repairs
+            repaired_spec = self.schema_fixer.fix_toolset_specific_errors(spec_dict)
+
+            # Apply complex handler repairs
+            if self._requires_complex_handling(repaired_spec, ""):
+                repaired_spec = self.complex_handler.handle_swagger_2_complex_issues(
+                    repaired_spec
+                )
+
+            return json.dumps(repaired_spec, indent=2)
+
+        except Exception as e:
+            self.logger.warning(f"Specification repair failed: {e}")
+            return spec_content
+
+    async def _create_toolset_with_manual_fixes(
+        self, spec_content: str, spec_format: str
+    ) -> OpenAPIToolset:
+        """Create toolset with manual schema fixes as a fallback.
+
+        Args:
+            spec_content: Specification content
+            spec_format: Format of the specification
+
+        Returns:
+            OpenAPIToolset instance
+        """
+        self.logger.debug("Attempting manual schema fixes")
+
+        # Parse the specification
+        if spec_format == "json":
+            spec_dict = json.loads(spec_content)
+        else:
+            spec_dict = yaml.safe_load(spec_content)
+
+        # Apply manual fixes for known issues
+        self._apply_manual_schema_fixes(spec_dict)
+
+        # Convert to JSON and create toolset
+        fixed_spec_content = json.dumps(spec_dict, indent=2)
+
+        toolset = OpenAPIToolset(
+            spec_str=fixed_spec_content,
+            spec_str_type="json",
+        )
+
+        self.logger.info("Successfully created toolset with manual schema fixes")
+        return toolset
+
+    async def _create_toolset_with_aggressive_fixes(
+        self, spec_content: str
+    ) -> OpenAPIToolset:
+        """Create toolset with aggressive schema simplification as last resort.
+
+        Args:
+            spec_content: Specification content
+
+        Returns:
+            OpenAPIToolset instance
+        """
+        self.logger.debug("Attempting aggressive schema fixes")
+
+        spec_dict = json.loads(spec_content)
+
+        # Apply aggressive simplification
+        self._apply_aggressive_schema_fixes(spec_dict)
+
+        # Convert to JSON and create toolset
+        fixed_spec_content = json.dumps(spec_dict, indent=2)
+
+        toolset = OpenAPIToolset(
+            spec_str=fixed_spec_content,
+            spec_str_type="json",
+        )
+
+        self.logger.info("Successfully created toolset with aggressive schema fixes")
+        return toolset
+
+    def _apply_aggressive_schema_fixes(self, spec_dict: Dict[str, Any]) -> None:
+        """Apply aggressive schema fixes that simplify complex structures.
+
+        Args:
+            spec_dict: OpenAPI specification dictionary to fix in-place
+        """
+
+        # Replace all complex schemas with simple object schemas
+        def simplify_schema(obj):
+            if isinstance(obj, dict):
+                # If this looks like a schema object
+                if "type" in obj or "properties" in obj or "$ref" in obj:
+                    # Ensure it has minimal required fields
+                    if "description" not in obj:
+                        obj["description"] = ""
+                    if "type" not in obj and "$ref" not in obj:
+                        obj["type"] = "object"
+                    if obj.get("type") == "array" and "items" not in obj:
+                        obj["items"] = {"type": "object", "description": ""}
+
+                # Recursively process nested objects
+                for key, value in list(obj.items()):
+                    if isinstance(value, (dict, list)):
+                        simplify_schema(value)
+                    elif isinstance(value, str) and key == "$ref":
+                        # Validate that the reference exists
+                        if not self._reference_exists(spec_dict, value):
+                            # Replace with simple object
+                            obj.clear()
+                            obj.update(
+                                {"type": "object", "description": "Simplified schema"}
+                            )
+            elif isinstance(obj, list):
+                for item in obj:
+                    simplify_schema(item)
+
+        simplify_schema(spec_dict)
+
+    def _reference_exists(self, spec_dict: Dict[str, Any], ref: str) -> bool:
+        """Check if a $ref reference exists in the specification.
+
+        Args:
+            spec_dict: OpenAPI specification dictionary
+            ref: Reference string to check
+
+        Returns:
+            True if the reference exists, False otherwise
+        """
+        if not ref.startswith("#/"):
+            return False
+
+        path_parts = ref[2:].split("/")  # Remove "#/" prefix
+        current = spec_dict
+
+        try:
+            for part in path_parts:
+                current = current[part]
+            return True
+        except (KeyError, TypeError):
+            return False
 
     def _should_filter_endpoint(
         self, tool: RestApiTool, input_data: OpenAPIParserInput
@@ -215,7 +662,9 @@ class OpenAPIParserTool(BaseTool):
     ) -> Dict[str, Any]:
         """Extract basic API information from the specification."""
         try:
-            if source_type == SpecSourceType.JSON:
+            if source_type == SpecSourceType.JSON or spec_content.strip().startswith(
+                "{"
+            ):
                 spec_dict = json.loads(spec_content)
             else:  # YAML or loaded from file
                 spec_dict = yaml.safe_load(spec_content)
