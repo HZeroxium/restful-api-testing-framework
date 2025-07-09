@@ -6,10 +6,10 @@ Contains shared functionality for demo scripts and tools.
 """
 
 import os
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from tools import OpenAPIParserTool
+from tools.core.openapi_parser import OpenAPIParserTool
 from schemas.tools.openapi_parser import (
     OpenAPIParserInput,
     SpecSourceType,
@@ -66,6 +66,7 @@ async def parse_openapi_spec(spec_source: str, verbose: bool = True) -> Dict[str
 def select_endpoints(
     endpoints: List[EndpointInfo],
     prompt_message: str = "Enter endpoint numbers to analyze (comma-separated, or 'all'): ",
+    pre_selected_indices: Optional[str] = None,
 ) -> List[EndpointInfo]:
     """
     Allow user to select which endpoints to analyze.
@@ -73,6 +74,7 @@ def select_endpoints(
     Args:
         endpoints: List of available endpoints
         prompt_message: Custom prompt message for user input
+        pre_selected_indices: Pre-selected endpoint indices from command line
 
     Returns:
         List of selected endpoints
@@ -81,8 +83,13 @@ def select_endpoints(
     for i, endpoint in enumerate(endpoints):
         _logger.info(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
 
-    # Allow selection of multiple endpoints
-    selected_indices = input(f"\n{prompt_message}")
+    # Use pre-selected indices if provided, otherwise prompt user
+    if pre_selected_indices:
+        selected_indices = pre_selected_indices
+        _logger.info(f"Using pre-selected endpoints: {selected_indices}")
+    else:
+        # Allow selection of multiple endpoints
+        selected_indices = input(f"\n{prompt_message}")
 
     if selected_indices.lower() == "all":
         return endpoints
@@ -230,7 +237,7 @@ def get_default_spec_path() -> str:
     Returns:
         Default path to OpenAPI specification
     """
-    # return "data/toolshop/openapi.json"
+    return "data/toolshop/openapi.json"
     return "data/RBCTest_dataset/Canada Holidays/openapi.json"
 
 

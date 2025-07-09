@@ -198,7 +198,7 @@ class EndpointSpecificRestApiCallerTool(RestApiCallerTool):
                 url=url,
                 headers=headers,
                 params=params,
-                json=json_body,
+                body=json_body,
             )
 
             # Create the RestApiCallerInput
@@ -292,5 +292,5 @@ class EndpointSpecificRestApiCallerTool(RestApiCallerTool):
             url=url,
             headers=headers if headers else None,
             params=query_params if query_params else None,
-            json=json_body,
+            body=json_body,
         )

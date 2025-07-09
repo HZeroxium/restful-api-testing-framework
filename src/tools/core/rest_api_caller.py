@@ -5,7 +5,7 @@ from typing import Optional
 
 import httpx
 
-from core import BaseTool
+from core.base_tool import BaseTool
 from schemas.tools.rest_api_caller import (
     RestApiCallerInput,
     RestApiCallerOutput,
@@ -60,7 +60,7 @@ class RestApiCallerTool(BaseTool):
             url=req.url,
             has_params=bool(req.params),
             has_headers=bool(req.headers),
-            has_json=bool(req.json),
+            has_json=bool(req.json_body),
             timeout=self._timeout,
         )
 
@@ -77,7 +77,7 @@ class RestApiCallerTool(BaseTool):
                     url=req.url,
                     headers=req.headers or {},
                     params=req.params or {},
-                    json=req.json,
+                    json=req.json_body,
                 )
 
             elapsed = time.perf_counter() - start
