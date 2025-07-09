@@ -3,7 +3,7 @@
 import asyncio
 import streamlit as st
 from ui.components.common.constraints import show_constraints_section
-from tools.static_constraint_miner import StaticConstraintMinerTool
+from tools.llm.static_constraint_miner import StaticConstraintMinerTool
 from schemas.tools.constraint_miner import StaticConstraintMinerInput
 
 

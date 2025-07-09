@@ -9,8 +9,8 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 from tools import RestApiCallerTool, CodeExecutorTool
-from tools.test_execution_reporter import TestExecutionReporterTool
-from tools.test_collection_generator import TestCollectionGeneratorTool
+from tools.core.test_execution_reporter import TestExecutionReporterTool
+from tools.core.test_collection_generator import TestCollectionGeneratorTool
 from utils.rest_api_caller_factory import RestApiCallerFactory
 
 from schemas.tools.openapi_parser import EndpointInfo

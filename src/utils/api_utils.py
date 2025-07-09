@@ -23,11 +23,11 @@ from schemas.tools.test_execution_reporter import (
     TestStatus,
     ValidationResult,
 )
-from tools.test_data_generator import TestDataGeneratorTool
-from tools.test_case_generator import TestCaseGeneratorTool
+from tools.llm.test_data_generator import TestDataGeneratorTool
+from tools.core.test_case_generator import TestCaseGeneratorTool
 from tools.test_script_generator_tools import TestScriptGeneratorTool
-from tools.test_execution_reporter import TestExecutionReporterTool
-from tools.code_executor import CodeExecutorTool
+from tools.core.test_execution_reporter import TestExecutionReporterTool
+from tools.core.code_executor import CodeExecutorTool
 
 
 async def load_openapi_spec(

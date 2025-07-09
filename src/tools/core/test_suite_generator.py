@@ -11,8 +11,8 @@ from schemas.tools.test_suite_generator import (
 )
 from schemas.tools.test_case_generator import TestCase, TestCaseGeneratorInput
 from schemas.tools.test_data_generator import TestDataGeneratorInput
-from tools.test_data_generator import TestDataGeneratorTool
-from tools.test_case_generator import TestCaseGeneratorTool
+from tools.llm.test_data_generator import TestDataGeneratorTool
+from tools.core.test_case_generator import TestCaseGeneratorTool
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 

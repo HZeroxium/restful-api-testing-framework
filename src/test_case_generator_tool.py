@@ -13,9 +13,9 @@ import json
 import argparse
 from typing import List, Dict, Any
 
-from tools.static_constraint_miner import StaticConstraintMinerTool
-from tools.test_data_generator import TestDataGeneratorTool
-from tools.test_case_generator import TestCaseGeneratorTool
+from tools.llm.static_constraint_miner import StaticConstraintMinerTool
+from tools.llm.test_data_generator import TestDataGeneratorTool
+from tools.core.test_case_generator import TestCaseGeneratorTool
 
 from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.constraint_miner import (

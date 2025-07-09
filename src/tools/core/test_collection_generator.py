@@ -9,7 +9,7 @@ from schemas.tools.test_collection_generator import (
     TestCollection,
 )
 from schemas.tools.test_suite_generator import TestSuiteGeneratorInput
-from tools.test_suite_generator import TestSuiteGeneratorTool
+from tools.core.test_suite_generator import TestSuiteGeneratorTool
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 

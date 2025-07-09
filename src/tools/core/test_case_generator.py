@@ -14,8 +14,8 @@ from schemas.tools.constraint_miner import (
     ApiConstraint,
     StaticConstraintMinerOutput,
 )
-from tools.test_script_generator import TestScriptGeneratorTool
-from tools.static_constraint_miner import StaticConstraintMinerTool
+from tools.llm.test_script_generator import TestScriptGeneratorTool
+from tools.llm.static_constraint_miner import StaticConstraintMinerTool
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 

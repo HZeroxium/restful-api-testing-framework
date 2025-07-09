@@ -135,7 +135,7 @@ def _handle_collection_creation():
 
     with st.spinner("Creating test collection..."):
         # Process this asynchronously
-        from tools.test_collection_generator import TestCollectionGeneratorTool
+        from tools.core.test_collection_generator import TestCollectionGeneratorTool
         from schemas.tools.test_collection_generator import (
             TestCollectionGeneratorInput,
         )
