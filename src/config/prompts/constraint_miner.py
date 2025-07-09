@@ -61,35 +61,6 @@ Focus on practical, testable constraints that would be important for API validat
 
 Endpoint Information:
 {{endpoint_data}}
-
-Your task is to identify constraints on request parameters such as:
-- Required parameters
-- Data type validation (string, integer, boolean, etc.)
-- Format constraints (email, URL, date, etc.)
-- Value range constraints (min/max values)
-- Enum constraints (allowed values)
-- Pattern constraints (regex patterns)
-
-Return your analysis as a JSON object with this structure:
-{{
-  "constraints": [
-    {{
-      "parameter_name": "string",
-      "parameter_type": "query|path|header",
-      "description": "Human readable constraint description",
-      "constraint_type": "required|type|format|range|enum|pattern",
-      "severity": "error|warning|info",
-      "validation_rule": "rule_identifier",
-      "allowed_values": ["value1", "value2"] (optional),
-      "min_value": 0 (optional),
-      "max_value": 100 (optional),
-      "pattern": "regex_pattern" (optional),
-      "expected_type": "string|integer|boolean|number" (optional)
-    }}
-  ]
-}}
-
-Focus on practical, testable constraints that would be important for API validation.
 """
 
 REQUEST_BODY_CONSTRAINT_PROMPT = f"""

@@ -206,6 +206,15 @@ class StaticConstraintMinerInput(BaseModel):
     endpoint_info: EndpointInfo = Field(
         ..., description="Endpoint information to analyze"
     )
+    constraint_types: List[str] = Field(
+        default_factory=lambda: [
+            "REQUEST_PARAM",
+            "REQUEST_BODY",
+            "RESPONSE_PROPERTY",
+            "REQUEST_RESPONSE",
+        ],
+        description="Types of constraints to mine",
+    )
     include_examples: bool = Field(
         default=True, description="Whether to include examples in analysis"
     )
@@ -222,6 +231,9 @@ class StaticConstraintMinerOutput(BaseModel):
 
     endpoint_method: str
     endpoint_path: str
+    constraints: List[ApiConstraint] = Field(
+        default_factory=list, description="All mined constraints"
+    )
     request_param_constraints: List[ApiConstraint] = Field(
         default_factory=list, description="Constraints on request parameters"
     )
