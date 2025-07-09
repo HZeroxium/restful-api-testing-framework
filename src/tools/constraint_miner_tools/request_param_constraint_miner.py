@@ -107,8 +107,8 @@ class RequestParamConstraintMinerTool(BaseTool):
 
             # Execute LLM analysis with improved error handling
             raw_json = await create_and_execute_llm_agent(
-                app_name="request_param_miner",
-                agent_name="param_constraint_analyzer",
+                app_name="request_param_constraint_miner",
+                agent_name="request_param_constraint_miner",
                 instruction=formatted_prompt,
                 input_data=sanitized_endpoint_data,
                 input_schema=type(endpoint),

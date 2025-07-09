@@ -89,14 +89,14 @@ class RequestResponseConstraintMinerTool(BaseTool):
                 endpoint.model_dump()
             )
 
-            formatted_prompt = REQUEST_RESPONSE_CONSTRAINT_PROMPT.format(
-                endpoint_data=json.dumps(sanitized_endpoint_data, indent=2)
+            formatted_prompt = REQUEST_RESPONSE_CONSTRAINT_PROMPT.replace(
+                "{{endpoint_data}}", json.dumps(sanitized_endpoint_data, indent=2)
             )
 
             # Execute LLM analysis
             raw_json = await create_and_execute_llm_agent(
-                app_name="request_response_miner",
-                agent_name="correlation_constraint_analyzer",
+                app_name="request_response_constraint_miner",
+                agent_name="request_response_constraint_miner",
                 instruction=formatted_prompt,
                 input_data=sanitized_endpoint_data,
                 input_schema=type(endpoint),

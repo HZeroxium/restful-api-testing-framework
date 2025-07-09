@@ -301,8 +301,8 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
 
         # Execute LLM analysis
         raw_json = await create_and_execute_llm_agent(
-            app_name=f"response_property_miner_chunk_{chunk_index}",
-            agent_name=f"response_constraint_analyzer_chunk_{chunk_index}",
+            app_name=f"response_property_constraint_miner_chunk_{chunk_index}",
+            agent_name=f"response_property_constraint_miner_chunk_{chunk_index}",
             instruction=focused_prompt,
             input_data=sanitized_endpoint_data,
             input_schema=type(endpoint),
@@ -370,8 +370,8 @@ class ResponsePropertyConstraintMinerTool(BaseTool):
             ]
         )
 
-        base_prompt = RESPONSE_PROPERTY_CONSTRAINT_PROMPT.format(
-            endpoint_data=json.dumps(endpoint_data, indent=2)
+        base_prompt = RESPONSE_PROPERTY_CONSTRAINT_PROMPT.replace(
+            "{{endpoint_data}}", json.dumps(endpoint_data, indent=2)
         )
 
         focused_prompt = f"""
