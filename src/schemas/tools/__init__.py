@@ -32,9 +32,9 @@ from .test_script_generator import (
     ValidationScript,
 )
 
-from .test_execution_reporter import (
-    TestExecutionReporterInput,
-    TestExecutionReporterOutput,
+from .test_reporter import (
+    TestReporterInput,
+    TestReporterOutput,
     TestStatus,
     ValidationResult,
     TestCaseResult,
@@ -94,8 +94,8 @@ __all__ = [
     "TestScriptGeneratorInput",
     "TestScriptGeneratorOutput",
     "ValidationScript",
-    "TestExecutionReporterInput",
-    "TestExecutionReporterOutput",
+    "TestReporterInput",
+    "TestReporterOutput",
     "TestStatus",
     "ValidationResult",
     "TestCaseResult",

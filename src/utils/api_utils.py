@@ -17,8 +17,8 @@ from schemas.tools.openapi_parser import (
 )
 from schemas.tools.test_data_generator import TestDataGeneratorInput
 from schemas.tools.test_case_generator import TestCaseGeneratorInput, TestCase
-from schemas.tools.test_execution_reporter import (
-    TestExecutionReporterInput,
+from schemas.tools.test_reporter import (
+    TestReporterInput,
     TestCaseResult,
     TestStatus,
     ValidationResult,
@@ -26,7 +26,7 @@ from schemas.tools.test_execution_reporter import (
 from tools.llm.test_data_generator import TestDataGeneratorTool
 from tools.core.test_case_generator import TestCaseGeneratorTool
 from tools.test_script_generator_tools import TestScriptGeneratorTool
-from tools.core.test_execution_reporter import TestExecutionReporterTool
+from tools.core.test_reporter import TestReporterTool
 from tools.core.code_executor import CodeExecutorTool
 
 

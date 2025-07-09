@@ -67,7 +67,7 @@ class TestReport(BaseModel):
     total_time: float  # seconds
 
 
-class TestExecutionReporterInput(BaseModel):
+class TestReporterInput(BaseModel):
     """Input for TestExecutionReporterTool."""
 
     api_name: str
@@ -80,7 +80,7 @@ class TestExecutionReporterInput(BaseModel):
     finished_at: datetime
 
 
-class TestExecutionReporterOutput(BaseModel):
+class TestReporterOutput(BaseModel):
     """Output from TestExecutionReporterTool."""
 
     report: TestReport

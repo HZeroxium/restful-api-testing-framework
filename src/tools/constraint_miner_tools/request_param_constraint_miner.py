@@ -15,6 +15,11 @@ from schemas.tools.constraint_miner import (
 )
 from utils.llm_utils import create_and_execute_llm_agent
 from config.prompts.constraint_miner import REQUEST_PARAM_CONSTRAINT_PROMPT
+from config.constraint_mining_config import (
+    ParameterAnalysisConfig,
+    ConstraintSeverity,
+    LLMPromptConfig,
+)
 from pydantic import BaseModel, Field
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
@@ -55,8 +60,12 @@ class RequestParamConstraintMinerTool(BaseTool):
         """Mine parameter constraints from endpoint information."""
         endpoint = inp.endpoint_info
 
-        if self.verbose:
-            self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
+        self.logger.info(f"Analyzing {endpoint.method.upper()} {endpoint.path}")
+        self.logger.add_context(
+            endpoint_method=endpoint.method,
+            endpoint_path=endpoint.path,
+            endpoint_name=getattr(endpoint, "name", "unknown"),
+        )
 
         # Define simplified LLM response schema without additionalProperties issues
         class ParameterConstraint(BaseModel):
@@ -64,7 +73,9 @@ class RequestParamConstraintMinerTool(BaseTool):
             parameter_type: str = Field(..., description="Type: query, path, or header")
             description: str = Field(..., description="Constraint description")
             constraint_type: str = Field(..., description="Type of constraint")
-            severity: str = Field(default="info", description="Severity level")
+            severity: str = Field(
+                default=ConstraintSeverity.INFO, description="Severity level"
+            )
             validation_rule: str = Field(..., description="Validation rule identifier")
             # Simplified additional fields
             allowed_values: Optional[List[str]] = Field(
@@ -79,6 +90,8 @@ class RequestParamConstraintMinerTool(BaseTool):
             constraints: List[ParameterConstraint] = Field(default_factory=list)
 
         try:
+            self.logger.debug("Starting LLM analysis for parameter constraints")
+
             # Format the prompt with sanitized endpoint data
             from utils.llm_utils import prepare_endpoint_data_for_llm
 
@@ -89,6 +102,8 @@ class RequestParamConstraintMinerTool(BaseTool):
             formatted_prompt = REQUEST_PARAM_CONSTRAINT_PROMPT.format(
                 endpoint_data=json.dumps(sanitized_endpoint_data, indent=2)
             )
+
+            self.logger.debug("Executing LLM agent for parameter constraint extraction")
 
             # Execute LLM analysis with improved error handling
             raw_json = await create_and_execute_llm_agent(
@@ -105,6 +120,10 @@ class RequestParamConstraintMinerTool(BaseTool):
 
             constraints = []
             if raw_json and "constraints" in raw_json:
+                self.logger.debug(
+                    f"Processing {len(raw_json['constraints'])} raw constraints from LLM"
+                )
+
                 for constraint_data in raw_json["constraints"]:
                     # Create details dict from the constraint data
                     details = {
@@ -130,7 +149,9 @@ class RequestParamConstraintMinerTool(BaseTool):
                         id=str(uuid.uuid4()),
                         type=ConstraintType.REQUEST_PARAM,
                         description=constraint_data.get("description", ""),
-                        severity=constraint_data.get("severity", "info"),
+                        severity=constraint_data.get(
+                            "severity", ConstraintSeverity.INFO
+                        ),
                         source="llm",
                         details=details,
                     )
@@ -138,20 +159,20 @@ class RequestParamConstraintMinerTool(BaseTool):
 
             # If no constraints found, generate fallback
             if not constraints:
-                if self.verbose:
-                    self.logger.warning(
-                        "No constraints from LLM, generating fallback..."
-                    )
+                self.logger.warning(
+                    "No constraints from LLM, generating fallback constraints"
+                )
                 return self._generate_fallback_constraints(endpoint)
 
-            if self.verbose:
-                self.logger.info(f"Found {len(constraints)} parameter constraints")
+            self.logger.info(
+                f"Successfully extracted {len(constraints)} parameter constraints"
+            )
 
             result_summary = {
                 "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
                 "total_constraints": len(constraints),
                 "source": "llm",
-                "status": "success",
+                "status": LLMPromptConfig.STATUS_SUCCESS,
                 "constraint_types": list(
                     set(c.details.get("constraint_type", "") for c in constraints)
                 ),
@@ -167,6 +188,7 @@ class RequestParamConstraintMinerTool(BaseTool):
 
         except Exception as e:
             self.logger.error(f"Error in parameter constraint mining: {str(e)}")
+            self.logger.debug("Falling back to basic constraint generation")
             # Return fallback constraints
             return self._generate_fallback_constraints(endpoint)
 
@@ -175,6 +197,8 @@ class RequestParamConstraintMinerTool(BaseTool):
     ) -> RequestParamConstraintMinerOutput:
         """Generate basic parameter constraints when LLM fails."""
         constraints = []
+
+        self.logger.debug("Generating fallback parameter constraints")
 
         # Generate basic constraints based on common patterns
         if hasattr(endpoint, "parameters") and endpoint.parameters:
@@ -188,8 +212,8 @@ class RequestParamConstraintMinerTool(BaseTool):
                         id=str(uuid.uuid4()),
                         type=ConstraintType.REQUEST_PARAM,
                         description=f"Parameter '{param_name}' is required",
-                        severity="error",
-                        source="fallback",
+                        severity=ConstraintSeverity.ERROR,
+                        source=LLMPromptConfig.FALLBACK_SOURCE,
                         details={
                             "parameter_name": param_name,
                             "parameter_type": param_in,
@@ -206,8 +230,8 @@ class RequestParamConstraintMinerTool(BaseTool):
                         id=str(uuid.uuid4()),
                         type=ConstraintType.REQUEST_PARAM,
                         description=f"Parameter '{param_name}' must be of type {param_type}",
-                        severity="error",
-                        source="fallback",
+                        severity=ConstraintSeverity.ERROR,
+                        source=LLMPromptConfig.FALLBACK_SOURCE,
                         details={
                             "parameter_name": param_name,
                             "parameter_type": param_in,
@@ -225,8 +249,8 @@ class RequestParamConstraintMinerTool(BaseTool):
                 id=str(uuid.uuid4()),
                 type=ConstraintType.REQUEST_PARAM,
                 description="Basic parameter validation",
-                severity="info",
-                source="fallback",
+                severity=ConstraintSeverity.INFO,
+                source=LLMPromptConfig.FALLBACK_SOURCE,
                 details={
                     "parameter_name": "general",
                     "parameter_type": "query",
@@ -236,11 +260,16 @@ class RequestParamConstraintMinerTool(BaseTool):
             )
             constraints.append(constraint)
 
+        self.logger.warning(
+            f"Generated {len(constraints)} fallback parameter constraints"
+        )
+
         result_summary = {
             "endpoint": f"{endpoint.method.upper()} {endpoint.path}",
             "total_constraints": len(constraints),
-            "source": "fallback",
-            "status": "success_fallback",
+            "source": LLMPromptConfig.FALLBACK_SOURCE,
+            "status": LLMPromptConfig.STATUS_SUCCESS_FALLBACK,
+            "reason": LLMPromptConfig.FALLBACK_REASON_LLM_ERROR,
         }
 
         return RequestParamConstraintMinerOutput(
@@ -253,4 +282,5 @@ class RequestParamConstraintMinerTool(BaseTool):
 
     async def cleanup(self) -> None:
         """Clean up resources."""
+        self.logger.debug("Cleaning up RequestParamConstraintMinerTool resources")
         pass

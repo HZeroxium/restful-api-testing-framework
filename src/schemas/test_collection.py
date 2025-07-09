@@ -7,7 +7,7 @@ from typing import List, Optional
 from pydantic import BaseModel, Field
 
 from schemas.tools.test_suite_generator import TestSuite
-from schemas.tools.test_execution_reporter import TestReport, TestSummary
+from schemas.tools.test_reporter import TestReport, TestSummary
 
 
 class TestCollectionModel(BaseModel):

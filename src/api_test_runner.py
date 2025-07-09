@@ -9,7 +9,7 @@ from datetime import datetime
 from typing import List, Dict, Any
 
 from tools import RestApiCallerTool, CodeExecutorTool
-from tools.core.test_execution_reporter import TestExecutionReporterTool
+from tools.core.test_reporter import TestReporterTool
 from tools.core.test_collection_generator import TestCollectionGeneratorTool
 from utils.rest_api_caller_factory import RestApiCallerFactory
 
@@ -17,8 +17,8 @@ from schemas.tools.openapi_parser import EndpointInfo
 from schemas.tools.rest_api_caller import RestApiCallerOutput
 from schemas.tools.test_collection_generator import TestCollectionGeneratorInput
 from schemas.tools.test_suite_generator import TestSuite
-from schemas.tools.test_execution_reporter import (
-    TestExecutionReporterInput,
+from schemas.tools.test_reporter import (
+    TestReporterInput,
     TestCaseResult,
     ValidationResult,
     TestStatus,
@@ -392,7 +392,7 @@ async def generate_and_execute_test_collection(
     )
 
     # Initialize the report tool
-    test_report_tool = TestExecutionReporterTool(verbose=verbose)
+    test_report_tool = TestReporterTool(verbose=verbose)
 
     # Execute each test suite and generate reports
     all_reports = []
@@ -448,7 +448,7 @@ async def generate_and_execute_test_collection(
                 summary["skipped"] += 1
 
         # Generate a report for this test suite
-        report_input = TestExecutionReporterInput(
+        report_input = TestReporterInput(
             api_name=api_name,
             api_version=api_version,
             endpoint_name=endpoint.name or endpoint.path,

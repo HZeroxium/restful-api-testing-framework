@@ -15,6 +15,15 @@ from schemas.tools.openapi_parser import (
     SpecSourceType,
     EndpointInfo,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
+
+
+# Initialize module logger
+_logger = LoggerFactory.get_logger(
+    name="utils.demo_utils",
+    logger_type=LoggerType.STANDARD,
+    level=LogLevel.INFO,
+)
 
 
 async def parse_openapi_spec(spec_source: str, verbose: bool = True) -> Dict[str, Any]:
@@ -35,7 +44,7 @@ async def parse_openapi_spec(spec_source: str, verbose: bool = True) -> Dict[str
     )
 
     if verbose:
-        print(f"Parsing OpenAPI specification: {spec_source}")
+        _logger.info(f"Parsing OpenAPI specification: {spec_source}")
 
     parser_output = await parser_tool.execute(parser_input)
 
@@ -48,8 +57,8 @@ async def parse_openapi_spec(spec_source: str, verbose: bool = True) -> Dict[str
     }
 
     if verbose:
-        print(f"API: {api_info['title']} v{api_info['version']}")
-        print(f"Found {len(parser_output.endpoints)} endpoints")
+        _logger.info(f"API: {api_info['title']} v{api_info['version']}")
+        _logger.info(f"Found {len(parser_output.endpoints)} endpoints")
 
     return api_info
 
@@ -68,9 +77,9 @@ def select_endpoints(
     Returns:
         List of selected endpoints
     """
-    print("\nAvailable endpoints:")
+    _logger.info("\nAvailable endpoints:")
     for i, endpoint in enumerate(endpoints):
-        print(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
+        _logger.info(f"{i+1}. [{endpoint.method.upper()}] {endpoint.path}")
 
     # Allow selection of multiple endpoints
     selected_indices = input(f"\n{prompt_message}")
@@ -82,11 +91,13 @@ def select_endpoints(
         indices = [int(idx.strip()) - 1 for idx in selected_indices.split(",")]
         selected = [endpoints[idx] for idx in indices if 0 <= idx < len(endpoints)]
         if not selected:
-            print("No valid endpoints selected, using the first endpoint by default.")
+            _logger.warning(
+                "No valid endpoints selected, using the first endpoint by default."
+            )
             return [endpoints[0]] if endpoints else []
         return selected
     except (ValueError, IndexError):
-        print("Invalid selection, using the first endpoint by default.")
+        _logger.warning("Invalid selection, using the first endpoint by default.")
         return [endpoints[0]] if endpoints else []
 
 
@@ -115,9 +126,9 @@ def print_endpoint_summary(endpoint: EndpointInfo, action: str = "Processing") -
         endpoint: The endpoint to summarize
         action: Action being performed on the endpoint
     """
-    print(f"\n{action}: [{endpoint.method.upper()}] {endpoint.path}")
+    _logger.info(f"\n{action}: [{endpoint.method.upper()}] {endpoint.path}")
     if endpoint.description:
-        print(f"Description: {endpoint.description}")
+        _logger.info(f"Description: {endpoint.description}")
 
 
 def save_summary_file(
@@ -167,11 +178,11 @@ def validate_file_exists(file_path: str) -> bool:
         True if file exists and is readable, False otherwise
     """
     if not os.path.exists(file_path):
-        print(f"Error: File not found: {file_path}")
+        _logger.error(f"Error: File not found: {file_path}")
         return False
 
     if not os.path.isfile(file_path):
-        print(f"Error: Path is not a file: {file_path}")
+        _logger.error(f"Error: Path is not a file: {file_path}")
         return False
 
     try:
@@ -179,7 +190,7 @@ def validate_file_exists(file_path: str) -> bool:
             f.read(1)  # Try to read at least one character
         return True
     except (PermissionError, OSError) as e:
-        print(f"Error: Cannot read file {file_path}: {e}")
+        _logger.error(f"Error: Cannot read file {file_path}: {e}")
         return False
 
 
@@ -247,16 +258,16 @@ def get_user_test_preferences():
             int(test_case_count_input) if test_case_count_input.strip() else 2
         )
     except ValueError:
-        print("Invalid input, using default of 2 test cases per endpoint.")
+        _logger.warning("Invalid input, using default of 2 test cases per endpoint.")
         test_case_count = 2
 
     # Validate test case count
     if test_case_count < 1:
         test_case_count = 1
-        print("Test case count must be at least 1, using 1.")
+        _logger.warning("Test case count must be at least 1, using 1.")
     elif test_case_count > 10:
         test_case_count = 10
-        print("Maximum test case count is 10, using 10.")
+        _logger.warning("Maximum test case count is 10, using 10.")
 
     # Include invalid data
     include_invalid_input = input(

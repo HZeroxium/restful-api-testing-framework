@@ -4,9 +4,9 @@ from typing import Dict, Optional
 import uuid
 
 from core.base_tool import BaseTool
-from schemas.tools.test_execution_reporter import (
-    TestExecutionReporterInput,
-    TestExecutionReporterOutput,
+from schemas.tools.test_reporter import (
+    TestReporterInput,
+    TestReporterOutput,
     TestReport,
     TestSummary,
     TestStatus,
@@ -14,7 +14,7 @@ from schemas.tools.test_execution_reporter import (
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
-class TestExecutionReporterTool(BaseTool):
+class TestReporterTool(BaseTool):
     """
     Tool for generating test reports for API endpoint tests.
     This tool collects test results and generates human-readable reports.
@@ -32,8 +32,8 @@ class TestExecutionReporterTool(BaseTool):
         super().__init__(
             name=name,
             description=description,
-            input_schema=TestExecutionReporterInput,
-            output_schema=TestExecutionReporterOutput,
+            input_schema=TestReporterInput,
+            output_schema=TestReporterOutput,
             config=config,
             verbose=verbose,
             cache_enabled=cache_enabled,
@@ -47,9 +47,7 @@ class TestExecutionReporterTool(BaseTool):
             level=log_level,
         )
 
-    async def _execute(
-        self, inp: TestExecutionReporterInput
-    ) -> TestExecutionReporterOutput:
+    async def _execute(self, inp: TestReporterInput) -> TestReporterOutput:
         """Generate a test report for the given test results."""
         self.logger.info(
             f"Generating test report for {inp.endpoint_method.upper()} {inp.endpoint_path}"
@@ -109,7 +107,7 @@ class TestExecutionReporterTool(BaseTool):
         self.logger.debug(f"Report ID: {report_id}, Total time: {total_time:.2f}s")
 
         # Return the report without saving to file
-        return TestExecutionReporterOutput(report=report)
+        return TestReporterOutput(report=report)
 
     async def cleanup(self) -> None:
         """Clean up any resources."""

@@ -9,7 +9,7 @@ from schemas.tools.test_suite_generator import (
     TestSuiteGeneratorOutput,
     TestSuite,
 )
-from schemas.tools.test_case_generator import TestCase, TestCaseGeneratorInput
+from schemas.tools.test_case_generator import TestCaseGeneratorInput
 from schemas.tools.test_data_generator import TestDataGeneratorInput
 from tools.llm.test_data_generator import TestDataGeneratorTool
 from tools.core.test_case_generator import TestCaseGeneratorTool
