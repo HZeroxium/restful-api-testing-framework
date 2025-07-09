@@ -12,11 +12,8 @@ class TestScriptGeneratorInput(BaseModel):
     """Input for TestScriptGeneratorTool."""
 
     endpoint_info: EndpointInfo
-    test_data: TestData = Field(
-        ..., description="Test data to generate validation scripts for"
-    )
-    constraints: Optional[List[ApiConstraint]] = Field(
-        default=None, description="Constraints mined from the endpoint for validation"
+    constraints: List[ApiConstraint] = Field(
+        description="Constraints mined from the endpoint for validation"
     )
 
 

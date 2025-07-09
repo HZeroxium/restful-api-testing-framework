@@ -67,6 +67,19 @@ from .constraint_miner import (
     ConstraintType,
 )
 
+from .test_data_verifier import (
+    TestDataVerifierInput,
+    TestDataVerifierOutput,
+    VerificationResult,
+)
+
+from .test_executor import (
+    TestExecutorInput,
+    TestExecutorOutput,
+    TestCaseExecutionResult,
+    TestSuiteExecutionResult,
+)
+
 from .operation_sequencer import (
     OperationSequence,
     OperationDependency,
@@ -118,4 +131,11 @@ __all__ = [
     "OperationDependency",
     "OperationSequencerInput",
     "OperationSequencerOutput",
+    "TestDataVerifierInput",
+    "TestDataVerifierOutput",
+    "VerificationResult",
+    "TestExecutorInput",
+    "TestExecutorOutput",
+    "TestCaseExecutionResult",
+    "TestSuiteExecutionResult",
 ]
