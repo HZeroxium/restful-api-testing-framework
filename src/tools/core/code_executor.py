@@ -122,7 +122,7 @@ class CodeExecutorTool(BaseTool):
                             validated_code=code,
                         )
 
-        self.logger.debug("Starting code execution with timeout", timeout=timeout)
+        self.logger.debug(f"Starting code execution with timeout {timeout} seconds")
 
         # Execute with timeout and output capturing
         async def execute_with_timeout():

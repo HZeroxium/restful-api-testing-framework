@@ -83,7 +83,6 @@ class TestScriptGeneratorTool(BaseTool):
     ) -> TestScriptGeneratorOutput:
         """Orchestrate validation script generation using specialized tools."""
         endpoint = inp.endpoint_info
-        test_data = inp.test_data
         constraints = inp.constraints or []
 
         self.logger.info(
@@ -221,7 +220,7 @@ class TestScriptGeneratorTool(BaseTool):
             self.logger.warning(
                 "No scripts generated from specialized tools, creating basic fallback scripts"
             )
-            all_validation_scripts = self._generate_basic_fallback_scripts(test_data)
+            all_validation_scripts = self._generate_basic_fallback_scripts()
 
         # Log summary results
         total_scripts = len(all_validation_scripts)
@@ -262,31 +261,31 @@ class TestScriptGeneratorTool(BaseTool):
 
         return TestScriptGeneratorOutput(validation_scripts=all_validation_scripts)
 
-    def _generate_basic_fallback_scripts(self, test_data) -> List[ValidationScript]:
+    def _generate_basic_fallback_scripts(self) -> List[ValidationScript]:
         """Generate basic validation scripts as fallback when all specialized tools fail."""
         import uuid
 
         self.logger.debug("Generating basic fallback validation scripts")
-
-        expected_status_code = test_data.expected_status_code
 
         return [
             ValidationScript(
                 id=str(uuid.uuid4()),
                 name="Basic status code validation",
                 script_type="response_property",
-                validation_code=f"""
+                validation_code="""
 def validate_basic_status_code(request, response):
     \"\"\"Basic validation for response status code\"\"\"
     try:
         if isinstance(response, dict):
-            return response.get("status_code") == {expected_status_code}
+            status_code = response.get("status_code")
+            return status_code is not None and 200 <= status_code < 300
         else:
-            return getattr(response, "status_code", None) == {expected_status_code}
+            status_code = getattr(response, "status_code", None)
+            return status_code is not None and 200 <= status_code < 300
     except Exception as e:
         return False
 """,
-                description=f"Basic validation that status code is {expected_status_code}",
+                description="Basic validation that status code is successful (2xx)",
             ),
             ValidationScript(
                 id=str(uuid.uuid4()),

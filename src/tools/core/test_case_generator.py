@@ -83,44 +83,37 @@ class TestCaseGeneratorTool(BaseTool):
             test_case_name=name,
         )
 
-        constraint = None
-
-        if inp.constraints:
-            # Use provided constraints if available
-            constraints = inp.constraints
-            self.logger.debug(f"Using provided constraints: {len(constraints)}")
-        else:
-            # If no constraints provided, mine them from the endpoint
+        # Use pre-generated validation scripts if provided, otherwise generate them
+        if inp.validation_scripts:
             self.logger.debug(
-                "No constraints provided, mining constraints for endpoint"
+                f"Using pre-generated validation scripts: {len(inp.validation_scripts)}"
             )
-            # Generate or retrieve constraints for the endpoint
-            constraints = await self._get_constraints_for_endpoint(endpoint_info)
+            validation_scripts = inp.validation_scripts
+            script_count = len(validation_scripts)
+        else:
+            self.logger.debug("No validation scripts provided, generating them")
 
-        self.logger.debug(f"Total constraints available: {len(constraints)}")
-        if constraints and self.verbose:
-            constraint_breakdown = {}
-            for constraint in constraints:
-                constraint_type = constraint.type
-                constraint_breakdown[constraint_type] = (
-                    constraint_breakdown.get(constraint_type, 0) + 1
+            # Get constraints for script generation
+            if inp.constraints:
+                constraints = inp.constraints
+                self.logger.debug(f"Using provided constraints: {len(constraints)}")
+            else:
+                self.logger.debug(
+                    "No constraints provided, mining constraints for endpoint"
                 )
+                constraints = await self._get_constraints_for_endpoint(endpoint_info)
 
-            self.logger.debug("Constraint breakdown", **constraint_breakdown)
+            self.logger.debug(f"Total constraints available: {len(constraints)}")
 
-        # Generate validation scripts for this test data using the constraints
-        self.logger.debug("Generating validation scripts")
+            # Generate validation scripts using constraints
+            script_input = TestScriptGeneratorInput(
+                endpoint_info=endpoint_info,
+                constraints=constraints,
+            )
 
-        script_input = TestScriptGeneratorInput(
-            endpoint_info=endpoint_info,
-            test_data=test_data,
-            constraints=constraints,
-        )
-        script_output = await self.test_script_generator.execute(script_input)
-
-        self.logger.debug(
-            f"Generated {len(script_output.validation_scripts)} validation scripts"
-        )
+            script_output = await self.test_script_generator.execute(script_input)
+            validation_scripts = script_output.validation_scripts
+            script_count = len(validation_scripts)
 
         # Create the TestCase by combining test data with validation scripts
         test_case = TestCase(
@@ -133,11 +126,11 @@ class TestCaseGeneratorTool(BaseTool):
             expected_status_code=test_data.expected_status_code,
             expected_response_schema=test_data.expected_response_schema,
             expected_response_contains=test_data.expected_response_contains,
-            validation_scripts=script_output.validation_scripts,
+            validation_scripts=validation_scripts,
         )
 
         self.logger.info(
-            f"Test case generated successfully with {len(script_output.validation_scripts)} validation scripts"
+            f"Test case generated successfully with {script_count} validation scripts"
         )
 
         return TestCaseGeneratorOutput(test_case=test_case)

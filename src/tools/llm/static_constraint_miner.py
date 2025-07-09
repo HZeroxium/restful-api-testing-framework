@@ -93,6 +93,7 @@ class StaticConstraintMinerTool(BaseTool):
         self.logger.add_context(
             endpoint_method=endpoint.method,
             endpoint_path=endpoint.path,
+            constraint_types=inp.constraint_types,
             include_examples=inp.include_examples,
             include_schema_constraints=inp.include_schema_constraints,
             include_correlation_constraints=inp.include_correlation_constraints,
@@ -101,6 +102,7 @@ class StaticConstraintMinerTool(BaseTool):
         if self.verbose:
             self.logger.debug(
                 "Configuration details",
+                constraint_types=inp.constraint_types,
                 include_examples=inp.include_examples,
                 include_schema_constraints=inp.include_schema_constraints,
                 include_correlation_constraints=inp.include_correlation_constraints,
@@ -113,26 +115,35 @@ class StaticConstraintMinerTool(BaseTool):
         request_response_constraints = []
         mining_results = {}
 
+        # Check which constraint types to mine
+        mine_request_param = "REQUEST_PARAM" in inp.constraint_types
+        mine_request_body = "REQUEST_BODY" in inp.constraint_types
+        mine_response_property = "RESPONSE_PROPERTY" in inp.constraint_types
+        mine_request_response = "REQUEST_RESPONSE" in inp.constraint_types
+
         try:
             # 1. Mine request parameter constraints
-            self.logger.debug("Mining request parameter constraints")
+            if mine_request_param:
+                self.logger.debug("Mining request parameter constraints")
 
-            param_input = RequestParamConstraintMinerInput(
-                endpoint_info=endpoint,
-                include_examples=inp.include_examples,
-                focus_on_validation=True,
-            )
+                param_input = RequestParamConstraintMinerInput(
+                    endpoint_info=endpoint,
+                    include_examples=inp.include_examples,
+                    focus_on_validation=True,
+                )
 
-            param_output = await self.request_param_miner.execute(param_input)
-            request_param_constraints = param_output.param_constraints
-            mining_results["param_mining"] = {
-                "count": len(request_param_constraints),
-                "status": "success",
-            }
+                param_output = await self.request_param_miner.execute(param_input)
+                request_param_constraints = param_output.param_constraints
+                mining_results["param_mining"] = {
+                    "count": len(request_param_constraints),
+                    "status": "success",
+                }
 
-            self.logger.debug(
-                f"Found {len(request_param_constraints)} parameter constraints"
-            )
+                self.logger.debug(
+                    f"Found {len(request_param_constraints)} parameter constraints"
+                )
+            else:
+                self.logger.debug("Skipping request parameter constraint mining")
 
         except Exception as e:
             self.logger.error(f"Error mining parameter constraints: {str(e)}")
@@ -144,22 +155,27 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 2. Mine request body constraints
-            self.logger.debug("Mining request body constraints")
+            if mine_request_body:
+                self.logger.debug("Mining request body constraints")
 
-            body_input = RequestBodyConstraintMinerInput(
-                endpoint_info=endpoint,
-                include_examples=inp.include_examples,
-                focus_on_schema=inp.include_schema_constraints,
-            )
+                body_input = RequestBodyConstraintMinerInput(
+                    endpoint_info=endpoint,
+                    include_examples=inp.include_examples,
+                    focus_on_schema=inp.include_schema_constraints,
+                )
 
-            body_output = await self.request_body_miner.execute(body_input)
-            request_body_constraints = body_output.body_constraints
-            mining_results["body_mining"] = {
-                "count": len(request_body_constraints),
-                "status": "success",
-            }
+                body_output = await self.request_body_miner.execute(body_input)
+                request_body_constraints = body_output.body_constraints
+                mining_results["body_mining"] = {
+                    "count": len(request_body_constraints),
+                    "status": "success",
+                }
 
-            self.logger.debug(f"Found {len(request_body_constraints)} body constraints")
+                self.logger.debug(
+                    f"Found {len(request_body_constraints)} body constraints"
+                )
+            else:
+                self.logger.debug("Skipping request body constraint mining")
 
         except Exception as e:
             self.logger.error(f"Error mining body constraints: {str(e)}")
@@ -171,24 +187,29 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 3. Mine response property constraints
-            self.logger.debug("Mining response property constraints")
+            if mine_response_property:
+                self.logger.debug("Mining response property constraints")
 
-            response_input = ResponsePropertyConstraintMinerInput(
-                endpoint_info=endpoint,
-                include_examples=inp.include_examples,
-                analyze_structure=inp.include_schema_constraints,
-            )
+                response_input = ResponsePropertyConstraintMinerInput(
+                    endpoint_info=endpoint,
+                    include_examples=inp.include_examples,
+                    analyze_structure=inp.include_schema_constraints,
+                )
 
-            response_output = await self.response_property_miner.execute(response_input)
-            response_property_constraints = response_output.response_constraints
-            mining_results["response_mining"] = {
-                "count": len(response_property_constraints),
-                "status": "success",
-            }
+                response_output = await self.response_property_miner.execute(
+                    response_input
+                )
+                response_property_constraints = response_output.response_constraints
+                mining_results["response_mining"] = {
+                    "count": len(response_property_constraints),
+                    "status": "success",
+                }
 
-            self.logger.debug(
-                f"Found {len(response_property_constraints)} response constraints"
-            )
+                self.logger.debug(
+                    f"Found {len(response_property_constraints)} response constraints"
+                )
+            else:
+                self.logger.debug("Skipping response property constraint mining")
 
         except Exception as e:
             self.logger.error(f"Error mining response constraints: {str(e)}")
@@ -200,7 +221,7 @@ class StaticConstraintMinerTool(BaseTool):
 
         try:
             # 4. Mine request-response correlation constraints
-            if inp.include_correlation_constraints:
+            if mine_request_response and inp.include_correlation_constraints:
                 self.logger.debug("Mining request-response correlation constraints")
 
                 correlation_input = RequestResponseConstraintMinerInput(
@@ -224,7 +245,9 @@ class StaticConstraintMinerTool(BaseTool):
                     f"Found {len(request_response_constraints)} correlation constraints"
                 )
             else:
-                self.logger.debug("Skipping correlation constraints (disabled)")
+                self.logger.debug(
+                    "Skipping correlation constraints (disabled or not requested)"
+                )
                 mining_results["correlation_mining"] = {
                     "count": 0,
                     "status": "skipped",
@@ -238,13 +261,16 @@ class StaticConstraintMinerTool(BaseTool):
                 "error": str(e),
             }
 
-        # Calculate totals
-        total_constraints = (
-            len(request_param_constraints)
-            + len(request_body_constraints)
-            + len(response_property_constraints)
-            + len(request_response_constraints)
+        # Combine all constraints
+        all_constraints = (
+            request_param_constraints
+            + request_body_constraints
+            + response_property_constraints
+            + request_response_constraints
         )
+
+        # Calculate totals
+        total_constraints = len(all_constraints)
 
         self.logger.info(
             f"Constraint mining completed: {total_constraints} total constraints found"
@@ -283,6 +309,7 @@ class StaticConstraintMinerTool(BaseTool):
         return StaticConstraintMinerOutput(
             endpoint_method=endpoint.method,
             endpoint_path=endpoint.path,
+            constraints=all_constraints,
             request_param_constraints=request_param_constraints,
             request_body_constraints=request_body_constraints,
             response_property_constraints=response_property_constraints,
