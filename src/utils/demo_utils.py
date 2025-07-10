@@ -9,13 +9,13 @@ import os
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from tools.core.openapi_parser import OpenAPIParserTool
-from schemas.tools.openapi_parser import (
+from ..tools.core.openapi_parser import OpenAPIParserTool
+from ..schemas.tools.openapi_parser import (
     OpenAPIParserInput,
     SpecSourceType,
     EndpointInfo,
 )
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ..common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 # Initialize module logger
@@ -287,7 +287,7 @@ def get_user_test_preferences():
 
 def setup_api_factory(server_url: str, verbose: bool = False):
     """Set up REST API factory with common configuration."""
-    from utils.rest_api_caller_factory import RestApiCallerFactory
+    from ..utils.rest_api_caller_factory import RestApiCallerFactory
 
     return RestApiCallerFactory(
         server_url=server_url,

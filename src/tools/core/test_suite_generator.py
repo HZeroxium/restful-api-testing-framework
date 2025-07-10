@@ -1,25 +1,28 @@
 # tools/test_suite_generator.py
-
 from typing import Dict, Optional, List
 import uuid
 
-from core.base_tool import BaseTool
-from schemas.tools.test_suite_generator import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_suite_generator import (
     TestSuiteGeneratorInput,
     TestSuiteGeneratorOutput,
     TestSuite,
 )
-from schemas.tools.test_case_generator import TestCaseGeneratorInput
-from schemas.tools.test_data_generator import TestDataGeneratorInput
-from schemas.tools.constraint_miner import StaticConstraintMinerInput
-from schemas.tools.test_script_generator import TestScriptGeneratorInput
-from schemas.tools.test_data_verifier import TestDataVerifierInput
-from tools.llm.test_data_generator import TestDataGeneratorTool
-from tools.llm.static_constraint_miner import StaticConstraintMinerTool
-from tools.llm.test_script_generator import TestScriptGeneratorTool
-from tools.core.test_case_generator import TestCaseGeneratorTool
-from tools.core.test_data_verifier import TestDataVerifierTool
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...schemas.tools.test_case_generator import TestCaseGeneratorInput
+from ...schemas.tools.test_data_generator import TestDataGeneratorInput
+from ...schemas.tools.constraint_miner import (
+    StaticConstraintMinerInput,
+    StaticConstraintMinerOutput,
+    ApiConstraint,
+)
+from ...schemas.tools.test_script_generator import TestScriptGeneratorInput
+from ...schemas.tools.test_data_verifier import TestDataVerifierInput
+from ..llm.test_data_generator import TestDataGeneratorTool
+from ..llm.static_constraint_miner import StaticConstraintMinerTool
+from ..llm.test_script_generator import TestScriptGeneratorTool
+from ..core.test_case_generator import TestCaseGeneratorTool
+from ..core.test_data_verifier import TestDataVerifierTool
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestSuiteGeneratorTool(BaseTool):
@@ -56,12 +59,21 @@ class TestSuiteGeneratorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
-        # Initialize custom logger
+        # Initialize custom logger with enhanced file logging
         log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+
+        # Ensure logs/tools directory exists
+        from pathlib import Path
+
+        logs_dir = Path("logs/tools")
+        logs_dir.mkdir(parents=True, exist_ok=True)
+
         self.logger = LoggerFactory.get_logger(
             name=f"tool.{name}",
             logger_type=LoggerType.STANDARD,
-            level=log_level,
+            console_level=log_level,
+            file_level=LogLevel.DEBUG,  # Always DEBUG to file for detailed debugging
+            log_file=str(logs_dir / "test_suite_generator.log"),
         )
 
         # Initialize required tools - this is the complete pipeline for each endpoint
@@ -104,6 +116,12 @@ class TestSuiteGeneratorTool(BaseTool):
         self.logger.info(
             f"Starting complete pipeline for {endpoint_info.method.upper()} {endpoint_info.path}"
         )
+        self.logger.debug(f"=== TEST SUITE GENERATION START ===")
+        self.logger.debug(f"Endpoint: {endpoint_info.method} {endpoint_info.path}")
+        self.logger.debug(f"Test case count: {test_case_count}")
+        self.logger.debug(f"Include invalid data: {include_invalid_data}")
+        self.logger.debug(f"Endpoint info: {endpoint_info}")
+
         self.logger.add_context(
             endpoint_method=endpoint_info.method.upper(),
             endpoint_path=endpoint_info.path,
@@ -135,10 +153,12 @@ class TestSuiteGeneratorTool(BaseTool):
                 include_correlation_constraints=True,
             )
 
-            constraint_output = await self.constraint_miner.execute(constraint_input)
+            constraint_output: StaticConstraintMinerOutput = (
+                await self.constraint_miner.execute(constraint_input)
+            )
 
             # Combine all constraint types
-            all_constraints = []
+            all_constraints: List[ApiConstraint] = []
             all_constraints.extend(constraint_output.request_param_constraints)
             all_constraints.extend(constraint_output.request_body_constraints)
             all_constraints.extend(constraint_output.response_property_constraints)

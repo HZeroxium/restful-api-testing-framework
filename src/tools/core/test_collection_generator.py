@@ -2,15 +2,15 @@
 
 from typing import Dict, Optional
 
-from core.base_tool import BaseTool
-from schemas.tools.test_collection_generator import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_collection_generator import (
     TestCollectionGeneratorInput,
     TestCollectionGeneratorOutput,
     TestCollection,
 )
-from schemas.tools.test_suite_generator import TestSuiteGeneratorInput
-from tools.core.test_suite_generator import TestSuiteGeneratorTool
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...schemas.tools.test_suite_generator import TestSuiteGeneratorInput
+from .test_suite_generator import TestSuiteGeneratorTool
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestCollectionGeneratorTool(BaseTool):

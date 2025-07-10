@@ -3,10 +3,10 @@
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any
 
-from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.test_script_generator import ValidationScript
-from schemas.tools.test_data_generator import TestData
-from schemas.tools.constraint_miner import ApiConstraint
+from .openapi_parser import EndpointInfo
+from .test_script_generator import ValidationScript
+from .test_data_generator import TestData
+from .constraint_miner import ApiConstraint
 
 
 class TestCase(BaseModel):

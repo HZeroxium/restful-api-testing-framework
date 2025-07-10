@@ -2,10 +2,9 @@
 
 from enum import Enum
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List, Dict, Any, Optional, Union
+from typing import List, Dict, Any, Optional
 
-from schemas.tools.openapi_parser import EndpointInfo
-from schemas.core.base_tool import ToolInput, ToolOutput
+from .openapi_parser import EndpointInfo
 
 
 class ConstraintType(str, Enum):

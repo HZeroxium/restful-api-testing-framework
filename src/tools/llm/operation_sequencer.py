@@ -7,17 +7,17 @@ import time
 import re
 from typing import Dict, List, Optional, Any
 
-from core.base_tool import BaseTool
-from schemas.tools.operation_sequencer import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.operation_sequencer import (
     OperationSequencerInput,
     OperationSequencerOutput,
     OperationSequence,
     OperationDependency,
 )
-from utils.llm_utils import extract_json_from_response as extract_json_from_text
-from config.settings import settings
-from config.constants import DEFAULT_LLM_TIMEOUT
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...utils.llm_utils import extract_json_from_response as extract_json_from_text
+from ...config.settings import settings
+from ...config.constants import DEFAULT_LLM_TIMEOUT
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class OperationSequencerTool(BaseTool):
@@ -224,7 +224,7 @@ Here are the endpoints to analyze:
 """
 
                 # Sanitize the llm_input before including it
-                from utils.llm_utils import prepare_endpoint_data_for_llm
+                from ...utils.llm_utils import prepare_endpoint_data_for_llm
 
                 sanitized_llm_input = prepare_endpoint_data_for_llm(llm_input)
 

@@ -3,9 +3,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.test_data_generator import TestData
-from schemas.tools.constraint_miner import ApiConstraint
+from .openapi_parser import EndpointInfo
+from .constraint_miner import ApiConstraint
 
 
 class TestScriptGeneratorInput(BaseModel):

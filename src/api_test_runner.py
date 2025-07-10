@@ -7,21 +7,25 @@ import argparse
 from datetime import datetime
 from typing import List, Dict, Any
 
-from tools.core.test_reporter import TestReporterTool
-from tools.core.test_collection_generator import TestCollectionGeneratorTool
-from tools.core.test_executor import TestExecutorTool
-from utils.rest_api_caller_factory import RestApiCallerFactory
+from .tools.core.test_reporter import TestReporterTool
+from .tools.core.test_collection_generator import TestCollectionGeneratorTool
+from .tools.core.test_executor import TestExecutorTool
+from .utils.rest_api_caller_factory import RestApiCallerFactory
 
-from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.test_collection_generator import TestCollectionGeneratorInput
-from schemas.tools.test_executor import TestExecutorInput
-from schemas.tools.test_reporter import (
+from .schemas.tools.openapi_parser import EndpointInfo
+from .schemas.tools.test_collection_generator import (
+    TestCollectionGeneratorInput,
+    TestCollectionGeneratorOutput,
+    TestCollection,
+)
+from .schemas.tools.test_executor import TestExecutorInput, TestExecutorOutput
+from .schemas.tools.test_reporter import (
     TestReporterInput,
     TestCaseResult,
     ValidationResult,
     TestStatus,
 )
-from utils.demo_utils import (
+from .utils.demo_utils import (
     parse_openapi_spec,
     select_endpoints,
     create_timestamped_output_dir,
@@ -32,7 +36,7 @@ from utils.demo_utils import (
     setup_api_factory,
     get_server_url_from_api_info,
 )
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from .common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def simplified_testing_pipeline(
@@ -96,8 +100,10 @@ async def simplified_testing_pipeline(
             include_invalid_data=include_invalid_data,
         )
 
-        collection_output = await test_collection_generator.execute(collection_input)
-        test_collection = collection_output.test_collection
+        collection_output: TestCollectionGeneratorOutput = (
+            await test_collection_generator.execute(collection_input)
+        )
+        test_collection: TestCollection = collection_output.test_collection
 
         logger.info(
             f"Generated test collection with {len(test_collection.test_suites)} test suites"
@@ -121,7 +127,9 @@ async def simplified_testing_pipeline(
             max_concurrent_requests=10,
         )
 
-        executor_output = await test_executor.execute(executor_input)
+        executor_output: TestExecutorOutput = await test_executor.execute(
+            executor_input
+        )
         test_suite_results = executor_output.test_suite_results
 
         logger.info(f"Executed {len(test_suite_results)} test suites")
@@ -179,10 +187,10 @@ async def simplified_testing_pipeline(
                         status=(
                             TestStatus.PASS if case_result.passed else TestStatus.FAIL
                         ),
-                        elapsed_time=case_result.execution_time,
+                        elapsed_time=case_result.response_time,
                         request=case_result.request_details,
                         response={
-                            "status_code": case_result.response_status_code,
+                            "status_code": case_result.status_code,
                             "body": case_result.response_body,
                             "headers": case_result.response_headers,
                         },

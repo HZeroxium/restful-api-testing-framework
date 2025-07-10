@@ -32,7 +32,7 @@ class TestCaseResult(BaseModel):
     test_case_id: str
     test_case_name: str
     status: TestStatus
-    elapsed_time: float
+    elapsed_time: Optional[float] = None  # Time taken for the test case
     request: Dict[str, Any]
     response: Dict[str, Any]
     validation_results: List[ValidationResult]

@@ -9,6 +9,10 @@ import uuid
 from typing import Any, Dict, Optional, Type, TypeVar, Union
 from pydantic import BaseModel
 from pathlib import Path
+import json
+import re
+import uuid
+import asyncio
 
 from google.adk.agents import LlmAgent
 from google.adk.runners import Runner
@@ -17,9 +21,18 @@ from google.adk.artifacts import InMemoryArtifactService
 from google.adk.memory import InMemoryMemoryService
 from google.genai import types
 
-from config.settings import settings
-from config.constants import DEFAULT_LLM_TIMEOUT
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ..config.settings import settings
+from ..config.constants import DEFAULT_LLM_TIMEOUT
+from ..common.logger import LoggerFactory, LoggerType, LogLevel
+from ..common.cache.cache_factory import CacheType, CacheFactory
+
+cache_logger = LoggerFactory.get_logger(
+    name="llm.cache",
+    logger_type=LoggerType.STANDARD,
+    file_level=LogLevel.DEBUG,
+    log_file="logs/llm/cache.log",
+    use_colors=False,
+)
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -538,6 +551,90 @@ class LlmExecutor:
             return None
 
 
+# Cache configuration constants
+CACHE_CONFIG = {
+    "ttl": 3600,  # 1 hour
+    "key_prefix": "llm_agent:",
+    "cache_type": CacheType.REDIS,
+    "enable_fallback": True,
+}
+
+
+def _get_cache_instance():
+    """Get or create cache instance with fallback to memory cache."""
+    try:
+        return CacheFactory.get_cache(
+            name="llm_cache",
+            cache_type=CACHE_CONFIG["cache_type"],
+            **{k: v for k, v in CACHE_CONFIG.items() if k != "cache_type"},
+        )
+    except Exception as e:
+        _general_logger.warning(
+            f"Failed to create {CACHE_CONFIG['cache_type'].value} cache, falling back to memory: {e}"
+        )
+        return CacheFactory.get_cache(
+            name="llm_cache_fallback",
+            cache_type=CacheType.MEMORY,
+            **{
+                k: v
+                for k, v in CACHE_CONFIG.items()
+                if k not in ["cache_type", "key_prefix"]
+            },
+        )
+
+
+def _generate_cache_key(
+    app_name: str,
+    agent_name: str,
+    instruction: str,
+    input_data: Union[str, Dict, BaseModel],
+    input_schema: Optional[Type] = None,
+    output_schema: Optional[Type] = None,
+) -> str:
+    """
+    Generate a consistent cache key for LLM requests.
+
+    Args:
+        app_name: Application name
+        agent_name: Agent name
+        instruction: LLM instruction
+        input_data: Input data
+        input_schema: Input schema type
+        output_schema: Output schema type
+
+    Returns:
+        Cache key string
+    """
+    import hashlib
+
+    # Normalize input data to string
+    if isinstance(input_data, BaseModel):
+        input_str = input_data.model_dump_json(sort_keys=True)
+    elif isinstance(input_data, dict):
+        input_str = json.dumps(input_data, sort_keys=True)
+    else:
+        input_str = str(input_data)
+
+    # Create a deterministic cache key
+    cache_components = [
+        app_name,
+        agent_name,
+        instruction,
+        input_str,
+        str(input_schema.__name__ if input_schema else ""),
+        str(output_schema.__name__ if output_schema else ""),
+    ]
+
+    # Create hash from components
+    cache_data = "|".join(cache_components)
+    cache_hash = hashlib.md5(cache_data.encode()).hexdigest()
+
+    cache_key = f"{CACHE_CONFIG['key_prefix']}{agent_name}:{cache_hash}"
+
+    _general_logger.debug(f"Generated cache key: {cache_key}")
+    return cache_key
+
+
 async def create_and_execute_llm_agent(
     app_name: str,
     agent_name: str,
@@ -549,9 +646,10 @@ async def create_and_execute_llm_agent(
     max_retries: int = 2,
     retry_delay: float = 1.0,
     verbose: bool = False,
+    cache_enabled: bool = True,
 ) -> Optional[Dict[str, Any]]:
     """
-    Convenience function to create and execute an LLM agent in one call.
+    Convenience function to create and execute an LLM agent in one call with caching support.
 
     Args:
         app_name: Name of the application
@@ -564,6 +662,7 @@ async def create_and_execute_llm_agent(
         max_retries: Maximum number of retries
         retry_delay: Delay between retries
         verbose: Whether to print verbose output
+        cache_enabled: Whether to enable caching
 
     Returns:
         Parsed JSON response from LLM or None if failed
@@ -585,6 +684,35 @@ async def create_and_execute_llm_agent(
     )
 
     logger.info(f"Creating and executing LLM agent: {agent_name}")
+
+    # Generate cache key (even if caching is disabled, for consistency)
+    cache_key = _generate_cache_key(
+        app_name=app_name,
+        agent_name=agent_name,
+        instruction=instruction,
+        input_data=input_data,
+        input_schema=input_schema,
+        output_schema=output_schema,
+    )
+
+    # Check cache if enabled
+    if cache_enabled:
+        try:
+            cache_instance = _get_cache_instance()
+            cached_result = cache_instance.get(cache_key)
+
+            if cached_result is not None:
+                logger.info("LLM result retrieved from cache")
+                logger.debug(f"Cache hit for key: {cache_key}")
+                if verbose:
+                    logger.debug(f"Cached result type: {type(cached_result).__name__}")
+                return cached_result
+            else:
+                logger.debug(f"Cache miss for key: {cache_key}")
+        except Exception as e:
+            logger.warning(f"Cache lookup failed, proceeding without cache: {e}")
+    else:
+        logger.debug("Caching is disabled, proceeding without cache")
 
     try:
         session = LlmSession(app_name)
@@ -610,6 +738,27 @@ async def create_and_execute_llm_agent(
             logger.info("LLM agent execution completed successfully")
             if verbose:
                 logger.debug(f"Result type: {type(result).__name__}")
+
+            # Cache the result if enabled
+            if cache_enabled:
+                try:
+                    cache_instance = _get_cache_instance()
+                    cache_success = cache_instance.set(
+                        cache_key, result, ttl=CACHE_CONFIG["ttl"]
+                    )
+                    if cache_success:
+                        cache_logger.info(
+                            f"LLM result cached successfully with key: {cache_key}"
+                        )
+                        logger.info("LLM result cached successfully")
+                        logger.debug(f"Cached result with key: {cache_key}")
+                    else:
+                        cache_logger.warning(
+                            f"Failed to cache LLM result with key: {cache_key}"
+                        )
+                        logger.warning("Failed to cache LLM result")
+                except Exception as e:
+                    logger.warning(f"Cache storage failed: {e}")
         else:
             logger.warning("LLM agent execution returned no result")
 
@@ -631,3 +780,72 @@ async def create_and_execute_llm_agent(
         if verbose:
             logger.debug(f"Exception details: {error_msg}")
         return None
+
+
+def get_cache_debug_info(cache_key: str) -> Dict[str, Any]:
+    """
+    Get debug information about cache state for a specific key.
+
+    Args:
+        cache_key: The cache key to debug
+
+    Returns:
+        Dictionary with debug information
+    """
+    try:
+        cache_instance = _get_cache_instance()
+
+        debug_info = {
+            "cache_key": cache_key,
+            "cache_type": type(cache_instance).__name__,
+            "key_exists": cache_instance.exists(cache_key),
+            "cache_size": cache_instance.get_size(),
+            "cache_stats": cache_instance.get_stats(),
+            "ttl": cache_instance.get_ttl(cache_key),
+            "all_keys": cache_instance.keys(),
+        }
+
+        # Try to get the value
+        try:
+            cached_value = cache_instance.get(cache_key)
+            debug_info["cached_value"] = cached_value
+            debug_info["cached_value_type"] = (
+                type(cached_value).__name__ if cached_value is not None else "None"
+            )
+        except Exception as e:
+            debug_info["get_error"] = str(e)
+
+        return debug_info
+    except Exception as e:
+        return {"error": f"Failed to get cache debug info: {e}"}
+
+
+def clear_llm_cache() -> bool:
+    """
+    Clear all LLM cache entries.
+
+    Returns:
+        True if successful, False otherwise
+    """
+    try:
+        cache_instance = _get_cache_instance()
+
+        # Get all keys with our prefix
+        llm_keys = cache_instance.keys(f"{CACHE_CONFIG['key_prefix']}*")
+
+        if not llm_keys:
+            _general_logger.info("No LLM cache entries found to clear")
+            return True
+
+        # Delete all LLM cache keys
+        deleted_count = 0
+        for key in llm_keys:
+            if cache_instance.delete(key):
+                deleted_count += 1
+
+        _general_logger.info(f"Cleared {deleted_count} LLM cache entries")
+        return True
+
+    except Exception as e:
+        _general_logger.error(f"Failed to clear LLM cache: {e}")
+        return False

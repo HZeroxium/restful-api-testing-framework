@@ -17,6 +17,16 @@ import time
 from datetime import datetime
 from typing import List, Dict
 
+from common.logger import LoggerFactory, LoggerType, LogLevel
+
+
+# Initialize module logger
+_logger = LoggerFactory.get_logger(
+    name="visualizers.sequences_visualizer",
+    logger_type=LoggerType.STANDARD,
+    level=LogLevel.INFO,
+)
+
 
 def create_static_visualization(G, sequence, index, output_dir):
     """Create static visualization using matplotlib."""
@@ -124,11 +134,11 @@ def create_static_visualization(G, sequence, index, output_dir):
         plt.savefig(viz_path, bbox_inches="tight", dpi=200)
         plt.close()
 
-        print(f"  - Static visualization saved to: {os.path.basename(viz_path)}")
+        _logger.info(f"  - Static visualization saved to: {os.path.basename(viz_path)}")
         return True
 
     except Exception as e:
-        print(f"Error creating static visualization: {str(e)}")
+        _logger.error(f"Error creating static visualization: {str(e)}")
         return False
 
 

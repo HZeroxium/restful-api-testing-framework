@@ -3,8 +3,7 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
-from schemas.tools.test_case_generator import TestCase
-from schemas.tools.test_suite_generator import TestSuite
+from .test_suite_generator import TestSuite
 
 
 class TestExecutorInput(BaseModel):

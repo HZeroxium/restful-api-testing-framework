@@ -2,25 +2,25 @@
 
 from typing import Dict, Optional, List
 
-from core.base_tool import BaseTool
-from schemas.tools.test_script_generator import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_script_generator import (
     TestScriptGeneratorInput,
     TestScriptGeneratorOutput,
     ValidationScript,
 )
-from tools.test_script_generator_tools.request_param_script_generator import (
+from ..test_script_generator_tools.request_param_script_generator import (
     RequestParamScriptGeneratorTool,
 )
-from tools.test_script_generator_tools.request_body_script_generator import (
+from ..test_script_generator_tools.request_body_script_generator import (
     RequestBodyScriptGeneratorTool,
 )
-from tools.test_script_generator_tools.response_property_script_generator import (
+from ..test_script_generator_tools.response_property_script_generator import (
     ResponsePropertyScriptGeneratorTool,
 )
-from tools.test_script_generator_tools.request_response_script_generator import (
+from ..test_script_generator_tools.request_response_script_generator import (
     RequestResponseScriptGeneratorTool,
 )
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestScriptGeneratorTool(BaseTool):
@@ -84,6 +84,10 @@ class TestScriptGeneratorTool(BaseTool):
         """Orchestrate validation script generation using specialized tools."""
         endpoint = inp.endpoint_info
         constraints = inp.constraints or []
+
+        # Replace all id in constraints with a placeholder
+        for constraint in constraints:
+            constraint.id = "placeholder_id"
 
         self.logger.info(
             f"Starting test script generation for {endpoint.method.upper()} {endpoint.path}"

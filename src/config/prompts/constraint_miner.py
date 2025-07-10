@@ -2,7 +2,7 @@
 
 """Prompt templates for constraint mining operations."""
 
-from config.constraint_mining_config import LLMPromptConfig
+from ..constraint_mining_config import LLMPromptConfig
 
 
 REQUEST_PARAM_CONSTRAINT_PROMPT = f"""

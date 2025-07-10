@@ -95,6 +95,11 @@ class InMemoryCache(CacheInterface):
         if self._cache:
             self._cache.popitem(last=False)  # Remove first (oldest) item
 
+    def _evict_lru(self):
+        """Evict least recently used entry"""
+        if self._cache:
+            self._cache.popitem(last=False)  # Remove first (oldest) item
+
     def _ensure_capacity(self):
         """Ensure cache doesn't exceed max_size"""
         if self.max_size is None:

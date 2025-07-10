@@ -4,13 +4,13 @@ import uuid
 import json
 from typing import Dict, Optional, List
 
-from core.base_tool import BaseTool
-from schemas.tools.test_data_generator import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_data_generator import (
     TestDataGeneratorInput,
     TestDataGeneratorOutput,
     TestData,
 )
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestDataGeneratorTool(BaseTool):
@@ -98,7 +98,7 @@ class TestDataGeneratorTool(BaseTool):
         self, endpoint, test_case_count, include_invalid_data
     ) -> List[TestData]:
         """Generate test data using LLM with improved error handling."""
-        from utils.llm_utils import create_and_execute_llm_agent
+        from ...utils.llm_utils import create_and_execute_llm_agent
 
         # Prepare the endpoint info as JSON for the LLM prompt
         endpoint_json = {

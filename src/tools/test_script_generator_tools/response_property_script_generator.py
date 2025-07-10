@@ -7,16 +7,16 @@ import math
 from typing import Dict, List, Optional
 import json
 
-from core.base_tool import BaseTool
-from schemas.tools.test_script_generator import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_script_generator import (
     TestScriptGeneratorInput,
     TestScriptGeneratorOutput,
     ValidationScript,
 )
-from utils.llm_utils import create_and_execute_llm_agent
-from config.prompts.test_script_generator import RESPONSE_PROPERTY_SCRIPT_PROMPT
+from ...utils.llm_utils import create_and_execute_llm_agent
+from ...config.prompts.test_script_generator import RESPONSE_PROPERTY_SCRIPT_PROMPT
 from pydantic import BaseModel, Field
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ResponsePropertyScriptGeneratorTool(BaseTool):
@@ -176,7 +176,7 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         class ValidationScriptResult(BaseModel):
             validation_scripts: List[ScriptOutput] = Field(default_factory=list)
 
-        from utils.llm_utils import prepare_endpoint_data_for_llm
+        from ...utils.llm_utils import prepare_endpoint_data_for_llm
 
         sanitized = prepare_endpoint_data_for_llm(endpoint.model_dump())
 

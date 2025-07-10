@@ -7,9 +7,9 @@ import contextlib
 from typing import Any, Dict, List, Optional
 import traceback
 
-from core import BaseTool
-from schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...core.base_tool import BaseTool
+from ...schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class CodeExecutorTool(BaseTool):
@@ -38,12 +38,21 @@ class CodeExecutorTool(BaseTool):
             cache_enabled=cache_enabled,
         )
 
-        # Initialize custom logger
+        # Initialize custom logger with enhanced file logging
         log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
+
+        # Ensure logs/tools directory exists
+        from pathlib import Path
+
+        logs_dir = Path("logs/tools")
+        logs_dir.mkdir(parents=True, exist_ok=True)
+
         self.logger = LoggerFactory.get_logger(
             name=f"tool.{name}",
             logger_type=LoggerType.STANDARD,
             level=log_level,
+            file_level=LogLevel.DEBUG,  # Always DEBUG to file for detailed debugging
+            log_file=str(logs_dir / "code_executor.log"),
         )
 
         # Merge defaults with config
@@ -56,13 +65,36 @@ class CodeExecutorTool(BaseTool):
     async def _execute(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
         """Execute Python code natively"""
         self.logger.debug("Starting code execution")
+        self.logger.debug(f"Code to execute:\n{inp.code}")
+        self.logger.debug(
+            f"Context variables: {inp.context_variables if inp.context_variables else 'None'}"
+        )
+
         self.logger.add_context(
             code_length=len(inp.code),
             has_context_vars=bool(inp.context_variables),
             timeout=inp.timeout or self.timeout_seconds,
         )
 
-        return await self._execute_native(inp)
+        # Log detailed execution info for debugging
+        self.logger.debug(f"=== CODE EXECUTION START ===")
+        self.logger.debug(f"Code length: {len(inp.code)}")
+        self.logger.debug(f"Has context vars: {bool(inp.context_variables)}")
+        self.logger.debug(f"Timeout: {inp.timeout or self.timeout_seconds}")
+        self.logger.debug(f"Context vars: {inp.context_variables}")
+
+        result = await self._execute_native(inp)
+
+        # Log execution results
+        self.logger.debug(f"=== CODE EXECUTION END ===")
+        self.logger.debug(f"Success: {result.success}")
+        self.logger.debug(f"Result: {result.stdout}")
+        self.logger.debug(f"Error: {result.error}")
+        self.logger.debug(f"Execution time: {result.execution_time:.3f}s")
+        self.logger.debug(f"Stdout: {result.stdout}")
+        self.logger.debug(f"Stderr: {result.stderr}")
+
+        return result
 
     async def _execute_native(self, inp: CodeExecutorInput) -> CodeExecutorOutput:
         """Execute Python code natively using Python's built-in functions"""
@@ -71,10 +103,12 @@ class CodeExecutorTool(BaseTool):
         timeout = inp.timeout or self.timeout_seconds
 
         self.logger.debug("Preparing code execution environment")
+        self.logger.debug(f"Context variables provided: {context_vars}")
         self.logger.add_context(context_var_count=len(context_vars))
 
         # Create a namespace for execution
         namespace = {**context_vars}
+        self.logger.debug(f"Initial namespace keys: {list(namespace.keys())}")
 
         # Prepare output capturing
         stdout_capture = io.StringIO()
@@ -90,6 +124,7 @@ class CodeExecutorTool(BaseTool):
         except SyntaxError as e:
             elapsed = asyncio.get_event_loop().time() - start
             self.logger.error(f"Syntax error in code: {str(e)}")
+            self.logger.debug(f"Failed code:\n{code}")
             return CodeExecutorOutput(
                 result="",
                 success=False,
@@ -210,6 +245,9 @@ class CodeExecutorTool(BaseTool):
             if isinstance(result, Exception):
                 error_msg = str(result)
                 self.logger.error(f"Code execution resulted in exception: {error_msg}")
+                self.logger.debug(f"Exception type: {type(result).__name__}")
+                self.logger.debug(f"Stdout: {stdout_value}")
+                self.logger.debug(f"Stderr: {stderr_value}")
                 return CodeExecutorOutput(
                     result="",
                     success=False,
@@ -221,10 +259,18 @@ class CodeExecutorTool(BaseTool):
                 )
 
             # Success case - return the result or stdout if result is None
-            self.logger.info(f"Code execution successful in {elapsed:.3f}s")
+            # self.logger.info(f"Code execution successful in {elapsed:.3f}s")
             self.logger.debug(f"Result type: {type(result).__name__}")
+            self.logger.debug(f"Result value: {result}")
+            self.logger.debug(f"Stdout: {stdout_value}")
+            self.logger.debug(f"Stderr: {stderr_value}")
+
+            # Determine final result value
+            final_result = str(result) if result is not None else stdout_value
+            self.logger.debug(f"Final result returned: {final_result}")
+
             return CodeExecutorOutput(
-                result=str(result) if result is not None else stdout_value,
+                result=final_result,
                 success=True,
                 error=None,
                 stdout=stdout_value,
@@ -245,6 +291,12 @@ class CodeExecutorTool(BaseTool):
                     )
                 )
             self.logger.error(f"Code execution failed: {error_msg}")
+            self.logger.debug(
+                f"Error type: {type(result).__name__ if isinstance(result, Exception) else 'Unknown'}"
+            )
+            self.logger.debug(f"Traceback: {tb}")
+            self.logger.debug(f"Stdout: {stdout_value}")
+            self.logger.debug(f"Stderr: {stderr_value}")
             return CodeExecutorOutput(
                 result="",
                 success=False,

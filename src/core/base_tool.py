@@ -5,8 +5,8 @@ from typing import Any, Dict, Optional, Type, Union
 from pydantic import ValidationError
 import time
 
-from schemas.core import ToolInput, ToolOutput
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ..schemas.core import ToolInput, ToolOutput
+from ..common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class BaseTool(ABC):
@@ -83,7 +83,7 @@ class BaseTool(ABC):
             else:
                 validated_input = input_data
 
-            self.logger.info(f"Executing tool: {self.name}")
+            # self.logger.info(f"Executing tool: {self.name}")
             self.logger.debug(f"Input: {validated_input}")
 
             # Check if result is cached
@@ -111,7 +111,7 @@ class BaseTool(ABC):
                 self._add_to_cache(cache_key, output)
 
             execution_time = time.time() - start_time
-            self.logger.info(f"Tool {self.name} completed in {execution_time:.2f}s")
+            # self.logger.info(f"Tool {self.name} completed in {execution_time:.2f}s")
             self.logger.debug(f"Output: {output}")
 
             return output

@@ -1,25 +1,24 @@
 # tools/core/test_executor.py
 
 import asyncio
-import json
 import time
-from typing import Dict, List, Optional, Any
+from typing import Dict, Optional
 from urllib.parse import urljoin
 
-from core.base_tool import BaseTool
-from schemas.tools.test_executor import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.test_executor import (
     TestExecutorInput,
     TestExecutorOutput,
     TestCaseExecutionResult,
     TestSuiteExecutionResult,
 )
-from schemas.tools.test_case_generator import TestCase
-from schemas.tools.test_suite_generator import TestSuite
-from schemas.tools.code_executor import CodeExecutorInput
-from schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
-from tools.core.code_executor import CodeExecutorTool
-from tools.core.rest_api_caller import RestApiCallerTool
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...schemas.tools.test_case_generator import TestCase
+from ...schemas.tools.test_suite_generator import TestSuite
+from ...schemas.tools.code_executor import CodeExecutorInput
+from ...schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
+from .code_executor import CodeExecutorTool
+from .rest_api_caller import RestApiCallerTool
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestExecutorTool(BaseTool):
@@ -298,14 +297,14 @@ class TestExecutorTool(BaseTool):
                     test_case_id=test_case.id,
                     test_case_name=test_case.name,
                     passed=test_passed,
-                    execution_time=execution_time,
+                    response_time=execution_time,
                     request_details=request_details,
-                    response_status_code=status_code,
+                    status_code=status_code,
                     response_body=response_body,
                     response_headers=response_headers,
                     validation_results=validation_results,
-                    status_code_passed=status_code_passed,
-                    validation_passed=validation_passed,
+                    # status_code_passed=status_code_passed,
+                    # validation_passed=validation_passed,
                     error_message=(
                         None
                         if test_passed
@@ -434,14 +433,14 @@ except Exception as e:
                 test_case_id=test_case.id,
                 test_case_name=test_case.name,
                 passed=test_passed,
-                execution_time=execution_time,
+                response_time=execution_time,
                 request_details=request_details,
-                response_status_code=status_code,
+                status_code=status_code,
                 response_body=response_body,
                 response_headers=response_headers,
                 validation_results=validation_results,
-                status_code_passed=status_code_passed,
-                validation_passed=validation_passed,
+                # status_code_passed=status_code_passed,
+                # validation_passed=validation_passed,
                 error_message=None if test_passed else "Validation failed",
             )
 

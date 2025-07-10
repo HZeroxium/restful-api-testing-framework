@@ -4,9 +4,9 @@ from typing import Dict, List, Optional, Any
 import re
 import urllib.parse
 
-from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.rest_api_caller import RestRequest, RestApiCallerInput
-from tools.core.rest_api_caller import RestApiCallerTool
+from ..schemas.tools.openapi_parser import EndpointInfo
+from ..schemas.tools.rest_api_caller import RestRequest, RestApiCallerInput
+from ..tools.core.rest_api_caller import RestApiCallerTool
 
 
 class RestApiCallerFactory:

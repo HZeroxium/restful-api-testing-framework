@@ -10,21 +10,21 @@ from google.adk.tools.openapi_tool.openapi_spec_parser.openapi_toolset import (
     RestApiTool,
 )
 
-from core import BaseTool
-from schemas.tools.openapi_parser import (
+from ...core.base_tool import BaseTool
+from ...schemas.tools.openapi_parser import (
     OpenAPIParserInput,
     OpenAPIParserOutput,
     EndpointInfo,
     SpecSourceType,
     AuthType,
 )
-from utils.schema_utils import (
+from ...utils.schema_utils import (
     clean_schema_dict,
     extract_response_object,
     create_normalized_schema,
     ResponseSchema,
 )
-from common.logger import LoggerFactory, LoggerType, LogLevel
+from ...common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class OpenAPIParserTool(BaseTool):
