@@ -1,6 +1,7 @@
 # tools/test_suite_generator.py
 from typing import Dict, Optional, List
 import uuid
+from datetime import datetime
 
 from ...core.base_tool import BaseTool
 from ...schemas.tools.test_suite_generator import (
@@ -23,6 +24,11 @@ from ..llm.test_script_generator import TestScriptGeneratorTool
 from ..core.test_case_generator import TestCaseGeneratorTool
 from ..core.test_data_verifier import TestDataVerifierTool
 from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from ...utils.comprehensive_report_utils import (
+    ComprehensiveReportGenerator,
+    ReportConfig,
+    create_safe_endpoint_name,
+)
 
 
 class TestSuiteGeneratorTool(BaseTool):
@@ -105,6 +111,17 @@ class TestSuiteGeneratorTool(BaseTool):
             verbose=verbose,
             cache_enabled=cache_enabled,
             config=config,
+        )
+
+        # Initialize comprehensive report generator
+        self.report_generator = ComprehensiveReportGenerator(
+            config=ReportConfig(
+                base_output_dir="test_reports",
+                include_verbose_details=verbose,
+                save_raw_data=True,
+                create_human_readable=True,
+            ),
+            verbose=verbose,
         )
 
     async def _execute(self, inp: TestSuiteGeneratorInput) -> TestSuiteGeneratorOutput:
@@ -297,6 +314,89 @@ class TestSuiteGeneratorTool(BaseTool):
                 test_cases=test_cases,
             )
 
+            # Step 7: Capture comprehensive report data
+            self.logger.info("Step 7: Capturing comprehensive report data")
+
+            # Create safe endpoint name for reporting
+            endpoint_name = create_safe_endpoint_name(
+                {
+                    "method": endpoint_info.method,
+                    "path": endpoint_info.path,
+                    "name": endpoint_info.name,
+                }
+            )
+
+            # Capture all pipeline data for comprehensive reporting
+            comprehensive_report_data = {
+                "constraints": {
+                    "all_constraints": [
+                        constraint.model_dump() for constraint in all_constraints
+                    ],
+                    "request_param_constraints": [
+                        constraint.model_dump()
+                        for constraint in constraint_output.request_param_constraints
+                    ],
+                    "request_body_constraints": [
+                        constraint.model_dump()
+                        for constraint in constraint_output.request_body_constraints
+                    ],
+                    "response_property_constraints": [
+                        constraint.model_dump()
+                        for constraint in constraint_output.response_property_constraints
+                    ],
+                    "request_response_constraints": [
+                        constraint.model_dump()
+                        for constraint in constraint_output.request_response_constraints
+                    ],
+                },
+                "test_data": {
+                    "test_data_collection": [
+                        data.model_dump() for data in test_data_collection
+                    ],
+                    "verification_scripts": [
+                        script.model_dump() for script in test_data_verification_scripts
+                    ],
+                    "verified_test_data": [
+                        data.model_dump() for data in verified_test_data
+                    ],
+                    "filtered_count": verifier_output.filtered_count,
+                    "verification_results": verifier_output.verification_results,
+                },
+                "validation_scripts": {
+                    "all_validation_scripts": [
+                        script.model_dump() for script in validation_scripts
+                    ],
+                    "test_data_verification_scripts": [
+                        script.model_dump() for script in test_data_verification_scripts
+                    ],
+                    "test_case_validation_scripts": [
+                        script.model_dump() for script in test_case_validation_scripts
+                    ],
+                },
+                "pipeline_metadata": {
+                    "endpoint_name": endpoint_name,
+                    "endpoint_info": endpoint_info.model_dump(),
+                    "test_case_count": test_case_count,
+                    "include_invalid_data": include_invalid_data,
+                    "api_name": inp.api_name,
+                    "api_version": inp.api_version,
+                    "pipeline_timestamp": datetime.now().isoformat(),
+                },
+                "statistics": {
+                    "total_constraints": len(all_constraints),
+                    "total_test_data_generated": len(test_data_collection),
+                    "total_test_data_verified": len(verified_test_data),
+                    "total_validation_scripts": len(validation_scripts),
+                    "total_test_cases": len(test_cases),
+                    "total_validation_scripts_per_case": total_validation_scripts,
+                    "verification_success_rate": (
+                        (len(verified_test_data) / len(test_data_collection) * 100)
+                        if test_data_collection
+                        else 0
+                    ),
+                },
+            }
+
             self.logger.info(f"Pipeline completed successfully")
             self.logger.add_context(
                 test_suite_id=test_suite.id,
@@ -329,7 +429,10 @@ class TestSuiteGeneratorTool(BaseTool):
                 )
                 self.logger.debug("Status: Success")
 
-            return TestSuiteGeneratorOutput(test_suite=test_suite)
+            return TestSuiteGeneratorOutput(
+                test_suite=test_suite,
+                comprehensive_report_data=comprehensive_report_data,
+            )
 
         except Exception as e:
             self.logger.error(f"Error in test suite pipeline: {str(e)}")
@@ -348,7 +451,10 @@ class TestSuiteGeneratorTool(BaseTool):
             )
 
             self.logger.warning(f"Returning error test suite due to pipeline failure")
-            return TestSuiteGeneratorOutput(test_suite=error_test_suite)
+            return TestSuiteGeneratorOutput(
+                test_suite=error_test_suite,
+                comprehensive_report_data=None,
+            )
 
     async def cleanup(self) -> None:
         """Clean up resources."""

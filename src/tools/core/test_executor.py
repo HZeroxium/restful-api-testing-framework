@@ -1,8 +1,12 @@
 # tools/core/test_executor.py
 
 import asyncio
+import json
+import os
 import time
-from typing import Dict, Optional
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, Optional, List, Tuple, Any
 from urllib.parse import urljoin
 
 from ...core.base_tool import BaseTool
@@ -11,14 +15,21 @@ from ...schemas.tools.test_executor import (
     TestExecutorOutput,
     TestCaseExecutionResult,
     TestSuiteExecutionResult,
+    ValidationScriptResult,
 )
 from ...schemas.tools.test_case_generator import TestCase
 from ...schemas.tools.test_suite_generator import TestSuite
 from ...schemas.tools.code_executor import CodeExecutorInput
 from ...schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
+from ...schemas.tools.constraint_miner import ApiConstraint
 from .code_executor import CodeExecutorTool
 from .rest_api_caller import RestApiCallerTool
 from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from ...utils.code_script_utils import prepare_validation_script
+from ...utils.comprehensive_report_utils import (
+    ComprehensiveReportGenerator,
+    ReportConfig,
+)
 
 
 class TestExecutorTool(BaseTool):
@@ -70,6 +81,17 @@ class TestExecutorTool(BaseTool):
             config={"timeout": 30},  # Default timeout
         )
 
+        # Initialize comprehensive report generator
+        self.report_generator = ComprehensiveReportGenerator(
+            config=ReportConfig(
+                base_output_dir="test_reports",
+                include_verbose_details=verbose,
+                save_raw_data=True,
+                create_human_readable=True,
+            ),
+            verbose=verbose,
+        )
+
     async def _execute(self, inp: TestExecutorInput) -> TestExecutorOutput:
         """Execute test suites and aggregate results."""
         start_time = time.time()
@@ -113,6 +135,15 @@ class TestExecutorTool(BaseTool):
             "total_failed": total_failed,
             "pass_rate": (total_passed / total_tests * 100) if total_tests > 0 else 0,
             "execution_time": total_execution_time,
+            "total_validation_scripts": sum(
+                result.total_validation_scripts for result in test_suite_results
+            ),
+            "passed_validation_scripts": sum(
+                result.passed_validation_scripts for result in test_suite_results
+            ),
+            "failed_validation_scripts": sum(
+                result.failed_validation_scripts for result in test_suite_results
+            ),
         }
 
         self.logger.info(
@@ -120,11 +151,39 @@ class TestExecutorTool(BaseTool):
             f"({execution_summary['pass_rate']:.1f}%) in {total_execution_time:.2f}s"
         )
 
+        # Save results if requested
+        output_directory = None
+        saved_files = []
+
+        if inp.save_results:
+            try:
+                output_directory, saved_files = (
+                    await self._save_comprehensive_execution_results(
+                        test_suite_results,
+                        execution_summary,
+                        inp.output_directory,
+                        inp.comprehensive_report_data,
+                    )
+                )
+                self.logger.info(f"Results saved to: {output_directory}")
+            except Exception as e:
+                self.logger.error(f"Failed to save results: {str(e)}")
+                # Fallback to basic save
+                try:
+                    output_directory, saved_files = await self._save_execution_results(
+                        test_suite_results, execution_summary, inp.output_directory
+                    )
+                    self.logger.info(f"Basic results saved to: {output_directory}")
+                except Exception as e2:
+                    self.logger.error(f"Failed to save basic results: {str(e2)}")
+
         return TestExecutorOutput(
             execution_summary=execution_summary,
             test_suite_results=test_suite_results,
             total_execution_time=total_execution_time,
             overall_passed=overall_passed,
+            output_directory=output_directory,
+            saved_files=saved_files,
         )
 
     async def _execute_test_suite_with_semaphore(
@@ -176,19 +235,36 @@ class TestExecutorTool(BaseTool):
         passed_tests = sum(1 for result in test_case_results if result.passed)
         failed_tests = len(test_case_results) - passed_tests
 
+        # Calculate validation script statistics
+        total_validation_scripts = sum(
+            len(result.validation_results) for result in test_case_results
+        )
+        passed_validation_scripts = sum(
+            sum(1 for validation in result.validation_results if validation.passed)
+            for result in test_case_results
+        )
+        failed_validation_scripts = total_validation_scripts - passed_validation_scripts
+
         self.logger.info(
             f"Test suite {test_suite.name} completed: {passed_tests}/{len(test_case_results)} passed "
+            f"({passed_validation_scripts}/{total_validation_scripts} validation scripts passed) "
             f"in {execution_time:.2f}s"
         )
 
         return TestSuiteExecutionResult(
             test_suite_id=test_suite.id,
             test_suite_name=test_suite.name,
+            endpoint_path=(
+                test_suite.endpoint_info.path if test_suite.endpoint_info else None
+            ),
             total_tests=len(test_case_results),
             passed_tests=passed_tests,
             failed_tests=failed_tests,
             execution_time=execution_time,
             test_case_results=test_case_results,
+            total_validation_scripts=total_validation_scripts,
+            passed_validation_scripts=passed_validation_scripts,
+            failed_validation_scripts=failed_validation_scripts,
         )
 
     async def _execute_test_case_with_semaphore(
@@ -290,7 +366,6 @@ class TestExecutorTool(BaseTool):
                 )
                 # For error responses, only check status code
                 test_passed = status_code_passed
-
                 execution_time = time.time() - start_time
 
                 return TestCaseExecutionResult(
@@ -303,8 +378,9 @@ class TestExecutorTool(BaseTool):
                     response_body=response_body,
                     response_headers=response_headers,
                     validation_results=validation_results,
-                    # status_code_passed=status_code_passed,
-                    # validation_passed=validation_passed,
+                    expected_status_code=test_case.expected_status_code,
+                    status_code_passed=status_code_passed,
+                    validation_passed=validation_passed,
                     error_message=(
                         None
                         if test_passed
@@ -312,112 +388,105 @@ class TestExecutorTool(BaseTool):
                     ),
                 )
 
-            for script in test_case.validation_scripts:
-                try:
-                    # Create request and response objects for validation script
-                    request_obj = {
-                        "method": method,
-                        "url": url,
-                        "headers": headers,
-                        "params": query_params,
-                        "path_params": path_params,
-                        "json": test_case.request_body,
-                    }
+            # Execute validation scripts for successful responses
+            if test_case.validation_scripts:
+                self.logger.debug(
+                    f"Running {len(test_case.validation_scripts)} validation scripts for test case {test_case.name}"
+                )
 
-                    response_obj = {
-                        "status_code": status_code,
-                        "headers": response_headers,
-                        "body": response_body,
-                    }
+                # Prepare request and response objects for validation scripts
+                request_obj = {
+                    "method": method,
+                    "url": url,
+                    "headers": headers,
+                    "params": query_params,
+                    "path_params": path_params,
+                    "json": test_case.request_body,
+                }
 
-                    # Prepare complete validation script with function call
-                    script_code = script.validation_code
+                response_obj = {
+                    "status_code": status_code,
+                    "headers": response_headers,
+                    "body": response_body,
+                }
 
-                    # Extract function name from the validation script
-                    import re
+                # Context variables for script execution
+                context_vars = {
+                    "request": request_obj,
+                    "response": response_obj,
+                    "test_case": test_case.model_dump(),
+                    "response_body": response_body,
+                    "response_headers": response_headers,
+                    "status_code": status_code,
+                    "response_time": response_time,
+                    "request_details": request_details,
+                }
 
-                    func_match = re.search(r"def (\w+)\(", script_code)
-                    if func_match:
-                        func_name = func_match.group(1)
-                        # Add code to call the function and return the result
-                        full_script = f"""{script_code}
+                # Execute each validation script
+                for script in test_case.validation_scripts:
+                    script_start_time = time.time()
+                    try:
+                        self.logger.debug(f"Executing validation script: {script.name}")
 
-# Execute the validation function
-try:
-    result = {func_name}(request, response)
-    print(result)
-except Exception as e:
-    print(f"Error in validation: {{e}}")
-    result = False
-"""
-                    else:
-                        # Fallback if function name cannot be extracted
-                        full_script = f"""{script_code}
+                        # Prepare the validation script with execution wrapper
+                        prepared_script = prepare_validation_script(
+                            script.validation_code
+                        )
 
-# Fallback execution
-try:
-    # Assume the last defined function is the validation function
-    result = False
-    print(result)
-except Exception as e:
-    print(f"Error in validation: {{e}}")
-    result = False
-"""
+                        # Execute the prepared script
+                        code_input = CodeExecutorInput(
+                            code=prepared_script,
+                            context_variables=context_vars,
+                            timeout=inp.timeout,
+                        )
 
-                    # Prepare context for validation script
-                    context_vars = {
-                        "request": request_obj,
-                        "response": response_obj,
-                        "test_case": test_case.model_dump(),
-                        "response_body": response_body,
-                        "response_headers": response_headers,
-                        "status_code": status_code,
-                        "response_time": response_time,
-                        "request_details": request_details,
-                    }
+                        script_result = await self.code_executor.execute(code_input)
+                        script_execution_time = time.time() - script_start_time
 
-                    # Execute validation script
-                    code_input = CodeExecutorInput(
-                        code=full_script,
-                        context_variables=context_vars,
-                        timeout=inp.timeout,
-                    )
+                        # Parse the script result
+                        script_passed = self._parse_script_result(
+                            script_result, script.name
+                        )
 
-                    script_result = await self.code_executor.execute(code_input)
-                    script_passed = (
-                        script_result.success
-                        and self._extract_boolean_result(script_result.stdout)
-                    )
+                        validation_result = ValidationScriptResult(
+                            script_id=script.id,
+                            script_name=script.name,
+                            passed=script_passed,
+                            result=script_result.stdout,
+                            error=script_result.error,
+                            description=script.description,
+                            execution_success=script_result.success,
+                            execution_time=script_execution_time,
+                        )
 
-                    validation_results.append(
-                        {
-                            "script_id": script.id,
-                            "script_name": script.name,
-                            "passed": script_passed,
-                            "result": script_result.stdout,
-                            "error": script_result.error,
-                            "description": script.description,
-                        }
-                    )
+                        validation_results.append(validation_result)
 
-                    if not script_passed:
+                        if not script_passed:
+                            validation_passed = False
+                            self.logger.warning(
+                                f"Validation script {script.name} failed: {script_result.error or 'Script returned False'}"
+                            )
+
+                    except Exception as e:
+                        script_execution_time = time.time() - script_start_time
+                        error_msg = (
+                            f"Error executing validation script {script.name}: {str(e)}"
+                        )
+                        self.logger.error(error_msg)
+
+                        validation_result = ValidationScriptResult(
+                            script_id=script.id,
+                            script_name=script.name,
+                            passed=False,
+                            result=None,
+                            error=error_msg,
+                            description=script.description,
+                            execution_success=False,
+                            execution_time=script_execution_time,
+                        )
+
+                        validation_results.append(validation_result)
                         validation_passed = False
-
-                except Exception as e:
-                    self.logger.error(
-                        f"Error executing validation script {script.id}: {str(e)}"
-                    )
-                    validation_results.append(
-                        {
-                            "script_id": script.id,
-                            "script_name": script.name,
-                            "passed": False,
-                            "result": None,
-                            "error": str(e),
-                            "description": script.description,
-                        }
-                    )
-                    validation_passed = False
 
             # Determine overall test result
             test_passed = status_code_passed and validation_passed
@@ -439,8 +508,9 @@ except Exception as e:
                 response_body=response_body,
                 response_headers=response_headers,
                 validation_results=validation_results,
-                # status_code_passed=status_code_passed,
-                # validation_passed=validation_passed,
+                expected_status_code=test_case.expected_status_code,
+                status_code_passed=status_code_passed,
+                validation_passed=validation_passed,
                 error_message=None if test_passed else "Validation failed",
             )
 
@@ -463,6 +533,34 @@ except Exception as e:
                 ),
             )
 
+    def _parse_script_result(self, script_result, script_name: str) -> bool:
+        """
+        Parse the result of a validation script execution.
+
+        Args:
+            script_result: The result from code executor
+            script_name: Name of the script for logging
+
+        Returns:
+            bool: True if script passed, False otherwise
+        """
+        if not script_result.success:
+            self.logger.warning(
+                f"Script {script_name} execution failed: {script_result.error}"
+            )
+            return False
+
+        stdout = script_result.stdout.strip() if script_result.stdout else ""
+
+        if not stdout:
+            self.logger.warning(
+                f"Script {script_name} produced no output, defaulting to False"
+            )
+            return False
+
+        # Parse the stdout to determine if the script passed
+        return self._extract_boolean_result(stdout)
+
     def _extract_boolean_result(self, result_string: str) -> bool:
         """Extract boolean result from script execution output."""
         if not result_string:
@@ -483,6 +581,314 @@ except Exception as e:
             # If all else fails, check if the result contains positive indicators
             positive_indicators = ["true", "pass", "valid", "success", "ok"]
             return any(indicator in result_lower for indicator in positive_indicators)
+
+    async def _save_execution_results(
+        self,
+        test_suite_results: List[TestSuiteExecutionResult],
+        execution_summary: Dict,
+        output_directory: Optional[str] = None,
+    ) -> Tuple[str, List[str]]:
+        """
+        Save execution results to files in a structured directory.
+
+        Args:
+            test_suite_results: Results from test suite execution
+            execution_summary: Overall execution summary
+            output_directory: Optional output directory path
+
+        Returns:
+            Tuple of (output_directory_path, list_of_saved_files)
+        """
+        # Create output directory with timestamp
+        if output_directory is None:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            output_directory = f"test_reports/{timestamp}"
+
+        output_path = Path(output_directory)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        saved_files = []
+
+        # Save overall execution summary
+        summary_file = output_path / "execution_summary.json"
+        with open(summary_file, "w", encoding="utf-8") as f:
+            json.dump(execution_summary, f, indent=2, default=str)
+        saved_files.append(str(summary_file))
+
+        # Save detailed results for each test suite
+        for suite_result in test_suite_results:
+            # Create suite-specific directory
+            suite_dir = output_path / f"test_suite_{suite_result.test_suite_id}"
+            suite_dir.mkdir(parents=True, exist_ok=True)
+
+            # Create subdirectories
+            execution_dir = suite_dir / "test_execution"
+            execution_dir.mkdir(parents=True, exist_ok=True)
+
+            # Save suite summary
+            suite_summary_file = suite_dir / "suite_summary.json"
+            suite_summary = {
+                "test_suite_id": suite_result.test_suite_id,
+                "test_suite_name": suite_result.test_suite_name,
+                "endpoint_path": suite_result.endpoint_path,
+                "total_tests": suite_result.total_tests,
+                "passed_tests": suite_result.passed_tests,
+                "failed_tests": suite_result.failed_tests,
+                "execution_time": suite_result.execution_time,
+                "total_validation_scripts": suite_result.total_validation_scripts,
+                "passed_validation_scripts": suite_result.passed_validation_scripts,
+                "failed_validation_scripts": suite_result.failed_validation_scripts,
+                "execution_timestamp": suite_result.execution_timestamp,
+            }
+
+            with open(suite_summary_file, "w", encoding="utf-8") as f:
+                json.dump(suite_summary, f, indent=2, default=str)
+            saved_files.append(str(suite_summary_file))
+
+            # Save detailed test case results
+            test_cases_file = execution_dir / "test_case_results.json"
+            test_cases_data = []
+
+            for case_result in suite_result.test_case_results:
+                test_case_data = {
+                    "test_case_id": case_result.test_case_id,
+                    "test_case_name": case_result.test_case_name,
+                    "passed": case_result.passed,
+                    "status_code": case_result.status_code,
+                    "expected_status_code": case_result.expected_status_code,
+                    "status_code_passed": case_result.status_code_passed,
+                    "validation_passed": case_result.validation_passed,
+                    "response_time": case_result.response_time,
+                    "error_message": case_result.error_message,
+                    "execution_timestamp": case_result.execution_timestamp,
+                    "request_details": case_result.request_details,
+                    "response_body": case_result.response_body,
+                    "response_headers": case_result.response_headers,
+                    "validation_results": [
+                        {
+                            "script_id": val.script_id,
+                            "script_name": val.script_name,
+                            "passed": val.passed,
+                            "result": val.result,
+                            "error": val.error,
+                            "description": val.description,
+                            "execution_success": val.execution_success,
+                            "execution_time": val.execution_time,
+                        }
+                        for val in case_result.validation_results
+                    ],
+                }
+                test_cases_data.append(test_case_data)
+
+            with open(test_cases_file, "w", encoding="utf-8") as f:
+                json.dump(test_cases_data, f, indent=2, default=str)
+            saved_files.append(str(test_cases_file))
+
+            # Save failed test cases separately for easy analysis
+            failed_cases = [
+                case_data for case_data in test_cases_data if not case_data["passed"]
+            ]
+
+            if failed_cases:
+                failed_cases_file = execution_dir / "failed_test_cases.json"
+                with open(failed_cases_file, "w", encoding="utf-8") as f:
+                    json.dump(failed_cases, f, indent=2, default=str)
+                saved_files.append(str(failed_cases_file))
+
+        self.logger.info(f"Saved {len(saved_files)} result files to {output_directory}")
+        return str(output_path), saved_files
+
+    async def _save_comprehensive_execution_results(
+        self,
+        test_suite_results: List[TestSuiteExecutionResult],
+        execution_summary: Dict,
+        output_directory: Optional[str] = None,
+        comprehensive_report_data: Optional[Dict[str, Any]] = None,
+    ) -> Tuple[str, List[str]]:
+        """
+        Save comprehensive execution results using the comprehensive report generator.
+
+        Args:
+            test_suite_results: Results from test suite execution
+            execution_summary: Overall execution summary
+            output_directory: Optional output directory path
+            comprehensive_report_data: Comprehensive report data from pipeline
+
+        Returns:
+            Tuple of (output_directory_path, list_of_saved_files)
+        """
+        # Use comprehensive report generator for structured reporting
+        if comprehensive_report_data and comprehensive_report_data.get("api_info"):
+            api_info = comprehensive_report_data["api_info"]
+            api_name = api_info.get("api_name", "UnknownAPI")
+            api_version = api_info.get("api_version", "1.0")
+
+            # Create comprehensive report structure
+            base_report_dir, directories = (
+                self.report_generator.create_report_structure(api_name, api_version)
+            )
+
+            saved_files = []
+
+            # Save overall summary
+            summary_file = self.report_generator.save_overall_summary(
+                api_name,
+                api_version,
+                test_suite_results,
+                execution_summary,
+                directories["summary"],
+            )
+            saved_files.append(summary_file)
+
+            # Save detailed reports for each test suite
+            for suite_result in test_suite_results:
+                if (
+                    hasattr(suite_result, "endpoint_path")
+                    and suite_result.endpoint_path
+                ):
+                    # Create safe endpoint name for this suite
+                    from ...utils.comprehensive_report_utils import (
+                        create_safe_endpoint_name,
+                    )
+
+                    endpoint_name = create_safe_endpoint_name(
+                        {
+                            "method": "GET",  # Default method if not available
+                            "path": suite_result.endpoint_path,
+                            "name": suite_result.test_suite_name,
+                        }
+                    )
+
+                    # Find corresponding endpoint data in comprehensive report
+                    endpoint_data = None
+                    if comprehensive_report_data.get("endpoints_data"):
+                        for key, data in comprehensive_report_data[
+                            "endpoints_data"
+                        ].items():
+                            if suite_result.endpoint_path in str(
+                                data.get("pipeline_metadata", {}).get(
+                                    "endpoint_info", {}
+                                )
+                            ):
+                                endpoint_data = data
+                                break
+
+                    # Save constraints report if available
+                    if endpoint_data and endpoint_data.get("constraints"):
+                        try:
+                            constraints_file = (
+                                self.report_generator.save_constraints_report(
+                                    [
+                                        ApiConstraint.model_validate(c)
+                                        for c in endpoint_data["constraints"][
+                                            "all_constraints"
+                                        ]
+                                    ],
+                                    endpoint_data["pipeline_metadata"]["endpoint_info"],
+                                    directories["constraints"],
+                                    endpoint_name,
+                                )
+                            )
+                            saved_files.append(constraints_file)
+                        except Exception as e:
+                            self.logger.warning(
+                                f"Failed to save constraints report for {endpoint_name}: {str(e)}"
+                            )
+
+                    # Save test data report if available
+                    if endpoint_data and endpoint_data.get("test_data"):
+                        try:
+                            from ...schemas.tools.test_data_generator import (
+                                TestData,
+                            )
+                            from ...schemas.tools.test_script_generator import (
+                                ValidationScript,
+                            )
+
+                            test_data_collection = [
+                                TestData.model_validate(td)
+                                for td in endpoint_data["test_data"][
+                                    "test_data_collection"
+                                ]
+                            ]
+                            verification_scripts = [
+                                ValidationScript.model_validate(vs)
+                                for vs in endpoint_data["test_data"][
+                                    "verification_scripts"
+                                ]
+                            ]
+                            verified_test_data = [
+                                TestData.model_validate(td)
+                                for td in endpoint_data["test_data"][
+                                    "verified_test_data"
+                                ]
+                            ]
+
+                            test_data_file = (
+                                self.report_generator.save_test_data_report(
+                                    test_data_collection,
+                                    verification_scripts,
+                                    verified_test_data,
+                                    endpoint_data["test_data"]["filtered_count"],
+                                    directories["test_data"],
+                                    endpoint_name,
+                                )
+                            )
+                            saved_files.append(test_data_file)
+                        except Exception as e:
+                            self.logger.warning(
+                                f"Failed to save test data report for {endpoint_name}: {str(e)}"
+                            )
+
+                    # Save validation scripts report if available
+                    if endpoint_data and endpoint_data.get("validation_scripts"):
+                        try:
+                            validation_scripts = [
+                                ValidationScript.model_validate(vs)
+                                for vs in endpoint_data["validation_scripts"][
+                                    "all_validation_scripts"
+                                ]
+                            ]
+
+                            scripts_file = (
+                                self.report_generator.save_validation_scripts_report(
+                                    validation_scripts,
+                                    directories["validation_scripts"],
+                                    endpoint_name,
+                                )
+                            )
+                            saved_files.append(scripts_file)
+                        except Exception as e:
+                            self.logger.warning(
+                                f"Failed to save validation scripts report for {endpoint_name}: {str(e)}"
+                            )
+
+                    # Save execution report
+                    try:
+                        execution_file = self.report_generator.save_execution_report(
+                            suite_result,
+                            directories["test_execution"],
+                            endpoint_name,
+                        )
+                        saved_files.append(execution_file)
+                    except Exception as e:
+                        self.logger.warning(
+                            f"Failed to save execution report for {endpoint_name}: {str(e)}"
+                        )
+
+            self.logger.info(
+                f"Saved comprehensive reports: {len(saved_files)} files in {base_report_dir}"
+            )
+            return base_report_dir, saved_files
+
+        else:
+            # Fallback to basic save if no comprehensive data
+            self.logger.warning(
+                "No comprehensive report data available, using basic save"
+            )
+            return await self._save_execution_results(
+                test_suite_results, execution_summary, output_directory
+            )
 
     async def cleanup(self) -> None:
         """Clean up resources."""

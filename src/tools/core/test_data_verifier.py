@@ -11,6 +11,7 @@ from ...schemas.tools.test_data_verifier import (
 from ...schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
 from ..core.code_executor import CodeExecutorTool
 from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from ...utils.code_script_utils import prepare_validation_script
 
 
 class TestDataVerifierTool(BaseTool):
@@ -155,9 +156,12 @@ class TestDataVerifierTool(BaseTool):
                 self.logger.debug(f"Script code: {script.validation_code}")
 
                 try:
-                    # Execute the script with test data context
+                    # Prepare the validation script using the utility function
+                    prepared_script = prepare_validation_script(script.validation_code)
+
+                    # Execute the prepared script with test data context
                     script_input = CodeExecutorInput(
-                        code=script.validation_code,
+                        code=prepared_script,
                         context_variables={
                             "request": {
                                 "params": test_data.request_params or {},

@@ -1,7 +1,7 @@
 # schemas/tools/test_collection_generator.py
 
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from .openapi_parser import EndpointInfo
 from .test_suite_generator import TestSuite
@@ -31,3 +31,6 @@ class TestCollectionGeneratorOutput(BaseModel):
     """Output from TestCollectionGeneratorTool."""
 
     test_collection: TestCollection
+    comprehensive_report_data: Optional[Dict[str, Any]] = Field(
+        default=None, description="Comprehensive report data for all endpoints"
+    )

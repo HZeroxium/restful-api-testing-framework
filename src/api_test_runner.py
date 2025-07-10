@@ -125,6 +125,9 @@ async def simplified_testing_pipeline(
             timeout=30,
             parallel_execution=True,
             max_concurrent_requests=10,
+            save_results=True,
+            output_directory=report_output_dir,
+            comprehensive_report_data=collection_output.comprehensive_report_data,
         )
 
         executor_output: TestExecutorOutput = await test_executor.execute(
@@ -133,6 +136,13 @@ async def simplified_testing_pipeline(
         test_suite_results = executor_output.test_suite_results
 
         logger.info(f"Executed {len(test_suite_results)} test suites")
+
+        # Use the comprehensive report output directory if available
+        if executor_output.output_directory:
+            comprehensive_report_dir = executor_output.output_directory
+            logger.info(f"Comprehensive reports saved to: {comprehensive_report_dir}")
+        else:
+            comprehensive_report_dir = report_output_dir
 
         # Step 3: Generate comprehensive reports
         logger.info("Step 3: Generating test reports")
@@ -167,14 +177,14 @@ async def simplified_testing_pipeline(
                 for validation_result in case_result.validation_results:
                     validation_results.append(
                         ValidationResult(
-                            script_id=validation_result["script_id"],
-                            script_name=validation_result["script_name"],
+                            script_id=validation_result.script_id,
+                            script_name=validation_result.script_name,
                             status=(
                                 TestStatus.PASS
-                                if validation_result["passed"]
+                                if validation_result.passed
                                 else TestStatus.FAIL
                             ),
-                            message=validation_result.get("result", ""),
+                            message=validation_result.result,
                             validation_code="",  # Not needed for reporting
                             script_type=None,  # Will be determined from script name
                         )
@@ -261,10 +271,12 @@ async def simplified_testing_pipeline(
                 (passed_tests / total_test_cases * 100) if total_test_cases > 0 else 0.0
             ),
             "reports": all_reports,
+            "comprehensive_report_directory": comprehensive_report_dir,
+            "comprehensive_reports_available": bool(executor_output.output_directory),
         }
 
-        # Save summary
-        summary_path = os.path.join(report_output_dir, "summary.json")
+        # Save summary to comprehensive report directory if available
+        summary_path = os.path.join(comprehensive_report_dir, "legacy_summary.json")
         with open(summary_path, "w") as f:
             json.dump(summary, f, indent=2, default=str)
 

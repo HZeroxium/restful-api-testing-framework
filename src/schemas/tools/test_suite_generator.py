@@ -1,7 +1,7 @@
 # schemas/tools/test_suite_generator.py
 
 from pydantic import BaseModel, Field
-from typing import List, Optional
+from typing import List, Optional, Dict, Any
 
 from .openapi_parser import EndpointInfo
 from .test_case_generator import TestCase
@@ -45,3 +45,6 @@ class TestSuiteGeneratorOutput(BaseModel):
     """Output from TestSuiteGeneratorTool."""
 
     test_suite: TestSuite
+    comprehensive_report_data: Optional[Dict[str, Any]] = Field(
+        default=None, description="Comprehensive report data for detailed analysis"
+    )

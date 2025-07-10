@@ -11,6 +11,10 @@ from ...schemas.tools.test_collection_generator import (
 from ...schemas.tools.test_suite_generator import TestSuiteGeneratorInput
 from .test_suite_generator import TestSuiteGeneratorTool
 from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from ...utils.comprehensive_report_utils import (
+    ComprehensiveReportGenerator,
+    ReportConfig,
+)
 
 
 class TestCollectionGeneratorTool(BaseTool):
@@ -52,6 +56,17 @@ class TestCollectionGeneratorTool(BaseTool):
             config=config,
         )
 
+        # Initialize comprehensive report generator
+        self.report_generator = ComprehensiveReportGenerator(
+            config=ReportConfig(
+                base_output_dir="test_reports",
+                include_verbose_details=verbose,
+                save_raw_data=True,
+                create_human_readable=True,
+            ),
+            verbose=verbose,
+        )
+
     async def _execute(
         self, inp: TestCollectionGeneratorInput
     ) -> TestCollectionGeneratorOutput:
@@ -68,6 +83,16 @@ class TestCollectionGeneratorTool(BaseTool):
         )
 
         test_suites = []
+        comprehensive_report_data = {
+            "api_info": {
+                "api_name": inp.api_name,
+                "api_version": inp.api_version,
+                "endpoints_count": len(inp.endpoints),
+                "test_case_count": inp.test_case_count,
+                "include_invalid_data": inp.include_invalid_data,
+            },
+            "endpoints_data": {},
+        }
 
         # Generate a test suite for each endpoint
         for i, endpoint in enumerate(inp.endpoints):
@@ -79,9 +104,22 @@ class TestCollectionGeneratorTool(BaseTool):
                 endpoint_info=endpoint,
                 test_case_count=inp.test_case_count,
                 include_invalid_data=inp.include_invalid_data,
+                api_name=inp.api_name,
+                api_version=inp.api_version,
             )
             suite_output = await self.test_suite_generator.execute(suite_input)
             test_suites.append(suite_output.test_suite)
+
+            # Capture comprehensive report data for this endpoint
+            if suite_output.comprehensive_report_data:
+                endpoint_key = (
+                    f"{endpoint.method.upper()}_{endpoint.path}".replace("/", "_")
+                    .replace("{", "")
+                    .replace("}", "")
+                )
+                comprehensive_report_data["endpoints_data"][
+                    endpoint_key
+                ] = suite_output.comprehensive_report_data
 
             self.logger.debug(
                 f"Generated test suite for {endpoint.method.upper()} {endpoint.path} with {len(suite_output.test_suite.test_cases)} test cases"
@@ -104,7 +142,10 @@ class TestCollectionGeneratorTool(BaseTool):
             f"Test collection generated successfully: {len(test_suites)} test suites, {total_test_cases} total test cases"
         )
 
-        return TestCollectionGeneratorOutput(test_collection=test_collection)
+        return TestCollectionGeneratorOutput(
+            test_collection=test_collection,
+            comprehensive_report_data=comprehensive_report_data,
+        )
 
     async def cleanup(self) -> None:
         """Clean up any resources."""
