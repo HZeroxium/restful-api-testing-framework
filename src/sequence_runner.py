@@ -22,16 +22,17 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 test_case_dir_name = "KAT_CLONE_TEST_CASES" 
 class SequenceRunner:
-    def __init__(self, service_name: str, base_url: str = "http://localhost:8000", auth_token: str = None):
+    def __init__(self, service_name: str, base_url: str = "http://localhost:8000", auth_token: str = None, endpoint: List[str] = None, skip_preload: bool = False):
         self.service_name = service_name
         self.base_url = base_url.rstrip('/')
-        
+        self.endpoint = endpoint
+
         # Setup paths
         self.base_dir = Path(__file__).resolve().parent.parent / test_case_dir_name / service_name
         self.test_case_dir = self.base_dir / "test_case_generator"
         self.test_data_dir = self.base_dir / "TestData/csv"
         self.topolist_path = self.base_dir / "ODG/topolist.json"
-        
+        self.output_csv_dir = self.base_dir / "Result"
         # Setup output directory for response logs
         self.output_dir = Path(__file__).resolve().parent / "Output" / service_name
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -72,19 +73,25 @@ class SequenceRunner:
         # CSV writer setup
         self.csv_file = None
         self.csv_writer = None
+
         self.setup_csv_output()
     
     def setup_csv_output(self):
-        csv_path = Path(__file__).resolve().parent / f"test_results_{self.service_name.replace(' ', '_')}.csv"
+        # Đảm bảo thư mục Result tồn tại
+        os.makedirs(self.output_csv_dir, exist_ok=True)
+
+        csv_path = self.output_csv_dir / f"test_results_{self.service_name.replace(' ', '_')}.csv"
+
         self.csv_file = open(csv_path, 'w', newline='', encoding='utf-8')
         fieldnames = [
-            'test_case_id', 'step_number', 'endpoint', 'method', 
+            'test_case_id', 'step_number', 'endpoint', 'method',
             'test_data_row', 'request_params', 'request_body', 'final_url',
             'response_status', 'expected_status', 'execution_time', 'status'
         ]
         self.csv_writer = csv.DictWriter(self.csv_file, fieldnames=fieldnames)
         self.csv_writer.writeheader()
         logger.info(f"CSV output will be saved to: {csv_path}")
+
     
     def load_topolist(self) -> List[str]:
         """Load endpoint sequence from topolist.json"""
@@ -116,28 +123,40 @@ class SequenceRunner:
         
         return sorted(filtered_files)
     
-    def find_test_data_file(self, endpoint_identifier: str, data_type: str = "param") -> Optional[Path]:
-        """Find corresponding test data CSV file"""
-        if not self.test_data_dir.exists():
-            return None
-        
-        # Try different naming patterns
-        patterns = [
-            f"{endpoint_identifier}_{data_type}.csv",
-            f"_{endpoint_identifier}_{data_type}.csv",
-            f"{endpoint_identifier}.csv"
-        ]
-        
-        for pattern in patterns:
-            csv_file = self.test_data_dir / pattern
-            if csv_file.exists():
-                logger.debug(f"Found test data file: {csv_file}")
-                return csv_file
-        
-        return None
+    def find_test_data_files(self, endpoint_identifier: str):
+        candidates = {
+            "param": [
+                f"{endpoint_identifier}_param.csv",
+                f"_{endpoint_identifier}_param.csv",
+            ],
+            "body": [
+                f"{endpoint_identifier}_body.csv",
+                f"_{endpoint_identifier}_body.csv",
+            ],
+            "any": [
+                f"{endpoint_identifier}.csv",
+                f"_{endpoint_identifier}.csv",
+            ]
+        }
+        found = {"param": None, "body": None}
+        for kind, patterns in candidates.items():
+            for p in patterns:
+                fpath = self.test_data_dir / p
+                if fpath.exists():
+                    if kind == "any":
+                        # fallback: coi như param
+                        found["param"] = fpath
+                    else:
+                        found[kind] = fpath
+                    break
+        return found
+
     
     def load_test_data(self, csv_file: Path) -> List[Dict[str, Any]]:
         """Load test data from CSV file"""
+        if csv_file is None:
+            return []
+            
         test_data = []
         try:
             with open(csv_file, 'r', encoding='utf-8') as f:
@@ -269,12 +288,28 @@ class SequenceRunner:
         if test_data_row is None:
             return '2xx'
             
-        # Check for expected status in different possible fields
+        # Check for expected status in different possible fields at root level
         for field in ['expected_status_code', 'expected_code']:
             if field in test_data_row and test_data_row[field]:
                 return test_data_row[field]
         
-        # Try to extract from data field if it's JSON
+        # Check nested structure: {"param": {...}, "body": {...}}
+        if "param" in test_data_row and isinstance(test_data_row["param"], dict):
+            param_data = test_data_row["param"]
+            for field in ['expected_status_code', 'expected_code']:
+                if field in param_data and param_data[field]:
+                    return param_data[field]
+                    
+            # Try to extract from data field if it's JSON in param section
+            if 'data' in param_data and isinstance(param_data['data'], str):
+                try:
+                    data_obj = json.loads(param_data['data'])
+                    if isinstance(data_obj, dict):
+                        return data_obj.get('expected_code', data_obj.get('expected_status_code', '2xx'))
+                except json.JSONDecodeError:
+                    pass
+        
+        # Try to extract from data field if it's JSON at root level
         if 'data' in test_data_row and isinstance(test_data_row['data'], str):
             try:
                 data_obj = json.loads(test_data_row['data'])
@@ -312,40 +347,356 @@ class SequenceRunner:
         # Default: assume 2xx if we can't parse
         return 200 <= actual_status < 300
 
-    def merge_test_data(self, base_params: Dict, base_body: Dict, test_data_row: Dict, endpoint: str = "", path_vars: Dict = None) -> tuple:
+    def resolve_not_sure_parameter(self, param_name: str, endpoint: str, step_responses: List[Dict] = None) -> Optional[str]:
+        """
+        Resolve %not-sure% parameter by extracting value from previous step responses
+        """
+        logger.info(f"🔍 Resolving %not-sure% parameter: {param_name} for endpoint: {endpoint}")
+        
+        # Try to get from cache first
+        if param_name in self.available_ids_cache and self.available_ids_cache[param_name]:
+            value = self.available_ids_cache[param_name][0]
+            logger.info(f"  ✅ Found cached value for {param_name}: {value}")
+            return value
+        
+        # Try to extract from previous step responses
+        if step_responses:
+            logger.info(f"  🔍 Looking for {param_name} in {len(step_responses)} previous step responses")
+            
+            for i, response in enumerate(step_responses):
+                try:
+                    logger.info(f"  📋 Step {i+1} response structure: {list(response.keys())}")
+                    
+                    # Try different possible keys for response data
+                    response_data = None
+                    for key in ['response_data', 'data', 'body', 'json', 'content']:
+                        if key in response and response[key]:
+                            response_data = response[key]
+                            logger.info(f"  📋 Found response data in key '{key}': type={type(response_data)}")
+                            break
+                    
+                    # If no standard key found, check if response itself is the API data
+                    if response_data is None:
+                        # Check if response has API-like structure (items, totalResults, etc.)
+                        if 'items' in response or 'data' in response or len(response) > 0:
+                            response_data = response
+                            logger.info(f"  📋 Using response directly as API data: {list(response.keys())}")
+                        else:
+                            # Try to find the first dict value that looks like API response data
+                            for key, value in response.items():
+                                if isinstance(value, dict) and len(value) > 0:
+                                    response_data = value
+                                    logger.info(f"  📋 Using response key '{key}' as data: {list(value.keys())}")
+                                    break
+                    
+                    if response_data and isinstance(response_data, dict):
+                        logger.info(f"  📋 Response data keys: {list(response_data.keys())}")
+                        
+                        # Look for direct match
+                        if param_name in response_data:
+                            value = str(response_data[param_name])
+                            logger.info(f"  ✅ Found {param_name}={value} in step {i+1} response")
+                            self._cache_parameter_value(param_name, value)
+                            return value
+                        
+                        # Look for ID-like fields in nested objects
+                        logger.info(f"  🔍 Searching for {param_name} in nested response data...")
+                        value = self._extract_id_from_response(response_data, param_name)
+                        if value:
+                            logger.info(f"  ✅ Extracted {param_name}={value} from step {i+1} response")
+                            self._cache_parameter_value(param_name, value)
+                            return value
+                        else:
+                            logger.info(f"  ❌ Could not extract {param_name} from step {i+1} response")
+                    else:
+                        logger.warning(f"  ❌ No valid response_data found in step {i+1}")
+                            
+                except Exception as e:
+                    logger.warning(f"  ⚠️  Error processing step {i+1} response: {e}")
+                    continue
+        else:
+            logger.warning(f"  ❌ No step_responses provided to resolve_not_sure_parameter")
+        
+        logger.warning(f"  ❌ Could not resolve %not-sure% parameter {param_name} from step responses")
+        return None
+    
+    def _cache_parameter_value(self, param_name: str, value: str):
+        """Cache a parameter value for future use"""
+        if param_name not in self.available_ids_cache:
+            self.available_ids_cache[param_name] = []
+        if value not in self.available_ids_cache[param_name]:
+            self.available_ids_cache[param_name].append(value)
+    
+    def _extract_id_from_response(self, response_data: dict, param_name: str) -> Optional[str]:
+        """
+        Extract ID value from response data by looking for matching patterns
+        """
+        logger.info(f"    🔍 _extract_id_from_response: Looking for {param_name} in response with keys: {list(response_data.keys())}")
+        
+        # Direct match
+        if param_name in response_data:
+            result = str(response_data[param_name])
+            logger.info(f"    ✅ Found direct match: {param_name}={result}")
+            return result
+        
+        # Look for array of objects with ID fields
+        for key, value in response_data.items():
+            logger.info(f"    🔍 Checking key '{key}' with type {type(value)}")
+            
+            if isinstance(value, list) and value:
+                logger.info(f"    📋 Found array '{key}' with {len(value)} items")
+                # Check first item in array
+                first_item = value[0]
+                if isinstance(first_item, dict):
+                    logger.info(f"    📋 First item keys: {list(first_item.keys())}")
+                    
+                    # Look for exact param name
+                    if param_name in first_item:
+                        result = str(first_item[param_name])
+                        logger.info(f"    ✅ Found exact param match in array item: {param_name}={result}")
+                        return result
+                    
+                    # Look for common ID patterns
+                    for id_key in ['id', 'Id', 'ID']:
+                        if id_key in first_item:
+                            # Match based on naming convention with flexible matching
+                            param_root = param_name.lower().rstrip('id')  # billId -> bill
+                            key_root = key.lower().rstrip('s')           # items -> item, bills -> bill
+                            logger.info(f"    🔍 Matching '{param_root}' with '{key_root}' for id_key '{id_key}'")
+                            
+                            # Multiple matching strategies
+                            is_match = False
+                            
+                            # 1. Exact match: bill == bill
+                            if param_root == key_root:
+                                is_match = True
+                                logger.info(f"    ✅ Exact match: {param_root} == {key_root}")
+                            
+                            # 2. Starts with: bill.startswith(bil)
+                            elif param_root.startswith(key_root) or key_root.startswith(param_root):
+                                is_match = True
+                                logger.info(f"    ✅ Prefix match: {param_root} <-> {key_root}")
+                            
+                            # 3. Common containers: items, data, results, list
+                            elif key.lower() in ['items', 'data', 'results', 'list', 'records']:
+                                is_match = True
+                                logger.info(f"    ✅ Common container match: {key}")
+                            
+                            # 4. Fuzzy match: check if param_root is similar to key_root
+                            elif len(param_root) >= 3 and len(key_root) >= 3:
+                                # Check if they share a common prefix of at least 3 chars
+                                common_len = 0
+                                for j in range(min(len(param_root), len(key_root))):
+                                    if param_root[j] == key_root[j]:
+                                        common_len += 1
+                                    else:
+                                        break
+                                if common_len >= 3:
+                                    is_match = True
+                                    logger.info(f"    ✅ Fuzzy match: {param_root} ~ {key_root} (common: {common_len})")
+                            
+                            if is_match:
+                                result = str(first_item[id_key])
+                                logger.info(f"    ✅ Found ID match: {param_name} -> {key}[0].{id_key} = {result}")
+                                return result
+                            
+            elif isinstance(value, dict):
+                logger.info(f"    🔍 Recursing into nested object '{key}'")
+                # Recursively search in nested objects
+                nested_result = self._extract_id_from_response(value, param_name)
+                if nested_result:
+                    logger.info(f"    ✅ Found in nested object: {nested_result}")
+                    return nested_result
+        
+        logger.info(f"    ❌ No match found for {param_name}")
+        return None
+    
+    def _fetch_value_from_dependency_endpoint(self, dep_endpoint: str, param_name: str) -> Optional[str]:
+        """
+        Fetch a value for param_name from a dependency endpoint
+        """
+        logger.info(f"    🌐 Fetching {param_name} from dependency endpoint: {dep_endpoint}")
+        
+        try:
+            # Create a basic step for dependency endpoint
+            dep_step = {
+                'endpoint': dep_endpoint,
+                'method': 'GET',
+                'query_parameters': {},
+                'request_body': {},
+                'path_variables': {},
+                'data_dependencies': {}
+            }
+            
+            # Execute the dependency endpoint
+            response = self.execute_request(dep_step, test_data_row=None, current_step=0, step_responses=[])
+            
+            if response and response.get('success') and 'response_body' in response:
+                response_body = response['response_body']
+                
+                # Try to extract the parameter value from response
+                value = self._extract_param_from_response(response_body, param_name)
+                if value is not None:
+                    logger.info(f"    ✅ Extracted {param_name}={value} from {dep_endpoint}")
+                    return value
+                else:
+                    logger.info(f"    ⚠️  Could not extract {param_name} from response")
+                    
+            else:
+                logger.warning(f"    ❌ Failed to get valid response from {dep_endpoint}")
+                
+        except Exception as e:
+            logger.error(f"    ❌ Error fetching from {dep_endpoint}: {e}")
+            
+        return None
+    
+    def _extract_param_from_response(self, response_body: Any, param_name: str) -> Optional[str]:
+        """
+        Extract parameter value from API response
+        """
+        if not response_body:
+            return None
+            
+        try:
+            # If response is a list, get the first item
+            if isinstance(response_body, list) and len(response_body) > 0:
+                response_body = response_body[0]
+            
+            # If response is a dict with 'items' array (paginated response)
+            if isinstance(response_body, dict) and 'items' in response_body:
+                items = response_body['items']
+                if isinstance(items, list) and len(items) > 0:
+                    response_body = items[0]
+            
+            # Try to extract the parameter directly
+            if isinstance(response_body, dict):
+                # Direct parameter match
+                if param_name in response_body:
+                    return str(response_body[param_name])
+                
+                # Try common ID field names
+                id_fields = ['id', 'Id', 'ID']
+                for field in id_fields:
+                    if field in response_body:
+                        return str(response_body[field])
+                
+                # Try parameter-specific patterns
+                # e.g., billId -> look for 'billId' or 'id' in bill context
+                if param_name.endswith('Id'):
+                    base_name = param_name[:-2].lower()  # Remove 'Id'
+                    for key in response_body:
+                        if key.lower() == base_name + 'id' or key.lower() == 'id':
+                            return str(response_body[key])
+                            
+        except Exception as e:
+            logger.error(f"    ❌ Error extracting {param_name} from response: {e}")
+            
+        return None
+
+    def merge_test_data(self, base_params: Dict, base_body: Dict, test_data_row: Dict, endpoint: str = "", path_vars: Dict = None, data_for: str = "params") -> tuple:
         """Merge test data row with base parameters and body, filtering relevant parameters"""
         # Start with resolved params to keep dependencies, but filter out null base params later
         merged_params = base_params.copy()
         merged_body = base_body.copy()
         
         # Skip metadata fields
-        metadata_fields = {'index', 'expected_status_code', 'expected_code'}
+        metadata_fields = {'index', 'expected_status_code', 'expected_code', 'reason'}
         
-        # Get path variable names to exclude from test data
+        # Get path variable names
         path_var_names = set()
         if path_vars:
             path_var_names = set(path_vars.keys())
         
+        # Store path variables from CSV for later use as fallback
+        csv_path_vars = {}
+        
+        # Store parameters that need dependency resolution  
+        not_sure_params = {}
+        
         # Handle None test_data_row
         if test_data_row is None:
-            return merged_params, merged_body
+            return merged_params, merged_body, csv_path_vars, not_sure_params
         
-        # Define valid parameters for each endpoint pattern
-        endpoint_param_mapping = {
-            'holidays': ['year', 'federal', 'optional'],
-            'provinces': ['year', 'federal', 'optional'],
-            'spec': [],
-            'root': []
-        }
+        def apply_kv(k, v, target):
+            if target == "params":
+                merged_params[k] = v
+            else:  # target == "body"
+                if isinstance(merged_body, dict):
+                    merged_body[k] = v
+        
+        # NEW: Extract path variables from CSV for fallback use
+        def extract_path_vars_from_data(data_dict):
+            for param_key, param_value in data_dict.items():
+                if param_key in path_var_names and param_value is not None:
+                    # Check for %not-sure% marker
+                    if param_value == "%not-sure%":
+                        not_sure_params[param_key] = True
+                        logger.info(f"  🔍 Found %not-sure% marker for path variable {param_key}")
+                    else:
+                        csv_path_vars[param_key] = param_value
+                        logger.info(f"  📋 Stored CSV path variable {param_key}={param_value} for fallback")
+        
+        # nếu test_data_row là dict 2 lớp {"param": {...}, "body": {...}}
+        if "param" in test_data_row or "body" in test_data_row:
+            logger.info(f"  📋 Processing nested test data structure with param/body keys")
+            for k, v in (test_data_row.get("param") or {}).items():
+                if k not in metadata_fields and k and v is not None:
+                    if k == 'data' and isinstance(v, str):
+                        logger.info(f"  🔍 Processing nested 'data' field with JSON content: {v[:100]}...")
+                        try:
+                            # Parse JSON data
+                            data_obj = json.loads(v)
+                            if isinstance(data_obj, dict) and 'data' in data_obj:
+                                logger.info(f"  📦 Found nested data structure, extracting parameters...")
+                                # Extract actual parameters from nested data
+                                actual_data = data_obj['data']
+                                # Check if actual_data is None
+                                if actual_data is not None and isinstance(actual_data, dict):
+                                    # Extract path variables for fallback
+                                    extract_path_vars_from_data(actual_data)
+                                    # Process non-path variables normally
+                                    for param_key, param_value in actual_data.items():
+                                        if param_key not in path_var_names and param_value is not None:
+                                            logger.info(f"  ✅ Adding parameter {param_key}={param_value} from nested JSON data")
+                                            apply_kv(param_key, param_value, "params")
+                            elif isinstance(data_obj, dict):
+                                logger.info(f"  📋 Found direct data object, extracting parameters...")
+                                # Direct data object
+                                # Extract path variables for fallback
+                                extract_path_vars_from_data(data_obj)
+                                # Process non-path variables normally
+                                for param_key, param_value in data_obj.items():
+                                    if param_key not in path_var_names and param_value is not None:
+                                        logger.info(f"  ✅ Adding parameter {param_key}={param_value} from direct JSON data")
+                                        apply_kv(param_key, param_value, "params")
+                        except json.JSONDecodeError:
+                            logger.warning(f"Failed to parse JSON in nested data field: {v}")
+                        # Skip further processing of the 'data' field after JSON parsing
+                        logger.info(f"  🛑 Skipping further processing of nested 'data' key to avoid duplication")
+                        continue
+                    else:
+                        if k not in path_var_names:
+                            apply_kv(k, v, "params")
+                        else:
+                            csv_path_vars[k] = v
+                            logger.info(f"  📋 Stored CSV path variable {k}={v} for fallback")
+            for k, v in (test_data_row.get("body") or {}).items():
+                if k not in metadata_fields and k and v is not None:
+                    if k not in path_var_names:  # Skip path variables
+                        apply_kv(k, v, "body")
+            return merged_params, merged_body, csv_path_vars, not_sure_params
+        
         
         # Determine which parameters are valid for this endpoint
         valid_params = set()
         endpoint_clean = endpoint.lower().replace('get-', '').replace('post-', '').replace('put-', '').replace('delete-', '')
         
-        for pattern, params in endpoint_param_mapping.items():
-            if pattern in endpoint_clean:
-                valid_params.update(params)
-                break
+        # TODO: Define endpoint_param_mapping or implement proper parameter validation
+        # For now, disable parameter filtering to allow JSON parsing to work correctly
+        # for pattern, params in endpoint_param_mapping.items():
+        #     if pattern in endpoint_clean:
+        #         valid_params.update(params)
+        #         break
             
         for key, value in test_data_row.items():
             if key in metadata_fields or not key:
@@ -356,41 +707,48 @@ class SequenceRunner:
                 
             # Special handling for 'data' field which contains JSON
             if key == 'data' and isinstance(value, str):
+                logger.info(f"  🔍 Processing 'data' field with JSON content: {value[:100]}...")
                 try:
                     # Parse JSON data
                     data_obj = json.loads(value)
                     if isinstance(data_obj, dict) and 'data' in data_obj:
+                        logger.info(f"  📦 Found nested data structure, extracting parameters...")
                         # Extract actual parameters from nested data
                         actual_data = data_obj['data']
                         # Check if actual_data is None
                         if actual_data is not None and isinstance(actual_data, dict):
+                            # Extract path variables for fallback
+                            extract_path_vars_from_data(actual_data)
+                            # Process non-path variables normally
                             for param_key, param_value in actual_data.items():
-                                # Skip path variables as they should be resolved by dependencies
-                                if param_key in path_var_names:
-                                    logger.info(f"  🚫 Skipping path variable {param_key} from test data (will use dependency resolution)")
-                                    continue
-                                # Allow empty strings but skip None values
-                                if param_value is not None and (not valid_params or param_key in valid_params):
-                                    merged_params[param_key] = param_value
+                                # Skip path variables from params/body as they are stored separately for fallback
+                                if param_key not in path_var_names and param_value is not None:
+                                    logger.info(f"  ✅ Adding parameter {param_key}={param_value} from JSON data")
+                                    apply_kv(param_key, param_value, data_for)
                     elif isinstance(data_obj, dict):
+                        logger.info(f"  📋 Found direct data object, extracting parameters...")
                         # Direct data object
+                        # Extract path variables for fallback
+                        extract_path_vars_from_data(data_obj)
+                        # Process non-path variables normally
                         for param_key, param_value in data_obj.items():
-                            # Skip path variables as they should be resolved by dependencies
-                            if param_key in path_var_names:
-                                logger.info(f"  🚫 Skipping path variable {param_key} from test data (will use dependency resolution)")
-                                continue
-                            # Allow empty strings but skip None values
-                            if param_value is not None and (not valid_params or param_key in valid_params):
-                                merged_params[param_key] = param_value
+                            # Skip path variables from params/body as they are stored separately for fallback
+                            if param_key not in path_var_names and param_value is not None:
+                                logger.info(f"  ✅ Adding parameter {param_key}={param_value} from JSON data")
+                                apply_kv(param_key, param_value, data_for)
                 except json.JSONDecodeError:
                     logger.warning(f"Failed to parse JSON in data field: {value}")
+                # Skip further processing of the 'data' field after JSON parsing
+                logger.info(f"  🛑 Skipping further processing of 'data' key to avoid duplication")
+                continue
             else:
-                # Skip path variables as they should be resolved by dependencies
+                # Store path variables for fallback use instead of skipping
                 if key in path_var_names:
-                    logger.info(f"  🚫 Skipping path variable {key} from test data (will use dependency resolution)")
+                    csv_path_vars[key] = value
+                    logger.info(f"  📋 Stored CSV path variable {key}={value} for fallback")
                     continue
-                # Only add params that are valid for this endpoint
-                if not valid_params or key in valid_params:
+                # Since endpoint parameter validation is disabled, allow all non-metadata parameters
+                if True:  # Temporarily allow all parameters
                     # Try to convert string numbers to appropriate types
                     if isinstance(value, str):
                         if value.isdigit():
@@ -400,8 +758,8 @@ class SequenceRunner:
                         elif value.lower() in ['true', 'false']:
                             value = value.lower() == 'true'
                     
-                    # Add to params
-                    merged_params[key] = value
+                    # Add to params or body based on data_for
+                    apply_kv(key, value, data_for)
         
         # Filter out null parameters that weren't provided in test data
         # but keep non-null resolved dependencies
@@ -429,8 +787,7 @@ class SequenceRunner:
                 if value is not None or key in test_data_keys:
                     filtered_params[key] = value
             merged_params = filtered_params
-        
-        return merged_params, merged_body
+        return merged_params, merged_body, csv_path_vars, not_sure_params
     
     def execute_request(self, step: Dict, test_data_row: Optional[Dict] = None, current_step: int = 1, step_responses: List[Dict] = None) -> Dict:
         """Execute a single API request step"""
@@ -441,55 +798,91 @@ class SequenceRunner:
         path_vars = step.get('path_variables', {})
         data_deps = step.get('data_dependencies', {})
         
-        # Resolve data dependencies
+        # Resolve data dependencies (PRIORITY 1)
         if step_responses is None:
             step_responses = []
         resolved_params, resolved_body = self.resolve_dependencies(base_params, base_body, data_deps, current_step, step_responses)
         
-        # Merge with test data if provided
+        # Merge with test data and extract CSV path variables (PRIORITY 2)
+        csv_path_vars = {}
+        not_sure_params = {}
         if test_data_row:
-            resolved_params, resolved_body = self.merge_test_data(resolved_params, resolved_body, test_data_row, endpoint, path_vars)
+            data_for = "params" if method in ["GET", "DELETE"] else "body"
+            logger.info(f"  🔄 Calling merge_test_data with test_data_row: {test_data_row}")
+            resolved_params, resolved_body, csv_path_vars, not_sure_params = self.merge_test_data(resolved_params, resolved_body, test_data_row, endpoint, path_vars, data_for=data_for)
+            logger.info(f"  🔄 After merge_test_data - resolved_params: {resolved_params}")
+            logger.info(f"  🔄 CSV path variables available: {csv_path_vars}")
+            logger.info(f"  🔍 Parameters needing dependency resolution: {not_sure_params}")
         
-        # Clean endpoint format (remove method prefix if exists)
+        # Clean endpoint format
         clean_endpoint = endpoint
         if clean_endpoint.startswith(('get-', 'post-', 'put-', 'delete-', 'patch-')):
             clean_endpoint = clean_endpoint.split('-', 1)[1]
         
-        # Replace path variables in endpoint (merge with resolved params)
+        # Replace path variables in endpoint
         final_endpoint = clean_endpoint
         all_path_vars = path_vars.copy()
         
-        # Add resolved dependencies that are used as path variables
+        # PRIORITY 1: Add CSV path variables (from test data)
+        for k, v in csv_path_vars.items():
+            if f'{{{k}}}' in final_endpoint and v is not None:
+                all_path_vars[k] = v
+                logger.info(f"  📋 Using CSV test data value for path variable {k}={v}")
+        
+        # PRIORITY 2: Add resolved dependencies that are used as path variables
         for k, v in resolved_params.items():
             if f'{{{k}}}' in final_endpoint:
-                all_path_vars[k] = v
+                # Only override if we don't already have a value from CSV
+                if k not in all_path_vars or all_path_vars[k] is None:
+                    all_path_vars[k] = v
+                    logger.info(f"  🎯 Using dependency value for path variable {k}={v}")
+                else:
+                    logger.info(f"  📋 Keeping CSV value {k}={all_path_vars[k]} instead of dependency value {v}")
         
-        # Handle missing path variables with fallbacks
+        # Handle missing path variables with improved fallback strategy
         missing_path_vars = []
         for var in re.findall(r'\{(\w+)\}', final_endpoint):
             if var not in all_path_vars or all_path_vars[var] is None:
                 missing_path_vars.append(var)
         
+        # Handle %not-sure% parameters by resolving dependencies
+        for param_name in not_sure_params:
+            # Only resolve if we don't already have a concrete value
+            if param_name not in all_path_vars or all_path_vars[param_name] is None:
+                resolved_value = self.resolve_not_sure_parameter(param_name, endpoint, step_responses)
+                if resolved_value is not None:
+                    all_path_vars[param_name] = resolved_value
+                    logger.info(f"🔍 Resolved %not-sure% parameter {param_name}={resolved_value}")
+                else:
+                    logger.warning(f"⚠️  Could not resolve %not-sure% parameter {param_name}")
+            else:
+                logger.info(f"📋 %not-sure% parameter {param_name} already has value: {all_path_vars[param_name]}")
+        
         if missing_path_vars:
             logger.warning(f"❌ Missing path variables: {missing_path_vars}")
-            # Try to use fallback values - use cached IDs if available
             fallback_values = {}
             
-            # Use first available ID from cache if exists
             for var in missing_path_vars:
+                # PRIORITY 0: Skip if this was a %not-sure% parameter (should have been resolved above)
+                if var in not_sure_params:
+                    logger.warning(f"⚠️  Skipping unresolved %not-sure% parameter {var}")
+                    continue
+                
+                # PRIORITY 1: Use cached IDs from previous responses (existing logic)
                 if var in self.available_ids_cache and self.available_ids_cache[var]:
                     fallback_values[var] = self.available_ids_cache[var][0]
+                    logger.info(f"🎯 Using cached dependency value for {var}: {fallback_values[var]}")
+                # PRIORITY 2: Generic fallback (reduced from previous)
                 else:
-                    # Generic fallbacks
                     if 'id' in var.lower() or var.lower().endswith('id'):
                         fallback_values[var] = '1'
                     else:
                         fallback_values[var] = 'default'
+                    logger.info(f"🔄 Using generic fallback value for {var}: {fallback_values[var]}")
             
             for var in missing_path_vars:
                 if var in fallback_values:
                     all_path_vars[var] = fallback_values[var]
-                    logger.info(f"🔄 Using fallback value for {var}: {fallback_values[var]}")
         
         # Remove path variables from query parameters
         final_params = resolved_params.copy()
@@ -504,30 +897,37 @@ class SequenceRunner:
         url = f"{self.base_url}{final_endpoint}"
         
         # Build full URL with query string for debugging
+        # Build full URL with query string for debugging
+# -> BỎ param nếu None hoặc chuỗi rỗng
+        # Build full URL with query string for debugging
         if final_params:
-            # Clean up None values - requests library removes None values automatically
-            # So we need to convert None to empty string to actually send them
             clean_params = {}
             for key, value in final_params.items():
                 if value is None:
-                    clean_params[key] = ""  # Convert None to empty string
-                else:
-                    clean_params[key] = value
-            
-            # Manually construct query string to see what's actually being sent
-            query_parts = []
-            for key, value in clean_params.items():
-                if value == "":
-                    query_parts.append(f"{key}=")  # Empty string
-                else:
-                    query_parts.append(f"{key}={value}")
-            query_string = "&".join(query_parts)
-            full_url_with_query = f"{url}?{query_string}"
-            
-            # Update final_params to use cleaned params for actual request
+                    # null => bỏ khỏi query
+                    continue
+                # "" (empty string) vẫn giữ lại
+                clean_params[key] = value
+
+            # Log URL đầy đủ
+            if clean_params:
+                query_parts = []
+                for k, v in clean_params.items():
+                    if v == "":
+                        query_parts.append(f"{k}=")  # chuỗi rỗng
+                    else:
+                        query_parts.append(f"{k}={v}")
+                query_string = "&".join(query_parts)
+                full_url_with_query = f"{url}?{query_string}"
+            else:
+                full_url_with_query = url
+
+            # Dùng params đã làm sạch để gửi request
             final_params = clean_params
         else:
             full_url_with_query = url
+
+
         
         # Debug logging for URL construction
         logger.info(f"  🔗 URL Construction:")
@@ -598,10 +998,10 @@ class SequenceRunner:
                 'merged_body': resolved_body
             }
     
-    def run_test_case(self, test_case_file: Path):
+    def run_test_case(self, test_case_file: Path) -> bool:
         """Run a single test case with its test data"""
         logger.info(f"Running test case: {test_case_file.name}")
-        
+        is_pass = False
         # Load test case
         with open(test_case_file, 'r') as f:
             test_case = json.load(f)
@@ -619,19 +1019,36 @@ class SequenceRunner:
         
         if not steps:
             logger.warning(f"No steps found in test case: {test_case_id}")
-            return
+            return is_pass
         
-        # Find test data file
+        # Find test data files (both param and body)
         endpoint_identifier = test_case_id.replace('_0_1', '').replace('_1_1', '').replace('_2_1', '')
-        test_data_file = self.find_test_data_file(endpoint_identifier)
+        files = self.find_test_data_files(endpoint_identifier)
         
-        test_data_rows = []
-        if test_data_file:
-            test_data_rows = self.load_test_data(test_data_file)
+        # Load param and body data separately
+        param_rows = self.load_test_data(files["param"]) if files["param"] else []
+        body_rows = self.load_test_data(files["body"]) if files["body"] else []
         
-        # If no test data, run with empty data once
-        if not test_data_rows:
+        # Log what we found
+        if files["param"]:
+            logger.info(f"📄 Param CSV: {files['param'].name} -> {len(param_rows)} rows")
+        if files["body"]:
+            logger.info(f"📄 Body  CSV: {files['body'].name}  -> {len(body_rows)} rows")
+        
+        # Create combined test data rows
+        if not param_rows and not body_rows:
             test_data_rows = [{}]
+            logger.info(f"🧪 No test data found, will run 1 time with empty data")
+        else:
+            # Sync row count: take max length, pad with {} for missing rows
+            max_len = max(len(param_rows), len(body_rows))
+            test_data_rows = []
+            for i in range(max_len):
+                test_data_rows.append({
+                    "param": param_rows[i] if i < len(param_rows) else {},
+                    "body":  body_rows[i]  if i < len(body_rows)  else {}
+                })
+            logger.info(f"🧪 Will run {len(test_data_rows)} times (combining param/body rows by index)")
         
         # Run each step with each test data row
         for data_row_idx, test_data_row in enumerate(test_data_rows):
@@ -644,6 +1061,7 @@ class SequenceRunner:
                 
             # Extract expected status for this test data row
             expected_status = self.extract_expected_status(test_data_row)
+            logger.info(f"  🎯 Expected status extracted: {expected_status} from test_data_row: {test_data_row}")
             
             # Store responses from previous steps for dependency resolution
             step_responses = []
@@ -736,9 +1154,9 @@ class SequenceRunner:
                         logger.error(f"    Error: {result.get('error')}")
                     if result['response']:
                         logger.error(f"    Response: {json.dumps(result['response'], indent=2)}")
-                
                 # Small delay between requests
                 time.sleep(0.1)
+        return is_pass
     
     def auto_discover_dependencies(self):
         """Auto-discover dependency endpoints from test cases"""
@@ -874,18 +1292,13 @@ class SequenceRunner:
         
         logger.info(f"✅ Preloading complete: {len(self.global_dependency_cache)} endpoints cached")
 
-    def run_all(self, specific_endpoint: Optional[str] = None, skip_preload: bool = False):
+    def run_all(self):
         """Run all test cases or specific endpoint"""
         logger.info(f"Starting test execution for service: {self.service_name}")
         
-        # Preload dependencies first (unless skipped)
-        if not skip_preload:
-            self.preload_dependencies()
-        else:
-            logger.info("⏭️  Skipping dependency preloading")
         
         # Find test case files
-        test_case_files = self.find_test_case_files(specific_endpoint)
+        test_case_files = self.find_test_case_files(self.endpoint)
         
         if not test_case_files:
             logger.error("No test case files found!")
@@ -928,19 +1341,25 @@ class SequenceRunner:
             logger.info("📋 Sorting test cases by topolist order...")
             test_case_files.sort(key=sort_key)
         
-        # Execute test cases
+        # Execute test cases    
         total_files = len(test_case_files)
+        count_pass = 0
+        total_files = 0
         for i, test_case_file in enumerate(test_case_files, 1):
             logger.info(f"\n{'='*60}")
             logger.info(f"Test Case {i}/{total_files}: {test_case_file.name}")
             logger.info(f"{'='*60}")
-            
+            total_files += 1
             try:
-                self.run_test_case(test_case_file)
+                is_pass = self.run_test_case(test_case_file)
+                if is_pass:
+                    count_pass += 1
+                    continue
             except Exception as e:
                 logger.error(f"Error running test case {test_case_file.name}: {e}")
             
-        logger.info(f"\n🎉 Test execution completed! Results saved to CSV.")
+        logger.info(f"\n🎉 Test execution completed! Results saved to CSV. {count_pass}/{total_files} tests passed")
+        logger.info(f"Success rate: {count_pass/total_files*100:.2f}%")
     
     def __enter__(self):
         return self
@@ -951,29 +1370,20 @@ class SequenceRunner:
         self.session.close()
 
 def main():
-    parser = argparse.ArgumentParser(description='Run API test sequences')
-    parser.add_argument('--service', '-s', required=True, help='Service name (e.g., "Canada Holidays", "Bill", "Tool Shop")')
-    parser.add_argument('--endpoint', '-e', help='Specific endpoint to test (optional)')
-    parser.add_argument('--base-url', '-u', default='http://localhost:8091', help='Base URL for API (default: http://localhost:8000)')
-    parser.add_argument('--token', '-t', help='Bearer token for authentication (optional)')
-    parser.add_argument('--skip-preload', action='store_true', help='Skip dependency preloading for faster startup')
-    
-    args = parser.parse_args()
-    
-    # Validate service exists
-    service_dir = Path(__file__).resolve().parent.parent / test_case_dir_name / args.service
-    if not service_dir.exists():
-        available_services = [d.name for d in (Path(__file__).resolve().parent / test_case_dir_name).iterdir() if d.is_dir()]
-        logger.error(f"Service '{args.service}' not found!")
-        logger.info(f"Available services: {', '.join(available_services)}")
-        return
-    
-    # Run tests
-    with SequenceRunner(args.service, args.base_url, args.token) as runner:
-        if args.token:
-            logger.info(f"🔑 Using provided Bearer token for authentication")
-        runner.run_all(args.endpoint, skip_preload=args.skip_preload)
+    service = "Bill"
+    base_url = "https://bills-api.parliament.uk"
+    token = None
+    # endpoint = "_api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1"
+    endpoint = "_api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1"
+    # sequence_runner = SequenceRunner(service, base_url, token, endpoint)
+    # sequence_runner.run_all()
 
+    # service = "Canada Holidays"
+    # base_url = "https://canada-holidays.ca"
+    # token = None
+
+    sequence_runner = SequenceRunner(service, base_url, token,endpoint)
+    sequence_runner.run_all()
 if __name__ == "__main__":
     main() 
 

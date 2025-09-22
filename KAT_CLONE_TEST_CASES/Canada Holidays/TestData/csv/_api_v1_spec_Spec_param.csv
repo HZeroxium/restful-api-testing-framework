@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,{},2xx,No parameters are required; request matches the specification.
+2,{},2xx,No parameters are required; request matches the specification.
+3,{},2xx,No parameters are required; request matches the specification.
+4,{},2xx,No parameters are required; request matches the specification.
+5,{},2xx,No parameters are required; request matches the specification.
+6,{},2xx,
+7,{},2xx,No parameters; nothing to validate.
+8,{},2xx,No parameters; nothing to validate.
+9,{},2xx,No parameters; nothing to validate.
+10,{},2xx,No parameters; nothing to validate.
+11,{},2xx,No parameters; nothing to validate.

@@ -1,18 +1,22 @@
-index,data,expected_status_code
-1,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB""}, ""expected_code"": ""2xx""}",2xx
-2,"{""data"": {""year"": 2018, ""optional"": ""true"", ""provinceId"": ""BC""}, ""expected_code"": ""2xx""}",2xx
-3,"{""data"": {""year"": 2029, ""optional"": ""false"", ""provinceId"": ""ON""}, ""expected_code"": ""2xx""}",2xx
-4,"{""data"": {""year"": 2016, ""optional"": ""true"", ""provinceId"": ""NS""}, ""expected_code"": ""2xx""}",2xx
-5,"{""data"": {""year"": 2025, ""optional"": ""false"", ""provinceId"": ""YT""}, ""expected_code"": ""2xx""}",2xx
-6,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-7,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
-8,"{""data"": {""year"": 2023, ""optional"": ""false"", ""provinceId"": ""AB"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
-9,"{""data"": {""year"": 2030, ""optional"": ""1"", ""provinceId"": ""AB""}, ""expected_code"": ""4xx""}",4xx
-10,"{""data"": {""year"": 2022, ""optional"": ""invalid"", ""provinceId"": ""BC""}, ""expected_code"": ""4xx""}",4xx
-11,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
-12,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": null}, ""expected_code"": """"}",4xx
-13,"{""data"": {""year"": ""123456"", ""optional"": """", ""provinceId"": """"}, ""expected_code"": """"}",4xx
-14,"{""data"": {""year"": -1, ""optional"": 123456789, ""provinceId"": """"}, ""expected_code"": """"}",4xx
-15,"{""data"": {""year"": -1, ""optional"": """", ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
-16,"{""data"": {""year"": ""123456"", ""optional"": """", ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
-17,"{""data"": {""year"": ""123456"", ""optional"": 123456789, ""provinceId"": 123456789}, ""expected_code"": """"}",4xx
+index,data,expected_status_code,reason
+1,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": ""false""}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+2,"{""provinceId"": ""ON"", ""year"": 2014, ""optional"": ""1""}",2xx,provinceId='ON' is in the allowed enum; year=2014 is within allowed range [2014..2035]; optional='1' is in the allowed enum.
+3,"{""provinceId"": ""MB"", ""year"": null, ""optional"": null}",2xx,
+4,"{""provinceId"": ""MB"", ""year"": null, ""optional"": ""false""}",2xx,
+5,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": ""false""}",2xx,
+6,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": null}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+7,"{""provinceId"": ""MB"", ""year"": null, ""optional"": ""false""}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+8,"{""provinceId"": ""ZZ"", ""year"": 2025, ""optional"": ""false""}",4xx,"provinceId='ZZ' is not in the allowed enum ['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT']."
+9,"{""provinceId"": ""AB"", ""year"": 2036, ""optional"": ""true""}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+10,"{""provinceId"": ""BC"", ""year"": 2020, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum ['1','0','true','false']."
+11,"{""provinceId"": ""ZZ"", ""year"": 2025, ""optional"": ""false""}",4xx,"provinceId='ZZ' is not in the allowed enum ['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT']."
+12,"{""provinceId"": ""AB"", ""year"": 2036, ""optional"": ""false""}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+13,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum ['1','0','true','false']."
+14,"{""provinceId"": ""ON"", ""year"": 2013, ""optional"": ""yes""}",4xx,"year=2013 < minimum=2014, violating 'minimum'; optional='yes' is not in the allowed enum ['1','0','true','false']."
+15,"{""provinceId"": ""XX"", ""year"": 2147483649, ""optional"": ""nope""}",4xx,"provinceId='XX' is not in the allowed enum ['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT']; year=2147483649 > maximum=2035, violating 'maximum'; optional='nope' is not in the allowed enum ['1','0','true','false']."
+16,"{""provinceId"": """", ""year"": -1, ""optional"": """"}",4xx,
+17,"{""provinceId"": 123456789, ""year"": -1, ""optional"": """"}",4xx,
+18,"{""provinceId"": """", ""year"": ""123456"", ""optional"": """"}",4xx,
+19,"{""provinceId"": """", ""year"": -1, ""optional"": 123456789}",4xx,
+20,"{""provinceId"": """", ""year"": ""123456"", ""optional"": 123456789}",4xx,
+21,"{""provinceId"": 123456789, ""year"": ""123456"", ""optional"": 123456789}",4xx,

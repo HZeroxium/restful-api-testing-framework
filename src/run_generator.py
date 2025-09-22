@@ -1,3 +1,4 @@
+from operator import ge
 import os
 import sys
 import logging
@@ -21,20 +22,35 @@ print("=" * 60)
 
 try:
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
+    endpoints = ["get-/api/v1/Bills", "get-/api/v1/Bills/{billId}/NewsArticles"]
     
     # Khởi tạo generator với service name và collection name
     generator = TestCaseGenerator(
-        service_name="GitLab Branch",  # Sửa tên từ "Bil" thành "Bill" để match với thư mục Dataset
-        collection="Default",    # Tên collection mặc định
+        service_name="Bill",
+        collection="Default",
         save_prompts=True,
         regenerate_test_data=False,
-        data_generation_mode="all"
+        data_generation_mode="all",
+        clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
     )
-    
-    # Chạy generator
 
-    
-    result = generator.run()
+    generator.generate_test_data_for(endpoints)
+    # generator.generate_test_cases()
+    # generator = TestCaseGenerator(
+    #     service_name="Canada Holidays",
+    #     collection="Default",
+    #     save_prompts=True,
+    #     regenerate_test_data=False,
+    #     data_generation_mode="all",
+    #     clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
+    # )
+
+    # get-/api/v1/Bills
+    # get-/api/v1/Bills/{billId}/NewsArticles	
+    # Chạy generator - chỉ generate test data, không xóa test cases hiện có
+
+    # generator.generate_test_data_for(generator.get_endpoints())
+    # generator.generate_test_cases()
     
     print("✅ Generator completed successfully!")
 

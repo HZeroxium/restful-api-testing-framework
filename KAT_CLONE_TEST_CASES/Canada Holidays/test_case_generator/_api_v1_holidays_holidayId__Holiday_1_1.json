@@ -27,9 +27,7 @@
         "step_number": 2,
         "endpoint": "get-/api/v1/holidays/{holidayId}",
         "method": "GET",
-        "path_variables": {
-          "holidayId": null
-        },
+        "path_variables": {},
         "query_parameters": {
           "year": null,
           "optional": null

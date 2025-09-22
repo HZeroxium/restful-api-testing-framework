@@ -185,9 +185,18 @@ class DataMutator:
         if required_fields_spec is not None:
             required_fields = list(required_fields_spec.keys())
         
-        optional_fields = [field for field in param if field not in required_fields]
+        # Get path parameters to exclude them from optional mutation
+        from kat.data_generator.data_generator_utils import collect_merged_parameters
+        method = endpoint.split('-')[0]
+        path = '-'.join(endpoint.split('-')[1:])
+        all_params = collect_merged_parameters(swagger_spec, path, method)
+        path_param_names = {p.get('name') for p in all_params if p.get('in') == 'path'}
+        
+        # Optional fields = not required AND not path parameters
+        optional_fields = [field for field in param 
+                          if field not in required_fields and field not in path_param_names]
 
-        # Step 1. Miss 1 required field each
+        # Step 1. Set 1 optional field to null each
         for p in optional_fields:
             data = copy.deepcopy(base_item)
             # Handle nested data structure - modify data["data"] if it exists
@@ -195,12 +204,12 @@ class DataMutator:
             target_data[p] = None
             data_items.append(data)
                     
-        # Step 2. Miss from 2 to n-1 optional fields each
+        # Step 2. Set from 2 to n-1 optional fields to null each
         for j in range(2, len(optional_fields)+1):
             data = copy.deepcopy(base_item)
             # Handle nested data structure - modify data["data"] if it exists
             target_data = data.get("data", data) if isinstance(data.get("data"), dict) else data
-            # Randomly choose k required fields to miss
+            # Randomly choose k optional fields to set to null
             random.shuffle(optional_fields)
             for k in range(j):
                 target_data[optional_fields[k]] = None

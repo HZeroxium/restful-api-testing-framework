@@ -681,11 +681,3 @@ class ODGGenerator():
         with open(self.working_directory + "odg_generation_token_count.json", "w") as f:
             json.dump(GPT_ODG_token_count, f, indent=2)
         return GPT_ODG, heuristic_ODG
-
-
-if __name__ == "__main__":
-    service_name = "GitLab Branch"
-    swagger_spec = get_swagger_spec(f"./Dataset/{service_name}/openapi.json")
-    # swagger_spec = json.load(open(f"./Dataset/{service_name}/openapi.json"))
-    odg_generator = ODGGenerator(swagger_spec, service_name)
-    odg_generator.generate_operation_dependency_graph()

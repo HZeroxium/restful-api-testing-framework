@@ -1,5 +1,6 @@
 import argparse
 import copy
+import logging
 import re
 import sys
 
@@ -66,13 +67,14 @@ class ObjectRepoGenerator:
         self.collection = collection
         self.object_repo_name = "API"
 class TestCaseGenerator():
-    def __init__(self, service_name, collection, selected_endpoints=None, save_prompts=True, regenerate_test_data=False, data_generation_mode="all") -> None:
+    def __init__(self, service_name, collection, selected_endpoints=None, save_prompts=True, regenerate_test_data=False, data_generation_mode="all", clear_test_cases=True) -> None:
         self.save_prompts = save_prompts
         self.service_name = service_name
         self.collection = collection
         self.selected_endpoints = selected_endpoints
         self.regenerate_test_data = regenerate_test_data
         self.data_generation_mode = data_generation_mode
+        self.clear_test_cases = clear_test_cases
         
         self.test_script_gen_input_token_count = 0
         self.test_script_gen_output_token_count = 0
@@ -91,6 +93,7 @@ class TestCaseGenerator():
         self.object_repository_generator = ObjectRepoGenerator(service_name, collection)        
         self.swagger_spec = add_test_object_to_swagger(read_swagger_data(get_data_dir_file(service_name)))
         self.prepare_testing_directory()
+
         self.prepare_odg()
         # initialize necessary simplifed swagger specs
         self.simplified_swagger = get_endpoint_params(self.swagger_spec, only_get_parameter_types=True, get_test_object=True, insert_test_data_file_link=True)
@@ -110,8 +113,13 @@ class TestCaseGenerator():
         with open(self.working_directory+f"/simplified_swagger.json", 'w') as file:
             file.write(json.dumps(self.simplified_swagger, indent=2))
     def prepare_odg(self):
+        logging.info(f"Preparing ODG for service: {self.service_name}")
+        if os.path.exists(get_operation_sequences_file_path(self.service_name)) and os.path.exists(get_endpoint_schema_dependencies_file_path(self.service_name)):
+            logging.info(f"ODG files already exist. Skipping ODG generation.")
+            return
         odg_generator = ODGGenerator(self.swagger_spec, self.service_name)
         odg_generator.generate_operation_dependency_graph()
+        logging.info(f"ODG prepared and saved.")
     def prepare_testing_directory(self):
         if self.save_prompts:
             self.root_dir = get_root_dir()
@@ -126,7 +134,9 @@ class TestCaseGenerator():
         self.test_cases_path = self.working_directory
         self.test_data_path = get_test_data_working_dir(self.service_name)
         
-        if os.path.exists(self.test_cases_path): shutil.rmtree(self.test_cases_path)
+        # Only clear test cases if explicitly requested
+        if self.clear_test_cases and os.path.exists(self.test_cases_path): 
+            shutil.rmtree(self.test_cases_path)
         if self.regenerate_test_data and os.path.exists(self.test_data_path): 
             shutil.rmtree(self.test_data_path)
         
@@ -197,7 +207,6 @@ class TestCaseGenerator():
 
     def generate_individual_endpoint_test_case(self, endpoint, in_sequence=False):
         endpoint_id = get_endpoint_id(self.swagger_spec, endpoint)
-        
         test_case_data = {
             "steps": [],
             "test_data": {
@@ -293,10 +302,6 @@ class TestCaseGenerator():
                     
             test_case_data["steps"].append(step)
         
-        # If no meaningful dependencies found, return None to skip this test case
-        if len(sequence) > 1 and not has_meaningful_dependencies:
-            print(f"[SKIP] No meaningful dependencies found for sequence {sequence}. Skipping test case.")
-            return None
             
         return test_case_data
 
@@ -315,13 +320,24 @@ class TestCaseGenerator():
         sorted_staging_endpoint_list = [x for x in sorted_staging_endpoint_list if x in index_dict]
         sorted_staging_endpoint_list = not_in_topo_sorted + sorted_staging_endpoint_list
         return sorted_staging_endpoint_list
-
-    def run(self):          
+        
+    def generate_test_data(self, endpoints):
+        data_generator = TestDataGenerator(swagger_spec=self.swagger_spec, service_name=self.service_name, collection=self.collection, selected_endpoints=endpoints, generation_mode=self.data_generation_mode,
+                                           working_directory=self.test_data_working_directory)
+        data_generator.filter_params_w_descr()
+        data_generator.create_test_data_file_from_swagger()
+        
+        self.test_data_gen_input_token_count = data_generator.input_token_count
+        self.test_data_gen_output_token_count = data_generator.output_token_count
+    def get_endpoints(self):
+        return self.endpoints_spec
+    def generate_test_cases(self):
+        """Only generate test cases. Return endpoints that need test data."""
         staging_endpoints = self.get_staging_endpoints()
         endpoints_needed_generate_data = copy.deepcopy(staging_endpoints)
-        
-        for endpoint in staging_endpoints:  
-            print(f"{'-'*20}Generate test cases for endpoint {endpoint}{'-'*20}")          
+
+        for endpoint in staging_endpoints:
+            print(f"{'-'*20}Generate test cases for endpoint {endpoint}{'-'*20}")
             sequences = []
             if endpoint in self.ODG:
                 sequences = self.ODG[endpoint]
@@ -333,43 +349,58 @@ class TestCaseGenerator():
                 for i in range(len(sequences)):
                     if sequences[i] == []:
                         continue
-                    
                     unit_sequence = sequences[i] + [endpoint]
                     endpoints_needed_generate_data += unit_sequence
-                    
+
                     print(f"Sequence {i+1}: {unit_sequence}")
                     test_case_data = self.generate_test_case_core(sequence=unit_sequence)
-                    
-                    # Only create test case if meaningful dependencies exist
+
                     if test_case_data is not None:
-                        self.create_test_case_json(endpoint=endpoint, index_of_sequence=i+1, test_case_data=test_case_data)
+                        self.create_test_case_json(
+                            endpoint=endpoint,
+                            index_of_sequence=i+1,
+                            test_case_data=test_case_data
+                        )
                     else:
                         print(f"[SKIP] Skipped creating test case for sequence {unit_sequence}")
             else:
                 single_endpoint_test_case = self.generate_individual_endpoint_test_case(endpoint, in_sequence=False)
-                self.create_test_case_json(endpoint=endpoint, index_of_sequence=0, test_case_data=single_endpoint_test_case)
-        
-        # generate test data
-        endpoints_needed_generate_data = list(set(endpoints_needed_generate_data))
+                self.create_test_case_json(
+                    endpoint=endpoint, index_of_sequence=0, test_case_data=single_endpoint_test_case
+                )
 
-        if self.regenerate_test_data or not os.path.exists(self.test_data_path) or os.listdir(self.test_data_path) == []:
-            self.generate_test_data(endpoints_needed_generate_data)
-        
-        # Token count for GPT's test script generation
-        self.test_script_gen_input_token_count = round(self.test_script_gen_input_token_count/4)
-        self.test_script_gen_output_token_count = round(self.test_script_gen_output_token_count/4)
-        
-        print("Test cases generated successfully!")
-        
-    def generate_test_data(self, endpoints):
-        data_generator = TestDataGenerator(swagger_spec=self.swagger_spec, service_name=self.service_name, collection=self.collection, selected_endpoints=endpoints, generation_mode=self.data_generation_mode,
-                                           working_directory=self.test_data_working_directory)
+        endpoints_needed_generate_data = list(set(endpoints_needed_generate_data))
+        return endpoints_needed_generate_data
+
+    def generate_test_data_for(self, endpoints):
+        """Only generate test data for provided endpoints."""
+        if not endpoints:
+            print("[WARN] No endpoints provided for test data generation.")
+            return
+
+        data_generator = TestDataGenerator(
+            swagger_spec=self.swagger_spec,
+            service_name=self.service_name,
+            collection=self.collection,
+            selected_endpoints=endpoints,
+            generation_mode=self.data_generation_mode,
+            working_directory=self.test_data_working_directory
+        )
         data_generator.filter_params_w_descr()
         data_generator.create_test_data_file_from_swagger()
-        
+
         self.test_data_gen_input_token_count = data_generator.input_token_count
         self.test_data_gen_output_token_count = data_generator.output_token_count
+    def run(self):
+        """Backward-compatible: generate test cases, then (maybe) test data."""
+        endpoints_needed_generate_data = self.generate_test_cases()
 
-TestCaseGenerator.get_failed_responses = get_failed_responses
-TestCaseGenerator.get_successful_responses = get_successful_responses
-TestCaseGenerator.add_response_validation = add_response_validation
+        # Giữ hành vi cũ: chỉ generate test data nếu cần/được yêu cầu
+        if self.regenerate_test_data or not os.path.exists(self.test_data_path) or os.listdir(self.test_data_path) == []:
+            self.generate_test_data_for(endpoints_needed_generate_data)
+
+        # Token count for GPT's test script generation
+        self.test_script_gen_input_token_count = round(self.test_script_gen_input_token_count / 4)
+        self.test_script_gen_output_token_count = round(self.test_script_gen_output_token_count / 4)
+
+        print("Test cases generated successfully!")

@@ -2,7 +2,7 @@ import copy
 import json, yaml
 import re
 import os
-
+import logging
 from kat.document_parser.document_parser import extract_endpoints
 
 ruler = lambda: print("-" * 100)
@@ -581,9 +581,8 @@ def filter_params_has_description(endpoint_param_description):
 def get_endpoint_id(swagger_spec, endpoint):
     method = endpoint.split("-")[0]
     path = "-".join(endpoint.split("-")[1:])
-    
+    logging.info(f"path: {path}, method: {method}")
     endpoint_spec = swagger_spec["paths"][path][method]
-    
     try:
         operation_id = endpoint_spec["operationId"]
     except:

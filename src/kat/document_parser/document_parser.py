@@ -92,6 +92,7 @@ def get_relevant_schemas_name_from_one_endpoint(endpoint_spec, schemas_spec):
         schemas_name.extend(list(temp))
     return schemas_name
 
+
 def get_endpoint_data(swagger_spec: dict, endpoint: str):
     """
     Get the endpoint data from the Swagger spec. 
@@ -99,46 +100,58 @@ def get_endpoint_data(swagger_spec: dict, endpoint: str):
     Args:
         swagger_spec (dict): Swagger spec
         endpoint (str): Endpoint to get data. <method>-<path>
-        status_code (str, optional): Defaults to None. If None, get all status code
-        
+
     Returns:
-        dict: Endpoint data
-
-        Example:
-            {
-                "method": str,
-                "path": str,
-                "status_code": str,
-                "definition": {
-                    "tags": list[str],
-                    "summary": str,
-                    "description": str,
-                    "operationId": str,
-                    "parameters": list[dict],
-                    "requestBody": dict
-                },
-                "responses": dict,
-            }
+        dict: {
+            "method": "GET" | "POST" | ...,
+            "path": str,
+            "definition": { ... "parameters": [...], "requestBody": ... },
+            "responses": {...},
+        }
     """
-    
-    method = endpoint.split('-')[0]
+    method = endpoint.split('-')[0].lower()
     object_name = '-'.join(endpoint.split('-')[1:])
-    object = copy.deepcopy(swagger_spec['paths'][object_name]) # dict[str, ]
-    method_def = copy.deepcopy(object[method]) # dict[str, str]
-    responses = method_def['responses'] # dict[str, str]
-    
-    del method_def["responses"]
-    del object[method]
 
+    path_item = copy.deepcopy(swagger_spec['paths'][object_name])          # path-level object
+    method_def = copy.deepcopy(path_item[method])                          # operation-level object
+    responses = method_def.get('responses', {})
+    if 'responses' in method_def:
+        del method_def['responses']
 
-    endpoint_obj = {
+    # --- Merge path-level + operation-level parameters ---
+    path_params = path_item.get('parameters', []) or []
+    operation_params = method_def.get('parameters', []) or []
+
+    merged = {}
+    # path-level trước, operation-level sau (op-level override)
+    for p in path_params + operation_params:
+        # Luôn copy parameter để tránh modify object gốc
+        param_copy = copy.deepcopy(p)
+        key = (param_copy.get('name'), param_copy.get('in'))
+        
+        # BẢO ĐẢM: path params luôn required=True theo OpenAPI spec
+        if param_copy.get('in') == 'path':
+            param_copy['required'] = True
+            
+        merged[key] = param_copy
+
+    if merged:
+        method_def['parameters'] = list(merged.values())
+    else:
+        # Không có tham số nào
+        method_def['parameters'] = []
+
+    # dọn path_item cho gọn (không bắt buộc)
+    if method in path_item:
+        del path_item[method]
+
+    return {
         "method": method.upper(),
         "path": object_name,
         "definition": method_def,
         "responses": responses,
     }
-    
-    return endpoint_obj
+
 def get_all_reference_schema_path_in_endpoint_object(swagger_spec, endpoint_data, exclude_response=True):
     """
     Recursively collect all referenced schemas' paths in the endpoint data.

@@ -1,18 +1,24 @@
-index,data,expected_status_code
-1,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
-2,"{""data"": {""year"": 2019, ""federal"": ""0"", ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
-3,"{""data"": {""year"": 2035, ""federal"": ""true"", ""optional"": ""1""}, ""expected_code"": ""2xx""}",2xx
-4,"{""data"": {""year"": 2014, ""federal"": ""false"", ""optional"": ""0""}, ""expected_code"": ""2xx""}",2xx
-5,"{""data"": {""year"": 2022, ""federal"": ""1"", ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
-6,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-7,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
-8,"{""data"": {""year"": 2025, ""federal"": ""1"", ""optional"": ""false"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
-9,"{""data"": {""year"": 2036, ""federal"": ""1"", ""optional"": ""false""}, ""expected_code"": ""4xx""}",4xx
-10,"{""data"": {""year"": 2023, ""federal"": ""2"", ""optional"": ""true""}, ""expected_code"": ""4xx""}",4xx
-11,"{""data"": {""year"": 2013, ""federal"": ""0"", ""optional"": ""true""}, ""expected_code"": ""4xx""}",4xx
-12,"{""data"": {""year"": -9999999.0, ""federal"": """", ""optional"": """"}, ""expected_code"": """"}",4xx
-13,"{""data"": {""year"": ""123456"", ""federal"": """", ""optional"": """"}, ""expected_code"": """"}",4xx
-14,"{""data"": {""year"": -9999999.0, ""federal"": 123456789, ""optional"": """"}, ""expected_code"": """"}",4xx
-15,"{""data"": {""year"": -9999999.0, ""federal"": """", ""optional"": 123456789}, ""expected_code"": """"}",4xx
-16,"{""data"": {""year"": -9999999.0, ""federal"": 123456789, ""optional"": 123456789}, ""expected_code"": """"}",4xx
-17,"{""data"": {""year"": ""123456"", ""federal"": 123456789, ""optional"": 123456789}, ""expected_code"": """"}",4xx
+index,data,expected_status_code,reason
+1,"{""year"": 2025, ""federal"": ""true"", ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in the allowed enum ['1','0','true','false']."
+2,"{""year"": 2035, ""federal"": ""1"", ""optional"": ""1""}",2xx,"year=2035 is within allowed range [2014..2035]; federal='1' and optional='1' are in the allowed enum ['1','0','true','false']."
+3,"{""year"": null, ""federal"": null, ""optional"": null}",2xx,
+4,"{""year"": null, ""federal"": null, ""optional"": ""false""}",2xx,
+5,"{""year"": 2025, ""federal"": ""true"", ""optional"": null}",2xx,
+6,"{""year"": 2025, ""federal"": ""true"", ""optional"": ""false""}",2xx,
+7,"{""year"": 2025, ""federal"": ""true"", ""optional"": null}",2xx,"year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in the allowed enum ['1','0','true','false']."
+8,"{""year"": 2025, ""federal"": null, ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in the allowed enum ['1','0','true','false']."
+9,"{""year"": null, ""federal"": ""true"", ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in the allowed enum ['1','0','true','false']."
+10,"{""year"": 2013}",4xx,"year=2013 < minimum=2014, violating 'minimum'."
+11,"{""federal"": ""yes""}",4xx,"federal='yes' is not in the allowed enum ['1','0','true','false']."
+12,"{""optional"": 0}",4xx,optional=0 has type integer but the spec requires string (type mismatch).
+13,"{""year"": 2036, ""federal"": ""1"", ""optional"": ""false""}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+14,"{""year"": 2025, ""federal"": ""yes"", ""optional"": ""false""}",4xx,"federal='yes' is not in the allowed enum ['1', '0', 'true', 'false']."
+15,"{""year"": 2025, ""federal"": ""1"", ""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum ['1', '0', 'true', 'false']."
+16,"{""year"": 2013, ""federal"": ""no"", ""optional"": ""false""}",4xx,"year=2013 < minimum=2014, violating 'minimum'; federal='no' is not in the allowed enum ['1', '0', 'true', 'false']."
+17,"{""year"": 2147483649, ""federal"": ""maybe"", ""optional"": ""unknown""}",4xx,"year=2147483649 > maximum=2035, violating 'maximum'; federal='maybe' is not in the allowed enum ['1', '0', 'true', 'false']; optional='unknown' is not in the allowed enum ['1', '0', 'true', 'false']."
+18,"{""year"": -9999999.0, ""federal"": """", ""optional"": """"}",4xx,
+19,"{""year"": ""123456"", ""federal"": """", ""optional"": """"}",4xx,
+20,"{""year"": -9999999.0, ""federal"": 123456789, ""optional"": """"}",4xx,
+21,"{""year"": -9999999.0, ""federal"": """", ""optional"": 123456789}",4xx,
+22,"{""year"": ""123456"", ""federal"": 123456789, ""optional"": """"}",4xx,
+23,"{""year"": ""123456"", ""federal"": 123456789, ""optional"": 123456789}",4xx,

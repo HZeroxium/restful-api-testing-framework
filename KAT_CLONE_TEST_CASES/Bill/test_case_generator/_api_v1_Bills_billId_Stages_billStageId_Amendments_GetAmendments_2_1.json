@@ -1,0 +1,60 @@
+{
+  "test_case": {
+    "id": "_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_2_1",
+    "name": "_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_2_1",
+    "description": "Test case for endpoint get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
+    "endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
+    "sequence_index": 2,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/api/v1/Sittings",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {
+          "House": null,
+          "DateFrom": null,
+          "DateTo": null,
+          "Skip": null,
+          "Take": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
+        "method": "GET",
+        "path_variables": {
+          "billId": null,
+          "billStageId": null
+        },
+        "query_parameters": {
+          "SearchTerm": null,
+          "Decision": null,
+          "MemberId": null,
+          "Skip": null,
+          "Take": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {}
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

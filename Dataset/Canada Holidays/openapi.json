@@ -1,230 +1,28 @@
 {
   "openapi": "3.0.0",
+  "info": {
+    "title": "Canada Holidays API",
+    "version": "1.13.0",
+    "description": "This API lists all 32 public holidays for all 13 provinces and territories in Canada, including federal holidays.",
+    "contact": {
+      "name": "Paul Craig",
+      "url": "https://canada-holidays.ca/api",
+      "email": "paul@pcraig.ca"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/pcraig3/hols/blob/main/LICENSE"
+    }
+  },
   "servers": [
     {
       "url": "https://canada-holidays.ca"
     }
   ],
-  "info": {
-    "contact": {
-      "email": "paul@pcraig3.ca",
-      "name": "Paul Craig",
-      "url": "https://canada-holidays.ca/api"
-    },
-    "description": "This API lists all 31 public holidays for all 13 provinces and territories in Canada, including federal holidays.",
-    "license": {
-      "name": "MIT",
-      "url": "https://github.com/pcraig3/hols/blob/main/LICENSE"
-    },
-    "title": "Canada Holidays API",
-    "version": "1.8.0",
-    "x-apisguru-categories": ["open_data"],
-    "x-logo": {
-      "backgroundColor": "#FFFFFF",
-      "url": "https://api.apis.guru/v2/cache/logo/https_upload.wikimedia.org_wikipedia_commons_d_d9_Flag_of_Canada_%28Pantone%29.svg"
-    },
-    "x-origin": [
-      {
-        "format": "openapi",
-        "url": "https://api.swaggerhub.com/apis/pcraig3/canada-holidays/1.8.0",
-        "version": "3.0"
-      }
-    ],
-    "x-providerName": "canada-holidays.ca"
-  },
-  "tags": [
-    {
-      "description": "Get welcome message and links",
-      "name": "info"
-    },
-    {
-      "description": "Get holiday(s) with associated provinces",
-      "name": "holidays"
-    },
-    {
-      "description": "Get province(s) with associated holidays",
-      "name": "provinces"
-    }
-  ],
   "paths": {
     "/api/v1": {
       "get": {
-        "description": "Returns a welcome message.",
-        "operationId": "Root",
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "_links": {
-                      "properties": {
-                        "holidays": {
-                          "properties": {
-                            "href": {
-                              "description": "Domain to get all holidays",
-                              "example": "https://canada-holidays.ca/api/v1/holidays",
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "provinces": {
-                          "properties": {
-                            "href": {
-                              "description": "Domain to get all provinces",
-                              "example": "https://canada-holidays.ca/api/v1/provinces",
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "self": {
-                          "properties": {
-                            "href": {
-                              "description": "Root domain",
-                              "example": "https://canada-holidays.ca/api/v1/",
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        },
-                        "spec": {
-                          "properties": {
-                            "href": {
-                              "example": "https://canada-holidays.ca/api/v1/spec",
-                              "type": "string"
-                            }
-                          },
-                          "type": "object"
-                        }
-                      },
-                      "type": "object"
-                    },
-                    "message": {
-                      "description": "A welcome message",
-                      "example": "Hello / Bonjour!",
-                      "type": "string"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK"
-          }
-        },
         "summary": "root",
-        "tags": ["info"]
-      }
-    },
-    "/api/v1/holidays": {
-      "get": {
-        "description": "Returns Canadian public holidays. Each holiday lists the regions that observe it.",
-        "operationId": "Holidays",
-        "parameters": [
-          {
-            "allowEmptyValue": true,
-            "description": "A calendar year",
-            "in": "query",
-            "name": "year",
-            "schema": {
-              "default": 2025,
-              "maximum": 2035,
-              "minimum": 2014,
-              "type": "integer"
-            }
-          },
-          {
-            "allowEmptyValue": true,
-            "description": "A boolean parameter. If true or 1, will return only federal holidays. If false or 0, will return no federal holidays.",
-            "in": "query",
-            "name": "federal",
-            "schema": {
-              "enum": ["1", "0", "true", "false"],
-              "type": "string"
-            }
-          },
-          {
-            "allowEmptyValue": true,
-            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
-            "in": "query",
-            "name": "optional",
-            "schema": {
-              "default": "false",
-              "enum": ["1", "0", "true", "false"],
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "holidays": {
-                      "items": {
-                        "$ref": "#/components/schemas/Holiday"
-                      },
-                      "type": "array"
-                    }
-                  },
-                  "type": "object"
-                }
-              }
-            },
-            "description": "OK",
-            "headers": {}
-          }
-        },
-        "summary": "Get all holidays",
-        "tags": ["holidays"]
-      }
-    },
-    "/api/v1/holidays/{holidayId}": {
-      "get": {
-        "description": "Returns one Canadian statutory holiday by integer id. Returns a 404 response for invalid ids.",
-        "operationId": "Holiday",
-        "summary": "Get a holiday by id",
-        "tags": ["holidays"],
-        "parameters": [
-          {
-            "name": "holidayId",
-            "in": "path",
-            "required": true,
-            "description": "Primary key for a holiday",
-            "schema": {
-              "type": "integer",
-              "example": 2,
-              "minimum": 1,
-              "maximum": 32
-            }
-          },
-          {
-            "allowEmptyValue": true,
-            "name": "year",
-            "in": "query",
-            "description": "A calendar year",
-            "schema": {
-              "type": "integer",
-              "default": 2023,
-              "minimum": 2016,
-              "maximum": 2029
-            }
-          },
-          {
-            "allowEmptyValue": true,
-            "name": "optional",
-            "in": "query",
-            "description": "A boolean parameter. If false or 0 (default), will return provinces for which this is a legislated holiday. If true or 1, will return provinces which optionally celebrate this holiday.",
-            "schema": {
-              "type": "string",
-              "enum": ["1", "0", "true", "false"],
-              "default": "false"
-            }
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -233,14 +31,511 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "holiday": {
-                      "$ref": "#/components/schemas/Holiday"
+                    "message": {
+                      "type": "string",
+                      "description": "A welcome message",
+                      "example": "Hello / Bonjour!"
+                    },
+                    "_links": {
+                      "type": "object",
+                      "properties": {
+                        "self": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/",
+                              "description": "Root domain"
+                            }
+                          }
+                        },
+                        "holidays": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/holidays",
+                              "description": "Domain to get all holidays"
+                            }
+                          }
+                        },
+                        "provinces": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/provinces",
+                              "description": "Domain to get all provinces"
+                            }
+                          }
+                        },
+                        "spec": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/spec"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/": {
+                    "value": {
+                      "message": "Hello / Bonjour! Welcome to the Canada Holidays API / Bienvenue dans l’API canadienne des jours fériés",
+                      "_links": {
+                        "self": {
+                          "href": "https://canada-holidays.ca/api/v1/"
+                        },
+                        "holidays": {
+                          "href": "https://canada-holidays.ca/api/v1/holidays"
+                        },
+                        "provinces": {
+                          "href": "https://canada-holidays.ca/api/v1/provinces"
+                        },
+                        "spec": {
+                          "href": "https://canada-holidays.ca/api/v1/spec"
+                        }
+                      }
                     }
                   }
                 }
               }
+            }
+          }
+        },
+        "operationId": "Root",
+        "description": "Returns a welcome message.",
+        "tags": ["info"]
+      }
+    },
+    "/api/v1/holidays": {
+      "get": {
+        "summary": "Get all holidays",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "holidays": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Holiday"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/holidays": {
+                    "value": {
+                      "holidays": [
+                        {
+                          "id": 1,
+                          "date": "2023-01-01",
+                          "nameEn": "New Year’s Day",
+                          "nameFr": "Jour de l’An",
+                          "federal": 1,
+                          "observedDate": "2023-01-02",
+                          "provinces": [
+                            {
+                              "id": "AB",
+                              "nameEn": "Alberta",
+                              "nameFr": "Alberta",
+                              "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                              "sourceEn": "General holidays in Alberta"
+                            },
+                            {
+                              "id": "BC",
+                              "nameEn": "British Columbia",
+                              "nameFr": "Colombie-Britannique",
+                              "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                              "sourceEn": "Statutory Holidays in British Columbia"
+                            },
+                            {
+                              "id": "MB",
+                              "nameEn": "Manitoba",
+                              "nameFr": "Manitoba",
+                              "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                              "sourceEn": "General holidays in Manitoba"
+                            },
+                            {
+                              "id": "NB",
+                              "nameEn": "New Brunswick",
+                              "nameFr": "Nouveau-Brunswick",
+                              "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                              "sourceEn": "10 prescribed days of rest"
+                            },
+                            {
+                              "id": "NL",
+                              "nameEn": "Newfoundland and Labrador",
+                              "nameFr": "Terre-Neuve-et-Labrador",
+                              "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                              "sourceEn": "Public holidays in Newfoundland"
+                            },
+                            {
+                              "id": "NT",
+                              "nameEn": "Northwest Territories",
+                              "nameFr": "Territoires du Nord-Ouest",
+                              "sourceLink": "https://www.ece.gov.nt.ca/en/services/employment-standards/frequently-asked-questions#Statutory%20Holidays",
+                              "sourceEn": "Employment Standards, Northwest Territories"
+                            },
+                            {
+                              "id": "NS",
+                              "nameEn": "Nova Scotia",
+                              "nameFr": "Nouvelle-Écosse",
+                              "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                              "sourceEn": "Paid holidays in Nova Scotia"
+                            },
+                            {
+                              "id": "NU",
+                              "nameEn": "Nunavut",
+                              "nameFr": "Nunavut",
+                              "sourceLink": "https://nu-lsco.ca/faq-s?tmpl=component&faqid=11",
+                              "sourceEn": "Nunavut General Holidays"
+                            },
+                            {
+                              "id": "ON",
+                              "nameEn": "Ontario",
+                              "nameFr": "Ontario",
+                              "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                              "sourceEn": "Ontario Public holidays"
+                            },
+                            {
+                              "id": "PE",
+                              "nameEn": "Prince Edward Island",
+                              "nameFr": "Île-du-Prince-Édouard",
+                              "sourceLink": "https://www.princeedwardisland.ca/en/information/economic-growth-tourism-and-culture/paid-holidays",
+                              "sourceEn": "PEI Paid Holidays"
+                            },
+                            {
+                              "id": "QC",
+                              "nameEn": "Quebec",
+                              "nameFr": "Québec",
+                              "sourceLink": "https://www2.gouv.qc.ca/entreprises/portail/quebec/ressourcesh?lang=fr&g=ressourcesh&sg=personnel&t=o&e=2318829344:3908165687",
+                              "sourceEn": "Jours fériés, chômés et payés"
+                            },
+                            {
+                              "id": "SK",
+                              "nameEn": "Saskatchewan",
+                              "nameFr": "Saskatchewan",
+                              "sourceLink": "https://www.saskatchewan.ca/business/employment-standards/public-statutory-holidays/list-of-saskatchewan-public-holidays",
+                              "sourceEn": "Saskatchewan Public Holidays"
+                            },
+                            {
+                              "id": "YT",
+                              "nameEn": "Yukon",
+                              "nameFr": "Yukon",
+                              "sourceLink": "https://yukon.ca/en/doing-business/employer-responsibilities/find-yukon-statutory-holiday",
+                              "sourceEn": "Yukon statutory holiday dates"
+                            }
+                          ]
+                        },
+                        {
+                          "id": 2,
+                          "date": "2023-02-20",
+                          "nameEn": "Louis Riel Day",
+                          "nameFr": "Journée Louis Riel",
+                          "federal": 0,
+                          "observedDate": "2023-02-20",
+                          "provinces": [
+                            {
+                              "id": "MB",
+                              "nameEn": "Manitoba",
+                              "nameFr": "Manitoba",
+                              "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                              "sourceEn": "General holidays in Manitoba"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "Holidays",
+        "description": "Returns Canadian public holidays. Each holiday lists the regions that observe it.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
             },
-            "headers": {}
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["1", "0", "true", "false"]
+            },
+            "in": "query",
+            "name": "federal",
+            "description": "A boolean parameter. If true or 1, will return only federal holidays. If false or 0, will return no federal holidays.",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["1", "0", "true", "false"],
+              "default": "false"
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
+          }
+        ],
+        "tags": ["holidays"]
+      }
+    },
+    "/api/v1/provinces": {
+      "get": {
+        "summary": "Get all provinces",
+        "tags": ["provinces"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "provinces": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Province"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/provinces": {
+                    "value": {
+                      "provinces": [
+                        {
+                          "id": "AB",
+                          "nameEn": "Alberta",
+                          "nameFr": "Alberta",
+                          "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                          "sourceEn": "General holidays in Alberta",
+                          "holidays": [
+                            {
+                              "id": 1,
+                              "date": "2023-01-01",
+                              "nameEn": "New Year’s Day",
+                              "nameFr": "Jour de l’An",
+                              "federal": 1,
+                              "observedDate": "2023-01-02"
+                            },
+                            {
+                              "id": 4,
+                              "date": "2023-02-20",
+                              "nameEn": "Family Day",
+                              "nameFr": "Fête de la famille",
+                              "federal": 0,
+                              "observedDate": "2023-02-20"
+                            }
+                          ],
+                          "nextHoliday": {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          }
+                        },
+                        {
+                          "id": "BC",
+                          "nameEn": "British Columbia",
+                          "nameFr": "Colombie-Britannique",
+                          "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                          "sourceEn": "Statutory Holidays in British Columbia",
+                          "holidays": [
+                            {
+                              "id": 1,
+                              "date": "2023-01-01",
+                              "nameEn": "New Year’s Day",
+                              "nameFr": "Jour de l’An",
+                              "federal": 1,
+                              "observedDate": "2023-01-02"
+                            },
+                            {
+                              "id": 4,
+                              "date": "2023-02-20",
+                              "nameEn": "Family Day",
+                              "nameFr": "Fête de la famille",
+                              "federal": 0,
+                              "observedDate": "2023-02-20"
+                            }
+                          ],
+                          "nextHoliday": {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "Provinces",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["1", "0", "true", "false"],
+              "default": "false"
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
+          }
+        ],
+        "description": "Returns provinces and territories in Canada. Each province or territory lists its associated holidays."
+      }
+    },
+    "/api/v1/provinces/{provinceId}": {
+      "get": {
+        "summary": "Get a province or territory by abbreviation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "province": {
+                      "$ref": "#/components/schemas/Province"
+                    }
+                  }
+                },
+                "examples": {
+                  "/provinces/MB": {
+                    "value": {
+                      "province": {
+                        "id": "MB",
+                        "nameEn": "Manitoba",
+                        "nameFr": "Manitoba",
+                        "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                        "sourceEn": "General holidays in Manitoba",
+                        "holidays": [
+                          {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          },
+                          {
+                            "id": 2,
+                            "date": "2023-02-20",
+                            "nameEn": "Louis Riel Day",
+                            "nameFr": "Journée Louis Riel",
+                            "federal": 0,
+                            "observedDate": "2023-02-20"
+                          },
+                          {
+                            "id": 7,
+                            "date": "2023-04-07",
+                            "nameEn": "Good Friday",
+                            "nameFr": "Vendredi saint",
+                            "federal": 1,
+                            "observedDate": "2023-04-07"
+                          },
+                          {
+                            "id": 11,
+                            "date": "2023-05-22",
+                            "nameEn": "Victoria Day",
+                            "nameFr": "Fête de la Reine",
+                            "federal": 1,
+                            "observedDate": "2023-05-22"
+                          },
+                          {
+                            "id": 15,
+                            "date": "2023-07-01",
+                            "nameEn": "Canada Day",
+                            "nameFr": "Fête du Canada",
+                            "federal": 1,
+                            "observedDate": "2023-07-03"
+                          },
+                          {
+                            "id": 26,
+                            "date": "2023-09-04",
+                            "nameEn": "Labour Day",
+                            "nameFr": "Fête du travail",
+                            "federal": 1,
+                            "observedDate": "2023-09-04"
+                          },
+                          {
+                            "id": 29,
+                            "date": "2023-10-09",
+                            "nameEn": "Thanksgiving",
+                            "nameFr": "Action de grâce",
+                            "federal": 1,
+                            "observedDate": "2023-10-09"
+                          },
+                          {
+                            "id": 31,
+                            "date": "2023-12-25",
+                            "nameEn": "Christmas Day",
+                            "nameFr": "Noël",
+                            "federal": 1,
+                            "observedDate": "2023-12-25"
+                          }
+                        ],
+                        "nextHoliday": {
+                          "id": 1,
+                          "date": "2023-01-01",
+                          "nameEn": "New Year’s Day",
+                          "nameFr": "Jour de l’An",
+                          "federal": 1,
+                          "observedDate": "2023-01-02"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
             "description": "Bad Request",
@@ -253,253 +548,411 @@
                       "$ref": "#/components/schemas/Error"
                     }
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/provinces": {
-      "get": {
-        "description": "Returns provinces and territories in Canada. Each province or territory lists its associated holidays.",
-        "operationId": "Provinces",
-        "parameters": [
-          {
-            "allowEmptyValue": true,
-            "description": "A calendar year",
-            "in": "query",
-            "name": "year",
-            "schema": {
-              "default": 2023,
-              "maximum": 2029,
-              "minimum": 2016,
-              "type": "integer"
-            }
-          },
-          {
-            "allowEmptyValue": true,
-            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
-            "in": "query",
-            "name": "optional",
-            "schema": {
-              "default": "false",
-              "enum": ["1", "0", "true", "false"],
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "content": {
-              "application/json": {
-                "schema": {
-                  "properties": {
-                    "provinces": {
-                      "items": {
-                        "$ref": "#/components/schemas/Province"
-                      },
-                      "type": "array"
+                },
+                "examples": {
+                  "/provinces/100": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "message": "Error: request.params.provinceId should be equal to one of the allowed values: AB, BC, MB, NB, NL, NS, NT, NU, ON, PE, QC, SK, YT",
+                        "timestamp": "2020-04-28T04:02:38.813Z"
+                      }
                     }
-                  },
-                  "type": "object"
+                  }
                 }
               }
-            },
-            "description": "OK",
-            "headers": {}
+            }
           }
         },
-        "summary": "Get all provinces",
-        "tags": ["provinces"]
-      }
-    },
-    "/api/v1/provinces/{provinceId}": {
-      "get": {
-        "description": "Returns a Canadian province or territory with its associated holidays. Returns a 404 response for invalid abbreviations.",
         "operationId": "Province",
+        "description": "Returns a Canadian province or territory with its associated holidays. Returns a 404 response for invalid abbreviations.",
         "parameters": [
           {
-            "allowEmptyValue": true,
-            "description": "A calendar year",
-            "in": "query",
-            "name": "year",
             "schema": {
-              "default": 2023,
-              "maximum": 2029,
-              "minimum": 2016,
-              "type": "integer"
-            }
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
           },
           {
-            "allowEmptyValue": true,
-            "description": "A boolean parameter (AB and BC only). If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays from Alberta and BC.",
+            "schema": {
+              "type": "string",
+              "default": "false",
+              "enum": ["1", "0", "true", "false"]
+            },
             "in": "query",
             "name": "optional",
-            "schema": {
-              "default": "false",
-              "enum": ["1", "0", "true", "false"],
-              "type": "string"
-            }
-          },
-          {
-            "description": "A Canadian province abbreviation",
-            "in": "path",
-            "name": "provinceId",
-            "required": true,
-            "schema": {
-              "enum": [
-                "AB",
-                "BC",
-                "MB",
-                "NB",
-                "NL",
-                "NS",
-                "NT",
-                "NU",
-                "ON",
-                "PE",
-                "QC",
-                "SK",
-                "YT"
-              ],
-              "example": "MB",
-              "type": "string"
-            }
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
           }
         ],
+        "tags": ["provinces"]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "AB",
+              "BC",
+              "MB",
+              "NB",
+              "NL",
+              "NS",
+              "NT",
+              "NU",
+              "ON",
+              "PE",
+              "QC",
+              "SK",
+              "YT"
+            ],
+            "example": "MB"
+          },
+          "name": "provinceId",
+          "in": "path",
+          "required": true,
+          "description": "A Canadian province abbreviation"
+        }
+      ]
+    },
+    "/api/v1/holidays/{holidayId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer",
+            "example": 2,
+            "minimum": 1,
+            "maximum": 34
+          },
+          "name": "holidayId",
+          "in": "path",
+          "required": true,
+          "description": "Primary key for a holiday"
+        }
+      ],
+      "get": {
+        "summary": "Get a holiday by id",
         "responses": {
           "200": {
+            "description": "OK",
+            "headers": {},
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
-                    "province": {
-                      "$ref": "#/components/schemas/Province"
+                    "holiday": {
+                      "$ref": "#/components/schemas/Holiday"
+                    }
+                  }
+                },
+                "examples": {
+                  "/holidays/33": {
+                    "value": {
+                      "holiday": {
+                        "id": 33,
+                        "date": "2023-12-26",
+                        "nameEn": "Boxing Day",
+                        "nameFr": "Lendemain de Noël",
+                        "federal": 1,
+                        "observedDate": "2023-12-26",
+                        "provinces": [
+                          {
+                            "id": "NL",
+                            "nameEn": "Newfoundland and Labrador",
+                            "nameFr": "Terre-Neuve-et-Labrador",
+                            "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                            "sourceEn": "Public holidays in Newfoundland"
+                          },
+                          {
+                            "id": "ON",
+                            "nameEn": "Ontario",
+                            "nameFr": "Ontario",
+                            "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                            "sourceEn": "Ontario Public holidays"
+                          }
+                        ]
+                      }
                     }
                   },
-                  "type": "object"
+                  "/holidays/33?optional=true": {
+                    "value": {
+                      "holiday": {
+                        "id": 33,
+                        "date": "2024-12-26",
+                        "nameEn": "Boxing Day",
+                        "nameFr": "Lendemain de Noël",
+                        "federal": 1,
+                        "observedDate": "2024-12-26",
+                        "provinces": [
+                          {
+                            "id": "NL",
+                            "nameEn": "Newfoundland and Labrador",
+                            "nameFr": "Terre-Neuve-et-Labrador",
+                            "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                            "sourceEn": "Public holidays in Newfoundland"
+                          },
+                          {
+                            "id": "ON",
+                            "nameEn": "Ontario",
+                            "nameFr": "Ontario",
+                            "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                            "sourceEn": "Ontario Public holidays"
+                          },
+                          {
+                            "id": "AB",
+                            "nameEn": "Alberta",
+                            "nameFr": "Alberta",
+                            "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                            "sourceEn": "General holidays in Alberta",
+                            "optional": 1
+                          },
+                          {
+                            "id": "BC",
+                            "nameEn": "British Columbia",
+                            "nameFr": "Colombie-Britannique",
+                            "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                            "sourceEn": "Statutory Holidays in British Columbia",
+                            "optional": 1
+                          },
+                          {
+                            "id": "MB",
+                            "nameEn": "Manitoba",
+                            "nameFr": "Manitoba",
+                            "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                            "sourceEn": "General holidays in Manitoba",
+                            "optional": 1
+                          },
+                          {
+                            "id": "NB",
+                            "nameEn": "New Brunswick",
+                            "nameFr": "Nouveau-Brunswick",
+                            "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                            "sourceEn": "10 prescribed days of rest",
+                            "optional": 1
+                          },
+                          {
+                            "id": "NS",
+                            "nameEn": "Nova Scotia",
+                            "nameFr": "Nouvelle-Écosse",
+                            "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                            "sourceEn": "Paid holidays in Nova Scotia",
+                            "optional": 1
+                          }
+                        ]
+                      }
+                    }
+                  }
                 }
               }
-            },
-            "description": "OK",
-            "headers": {}
+            }
           },
           "400": {
+            "description": "Bad Request",
             "content": {
               "application/json": {
                 "schema": {
+                  "type": "object",
                   "properties": {
                     "error": {
                       "$ref": "#/components/schemas/Error"
                     }
-                  },
-                  "type": "object"
+                  }
+                },
+                "examples": {
+                  "/holidays/100": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "message": "Error: request.params.holidayId should be <= 31",
+                        "timestamp": "2020-04-28T03:59:56.605Z"
+                      }
+                    }
+                  }
                 }
               }
-            },
-            "description": "Bad Request"
+            }
           }
         },
-        "summary": "Get a province or territory by abbreviation",
-        "tags": ["provinces"]
+        "operationId": "Holiday",
+        "description": "Returns one Canadian statutory holiday by integer id. Returns a 404 response for invalid ids.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "false",
+              "enum": ["1", "0", "true", "false"]
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return provinces for which this is a legislated holiday. If true or 1, will return provinces which optionally celebrate this holiday.",
+            "allowEmptyValue": true
+          }
+        ],
+        "tags": ["holidays"]
       }
     },
     "/api/v1/spec": {
       "get": {
-        "description": "Gets the schema for the JSON API as a yaml file.",
-        "operationId": "Spec",
+        "summary": "Get JSON schema",
+        "tags": ["info"],
         "responses": {
           "200": {
             "description": "OK",
             "headers": {
               "content-type": {
-                "description": "text/yaml; charset=UTF-8",
                 "schema": {
                   "type": "string"
-                }
+                },
+                "description": "text/yaml; charset=UTF-8"
               }
             }
           }
         },
-        "summary": "Get JSON schema",
-        "tags": ["info"]
+        "operationId": "Spec",
+        "description": "Gets the schema for the JSON API as a yaml file."
       }
     }
   },
   "components": {
     "schemas": {
-      "Error": {
-        "properties": {
-          "message": {
-            "description": "An error message",
-            "example": "Error: No holiday with id \u201c100\u201d",
-            "type": "string"
-          },
-          "status": {
-            "description": "An HTTP status code",
-            "example": 404,
-            "maximum": 599,
-            "minimum": 100,
-            "type": "integer"
-          },
-          "timestamp": {
-            "description": "A UTC ISO timestamp",
-            "example": "2020-04-27T05:41:10.710Z",
-            "format": "date-time",
-            "type": "string"
+      "Holiday": {
+        "title": "Holiday",
+        "type": "object",
+        "description": "A Canadian holiday. Includes a name, the literal date of the holiday, the observed date of the holiday (ie, accommodating for weekends), and a list of regions that observe this holiday.",
+        "x-examples": {
+          "/holidays/33?optional=true": {
+            "holiday": {
+              "id": 33,
+              "date": "2024-12-26",
+              "nameEn": "Boxing Day",
+              "nameFr": "Lendemain de Noël",
+              "federal": 1,
+              "observedDate": "2024-12-26",
+              "provinces": [
+                {
+                  "id": "NL",
+                  "nameEn": "Newfoundland and Labrador",
+                  "nameFr": "Terre-Neuve-et-Labrador",
+                  "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                  "sourceEn": "Public holidays in Newfoundland"
+                },
+                {
+                  "id": "ON",
+                  "nameEn": "Ontario",
+                  "nameFr": "Ontario",
+                  "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                  "sourceEn": "Ontario Public holidays"
+                },
+                {
+                  "id": "AB",
+                  "nameEn": "Alberta",
+                  "nameFr": "Alberta",
+                  "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                  "sourceEn": "General holidays in Alberta",
+                  "optional": 1
+                },
+                {
+                  "id": "BC",
+                  "nameEn": "British Columbia",
+                  "nameFr": "Colombie-Britannique",
+                  "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                  "sourceEn": "Statutory Holidays in British Columbia",
+                  "optional": 1
+                },
+                {
+                  "id": "MB",
+                  "nameEn": "Manitoba",
+                  "nameFr": "Manitoba",
+                  "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                  "sourceEn": "General holidays in Manitoba",
+                  "optional": 1
+                },
+                {
+                  "id": "NB",
+                  "nameEn": "New Brunswick",
+                  "nameFr": "Nouveau-Brunswick",
+                  "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                  "sourceEn": "10 prescribed days of rest",
+                  "optional": 1
+                },
+                {
+                  "id": "NS",
+                  "nameEn": "Nova Scotia",
+                  "nameFr": "Nouvelle-Écosse",
+                  "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                  "sourceEn": "Paid holidays in Nova Scotia",
+                  "optional": 1
+                }
+              ]
+            }
           }
         },
-        "title": "Error",
-        "type": "object"
-      },
-      "Holiday": {
-        "description": "A Canadian holiday. Includes a name, the literal date of the holiday, the observed date of the holiday (ie, accommodating for weekends), and a list of regions that observe this holiday.",
         "properties": {
-          "date": {
-            "description": "ISO date: the literal date of the holiday",
-            "example": "2020-12-26",
-            "format": "date",
-            "type": "string"
-          },
-          "federal": {
-            "description": "Whether this holiday is observed by federally-regulated industries.",
-            "enum": [1, 0],
-            "type": "integer"
-          },
           "id": {
+            "type": "integer",
             "description": "Primary key for a holiday",
             "example": 2,
-            "maximum": 32,
             "minimum": 1,
-            "type": "integer"
+            "maximum": 34
+          },
+          "date": {
+            "type": "string",
+            "description": "ISO date: the literal date of the holiday",
+            "format": "date",
+            "example": "2020-12-26"
           },
           "nameEn": {
+            "type": "string",
             "description": "English name",
-            "example": "Louis Riel Day",
-            "type": "string"
+            "example": "Louis Riel Day"
           },
           "nameFr": {
+            "type": "string",
             "description": "French name",
-            "example": "Journ\u00e9e Louis Riel",
-            "type": "string"
+            "example": "Journée Louis Riel"
+          },
+          "federal": {
+            "type": "integer",
+            "description": "Whether this holiday is observed by federally-regulated industries.",
+            "enum": [1, 0],
+            "format": "binary"
           },
           "observedDate": {
+            "type": "string",
             "description": "ISO date: when this holiday is observed",
-            "example": "2020-12-28",
             "format": "date",
-            "type": "string"
-          },
-          "optional": {
-            "description": "Whether this is a province-wide statutory holiday, or one that is optional for employers.",
-            "enum": [1],
-            "type": "integer"
+            "example": "2020-12-28"
           },
           "provinces": {
+            "type": "array",
             "items": {
               "$ref": "#/components/schemas/Province"
-            },
-            "type": "array"
+            }
+          },
+          "optional": {
+            "type": "integer",
+            "format": "binary",
+            "enum": [1],
+            "description": "Whether this is a province-wide statutory holiday, or one that is optional for employers."
           }
         },
         "required": [
@@ -509,15 +962,116 @@
           "nameFr",
           "federal",
           "observedDate"
-        ],
-        "title": "Holiday",
-        "type": "object"
+        ]
       },
       "Province": {
+        "title": "Province",
+        "type": "object",
+        "x-examples": {
+          "/provinces/SK": {
+            "province": {
+              "id": "SK",
+              "nameEn": "Saskatchewan",
+              "nameFr": "Saskatchewan",
+              "sourceLink": "https://www.saskatchewan.ca/business/employment-standards/public-statutory-holidays/list-of-saskatchewan-public-holidays",
+              "sourceEn": "Saskatchewan Public Holidays",
+              "holidays": [
+                {
+                  "id": 1,
+                  "date": "2023-01-01",
+                  "nameEn": "New Year’s Day",
+                  "nameFr": "Jour de l’An",
+                  "federal": 1,
+                  "observedDate": "2023-01-02"
+                },
+                {
+                  "id": 4,
+                  "date": "2023-02-20",
+                  "nameEn": "Family Day",
+                  "nameFr": "Fête de la famille",
+                  "federal": 0,
+                  "observedDate": "2023-02-20"
+                },
+                {
+                  "id": 7,
+                  "date": "2023-04-07",
+                  "nameEn": "Good Friday",
+                  "nameFr": "Vendredi saint",
+                  "federal": 1,
+                  "observedDate": "2023-04-07"
+                },
+                {
+                  "id": 11,
+                  "date": "2023-05-22",
+                  "nameEn": "Victoria Day",
+                  "nameFr": "Fête de la Reine",
+                  "federal": 1,
+                  "observedDate": "2023-05-22"
+                },
+                {
+                  "id": 15,
+                  "date": "2023-07-01",
+                  "nameEn": "Canada Day",
+                  "nameFr": "Fête du Canada",
+                  "federal": 1,
+                  "observedDate": "2023-07-03"
+                },
+                {
+                  "id": 21,
+                  "date": "2023-08-07",
+                  "nameEn": "Saskatchewan Day",
+                  "nameFr": "Jour de Saskatchewan",
+                  "federal": 0,
+                  "observedDate": "2023-08-07"
+                },
+                {
+                  "id": 26,
+                  "date": "2023-09-04",
+                  "nameEn": "Labour Day",
+                  "nameFr": "Fête du travail",
+                  "federal": 1,
+                  "observedDate": "2023-09-04"
+                },
+                {
+                  "id": 29,
+                  "date": "2023-10-09",
+                  "nameEn": "Thanksgiving",
+                  "nameFr": "Action de grâce",
+                  "federal": 1,
+                  "observedDate": "2023-10-09"
+                },
+                {
+                  "id": 30,
+                  "date": "2023-11-11",
+                  "nameEn": "Remembrance Day",
+                  "nameFr": "Jour du Souvenir",
+                  "federal": 1,
+                  "observedDate": "2023-11-13"
+                },
+                {
+                  "id": 31,
+                  "date": "2023-12-25",
+                  "nameEn": "Christmas Day",
+                  "nameFr": "Noël",
+                  "federal": 1,
+                  "observedDate": "2023-12-25"
+                }
+              ],
+              "nextHoliday": {
+                "id": 1,
+                "date": "2023-01-01",
+                "nameEn": "New Year’s Day",
+                "nameFr": "Jour de l’An",
+                "federal": 1,
+                "observedDate": "2023-01-02"
+              }
+            }
+          }
+        },
         "description": "A Canadian province or territory ",
         "properties": {
           "id": {
-            "description": "Canadian province abbreviations",
+            "type": "string",
             "enum": [
               "AB",
               "BC",
@@ -534,50 +1088,96 @@
               "YT"
             ],
             "example": "MB",
-            "type": "string"
-          },
-          "nameEn": {
-            "description": "English name",
-            "example": "Manitoba",
-            "type": "string"
-          },
-          "nameFr": {
-            "description": "French name",
-            "example": "Manitoba",
-            "type": "string"
+            "description": "Canadian province abbreviations"
           },
           "nextHoliday": {
             "$ref": "#/components/schemas/Holiday"
           },
-          "optional": {
-            "description": "Whether this province optionally observes a given holiday.",
-            "enum": [1],
-            "type": "integer"
-          },
-          "provinces": {
+          "holidays": {
+            "type": "array",
             "items": {
               "$ref": "#/components/schemas/Holiday"
-            },
-            "type": "array"
+            }
           },
-          "sourceEn": {
-            "description": "Name of reference page with public holidays for this region",
-            "example": "What are the general holidays in Manitoba?",
-            "type": "string"
+          "nameFr": {
+            "type": "string",
+            "description": "French name",
+            "example": "Manitoba"
+          },
+          "nameEn": {
+            "type": "string",
+            "description": "English name",
+            "example": "Manitoba"
           },
           "sourceLink": {
-            "description": "URL to public holidays reference for this region",
+            "type": "string",
             "example": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
             "format": "uri",
             "pattern": "https+",
-            "type": "string"
+            "description": "URL to public holidays reference for this region"
+          },
+          "sourceEn": {
+            "type": "string",
+            "description": "Name of reference page with public holidays for this region",
+            "example": "What are the general holidays in Manitoba?"
+          },
+          "optional": {
+            "type": "integer",
+            "description": "Whether this province optionally observes a given holiday.",
+            "format": "binary",
+            "enum": [1]
           }
         },
-        "required": ["id", "nameFr", "nameEn", "sourceLink", "sourceEn"],
-        "title": "Province",
-        "type": "object"
+        "required": ["id", "nameFr", "nameEn", "sourceLink", "sourceEn"]
+      },
+      "Error": {
+        "title": "Error",
+        "type": "object",
+        "x-examples": {
+          "/holidays/100": {
+            "error": {
+              "status": 400,
+              "message": "Bad Request: request/params/holidayId must be <= 33",
+              "timestamp": "2022-12-27T05:55:36.552Z"
+            }
+          }
+        },
+        "properties": {
+          "status": {
+            "type": "integer",
+            "example": 404,
+            "minimum": 100,
+            "maximum": 599,
+            "description": "An HTTP status code"
+          },
+          "message": {
+            "type": "string",
+            "example": "Error: No holiday with id “100”",
+            "description": "An error message"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2020-04-27T05:41:10.710Z",
+            "description": "A UTC ISO timestamp"
+          }
+        }
       }
     },
     "securitySchemes": {}
-  }
+  },
+  "tags": [
+    {
+      "name": "info",
+      "description": "Get welcome message and links"
+    },
+    {
+      "name": "holidays",
+      "description": "Get holiday(s) with associated provinces"
+    },
+    {
+      "name": "provinces",
+      "description": "Get province(s) with associated holidays"
+    }
+  ]
 }

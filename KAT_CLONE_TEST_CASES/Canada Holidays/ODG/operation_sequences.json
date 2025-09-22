@@ -1,13 +1,5 @@
 {
-  "get-/api/v1/holidays/{holidayId}": [
-    [
-      "get-/api/v1/holidays"
-    ],
-    [
-      "get-/api/v1/provinces"
-    ]
-  ],
-  "get-/api/v1/holidays": [],
+  "get-/api/v1/provinces": [],
   "get-/api/v1/provinces/{provinceId}": [
     [
       "get-/api/v1/holidays"
@@ -16,5 +8,13 @@
       "get-/api/v1/provinces"
     ]
   ],
-  "get-/api/v1/provinces": []
+  "get-/api/v1/holidays/{holidayId}": [
+    [
+      "get-/api/v1/holidays"
+    ],
+    [
+      "get-/api/v1/provinces"
+    ]
+  ],
+  "get-/api/v1/holidays": []
 }

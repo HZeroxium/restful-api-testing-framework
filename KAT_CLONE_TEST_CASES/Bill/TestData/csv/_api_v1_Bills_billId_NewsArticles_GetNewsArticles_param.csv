@@ -1,18 +1,18 @@
-index,data,expected_status_code
-1,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10}, ""expected_code"": ""2xx""}",2xx
-2,"{""data"": {""billId"": 456, ""Skip"": 5, ""Take"": 20}, ""expected_code"": ""2xx""}",2xx
-3,"{""data"": {""billId"": 789, ""Skip"": 10, ""Take"": 15}, ""expected_code"": ""2xx""}",2xx
-4,"{""data"": {""billId"": 321, ""Skip"": 15, ""Take"": 5}, ""expected_code"": ""2xx""}",2xx
-5,"{""data"": {""billId"": 654, ""Skip"": 0, ""Take"": 5}, ""expected_code"": ""2xx""}",2xx
-6,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-7,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
-8,"{""data"": {""billId"": 123, ""Skip"": 0, ""Take"": 10, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-9,"{""data"": {""billId"": 1, ""Skip"": ""invalidSkipValue"", ""Take"": 10}, ""expected_code"": ""4xx""}",4xx
-10,"{""data"": {""billId"": 1, ""Skip"": 5, ""Take"": ""invalidTakeValue""}, ""expected_code"": ""4xx""}",4xx
-11,"{""data"": {""billId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": -1}, ""expected_code"": """"}",4xx
-12,"{""data"": {""billId"": null, ""Skip"": -9999999.0, ""Take"": -1}, ""expected_code"": """"}",4xx
-13,"{""data"": {""billId"": ""123456"", ""Skip"": -9999999.0, ""Take"": -1}, ""expected_code"": """"}",4xx
-14,"{""data"": {""billId"": -9999999.0, ""Skip"": ""123456"", ""Take"": -1}, ""expected_code"": """"}",4xx
-15,"{""data"": {""billId"": -9999999.0, ""Skip"": -9999999.0, ""Take"": ""123456""}, ""expected_code"": """"}",4xx
-16,"{""data"": {""billId"": ""123456"", ""Skip"": -9999999.0, ""Take"": ""123456""}, ""expected_code"": """"}",4xx
-17,"{""data"": {""billId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}, ""expected_code"": """"}",4xx
+index,data,expected_status_code,reason
+1,"{""billId"": ""%not-sure%""}",2xx,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution.
+2,"{""billId"": ""%not-sure%"", ""Skip"": 0, ""Take"": 10}",2xx,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution; Skip and Take are valid integers.
+3,"{""billId"": ""%not-sure%"", ""Take"": -1}",2xx,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution; Take is a valid integer (no minimum constraint).
+4,"{""billId"": ""%not-sure%""}",2xx,
+5,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+6,"{""billId"": ""%not-sure%"", ""Skip"": ""five""}",4xx,Skip has type string but the spec requires integer (type mismatch).
+7,"{""billId"": 0, ""Skip"": 10, ""Take"": 10}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+8,"{""billId"": 1, ""Skip"": ""ten"", ""Take"": 10}",4xx,Skip has type string but the spec requires integer (type mismatch).
+9,"{""billId"": 1, ""Skip"": 10, ""Take"": ""twenty""}",4xx,Take has type string but the spec requires integer (type mismatch).
+10,"{""billId"": -5, ""Skip"": ""bad"", ""Take"": 10}",4xx,"billId=-5 < minimum=1, violating 'minimum'; Skip has type string but the spec requires integer (type mismatch)."
+11,"{""billId"": ""abc"", ""Skip"": ""none"", ""Take"": ""zero""}",4xx,billId has type string but the spec requires integer (type mismatch); Skip has type string but the spec requires integer (type mismatch); Take has type string but the spec requires integer (type mismatch).
+12,"{""billId"": """"}",4xx,
+13,"{""billId"": ""123456""}",4xx,
+14,"{""billId"": """", ""Skip"": ""123456""}",4xx,
+15,"{""billId"": """", ""Take"": ""123456""}",4xx,
+16,"{""billId"": ""123456"", ""Skip"": ""123456""}",4xx,
+17,"{""billId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,

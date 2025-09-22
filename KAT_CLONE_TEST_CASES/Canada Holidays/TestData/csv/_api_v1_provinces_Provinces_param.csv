@@ -1,18 +1,20 @@
-index,data,expected_status_code
-1,"{""data"": {""year"": 2023, ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
-2,"{""data"": {""year"": 2016, ""optional"": ""true""}, ""expected_code"": ""2xx""}",2xx
-3,"{""data"": {""year"": 2029, ""optional"": ""0""}, ""expected_code"": ""2xx""}",2xx
-4,"{""data"": {""year"": 2018, ""optional"": ""1""}, ""expected_code"": ""2xx""}",2xx
-5,"{""data"": {""year"": 2020, ""optional"": ""false""}, ""expected_code"": ""2xx""}",2xx
-6,"{""data"": {""year"": 2023, ""optional"": ""false"", ""expected_code"": null, ""data"": null}, ""expected_code"": ""2xx""}",2xx
-7,"{""data"": {""year"": 2023, ""optional"": ""false"", ""expected_code"": null}, ""expected_code"": ""2xx""}",2xx
-8,"{""data"": {""year"": 2023, ""optional"": ""false"", ""data"": null}, ""expected_code"": ""2xx""}",2xx
-9,"{""data"": {""year"": 2025, ""optional"": ""2""}, ""expected_code"": ""4xx""}",4xx
-10,"{""data"": {""year"": 2015, ""optional"": ""false""}, ""expected_code"": ""4xx""}",4xx
-11,"{""data"": {""year"": 2030, ""optional"": ""true""}, ""expected_code"": ""4xx""}",4xx
-12,"{""data"": {""year"": ""invalid"", ""optional"": ""0""}, ""expected_code"": ""4xx""}",4xx
-13,"{""data"": {""year"": 2023, ""optional"": ""invalid""}, ""expected_code"": ""4xx""}",4xx
-14,"{""data"": {""year"": -1, ""optional"": """"}, ""expected_code"": """"}",4xx
-15,"{""data"": {""year"": ""123456"", ""optional"": """"}, ""expected_code"": """"}",4xx
-16,"{""data"": {""year"": -1, ""optional"": 123456789}, ""expected_code"": """"}",4xx
-17,"{""data"": {""year"": ""123456"", ""optional"": 123456789}, ""expected_code"": """"}",4xx
+index,data,expected_status_code,reason
+1,"{""year"": 2025, ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+2,"{""year"": 2014, ""optional"": ""1""}",2xx,"year=2014 is within allowed range [2014..2035]; optional='1' is in the allowed enum ['1','0','true','false']."
+3,"{""year"": null, ""optional"": null}",2xx,
+4,"{""year"": null, ""optional"": null}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+5,"{""year"": 2025, ""optional"": ""false""}",2xx,
+6,"{""year"": 2025, ""optional"": null}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+7,"{""year"": null, ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+8,"{""year"": 2036}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+9,"{""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum ['1','0','true','false']."
+10,"{""year"": ""2020"", ""optional"": ""true""}",4xx,year has type string but the spec requires integer (type mismatch).
+11,"{""year"": 2013, ""optional"": ""false""}",4xx,"year=2013 < minimum=2014, violating 'minimum'."
+12,"{""year"": 2025, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum ['1', '0', 'true', 'false']."
+13,"{""year"": 2036, ""optional"": ""yes""}",4xx,"year=2036 > maximum=2035, violating 'maximum'; optional='yes' is not in the allowed enum ['1', '0', 'true', 'false']."
+14,"{""year"": -1, ""optional"": ""no""}",4xx,"year=-1 < minimum=2014, violating 'minimum'; optional='no' is not in the allowed enum ['1', '0', 'true', 'false']."
+15,"{""year"": 2147483649, ""optional"": ""2""}",4xx,"year=2147483649 > maximum=2035, violating 'maximum'; optional='2' is not in the allowed enum ['1', '0', 'true', 'false']."
+16,"{""year"": -1, ""optional"": """"}",4xx,
+17,"{""year"": ""123456"", ""optional"": """"}",4xx,
+18,"{""year"": -1, ""optional"": 123456789}",4xx,
+19,"{""year"": ""123456"", ""optional"": 123456789}",4xx,
