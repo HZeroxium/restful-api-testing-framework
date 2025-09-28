@@ -8,6 +8,7 @@ from typing import Any, Dict, List, Optional, Tuple
 from collections import defaultdict
 
 from .http_client import HttpClient
+from .models import TestCaseCore, StepModel
 
 logger = logging.getLogger(__name__)
 NOT_SURE = "%not-sure%"
@@ -238,20 +239,20 @@ class DependencyService:
         url = f"{base_url}{clean}"
         return re.sub(r"/\{[^}]+\}$", "", url)
 
-    def auto_discover_dependencies(self, test_case_docs: List[Dict[str, Any]]) -> Tuple[set, Dict[str, str]]:
+    def auto_discover_dependencies(self, test_cases: List[TestCaseCore]) -> Tuple[set, Dict[str, str]]:
         dependency_endpoints: set = set()
         dependency_mappings: Dict[str, str] = {}
-        for doc in test_case_docs:
-            steps = doc.get("test_case", {}).get("steps", [])
+        for test_case in test_cases:
+            steps = test_case.steps
             for step in steps:
-                deps = step.get("data_dependencies", {}) or {}
+                deps = step.data_dependencies
                 if not deps: 
                     continue
                 for dep_key, dep_info in deps.items():
                     if isinstance(dep_info, dict) and "from_step" in dep_info:
                         from_idx = dep_info["from_step"] - 1
                         if 0 <= from_idx < len(steps):
-                            src_ep = steps[from_idx].get("endpoint", "")
+                            src_ep = steps[from_idx].endpoint
                             if src_ep:
                                 dependency_endpoints.add(src_ep)
                                 dependency_mappings[dep_key] = src_ep

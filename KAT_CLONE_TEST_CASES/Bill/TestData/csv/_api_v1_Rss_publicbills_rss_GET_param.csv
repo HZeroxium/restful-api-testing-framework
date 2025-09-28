@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,{},2xx,No parameters are required or provided; the request matches the endpoint specification.
+2,{},2xx,No parameters are required or provided; the request matches the endpoint specification.
+3,{},2xx,No parameters are required or provided; the request matches the endpoint specification.
+4,{},2xx,No parameters are required or provided; the request matches the endpoint specification.
+5,{},2xx,No parameters are required or provided; the request matches the endpoint specification.
+6,{},2xx,
+7,{},2xx,No parameters are specified; all requirements are satisfied.
+8,{},2xx,No parameters are specified; all requirements are satisfied.
+9,{},2xx,No parameters are specified; all requirements are satisfied.
+10,{},2xx,No parameters are specified; all requirements are satisfied.
+11,{},2xx,No parameters are specified; all requirements are satisfied.

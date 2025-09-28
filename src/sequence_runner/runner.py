@@ -14,6 +14,8 @@ from .validator import extract_expected_status, is_status_match
 from .data_merge import merge_test_data
 from .dependency import DependencyService, NOT_SURE
 from .url_builder import clean_endpoint, required_path_vars, substitute_path_vars, build_urls
+from .models import TestCaseCore, DataRow, InjectedDataset, TestCaseWithDataset, StepModel
+from .parser import parse_test_case_core_from_dict, parse_all_from_files
 import datetime
 logger = setup_logging()
 
@@ -41,8 +43,17 @@ class SequenceRunner:
 
         # Auto-discover & preload dependencies (optional)
         if not skip_preload:
-            docs = [self.file.load_test_case(f) for f in self.file.find_test_case_files(self.endpoint_filter)]
-            eps, mappings = self.dep.auto_discover_dependencies(docs)
+            # Load test cases using models
+            test_cases = []
+            for f in self.file.find_test_case_files(self.endpoint_filter):
+                doc = self.file.load_test_case(f)
+                try:
+                    test_case = parse_test_case_core_from_dict(doc)
+                    test_cases.append(test_case)
+                except Exception as e:
+                    logger.warning(f"Failed to parse test case {f}: {e}")
+            
+            eps, mappings = self.dep.auto_discover_dependencies(test_cases)
             self.dep.preload_dependencies(self.base_url, self.http, eps, mappings)
 
     # ------------------------------------------------------------------
@@ -50,17 +61,17 @@ class SequenceRunner:
     # ------------------------------------------------------------------
     def execute_request(
         self,
-        step: Dict[str, Any],
+        step: StepModel,
         test_data_row: Optional[Dict[str, Any]] = None,
         current_step: int = 1,
         step_responses: List[Optional[Dict[str, Any]]] = None,
     ) -> Dict[str, Any]:
-        endpoint = step.get("endpoint", "")
-        method = (step.get("method", "GET") or "GET").upper()
-        base_params = step.get("query_parameters", {}) or {}
-        base_body = step.get("request_body", {}) or {}
-        path_vars = step.get("path_variables", {}) or {}
-        data_deps = step.get("data_dependencies", {}) or {}
+        endpoint = step.endpoint
+        method = step.method.upper()
+        base_params = step.query_parameters
+        base_body = step.request_body
+        path_vars = step.path_variables
+        data_deps = step.data_dependencies
 
         if step_responses is None:
             step_responses = []
@@ -211,12 +222,14 @@ class SequenceRunner:
         logger.info(f"Running test case: {test_case_file.name}")
         is_pass = False
 
-        test_case = self.file.load_test_case(test_case_file)
+        # Load and parse test case using models
+        test_case_dict = self.file.load_test_case(test_case_file)
+        test_case = parse_test_case_core_from_dict(test_case_dict)
         test_case_id = test_case_file.stem
-        target_endpoint = test_case.get("test_case", {}).get("endpoint", "")
+        target_endpoint = test_case.endpoint
         logger.info(f"🎯 Target endpoint: {target_endpoint}")
 
-        steps: List[Dict[str, Any]] = test_case.get("test_case", {}).get("steps", [])
+        steps: List[StepModel] = test_case.steps
         if not steps:
             logger.warning(f"No steps found in test case: {test_case_id}")
             return is_pass
@@ -259,7 +272,7 @@ class SequenceRunner:
             skip_row = False
 
             for step_idx, step in enumerate(steps):
-                step_endpoint = step.get("endpoint", "")
+                step_endpoint = step.endpoint
                 is_target_step = (step_endpoint == target_endpoint)
 
                 result = self.execute_request(step, row, step_idx + 1, step_responses)
@@ -270,8 +283,8 @@ class SequenceRunner:
                         {
                             "test_case_id": test_case_id,
                             "step_number": step_idx + 1,
-                            "endpoint": step.get("endpoint", ""),
-                            "method": step.get("method", "GET"),
+                            "endpoint": step.endpoint,
+                            "method": step.method,
                             "test_data_row": row_idx,
                             "request_params": json.dumps(result.get("merged_params", {})),
                             "request_body": json.dumps(result.get("merged_body", {})),
@@ -295,7 +308,7 @@ class SequenceRunner:
                 # Dependency step: no assert, just continue
                 if not is_target_step:
                     logger.info(
-                        f"  🔄 Step {step_idx+1}: {step.get('method','GET')} {step_endpoint} "
+                        f"  🔄 Step {step_idx+1}: {step.method} {step_endpoint} "
                         f"-> {result['status_code']} (dependency - skip assert)"
                     )
                     continue
@@ -312,18 +325,18 @@ class SequenceRunner:
                     "data_row": row_idx,
                     "request": {
                         "url": result.get("url", ""),
-                        "method": step.get("method", "GET"),
-                        "endpoint": step.get("endpoint", ""),
-                        "base_query_parameters": step.get("query_parameters", {}),
+                        "method": step.method,
+                        "endpoint": step.endpoint,
+                        "base_query_parameters": step.query_parameters,
                         "merged_query_parameters": result.get("merged_params", {}),
-                        "base_request_body": step.get("request_body", {}),
+                        "base_request_body": step.request_body,
                         "merged_request_body": result.get("merged_body", {}),
                         "test_data_used": row,
                     },
                     "response": {
                         "status_code": result["status_code"],
                         "body": result["response"],
-                        "execution_time": f"{result["execution_time"]:.3f}s",
+                        "execution_time": f"{result['execution_time']:.3f}s",
                         "success": result["success"],
                         "error": result.get("error"),
                     },
@@ -341,8 +354,8 @@ class SequenceRunner:
                     {
                         "test_case_id": test_case_id,
                         "step_number": step_idx + 1,
-                        "endpoint": step.get("endpoint", ""),
-                        "method": step.get("method", "GET"),
+                        "endpoint": step.endpoint,
+                        "method": step.method,
                         "test_data_row": row_idx,
                         "request_params": json.dumps(result.get("merged_params", {})),
                         "request_body": json.dumps(result.get("merged_body", {})),
@@ -357,7 +370,7 @@ class SequenceRunner:
                 status_emoji = "✅" if is_pass else "❌"
                 expected_info = f"(expected: {expected_status})" if expected_status != "2xx" else ""
                 logger.info(
-                    f"  {status_emoji} 🎯 TARGET: {step.get('method','GET')} {step.get('endpoint','')} "
+                    f"  {status_emoji} 🎯 TARGET: {step.method} {step.endpoint} "
                     f"-> {result['status_code']} {expected_info} ({result['execution_time']:.3f}s)"
                 )
                 if not is_pass and result.get("error"):

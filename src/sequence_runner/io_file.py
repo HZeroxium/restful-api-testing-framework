@@ -1,4 +1,4 @@
-# src/sequence_runner/io_files.py
+# src/sequence_runner/io_file.py
 from __future__ import annotations
 
 import csv
@@ -8,7 +8,8 @@ import logging
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from .models import Paths, TEST_CASE_DIR_NAME
+from .models import Paths, TEST_CASE_DIR_NAME, TestCaseCore, DataRow
+from .parser import parse_test_case_core_from_path, parse_csv_to_data_rows
 
 logger = logging.getLogger(__name__)
 
@@ -69,11 +70,20 @@ class FileService:
         return sorted(filtered)
 
     def load_test_case(self, file: Path) -> Dict[str, Any]:
+        """Load test case as raw dict (backwards compatibility)"""
         try:
             return json.loads(file.read_text(encoding="utf-8-sig"))
         except Exception as e:
             logger.error(f"Failed to read test case {file}: {e}")
             return {}
+    
+    def load_test_case_model(self, file: Path) -> Optional[TestCaseCore]:
+        """Load test case as TestCaseCore model"""
+        try:
+            return parse_test_case_core_from_path(file)
+        except Exception as e:
+            logger.error(f"Failed to parse test case model {file}: {e}")
+            return None
 
     # ---------- CSV ----------
     def find_test_data_files(self, endpoint_identifier: str) -> Dict[str, Optional[Path]]:
@@ -97,6 +107,7 @@ class FileService:
         return found
 
     def load_csv_rows(self, csv_file: Optional[Path]) -> List[Dict[str, Any]]:
+        """Load CSV as raw dicts (backwards compatibility)"""
         if not csv_file:
             return []
         try:
@@ -104,6 +115,16 @@ class FileService:
                 return list(csv.DictReader(fp))
         except Exception as e:
             logger.error(f"Error loading test data from {csv_file}: {e}")
+            return []
+    
+    def load_csv_data_rows(self, csv_file: Optional[Path]) -> List[DataRow]:
+        """Load CSV as DataRow models"""
+        if not csv_file:
+            return []
+        try:
+            return parse_csv_to_data_rows(csv_file)
+        except Exception as e:
+            logger.error(f"Error parsing CSV data rows from {csv_file}: {e}")
             return []
 
     # ---------- Output ----------

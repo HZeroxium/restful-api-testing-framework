@@ -1,0 +1,96 @@
+{
+  "test_case": {
+    "id": "_api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1",
+    "name": "_api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1",
+    "description": "Test case for endpoint get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download",
+    "endpoint": "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download",
+    "sequence_index": 2,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/api/v1/Sittings",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {
+          "House": null,
+          "DateFrom": null,
+          "DateTo": null,
+          "Skip": null,
+          "Take": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications",
+        "method": "GET",
+        "path_variables": {
+          "billId": null,
+          "stageId": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "billId": {
+            "from_step": 1,
+            "field_mappings": {
+              "billId": "id"
+            }
+          },
+          "stageId": {
+            "from_step": 1,
+            "field_mappings": {
+              "stageId": "id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
+        "endpoint": "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download",
+        "method": "GET",
+        "path_variables": {
+          "publicationId": null,
+          "documentId": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "publicationId": {
+            "from_step": 2,
+            "field_mappings": {
+              "publicationId": "id"
+            }
+          },
+          "documentId": {
+            "from_step": 2,
+            "field_mappings": {
+              "documentId": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

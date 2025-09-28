@@ -1,7 +1,8 @@
-# src/sequence_runner/validators.py
+# src/sequence_runner/validator.py
 from __future__ import annotations
 import json
-from typing import Any, Dict
+from typing import Any, Dict, List
+from .models import DataRow, StatusSpec
 
 def _coerce_expected(v: Any) -> str | None:
     if v is None:
@@ -90,3 +91,27 @@ def is_status_match(actual_status: int, expected_pattern: str) -> bool:
 
     # fallback: coi là 2xx
     return 200 <= actual_status < 300
+
+
+def extract_expected_status_from_data_row(data_row: DataRow) -> StatusSpec:
+    """Extract expected status from DataRow model"""
+    if data_row.expected_status_code:
+        return data_row.expected_status_code
+    
+    # Try to extract from data JSON
+    try:
+        data_dict = data_row.data_dict
+        for key in ("expected_status_code", "expected_code"):
+            if key in data_dict:
+                value = _coerce_expected(data_dict[key])
+                if value:
+                    return StatusSpec(value=value)
+    except Exception:
+        pass
+    
+    return StatusSpec.default_ok()
+
+
+def validate_status_with_model(actual_status: int, expected_status: StatusSpec) -> bool:
+    """Validate status using StatusSpec model"""
+    return expected_status.matches(actual_status)

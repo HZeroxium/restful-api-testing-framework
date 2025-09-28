@@ -145,23 +145,174 @@ class TestCaseGenerator():
 
     def get_primary_schema_for_endpoint(self, endpoint):
         """
-        Determine the primary schema returned by an endpoint.
-        This is used to select the correct mapping from endpoint_schema_dependencies.
+        Determine the primary schema returned by an endpoint dynamically.
+        This method extracts resource types from endpoint paths and matches them with available schemas.
         """
-        # Simple heuristic: choose schema based on endpoint path
-        if '/holidays' in endpoint and not '{holidayId}' in endpoint:
-            return 'Holiday'
-        elif '/provinces' in endpoint and not '{provinceId}' in endpoint:
-            return 'Province'
-        
-        # Fallback: return the first schema available for this endpoint
+        # First, try to find exact match in endpoints_belong_to_schemas
         if hasattr(self, 'endpoints_belong_to_schemas'):
             for schema, endpoints in self.endpoints_belong_to_schemas.items():
                 if endpoint in endpoints:
                     return schema
         
-        # Final fallback: return Holiday as default
-        return 'Holiday'
+        # Dynamic schema matching based on endpoint path analysis
+        if hasattr(self, 'endpoint_schema_dependencies') and endpoint in self.endpoint_schema_dependencies:
+            available_schemas = list(self.endpoint_schema_dependencies[endpoint].keys())
+            if available_schemas:
+                # Try to match endpoint path with schema names
+                best_match = self._find_best_schema_match(endpoint, available_schemas)
+                if best_match:
+                    return best_match
+                # If no good match, return first available
+                return available_schemas[0]
+        
+        # Fallback: analyze all available schemas and find best match
+        if hasattr(self, 'endpoint_schema_dependencies') and self.endpoint_schema_dependencies:
+            all_schemas = set()
+            for ep_deps in self.endpoint_schema_dependencies.values():
+                all_schemas.update(ep_deps.keys())
+            if all_schemas:
+                best_match = self._find_best_schema_match(endpoint, list(all_schemas))
+                if best_match:
+                    return best_match
+                return list(all_schemas)[0]
+        
+        # Final fallback: try to infer from schemas_spec
+        if hasattr(self, 'schemas_spec') and self.schemas_spec:
+            best_match = self._find_best_schema_match(endpoint, list(self.schemas_spec.keys()))
+            if best_match:
+                return best_match
+            return list(self.schemas_spec.keys())[0]
+        
+        return None
+
+    def _find_best_schema_match(self, endpoint, available_schemas):
+        """
+        Find the best matching schema for an endpoint by analyzing path components.
+        Uses fuzzy matching to handle various naming conventions.
+        """
+        import re
+        from difflib import SequenceMatcher
+        
+        # Extract resource names from endpoint path
+        # Remove method prefix and path parameters
+        clean_path = endpoint.lower()
+        if '-' in clean_path:
+            clean_path = clean_path.split('-', 1)[1]  # Remove method prefix like 'get-'
+        
+        # Remove path parameters like {billId}, {stageId}
+        clean_path = re.sub(r'\{[^}]+\}', '', clean_path)
+        
+        # Extract path segments
+        path_segments = [seg for seg in clean_path.split('/') if seg and seg not in ['api', 'v1', 'v2']]
+        
+        best_schema = None
+        best_score = 0
+        
+        for schema in available_schemas:
+            schema_lower = schema.lower()
+            score = 0
+            
+            # Try exact matches first
+            for segment in path_segments:
+                if segment == schema_lower:
+                    score += 10  # High score for exact match
+                elif segment.rstrip('s') == schema_lower.rstrip('s'):  # Handle plurals
+                    score += 8
+                elif schema_lower in segment or segment in schema_lower:
+                    score += 5
+            
+            # Use fuzzy matching for partial matches
+            for segment in path_segments:
+                similarity = SequenceMatcher(None, segment, schema_lower).ratio()
+                if similarity > 0.6:  # 60% similarity threshold
+                    score += similarity * 3
+            
+            # Prefer schemas that contain resource-like words
+            if any(word in schema_lower for word in path_segments):
+                score += 2
+            
+            if score > best_score:
+                best_score = score
+                best_schema = schema
+        
+        # Only return if we have a reasonable match
+        return best_schema if best_score > 1 else None
+
+    def _extract_path_variables(self, endpoint):
+        """Extract path variables from endpoint like {billId}, {stageId}"""
+        import re
+        return re.findall(r'\{(\w+)\}', endpoint)
+
+    def _create_fallback_dependencies(self, step, sequence, step_index):
+        """
+        Create fallback dependencies for path variables when schema dependencies are not available.
+        This analyzes the sequence and tries to infer dependencies based on common patterns.
+        """
+        path_vars = self._extract_path_variables(step["endpoint"])
+        if not path_vars:
+            return step
+        
+        # Analyze previous steps to find potential data sources
+        for var in path_vars:
+            if var not in step["data_dependencies"]:
+                # Try to find dependency from previous steps
+                dependency_found = False
+                
+                for prev_step_idx in range(step_index - 1, -1, -1):
+                    prev_step = sequence[prev_step_idx]
+                    prev_endpoint = prev_step if isinstance(prev_step, str) else prev_step.get("endpoint", "")
+                    
+                    # Common patterns for ID dependencies
+                    potential_sources = self._infer_id_source_field(var, prev_endpoint)
+                    
+                    if potential_sources:
+                        step["data_dependencies"][var] = {
+                            "from_step": prev_step_idx + 1,
+                            "field_mappings": {
+                                var: potential_sources[0]  # Use first/best match
+                            }
+                        }
+                        dependency_found = True
+                        break
+                
+                if not dependency_found:
+                    # Mark as not-sure for runtime resolution
+                    step["path_variables"][var] = "%not-sure%"
+        
+        return step
+
+    def _infer_id_source_field(self, path_var, source_endpoint):
+        """
+        Infer what field in the source endpoint response might contain the needed ID.
+        Returns list of potential field names ordered by likelihood.
+        """
+        var_lower = path_var.lower()
+        potential_fields = []
+        
+        # Direct mapping: billId -> id, billId -> billId
+        potential_fields.append("id")  # Most common
+        potential_fields.append(path_var)  # Direct match
+        
+        # Handle composite IDs like billStageId
+        if var_lower.endswith('id'):
+            base_name = var_lower[:-2]  # Remove 'id' suffix
+            potential_fields.extend([base_name + "Id", base_name + "_id"])
+        
+        # Analyze source endpoint to understand what it returns
+        source_lower = source_endpoint.lower()
+        
+        # If source returns list of items, likely has 'id' field
+        if not any('{' in source_endpoint for _ in ['{}']):  # No path params = list endpoint
+            potential_fields.insert(0, "id")  # Prioritize 'id' for list endpoints
+        
+        # Pattern matching based on endpoint paths
+        if 'bill' in var_lower and 'bill' in source_lower:
+            potential_fields.extend(["billId", "bill_id"])
+        
+        if 'stage' in var_lower and 'stage' in source_lower:
+            potential_fields.extend(["stageId", "stage_id"])
+        
+        return list(dict.fromkeys(potential_fields))  # Remove duplicates while preserving order
 
     def generate_test_case_name(self, endpoint, index_of_sequence=None):
         endpoint_id = get_endpoint_id(self.swagger_spec, endpoint)
@@ -280,15 +431,17 @@ class TestCaseGenerator():
             if 'requestBody' in self.simplified_swagger[endpoint]:
                 step["request_body"] = self.simplified_swagger[endpoint]['requestBody']
                 
-            # Add data dependencies - only use direct schema mapping, ignore nested/cross-schema
+            # Add data dependencies - try schema mapping first, then fallback to pattern-based
             schema_dependencies = self.endpoint_schema_dependencies.get(endpoint, {})
+            dependencies_added = False
+            
             if schema_dependencies:
                 # Determine which schema to use based on the previous step's endpoint
                 previous_endpoint = sequence[i-1]
                 selected_schema = self.get_primary_schema_for_endpoint(previous_endpoint)
                 
                 # Only add dependency if the selected schema exists and uses simple mapping
-                if selected_schema in schema_dependencies:
+                if selected_schema and selected_schema in schema_dependencies:
                     for target_param, source_param in schema_dependencies[selected_schema].items():
                         # Only use simple direct mappings (no dot notation)
                         if '.' not in source_param:
@@ -299,6 +452,13 @@ class TestCaseGenerator():
                                 }
                             }
                             has_meaningful_dependencies = True
+                            dependencies_added = True
+            
+            # If no schema dependencies were added, try fallback pattern-based dependencies
+            if not dependencies_added:
+                step = self._create_fallback_dependencies(step, sequence, i)
+                if step["data_dependencies"]:
+                    has_meaningful_dependencies = True
                     
             test_case_data["steps"].append(step)
         

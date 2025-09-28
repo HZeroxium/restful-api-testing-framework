@@ -40,7 +40,7 @@ def parse_test_case_core_from_dict(d: Dict[str, Any]) -> TestCaseCore:
         raise TestCaseJsonError("Invalid JSON structure: 'test_case' must be an object")
 
     try:
-        return TestCaseCore.parse_obj(payload)  # pydantic v1-style, v2 cũng hỗ trợ qua shim
+        return TestCaseCore.model_validate(payload)  # pydantic v2 style
     except Exception as e:
         raise TestCaseJsonError(f"Failed to parse TestCaseCore: {e}") from e
 

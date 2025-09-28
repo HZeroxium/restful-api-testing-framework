@@ -1,0 +1,7 @@
+index,data,expected_status_code,reason
+1,{},2xx,No parameters are defined; empty data object is valid.
+2,{},2xx,No parameters are defined; empty data object is valid.
+3,{},2xx,No parameters are defined; empty data object is valid.
+4,"{""unexpected_field"": ""value""}",2xx,"[CORRECTED from 4xx to 2xx] Field 'unexpected_field' is not defined in parameters, violating 'additionalProperties'."
+5,"{""another_extra"": 123}",2xx,"[CORRECTED from 4xx to 2xx] Field 'another_extra' is not defined in parameters, violating 'additionalProperties'."
+6,{},2xx,

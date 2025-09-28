@@ -24,32 +24,31 @@ try:
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
     
     # Khởi tạo generator với service name và collection name
-    generator = TestCaseGenerator(
-        service_name="Canada Holidays",
-        collection="Default",
-        save_prompts=True,
-        regenerate_test_data=True,  # Force regenerate với prompt mới
-        data_generation_mode="all",
-        clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
-    )
-
-    generator.generate_test_data_for(generator.get_endpoints())
-    # generator.generate_test_cases(["get-/api/v1/provinces"])
     # generator = TestCaseGenerator(
     #     service_name="Canada Holidays",
     #     collection="Default",
     #     save_prompts=True,
-    #     regenerate_test_data=False,
+    #     regenerate_test_data=True,  # Force regenerate với prompt mới
     #     data_generation_mode="all",
     #     clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
     # )
+
+    # generator.generate_test_data_for(generator.get_endpoints())
+    # generator.generate_test_cases(["get-/api/v1/provinces"])
+    generator = TestCaseGenerator(
+        service_name="Bill",
+        collection="Default",
+        save_prompts=True,
+        data_generation_mode="all"
+    )
+    # generator.generate_test_data_for(generator.get_endpoints())
 
     # get-/api/v1/Bills
     # get-/api/v1/Bills/{billId}/NewsArticles	
     # Chạy generator - chỉ generate test data, không xóa test cases hiện có
 
     # generator.generate_test_data_for(generator.get_endpoints())
-    # generator.generate_test_cases()
+    generator.generate_test_cases()
     
     print("✅ Generator completed successfully!")
 

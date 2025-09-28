@@ -16,6 +16,17 @@ class ResponseValidation(BaseModel):
     status_code: Optional[StatusSpec] = None
     body_validation: Dict[str, Any] = Field(default_factory=dict)
 
+    @field_validator("status_code", mode="before")
+    @classmethod
+    def _parse_status_code(cls, v):
+        if v is None:
+            return None
+        if isinstance(v, str):
+            return StatusSpec(value=v)
+        if isinstance(v, dict):
+            return StatusSpec(**v)
+        return v
+
 # ====== STEP ======
 class StepModel(BaseModel):
     step_number: int
@@ -56,6 +67,17 @@ class DataRow(BaseModel):
     reason: Optional[str] = None
     extra: Dict[str, Any] = Field(default_factory=dict)
 
+    @field_validator("expected_status_code", mode="before")
+    @classmethod
+    def _parse_expected_status(cls, v):
+        if v is None or v == "":
+            return None
+        if isinstance(v, str):
+            return StatusSpec(value=v)
+        if isinstance(v, dict):
+            return StatusSpec(**v)
+        return v
+
     @property
     def data_dict(self) -> Dict[str, Any]:
         import json
@@ -72,8 +94,7 @@ class DataRow(BaseModel):
         return cls(
             index=int(normalized.get("index") or 0),
             data=str(normalized.get("data") or "{}"),
-            expected_status_code=(StatusSpec(normalized.get("expected_status_code"))
-                                  if normalized.get("expected_status_code") else None),
+            expected_status_code=normalized.get("expected_status_code"),  # validator sẽ tự động parse
             reason=normalized.get("reason"),
             extra=extra
         )

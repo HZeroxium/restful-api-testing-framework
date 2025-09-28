@@ -1,0 +1,18 @@
+index,data,expected_status_code,reason
+1,"{""billId"": ""%not-sure%"", ""billStageId"": ""%not-sure%"", ""pingPongItemId"": ""%not-sure%""}",2xx,All path parameters have only minimum=1 and no maximum; using %not-sure% indicates uncertain path parameter requiring dependency resolution.
+2,"{""billId"": 1, ""billStageId"": 5, ""pingPongItemId"": 10}",2xx,"All path parameters are integers ≥1, satisfying 'minimum=1' and 'type=integer'."
+3,"{""billId"": ""%not-sure%"", ""billStageId"": ""%not-sure%"", ""pingPongItemId"": ""%not-sure%""}",2xx,
+4,"{""billId"": 0, ""billStageId"": 2, ""pingPongItemId"": 3}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+5,"{""billId"": 2, ""billStageId"": ""abc"", ""pingPongItemId"": 4}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""billId"": 3, ""billStageId"": 4, ""pingPongItemId"": -5}",4xx,"pingPongItemId=-5 < minimum=1, violating 'minimum'."
+7,"{""billId"": 0, ""billStageId"": 2, ""pingPongItemId"": 3}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+8,"{""billId"": 1, ""billStageId"": -1, ""pingPongItemId"": 5}",4xx,"billStageId=-1 < minimum=1, violating 'minimum' constraint."
+9,"{""billId"": 2, ""billStageId"": 3, ""pingPongItemId"": 0}",4xx,"pingPongItemId=0 < minimum=1, violating 'minimum' constraint."
+10,"{""billId"": ""abc"", ""billStageId"": 4, ""pingPongItemId"": 5}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+11,"{""billId"": 1, ""billStageId"": ""xyz"", ""pingPongItemId"": 2}",4xx,"billStageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+12,"{""billId"": """", ""billStageId"": """", ""pingPongItemId"": """"}",4xx,
+13,"{""billId"": ""123456"", ""billStageId"": """", ""pingPongItemId"": """"}",4xx,
+14,"{""billId"": """", ""billStageId"": ""123456"", ""pingPongItemId"": """"}",4xx,
+15,"{""billId"": """", ""billStageId"": """", ""pingPongItemId"": ""123456""}",4xx,
+16,"{""billId"": ""123456"", ""billStageId"": """", ""pingPongItemId"": ""123456""}",4xx,
+17,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""pingPongItemId"": ""123456""}",4xx,

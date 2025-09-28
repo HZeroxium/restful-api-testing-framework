@@ -2965,3 +2965,360 @@ TypeError: TestCaseGenerator.generate_test_cases() takes 1 positional argument b
 2025-09-28 15:17:02,815 - INFO - Excluding path parameters from mutation: ['holidayId']
 2025-09-28 15:17:05,072 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
 2025-09-28 15:17:06,994 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:14,531 - ERROR - Error in run_generator.py: Swagger spec file for service Bills not found. Please put it according the path: "Dataset/Bills/openapi.json"
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 38, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 90, in __init__
+    raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
+Exception: Swagger spec file for service Bills not found. Please put it according the path: "Dataset/Bills/openapi.json"
+2025-09-28 20:09:26,771 - INFO - Preparing ODG for service: Bill
+2025-09-28 20:09:27,983 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:28,776 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:29,420 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:30,309 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:30,680 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:31,099 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:31,674 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:32,097 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:32,588 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:33,192 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:33,945 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:34,386 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:34,943 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:35,453 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:35,916 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:36,375 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:36,858 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:37,436 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:38,229 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:38,999 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:39,852 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:40,363 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:40,818 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:41,486 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:42,016 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:42,572 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:42,992 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:43,580 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:43,690 - INFO - ODG prepared and saved.
+2025-09-28 20:09:43,706 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-09-28 20:09:43,706 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-09-28 20:09:43,706 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-09-28 20:09:43,706 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-09-28 20:09:43,707 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-09-28 20:09:43,708 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-09-28 20:09:43,708 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-09-28 20:09:43,710 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-09-28 20:09:43,711 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-09-28 20:09:44,037 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:48,773 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:56,465 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:09:56,467 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-28 20:09:56,807 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:00,208 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:04,974 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:04,976 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId', 'amendmentId']
+2025-09-28 20:10:08,550 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:13,047 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:13,049 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-28 20:10:16,249 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:23,571 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:27,610 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:31,349 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:31,705 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:34,850 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:37,850 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:37,851 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-28 20:10:39,264 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:41,102 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:44,733 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:48,202 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:48,429 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-28 20:10:48,774 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:51,902 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:55,254 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:55,255 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-28 20:10:55,604 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:10:58,830 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:02,104 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:02,106 - INFO - Excluding path parameters from mutation: ['publicationId', 'documentId']
+2025-09-28 20:11:02,422 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:05,580 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:09,321 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:09,322 - INFO - Excluding path parameters from mutation: ['publicationId', 'documentId']
+2025-09-28 20:11:09,664 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:14,181 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:19,451 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:19,453 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-28 20:11:20,025 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:23,787 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:27,466 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:27,467 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId', 'pingPongItemId']
+2025-09-28 20:11:30,532 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:34,288 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:34,733 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:38,886 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:41,723 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:41,724 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-28 20:11:45,300 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:48,547 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:48,549 - INFO - Excluding path parameters from mutation: ['billId', 'stageId']
+2025-09-28 20:11:50,721 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:51,898 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:54,287 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:56,237 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:58,733 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:11:58,782 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:11:58,782 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-09-28 20:12:01,264 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:01,578 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:01,627 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:12:01,627 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-09-28 20:12:05,075 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:05,124 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:12:05,124 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-09-28 20:12:09,177 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:09,179 - INFO - Excluding path parameters from mutation: ['id']
+2025-09-28 20:12:09,234 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:12:09,234 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-09-28 20:12:13,353 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:13,401 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:12:13,402 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-09-28 20:12:17,379 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:17,436 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-09-28 20:12:17,436 - INFO - Retrying request to /chat/completions in 3.000000 seconds
+2025-09-28 20:12:23,159 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:26,248 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:12:26,258 - INFO - path: /api/v1/BillTypes, method: get
+2025-09-28 20:12:26,258 - INFO - path: /api/v1/BillTypes, method: get
+2025-09-28 20:12:26,260 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-09-28 20:12:26,260 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-09-28 20:12:26,260 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-09-28 20:12:26,261 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-09-28 20:12:26,261 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-09-28 20:12:26,261 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-09-28 20:12:26,262 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-09-28 20:12:26,262 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-09-28 20:12:26,263 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,263 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,263 - INFO - path: /api/v1/Stages, method: get
+2025-09-28 20:12:26,264 - INFO - path: /api/v1/Stages, method: get
+2025-09-28 20:12:26,265 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,265 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,266 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,266 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,266 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,267 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,267 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,267 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,268 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,268 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,268 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:12:26,269 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:12:26,269 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,269 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:12:26,269 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:12:26,269 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:12:26,270 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,270 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:12:26,270 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:12:26,271 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,271 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:12:26,271 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:12:26,272 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,272 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-09-28 20:12:26,272 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-09-28 20:12:26,273 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,273 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-09-28 20:12:26,273 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-09-28 20:12:26,273 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,274 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:12:26,274 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:12:26,275 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:12:26,276 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,276 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:12:26,276 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:12:26,277 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,278 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:12:26,279 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:12:26,279 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,279 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,280 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,280 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,281 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,281 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,281 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,281 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,281 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,282 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,282 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,282 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:12:26,282 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,282 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:12:26,283 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:12:26,284 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,284 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,284 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:12:26,284 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:12:26,285 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,285 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,285 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:12:26,285 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:12:26,286 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:12:26,286 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,286 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:12:26,286 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:12:26,287 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:12:26,287 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:12:26,287 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:12:26,287 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:32:30,274 - INFO - Preparing ODG for service: Bill
+2025-09-28 20:32:30,275 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 20:32:30,281 - INFO - path: /api/v1/BillTypes, method: get
+2025-09-28 20:32:30,281 - INFO - path: /api/v1/BillTypes, method: get
+2025-09-28 20:32:30,282 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-09-28 20:32:30,282 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-09-28 20:32:30,283 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-09-28 20:32:30,283 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-09-28 20:32:30,283 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-09-28 20:32:30,283 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-09-28 20:32:30,284 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-09-28 20:32:30,284 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-09-28 20:32:30,285 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,285 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,286 - INFO - path: /api/v1/Stages, method: get
+2025-09-28 20:32:30,286 - INFO - path: /api/v1/Stages, method: get
+2025-09-28 20:32:30,286 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,286 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,287 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,287 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,287 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,289 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,289 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,289 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,290 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,290 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,290 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:32:30,290 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:32:30,291 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,291 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-09-28 20:32:30,291 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:32:30,292 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-09-28 20:32:30,292 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,292 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:32:30,292 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:32:30,294 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,294 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:32:30,294 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-09-28 20:32:30,295 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,295 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-09-28 20:32:30,295 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-09-28 20:32:30,296 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,296 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-09-28 20:32:30,296 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-09-28 20:32:30,297 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,297 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:32:30,297 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:32:30,298 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,298 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:32:30,298 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-09-28 20:32:30,299 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,299 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:32:30,299 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:32:30,300 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,300 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:32:30,300 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-09-28 20:32:30,301 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,301 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,302 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:32:30,302 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:32:30,303 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,303 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,303 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:32:30,303 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-09-28 20:32:30,304 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,304 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,305 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,305 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,305 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,306 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,306 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,306 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,307 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,307 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,307 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,309 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-09-28 20:32:30,309 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,309 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,310 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:32:30,310 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:32:30,311 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,311 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,311 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:32:30,311 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-09-28 20:32:30,312 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,312 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,312 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:32:30,312 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:32:30,313 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,313 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,313 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:32:30,313 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-09-28 20:32:30,314 - INFO - path: /api/v1/Bills, method: get
+2025-09-28 20:32:30,315 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,315 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:32:30,315 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:32:30,316 - INFO - path: /api/v1/Sittings, method: get
+2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get

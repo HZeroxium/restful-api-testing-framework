@@ -1,0 +1,8 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2147483649}",2xx,"[CORRECTED from 4xx to 2xx] id=2147483649 exceeds int32 maximum value (2147483647), violating 'format=int32'."
+2,"{""id"": 0}",4xx,"id=0 < minimum=1, violating 'minimum' constraint."
+3,"{""id"": -1}",4xx,"id=-1 < minimum=1, violating 'minimum' constraint."
+4,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""id"": 1.5}",4xx,"id=1.5 is not an integer, violating 'type=integer' for path parameter."
+6,"{""id"": -9999999.0}",4xx,
+7,"{""id"": ""123456""}",4xx,

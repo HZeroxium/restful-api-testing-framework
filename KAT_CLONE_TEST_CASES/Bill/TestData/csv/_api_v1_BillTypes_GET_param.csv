@@ -1,0 +1,23 @@
+index,data,expected_status_code,reason
+1,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid int32 integers.
+2,"{""Category"": ""Hybrid""}",2xx,Category='Hybrid' is in the allowed enum; other fields are optional and omitted.
+3,"{""Category"": ""Government""}",2xx,"[CORRECTED from 4xx to 2xx] Category='Government' is not in the allowed enum ['Public', 'Private', 'Hybrid']."
+4,"{""Category"": null, ""Skip"": null, ""Take"": null}",2xx,
+5,"{""Category"": null, ""Skip"": null, ""Take"": 10}",2xx,
+6,"{""Category"": null, ""Skip"": 0, ""Take"": 10}",2xx,
+7,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": 10}",2xx,
+8,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": null}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid int32 integers.
+9,"{""Category"": ""Public"", ""Skip"": null, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid int32 integers.
+10,"{""Category"": null, ""Skip"": 0, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid int32 integers.
+11,"{""Category"": ""Corporate""}",2xx,"[CORRECTED from 4xx to 2xx] Category='Corporate' is not in the allowed enum {'Public','Private','Hybrid'}."
+12,"{""Skip"": ""abc"", ""Take"": 5}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+13,"{""Category"": ""Private"", ""Skip"": 3, ""Take"": ""ten""}",4xx,"Take='ten' is not parseable as integer, violating 'type=integer' for query/parseability."
+14,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+15,"{""Take"": ""12x""}",4xx,"Take='12x' is not parseable as integer, violating 'type=integer' for query/parseability."
+16,"{""Category"": ""HybridX"", ""Skip"": ""-1.5""}",4xx,"Category='HybridX' is not in the allowed enum {'Public','Private','Hybrid'}; Skip='-1.5' is not parseable as integer, violating 'type=integer'."
+17,"{""Category"": ""Unknown"", ""Skip"": ""NaN"", ""Take"": ""false""}",4xx,"Category='Unknown' is not in the allowed enum {'Public','Private','Hybrid'}; Skip='NaN' is not parseable as integer; Take='false' is not parseable as integer."
+18,"{""Category"": """", ""Skip"": -1, ""Take"": -1}",4xx,
+19,"{""Category"": """", ""Skip"": ""123456"", ""Take"": -1}",4xx,
+20,"{""Category"": """", ""Skip"": -1, ""Take"": ""123456""}",4xx,
+21,"{""Category"": """", ""Skip"": -1, ""Take"": ""123456""}",4xx,
+22,"{""Category"": """", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,

@@ -1,0 +1,16 @@
+index,data,expected_status_code,reason
+1,"{""billId"": ""%not-sure%"", ""stageId"": ""%not-sure%""}",2xx,billId=%not-sure% and stageId=%not-sure% indicate uncertain path parameters requiring dependency resolution.
+2,"{""billId"": 1, ""stageId"": 42}",2xx,billId=1 is at minimum=1; stageId=42 is a valid integer.
+3,"{""billId"": ""%not-sure%"", ""stageId"": ""%not-sure%""}",2xx,
+4,"{""billId"": 0, ""stageId"": 5}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+5,"{""billId"": ""abc"", ""stageId"": 3}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""billId"": 7, ""stageId"": ""xyz""}",4xx,"stageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+7,"{""billId"": 0, ""stageId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint for path parameter."
+8,"{""billId"": ""abc"", ""stageId"": 1}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""billId"": 1, ""stageId"": ""xyz""}",4xx,"stageId='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""billId"": 0, ""stageId"": ""xyz""}",4xx,"billId=0 < minimum=1, violating 'minimum'; stageId='xyz' is not parseable as integer, violating 'type=integer'."
+11,"{""billId"": ""abc"", ""stageId"": ""xyz""}",4xx,"billId='abc' and stageId='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
+12,"{""billId"": """", ""stageId"": """"}",4xx,
+13,"{""billId"": ""123456"", ""stageId"": """"}",4xx,
+14,"{""billId"": """", ""stageId"": ""123456""}",4xx,
+15,"{""billId"": ""123456"", ""stageId"": ""123456""}",4xx,

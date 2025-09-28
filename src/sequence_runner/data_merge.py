@@ -3,7 +3,8 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, Tuple
+from typing import Any, Dict, Tuple, List
+from .models import DataRow, StepModel
 
 logger = logging.getLogger(__name__)
 
@@ -165,3 +166,37 @@ def merge_test_data(
     merged_params = {k: v for k, v in merged_params.items() if v is not None}
 
     return merged_params, merged_body, csv_path_vars, not_sure_params
+
+
+def merge_test_data_with_models(
+    step: StepModel,
+    data_rows: List[DataRow],
+    data_for: str = "params",
+) -> List[Tuple[Dict[str, Any], Dict[str, Any], Dict[str, Any], Dict[str, bool]]]:
+    """
+    Merge test data using models. 
+    Returns list of (merged_params, merged_body, csv_path_vars, not_sure_params) for each data row.
+    """
+    results = []
+    
+    for data_row in data_rows:
+        # Convert DataRow to dict format for existing merge function
+        test_data_dict = {
+            "index": data_row.index,
+            "data": data_row.data,
+            "expected_status_code": str(data_row.expected_status_code.value) if data_row.expected_status_code else None,
+            "reason": data_row.reason,
+            **data_row.extra
+        }
+        
+        result = merge_test_data(
+            step.query_parameters,
+            step.request_body,
+            test_data_dict,
+            step.endpoint,
+            step.path_variables,
+            data_for=data_for
+        )
+        results.append(result)
+    
+    return results

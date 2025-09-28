@@ -1,0 +1,149 @@
+{
+  "AmendmentSearchItemSearchResult": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
+  ],
+  "AmendmentSearchItem": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
+  ],
+  "AmendmentMember": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}",
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems",
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "AmendmentLine": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}",
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "AmendmentDetail": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"
+  ],
+  "NewsArticlesSummary": [
+    "get-/api/v1/Bills/{billId}/NewsArticles"
+  ],
+  "NewsArticlesSummarySearchResult": [
+    "get-/api/v1/Bills/{billId}/NewsArticles"
+  ],
+  "BillTypeSearchResult": [
+    "get-/api/v1/BillTypes"
+  ],
+  "BillType": [
+    "get-/api/v1/BillTypes"
+  ],
+  "StageSummary": [
+    "get-/api/v1/Bills",
+    "get-/api/v1/Bills/{billId}",
+    "get-/api/v1/Bills/{billId}/Stages"
+  ],
+  "BillStageSitting": [
+    "get-/api/v1/Bills",
+    "get-/api/v1/Bills/{billId}",
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}",
+    "get-/api/v1/Bills/{billId}/Stages",
+    "get-/api/v1/Sittings"
+  ],
+  "BillSummarySearchResult": [
+    "get-/api/v1/Bills"
+  ],
+  "BillSummary": [
+    "get-/api/v1/Bills"
+  ],
+  "Organisation": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Sponsor": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Promoter": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Member": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Bill": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "BillAgent": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Committee": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}"
+  ],
+  "BillStageDetails": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}"
+  ],
+  "StageSummarySearchResult": [
+    "get-/api/v1/Bills/{billId}/Stages"
+  ],
+  "PublicationDocument": [
+    "get-/api/v1/Publications/{publicationId}/Documents/{documentId}",
+    "get-/api/v1/Bills/{billId}/Publications",
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "PingPongAmendmentSummary": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
+  ],
+  "MotionSummary": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
+  ],
+  "AmendmentSummaryMotionSummaryPingPongItemSearchResult": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
+  ],
+  "AmendmentSummaryMotionSummaryPingPongItem": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
+  ],
+  "MotionDetail": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "MotionGroup": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "AmendmentGroup": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "PingPongAmendment": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "PingPongAmendmentDetail": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "AmendmentDetailMotionDetailPingPongItem": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "PublicationTypeSearchResult": [
+    "get-/api/v1/PublicationTypes"
+  ],
+  "PublicationType": [
+    "get-/api/v1/PublicationTypes",
+    "get-/api/v1/Bills/{billId}/Publications",
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "BillPublication": [
+    "get-/api/v1/Bills/{billId}/Publications"
+  ],
+  "BillPublicationList": [
+    "get-/api/v1/Bills/{billId}/Publications"
+  ],
+  "PublicationLink": [
+    "get-/api/v1/Bills/{billId}/Publications",
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "Publication": [
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "BillStagePublicationList": [
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "BillStageSittingPublicationList": [
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+  ],
+  "BillStageSittingSearchResult": [
+    "get-/api/v1/Sittings"
+  ],
+  "StageReferenceSearchResult": [
+    "get-/api/v1/Stages"
+  ],
+  "StageReference": [
+    "get-/api/v1/Stages"
+  ]
+}
