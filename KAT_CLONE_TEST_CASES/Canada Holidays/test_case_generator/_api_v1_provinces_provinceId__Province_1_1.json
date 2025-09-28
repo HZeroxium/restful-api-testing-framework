@@ -9,12 +9,11 @@
     "steps": [
       {
         "step_number": 1,
-        "endpoint": "get-/api/v1/holidays",
+        "endpoint": "get-/api/v1/provinces",
         "method": "GET",
         "path_variables": {},
         "query_parameters": {
           "year": null,
-          "federal": null,
           "optional": null
         },
         "request_body": {},

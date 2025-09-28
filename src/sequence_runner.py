@@ -1373,8 +1373,6 @@ def main():
     service = "Bill"
     base_url = "https://bills-api.parliament.uk"
     token = None
-    # endpoint = "_api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1"
-    endpoint = "_api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1"
     # sequence_runner = SequenceRunner(service, base_url, token, endpoint)
     # sequence_runner.run_all()
 
@@ -1382,7 +1380,7 @@ def main():
     # base_url = "https://canada-holidays.ca"
     # token = None
 
-    sequence_runner = SequenceRunner(service, base_url, token,endpoint)
+    sequence_runner = SequenceRunner(service, base_url, token)
     sequence_runner.run_all()
 if __name__ == "__main__":
     main() 

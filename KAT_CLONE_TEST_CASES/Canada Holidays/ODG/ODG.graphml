@@ -4,7 +4,5 @@
 <node id="get-/api/v1/provinces"/>
 <node id="get-/api/v1/provinces/{provinceId}"/>
 <edge source="get-/api/v1/holidays" target="get-/api/v1/holidays/{holidayId}"/>
-<edge source="get-/api/v1/holidays" target="get-/api/v1/provinces/{provinceId}"/>
 <edge source="get-/api/v1/provinces" target="get-/api/v1/provinces/{provinceId}"/>
-<edge source="get-/api/v1/provinces" target="get-/api/v1/holidays/{holidayId}"/>
 </graph></graphml>

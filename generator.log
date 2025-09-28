@@ -2743,3 +2743,225 @@ Exception: Swagger spec file for service Canada hol not found. Please put it acc
 2025-09-22 21:33:46,030 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
 2025-09-22 21:33:50,555 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
 2025-09-22 21:33:50,573 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-27 12:59:05,002 - INFO - Preparing ODG for service: Bill
+2025-09-27 12:59:05,017 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-09-27 12:59:05,063 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-09-27 12:59:05,064 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-09-27 12:59:05,066 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments is not a dictionary
+2025-09-27 12:59:05,066 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} is not a dictionary
+2025-09-27 12:59:05,066 - WARNING - Request body of get-/api/v1/Bills/{billId}/NewsArticles is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/BillTypes is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId} is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId} is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId} is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/PublicationTypes is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Publications is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Rss/allbills.rss is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Rss/publicbills.rss is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Rss/privatebills.rss is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Rss/Bills/{id}.rss is not a dictionary
+2025-09-27 12:59:05,067 - WARNING - Request body of get-/api/v1/Sittings is not a dictionary
+2025-09-27 12:59:05,068 - WARNING - Request body of get-/api/v1/Stages is not a dictionary
+2025-09-27 12:59:06,745 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:11,392 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:16,364 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:16,369 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-27 12:59:16,745 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:20,172 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:23,217 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:23,219 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId', 'amendmentId']
+2025-09-27 12:59:26,475 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:31,013 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:31,014 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-27 12:59:34,198 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:37,426 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:43,230 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:46,513 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:46,860 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:49,356 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:52,083 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:52,086 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-27 12:59:53,348 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:54,904 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 12:59:58,054 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:00,753 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:00,790 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-27 13:00:01,205 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:04,350 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:07,899 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:07,903 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-27 13:00:08,339 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:11,686 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:15,028 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:15,085 - INFO - Excluding path parameters from mutation: ['publicationId', 'documentId']
+2025-09-27 13:00:15,460 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:18,812 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:21,721 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:21,723 - INFO - Excluding path parameters from mutation: ['publicationId', 'documentId']
+2025-09-27 13:00:22,054 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:26,941 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:31,667 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:31,669 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId']
+2025-09-27 13:00:32,199 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:35,521 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:39,137 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:39,139 - INFO - Excluding path parameters from mutation: ['billId', 'billStageId', 'pingPongItemId']
+2025-09-27 13:00:41,857 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:45,268 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:45,763 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:48,402 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:51,030 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:00:51,033 - INFO - Excluding path parameters from mutation: ['billId']
+2025-09-27 13:00:54,284 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:13,250 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:13,262 - INFO - Excluding path parameters from mutation: ['billId', 'stageId']
+2025-09-27 13:01:15,975 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:17,918 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:19,611 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:21,705 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:23,668 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:24,834 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:25,169 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:27,955 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:30,529 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:30,532 - INFO - Excluding path parameters from mutation: ['id']
+2025-09-27 13:01:34,000 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:38,341 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:41,442 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-27 13:01:44,547 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:07,786 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 14:55:07,996 - INFO - ODG prepared and saved.
+2025-09-28 14:55:08,000 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 14:55:08,001 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 14:55:08,001 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 14:55:08,001 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 14:55:08,001 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 14:55:08,001 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 14:55:08,002 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 14:55:10,625 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:12,731 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:13,080 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:16,382 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:19,399 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:19,866 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:22,955 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:26,593 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:27,108 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:30,780 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:35,260 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:35,264 - INFO - Excluding path parameters from mutation: ['provinceId']
+2025-09-28 14:55:35,781 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:39,341 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:43,119 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:43,124 - INFO - Excluding path parameters from mutation: ['holidayId']
+2025-09-28 14:55:45,072 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 14:55:46,145 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:06:36,046 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 15:06:36,051 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 15:06:36,063 - INFO - path: /api/v1, method: get
+2025-09-28 15:06:36,065 - INFO - path: /api/v1, method: get
+2025-09-28 15:06:36,066 - INFO - path: /api/v1/spec, method: get
+2025-09-28 15:06:36,066 - INFO - path: /api/v1/spec, method: get
+2025-09-28 15:06:36,067 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 15:06:36,067 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 15:06:36,067 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 15:06:36,067 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 15:06:36,067 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 15:06:36,068 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-09-28 15:06:36,071 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-09-28 15:06:36,072 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 15:06:36,072 - INFO - path: /api/v1/provinces/{provinceId}, method: get
+2025-09-28 15:06:36,072 - INFO - path: /api/v1/provinces/{provinceId}, method: get
+2025-09-28 15:10:09,068 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 15:10:09,069 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 15:10:09,073 - ERROR - Error in run_generator.py: TestCaseGenerator.generate_test_cases() got an unexpected keyword argument 'endpoints'
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 37, in <module>
+    generator.generate_test_cases(endpoints=["get-/api/v1/provinces"])
+TypeError: TestCaseGenerator.generate_test_cases() got an unexpected keyword argument 'endpoints'
+2025-09-28 15:10:40,835 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 15:10:40,835 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 15:10:40,838 - ERROR - Error in run_generator.py: TestCaseGenerator.generate_test_cases() takes 1 positional argument but 2 were given
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 37, in <module>
+    generator.generate_test_cases(["get-/api/v1/provinces"])
+TypeError: TestCaseGenerator.generate_test_cases() takes 1 positional argument but 2 were given
+2025-09-28 15:11:06,029 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 15:11:06,030 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 15:11:06,035 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 15:11:06,036 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 15:11:06,950 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:11:10,918 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:11:14,713 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:31,056 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 15:16:31,062 - INFO - ODG files already exist. Skipping ODG generation.
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 15:16:31,067 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 15:16:31,068 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 15:16:31,068 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 15:16:31,068 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 15:16:31,068 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 15:16:31,069 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 15:16:31,069 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 15:16:33,019 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:35,427 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:35,751 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:38,694 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:41,968 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:42,522 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:45,197 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:48,152 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:48,536 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:51,683 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:55,644 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:55,646 - INFO - Excluding path parameters from mutation: ['provinceId']
+2025-09-28 15:16:55,959 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:16:59,279 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:17:02,811 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:17:02,815 - INFO - Excluding path parameters from mutation: ['holidayId']
+2025-09-28 15:17:05,072 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 15:17:06,994 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"

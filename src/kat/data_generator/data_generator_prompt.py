@@ -26,10 +26,13 @@ GET_DATASET_PROMPT = """Given below information about the endpoint, you will cre
 {additional_instruction}
 
 You MUST follow this validation policy WHEN SETTING "expected_code":
-- If ANY provided field (non-null/non-missing) violates the {part}'s specification (minimum/maximum, enum, pattern, format, required, type, nullable, etc.), then "expected_code" MUST be "4xx".
+- If ANY provided field (non-null/non-missing) violates the {part}'s specification (minimum/maximum, enum, pattern, format, required, parseability for path/query, etc.), then "expected_code" MUST be "4xx".
 - Only when ALL provided fields satisfy the {part}'s specification, "expected_code" MUST be "2xx".
 - Missing optional fields are allowed and should still lead to "2xx" unless the spec says otherwise.
-- If the spec marks a field as non-nullable (or its type is strictly defined) and you provide null or a mismatched type, that is a violation → "4xx".
+- For JSON bodies (or typed payloads), strict type mismatches (e.g., string vs integer) are violations → "4xx".
+- For PATH/QUERY parameters, treat "type" as PARSEABILITY + FORMAT/PATTERN.
+  • Do NOT mark 4xx merely because a value is quoted vs unquoted in the URL.
+  • Use non-parseable tokens to test type violations (e.g., integer="abc", boolean="tru"), or use format/pattern/enum violations.
 - If the spec allows nullable for a field, providing null is acceptable for that field.
 
 CRITICAL PATH PARAMETER RULES (if {part} contains path parameters):
@@ -53,9 +56,23 @@ CRITERIA FOR USING "%not-sure%" MARKER (for 2XX cases):
 ⚠️ Parameter has no constraints beyond basic type → Use "%not-sure%"
 ⚠️ Parameter appears to reference external system IDs → Use "%not-sure%"
 
+TRANSPORT-LEVEL RULES for PATH/QUERY parameters:
+- All values are sent as text; servers parse them back.
+- Integer/number tests:
+  • Valid: values that parse as numbers and satisfy bounds.
+  • Invalid (4xx): non-parseable tokens ("abc", "12x"), or out-of-range numbers.
+- Boolean tests:
+  • Valid: "true"/"false" (lowercase), unless spec explicitly allows others (e.g., 1/0).
+  • Invalid (4xx): non-boolean tokens like "tru", "yes" when not allowed.
+- Enum tests:
+  • Valid: a member of allowed set.
+  • Invalid (4xx): any value outside the set.
+- Do NOT rely on quoted vs unquoted to trigger 4xx in path/query.
+
 FOR 4XX CASES (testing validation):
 - Always use INVALID but NON-NULL concrete values to test constraints
-- Examples: out of range, wrong enum value, wrong type, invalid format
+- Examples (path/query): non-parseable tokens for numeric/boolean; outside enum; pattern/format violations; out-of-range values
+- Examples (body): wrong JSON type; out-of-range; enum/pattern/format violations
 - NEVER use null or empty string for path parameter validation testing
 
 Additionally, you must strictly follow these rules to create the dataset file:
@@ -77,6 +94,7 @@ Additionally, you must strictly follow these rules to create the dataset file:
         - "PATH_PARAM=%not-sure% indicates uncertain path parameter requiring dependency resolution."
         - "PATH_PARAM='{{BAD_VALUE}}' is not in the allowed enum {{ENUM_VALUES}}."
         - "PATH_PARAM={{VALUE}} violates {{CONSTRAINT}} constraint."
+        - "QUERY_PARAM='{{RAW}}' is not parseable as integer (type=parseability), violating 'type=integer'."
         - "FIELD='{{RAW}}' does not match format {{EXPECTED_FORMAT}}."
 
 - DO NOT add any additional fields that are not specified in the endpoint's specification.
@@ -104,7 +122,8 @@ Note: The dataset is created for {part} only. First, briefly write "Approach: ..
 Correctness rules (MUST FOLLOW; schema-agnostic):
 - Numeric field outside its [minimum..maximum] per spec → "4xx", explain which bound is violated and show provided vs bound.
 - Enum field with a value not in the allowed set → "4xx", show the provided value and the allowed set.
-- Type/format/pattern mismatch → "4xx", cite the exact spec keyword (type/format/pattern).
+- Type/format/pattern mismatch in JSON body → "4xx", cite the exact spec keyword (type/format/pattern).
+- PATH/QUERY type violations are about parseability (e.g., integer="abc", boolean="tru"), not quoting.
 - Missing required field → "4xx", cite 'required'.
 - Path parameter with valid concrete value (enum member or within range) → "2xx", cite the validation.
 - Path parameter with "%not-sure%" value → "2xx", cite 'uncertain path parameter requiring dependency resolution'.
@@ -119,9 +138,9 @@ Format example (JSONL; schema-agnostic):
   "reason": "NUMBER_FIELD is within its allowed range; ENUM_FIELD matches the allowed enum {{ALLOWED_ENUM}}."
 }}
 {{
-  "data": {{ "NUMBER_FIELD": {{OUT_OF_RANGE_VALUE}} }},
+  "data": {{ "QUERY_INT": "abc" }},
   "expected_code": "4xx",
-  "reason": "NUMBER_FIELD={{OUT_OF_RANGE_VALUE}} {{RELATION}} {{BOUND_NAME}}={{BOUND_VALUE}}, violating '{{BOUND_NAME}}'."
+  "reason": "QUERY_INT='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
 }}
 {{
   "data": {{ "ENUM_FIELD": "{{BAD_VALUE}}" }},
@@ -139,9 +158,9 @@ Format example (JSONL; schema-agnostic):
   "reason": "UNCERTAIN_PATH_PARAM=%not-sure% indicates uncertain path parameter requiring dependency resolution; OPTIONAL_FIELD is valid."
 }}
 {{
-  "data": {{ "TYPED_FIELD": "not_a_number" }},
+  "data": {{ "BODY_TYPED_FIELD": "not_a_number" }},
   "expected_code": "4xx",
-  "reason": "TYPED_FIELD has type string but the spec requires integer (type mismatch)."
+  "reason": "BODY_TYPED_FIELD has type string but the spec requires integer (JSON body type mismatch)."
 }}
 """
 

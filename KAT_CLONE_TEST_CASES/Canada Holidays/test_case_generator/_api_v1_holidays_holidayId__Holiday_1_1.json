@@ -37,14 +37,7 @@
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "holidayId": {
-            "from_step": 1,
-            "field_mappings": {
-              "holidayId": "id"
-            }
-          }
-        }
+        "data_dependencies": {}
       }
     ],
     "test_data": {

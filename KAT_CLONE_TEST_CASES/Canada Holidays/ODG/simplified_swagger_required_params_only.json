@@ -5,8 +5,8 @@
     ],
     "summary": "root",
     "responseBody": {
-      "_links": "object (description: Domain to get all holidays)",
-      "message": "string (description: A welcome message)"
+      "message": "string (description: A welcome message)",
+      "_links": "object (description: Root domain)"
     }
   },
   "get-/api/v1/holidays": {
@@ -19,73 +19,32 @@
         "holidays": {
           "array of Holiday objects": [
             {
-              "date": "string (description: ISO date: the literal date of the holiday)",
-              "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
               "id": "integer (description: Primary key for a holiday)",
+              "date": "string (description: ISO date: the literal date of the holiday)",
               "nameEn": "string (description: English name)",
               "nameFr": "string (description: French name)",
+              "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
               "observedDate": "string (description: ISO date: when this holiday is observed)",
-              "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)",
               "provinces": {
                 "array of Province objects": [
                   {
                     "id": "string (description: Canadian province abbreviations)",
-                    "nameEn": "string (description: English name)",
-                    "nameFr": "string (description: French name)",
-                    "optional": "integer (description: Whether this province optionally observes a given holiday)",
-                    "provinces": {
+                    "holidays": {
                       "array of Holiday objects": [
                         null
                       ]
                     },
+                    "nameFr": "string (description: French name)",
+                    "nameEn": "string (description: English name)",
+                    "sourceLink": "string (description: URL to public holidays reference for this region)",
                     "sourceEn": "string (description: Name of reference page with public holidays for this region)",
-                    "sourceLink": "string (description: URL to public holidays reference for this region)"
+                    "optional": "integer (description: Whether this province optionally observes a given holiday)"
                   }
                 ]
-              }
+              },
+              "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)"
             }
           ]
-        }
-      }
-    }
-  },
-  "get-/api/v1/holidays/{holidayId}": {
-    "tags": [
-      "holidays"
-    ],
-    "summary": "Get a holiday by id",
-    "parameters": {
-      "holidayId": "integer (description: Primary key for a holiday)"
-    },
-    "responseBody": {
-      "schema of Holiday": {
-        "holiday": {
-          "schema of Holiday": {
-            "date": "string (description: ISO date: the literal date of the holiday)",
-            "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
-            "id": "integer (description: Primary key for a holiday)",
-            "nameEn": "string (description: English name)",
-            "nameFr": "string (description: French name)",
-            "observedDate": "string (description: ISO date: when this holiday is observed)",
-            "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)",
-            "provinces": {
-              "array of Province objects": [
-                {
-                  "id": "string (description: Canadian province abbreviations)",
-                  "nameEn": "string (description: English name)",
-                  "nameFr": "string (description: French name)",
-                  "optional": "integer (description: Whether this province optionally observes a given holiday)",
-                  "provinces": {
-                    "array of Holiday objects": [
-                      null
-                    ]
-                  },
-                  "sourceEn": "string (description: Name of reference page with public holidays for this region)",
-                  "sourceLink": "string (description: URL to public holidays reference for this region)"
-                }
-              ]
-            }
-          }
         }
       }
     }
@@ -101,32 +60,32 @@
           "array of Province objects": [
             {
               "id": "string (description: Canadian province abbreviations)",
-              "nameEn": "string (description: English name)",
-              "nameFr": "string (description: French name)",
               "nextHoliday": {
                 "schema of Holiday": {
-                  "date": "string (description: ISO date: the literal date of the holiday)",
-                  "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
                   "id": "integer (description: Primary key for a holiday)",
+                  "date": "string (description: ISO date: the literal date of the holiday)",
                   "nameEn": "string (description: English name)",
                   "nameFr": "string (description: French name)",
+                  "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
                   "observedDate": "string (description: ISO date: when this holiday is observed)",
-                  "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)",
                   "provinces": {
                     "array of Province objects": [
                       null
                     ]
-                  }
+                  },
+                  "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)"
                 }
               },
-              "optional": "integer (description: Whether this province optionally observes a given holiday)",
-              "provinces": {
+              "holidays": {
                 "array of Holiday objects": [
                   null
                 ]
               },
+              "nameFr": "string (description: French name)",
+              "nameEn": "string (description: English name)",
+              "sourceLink": "string (description: URL to public holidays reference for this region)",
               "sourceEn": "string (description: Name of reference page with public holidays for this region)",
-              "sourceLink": "string (description: URL to public holidays reference for this region)"
+              "optional": "integer (description: Whether this province optionally observes a given holiday)"
             }
           ]
         }
@@ -138,40 +97,75 @@
       "provinces"
     ],
     "summary": "Get a province or territory by abbreviation",
-    "parameters": {
-      "provinceId": "string (description: A Canadian province abbreviation)"
-    },
     "responseBody": {
       "schema of Province": {
         "province": {
           "schema of Province": {
             "id": "string (description: Canadian province abbreviations)",
-            "nameEn": "string (description: English name)",
-            "nameFr": "string (description: French name)",
             "nextHoliday": {
               "schema of Holiday": {
-                "date": "string (description: ISO date: the literal date of the holiday)",
-                "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
                 "id": "integer (description: Primary key for a holiday)",
+                "date": "string (description: ISO date: the literal date of the holiday)",
                 "nameEn": "string (description: English name)",
                 "nameFr": "string (description: French name)",
+                "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
                 "observedDate": "string (description: ISO date: when this holiday is observed)",
-                "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)",
                 "provinces": {
                   "array of Province objects": [
                     null
                   ]
-                }
+                },
+                "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)"
               }
             },
-            "optional": "integer (description: Whether this province optionally observes a given holiday)",
-            "provinces": {
+            "holidays": {
               "array of Holiday objects": [
                 null
               ]
             },
+            "nameFr": "string (description: French name)",
+            "nameEn": "string (description: English name)",
+            "sourceLink": "string (description: URL to public holidays reference for this region)",
             "sourceEn": "string (description: Name of reference page with public holidays for this region)",
-            "sourceLink": "string (description: URL to public holidays reference for this region)"
+            "optional": "integer (description: Whether this province optionally observes a given holiday)"
+          }
+        }
+      }
+    }
+  },
+  "get-/api/v1/holidays/{holidayId}": {
+    "tags": [
+      "holidays"
+    ],
+    "summary": "Get a holiday by id",
+    "responseBody": {
+      "schema of Holiday": {
+        "holiday": {
+          "schema of Holiday": {
+            "id": "integer (description: Primary key for a holiday)",
+            "date": "string (description: ISO date: the literal date of the holiday)",
+            "nameEn": "string (description: English name)",
+            "nameFr": "string (description: French name)",
+            "federal": "integer (description: Whether this holiday is observed by federally-regulated industries)",
+            "observedDate": "string (description: ISO date: when this holiday is observed)",
+            "provinces": {
+              "array of Province objects": [
+                {
+                  "id": "string (description: Canadian province abbreviations)",
+                  "holidays": {
+                    "array of Holiday objects": [
+                      null
+                    ]
+                  },
+                  "nameFr": "string (description: French name)",
+                  "nameEn": "string (description: English name)",
+                  "sourceLink": "string (description: URL to public holidays reference for this region)",
+                  "sourceEn": "string (description: Name of reference page with public holidays for this region)",
+                  "optional": "integer (description: Whether this province optionally observes a given holiday)"
+                }
+              ]
+            },
+            "optional": "integer (description: Whether this is a province-wide statutory holiday, or one that is optional for employers)"
           }
         }
       }

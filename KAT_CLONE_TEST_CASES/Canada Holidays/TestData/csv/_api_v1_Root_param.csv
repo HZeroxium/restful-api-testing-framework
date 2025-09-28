@@ -1,7 +1,12 @@
 index,data,expected_status_code,reason
-1,{},2xx,No parameters are required or present; request matches specification.
-2,{},2xx,No parameters are required or present; request matches specification.
-3,{},2xx,No parameters are required or present; request matches specification.
-4,{},2xx,No parameters are required or present; request matches specification.
-5,{},2xx,No parameters are required or present; request matches specification.
+1,{},2xx,No parameters are defined; empty data object is valid.
+2,{},2xx,No parameters are defined; empty data object is valid.
+3,{},2xx,No parameters are defined; empty data object is valid.
+4,{},2xx,No parameters are defined; empty data object is valid.
+5,{},2xx,No parameters are defined; empty data object is valid.
 6,{},2xx,
+7,{},2xx,No parameters are specified; all constraints are satisfied.
+8,{},2xx,No parameters are specified; all constraints are satisfied.
+9,{},2xx,No parameters are specified; all constraints are satisfied.
+10,{},2xx,No parameters are specified; all constraints are satisfied.
+11,{},2xx,No parameters are specified; all constraints are satisfied.
