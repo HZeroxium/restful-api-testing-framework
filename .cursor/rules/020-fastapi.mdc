@@ -1,0 +1,37 @@
+---
+description: FastAPI architecture, lifecycle, and API edge policies.
+globs:
+  - "app/**"
+  - "src/app/**"
+  - "adapters/http/**"
+  - "**/routers/**"
+  - "**/dependencies/**"
+  - "app/main.py"
+alwaysApply: false
+---
+
+# App Structure
+
+- Use `lifespan` context for startup/shutdown (db pools, telemetry, caches).
+- Split routes by bounded context; mount `/health`, `/metrics`, `/docs` appropriately.
+- Use `Depends` for DI; never instantiate heavy clients inside request handlers.
+- Routers call application use-cases via DI providers from `infra/di`; never import concrete adapters in routers.
+- Keep API DTOs under `app/api/dto/`; convert to/from domain models at the edge.
+
+# Validation & Models
+
+- Use Pydantic v2 models for request/response; `model_config = ConfigDict(extra='forbid')`.
+- Validate all inputs; reject unknown fields; ensure OpenAPI examples.
+- Do not leak domain entities directly in API responses; use DTO mapping.
+
+# Edge Policies
+
+- Apply global timeouts, request body size limits, and rate limiting middleware.
+- Add CORS allowlist; set security headers; standardize error shape (application/problem+json).
+- Stream responses for long-running tasks (SSE/WebSocket) with backpressure.
+
+# Operations
+
+- Prefer Uvicorn in dev; Gunicorn+Uvicorn workers in prod; tune workers/threads via CPU & IO profile.
+- Expose `/health/ready` and `/health/live`; readiness must check external deps when required.
+- Instrument FastAPI via OTEL; ensure httpx client instrumentation for downstream calls.

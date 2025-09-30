@@ -1,0 +1,40 @@
+---
+description: Architecture & layering rules for hexagonal (ports/adapters) structure.
+globs:
+  - "domain/**"
+  - "application/**"
+  - "adapters/**"
+  - "app/**"
+  - "infra/**"
+alwaysApply: true
+---
+
+# Dependency Direction
+
+- `domain/` has no dependencies on app/adapters/infra. Only standard lib and `shared/`.
+- `application/` depends on `domain/` (ports and entities) only.
+- `adapters/` implement `domain/ports`; no business rules.
+- `app/` (FastAPI) calls `application/` use-cases via DI; uses DTOs for I/O.
+- `infra/` wires DI, settings, and observability.
+
+# Code Location
+
+- Entities/Value Objects → `domain/entities/`
+- Ports (interfaces) → `domain/ports/`
+- Use-cases → `application/use_cases/`
+- Concrete implementations → `adapters/{rest,llm,reporting,cache,logging}/`
+- API DTOs → `app/api/dto/`
+- Routers/Deps → `app/api/routers/`, `app/api/deps/`
+- DI container → `infra/di/`
+
+# Practices
+
+- No adapter import inside `domain/` or `application/`.
+- Map DTOs to domain models at the edge; never leak domain directly to API.
+- Centralize timeouts/retries in adapters; application defines policies, adapters enforce.
+- Test pyramid: domain (unit) → application (unit) → adapters (integration) → API (contract).
+
+# Enforcement
+
+- New components must declare which port they implement and be placed accordingly.
+- PRs introducing reverse dependencies should be rejected.
