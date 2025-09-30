@@ -1,1934 +1,538 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.0.0",
   "info": {
-    "title": "Bills API",
-    "description": "API to get and search for information regarding Bills, their stages, associated amendments and publications.",
+    "title": "Canada Holidays API",
+    "version": "1.13.0",
+    "description": "This API lists all 32 public holidays for all 13 provinces and territories in Canada, including federal holidays.",
     "contact": {
-      "name": "UK Parliament",
-      "url": "https://www.parliament.uk",
-      "email": "softwareengineering@parliament.uk"
+      "name": "Paul Craig",
+      "url": "https://canada-holidays.ca/api",
+      "email": "paul@pcraig.ca"
     },
-    "version": "v1"
+    "license": {
+      "name": "MIT",
+      "url": "https://github.com/pcraig3/hols/blob/main/LICENSE"
+    }
   },
-  "servers": [{
-    "url": "https://bills-api.parliament.uk/"
-  }],
+  "servers": [
+    {
+      "url": "https://canada-holidays.ca"
+    }
+  ],
   "paths": {
-    "/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments": {
+    "/api/v1": {
       "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Returns a list of amendments.",
-        "operationId": "GetAmendments",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Amendments relating to a Bill with Bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "billStageId",
-            "in": "path",
-            "description": "Amendments relating to a Bill stage with Bill stage ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "SearchTerm",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Decision",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/AmendmentDecisionSearch"
-            }
-          },
-          {
-            "name": "MemberId",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "summary": "root",
         "responses": {
           "200": {
             "description": "OK",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentSearchItemSearchResult"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AmendmentSearchItemSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentSearchItemSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "description": "A welcome message",
+                      "example": "Hello / Bonjour!"
+                    },
+                    "_links": {
+                      "type": "object",
+                      "properties": {
+                        "self": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/",
+                              "description": "Root domain"
+                            }
+                          }
+                        },
+                        "holidays": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/holidays",
+                              "description": "Domain to get all holidays"
+                            }
+                          }
+                        },
+                        "provinces": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/provinces",
+                              "description": "Domain to get all provinces"
+                            }
+                          }
+                        },
+                        "spec": {
+                          "type": "object",
+                          "properties": {
+                            "href": {
+                              "type": "string",
+                              "example": "https://canada-holidays.ca/api/v1/spec"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/": {
+                    "value": {
+                      "message": "Hello / Bonjour! Welcome to the Canada Holidays API / Bienvenue dans l’API canadienne des jours fériés",
+                      "_links": {
+                        "self": {
+                          "href": "https://canada-holidays.ca/api/v1/"
+                        },
+                        "holidays": {
+                          "href": "https://canada-holidays.ca/api/v1/holidays"
+                        },
+                        "provinces": {
+                          "href": "https://canada-holidays.ca/api/v1/provinces"
+                        },
+                        "spec": {
+                          "href": "https://canada-holidays.ca/api/v1/spec"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
           }
-        }
+        },
+        "operationId": "Root",
+        "description": "Returns a welcome message.",
+        "tags": ["info"]
       }
     },
-    "/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}": {
+    "/api/v1/holidays": {
       "get": {
-        "tags": [
-          "Amendments"
-        ],
-        "summary": "Returns an amendment.",
-        "operationId": "GetAmendment",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Amendment relating to a bill with bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "billStageId",
-            "in": "path",
-            "description": "Amendment relating to a bill stage with bill stage ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "amendmentId",
-            "in": "path",
-            "description": "Amendment with amendment ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "summary": "Get all holidays",
         "responses": {
           "200": {
             "description": "OK",
+            "headers": {},
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetail"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetail"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetail"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/NewsArticles": {
-      "get": {
-        "tags": [
-          "Bill News"
-        ],
-        "summary": "Returns a list of news articles for a Bill.",
-        "operationId": "GetNewsArticles",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/NewsArticlesSummarySearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NewsArticlesSummarySearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NewsArticlesSummarySearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "object",
+                  "properties": {
+                    "holidays": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Holiday"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/holidays": {
+                    "value": {
+                      "holidays": [
+                        {
+                          "id": 1,
+                          "date": "2023-01-01",
+                          "nameEn": "New Year’s Day",
+                          "nameFr": "Jour de l’An",
+                          "federal": 1,
+                          "observedDate": "2023-01-02",
+                          "provinces": [
+                            {
+                              "id": "AB",
+                              "nameEn": "Alberta",
+                              "nameFr": "Alberta",
+                              "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                              "sourceEn": "General holidays in Alberta"
+                            },
+                            {
+                              "id": "BC",
+                              "nameEn": "British Columbia",
+                              "nameFr": "Colombie-Britannique",
+                              "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                              "sourceEn": "Statutory Holidays in British Columbia"
+                            },
+                            {
+                              "id": "MB",
+                              "nameEn": "Manitoba",
+                              "nameFr": "Manitoba",
+                              "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                              "sourceEn": "General holidays in Manitoba"
+                            },
+                            {
+                              "id": "NB",
+                              "nameEn": "New Brunswick",
+                              "nameFr": "Nouveau-Brunswick",
+                              "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                              "sourceEn": "10 prescribed days of rest"
+                            },
+                            {
+                              "id": "NL",
+                              "nameEn": "Newfoundland and Labrador",
+                              "nameFr": "Terre-Neuve-et-Labrador",
+                              "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                              "sourceEn": "Public holidays in Newfoundland"
+                            },
+                            {
+                              "id": "NT",
+                              "nameEn": "Northwest Territories",
+                              "nameFr": "Territoires du Nord-Ouest",
+                              "sourceLink": "https://www.ece.gov.nt.ca/en/services/employment-standards/frequently-asked-questions#Statutory%20Holidays",
+                              "sourceEn": "Employment Standards, Northwest Territories"
+                            },
+                            {
+                              "id": "NS",
+                              "nameEn": "Nova Scotia",
+                              "nameFr": "Nouvelle-Écosse",
+                              "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                              "sourceEn": "Paid holidays in Nova Scotia"
+                            },
+                            {
+                              "id": "NU",
+                              "nameEn": "Nunavut",
+                              "nameFr": "Nunavut",
+                              "sourceLink": "https://nu-lsco.ca/faq-s?tmpl=component&faqid=11",
+                              "sourceEn": "Nunavut General Holidays"
+                            },
+                            {
+                              "id": "ON",
+                              "nameEn": "Ontario",
+                              "nameFr": "Ontario",
+                              "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                              "sourceEn": "Ontario Public holidays"
+                            },
+                            {
+                              "id": "PE",
+                              "nameEn": "Prince Edward Island",
+                              "nameFr": "Île-du-Prince-Édouard",
+                              "sourceLink": "https://www.princeedwardisland.ca/en/information/economic-growth-tourism-and-culture/paid-holidays",
+                              "sourceEn": "PEI Paid Holidays"
+                            },
+                            {
+                              "id": "QC",
+                              "nameEn": "Quebec",
+                              "nameFr": "Québec",
+                              "sourceLink": "https://www2.gouv.qc.ca/entreprises/portail/quebec/ressourcesh?lang=fr&g=ressourcesh&sg=personnel&t=o&e=2318829344:3908165687",
+                              "sourceEn": "Jours fériés, chômés et payés"
+                            },
+                            {
+                              "id": "SK",
+                              "nameEn": "Saskatchewan",
+                              "nameFr": "Saskatchewan",
+                              "sourceLink": "https://www.saskatchewan.ca/business/employment-standards/public-statutory-holidays/list-of-saskatchewan-public-holidays",
+                              "sourceEn": "Saskatchewan Public Holidays"
+                            },
+                            {
+                              "id": "YT",
+                              "nameEn": "Yukon",
+                              "nameFr": "Yukon",
+                              "sourceLink": "https://yukon.ca/en/doing-business/employer-responsibilities/find-yukon-statutory-holiday",
+                              "sourceEn": "Yukon statutory holiday dates"
+                            }
+                          ]
+                        },
+                        {
+                          "id": 2,
+                          "date": "2023-02-20",
+                          "nameEn": "Louis Riel Day",
+                          "nameFr": "Journée Louis Riel",
+                          "federal": 0,
+                          "observedDate": "2023-02-20",
+                          "provinces": [
+                            {
+                              "id": "MB",
+                              "nameEn": "Manitoba",
+                              "nameFr": "Manitoba",
+                              "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                              "sourceEn": "General holidays in Manitoba"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
                 }
               }
             }
           }
-        }
-      }
-    },
-    "/api/v1/BillTypes": {
-      "get": {
-        "tags": [
-          "Bill Types"
-        ],
-        "summary": "Returns a list of Bill types.",
-        "parameters": [{
-            "name": "Category",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/BillTypeCategory"
-            }
-          },
+        },
+        "operationId": "Holidays",
+        "description": "Returns Canadian public holidays. Each holiday lists the regions that observe it.",
+        "parameters": [
           {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillTypeSearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillTypeSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillTypeSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills": {
-      "get": {
-        "tags": [
-          "Bills"
-        ],
-        "summary": "Returns a list of Bills.",
-        "operationId": "GetBills",
-        "parameters": [{
-            "name": "SearchTerm",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
           },
           {
-            "name": "Session",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "CurrentHouse",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/House"
-            }
-          },
-          {
-            "name": "OriginatingHouse",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/OriginatingHouse"
-            }
-          },
-          {
-            "name": "MemberId",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "DepartmentId",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "BillStage",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          },
-          {
-            "name": "BillStagesExcluded",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          },
-          {
-            "name": "IsDefeated",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "IsWithdrawn",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "BillType",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          },
-          {
-            "name": "SortOrder",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/BillSortOrder"
-            }
-          },
-          {
-            "name": "BillIds",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
-              }
-            }
-          },
-          {
-            "name": "IsInAmendableStage",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillSummarySearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillSummarySearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillSummarySearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}": {
-      "get": {
-        "tags": [
-          "Bills"
-        ],
-        "summary": "Return a Bill.",
-        "operationId": "GetBill",
-        "parameters": [{
-          "name": "billId",
-          "in": "path",
-          "description": "Bill with ID specified",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "schema": {
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          }
-        }],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/Bill"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Bill"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Bill"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Stages/{billStageId}": {
-      "get": {
-        "tags": [
-          "Bills"
-        ],
-        "summary": "Returns a Bill stage.",
-        "operationId": "GetBillStageDetails",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Bill stage relating to Bill with Bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "billStageId",
-            "in": "path",
-            "description": "Bill stage with ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageDetails"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Stages": {
-      "get": {
-        "tags": [
-          "Bills"
-        ],
-        "summary": "Returns all Bill stages.",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Stages relating to a Bill with Bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 0,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StageSummarySearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StageSummarySearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/StageSummarySearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Publications/{publicationId}/Documents/{documentId}": {
-      "get": {
-        "tags": [
-          "Documents"
-        ],
-        "summary": "Return information on a document.",
-        "parameters": [{
-            "name": "publicationId",
-            "in": "path",
-            "description": "Document with publication Id specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "documentId",
-            "in": "path",
-            "description": "Document with Id specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationDocument"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationDocument"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationDocument"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Publications/{publicationId}/Documents/{documentId}/Download": {
-      "get": {
-        "tags": [
-          "Documents"
-        ],
-        "summary": "Return a document.",
-        "parameters": [{
-            "name": "publicationId",
-            "in": "path",
-            "description": "Document with publication Id specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "documentId",
-            "in": "path",
-            "description": "Document with Id specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": {
-      "get": {
-        "tags": [
-          "Ping Pong Items"
-        ],
-        "summary": "Returns a list of motions or amendments.",
-        "operationId": "SearchPingPongItems",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Motions or amendments relating to a Bill with Bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "billStageId",
-            "in": "path",
-            "description": "Motions or amendments relating to a Bill stage with Bill stage ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "SearchTerm",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Decision",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/AmendmentDecisionSearch"
-            }
-          },
-          {
-            "name": "MemberId",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentSummaryMotionSummaryPingPongItemSearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentSummaryMotionSummaryPingPongItemSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentSummaryMotionSummaryPingPongItemSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": {
-      "get": {
-        "tags": [
-          "Ping Pong Items"
-        ],
-        "summary": "Returns amendment or motion detail.",
-        "operationId": "GetPingPongItem",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "description": "Motions or amendments relating to a bill with bill ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "billStageId",
-            "in": "path",
-            "description": "Motions or amendments relating to a bill stage with bill stage ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pingPongItemId",
-            "in": "path",
-            "description": "Motions or amendments with ping pong item ID specified",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetailMotionDetailPingPongItem"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetailMotionDetailPingPongItem"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AmendmentDetailMotionDetailPingPongItem"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/PublicationTypes": {
-      "get": {
-        "tags": [
-          "Publication Types"
-        ],
-        "summary": "Returns a list of publication types.",
-        "parameters": [{
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationTypeSearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationTypeSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicationTypeSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Publications": {
-      "get": {
-        "tags": [
-          "Publications"
-        ],
-        "summary": "Return a list of Bill publications.",
-        "operationId": "GetBillPublication",
-        "parameters": [{
-          "name": "billId",
-          "in": "path",
-          "description": "Publications relating to Bill with Bill ID specified",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "schema": {
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          }
-        }],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillPublicationList"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillPublicationList"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillPublicationList"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Bills/{billId}/Stages/{stageId}/Publications": {
-      "get": {
-        "tags": [
-          "Publications"
-        ],
-        "summary": "Return a list of Bill stage publications.",
-        "parameters": [{
-            "name": "billId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "minimum": 1,
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "stageId",
-            "in": "path",
-            "required": true,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStagePublicationList"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStagePublicationList"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStagePublicationList"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Rss/allbills.rss": {
-      "get": {
-        "tags": [
-          "RSS"
-        ],
-        "summary": "Returns an Rss feed of all Bills.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/v1/Rss/publicbills.rss": {
-      "get": {
-        "tags": [
-          "RSS"
-        ],
-        "summary": "Returns an Rss feed of public Bills.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/v1/Rss/privatebills.rss": {
-      "get": {
-        "tags": [
-          "RSS"
-        ],
-        "summary": "Returns an Rss feed of private Bills.",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/api/v1/Rss/Bills/{id}.rss": {
-      "get": {
-        "tags": [
-          "RSS"
-        ],
-        "summary": "Returns an Rss feed of a certain Bill.",
-        "parameters": [{
-          "name": "id",
-          "in": "path",
-          "description": "Id of Bill",
-          "required": true,
-          "style": "simple",
-          "explode": false,
-          "schema": {
-            "minimum": 1,
-            "type": "integer",
-            "format": "int32"
-          }
-        }],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/v1/Sittings": {
-      "get": {
-        "tags": [
-          "Sittings"
-        ],
-        "summary": "Returns a list of Sittings.",
-        "operationId": "GetSittings",
-        "parameters": [{
-            "name": "House",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "$ref": "#/components/schemas/House"
-            }
-          },
-          {
-            "name": "DateFrom",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
-            }
+              "enum": ["1", "0", "true", "false"]
+            },
+            "in": "query",
+            "name": "federal",
+            "description": "A boolean parameter. If true or 1, will return only federal holidays. If false or 0, will return no federal holidays.",
+            "allowEmptyValue": true
           },
           {
-            "name": "DateTo",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string",
-              "format": "date-time"
-            }
-          },
-          {
-            "name": "Skip",
+              "enum": ["1", "0", "true", "false"],
+              "default": "false"
+            },
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
           }
         ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageSittingSearchResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageSittingSearchResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BillStageSittingSearchResult"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              }
-            }
-          }
-        }
+        "tags": ["holidays"]
       }
     },
-    "/api/v1/Stages": {
+    "/api/v1/provinces": {
       "get": {
-        "tags": [
-          "Stages"
-        ],
-        "summary": "Returns a list of Bill stages.",
-        "parameters": [{
-            "name": "Skip",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Take",
-            "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
+        "summary": "Get all provinces",
+        "tags": ["provinces"],
         "responses": {
           "200": {
             "description": "OK",
+            "headers": {},
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/StageReferenceSearchResult"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StageReferenceSearchResult"
+                  "type": "object",
+                  "properties": {
+                    "provinces": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Province"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "/provinces": {
+                    "value": {
+                      "provinces": [
+                        {
+                          "id": "AB",
+                          "nameEn": "Alberta",
+                          "nameFr": "Alberta",
+                          "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                          "sourceEn": "General holidays in Alberta",
+                          "holidays": [
+                            {
+                              "id": 1,
+                              "date": "2023-01-01",
+                              "nameEn": "New Year’s Day",
+                              "nameFr": "Jour de l’An",
+                              "federal": 1,
+                              "observedDate": "2023-01-02"
+                            },
+                            {
+                              "id": 4,
+                              "date": "2023-02-20",
+                              "nameEn": "Family Day",
+                              "nameFr": "Fête de la famille",
+                              "federal": 0,
+                              "observedDate": "2023-02-20"
+                            }
+                          ],
+                          "nextHoliday": {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          }
+                        },
+                        {
+                          "id": "BC",
+                          "nameEn": "British Columbia",
+                          "nameFr": "Colombie-Britannique",
+                          "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                          "sourceEn": "Statutory Holidays in British Columbia",
+                          "holidays": [
+                            {
+                              "id": 1,
+                              "date": "2023-01-01",
+                              "nameEn": "New Year’s Day",
+                              "nameFr": "Jour de l’An",
+                              "federal": 1,
+                              "observedDate": "2023-01-02"
+                            },
+                            {
+                              "id": 4,
+                              "date": "2023-02-20",
+                              "nameEn": "Family Day",
+                              "nameFr": "Fête de la famille",
+                              "federal": 0,
+                              "observedDate": "2023-02-20"
+                            }
+                          ],
+                          "nextHoliday": {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          }
+                        }
+                      ]
+                    }
+                  }
                 }
-              },
-              "text/json": {
+              }
+            }
+          }
+        },
+        "operationId": "Provinces",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": ["1", "0", "true", "false"],
+              "default": "false"
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
+          }
+        ],
+        "description": "Returns provinces and territories in Canada. Each province or territory lists its associated holidays."
+      }
+    },
+    "/api/v1/provinces/{provinceId}": {
+      "get": {
+        "summary": "Get a province or territory by abbreviation",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/StageReferenceSearchResult"
+                  "type": "object",
+                  "properties": {
+                    "province": {
+                      "$ref": "#/components/schemas/Province"
+                    }
+                  }
+                },
+                "examples": {
+                  "/provinces/MB": {
+                    "value": {
+                      "province": {
+                        "id": "MB",
+                        "nameEn": "Manitoba",
+                        "nameFr": "Manitoba",
+                        "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                        "sourceEn": "General holidays in Manitoba",
+                        "holidays": [
+                          {
+                            "id": 1,
+                            "date": "2023-01-01",
+                            "nameEn": "New Year’s Day",
+                            "nameFr": "Jour de l’An",
+                            "federal": 1,
+                            "observedDate": "2023-01-02"
+                          },
+                          {
+                            "id": 2,
+                            "date": "2023-02-20",
+                            "nameEn": "Louis Riel Day",
+                            "nameFr": "Journée Louis Riel",
+                            "federal": 0,
+                            "observedDate": "2023-02-20"
+                          },
+                          {
+                            "id": 7,
+                            "date": "2023-04-07",
+                            "nameEn": "Good Friday",
+                            "nameFr": "Vendredi saint",
+                            "federal": 1,
+                            "observedDate": "2023-04-07"
+                          },
+                          {
+                            "id": 11,
+                            "date": "2023-05-22",
+                            "nameEn": "Victoria Day",
+                            "nameFr": "Fête de la Reine",
+                            "federal": 1,
+                            "observedDate": "2023-05-22"
+                          },
+                          {
+                            "id": 15,
+                            "date": "2023-07-01",
+                            "nameEn": "Canada Day",
+                            "nameFr": "Fête du Canada",
+                            "federal": 1,
+                            "observedDate": "2023-07-03"
+                          },
+                          {
+                            "id": 26,
+                            "date": "2023-09-04",
+                            "nameEn": "Labour Day",
+                            "nameFr": "Fête du travail",
+                            "federal": 1,
+                            "observedDate": "2023-09-04"
+                          },
+                          {
+                            "id": 29,
+                            "date": "2023-10-09",
+                            "nameEn": "Thanksgiving",
+                            "nameFr": "Action de grâce",
+                            "federal": 1,
+                            "observedDate": "2023-10-09"
+                          },
+                          {
+                            "id": 31,
+                            "date": "2023-12-25",
+                            "nameEn": "Christmas Day",
+                            "nameFr": "Noël",
+                            "federal": 1,
+                            "observedDate": "2023-12-25"
+                          }
+                        ],
+                        "nextHoliday": {
+                          "id": 1,
+                          "date": "2023-01-01",
+                          "nameEn": "New Year’s Day",
+                          "nameFr": "Jour de l’An",
+                          "federal": 1,
+                          "observedDate": "2023-01-02"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -1936,1560 +540,644 @@
           "400": {
             "description": "Bad Request",
             "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProblemDetails"
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                },
+                "examples": {
+                  "/provinces/100": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "message": "Error: request.params.provinceId should be equal to one of the allowed values: AB, BC, MB, NB, NL, NS, NT, NU, ON, PE, QC, SK, YT",
+                        "timestamp": "2020-04-28T04:02:38.813Z"
+                      }
+                    }
+                  }
                 }
               }
             }
           }
+        },
+        "operationId": "Province",
+        "description": "Returns a Canadian province or territory with its associated holidays. Returns a 404 response for invalid abbreviations.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "false",
+              "enum": ["1", "0", "true", "false"]
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return only legislated holidays. If true or 1, will return optional holidays for that region (if available).",
+            "allowEmptyValue": true
+          }
+        ],
+        "tags": ["provinces"]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "AB",
+              "BC",
+              "MB",
+              "NB",
+              "NL",
+              "NS",
+              "NT",
+              "NU",
+              "ON",
+              "PE",
+              "QC",
+              "SK",
+              "YT"
+            ],
+            "example": "MB"
+          },
+          "name": "provinceId",
+          "in": "path",
+          "required": true,
+          "description": "A Canadian province abbreviation"
         }
+      ]
+    },
+    "/api/v1/holidays/{holidayId}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer",
+            "example": 2,
+            "minimum": 1,
+            "maximum": 34
+          },
+          "name": "holidayId",
+          "in": "path",
+          "required": true,
+          "description": "Primary key for a holiday"
+        }
+      ],
+      "get": {
+        "summary": "Get a holiday by id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "holiday": {
+                      "$ref": "#/components/schemas/Holiday"
+                    }
+                  }
+                },
+                "examples": {
+                  "/holidays/33": {
+                    "value": {
+                      "holiday": {
+                        "id": 33,
+                        "date": "2023-12-26",
+                        "nameEn": "Boxing Day",
+                        "nameFr": "Lendemain de Noël",
+                        "federal": 1,
+                        "observedDate": "2023-12-26",
+                        "provinces": [
+                          {
+                            "id": "NL",
+                            "nameEn": "Newfoundland and Labrador",
+                            "nameFr": "Terre-Neuve-et-Labrador",
+                            "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                            "sourceEn": "Public holidays in Newfoundland"
+                          },
+                          {
+                            "id": "ON",
+                            "nameEn": "Ontario",
+                            "nameFr": "Ontario",
+                            "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                            "sourceEn": "Ontario Public holidays"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "/holidays/33?optional=true": {
+                    "value": {
+                      "holiday": {
+                        "id": 33,
+                        "date": "2024-12-26",
+                        "nameEn": "Boxing Day",
+                        "nameFr": "Lendemain de Noël",
+                        "federal": 1,
+                        "observedDate": "2024-12-26",
+                        "provinces": [
+                          {
+                            "id": "NL",
+                            "nameEn": "Newfoundland and Labrador",
+                            "nameFr": "Terre-Neuve-et-Labrador",
+                            "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                            "sourceEn": "Public holidays in Newfoundland"
+                          },
+                          {
+                            "id": "ON",
+                            "nameEn": "Ontario",
+                            "nameFr": "Ontario",
+                            "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                            "sourceEn": "Ontario Public holidays"
+                          },
+                          {
+                            "id": "AB",
+                            "nameEn": "Alberta",
+                            "nameFr": "Alberta",
+                            "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                            "sourceEn": "General holidays in Alberta",
+                            "optional": 1
+                          },
+                          {
+                            "id": "BC",
+                            "nameEn": "British Columbia",
+                            "nameFr": "Colombie-Britannique",
+                            "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                            "sourceEn": "Statutory Holidays in British Columbia",
+                            "optional": 1
+                          },
+                          {
+                            "id": "MB",
+                            "nameEn": "Manitoba",
+                            "nameFr": "Manitoba",
+                            "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                            "sourceEn": "General holidays in Manitoba",
+                            "optional": 1
+                          },
+                          {
+                            "id": "NB",
+                            "nameEn": "New Brunswick",
+                            "nameFr": "Nouveau-Brunswick",
+                            "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                            "sourceEn": "10 prescribed days of rest",
+                            "optional": 1
+                          },
+                          {
+                            "id": "NS",
+                            "nameEn": "Nova Scotia",
+                            "nameFr": "Nouvelle-Écosse",
+                            "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                            "sourceEn": "Paid holidays in Nova Scotia",
+                            "optional": 1
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "$ref": "#/components/schemas/Error"
+                    }
+                  }
+                },
+                "examples": {
+                  "/holidays/100": {
+                    "value": {
+                      "error": {
+                        "status": 400,
+                        "message": "Error: request.params.holidayId should be <= 31",
+                        "timestamp": "2020-04-28T03:59:56.605Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "Holiday",
+        "description": "Returns one Canadian statutory holiday by integer id. Returns a 404 response for invalid ids.",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer",
+              "default": 2025,
+              "minimum": 2014,
+              "maximum": 2035
+            },
+            "in": "query",
+            "description": "A calendar year",
+            "name": "year",
+            "allowEmptyValue": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "default": "false",
+              "enum": ["1", "0", "true", "false"]
+            },
+            "in": "query",
+            "name": "optional",
+            "description": "A boolean parameter. If false or 0 (default), will return provinces for which this is a legislated holiday. If true or 1, will return provinces which optionally celebrate this holiday.",
+            "allowEmptyValue": true
+          }
+        ],
+        "tags": ["holidays"]
+      }
+    },
+    "/api/v1/spec": {
+      "get": {
+        "summary": "Get JSON schema",
+        "tags": ["info"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "content-type": {
+                "schema": {
+                  "type": "string"
+                },
+                "description": "text/yaml; charset=UTF-8"
+              }
+            }
+          }
+        },
+        "operationId": "Spec",
+        "description": "Gets the schema for the JSON API as a yaml file."
       }
     }
   },
   "components": {
     "schemas": {
-      "AmendmentDecision": {
-        "type": "string",
-        "enum": [
-          "NoDecision",
-          "Withdrawn",
-          "Disagreed",
-          "NotMoved",
-          "Agreed",
-          "QuestionProposed",
-          "NotSelected",
-          "WithdrawnBeforeDebate",
-          "StoodPart",
-          "NotStoodPart",
-          "Preempted",
-          "NotCalled",
-          "NegativedOnDivision",
-          "AgreedOnDivision"
-        ]
-      },
-      "AmendmentDecisionSearch": {
-        "type": "string",
-        "enum": [
-          "All",
-          "NoDecision",
-          "Withdrawn",
-          "Disagreed",
-          "NotMoved",
-          "Agreed",
-          "QuestionProposed",
-          "NotSelected",
-          "WithdrawnBeforeDebate",
-          "StoodPart",
-          "NotStoodPart",
-          "Preempted",
-          "NotCalled",
-          "NegativedOnDivision",
-          "AgreedOnDivision"
-        ]
-      },
-      "AmendmentDetail": {
+      "Holiday": {
+        "title": "Holiday",
         "type": "object",
+        "description": "A Canadian holiday. Includes a name, the literal date of the holiday, the observed date of the holiday (ie, accommodating for weekends), and a list of regions that observe this holiday.",
+        "x-examples": {
+          "/holidays/33?optional=true": {
+            "holiday": {
+              "id": 33,
+              "date": "2024-12-26",
+              "nameEn": "Boxing Day",
+              "nameFr": "Lendemain de Noël",
+              "federal": 1,
+              "observedDate": "2024-12-26",
+              "provinces": [
+                {
+                  "id": "NL",
+                  "nameEn": "Newfoundland and Labrador",
+                  "nameFr": "Terre-Neuve-et-Labrador",
+                  "sourceLink": "https://gist.github.com/pcraig3/81dff348ddf52777c9f918c3032531bd",
+                  "sourceEn": "Public holidays in Newfoundland"
+                },
+                {
+                  "id": "ON",
+                  "nameEn": "Ontario",
+                  "nameFr": "Ontario",
+                  "sourceLink": "https://www.ontario.ca/document/your-guide-employment-standards-act-0/public-holidays",
+                  "sourceEn": "Ontario Public holidays"
+                },
+                {
+                  "id": "AB",
+                  "nameEn": "Alberta",
+                  "nameFr": "Alberta",
+                  "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+                  "sourceEn": "General holidays in Alberta",
+                  "optional": 1
+                },
+                {
+                  "id": "BC",
+                  "nameEn": "British Columbia",
+                  "nameFr": "Colombie-Britannique",
+                  "sourceLink": "https://www2.gov.bc.ca/gov/content/employment-business/employment-standards-advice/employment-standards/statutory-holidays#body",
+                  "sourceEn": "Statutory Holidays in British Columbia",
+                  "optional": 1
+                },
+                {
+                  "id": "MB",
+                  "nameEn": "Manitoba",
+                  "nameFr": "Manitoba",
+                  "sourceLink": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+                  "sourceEn": "General holidays in Manitoba",
+                  "optional": 1
+                },
+                {
+                  "id": "NB",
+                  "nameEn": "New Brunswick",
+                  "nameFr": "Nouveau-Brunswick",
+                  "sourceLink": "https://www2.gnb.ca/content/gnb/en/departments/elg/local_government/content/governance/content/days_of_rest_act/faq.html#2",
+                  "sourceEn": "10 prescribed days of rest",
+                  "optional": 1
+                },
+                {
+                  "id": "NS",
+                  "nameEn": "Nova Scotia",
+                  "nameFr": "Nouvelle-Écosse",
+                  "sourceLink": "https://novascotia.ca/lae/employmentrights/holidaychart.asp",
+                  "sourceEn": "Paid holidays in Nova Scotia",
+                  "optional": 1
+                }
+              ]
+            }
+          }
+        },
         "properties": {
           "id": {
             "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          },
-          "amendmentId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "amendmentType": {
-            "$ref": "#/components/schemas/AmendmentType"
-          },
-          "clause": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "schedule": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "lineNumber": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "amendmentPosition": {
-            "type": "string",
-            "nullable": true
-          },
-          "marshalledListText": {
-            "type": "string",
-            "nullable": true
-          },
-          "amendmentLines": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentLine"
-            }
-          },
-          "explanatoryTextPrefix": {
-            "type": "string",
-            "nullable": true
-          },
-          "explanatoryText": {
-            "type": "string",
-            "nullable": true
-          },
-          "amendmentNote": {
-            "type": "string",
-            "nullable": true
-          },
-          "amendmentLocation": {
-            "type": "string",
-            "nullable": true
-          },
-          "mainHeader": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentDetailMotionDetailPingPongItem": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "amendment": {
-            "$ref": "#/components/schemas/PingPongAmendmentDetail"
-          },
-          "motion": {
-            "$ref": "#/components/schemas/MotionDetail"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentGroup": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentLine"
-            }
-          },
-          "amendments": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PingPongAmendment"
-            }
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentLine": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "nullable": true
-          },
-          "indentation": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hangingIndentation": {
-            "type": "string",
-            "nullable": true
-          },
-          "isImage": {
-            "type": "boolean"
-          },
-          "imageType": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentMember": {
-        "type": "object",
-        "properties": {
-          "memberId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "party": {
-            "type": "string",
-            "nullable": true
-          },
-          "partyColour": {
-            "type": "string",
-            "nullable": true
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          },
-          "memberPhoto": {
-            "type": "string",
-            "nullable": true
-          },
-          "memberPage": {
-            "type": "string",
-            "nullable": true
-          },
-          "memberFrom": {
-            "type": "string",
-            "nullable": true
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "isLead": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentSearchItem": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          },
-          "amendmentId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "amendmentType": {
-            "$ref": "#/components/schemas/AmendmentType"
-          },
-          "clause": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "schedule": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "pageNumber": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "lineNumber": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "amendmentPosition": {
-            "type": "string",
-            "nullable": true
-          },
-          "marshalledListText": {
-            "type": "string",
-            "nullable": true
-          },
-          "summaryText": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "string"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentSearchItemSearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentSearchItem"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentSummaryMotionSummaryPingPongItem": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "amendment": {
-            "$ref": "#/components/schemas/PingPongAmendmentSummary"
-          },
-          "motion": {
-            "$ref": "#/components/schemas/MotionSummary"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentSummaryMotionSummaryPingPongItemSearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentSummaryMotionSummaryPingPongItem"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "AmendmentType": {
-        "type": "string",
-        "enum": [
-          "EditLongTitle",
-          "EditBillBody",
-          "AddClauseOrSchedule",
-          "DeleteClauseOrSchedule"
-        ]
-      },
-      "Bill": {
-        "type": "object",
-        "properties": {
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "shortTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "formerShortTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "currentHouse": {
-            "$ref": "#/components/schemas/House"
-          },
-          "originatingHouse": {
-            "$ref": "#/components/schemas/House"
-          },
-          "lastUpdate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "billWithdrawn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "isDefeated": {
-            "type": "boolean"
-          },
-          "billTypeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "introducedSessionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "includedSessionIds": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          "isAct": {
-            "type": "boolean"
-          },
-          "currentStage": {
-            "$ref": "#/components/schemas/StageSummary"
-          },
-          "longTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Sponsor"
-            }
-          },
-          "promoters": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Promoter"
-            }
-          },
-          "petitioningPeriod": {
-            "type": "string",
-            "nullable": true
-          },
-          "petitionInformation": {
-            "type": "string",
-            "nullable": true
-          },
-          "agent": {
-            "$ref": "#/components/schemas/BillAgent"
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillAgent": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNo": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "website": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillPublication": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "publicationType": {
-            "$ref": "#/components/schemas/PublicationType"
-          },
-          "displayDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "links": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PublicationLink"
-            }
-          },
-          "files": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PublicationDocument"
-            }
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillPublicationList": {
-        "type": "object",
-        "properties": {
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "publications": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillPublication"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillSortOrder": {
-        "type": "string",
-        "enum": [
-          "TitleAscending",
-          "TitleDescending",
-          "DateUpdatedAscending",
-          "DateUpdatedDescending"
-        ]
-      },
-      "BillStageDetails": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sessionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "abbreviation": {
-            "type": "string",
-            "nullable": true
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          },
-          "stageSittings": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillStageSitting"
-            }
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "committee": {
-            "$ref": "#/components/schemas/Committee"
-          },
-          "nextStageBillStageId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "previousStageBillStageId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "lastUpdate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "hasMotions": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillStagePublicationList": {
-        "type": "object",
-        "properties": {
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "publications": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/Publication"
-            }
-          },
-          "sittings": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillStageSittingPublicationList"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillStageSitting": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
+            "description": "Primary key for a holiday",
+            "example": 2,
+            "minimum": 1,
+            "maximum": 34
           },
           "date": {
             "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillStageSittingPublicationList": {
-        "type": "object",
-        "properties": {
-          "sittingId": {
-            "type": "integer",
-            "format": "int32"
+            "description": "ISO date: the literal date of the holiday",
+            "format": "date",
+            "example": "2020-12-26"
           },
-          "publications": {
+          "nameEn": {
+            "type": "string",
+            "description": "English name",
+            "example": "Louis Riel Day"
+          },
+          "nameFr": {
+            "type": "string",
+            "description": "French name",
+            "example": "Journée Louis Riel"
+          },
+          "federal": {
+            "type": "integer",
+            "description": "Whether this holiday is observed by federally-regulated industries.",
+            "enum": [1, 0],
+            "format": "binary"
+          },
+          "observedDate": {
+            "type": "string",
+            "description": "ISO date: when this holiday is observed",
+            "format": "date",
+            "example": "2020-12-28"
+          },
+          "provinces": {
             "type": "array",
-            "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/Publication"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillStageSittingSearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillStageSitting"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillSummary": {
-        "type": "object",
-        "properties": {
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "shortTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "formerShortTitle": {
-            "type": "string",
-            "nullable": true
-          },
-          "currentHouse": {
-            "$ref": "#/components/schemas/House"
-          },
-          "originatingHouse": {
-            "$ref": "#/components/schemas/House"
-          },
-          "lastUpdate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "billWithdrawn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "isDefeated": {
-            "type": "boolean"
-          },
-          "billTypeId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "introducedSessionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "includedSessionIds": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "type": "integer",
-              "format": "int32"
+              "$ref": "#/components/schemas/Province"
             }
           },
-          "isAct": {
-            "type": "boolean"
-          },
-          "currentStage": {
-            "$ref": "#/components/schemas/StageSummary"
+          "optional": {
+            "type": "integer",
+            "format": "binary",
+            "enum": [1],
+            "description": "Whether this is a province-wide statutory holiday, or one that is optional for employers."
           }
         },
-        "additionalProperties": false
-      },
-      "BillSummarySearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillSummary"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillType": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "category": {
-            "$ref": "#/components/schemas/BillTypeCategory"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "BillTypeCategory": {
-        "type": "string",
-        "enum": [
-          "Public",
-          "Private",
-          "Hybrid"
+        "required": [
+          "id",
+          "date",
+          "nameEn",
+          "nameFr",
+          "federal",
+          "observedDate"
         ]
       },
-      "BillTypeSearchResult": {
+      "Province": {
+        "title": "Province",
         "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillType"
+        "x-examples": {
+          "/provinces/SK": {
+            "province": {
+              "id": "SK",
+              "nameEn": "Saskatchewan",
+              "nameFr": "Saskatchewan",
+              "sourceLink": "https://www.saskatchewan.ca/business/employment-standards/public-statutory-holidays/list-of-saskatchewan-public-holidays",
+              "sourceEn": "Saskatchewan Public Holidays",
+              "holidays": [
+                {
+                  "id": 1,
+                  "date": "2023-01-01",
+                  "nameEn": "New Year’s Day",
+                  "nameFr": "Jour de l’An",
+                  "federal": 1,
+                  "observedDate": "2023-01-02"
+                },
+                {
+                  "id": 4,
+                  "date": "2023-02-20",
+                  "nameEn": "Family Day",
+                  "nameFr": "Fête de la famille",
+                  "federal": 0,
+                  "observedDate": "2023-02-20"
+                },
+                {
+                  "id": 7,
+                  "date": "2023-04-07",
+                  "nameEn": "Good Friday",
+                  "nameFr": "Vendredi saint",
+                  "federal": 1,
+                  "observedDate": "2023-04-07"
+                },
+                {
+                  "id": 11,
+                  "date": "2023-05-22",
+                  "nameEn": "Victoria Day",
+                  "nameFr": "Fête de la Reine",
+                  "federal": 1,
+                  "observedDate": "2023-05-22"
+                },
+                {
+                  "id": 15,
+                  "date": "2023-07-01",
+                  "nameEn": "Canada Day",
+                  "nameFr": "Fête du Canada",
+                  "federal": 1,
+                  "observedDate": "2023-07-03"
+                },
+                {
+                  "id": 21,
+                  "date": "2023-08-07",
+                  "nameEn": "Saskatchewan Day",
+                  "nameFr": "Jour de Saskatchewan",
+                  "federal": 0,
+                  "observedDate": "2023-08-07"
+                },
+                {
+                  "id": 26,
+                  "date": "2023-09-04",
+                  "nameEn": "Labour Day",
+                  "nameFr": "Fête du travail",
+                  "federal": 1,
+                  "observedDate": "2023-09-04"
+                },
+                {
+                  "id": 29,
+                  "date": "2023-10-09",
+                  "nameEn": "Thanksgiving",
+                  "nameFr": "Action de grâce",
+                  "federal": 1,
+                  "observedDate": "2023-10-09"
+                },
+                {
+                  "id": 30,
+                  "date": "2023-11-11",
+                  "nameEn": "Remembrance Day",
+                  "nameFr": "Jour du Souvenir",
+                  "federal": 1,
+                  "observedDate": "2023-11-13"
+                },
+                {
+                  "id": 31,
+                  "date": "2023-12-25",
+                  "nameEn": "Christmas Day",
+                  "nameFr": "Noël",
+                  "federal": 1,
+                  "observedDate": "2023-12-25"
+                }
+              ],
+              "nextHoliday": {
+                "id": 1,
+                "date": "2023-01-01",
+                "nameEn": "New Year’s Day",
+                "nameFr": "Jour de l’An",
+                "federal": 1,
+                "observedDate": "2023-01-02"
+              }
             }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
           }
         },
-        "additionalProperties": false
-      },
-      "Committee": {
-        "type": "object",
+        "description": "A Canadian province or territory ",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
             "type": "string",
-            "nullable": true
+            "enum": [
+              "AB",
+              "BC",
+              "MB",
+              "NB",
+              "NL",
+              "NS",
+              "NT",
+              "NU",
+              "ON",
+              "PE",
+              "QC",
+              "SK",
+              "YT"
+            ],
+            "example": "MB",
+            "description": "Canadian province abbreviations"
           },
-          "category": {
-            "type": "string",
-            "nullable": true
+          "nextHoliday": {
+            "$ref": "#/components/schemas/Holiday"
           },
-          "house": {
-            "$ref": "#/components/schemas/CommitteeHouse"
-          },
-          "url": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CommitteeHouse": {
-        "type": "string",
-        "enum": [
-          "Commons",
-          "Lords",
-          "Joint"
-        ]
-      },
-      "House": {
-        "type": "string",
-        "enum": [
-          "All",
-          "Commons",
-          "Lords",
-          "Unassigned"
-        ]
-      },
-      "Member": {
-        "type": "object",
-        "properties": {
-          "memberId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "party": {
-            "type": "string",
-            "nullable": true
-          },
-          "partyColour": {
-            "type": "string",
-            "nullable": true
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          },
-          "memberPhoto": {
-            "type": "string",
-            "nullable": true
-          },
-          "memberPage": {
-            "type": "string",
-            "nullable": true
-          },
-          "memberFrom": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "MotionDetail": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
+          "holidays": {
             "type": "array",
-            "nullable": true,
             "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
+              "$ref": "#/components/schemas/Holiday"
             }
           },
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "number": {
+          "nameFr": {
             "type": "string",
-            "nullable": true
+            "description": "French name",
+            "example": "Manitoba"
           },
-          "summary": {
+          "nameEn": {
             "type": "string",
-            "nullable": true
+            "description": "English name",
+            "example": "Manitoba"
           },
-          "motionGroups": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/MotionGroup"
+          "sourceLink": {
+            "type": "string",
+            "example": "https://www.gov.mb.ca/labour/standards/doc,gen-holidays-after-april-30-07,factsheet.html#q12",
+            "format": "uri",
+            "pattern": "https+",
+            "description": "URL to public holidays reference for this region"
+          },
+          "sourceEn": {
+            "type": "string",
+            "description": "Name of reference page with public holidays for this region",
+            "example": "What are the general holidays in Manitoba?"
+          },
+          "optional": {
+            "type": "integer",
+            "description": "Whether this province optionally observes a given holiday.",
+            "format": "binary",
+            "enum": [1]
+          }
+        },
+        "required": ["id", "nameFr", "nameEn", "sourceLink", "sourceEn"]
+      },
+      "Error": {
+        "title": "Error",
+        "type": "object",
+        "x-examples": {
+          "/holidays/100": {
+            "error": {
+              "status": 400,
+              "message": "Bad Request: request/params/holidayId must be <= 33",
+              "timestamp": "2022-12-27T05:55:36.552Z"
             }
           }
         },
-        "additionalProperties": false
-      },
-      "MotionGroup": {
-        "type": "object",
         "properties": {
-          "text": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentLine"
-            }
-          },
-          "amendments": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PingPongAmendment"
-            }
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "MotionSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          },
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "number": {
-            "type": "string",
-            "nullable": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "NewsArticlesSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "content": {
-            "type": "string",
-            "nullable": true
-          },
-          "displayDate": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "NewsArticlesSummarySearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/NewsArticlesSummary"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Organisation": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "url": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "OriginatingHouse": {
-        "type": "string",
-        "enum": [
-          "All",
-          "Commons",
-          "Lords"
-        ]
-      },
-      "PingPongAmendment": {
-        "type": "object",
-        "properties": {
-          "number": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "text": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentLine"
-            }
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "PingPongAmendmentDetail": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          },
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "number": {
-            "type": "string",
-            "nullable": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          },
-          "amendmentGroups": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentGroup"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "PingPongAmendmentSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "billStageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "statusIndicator": {
-            "type": "string",
-            "nullable": true
-          },
-          "decision": {
-            "$ref": "#/components/schemas/AmendmentDecision"
-          },
-          "decisionExplanation": {
-            "type": "string",
-            "nullable": true
-          },
-          "sponsors": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/AmendmentMember"
-            }
-          },
-          "type": {
-            "$ref": "#/components/schemas/PingpongItemType"
-          },
-          "number": {
-            "type": "string",
-            "nullable": true
-          },
-          "summary": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PingpongItemType": {
-        "type": "string",
-        "enum": [
-          "Motion",
-          "Amendment"
-        ]
-      },
-      "ProblemDetails": {
-        "type": "object",
-        "properties": {
-          "type": {
-            "type": "string",
-            "nullable": true
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
           "status": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "example": 404,
+            "minimum": 100,
+            "maximum": 599,
+            "description": "An HTTP status code"
           },
-          "detail": {
+          "message": {
             "type": "string",
-            "nullable": true
+            "example": "Error: No holiday with id “100”",
+            "description": "An error message"
           },
-          "instance": {
+          "timestamp": {
             "type": "string",
-            "nullable": true
+            "format": "date-time",
+            "example": "2020-04-27T05:41:10.710Z",
+            "description": "A UTC ISO timestamp"
           }
-        },
-        "additionalProperties": {}
-      },
-      "Promoter": {
-        "type": "object",
-        "properties": {
-          "organisationName": {
-            "type": "string",
-            "nullable": true
-          },
-          "organisationUrl": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Publication": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "publicationType": {
-            "$ref": "#/components/schemas/PublicationType"
-          },
-          "displayDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "links": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PublicationLink"
-            }
-          },
-          "files": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PublicationDocument"
-            }
-          }
-        },
-        "additionalProperties": false
-      },
-      "PublicationDocument": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "filename": {
-            "type": "string",
-            "nullable": true
-          },
-          "contentType": {
-            "type": "string",
-            "nullable": true
-          },
-          "contentLength": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PublicationLink": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "title": {
-            "type": "string",
-            "nullable": true
-          },
-          "url": {
-            "type": "string",
-            "nullable": true
-          },
-          "contentType": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PublicationType": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PublicationTypeSearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/PublicationType"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Sponsor": {
-        "type": "object",
-        "properties": {
-          "member": {
-            "$ref": "#/components/schemas/Member"
-          },
-          "organisation": {
-            "$ref": "#/components/schemas/Organisation"
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StageReference": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StageReferenceSearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/StageReference"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StageSummary": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stageId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "sessionId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "abbreviation": {
-            "type": "string",
-            "nullable": true
-          },
-          "house": {
-            "$ref": "#/components/schemas/House"
-          },
-          "stageSittings": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/BillStageSitting"
-            }
-          },
-          "sortOrder": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "StageSummarySearchResult": {
-        "type": "object",
-        "properties": {
-          "items": {
-            "type": "array",
-            "nullable": true,
-            "items": {
-              "$ref": "#/components/schemas/StageSummary"
-            }
-          },
-          "totalResults": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "itemsPerPage": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
+        }
       }
+    },
+    "securitySchemes": {}
+  },
+  "tags": [
+    {
+      "name": "info",
+      "description": "Get welcome message and links"
+    },
+    {
+      "name": "holidays",
+      "description": "Get holiday(s) with associated provinces"
+    },
+    {
+      "name": "provinces",
+      "description": "Get province(s) with associated holidays"
     }
-  }
+  ]
 }
