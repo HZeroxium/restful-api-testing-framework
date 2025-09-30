@@ -103,7 +103,7 @@ class DatabaseManager:
     def create_service(self, service_name: str, spec_content: str, spec_source: str) -> str:
         """Create a new service entry"""
         data = self.load_data()
-        
+
         service_id = str(uuid.uuid4())
         
         if SHARED_CONFIG_AVAILABLE:
@@ -210,7 +210,7 @@ class DatabaseManager:
                     # Count endpoints from spec file
                     try:
                         import json
-                        with open(spec_file, 'r') as f:
+                        with open(spec_file, 'r', encoding='utf-8') as f:
                             spec_data = json.load(f)
                             endpoints_count = 0
                             for path, methods in spec_data.get('paths', {}).items():
@@ -253,7 +253,10 @@ class DatabaseManager:
     def delete_service(self, service_id: str) -> bool:
         """Delete service and its data"""
         data = self.load_data()
+        for srv in data["services"].values():
+            print(f"Checking service with name: {srv['name']}")
         if service_id not in data["services"]:
+            print(f"Service ID {service_id} not found in database.")
             return False
         
         # Remove service directory
@@ -265,7 +268,21 @@ class DatabaseManager:
         del data["services"][service_id]
         self.save_data(data)
         return True
-    
+
+    def delete_service_by_name(self, service_name: str) -> bool:
+        """Delete service by name"""
+        data = self.load_data()
+        service_id = None
+        for srv_id, srv_data in data["services"].items():
+            if srv_data.get("name") == service_name:
+                service_id = srv_id
+                break
+        
+        if not service_id:
+            print(f"Service with name {service_name} not found.")
+            return False
+        
+        return self.delete_service(service_id)
     # Run CRUD operations
     def create_run(self, service_id: str, run_config: Dict[str, Any]) -> str:
         """Create a new test run entry"""

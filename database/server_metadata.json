@@ -1,108 +1,44 @@
 {
   "services": {
-    "132c5880-4e16-47bc-b20d-4a877e282007": {
-      "id": "132c5880-4e16-47bc-b20d-4a877e282007",
-      "name": "Bill",
-      "spec_path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/specs/openapi.json",
-      "spec_source": "/Users/npt/Documents/NCKH/restful-api-testing-framework/server/uploads/openapi.json",
-      "working_dir": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill",
-      "created_at": "2025-09-28T21:22:56.253684",
-      "updated_at": "2025-09-29T22:04:44.377560",
-      "status": "active",
-      "endpoints_count": 21,
-      "test_cases_count": 33,
-      "test_data_count": 21
-    },
-    "3b3eb7ca-d00a-4cf8-82be-c36c4200faba": {
-      "id": "3b3eb7ca-d00a-4cf8-82be-c36c4200faba",
+    "e5154c81-d168-4c32-8ae6-59e7ecb1882b": {
+      "id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
       "name": "Canada Holidays",
-      "spec_path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/specs/openapi.json",
-      "spec_source": "/Users/npt/Documents/NCKH/restful-api-testing-framework/server/uploads/openapi.json",
-      "working_dir": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays",
-      "created_at": "2025-09-30T22:19:12.797837",
-      "updated_at": "2025-09-30T22:19:12.800440",
+      "spec_path": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays\\specs\\openapi.json",
+      "spec_source": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\server\\uploads\\openapi.json",
+      "working_dir": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays",
+      "created_at": "2025-09-30T22:56:19.140014",
+      "updated_at": "2025-09-30T22:57:58.764033",
       "status": "active",
       "endpoints_count": 6,
-      "test_cases_count": 0,
-      "test_data_count": 0
+      "test_cases_count": 7,
+      "test_data_count": 6
     }
   },
   "runs": {
-    "05e88bdf-0bda-412a-87f1-0bc4d1f12cfc": {
-      "id": "05e88bdf-0bda-412a-87f1-0bc4d1f12cfc",
-      "service_id": "Canada Holidays",
+    "611cbea0-bf4a-4db6-b802-4c18878d71eb": {
+      "id": "611cbea0-bf4a-4db6-b802-4c18878d71eb",
+      "service_id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
       "config": {
         "base_url": "https://canada-holidays.ca/",
         "token": null,
         "endpoint_filter": null,
         "test_case_filter": null
       },
-      "status": "completed",
-      "created_at": "2025-09-28T21:26:56.090760",
-      "started_at": "2025-09-28T21:26:56.092340",
+      "status": "running",
+      "created_at": "2025-09-30T22:58:58.570846",
+      "started_at": "2025-09-30T22:58:58.573096",
       "completed_at": null,
       "results": {
-        "total": 3,
-        "passed": 2,
-        "failed": 1,
-        "success_rate": 66.67
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "success_rate": 0.0
       },
-      "artifacts": [
-        {
-          "name": "results.csv",
-          "path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/05e88bdf-0bda-412a-87f1-0bc4d1f12cfc/results.csv",
-          "url": "/api/v1/services/Canada Holidays/artifacts/05e88bdf-0bda-412a-87f1-0bc4d1f12cfc/results.csv",
-          "size": 158,
-          "created_at": "2025-09-28T21:26:58.094959"
-        },
-        {
-          "name": "execution.log",
-          "path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/05e88bdf-0bda-412a-87f1-0bc4d1f12cfc/execution.log",
-          "url": "/api/v1/services/Canada Holidays/artifacts/05e88bdf-0bda-412a-87f1-0bc4d1f12cfc/execution.log",
-          "size": 128,
-          "created_at": "2025-09-28T21:26:58.094976"
-        }
-      ]
-    },
-    "baeefd6a-c999-4a9e-8cd7-b73fa1429429": {
-      "id": "baeefd6a-c999-4a9e-8cd7-b73fa1429429",
-      "service_id": "Canada Holidays",
-      "config": {
-        "base_url": "https://canada-holidays.ca/",
-        "token": null,
-        "endpoint_filter": null,
-        "test_case_filter": null
-      },
-      "status": "completed",
-      "created_at": "2025-09-29T22:09:02.802283",
-      "started_at": "2025-09-29T22:09:02.803693",
-      "completed_at": null,
-      "results": {
-        "total": 3,
-        "passed": 2,
-        "failed": 1,
-        "success_rate": 66.67
-      },
-      "artifacts": [
-        {
-          "name": "results.csv",
-          "path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/baeefd6a-c999-4a9e-8cd7-b73fa1429429/results.csv",
-          "url": "/api/v1/services/Canada Holidays/artifacts/baeefd6a-c999-4a9e-8cd7-b73fa1429429/results.csv",
-          "size": 158,
-          "created_at": "2025-09-29T22:10:04.660220"
-        },
-        {
-          "name": "execution.log",
-          "path": "/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/baeefd6a-c999-4a9e-8cd7-b73fa1429429/execution.log",
-          "url": "/api/v1/services/Canada Holidays/artifacts/baeefd6a-c999-4a9e-8cd7-b73fa1429429/execution.log",
-          "size": 128,
-          "created_at": "2025-09-29T22:10:04.660241"
-        }
-      ]
+      "artifacts": []
     }
   },
   "metadata": {
-    "created_at": "2025-09-28T21:02:56.793203",
+    "created_at": "2025-09-30T22:22:51.611799",
     "version": "1.0.0"
   }
 }

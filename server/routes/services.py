@@ -218,12 +218,34 @@ async def delete_service(request: Request, service_id: str):
         else:
             raise HTTPException(status_code=500, detail="Failed to delete service")
             
-    except HTTPException:
-        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to delete service: {str(e)}")
 
-
+@router.delete("/services/by-name/{service_name}", response_model=ApiResponse)
+async def delete_service(request: Request, service_name: str):
+    """Delete a service and all its associated data"""
+    try:
+        db_manager: DatabaseManager = request.app.state.db
+        
+        # Find service by name
+        services = db_manager.get_all_services()
+        service = next((s for s in services if s["name"] == service_name), None)
+        
+        if not service:
+            raise HTTPException(status_code=404, detail="Service not found")
+        
+        success = db_manager.delete_service_by_name(service_name)
+        
+        if success:
+            return ApiResponse(
+                success=True,
+                message="Service deleted successfully"
+            )
+        else:
+            raise HTTPException(status_code=500, detail="Failed to delete service")
+            
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete service: {str(e)}")
 @router.get("/services/{service_id}/endpoints", response_model=ApiResponse)
 async def get_service_endpoints(request: Request, service_id: str):
     """Get list of endpoints for a service"""

@@ -27,7 +27,7 @@ import datetime
 
 def read_swagger_data(file_path):
     """Read and parse Swagger/OpenAPI JSON file."""
-    with open(file_path, 'r') as file:
+    with open(file_path, 'r', encoding="utf-8") as file:
         return json.load(file)
 
 def get_endpoints(swagger_spec):

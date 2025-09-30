@@ -89,6 +89,7 @@ class KATIntegrationService:
     def get_endpoints_from_spec(self) -> List[Dict[str, Any]]:
         """Extract endpoints from OpenAPI spec using KAT functions"""
         if not KAT_AVAILABLE:
+            print("KAT components not available")
             return []
         
         try:
