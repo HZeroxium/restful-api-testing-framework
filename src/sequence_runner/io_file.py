@@ -15,26 +15,61 @@ logger = logging.getLogger(__name__)
 
 class FileService:
     def __init__(self, service_name: str, base_module_file: str):
-        # Ensure we always get project root regardless of where script is called from
-        current_file = Path(base_module_file).resolve()
-        print(current_file)
-        # Navigate up to find project root (contains Dataset/, src/, etc.)
-        project_root = current_file
-        while project_root.parent != project_root:
-            if (project_root / "Dataset").exists() and (project_root / "src").exists():
-                break
-            project_root = project_root.parent
+        # Use shared_config for unified directory structure
+        try:
+            # Navigate up to find project root and add src to path
+            current_file = Path(base_module_file).resolve()
+            project_root = current_file
+            while project_root.parent != project_root:
+                if (project_root / "src").exists():
+                    break
+                project_root = project_root.parent
+            
+            # Add src to path for shared_config import
+            import sys
+            src_path = project_root / "src"
+            sys.path.insert(0, str(src_path))
+            
+            from shared_config import (
+                ensure_service_structure,
+                get_test_case_generator_working_dir,
+                get_test_data_working_dir,
+                get_topolist_file_path,
+                get_results_dir
+            )
+            
+            # Use shared config paths
+            service_dir = ensure_service_structure(service_name)
+            self.paths = Paths(
+                base_dir=service_dir,
+                test_case_dir=Path(get_test_case_generator_working_dir(service_name).rstrip('/')),
+                test_data_dir=Path(get_test_data_working_dir(service_name).rstrip('/')) / "csv",
+                topolist_path=Path(get_topolist_file_path(service_name)),
+                output_csv_dir=Path(get_results_dir(service_name).rstrip('/')),
+                output_dir=Path(get_results_dir(service_name).rstrip('/')) / "output",
+            )
+            
+        except ImportError as e:
+            # Fallback to legacy structure
+            print(f"Warning: Could not import shared_config ({e}), using legacy paths")
+            current_file = Path(base_module_file).resolve()
+            # Navigate up to find project root (contains Dataset/, src/, etc.)
+            project_root = current_file
+            while project_root.parent != project_root:
+                if (project_root / "Dataset").exists() and (project_root / "src").exists():
+                    break
+                project_root = project_root.parent
+            
+            base_dir = project_root / TEST_CASE_DIR_NAME / service_name
+            self.paths = Paths(
+                base_dir=base_dir,
+                test_case_dir=base_dir / "test_case_generator",
+                test_data_dir=base_dir / "TestData/csv",
+                topolist_path=base_dir / "ODG/topolist.json",
+                output_csv_dir=base_dir / "Result",
+                output_dir=(project_root / "Output" / service_name),
+            )
         
-        base_dir = project_root / TEST_CASE_DIR_NAME / service_name
-
-        self.paths = Paths(
-            base_dir=base_dir,
-            test_case_dir=base_dir / "test_case_generator",
-            test_data_dir=base_dir / "TestData/csv",
-            topolist_path=base_dir / "ODG/topolist.json",
-            output_csv_dir=base_dir / "Result",
-            output_dir=(project_root / "Output" / service_name),
-        )
         self.paths.output_dir.mkdir(parents=True, exist_ok=True)
         os.makedirs(self.paths.output_csv_dir, exist_ok=True)
         self.out_file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_" + service_name
@@ -128,7 +163,7 @@ class FileService:
             return []
 
     # ---------- Output ----------
-    def open_csv_output(self, service_name: str):
+    def open_csv_output(self, service_name: str) -> str:
         out_path = self.paths.output_csv_dir / f"{self.out_file_name}.csv"
         self._csv_file = out_path.open("w", newline="", encoding="utf-8")
         headers = [
@@ -139,6 +174,7 @@ class FileService:
         self._csv_writer = csv.DictWriter(self._csv_file, fieldnames=headers)
         self._csv_writer.writeheader()
         logger.info(f"CSV output will be saved to: {out_path}")
+        return self.out_file_name
 
     def write_csv_row(self, row: Dict[str, Any]):
         if not self._csv_writer:

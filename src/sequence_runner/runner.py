@@ -395,7 +395,7 @@ class SequenceRunner:
         if not test_case_files:
             logger.error("No test case files found!")
             return
-        self.file.open_csv_output(self.service_name)
+        out_file_name = self.file.open_csv_output(self.service_name)
 
         # sort theo topolist nếu có
         topolist = self.file.load_topolist()
@@ -420,24 +420,15 @@ class SequenceRunner:
             logger.info("📋 Sorting test cases by topolist order...")
             test_case_files.sort(key=sort_key)
 
-        total_files = len(test_case_files)
-        count_pass = 0
-        for i, test_case_file in enumerate(test_case_files, 1):
-            logger.info("\n" + "=" * 60)
-            logger.info(f"Test Case {i}/{total_files}: {test_case_file.name}")
-            logger.info("=" * 60)
+        
+        for test_case_file in test_case_files:
             try:
                 if self.run_test_case(test_case_file):
-                    count_pass += 1
+                    pass
             except Exception as e:
                 logger.error(f"Error running test case {test_case_file.name}: {e}")
 
-        logger.info(
-            f"\n🎉 Test execution completed! Results saved to CSV. {count_pass}/{total_files} tests passed"
-        )
-        if total_files:
-            logger.info(f"Success rate: {count_pass / total_files * 100:.2f}%")
-
+        return out_file_name
     # ------------------------------------------------------------------
     def close(self):
         self.file.close()

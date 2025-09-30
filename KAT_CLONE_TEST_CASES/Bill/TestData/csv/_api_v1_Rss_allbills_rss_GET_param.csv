@@ -1,7 +1,0 @@
-index,data,expected_status_code,reason
-1,{},2xx,No parameters are defined for this endpoint; all requirements are satisfied.
-2,{},2xx,No parameters are defined for this endpoint; all requirements are satisfied.
-3,{},2xx,No parameters are defined for this endpoint; all requirements are satisfied.
-4,{},2xx,No parameters are defined for this endpoint; all requirements are satisfied.
-5,{},2xx,No parameters are defined for this endpoint; all requirements are satisfied.
-6,{},2xx,

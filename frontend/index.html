@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RESTful API Testing Framework</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" onclick="showDashboard()">
+          <i class="fas fa-flask me-2"></i>
+          API Testing Framework
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#" onclick="showDashboard()">
+                <i class="fas fa-dashboard me-1"></i>Dashboard
+              </a>
+            </li>
+            <li class="nav-item" id="service-breadcrumb" style="display: none">
+              <a class="nav-link" href="#" onclick="showDashboard()">
+                <i class="fas fa-server me-1"></i>Services
+              </a>
+              <span class="nav-link text-muted">/</span>
+              <span class="nav-link active" id="current-service-name">
+                Service Name
+              </span>
+            </li>
+          </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <span class="navbar-text" id="status-indicator">
+                <i class="fas fa-circle text-success me-1"></i>Connected
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-fluid mt-4">
+      <!-- Dashboard View -->
+      <div id="dashboard-view" class="content-view">
+        <div class="row">
+          <div class="col-md-12">
+            <h2><i class="fas fa-dashboard me-2"></i>Dashboard</h2>
+            <div class="row mt-4">
+              <!-- Stats Cards -->
+              <div class="col-md-3">
+                <div class="card bg-primary text-white stats-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6 class="card-title">Services</h6>
+                        <h4 id="stats-services">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-server fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-success text-white stats-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6 class="card-title">Test Cases</h6>
+                        <h4 id="stats-test-cases">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-file-code fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-warning text-white stats-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6 class="card-title">Test Runs</h6>
+                        <h4 id="stats-test-runs">0</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-play fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card bg-info text-white stats-card">
+                  <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                      <div>
+                        <h6 class="card-title">Success Rate</h6>
+                        <h4 id="stats-success-rate">0%</h4>
+                      </div>
+                      <div class="align-self-center">
+                        <i class="fas fa-chart-line fa-2x"></i>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h5><i class="fas fa-heartbeat me-2"></i>System Status</h5>
+                  </div>
+                  <div class="card-body">
+                    <div id="system-status">
+                      <div class="text-center text-muted py-2">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Loading
+                        system status...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Services Grid -->
+            <div class="row mt-4">
+              <div class="col-12">
+                <div class="card">
+                  <div
+                    class="card-header d-flex justify-content-between align-items-center"
+                  >
+                    <h5><i class="fas fa-server me-2"></i>Services</h5>
+                    <button
+                      class="btn btn-primary btn-sm"
+                      onclick="showCreateServiceModal()"
+                    >
+                      <i class="fas fa-plus me-2"></i>Create Service
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div id="services-grid">
+                      <div class="text-center text-muted py-3">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Loading
+                        services...
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Detail View -->
+      <div id="service-detail-view" class="content-view" style="display: none">
+        <!-- Service Header -->
+        <div id="service-header" class="mb-4">
+          <!-- Will be populated dynamically -->
+        </div>
+
+        <!-- Service Navigation Tabs -->
+        <ul class="nav nav-tabs service-tabs" id="service-tabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link active"
+              id="overview-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#overview"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-chart-pie me-2"></i>Overview
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="endpoints-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#endpoints"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-list me-2"></i>Endpoints
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="test-cases-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#test-cases"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-file-code me-2"></i>Test Cases
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="test-data-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#test-data"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-database me-2"></i>Test Data
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="test-runs-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#test-runs"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-play me-2"></i>Test Runs
+            </button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button
+              class="nav-link"
+              id="settings-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#settings"
+              type="button"
+              role="tab"
+            >
+              <i class="fas fa-cog me-2"></i>Settings
+            </button>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content mt-4" id="service-tab-content">
+          <!-- Overview Tab -->
+          <div class="tab-pane fade show active" id="overview" role="tabpanel">
+            <div id="service-overview-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Endpoints Tab -->
+          <div class="tab-pane fade" id="endpoints" role="tabpanel">
+            <div id="service-endpoints-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Test Cases Tab -->
+          <div class="tab-pane fade" id="test-cases" role="tabpanel">
+            <div id="service-test-cases-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Test Data Tab -->
+          <div class="tab-pane fade" id="test-data" role="tabpanel">
+            <div id="service-test-data-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Test Runs Tab -->
+          <div class="tab-pane fade" id="test-runs" role="tabpanel">
+            <div id="service-test-runs-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+
+          <!-- Settings Tab -->
+          <div class="tab-pane fade" id="settings" role="tabpanel">
+            <div id="service-settings-content">
+              <!-- Will be populated dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Create Service Modal -->
+    <div class="modal fade" id="createServiceModal" tabindex="-1">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Create New Service</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="createServiceForm">
+              <div class="mb-3">
+                <label class="form-label">Service Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="serviceName"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">OpenAPI Spec Source</label>
+                <select
+                  class="form-select"
+                  id="specSourceType"
+                  onchange="handleSpecSourceChange()"
+                >
+                  <option value="upload">Upload File</option>
+                  <option value="existing">Existing File</option>
+                  <option value="url">URL</option>
+                </select>
+              </div>
+              <div class="mb-3" id="uploadSpecDiv">
+                <label class="form-label">Upload OpenAPI Spec</label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="specFile"
+                  accept=".json,.yaml,.yml"
+                />
+              </div>
+              <div class="mb-3" id="existingSpecDiv" style="display: none">
+                <label class="form-label">Existing File Path</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="existingSpecPath"
+                  placeholder="/path/to/openapi.json"
+                />
+              </div>
+              <div class="mb-3" id="urlSpecDiv" style="display: none">
+                <label class="form-label">OpenAPI Spec URL</label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="specUrl"
+                  placeholder="https://example.com/openapi.json"
+                />
+              </div>
+              <div class="mb-3">
+                <div class="form-check">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    id="rebuildOdg"
+                    checked
+                  />
+                  <label class="form-check-label" for="rebuildOdg">
+                    Rebuild Operation Dependency Graph (ODG)
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="createService()"
+            >
+              <i class="fas fa-plus me-2"></i>Create Service
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate Test Cases Modal -->
+    <div class="modal fade" id="generateTestCasesModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Generate Test Cases</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Select Endpoints</label>
+              <div
+                id="endpoints-list"
+                class="border rounded p-3"
+                style="max-height: 200px; overflow-y: auto"
+              >
+                <div class="text-center text-muted py-2">
+                  <i class="fas fa-spinner fa-spin me-2"></i>Loading
+                  endpoints...
+                </div>
+              </div>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="clearTestCases"
+                />
+                <label class="form-check-label" for="clearTestCases">
+                  Clear existing test cases
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="generateTestCases()"
+            >
+              <i class="fas fa-magic me-2"></i>Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate Test Data Modal -->
+    <div class="modal fade" id="generateTestDataModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Generate Test Data</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Generation Mode</label>
+              <select class="form-select" id="testDataMode">
+                <option value="all">All Endpoints</option>
+                <option value="selected">Selected Endpoints</option>
+              </select>
+            </div>
+            <div class="mb-3" id="testDataEndpointsList" style="display: none">
+              <label class="form-label">Select Endpoints</label>
+              <div
+                id="test-data-endpoints"
+                class="border rounded p-3"
+                style="max-height: 200px; overflow-y: auto"
+              ></div>
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="regenerateTestData"
+                />
+                <label class="form-check-label" for="regenerateTestData">
+                  Regenerate existing data
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="generateTestData()"
+            >
+              <i class="fas fa-magic me-2"></i>Generate
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Create Test Run Modal -->
+    <div class="modal fade" id="createRunModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Start Test Run</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="createRunForm">
+              <div class="mb-3">
+                <label class="form-label">Base URL</label>
+                <input
+                  type="url"
+                  class="form-control"
+                  id="baseUrl"
+                  placeholder="https://api.example.com"
+                  required
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label"
+                  >Authentication Token (Optional)</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="authToken"
+                  placeholder="Bearer token or API key"
+                />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Endpoint Filter (Optional)</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="endpointFilter"
+                  placeholder="e.g., get-/api/v1/users"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-success"
+              onclick="createTestRun()"
+            >
+              <i class="fas fa-play me-2"></i>Start Run
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Test Run Results Modal -->
+    <div class="modal fade" id="viewRunModal" tabindex="-1">
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Test Run Results</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div id="run-details-content">
+              <div class="text-center text-muted py-4">
+                <i class="fas fa-spinner fa-spin me-2"></i>Loading run
+                details...
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/async-event-manager.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/service-detail.js"></script>
+    <script src="js/testCases.js"></script>
+    <script src="js/testData.js"></script>
+    <script src="js/testRuns.js"></script>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+index,data,expected_status_code,reason
+1,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": ""false""}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+2,"{""provinceId"": ""QC""}",2xx,"provinceId='QC' is in the allowed enum; year and optional are omitted and defaulted, which is allowed."
+3,"{""provinceId"": ""MB"", ""year"": null, ""optional"": null}",2xx,
+4,"{""provinceId"": ""MB"", ""year"": null, ""optional"": ""false""}",2xx,
+5,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": ""false""}",2xx,
+6,"{""provinceId"": ""MB"", ""year"": 2025, ""optional"": null}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+7,"{""provinceId"": ""MB"", ""year"": null, ""optional"": ""false""}",2xx,provinceId='MB' is in the allowed enum; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum.
+8,"{""provinceId"": ""AB"", ""year"": 2013}",4xx,"year=2013 < minimum=2014, violating 'minimum' constraint."
+9,"{""provinceId"": ""ZZ"", ""year"": 2025}",4xx,"provinceId='ZZ' is not in the allowed enum ['AB','BC','MB','NB','NL','NS','NT','NU','ON','PE','QC','SK','YT']."
+10,"{""provinceId"": ""ON"", ""year"": 2030, ""optional"": ""tru""}",4xx,"optional='tru' is not in the allowed enum ['1','0','true','false']."
+11,"{""provinceId"": ""ZZ"", ""year"": 2025, ""optional"": ""false""}",4xx,"provinceId='ZZ' is not in the allowed enum {AB, BC, MB, NB, NL, NS, NT, NU, ON, PE, QC, SK, YT}."
+12,"{""provinceId"": ""AB"", ""year"": 2013, ""optional"": ""false""}",4xx,"year=2013 < minimum=2014, violating 'minimum'."
+13,"{""provinceId"": ""BC"", ""year"": 2025, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in the allowed enum {'1', '0', 'true', 'false'}."
+14,"{""provinceId"": ""ZZ"", ""year"": 2036, ""optional"": ""maybe""}",4xx,"provinceId='ZZ' is not in the allowed enum; year=2036 > maximum=2035, violating 'maximum'; optional='maybe' is not in the allowed enum."
+15,"{""provinceId"": ""MB"", ""year"": ""abc"", ""optional"": ""tru""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer'; optional='tru' is not in the allowed enum."
+16,"{""provinceId"": """", ""year"": -1, ""optional"": """"}",4xx,
+17,"{""provinceId"": 123456789, ""year"": -1, ""optional"": """"}",4xx,
+18,"{""provinceId"": """", ""year"": ""123456"", ""optional"": """"}",4xx,
+19,"{""provinceId"": """", ""year"": -1, ""optional"": 123456789}",4xx,
+20,"{""provinceId"": """", ""year"": ""123456"", ""optional"": 123456789}",4xx,
+21,"{""provinceId"": 123456789, ""year"": ""123456"", ""optional"": 123456789}",4xx,

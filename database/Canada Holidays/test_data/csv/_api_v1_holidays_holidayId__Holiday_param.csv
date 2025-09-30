@@ -1,0 +1,22 @@
+index,data,expected_status_code,reason
+1,"{""holidayId"": 2, ""year"": 2025, ""optional"": ""false""}",2xx,"holidayId=2 is within allowed range [1..34]; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+2,"{""holidayId"": 1, ""year"": 2014, ""optional"": ""true""}",2xx,"holidayId=1 is within allowed range [1..34]; year=2014 is within allowed range [2014..2035]; optional='true' is in the allowed enum ['1','0','true','false']."
+3,"{""holidayId"": 34, ""year"": 2035, ""optional"": ""1""}",2xx,"holidayId=34 is within allowed range [1..34]; year=2035 is within allowed range [2014..2035]; optional='1' is in the allowed enum ['1','0','true','false']."
+4,"{""holidayId"": 2, ""year"": null, ""optional"": null}",2xx,
+5,"{""holidayId"": 2, ""year"": null, ""optional"": null}",2xx,"holidayId=2 is within allowed range [1..34]; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+6,"{""holidayId"": 2, ""year"": 2025, ""optional"": ""false""}",2xx,
+7,"{""holidayId"": 2, ""year"": 2025, ""optional"": null}",2xx,"holidayId=2 is within allowed range [1..34]; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+8,"{""holidayId"": 2, ""year"": null, ""optional"": ""false""}",2xx,"holidayId=2 is within allowed range [1..34]; year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+9,"{""holidayId"": 0, ""year"": 2025, ""optional"": ""false""}",4xx,"holidayId=0 < minimum=1, violating 'minimum' constraint for path parameter."
+10,"{""holidayId"": 5, ""year"": 2020, ""optional"": ""yes""}",4xx,"optional='yes' is not in the allowed enum ['1','0','true','false'], violating 'enum' constraint."
+11,"{""holidayId"": 0, ""year"": 2025, ""optional"": ""false""}",4xx,"holidayId=0 < minimum=1, violating 'minimum' constraint."
+12,"{""holidayId"": 15, ""year"": 2036, ""optional"": ""true""}",4xx,"year=2036 > maximum=2035, violating 'maximum' constraint."
+13,"{""holidayId"": 20, ""year"": 2020, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in enum ['1', '0', 'true', 'false'], violating 'enum' constraint."
+14,"{""holidayId"": 35, ""year"": 2013, ""optional"": ""false""}",4xx,"holidayId=35 > maximum=34, violating 'maximum'; year=2013 < minimum=2014, violating 'minimum'."
+15,"{""holidayId"": -1, ""year"": 2036, ""optional"": ""yes""}",4xx,"holidayId=-1 < minimum=1, violating 'minimum'; year=2036 > maximum=2035, violating 'maximum'; optional='yes' is not in enum ['1', '0', 'true', 'false'], violating 'enum'."
+16,"{""holidayId"": -1, ""year"": -9999999.0, ""optional"": """"}",4xx,
+17,"{""holidayId"": ""123456"", ""year"": -9999999.0, ""optional"": """"}",4xx,
+18,"{""holidayId"": -1, ""year"": ""123456"", ""optional"": """"}",4xx,
+19,"{""holidayId"": -1, ""year"": -9999999.0, ""optional"": 123456789}",4xx,
+20,"{""holidayId"": ""123456"", ""year"": ""123456"", ""optional"": """"}",4xx,
+21,"{""holidayId"": ""123456"", ""year"": ""123456"", ""optional"": 123456789}",4xx,

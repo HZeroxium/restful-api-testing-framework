@@ -3322,3 +3322,57 @@ Exception: Swagger spec file for service Bills not found. Please put it accordin
 2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
 2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
 2025-09-28 20:32:30,316 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-09-28 20:57:24,872 - ERROR - Error in run_generator.py: Swagger spec file for service Canada Holidays not found. Please put it according the path: "Dataset/Canada Holidays/openapi.json"
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 27, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 90, in __init__
+    raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
+Exception: Swagger spec file for service Canada Holidays not found. Please put it according the path: "Dataset/Canada Holidays/openapi.json"
+2025-09-28 20:58:29,883 - INFO - Preparing ODG for service: Canada Holidays
+2025-09-28 20:58:30,086 - INFO - ODG prepared and saved.
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 20:58:30,091 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-09-28 20:58:30,092 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-09-28 20:58:33,459 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:34,641 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:34,939 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:37,892 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:40,840 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:41,163 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:44,287 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:47,336 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:47,655 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:51,137 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:55,761 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:55,767 - INFO - Excluding path parameters from mutation: ['provinceId']
+2025-09-28 20:58:56,098 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:58:59,738 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:59:03,413 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:59:03,415 - INFO - Excluding path parameters from mutation: ['holidayId']
+2025-09-28 20:59:05,419 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:59:07,809 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-09-28 20:59:07,811 - INFO - path: /api/v1, method: get
+2025-09-28 20:59:07,811 - INFO - path: /api/v1, method: get
+2025-09-28 20:59:07,811 - INFO - path: /api/v1/spec, method: get
+2025-09-28 20:59:07,811 - INFO - path: /api/v1/spec, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/holidays, method: get
+2025-09-28 20:59:07,812 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-09-28 20:59:07,813 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-09-28 20:59:07,813 - INFO - path: /api/v1/provinces, method: get
+2025-09-28 20:59:07,813 - INFO - path: /api/v1/provinces/{provinceId}, method: get
+2025-09-28 20:59:07,813 - INFO - path: /api/v1/provinces/{provinceId}, method: get

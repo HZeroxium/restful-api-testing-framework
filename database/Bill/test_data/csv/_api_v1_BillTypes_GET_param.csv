@@ -1,0 +1,23 @@
+index,data,expected_status_code,reason
+1,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid integers.
+2,"{""Category"": ""Private""}",2xx,"Category='Private' is in the allowed enum; other optional fields are missing, which is allowed."
+3,"{""Category"": ""Government""}",2xx,"[CORRECTED from 4xx to 2xx] Category='Government' is not in the allowed enum ['Public', 'Private', 'Hybrid']."
+4,"{""Take"": -5}",2xx,Take=-5 is a valid integer; no minimum constraint specified.
+5,"{""Category"": null, ""Skip"": null, ""Take"": null}",2xx,
+6,"{""Category"": ""Public"", ""Skip"": null, ""Take"": null}",2xx,
+7,"{""Category"": ""Public"", ""Skip"": null, ""Take"": 10}",2xx,
+8,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": 10}",2xx,
+9,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": null}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid integers.
+10,"{""Category"": ""Public"", ""Skip"": null, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid integers.
+11,"{""Category"": null, ""Skip"": 0, ""Take"": 10}",2xx,Category='Public' is in the allowed enum; Skip=0 and Take=10 are valid integers.
+12,"{""Category"": ""Government""}",2xx,"[CORRECTED from 4xx to 2xx] Category='Government' is not in the allowed enum {'Public','Private','Hybrid'}."
+13,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+14,"{""Skip"": ""ten""}",4xx,"Skip='ten' is not parseable as integer, violating 'type=integer' for query/parseability."
+15,"{""Take"": ""5.5""}",4xx,"Take='5.5' is not parseable as integer, violating 'type=integer' for query/parseability."
+16,"{""Category"": ""Hybridized"", ""Skip"": ""none""}",4xx,"Category='Hybridized' is not in the allowed enum {'Public','Private','Hybrid'}; Skip='none' is not parseable as integer."
+17,"{""Category"": ""Unknown"", ""Skip"": ""abc"", ""Take"": ""xyz""}",4xx,"Category='Unknown' is not in the allowed enum {'Public','Private','Hybrid'}; Skip='abc' and Take='xyz' are not parseable as integer."
+18,"{""Category"": """", ""Skip"": -9999999.0, ""Take"": -9999999.0}",4xx,
+19,"{""Category"": """", ""Skip"": ""123456"", ""Take"": -9999999.0}",4xx,
+20,"{""Category"": """", ""Skip"": -9999999.0, ""Take"": ""123456""}",4xx,
+21,"{""Category"": """", ""Skip"": ""123456"", ""Take"": -9999999.0}",4xx,
+22,"{""Category"": """", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,

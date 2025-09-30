@@ -1,0 +1,14 @@
+index,data,expected_status_code,reason
+1,"{""billId"": 1}",2xx,billId=1 is an integer and meets the minimum=1 constraint.
+2,"{""billId"": 12345}",2xx,billId=12345 is an integer and meets the minimum=1 constraint.
+3,"{""billId"": ""%not-sure%""}",2xx,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution.
+4,"{""billId"": 1}",2xx,
+5,"{""billId"": ""%not-sure%""}",2xx,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution.
+6,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+7,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+8,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+9,"{""billId"": -1}",4xx,"billId=-1 < minimum=1, violating 'minimum'."
+10,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+11,"{""billId"": 1.5}",4xx,"billId=1.5 is not an integer, violating 'type=integer' for path/parseability."
+12,"{""billId"": -1}",4xx,
+13,"{""billId"": ""123456""}",4xx,

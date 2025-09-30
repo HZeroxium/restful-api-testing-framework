@@ -1,0 +1,14 @@
+test_case_id,step_number,endpoint,method,test_data_row,request_params,request_body,final_url,response_status,expected_status,execution_time,status
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,1,{},{},https://bills-api.parliament.uk/api/v1/Bills/1,404,2xx,0.080s,FAIL
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,2,{},{},https://bills-api.parliament.uk/api/v1/Bills/12345,404,2xx,0.085s,FAIL
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,3,{},{},https://bills-api.parliament.uk/api/v1/Bills/3973,200,2xx,0.089s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,4,{},{},https://bills-api.parliament.uk/api/v1/Bills/1,404,2xx,0.075s,FAIL
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,5,{},{},https://bills-api.parliament.uk/api/v1/Bills/3973,200,2xx,0.083s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,6,{},{},https://bills-api.parliament.uk/api/v1/Bills/0,404,4xx,0.086s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,7,{},{},https://bills-api.parliament.uk/api/v1/Bills/abc,404,4xx,0.072s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,8,{},{},https://bills-api.parliament.uk/api/v1/Bills/0,404,4xx,0.073s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,9,{},{},https://bills-api.parliament.uk/api/v1/Bills/-1,404,4xx,0.081s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,10,{},{},https://bills-api.parliament.uk/api/v1/Bills/abc,404,4xx,0.089s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,11,{},{},https://bills-api.parliament.uk/api/v1/Bills/1.5,404,4xx,0.097s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,12,{},{},https://bills-api.parliament.uk/api/v1/Bills/-1,404,4xx,0.074s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,13,{},{},https://bills-api.parliament.uk/api/v1/Bills/123456,404,4xx,0.079s,PASS

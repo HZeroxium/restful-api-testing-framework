@@ -1,0 +1,20 @@
+index,data,expected_status_code,reason
+1,"{""year"": 2025, ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+2,"{""year"": 2014, ""optional"": ""1""}",2xx,"year=2014 is at the minimum bound; optional='1' is in the allowed enum ['1','0','true','false']."
+3,"{""year"": null, ""optional"": null}",2xx,
+4,"{""year"": null, ""optional"": null}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+5,"{""year"": 2025, ""optional"": ""false""}",2xx,
+6,"{""year"": 2025, ""optional"": null}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+7,"{""year"": null, ""optional"": ""false""}",2xx,"year=2025 is within allowed range [2014..2035]; optional='false' is in the allowed enum ['1','0','true','false']."
+8,"{""year"": 2036}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+9,"{""year"": ""abc""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+10,"{""optional"": ""yes""}",4xx,"optional='yes' is not in the allowed enum ['1','0','true','false']."
+11,"{""year"": 2036, ""optional"": ""false""}",4xx,"year=2036 > maximum=2035, violating 'maximum' constraint."
+12,"{""year"": 2013, ""optional"": ""true""}",4xx,"year=2013 < minimum=2014, violating 'minimum' constraint."
+13,"{""year"": 2025, ""optional"": ""maybe""}",4xx,"optional='maybe' is not in enum ['1', '0', 'true', 'false'], violating 'enum' constraint."
+14,"{""year"": ""abc"", ""optional"": ""1""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+15,"{""year"": 2036, ""optional"": ""maybe""}",4xx,"year=2036 > maximum=2035, violating 'maximum'; optional='maybe' is not in enum ['1', '0', 'true', 'false'], violating 'enum'."
+16,"{""year"": -1, ""optional"": """"}",4xx,
+17,"{""year"": ""123456"", ""optional"": """"}",4xx,
+18,"{""year"": -1, ""optional"": 123456789}",4xx,
+19,"{""year"": ""123456"", ""optional"": 123456789}",4xx,

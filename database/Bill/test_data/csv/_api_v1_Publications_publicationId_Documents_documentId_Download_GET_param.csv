@@ -1,0 +1,16 @@
+index,data,expected_status_code,reason
+1,"{""publicationId"": ""%not-sure%"", ""documentId"": ""%not-sure%""}",2xx,publicationId=%not-sure% and documentId=%not-sure% indicate uncertain path parameters requiring dependency resolution; both are present and satisfy 'type=integer'.
+2,"{""publicationId"": 123, ""documentId"": 456}",2xx,"publicationId=123 and documentId=456 are valid integers, satisfying 'type=integer' for both required path parameters."
+3,"{""publicationId"": ""%not-sure%"", ""documentId"": ""%not-sure%""}",2xx,
+4,"{""publicationId"": 2147483649, ""documentId"": 123}",2xx,"[CORRECTED from 4xx to 2xx] publicationId=2147483649 exceeds int32 maximum (2,147,483,647), violating 'format=int32'."
+5,"{""publicationId"": 123, ""documentId"": -2147483649}",2xx,"[CORRECTED from 4xx to 2xx] documentId=-2147483649 is less than int32 minimum (-2,147,483,648), violating 'format=int32'."
+6,"{""publicationId"": ""abc"", ""documentId"": 456}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""publicationId"": 123, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""publicationId"": 123.45, ""documentId"": 456}",4xx,"publicationId=123.45 is a float, not an integer, violating 'type=integer' for path parameter."
+9,"{""publicationId"": ""abc"", ""documentId"": 123}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""publicationId"": 456, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+11,"{""publicationId"": ""abc"", ""documentId"": ""xyz""}",4xx,"publicationId='abc' and documentId='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
+12,"{""publicationId"": """", ""documentId"": """"}",4xx,
+13,"{""publicationId"": ""123456"", ""documentId"": """"}",4xx,
+14,"{""publicationId"": """", ""documentId"": ""123456""}",4xx,
+15,"{""publicationId"": ""123456"", ""documentId"": ""123456""}",4xx,

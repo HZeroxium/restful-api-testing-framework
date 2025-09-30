@@ -1,0 +1,41 @@
+{
+  "name": "restful-api-testing-framework-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for RESTful API Testing Framework with KAT integration",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve -s . -l 8080",
+    "dev": "serve -s . -l 8080 --live",
+    "build": "echo 'No build step required for static files'",
+    "serve": "python start.py",
+    "test": "echo 'No tests configured yet'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "keywords": [
+    "api",
+    "testing",
+    "rest",
+    "openapi",
+    "swagger",
+    "test-automation",
+    "kat",
+    "frontend",
+    "web"
+  ],
+  "author": "API Testing Framework Team",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
+}
