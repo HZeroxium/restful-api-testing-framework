@@ -283,40 +283,54 @@ async def get_run(request: Request, service_id: str, run_id: str):
 
 
 @router.get("/services/{service_id}/runs/{run_id}/results", response_model=ApiResponse)
+@router.get("/services/{service_id}/runs/{run_id}/results", response_model=ApiResponse)
 async def get_run_results(request: Request, service_id: str, run_id: str):
     """Get detailed test results for a run"""
     try:
         db_manager: DatabaseManager = request.app.state.db
         run_data = db_manager.get_run(run_id)
-        
         if not run_data or run_data["service_id"] != service_id:
             raise HTTPException(status_code=404, detail="Run not found")
-        
+
         service_data = db_manager.get_service(service_id)
-        results_dir = Path(service_data["working_dir"]) / "results" / run_id
-        
+        service_dir = Path(service_data["working_dir"])
+        results_root = service_dir / "results"
+
         detailed_results = []
-        
-        # Read CSV results if available
-        results_csv = results_dir / "results.csv"
-        if results_csv.exists():
+
+        # Support BOTH layouts:
+        # A) /results/<run_id>/results.csv
+        # B) /results/<run_id>.csv
+        per_run_dir = results_root / run_id
+        csv_in_dir = per_run_dir / "results.csv"
+        flat_csv = results_root / f"{run_id}.csv"
+
+        results_csv = None
+        if csv_in_dir.exists():
+            results_csv = csv_in_dir
+        elif flat_csv.exists():
+            results_csv = flat_csv
+
+        if results_csv and results_csv.exists():
             with open(results_csv, 'r', encoding='utf-8') as f:
                 reader = csv.DictReader(f)
                 detailed_results = list(reader)
-        
-        # Read JSON response files if available
-        for json_file in results_dir.glob("*.json"):
-            try:
-                with open(json_file, 'r', encoding='utf-8') as f:
-                    response_data = json.load(f)
-                    # Add response data to corresponding test case
-                    for result in detailed_results:
-                        if json_file.stem.startswith(result.get("test_case", "")):
-                            result["response_data"] = response_data
+
+        # Attach response JSONs if present (only if folder layout exists)
+        if per_run_dir.exists() and per_run_dir.is_dir():
+            for json_file in per_run_dir.glob("*.json"):
+                try:
+                    with open(json_file, 'r', encoding='utf-8') as f:
+                        response_data = json.load(f)
+                    # Map JSON file to the matching test row by prefix
+                    for row in detailed_results:
+                        tc = row.get("test_case", "") or row.get("id", "")
+                        if tc and json_file.stem.startswith(tc):
+                            row["response_data"] = response_data
                             break
-            except:
-                continue
-        
+                except Exception:
+                    continue
+
         return ApiResponse(
             success=True,
             message="Detailed results retrieved successfully",
@@ -325,12 +339,10 @@ async def get_run_results(request: Request, service_id: str, run_id: str):
                 "detailed_results": detailed_results
             }
         )
-        
     except HTTPException:
         raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to retrieve results: {str(e)}")
-
 
 @router.delete("/services/{service_id}/runs/{run_id}", response_model=ApiResponse)
 async def delete_run(request: Request, service_id: str, run_id: str):
