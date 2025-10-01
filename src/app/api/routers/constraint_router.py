@@ -2,8 +2,6 @@
 
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from dependency_injector.wiring import inject, Provide
-
 from application.services.constraint_service import ConstraintService
 from app.api.dto.constraint_dto import (
     ConstraintCreateRequest,
@@ -13,7 +11,7 @@ from app.api.dto.constraint_dto import (
     MineConstraintsResponse,
 )
 from schemas.tools.constraint_miner import ApiConstraint
-from infra.di.container import Container
+from infra.di.container import constraint_service_dependency
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/constraints", tags=["constraints"])
@@ -32,10 +30,9 @@ logger = LoggerFactory.get_logger(
     status_code=status.HTTP_201_CREATED,
     summary="Create a new constraint",
 )
-@inject
 async def create_constraint(
     request: ConstraintCreateRequest,
-    service: ConstraintService = Depends(Provide[Container.constraint_service]),
+    service: ConstraintService = constraint_service_dependency,
 ):
     """Create a new constraint manually."""
     try:
@@ -67,10 +64,9 @@ async def create_constraint(
     status_code=status.HTTP_200_OK,
     summary="Mine constraints for an endpoint",
 )
-@inject
 async def mine_constraints(
     request: MineConstraintsRequest,
-    service: ConstraintService = Depends(Provide[Container.constraint_service]),
+    service: ConstraintService = constraint_service_dependency,
 ):
     """
     Mine constraints for a specific endpoint using AI.
@@ -101,10 +97,9 @@ async def mine_constraints(
     response_model=ConstraintListResponse,
     summary="Get all constraints or filter by endpoint",
 )
-@inject
 async def list_constraints(
     endpoint_id: str = Query(None, description="Filter by endpoint ID"),
-    service: ConstraintService = Depends(Provide[Container.constraint_service]),
+    service: ConstraintService = constraint_service_dependency,
 ):
     """Get all constraints, optionally filtered by endpoint_id."""
     logger.info(f"GET /constraints - endpoint_id filter: {endpoint_id or 'none'}")
@@ -134,10 +129,9 @@ async def list_constraints(
     response_model=ConstraintResponse,
     summary="Get constraint by ID",
 )
-@inject
 async def get_constraint(
     constraint_id: str,
-    service: ConstraintService = Depends(Provide[Container.constraint_service]),
+    service: ConstraintService = constraint_service_dependency,
 ):
     """Get a specific constraint by ID."""
     try:
@@ -164,10 +158,9 @@ async def get_constraint(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete a constraint",
 )
-@inject
 async def delete_constraint(
     constraint_id: str,
-    service: ConstraintService = Depends(Provide[Container.constraint_service]),
+    service: ConstraintService = constraint_service_dependency,
 ):
     """Delete a specific constraint."""
     try:

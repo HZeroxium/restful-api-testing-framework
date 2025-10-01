@@ -2,8 +2,6 @@
 
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from dependency_injector.wiring import inject, Provide
-
 from application.services.endpoint_service import EndpointService
 from schemas.tools.openapi_parser import EndpointInfo, AuthType
 from app.api.dto.endpoint_dto import (
@@ -17,16 +15,15 @@ from app.api.dto.endpoint_dto import (
     SearchEndpointsRequest,
     ErrorResponse,
 )
-from infra.di.container import Container
+from infra.di.container import endpoint_service_dependency
 
 router = APIRouter(prefix="/endpoints", tags=["endpoints"])
 
 
 @router.post("/", response_model=EndpointResponse, status_code=status.HTTP_201_CREATED)
-@inject
 async def create_endpoint(
     request: EndpointCreateRequest,
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Create a new endpoint."""
     try:
@@ -56,11 +53,10 @@ async def create_endpoint(
 
 
 @router.get("/", response_model=EndpointListResponse)
-@inject
 async def list_endpoints(
     page: int = Query(1, ge=1, description="Page number"),
     size: int = Query(10, ge=1, le=100, description="Page size"),
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Get all endpoints with pagination."""
     try:
@@ -89,10 +85,9 @@ async def list_endpoints(
 
 
 @router.get("/{endpoint_id}", response_model=EndpointResponse)
-@inject
 async def get_endpoint(
     endpoint_id: str,
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Get endpoint by ID."""
     try:
@@ -115,11 +110,10 @@ async def get_endpoint(
 
 
 @router.put("/{endpoint_id}", response_model=EndpointResponse)
-@inject
 async def update_endpoint(
     endpoint_id: str,
     request: EndpointUpdateRequest,
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Update an existing endpoint."""
     try:
@@ -174,10 +168,9 @@ async def update_endpoint(
 
 
 @router.delete("/{endpoint_id}", status_code=status.HTTP_204_NO_CONTENT)
-@inject
 async def delete_endpoint(
     endpoint_id: str,
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Delete an endpoint."""
     try:
@@ -198,9 +191,8 @@ async def delete_endpoint(
 
 
 @router.get("/search/tag/{tag}", response_model=EndpointListResponse)
-@inject
 async def search_by_tag(
-    tag: str, service: EndpointService = Depends(Provide[Container.endpoint_service])
+    tag: str, service: EndpointService = endpoint_service_dependency
 ):
     """Search endpoints by tag."""
     try:
@@ -220,10 +212,9 @@ async def search_by_tag(
 
 
 @router.get("/search/path", response_model=EndpointListResponse)
-@inject
 async def search_by_path(
     pattern: str = Query(..., description="Path pattern to search"),
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Search endpoints by path pattern."""
     try:
@@ -243,9 +234,8 @@ async def search_by_path(
 
 
 @router.get("/stats", response_model=EndpointStatsResponse)
-@inject
 async def get_endpoint_stats(
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Get endpoint statistics."""
     try:
@@ -260,10 +250,9 @@ async def get_endpoint_stats(
 
 
 @router.post("/parse-spec", response_model=ParseSpecResponse)
-@inject
 async def parse_openapi_spec(
     request: ParseSpecRequest,
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Parse OpenAPI specification and create endpoints."""
     try:
@@ -302,9 +291,8 @@ async def parse_openapi_spec(
 
 
 @router.get("/export/json")
-@inject
 async def export_endpoints(
-    service: EndpointService = Depends(Provide[Container.endpoint_service]),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Export all endpoints as JSON."""
     try:

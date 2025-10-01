@@ -10,6 +10,7 @@ from domain.ports.validation_script_repository import (
     ValidationScriptRepositoryInterface,
 )
 from schemas.tools.test_script_generator import ValidationScript
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
@@ -17,6 +18,11 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
 
     def __init__(self, file_path: str = "data/validation_scripts.json"):
         self.file_path = Path(file_path)
+        self.logger = LoggerFactory.get_logger(
+            name="repository.validation_script",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
         self._ensure_file_exists()
         self._load_scripts()
 
@@ -165,3 +171,11 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
             self._save_scripts()
 
         return len(to_delete)
+
+    async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
+        """Get all validation scripts for a specific constraint."""
+        scripts = []
+        for script_data in self._scripts.values():
+            if script_data.get("constraint_id") == constraint_id:
+                scripts.append(self._dict_to_script(script_data))
+        return scripts

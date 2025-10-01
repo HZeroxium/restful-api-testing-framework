@@ -2,8 +2,6 @@
 
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
-from dependency_injector.wiring import inject, Provide
-
 from application.services.validation_script_service import ValidationScriptService
 from app.api.dto.validation_script_dto import (
     ValidationScriptCreateRequest,
@@ -13,7 +11,7 @@ from app.api.dto.validation_script_dto import (
     GenerateScriptsResponse,
 )
 from schemas.tools.test_script_generator import ValidationScript
-from infra.di.container import Container
+from infra.di.container import validation_script_service_dependency
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/validation-scripts", tags=["validation-scripts"])
@@ -32,12 +30,9 @@ logger = LoggerFactory.get_logger(
     status_code=status.HTTP_201_CREATED,
     summary="Create a new validation script",
 )
-@inject
 async def create_validation_script(
     request: ValidationScriptCreateRequest,
-    service: ValidationScriptService = Depends(
-        Provide[Container.validation_script_service]
-    ),
+    service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Create a new validation script manually."""
     try:
@@ -69,12 +64,9 @@ async def create_validation_script(
     status_code=status.HTTP_200_OK,
     summary="Generate validation scripts for an endpoint",
 )
-@inject
 async def generate_validation_scripts(
     request: GenerateScriptsRequest,
-    service: ValidationScriptService = Depends(
-        Provide[Container.validation_script_service]
-    ),
+    service: ValidationScriptService = validation_script_service_dependency,
 ):
     """
     Generate validation scripts for a specific endpoint using AI.
@@ -119,12 +111,9 @@ async def generate_validation_scripts(
     response_model=ValidationScriptListResponse,
     summary="Get all validation scripts or filter by endpoint",
 )
-@inject
 async def list_validation_scripts(
     endpoint_id: str = Query(None, description="Filter by endpoint ID"),
-    service: ValidationScriptService = Depends(
-        Provide[Container.validation_script_service]
-    ),
+    service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Get all validation scripts, optionally filtered by endpoint_id."""
     try:
@@ -150,12 +139,9 @@ async def list_validation_scripts(
     response_model=ValidationScriptResponse,
     summary="Get validation script by ID",
 )
-@inject
 async def get_validation_script(
     script_id: str,
-    service: ValidationScriptService = Depends(
-        Provide[Container.validation_script_service]
-    ),
+    service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Get a specific validation script by ID."""
     try:
@@ -182,12 +168,9 @@ async def get_validation_script(
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete a validation script",
 )
-@inject
 async def delete_validation_script(
     script_id: str,
-    service: ValidationScriptService = Depends(
-        Provide[Container.validation_script_service]
-    ),
+    service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Delete a specific validation script."""
     try:

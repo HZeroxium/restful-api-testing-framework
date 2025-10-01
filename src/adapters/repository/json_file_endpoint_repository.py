@@ -58,6 +58,7 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
         """Convert EndpointInfo to dictionary."""
         return {
             "id": getattr(endpoint, "id", None),
+            "dataset_id": getattr(endpoint, "dataset_id", None),
             "name": endpoint.name,
             "description": endpoint.description,
             "path": endpoint.path,
@@ -89,6 +90,7 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
         endpoint = EndpointInfo(**endpoint_data)
         # Set additional attributes
         endpoint.id = data.get("id")
+        endpoint.dataset_id = data.get("dataset_id")
         endpoint.created_at = data.get("created_at")
         endpoint.updated_at = data.get("updated_at")
 
@@ -203,3 +205,11 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             "tag_distribution": tag_counts,
             "last_updated": datetime.now().isoformat(),
         }
+
+    async def get_by_dataset_id(self, dataset_id: str) -> List[EndpointInfo]:
+        """Get all endpoints for a specific dataset."""
+        results = []
+        for endpoint_data in self._endpoints.values():
+            if endpoint_data.get("dataset_id") == dataset_id:
+                results.append(self._dict_to_endpoint(endpoint_data))
+        return results

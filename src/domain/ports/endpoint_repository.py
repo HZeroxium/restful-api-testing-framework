@@ -56,3 +56,8 @@ class EndpointRepositoryInterface(ABC):
     async def get_stats(self) -> Dict[str, Any]:
         """Get repository statistics."""
         pass
+
+    @abstractmethod
+    async def get_by_dataset_id(self, dataset_id: str) -> List[EndpointInfo]:
+        """Get all endpoints for a specific dataset."""
+        pass

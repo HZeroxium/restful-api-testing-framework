@@ -44,3 +44,8 @@ class ValidationScriptRepositoryInterface(ABC):
     async def delete_by_endpoint_id(self, endpoint_id: str) -> int:
         """Delete all validation scripts for a specific endpoint. Returns count of deleted items."""
         pass
+
+    @abstractmethod
+    async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
+        """Get all validation scripts for a specific constraint."""
+        pass
