@@ -11,6 +11,7 @@ from schemas.tools.constraint_miner import (
     StaticConstraintMinerOutput,
 )
 from tools.llm.static_constraint_miner import StaticConstraintMinerTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ConstraintService:
@@ -23,6 +24,11 @@ class ConstraintService:
     ):
         self.constraint_repository = constraint_repository
         self.endpoint_repository = endpoint_repository
+        self.logger = LoggerFactory.get_logger(
+            name="service.constraint",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
 
     async def create_constraint(self, constraint: ApiConstraint) -> ApiConstraint:
         """Create a new constraint."""
@@ -65,10 +71,15 @@ class ConstraintService:
         self, endpoint_id: str
     ) -> StaticConstraintMinerOutput:
         """Mine constraints for a specific endpoint using StaticConstraintMinerTool."""
+        self.logger.info(f"Starting constraint mining for endpoint: {endpoint_id}")
+
         # Get endpoint info
         endpoint = await self.endpoint_repository.get_by_id(endpoint_id)
         if not endpoint:
+            self.logger.error(f"Endpoint not found: {endpoint_id}")
             raise ValueError(f"Endpoint with ID {endpoint_id} not found")
+
+        self.logger.debug(f"Found endpoint: {endpoint.method} {endpoint.path}")
 
         # Create input for constraint miner
         miner_input = StaticConstraintMinerInput(
@@ -85,8 +96,10 @@ class ConstraintService:
         )
 
         # Use StaticConstraintMinerTool to mine constraints
+        self.logger.info("Invoking StaticConstraintMinerTool...")
         miner_tool = StaticConstraintMinerTool(verbose=False, cache_enabled=False)
         miner_output = await miner_tool.execute(miner_input)
+        self.logger.info(f"Mined {len(miner_output.constraints)} constraints")
 
         # Save mined constraints to repository
         saved_constraints = []
@@ -100,6 +113,8 @@ class ConstraintService:
             # Save to repository
             saved_constraint = await self.constraint_repository.create(constraint)
             saved_constraints.append(saved_constraint)
+
+        self.logger.info(f"Saved {len(saved_constraints)} constraints to repository")
 
         # Update the output with saved constraints
         miner_output.constraints = saved_constraints

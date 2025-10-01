@@ -8,6 +8,7 @@ from pathlib import Path
 
 from domain.ports.constraint_repository import ConstraintRepositoryInterface
 from schemas.tools.constraint_miner import ApiConstraint, ConstraintType
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class JsonFileConstraintRepository(ConstraintRepositoryInterface):
@@ -15,8 +16,18 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
 
     def __init__(self, file_path: str = "data/constraints.json"):
         self.file_path = Path(file_path)
+        self.logger = LoggerFactory.get_logger(
+            name="repository.constraint",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
+
+        self.logger.info(
+            f"Initializing JsonFileConstraintRepository with file: {file_path}"
+        )
         self._ensure_file_exists()
         self._load_constraints()
+        self.logger.info(f"Loaded {len(self._constraints)} constraints from storage")
 
     def _ensure_file_exists(self):
         """Ensure the JSON file exists."""
@@ -38,7 +49,13 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
             with open(self.file_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 self._constraints = data.get("constraints", {})
-        except (json.JSONDecodeError, FileNotFoundError):
+            self.logger.debug(
+                f"Successfully loaded {len(self._constraints)} constraints"
+            )
+        except (json.JSONDecodeError, FileNotFoundError) as e:
+            self.logger.warning(
+                f"Could not load constraints file: {e}. Starting with empty constraints."
+            )
             self._constraints = {}
 
     def _save_constraints(self):
@@ -101,6 +118,9 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
         self._constraints[constraint.id] = constraint_dict
         self._save_constraints()
 
+        self.logger.info(
+            f"Created constraint: {constraint.id} for endpoint: {constraint.endpoint_id}"
+        )
         return constraint
 
     async def get_by_id(self, constraint_id: str) -> Optional[ApiConstraint]:
@@ -116,6 +136,10 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
         for constraint_data in self._constraints.values():
             if constraint_data.get("endpoint_id") == endpoint_id:
                 constraints.append(self._dict_to_constraint(constraint_data))
+
+        self.logger.debug(
+            f"Retrieved {len(constraints)} constraints for endpoint: {endpoint_id}"
+        )
         return constraints
 
     async def get_all(self) -> List[ApiConstraint]:
@@ -146,7 +170,9 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
         if constraint_id in self._constraints:
             del self._constraints[constraint_id]
             self._save_constraints()
+            self.logger.info(f"Deleted constraint: {constraint_id}")
             return True
+        self.logger.warning(f"Constraint not found for deletion: {constraint_id}")
         return False
 
     async def delete_by_endpoint_id(self, endpoint_id: str) -> int:

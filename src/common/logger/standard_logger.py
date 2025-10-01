@@ -1,82 +1,27 @@
-import logging
+# common/logger/standard_logger.py
+
 import sys
 from typing import Any, Optional, Dict
-from datetime import datetime
-import json
+from pathlib import Path
+from loguru import logger as loguru_logger
 
 from common.logger.logger_interface import LoggerInterface, LogLevel
 
 
-class ColorFormatter(logging.Formatter):
-    """Custom formatter with colors for different log levels"""
+class StandardLogger(LoggerInterface):
+    """Standard logger implementation using Loguru library"""
 
-    # ANSI color codes
-    COLORS = {
-        "DEBUG": "\033[36m",  # Cyan
-        "INFO": "\033[32m",  # Green
-        "WARNING": "\033[33m",  # Yellow
-        "ERROR": "\033[31m",  # Red
-        "CRITICAL": "\033[35m",  # Magenta
-        "RESET": "\033[0m",  # Reset
-        "BOLD": "\033[1m",  # Bold
-        "DIM": "\033[2m",  # Dim
+    # Loguru level mapping
+    LEVEL_MAP = {
+        LogLevel.DEBUG: "DEBUG",
+        LogLevel.INFO: "INFO",
+        LogLevel.WARNING: "WARNING",
+        LogLevel.ERROR: "ERROR",
+        LogLevel.CRITICAL: "CRITICAL",
     }
 
-    def __init__(
-        self,
-        fmt: Optional[str] = None,
-        datefmt: Optional[str] = None,
-        use_colors: bool = True,
-    ):
-        super().__init__(fmt, datefmt)
-        self.use_colors = use_colors and sys.stdout.isatty()
-
-    def format(self, record: logging.LogRecord) -> str:
-        if self.use_colors:
-            # Add colors to log level
-            level_color = self.COLORS.get(record.levelname, "")
-            reset = self.COLORS["RESET"]
-            bold = self.COLORS["BOLD"]
-            dim = self.COLORS["DIM"]
-
-            # Format timestamp
-            timestamp = datetime.fromtimestamp(record.created).strftime(
-                "%Y-%m-%d %H:%M:%S.%f"
-            )[:-3]
-
-            # Format message with colors
-            formatted_msg = (
-                f"{dim}{timestamp}{reset} "
-                f"{level_color}{bold}[{record.levelname:8}]{reset} "
-                f"{bold}{record.name}{reset}: "
-                f"{record.getMessage()}"
-            )
-
-            # Add context if available
-            if hasattr(record, "context") and record.context:
-                context_str = json.dumps(
-                    record.context, indent=None, separators=(",", ":")
-                )
-                formatted_msg += f" {dim}| Context: {context_str}{reset}"
-
-            return formatted_msg
-        else:
-            return super().format(record)
-
-
-class LevelFilter(logging.Filter):
-    """Filter to control log levels for specific handlers"""
-
-    def __init__(self, min_level: int):
-        super().__init__()
-        self.min_level = min_level
-
-    def filter(self, record: logging.LogRecord) -> bool:
-        return record.levelno >= self.min_level
-
-
-class StandardLogger(LoggerInterface):
-    """Standard logger implementation using Python's logging library"""
+    # Class-level flag to track if default handler has been removed
+    _default_handler_removed = False
 
     def __init__(
         self,
@@ -88,7 +33,6 @@ class StandardLogger(LoggerInterface):
         log_file: Optional[str] = None,
     ):
         self.name = name
-        self.logger = logging.getLogger(name)
         self.context: Dict[str, Any] = {}
         self.use_colors = use_colors
         self.log_file = log_file
@@ -96,161 +40,139 @@ class StandardLogger(LoggerInterface):
         # Set default levels
         self._console_level = console_level or level
         self._file_level = file_level or level if log_file else None
+        self._level = level
 
-        # Clear any existing handlers
-        self.logger.handlers.clear()
-        self.logger.propagate = False
+        # Remove default handler only once
+        if not StandardLogger._default_handler_removed:
+            loguru_logger.remove()
+            StandardLogger._default_handler_removed = True
 
-        # Set logger to DEBUG to allow all messages through
-        # Individual handlers will filter based on their levels
-        self.logger.setLevel(logging.DEBUG)
-
-        # Setup console handler
-        self.console_handler = self._setup_console_handler()
-
-        # Setup file handler if specified
-        self.file_handler = None
-        if log_file:
-            self.file_handler = self._setup_file_handler(log_file)
-
-    def _setup_console_handler(self) -> logging.StreamHandler:
-        """Setup colored console handler with level filtering"""
-        console_handler = logging.StreamHandler(sys.stdout)
-
-        # Add level filter for console
-        level_mapping = {
-            LogLevel.DEBUG: logging.DEBUG,
-            LogLevel.INFO: logging.INFO,
-            LogLevel.WARNING: logging.WARNING,
-            LogLevel.ERROR: logging.ERROR,
-            LogLevel.CRITICAL: logging.CRITICAL,
-        }
-
-        console_filter = LevelFilter(level_mapping[self._console_level])
-        console_handler.addFilter(console_filter)
-
-        # Use colored formatter for console
-        console_formatter = ColorFormatter(use_colors=self.use_colors)
-        console_handler.setFormatter(console_formatter)
-
-        self.logger.addHandler(console_handler)
-        return console_handler
-
-    def _setup_file_handler(self, log_file: str) -> logging.FileHandler:
-        """Setup file handler without colors and with level filtering"""
-        file_handler = logging.FileHandler(log_file, mode="a", encoding="utf-8")
-
-        # Add level filter for file if file_level is set
-        if self._file_level:
-            level_mapping = {
-                LogLevel.DEBUG: logging.DEBUG,
-                LogLevel.INFO: logging.INFO,
-                LogLevel.WARNING: logging.WARNING,
-                LogLevel.ERROR: logging.ERROR,
-                LogLevel.CRITICAL: logging.CRITICAL,
-            }
-
-            file_filter = LevelFilter(level_mapping[self._file_level])
-            file_handler.addFilter(file_filter)
-
-        # Use plain formatter for file
-        file_formatter = logging.Formatter(
-            fmt="%(asctime)s [%(levelname)-8s] %(name)s: %(message)s",
-            datefmt="%Y-%m-%d %H:%M:%S",
+        # Add console handler with colors
+        console_format = self._get_console_format(use_colors)
+        loguru_logger.add(
+            sys.stderr,
+            format=console_format,
+            level=self.LEVEL_MAP[self._console_level],
+            colorize=use_colors,
+            backtrace=True,
+            diagnose=True,
+            filter=lambda record: record["extra"].get("logger_name") == name,
         )
-        file_handler.setFormatter(file_formatter)
 
-        self.logger.addHandler(file_handler)
-        return file_handler
+        # Add file handler if log file is specified
+        if log_file:
+            log_path = Path(log_file)
+            log_path.parent.mkdir(parents=True, exist_ok=True)
 
-    def _log_with_context(self, level: int, message: str, *args, **kwargs) -> None:
-        """Internal method to log with context"""
-        extra = kwargs.get("extra", {})
-        if self.context:
-            extra["context"] = self.context
-        kwargs["extra"] = extra
+            file_format = self._get_file_format()
+            loguru_logger.add(
+                log_file,
+                format=file_format,
+                level=(
+                    self.LEVEL_MAP[self._file_level]
+                    if self._file_level
+                    else self.LEVEL_MAP[level]
+                ),
+                rotation="10 MB",  # Rotate when file reaches 10MB
+                retention="30 days",  # Keep logs for 30 days
+                compression="zip",  # Compress rotated logs
+                backtrace=True,
+                diagnose=True,
+                enqueue=True,  # Thread-safe async logging
+                filter=lambda record: record["extra"].get("logger_name") == name,
+            )
 
-        self.logger.log(level, message, *args, **kwargs)
+        # Bind logger name to context
+        self.logger = loguru_logger.bind(logger_name=name)
+
+    def _get_console_format(self, use_colors: bool) -> str:
+        """Get console log format"""
+        if use_colors:
+            return (
+                "<green>{time:YYYY-MM-DD HH:mm:ss.SSS}</green> | "
+                "<level>{level: <8}</level> | "
+                "<cyan>{extra[logger_name]}</cyan>:<cyan>{function}</cyan>:<cyan>{line}</cyan> | "
+                "<level>{message}</level>"
+            )
+        else:
+            return (
+                "{time:YYYY-MM-DD HH:mm:ss.SSS} | "
+                "{level: <8} | "
+                "{extra[logger_name]}:{function}:{line} | "
+                "{message}"
+            )
+
+    def _get_file_format(self) -> str:
+        """Get file log format"""
+        return (
+            "{time:YYYY-MM-DD HH:mm:ss.SSS} | "
+            "{level: <8} | "
+            "{extra[logger_name]}:{name}:{function}:{line} | "
+            "{message}"
+        )
+
+    def _log_with_context(self, level: str, message: str, *args, **kwargs) -> None:
+        """Log with context"""
+        # Merge instance context with call context
+        full_context = {**self.context, **kwargs.get("extra", {})}
+
+        # Bind context and log
+        bound_logger = self.logger.bind(**full_context)
+
+        # Format message if args provided
+        if args:
+            message = message.format(*args)
+
+        # Log at the specified level
+        bound_logger.log(level, message)
 
     def debug(self, message: str, *args, **kwargs) -> None:
         """Log debug message"""
-        self._log_with_context(logging.DEBUG, message, *args, **kwargs)
+        self._log_with_context("DEBUG", message, *args, **kwargs)
 
     def info(self, message: str, *args, **kwargs) -> None:
         """Log info message"""
-        self._log_with_context(logging.INFO, message, *args, **kwargs)
+        self._log_with_context("INFO", message, *args, **kwargs)
 
     def warning(self, message: str, *args, **kwargs) -> None:
         """Log warning message"""
-        self._log_with_context(logging.WARNING, message, *args, **kwargs)
+        self._log_with_context("WARNING", message, *args, **kwargs)
 
     def error(self, message: str, *args, **kwargs) -> None:
         """Log error message"""
-        self._log_with_context(logging.ERROR, message, *args, **kwargs)
+        self._log_with_context("ERROR", message, *args, **kwargs)
 
     def critical(self, message: str, *args, **kwargs) -> None:
         """Log critical message"""
-        self._log_with_context(logging.CRITICAL, message, *args, **kwargs)
+        self._log_with_context("CRITICAL", message, *args, **kwargs)
+
+    def exception(self, message: str, *args, **kwargs) -> None:
+        """Log exception with traceback"""
+        bound_logger = self.logger.bind(**self.context, **kwargs.get("extra", {}))
+        if args:
+            message = message.format(*args)
+        bound_logger.exception(message)
 
     def log(self, level: LogLevel, message: str, *args, **kwargs) -> None:
         """Log message with specified level"""
-        level_mapping = {
-            LogLevel.DEBUG: logging.DEBUG,
-            LogLevel.INFO: logging.INFO,
-            LogLevel.WARNING: logging.WARNING,
-            LogLevel.ERROR: logging.ERROR,
-            LogLevel.CRITICAL: logging.CRITICAL,
-        }
-
-        self._log_with_context(level_mapping[level], message, *args, **kwargs)
+        loguru_level = self.LEVEL_MAP[level]
+        self._log_with_context(loguru_level, message, *args, **kwargs)
 
     def set_level(self, level: LogLevel) -> None:
-        """Set minimum log level (backward compatibility - affects both console and file)"""
-        self.set_console_level(level)
-        if self.file_handler:
-            self.set_file_level(level)
+        """Set log level"""
+        self._level = level
+        # Note: Loguru handlers are configured at creation time
+        # To change level dynamically, you would need to remove and re-add handlers
 
     def set_console_level(self, level: LogLevel) -> None:
         """Set minimum log level for console output"""
         self._console_level = level
-
-        # Update console handler filter
-        if self.console_handler:
-            # Remove old filters
-            self.console_handler.filters.clear()
-
-            # Add new filter
-            level_mapping = {
-                LogLevel.DEBUG: logging.DEBUG,
-                LogLevel.INFO: logging.INFO,
-                LogLevel.WARNING: logging.WARNING,
-                LogLevel.ERROR: logging.ERROR,
-                LogLevel.CRITICAL: logging.CRITICAL,
-            }
-
-            console_filter = LevelFilter(level_mapping[level])
-            self.console_handler.addFilter(console_filter)
+        # Note: Would need to remove and re-add handlers to change dynamically
 
     def set_file_level(self, level: LogLevel) -> None:
         """Set minimum log level for file output"""
-        if not self.file_handler:
-            return
-
         self._file_level = level
-
-        # Update file handler filter
-        self.file_handler.filters.clear()
-
-        level_mapping = {
-            LogLevel.DEBUG: logging.DEBUG,
-            LogLevel.INFO: logging.INFO,
-            LogLevel.WARNING: logging.WARNING,
-            LogLevel.ERROR: logging.ERROR,
-            LogLevel.CRITICAL: logging.CRITICAL,
-        }
-
-        file_filter = LevelFilter(level_mapping[level])
-        self.file_handler.addFilter(file_filter)
+        # Note: Would need to remove and re-add handlers to change dynamically
 
     def get_console_level(self) -> LogLevel:
         """Get current console log level"""
@@ -260,18 +182,33 @@ class StandardLogger(LoggerInterface):
         """Get current file log level (None if no file logging)"""
         return self._file_level
 
-    def add_context(self, **context: Any) -> None:
-        """Add contextual information to logs"""
-        self.context.update(context)
+    def add_context(self, **kwargs) -> None:
+        """Add context to all subsequent log messages"""
+        self.context.update(kwargs)
+
+    def remove_context(self, *keys) -> None:
+        """Remove context keys"""
+        for key in keys:
+            self.context.pop(key, None)
 
     def clear_context(self) -> None:
-        """Clear contextual information"""
+        """Clear all context"""
         self.context.clear()
 
-    def add_handler(self, handler: logging.Handler) -> None:
-        """Add custom handler"""
-        self.logger.addHandler(handler)
+    def get_context(self) -> Dict[str, Any]:
+        """Get current context"""
+        return self.context.copy()
 
-    def remove_handler(self, handler: logging.Handler) -> None:
-        """Remove handler"""
-        self.logger.removeHandler(handler)
+    def child(self, name: str, **kwargs) -> "StandardLogger":
+        """Create a child logger with additional context"""
+        child_name = f"{self.name}.{name}"
+        child = StandardLogger(
+            name=child_name,
+            level=self._level,
+            console_level=self._console_level,
+            file_level=self._file_level,
+            use_colors=self.use_colors,
+            log_file=self.log_file,
+        )
+        child.context = {**self.context, **kwargs}
+        return child

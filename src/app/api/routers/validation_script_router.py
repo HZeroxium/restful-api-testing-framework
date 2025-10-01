@@ -14,8 +14,16 @@ from app.api.dto.validation_script_dto import (
 )
 from schemas.tools.test_script_generator import ValidationScript
 from infra.di.container import Container
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/validation-scripts", tags=["validation-scripts"])
+
+# Initialize logger for this router
+logger = LoggerFactory.get_logger(
+    name="router.validation_script",
+    logger_type=LoggerType.STANDARD,
+    level=LogLevel.INFO,
+)
 
 
 @router.post(
@@ -78,17 +86,28 @@ async def generate_validation_scripts(
     4. Save the scripts to the repository
     5. Return all generated scripts
     """
+    logger.info(
+        f"POST /validation-scripts/generate - endpoint_id: {request.endpoint_id}"
+    )
+
     try:
         generator_output = await service.generate_scripts_for_endpoint(
             request.endpoint_id
+        )
+        logger.info(
+            f"Successfully generated {len(generator_output.validation_scripts)} scripts for endpoint: {request.endpoint_id}"
         )
         return GenerateScriptsResponse.from_generator_output(
             generator_output, request.endpoint_id
         )
 
     except ValueError as e:
+        logger.error(f"Endpoint not found: {request.endpoint_id} - {str(e)}")
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
     except Exception as e:
+        logger.exception(
+            f"Failed to generate scripts for endpoint: {request.endpoint_id}"
+        )
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to generate validation scripts: {str(e)}",

@@ -14,8 +14,16 @@ from app.api.dto.constraint_dto import (
 )
 from schemas.tools.constraint_miner import ApiConstraint
 from infra.di.container import Container
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/constraints", tags=["constraints"])
+
+# Initialize logger for this router
+logger = LoggerFactory.get_logger(
+    name="router.constraint",
+    logger_type=LoggerType.STANDARD,
+    level=LogLevel.INFO,
+)
 
 
 @router.post(
@@ -99,18 +107,22 @@ async def list_constraints(
     service: ConstraintService = Depends(Provide[Container.constraint_service]),
 ):
     """Get all constraints, optionally filtered by endpoint_id."""
+    logger.info(f"GET /constraints - endpoint_id filter: {endpoint_id or 'none'}")
+
     try:
         if endpoint_id:
             constraints = await service.get_constraints_by_endpoint_id(endpoint_id)
         else:
             constraints = await service.get_all_constraints()
 
+        logger.debug(f"Retrieved {len(constraints)} constraints")
         return ConstraintListResponse(
             constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
             total=len(constraints),
         )
 
     except Exception as e:
+        logger.exception("Failed to list constraints")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to list constraints: {str(e)}",

@@ -70,13 +70,19 @@ class ValidationScriptService:
         self, endpoint_id: str
     ) -> TestScriptGeneratorOutput:
         """Generate validation scripts for a specific endpoint using TestScriptGeneratorTool."""
+        self.logger.info(f"Starting script generation for endpoint: {endpoint_id}")
+
         # Get endpoint info
         endpoint = await self.endpoint_repository.get_by_id(endpoint_id)
         if not endpoint:
+            self.logger.error(f"Endpoint not found: {endpoint_id}")
             raise ValueError(f"Endpoint with ID {endpoint_id} not found")
+
+        self.logger.debug(f"Found endpoint: {endpoint.method} {endpoint.path}")
 
         # Get constraints for the endpoint
         constraints = await self.constraint_repository.get_by_endpoint_id(endpoint_id)
+        self.logger.info(f"Retrieved {len(constraints)} constraints for endpoint")
 
         # Create input for script generator
         generator_input = TestScriptGeneratorInput(
@@ -84,8 +90,12 @@ class ValidationScriptService:
         )
 
         # Use TestScriptGeneratorTool to generate scripts
+        self.logger.info("Invoking TestScriptGeneratorTool...")
         generator_tool = TestScriptGeneratorTool(verbose=False, cache_enabled=False)
         generator_output = await generator_tool.execute(generator_input)
+        self.logger.info(
+            f"Generated {len(generator_output.validation_scripts)} validation scripts"
+        )
 
         # Save generated scripts to repository
         saved_scripts = []
@@ -99,6 +109,8 @@ class ValidationScriptService:
             # Save to repository
             saved_script = await self.script_repository.create(script)
             saved_scripts.append(saved_script)
+
+        self.logger.info(f"Saved {len(saved_scripts)} scripts to repository")
 
         # Update the output with saved scripts
         generator_output.validation_scripts = saved_scripts

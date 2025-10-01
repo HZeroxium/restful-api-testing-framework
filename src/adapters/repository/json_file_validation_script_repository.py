@@ -95,6 +95,9 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
         self._scripts[script.id] = script_dict
         self._save_scripts()
 
+        self.logger.info(
+            f"Created validation script: {script.id} for endpoint: {script.endpoint_id}"
+        )
         return script
 
     async def get_by_id(self, script_id: str) -> Optional[ValidationScript]:
@@ -110,6 +113,10 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
         for script_data in self._scripts.values():
             if script_data.get("endpoint_id") == endpoint_id:
                 scripts.append(self._dict_to_script(script_data))
+
+        self.logger.debug(
+            f"Retrieved {len(scripts)} validation scripts for endpoint: {endpoint_id}"
+        )
         return scripts
 
     async def get_all(self) -> List[ValidationScript]:
