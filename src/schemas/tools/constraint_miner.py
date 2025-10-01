@@ -4,7 +4,7 @@ from enum import Enum
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Dict, Any, Optional
 
-from .openapi_parser import EndpointInfo
+from schemas.tools.openapi_parser import EndpointInfo
 
 
 class ConstraintType(str, Enum):
@@ -77,6 +77,9 @@ class ApiConstraint(BaseModel):
     )  # Allow additional properties for backward compatibility
 
     id: str = Field(..., description="Unique identifier for the constraint")
+    endpoint_id: Optional[str] = Field(
+        None, description="ID of the endpoint this constraint belongs to"
+    )
     type: ConstraintType = Field(..., description="Type of constraint")
     description: str = Field(
         ..., description="Human-readable description of the constraint"
@@ -91,6 +94,8 @@ class ApiConstraint(BaseModel):
     details: Dict[str, Any] = Field(
         default_factory=dict, description="Constraint-specific details"
     )
+    created_at: Optional[str] = Field(None, description="Creation timestamp")
+    updated_at: Optional[str] = Field(None, description="Last update timestamp")
 
 
 # Base input for all constraint miners

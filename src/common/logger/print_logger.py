@@ -2,7 +2,7 @@ import sys
 from typing import Any, Dict, Optional
 from datetime import datetime
 
-from .logger_interface import LoggerInterface, LogLevel
+from common.logger.logger_interface import LoggerInterface, LogLevel
 
 
 class PrintLogger(LoggerInterface):

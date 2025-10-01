@@ -3,8 +3,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
-from .openapi_parser import EndpointInfo
-from .test_suite_generator import TestSuite
+from schemas.tools.openapi_parser import EndpointInfo
+from schemas.tools.test_suite_generator import TestSuite
 
 
 class TestCollection(BaseModel):

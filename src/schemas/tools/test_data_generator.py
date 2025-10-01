@@ -3,7 +3,7 @@
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional, Union
 
-from .openapi_parser import EndpointInfo
+from schemas.tools.openapi_parser import EndpointInfo
 
 
 class TestDataGeneratorInput(BaseModel):

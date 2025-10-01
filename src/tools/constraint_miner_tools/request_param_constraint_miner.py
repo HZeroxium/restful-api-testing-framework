@@ -6,21 +6,21 @@ import uuid
 from typing import Dict, List, Optional
 import json
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.constraint_miner import (
+from core.base_tool import BaseTool
+from schemas.tools.constraint_miner import (
     RequestParamConstraintMinerInput,
     RequestParamConstraintMinerOutput,
     ApiConstraint,
     ConstraintType,
 )
-from ...utils.llm_utils import create_and_execute_llm_agent
-from ...config.prompts.constraint_miner import REQUEST_PARAM_CONSTRAINT_PROMPT
-from ...config.constraint_mining_config import (
+from utils.llm_utils import create_and_execute_llm_agent
+from config.prompts.constraint_miner import REQUEST_PARAM_CONSTRAINT_PROMPT
+from config.constraint_mining_config import (
     ConstraintSeverity,
     LLMPromptConfig,
 )
 from pydantic import BaseModel, Field
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestParamConstraintMinerTool(BaseTool):

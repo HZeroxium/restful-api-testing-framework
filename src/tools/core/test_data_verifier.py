@@ -2,16 +2,16 @@
 
 from typing import Dict, Optional
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.test_data_verifier import (
+from core.base_tool import BaseTool
+from schemas.tools.test_data_verifier import (
     TestDataVerifierInput,
     TestDataVerifierOutput,
     VerificationResult,
 )
-from ...schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
-from ..core.code_executor import CodeExecutorTool
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
-from ...utils.code_script_utils import prepare_validation_script
+from schemas.tools.code_executor import CodeExecutorInput, CodeExecutorOutput
+from tools.core.code_executor import CodeExecutorTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.code_script_utils import prepare_validation_script
 
 
 class TestDataVerifierTool(BaseTool):

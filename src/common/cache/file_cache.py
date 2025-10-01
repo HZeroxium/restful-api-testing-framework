@@ -11,7 +11,7 @@ import hashlib
 from pathlib import Path
 from typing import Any, Optional, Dict, List, Union
 
-from .cache_interface import CacheInterface, CacheStats
+from common.cache.cache_interface import CacheInterface, CacheStats
 
 
 class FileCacheEntry:

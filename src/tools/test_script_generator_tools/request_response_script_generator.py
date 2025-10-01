@@ -4,16 +4,16 @@ import uuid
 from typing import Dict, List, Optional
 import json
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.test_script_generator import (
+from core.base_tool import BaseTool
+from schemas.tools.test_script_generator import (
     TestScriptGeneratorInput,
     TestScriptGeneratorOutput,
     ValidationScript,
 )
-from ...utils.llm_utils import create_and_execute_llm_agent
-from ...config.prompts.test_script_generator import REQUEST_RESPONSE_SCRIPT_PROMPT
+from utils.llm_utils import create_and_execute_llm_agent
+from config.prompts.test_script_generator import REQUEST_RESPONSE_SCRIPT_PROMPT
 from pydantic import BaseModel, Field
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RequestResponseScriptGeneratorTool(BaseTool):

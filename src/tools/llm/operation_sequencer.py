@@ -7,17 +7,17 @@ import time
 import re
 from typing import Dict, List, Optional, Any
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.operation_sequencer import (
+from core.base_tool import BaseTool
+from schemas.tools.operation_sequencer import (
     OperationSequencerInput,
     OperationSequencerOutput,
     OperationSequence,
     OperationDependency,
 )
-from ...utils.llm_utils import extract_json_from_response as extract_json_from_text
-from ...config.settings import settings
-from ...config.constants import DEFAULT_LLM_TIMEOUT
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.llm_utils import extract_json_from_response as extract_json_from_text
+from config.settings import settings
+from config.constants import DEFAULT_LLM_TIMEOUT
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class OperationSequencerTool(BaseTool):

@@ -9,13 +9,13 @@ import os
 from typing import List, Dict, Any, Optional
 from datetime import datetime
 
-from ..tools.core.openapi_parser import OpenAPIParserTool
-from ..schemas.tools.openapi_parser import (
+from tools.core.openapi_parser import OpenAPIParserTool
+from schemas.tools.openapi_parser import (
     OpenAPIParserInput,
     SpecSourceType,
     EndpointInfo,
 )
-from ..common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 # Initialize module logger

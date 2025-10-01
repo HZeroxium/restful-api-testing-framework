@@ -5,14 +5,14 @@ from typing import Optional
 
 import httpx
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.rest_api_caller import (
+from core.base_tool import BaseTool
+from schemas.tools.rest_api_caller import (
     RestApiCallerInput,
     RestApiCallerOutput,
     RestRequest,
     RestResponse,
 )
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class RestApiCallerTool(BaseTool):

@@ -3,8 +3,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 
-from .test_data_generator import TestData
-from .test_script_generator import ValidationScript
+from schemas.tools.test_data_generator import TestData
+from schemas.tools.test_script_generator import ValidationScript
 
 
 class TestDataVerifierInput(BaseModel):

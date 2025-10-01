@@ -6,17 +6,17 @@ import json
 from typing import Dict, List, Optional
 import math
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.constraint_miner import (
+from core.base_tool import BaseTool
+from schemas.tools.constraint_miner import (
     ResponsePropertyConstraintMinerInput,
     ResponsePropertyConstraintMinerOutput,
     ApiConstraint,
     ConstraintType,
 )
-from ...utils.llm_utils import create_and_execute_llm_agent
-from ...config.prompts.constraint_miner import RESPONSE_PROPERTY_CONSTRAINT_PROMPT
+from utils.llm_utils import create_and_execute_llm_agent
+from config.prompts.constraint_miner import RESPONSE_PROPERTY_CONSTRAINT_PROMPT
 from pydantic import BaseModel, Field
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class ResponsePropertyConstraintMinerTool(BaseTool):

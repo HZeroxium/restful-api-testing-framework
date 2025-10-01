@@ -10,7 +10,7 @@ from typing import Dict, Any, Optional
 import re
 from pydantic import BaseModel
 
-from ..common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 # Initialize logger
 logger = LoggerFactory.get_logger(

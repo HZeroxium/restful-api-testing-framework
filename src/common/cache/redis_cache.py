@@ -5,8 +5,8 @@ import pickle
 import time
 from typing import Any, Optional, Dict, List
 
-from .cache_interface import CacheInterface, CacheStats
-from ..logger import LoggerFactory, LoggerType, LogLevel
+from common.cache.cache_interface import CacheInterface, CacheStats
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 # Create logger for Redis cache
 logger = LoggerFactory.get_logger(

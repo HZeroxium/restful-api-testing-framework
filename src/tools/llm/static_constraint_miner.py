@@ -2,8 +2,8 @@
 
 from typing import Dict, List, Optional
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.constraint_miner import (
+from core.base_tool import BaseTool
+from schemas.tools.constraint_miner import (
     StaticConstraintMinerInput,
     StaticConstraintMinerOutput,
     RequestParamConstraintMinerInput,
@@ -11,19 +11,19 @@ from ...schemas.tools.constraint_miner import (
     ResponsePropertyConstraintMinerInput,
     RequestResponseConstraintMinerInput,
 )
-from ..constraint_miner_tools.request_param_constraint_miner import (
+from tools.constraint_miner_tools.request_param_constraint_miner import (
     RequestParamConstraintMinerTool,
 )
-from ..constraint_miner_tools.request_body_constraint_miner import (
+from tools.constraint_miner_tools.request_body_constraint_miner import (
     RequestBodyConstraintMinerTool,
 )
-from ..constraint_miner_tools.response_property_constraint_miner import (
+from tools.constraint_miner_tools.response_property_constraint_miner import (
     ResponsePropertyConstraintMinerTool,
 )
-from ..constraint_miner_tools.request_response_constraint_miner import (
+from tools.constraint_miner_tools.request_response_constraint_miner import (
     RequestResponseConstraintMinerTool,
 )
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class StaticConstraintMinerTool(BaseTool):

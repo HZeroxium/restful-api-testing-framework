@@ -3,15 +3,15 @@
 from typing import Dict, Optional
 import uuid
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.test_reporter import (
+from core.base_tool import BaseTool
+from schemas.tools.test_reporter import (
     TestReporterInput,
     TestReporterOutput,
     TestReport,
     TestSummary,
     TestStatus,
 )
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestReporterTool(BaseTool):

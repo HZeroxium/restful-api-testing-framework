@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional, Dict, Any
 from datetime import datetime
 
-from .test_suite_generator import TestSuite
+from schemas.tools.test_suite_generator import TestSuite
 
 
 class ValidationScriptResult(BaseModel):

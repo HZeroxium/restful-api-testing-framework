@@ -4,13 +4,13 @@ import uuid
 import json
 from typing import Dict, Optional, List
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.test_data_generator import (
+from core.base_tool import BaseTool
+from schemas.tools.test_data_generator import (
     TestDataGeneratorInput,
     TestDataGeneratorOutput,
     TestData,
 )
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestDataGeneratorTool(BaseTool):

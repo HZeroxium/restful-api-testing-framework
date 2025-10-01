@@ -7,7 +7,7 @@ import re
 from typing import Any, Optional, Dict, List
 from collections import OrderedDict
 
-from .cache_interface import CacheInterface, CacheStats
+from common.cache.cache_interface import CacheInterface, CacheStats
 
 
 class CacheEntry:

@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Dict, List, Optional, Any
 from pydantic import BaseModel, Field
 
-from ...schemas.core.base_tool import ToolInput, ToolOutput
+from schemas.core.base_tool import ToolInput, ToolOutput
 
 
 class SpecSourceType(str, Enum):
@@ -44,6 +44,11 @@ class EndpointInfo(BaseModel):
     output_schema: Dict[str, Any] = Field(
         default_factory=dict, description="Schema for response"
     )
+
+    # Additional fields for database storage (optional)
+    id: Optional[str] = Field(None, description="Unique identifier for the endpoint")
+    created_at: Optional[str] = Field(None, description="Creation timestamp")
+    updated_at: Optional[str] = Field(None, description="Last update timestamp")
 
 
 class OpenAPIParserInput(ToolInput):

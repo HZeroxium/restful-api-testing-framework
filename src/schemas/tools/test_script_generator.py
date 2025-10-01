@@ -3,8 +3,8 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 
-from .openapi_parser import EndpointInfo
-from .constraint_miner import ApiConstraint
+from schemas.tools.openapi_parser import EndpointInfo
+from schemas.tools.constraint_miner import ApiConstraint
 
 
 class TestScriptGeneratorInput(BaseModel):
@@ -20,11 +20,14 @@ class ValidationScript(BaseModel):
     """Validation script for a test case."""
 
     id: str
+    endpoint_id: Optional[str] = None
     name: str
     script_type: str  # 'request', 'response', 'status_code', etc.
     validation_code: str
     description: str
     constraint_id: Optional[str] = None
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
 
 
 class TestScriptGeneratorOutput(BaseModel):

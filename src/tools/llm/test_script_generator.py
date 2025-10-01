@@ -2,25 +2,25 @@
 
 from typing import Dict, Optional, List
 
-from ...core.base_tool import BaseTool
-from ...schemas.tools.test_script_generator import (
+from core.base_tool import BaseTool
+from schemas.tools.test_script_generator import (
     TestScriptGeneratorInput,
     TestScriptGeneratorOutput,
     ValidationScript,
 )
-from ..test_script_generator_tools.request_param_script_generator import (
+from tools.test_script_generator_tools.request_param_script_generator import (
     RequestParamScriptGeneratorTool,
 )
-from ..test_script_generator_tools.request_body_script_generator import (
+from tools.test_script_generator_tools.request_body_script_generator import (
     RequestBodyScriptGeneratorTool,
 )
-from ..test_script_generator_tools.response_property_script_generator import (
+from tools.test_script_generator_tools.response_property_script_generator import (
     ResponsePropertyScriptGeneratorTool,
 )
-from ..test_script_generator_tools.request_response_script_generator import (
+from tools.test_script_generator_tools.request_response_script_generator import (
     RequestResponseScriptGeneratorTool,
 )
-from ...common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class TestScriptGeneratorTool(BaseTool):

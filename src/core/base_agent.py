@@ -4,9 +4,9 @@ from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional, Union
 from pydantic import ValidationError
 
-from ..schemas.core import AgentInput, AgentOutput, AgentState
-from . import BaseTool
-from ..common.logger import LoggerFactory, LoggerType, LogLevel
+from schemas.core import AgentInput, AgentOutput, AgentState
+from core import BaseTool
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 class BaseAgent(ABC):

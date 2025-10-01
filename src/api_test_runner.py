@@ -7,25 +7,25 @@ import argparse
 from datetime import datetime
 from typing import List, Dict, Any
 
-from .tools.core.test_reporter import TestReporterTool
-from .tools.core.test_collection_generator import TestCollectionGeneratorTool
-from .tools.core.test_executor import TestExecutorTool
-from .utils.rest_api_caller_factory import RestApiCallerFactory
+from tools.core.test_reporter import TestReporterTool
+from tools.core.test_collection_generator import TestCollectionGeneratorTool
+from tools.core.test_executor import TestExecutorTool
+from utils.rest_api_caller_factory import RestApiCallerFactory
 
-from .schemas.tools.openapi_parser import EndpointInfo
-from .schemas.tools.test_collection_generator import (
+from schemas.tools.openapi_parser import EndpointInfo
+from schemas.tools.test_collection_generator import (
     TestCollectionGeneratorInput,
     TestCollectionGeneratorOutput,
     TestCollection,
 )
-from .schemas.tools.test_executor import TestExecutorInput, TestExecutorOutput
-from .schemas.tools.test_reporter import (
+from schemas.tools.test_executor import TestExecutorInput, TestExecutorOutput
+from schemas.tools.test_reporter import (
     TestReporterInput,
     TestCaseResult,
     ValidationResult,
     TestStatus,
 )
-from .utils.demo_utils import (
+from utils.demo_utils import (
     parse_openapi_spec,
     select_endpoints,
     create_timestamped_output_dir,
@@ -36,7 +36,7 @@ from .utils.demo_utils import (
     setup_api_factory,
     get_server_url_from_api_info,
 )
-from .common.logger import LoggerFactory, LoggerType, LogLevel
+from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
 async def simplified_testing_pipeline(
