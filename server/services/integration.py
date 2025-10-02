@@ -249,8 +249,9 @@ class KATIntegrationService:
                 "generated_files": []
             }
     
-    def run_tests(self, base_url: str, token: Optional[str] = None, 
-                  endpoint_filter: Optional[str] = None) -> Dict[str, Any]:
+    def run_tests(self, base_url: str, token: Optional[str] = None,
+                   
+                  endpoint_filter: Optional[str] = None, out_file_name: Optional[str] = None ) -> Dict[str, Any]:
         """Run tests using SequenceRunner"""
         if not KAT_AVAILABLE:
             raise Exception("KAT components not available")
@@ -269,11 +270,12 @@ class KATIntegrationService:
                 service_name=self.service_name,
                 base_url=base_url,
                 token=token,
-                endpoint=endpoint_filter
+                endpoint=endpoint_filter,
+                out_file_name=out_file_name
             )
             
             # Run tests
-            result = runner.run_all()
+            out_dir_name = runner.run_all()
             
             # Restore original working directory
             if original_working_dir:
@@ -281,7 +283,7 @@ class KATIntegrationService:
             
             return {
                 "success": True,
-                "result": result
+                "out_dir_name": out_dir_name
             }
             
         except Exception as e:
@@ -326,7 +328,8 @@ class KATIntegrationService:
                 service_name=self.service_name,
                 base_url=base_url,
                 token=token,
-                skip_preload=True
+                skip_preload=True,
+                out_file_name=test_case_id
             )
             
             # Initialize CSV output for results

@@ -29,11 +29,12 @@ class SequenceRunner:
         endpoint: Optional[str] = None,
         skip_preload: bool = False,
         base_module_file: str = __file__,
+        out_file_name: Optional[str] = None,
     ):
         self.service_name = service_name
         self.base_url = base_url.rstrip("/")
         self.endpoint_filter = endpoint
-        self.file = FileService(service_name , base_module_file)
+        self.file = FileService(service_name , base_module_file, out_file_name)
         self.http = HttpClient(token=token)
         self.dep = DependencyService()
         self.response_cache: Dict[str, Any] = {}

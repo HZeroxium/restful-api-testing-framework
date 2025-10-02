@@ -11,6 +11,7 @@ from pathlib import Path
 import sys
 from datetime import datetime
 import asyncio
+from services.integration import KATIntegrationService
 
 # Add parent directory to path
 sys.path.append(str(Path(__file__).parent.parent.parent))
@@ -35,19 +36,47 @@ async def execute_test_run(db_manager: DatabaseManager, service_id: str, run_id:
         
         # Integrate with SequenceRunner for actual test execution
         try:
-            from services.integration import KATIntegrationService
             service = db_manager.get_service(service_id)
             if service:
                 kat_service = KATIntegrationService(service_id, service["name"])
-                
                 # Run tests using SequenceRunner
                 test_result = kat_service.run_tests(
                     base_url=run_config.get("base_url", "https://api.example.com"),
                     token=run_config.get("token"),
-                    endpoint_filter=run_config.get("endpoint_filter")
+                    endpoint_filter=run_config.get("endpoint_filter"),
+                    out_file_name=run_id
                 )
                 
                 if test_result.get("success"):
+                    # Build path of the CSV produced by SequenceRunner (flat layout)
+                    results_dir = service_dir / "results"
+                    results_dir.mkdir(exist_ok=True)
+                    results_csv = results_dir / f"{run_id}.csv"
+
+                    if not results_csv.exists():
+                        # Nếu runner thành công nhưng không thấy CSV -> coi là failed mềm
+                        db_manager.update_run_status(run_id, "failed", {"error": f"results file not found: {results_csv.name}"})
+                        return
+
+                    # Tính summary nhanh từ CSV
+                    summary = _analyze_csv_results(results_csv)
+
+                    # Cập nhật DB: completed + artifacts
+                    db_manager.update_run(run_id, {
+                        "status": "completed",
+                        "started_at": datetime.now().isoformat() if not db_manager.get_run(run_id).get("started_at") else db_manager.get_run(run_id)["started_at"],
+                        "completed_at": datetime.now().isoformat(),
+                        "results": summary,
+                        "artifacts": [
+                            {
+                                "name": "results.csv",
+                                "path": str(results_csv),
+                                "size": results_csv.stat().st_size,
+                            }
+                        ],
+                        "config": {**run_config}
+                    })
+                    return
                     # SequenceRunner completed successfully
                     pass
                 else:
@@ -163,26 +192,69 @@ async def list_runs(request: Request, service_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to retrieve runs: {str(e)}")
 
 
+import re
+
+_STATUS_RE = re.compile(r"^(?:[1-5]xx|[1-5]\d{2}|[1-5]\d{2}-[1-5]\d{2})$", re.IGNORECASE)
+
+def _matches_expected(actual: str | int | None, expected: str | None) -> bool:
+    if actual is None or expected is None:
+        return False
+    try:
+        actual_code = int(str(actual).strip())
+    except ValueError:
+        return False
+
+    e = str(expected).strip().lower()
+    if not e or not _STATUS_RE.match(e):
+        return False
+
+    if e.endswith("xx"):  # '2xx'
+        lo = int(e[0]) * 100
+        return lo <= actual_code < lo + 100
+    if "-" in e:          # '200-299'
+        a, b = e.split("-", 1)
+        try:
+            lo, hi = int(a), int(b)
+            return lo <= actual_code <= hi
+        except ValueError:
+            return False
+    else:                 # '404'
+        try:
+            return actual_code == int(e)
+        except ValueError:
+            return False
+
 def _analyze_csv_results(csv_file: Path) -> dict:
     """Analyze CSV results to get summary statistics"""
     try:
-        with open(csv_file, 'r', encoding='utf-8') as f:
+        with open(csv_file, 'r', encoding='utf-8-sig', newline='') as f:
             reader = csv.DictReader(f)
-            rows = list(reader)
-            
+            rows = [r for r in reader if any(v and str(v).strip() for v in r.values())]  # bỏ dòng trống
+
         total = len(rows)
-        passed = sum(1 for row in rows if row.get('status', '').upper() in ['PASS', 'PASSED', 'SUCCESS'])
+
+        def row_passed(row: dict) -> bool:
+            # 1) Ưu tiên cột 'status' nếu có
+            st = (row.get('status') or row.get('result') or '').strip().upper()
+            if st:
+                return st in {'PASS', 'PASSED', 'SUCCESS', 'OK'}
+            # 2) Fallback: so khớp response_status vs expected_status
+            return _matches_expected(row.get('response_status'), row.get('expected_status'))
+
+        passed = sum(1 for row in rows if row_passed(row))
         failed = total - passed
-        success_rate = (passed / total * 100) if total > 0 else 0
-        
+        success_rate = round((passed / total * 100), 2) if total else 0.0
+
         return {
             "total": total,
             "passed": passed,
             "failed": failed,
-            "success_rate": round(success_rate, 2)
+            "success_rate": success_rate
         }
-    except:
+    except Exception as e:
+        # optional: log e
         return {"total": 0, "passed": 0, "failed": 0, "success_rate": 0}
+
 
 
 @router.get("/services/{service_id}/runs/{run_id}", response_model=ApiResponse)
@@ -197,25 +269,26 @@ async def get_run(request: Request, service_id: str, run_id: str):
         
         # Try to get run from database first
         run_data = db_manager.get_run(run_id)
-        
         # If not in database, try to discover from results directory
-        if not run_data:
-            service_dir = Path(service_data["working_dir"])
-            results_dir = service_dir / "results"
-            
-            # Look for CSV file matching run_id
-            csv_file = results_dir / f"{run_id}.csv"
-            if csv_file.exists():
-                run_data = {
-                    "id": run_id,
-                    "service_id": service_id,
-                    "status": "completed",
-                    "created_at": datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat(),
-                    "started_at": None,
-                    "completed_at": datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat(),
-                    "results": _analyze_csv_results(csv_file),
-                    "config": {"discovered": True}
-                }
+        service_dir = Path(service_data["working_dir"])
+        results_dir = service_dir / "results"
+        
+        # Look for CSV file matching run_id
+        csv_file = results_dir / f"{run_id}.csv"
+        if csv_file.exists():
+            print(f"Discovered run {run_id} from CSV file ")
+            run_data = {
+                "id": run_id,
+                "service_id": service_id,
+                "status": "completed",
+                "created_at": datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat(),
+                "started_at": None,
+                "completed_at": datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat(),
+                "results": _analyze_csv_results(csv_file),
+                "config": {"discovered": True}
+            }
+        else:
+            raise HTTPException(status_code=404, detail=f"csv not found at dir {csv_file}")
         
         if not run_data or run_data["service_id"] != service_id:
             raise HTTPException(status_code=404, detail="Run not found")
@@ -223,18 +296,31 @@ async def get_run(request: Request, service_id: str, run_id: str):
         # Get artifacts from results directory
         service_dir = Path(service_data["working_dir"])
         results_dir = service_dir / "results"
+        # Build artifacts (ưu tiên DB)
         artifacts = []
-        
-        # CSV results file
-        csv_file = results_dir / f"{run_id}.csv"
-        if csv_file.exists():
-            artifacts.append(RunArtifact(
-                name="results.csv",
-                path=str(csv_file),
-                url=f"/services/{service_id}/runs/{run_id}/artifacts/results.csv",
-                size=csv_file.stat().st_size,
-                created_at=datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat()
-            ))
+        if run_data.get("artifacts"):
+            for a in run_data["artifacts"]:
+                p = Path(a["path"])
+                if p.exists():
+                    artifacts.append(RunArtifact(
+                        name=a.get("name", p.name),
+                        path=str(p),
+                        url=f"/services/{service_id}/runs/{run_id}/artifacts/{p.name}",
+                        size=p.stat().st_size,
+                        created_at=datetime.fromtimestamp(p.stat().st_mtime).isoformat()
+                    ))
+        else:
+            # Fallback: tự tìm file theo layout mới results/<run_id>.csv
+            csv_file = Path(service_data["working_dir"]) / "results" / f"{run_id}.csv"
+            if csv_file.exists():
+                artifacts.append(RunArtifact(
+                    name="results.csv",
+                    path=str(csv_file),
+                    url=f"/services/{service_id}/runs/{run_id}/artifacts/results.csv",
+                    size=csv_file.stat().st_size,
+                    created_at=datetime.fromtimestamp(csv_file.stat().st_mtime).isoformat()
+                ))
+
         
         # Response JSON files in output directory
         output_dir = results_dir / "output"
@@ -282,7 +368,6 @@ async def get_run(request: Request, service_id: str, run_id: str):
         raise HTTPException(status_code=500, detail=f"Failed to retrieve run: {str(e)}")
 
 
-@router.get("/services/{service_id}/runs/{run_id}/results", response_model=ApiResponse)
 @router.get("/services/{service_id}/runs/{run_id}/results", response_model=ApiResponse)
 async def get_run_results(request: Request, service_id: str, run_id: str):
     """Get detailed test results for a run"""

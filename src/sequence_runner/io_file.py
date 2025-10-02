@@ -14,7 +14,7 @@ from .parser import parse_test_case_core_from_path, parse_csv_to_data_rows
 logger = logging.getLogger(__name__)
 
 class FileService:
-    def __init__(self, service_name: str, base_module_file: str):
+    def __init__(self, service_name: str, base_module_file: str, out_file_name: Optional[str] = None):
         # Use shared_config for unified directory structure
         try:
             # Navigate up to find project root and add src to path
@@ -72,7 +72,7 @@ class FileService:
         
         self.paths.output_dir.mkdir(parents=True, exist_ok=True)
         os.makedirs(self.paths.output_csv_dir, exist_ok=True)
-        self.out_file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S") + "_" + service_name
+        self.out_file_name = out_file_name
         self._csv_file =  None
         self._csv_writer = None
 

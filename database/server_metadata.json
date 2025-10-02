@@ -35,6 +35,33 @@
         "success_rate": 0.0
       },
       "artifacts": []
+    },
+    "e491873a-1a7a-41ab-b89e-0504340fa427": {
+      "id": "e491873a-1a7a-41ab-b89e-0504340fa427",
+      "service_id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
+      "config": {
+        "base_url": "https://canada-holidays.ca/",
+        "token": null,
+        "endpoint_filter": null,
+        "test_case_filter": null
+      },
+      "status": "completed",
+      "created_at": "2025-10-02T21:10:57.427440",
+      "started_at": "2025-10-02T21:10:57.428440",
+      "completed_at": "2025-10-02T21:11:52.265677",
+      "results": {
+        "total": 96,
+        "passed": 96,
+        "failed": 0,
+        "success_rate": 100.0
+      },
+      "artifacts": [
+        {
+          "name": "results.csv",
+          "path": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays\\results\\e491873a-1a7a-41ab-b89e-0504340fa427.csv",
+          "size": 18244
+        }
+      ]
     }
   },
   "metadata": {
