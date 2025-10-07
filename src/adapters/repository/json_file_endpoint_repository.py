@@ -9,15 +9,27 @@ from pathlib import Path
 
 from domain.ports.endpoint_repository import EndpointRepositoryInterface
 from schemas.tools.openapi_parser import EndpointInfo, AuthType
+from application.services.endpoint_lookup_service import EndpointLookupService
 
 
 class JsonFileEndpointRepository(EndpointRepositoryInterface):
     """JSON file-based implementation of EndpointRepositoryInterface."""
 
-    def __init__(self, file_path: str = "data/endpoints.json"):
-        self.file_path = Path(file_path)
-        self._ensure_file_exists()
-        self._load_endpoints()
+    def __init__(
+        self, file_path: str = "data/endpoints.json", dataset_id: Optional[str] = None
+    ):
+        self.dataset_id = dataset_id
+        if dataset_id:
+            # Dataset-specific storage
+            self.file_path = Path("data/datasets") / dataset_id / "endpoints.json"
+            self._ensure_file_exists()
+            self._load_endpoints()
+        else:
+            # Global storage - use lookup service to search across all datasets
+            self.file_path = Path(file_path)
+            self.lookup_service = EndpointLookupService()
+            # For global repository, we don't load endpoints at init
+            # Instead, we'll use the lookup service when needed
 
     def _ensure_file_exists(self):
         """Ensure the JSON file exists."""
@@ -110,10 +122,15 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
 
     async def get_by_id(self, endpoint_id: str) -> Optional[EndpointInfo]:
         """Get endpoint by ID."""
-        endpoint_data = self._endpoints.get(endpoint_id)
-        if not endpoint_data:
-            return None
-        return self._dict_to_endpoint(endpoint_data)
+        if self.dataset_id:
+            # Dataset-specific repository
+            endpoint_data = self._endpoints.get(endpoint_id)
+            if not endpoint_data:
+                return None
+            return self._dict_to_endpoint(endpoint_data)
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_endpoint_by_id(endpoint_id)
 
     async def get_by_path_method(
         self, path: str, method: str
@@ -129,7 +146,16 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
 
     async def get_all(self) -> List[EndpointInfo]:
         """Get all endpoints."""
-        return [self._dict_to_endpoint(data) for data in self._endpoints.values()]
+        if self.dataset_id:
+            # Dataset-specific repository
+            return [self._dict_to_endpoint(data) for data in self._endpoints.values()]
+        else:
+            # Global repository - use lookup service
+            all_endpoints, _ = await self.lookup_service.get_all_endpoints()
+            return [
+                self.lookup_service._dict_to_endpoint(data)
+                for data in all_endpoints.values()
+            ]
 
     async def update(
         self, endpoint_id: str, endpoint: EndpointInfo
@@ -160,56 +186,81 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
 
     async def search_by_tag(self, tag: str) -> List[EndpointInfo]:
         """Search endpoints by tag."""
-        results = []
-        for endpoint_data in self._endpoints.values():
-            if tag in endpoint_data.get("tags", []):
-                results.append(self._dict_to_endpoint(endpoint_data))
-        return results
+        if self.dataset_id:
+            # Dataset-specific repository
+            results = []
+            for endpoint_data in self._endpoints.values():
+                if tag in endpoint_data.get("tags", []):
+                    results.append(self._dict_to_endpoint(endpoint_data))
+            return results
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.search_endpoints_by_tag(tag)
 
     async def search_by_path(self, path_pattern: str) -> List[EndpointInfo]:
         """Search endpoints by path pattern."""
-        results = []
-        for endpoint_data in self._endpoints.values():
-            if path_pattern.lower() in endpoint_data["path"].lower():
-                results.append(self._dict_to_endpoint(endpoint_data))
-        return results
+        if self.dataset_id:
+            # Dataset-specific repository
+            results = []
+            for endpoint_data in self._endpoints.values():
+                if path_pattern.lower() in endpoint_data["path"].lower():
+                    results.append(self._dict_to_endpoint(endpoint_data))
+            return results
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.search_endpoints_by_path(path_pattern)
 
     async def get_stats(self) -> Dict[str, Any]:
         """Get repository statistics."""
-        total_endpoints = len(self._endpoints)
+        if self.dataset_id:
+            # Dataset-specific repository
+            total_endpoints = len(self._endpoints)
 
-        # Count by method
-        method_counts = {}
-        # Count by auth type
-        auth_counts = {}
-        # Count by tags
-        tag_counts = {}
+            # Count by method
+            method_counts = {}
+            # Count by auth type
+            auth_counts = {}
+            # Count by tags
+            tag_counts = {}
 
-        for endpoint_data in self._endpoints.values():
-            # Method counts
-            method = endpoint_data["method"]
-            method_counts[method] = method_counts.get(method, 0) + 1
+            for endpoint_data in self._endpoints.values():
+                # Method counts
+                method = endpoint_data["method"]
+                method_counts[method] = method_counts.get(method, 0) + 1
 
-            # Auth type counts
-            auth_type = endpoint_data.get("auth_type", "none")
-            auth_counts[auth_type] = auth_counts.get(auth_type, 0) + 1
+                # Auth type counts
+                auth_type = endpoint_data.get("auth_type", "none")
+                auth_counts[auth_type] = auth_counts.get(auth_type, 0) + 1
 
-            # Tag counts
-            for tag in endpoint_data.get("tags", []):
-                tag_counts[tag] = tag_counts.get(tag, 0) + 1
+                # Tag counts
+                for tag in endpoint_data.get("tags", []):
+                    tag_counts[tag] = tag_counts.get(tag, 0) + 1
 
-        return {
-            "total_endpoints": total_endpoints,
-            "method_distribution": method_counts,
-            "auth_type_distribution": auth_counts,
-            "tag_distribution": tag_counts,
-            "last_updated": datetime.now().isoformat(),
-        }
+            return {
+                "total_endpoints": total_endpoints,
+                "method_distribution": method_counts,
+                "auth_type_distribution": auth_counts,
+                "tag_distribution": tag_counts,
+                "last_updated": datetime.now().isoformat(),
+            }
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_endpoint_stats()
 
     async def get_by_dataset_id(self, dataset_id: str) -> List[EndpointInfo]:
         """Get all endpoints for a specific dataset."""
-        results = []
-        for endpoint_data in self._endpoints.values():
-            if endpoint_data.get("dataset_id") == dataset_id:
-                results.append(self._dict_to_endpoint(endpoint_data))
-        return results
+        if self.dataset_id:
+            # Dataset-specific repository
+            results = []
+            for endpoint_data in self._endpoints.values():
+                if endpoint_data.get("dataset_id") == dataset_id:
+                    results.append(self._dict_to_endpoint(endpoint_data))
+            return results
+        else:
+            # Global repository - use dataset-specific repository
+            from adapters.repository.json_file_endpoint_repository import (
+                JsonFileEndpointRepository,
+            )
+
+            dataset_repo = JsonFileEndpointRepository(dataset_id=dataset_id)
+            return await dataset_repo.get_all()

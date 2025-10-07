@@ -747,7 +747,7 @@ class TestExecutorTool(BaseTool):
                     and suite_result.endpoint_path
                 ):
                     # Create safe endpoint name for this suite
-                    from ...utils.comprehensive_report_utils import (
+                    from utils.comprehensive_report_utils import (
                         create_safe_endpoint_name,
                     )
 
@@ -798,10 +798,10 @@ class TestExecutorTool(BaseTool):
                     # Save test data report if available
                     if endpoint_data and endpoint_data.get("test_data"):
                         try:
-                            from ...schemas.tools.test_data_generator import (
+                            from schemas.tools.test_data_generator import (
                                 TestData,
                             )
-                            from ...schemas.tools.test_script_generator import (
+                            from schemas.tools.test_script_generator import (
                                 ValidationScript,
                             )
 

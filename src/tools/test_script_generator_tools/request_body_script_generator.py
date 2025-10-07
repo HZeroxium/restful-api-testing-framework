@@ -87,7 +87,7 @@ class RequestBodyScriptGeneratorTool(BaseTool):
 
         try:
             # Prepare data for LLM
-            from ...utils.llm_utils import prepare_endpoint_data_for_llm
+            from utils.llm_utils import prepare_endpoint_data_for_llm
 
             sanitized_endpoint_data = prepare_endpoint_data_for_llm(
                 endpoint.model_dump()

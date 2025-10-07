@@ -287,7 +287,7 @@ def get_user_test_preferences():
 
 def setup_api_factory(server_url: str, verbose: bool = False):
     """Set up REST API factory with common configuration."""
-    from ..utils.rest_api_caller_factory import RestApiCallerFactory
+    from utils.rest_api_caller_factory import RestApiCallerFactory
 
     return RestApiCallerFactory(
         server_url=server_url,

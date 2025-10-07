@@ -224,7 +224,7 @@ Here are the endpoints to analyze:
 """
 
                 # Sanitize the llm_input before including it
-                from ...utils.llm_utils import prepare_endpoint_data_for_llm
+                from utils.llm_utils import prepare_endpoint_data_for_llm
 
                 sanitized_llm_input = prepare_endpoint_data_for_llm(llm_input)
 

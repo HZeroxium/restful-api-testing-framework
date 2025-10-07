@@ -11,20 +11,44 @@ from domain.ports.validation_script_repository import (
 )
 from schemas.tools.test_script_generator import ValidationScript
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from application.services.validation_script_lookup_service import (
+    ValidationScriptLookupService,
+)
 
 
 class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
     """JSON file-based implementation of ValidationScriptRepositoryInterface."""
 
-    def __init__(self, file_path: str = "data/validation_scripts.json"):
-        self.file_path = Path(file_path)
-        self.logger = LoggerFactory.get_logger(
-            name="repository.validation_script",
-            logger_type=LoggerType.STANDARD,
-            level=LogLevel.INFO,
-        )
-        self._ensure_file_exists()
-        self._load_scripts()
+    def __init__(
+        self,
+        file_path: str = "data/validation_scripts.json",
+        dataset_id: Optional[str] = None,
+    ):
+        self.dataset_id = dataset_id
+        if dataset_id:
+            # Dataset-specific storage
+            self.file_path = (
+                Path("data/datasets") / dataset_id / "validation_scripts.json"
+            )
+            self.logger = LoggerFactory.get_logger(
+                name="repository.validation_script",
+                logger_type=LoggerType.STANDARD,
+                level=LogLevel.INFO,
+            )
+            self._ensure_file_exists()
+            self._load_scripts()
+        else:
+            # Global storage - use lookup service to search across all datasets
+            self.file_path = Path(file_path)
+            self.lookup_service = ValidationScriptLookupService()
+            self.logger = LoggerFactory.get_logger(
+                name="repository.validation_script",
+                logger_type=LoggerType.STANDARD,
+                level=LogLevel.INFO,
+            )
+            self.logger.info(
+                f"Initializing JsonFileValidationScriptRepository (global mode) with lookup service"
+            )
 
     def _ensure_file_exists(self):
         """Ensure the JSON file exists."""
@@ -108,26 +132,45 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
 
     async def get_by_id(self, script_id: str) -> Optional[ValidationScript]:
         """Get validation script by ID."""
-        script_data = self._scripts.get(script_id)
-        if not script_data:
-            return None
-        return self._dict_to_script(script_data)
+        if self.dataset_id:
+            # Dataset-specific repository
+            script_data = self._scripts.get(script_id)
+            if not script_data:
+                return None
+            return self._dict_to_script(script_data)
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_script_by_id(script_id)
 
     async def get_by_endpoint_id(self, endpoint_id: str) -> List[ValidationScript]:
         """Get all validation scripts for a specific endpoint."""
-        scripts = []
-        for script_data in self._scripts.values():
-            if script_data.get("endpoint_id") == endpoint_id:
-                scripts.append(self._dict_to_script(script_data))
+        if self.dataset_id:
+            # Dataset-specific repository
+            scripts = []
+            for script_data in self._scripts.values():
+                if script_data.get("endpoint_id") == endpoint_id:
+                    scripts.append(self._dict_to_script(script_data))
 
-        self.logger.debug(
-            f"Retrieved {len(scripts)} validation scripts for endpoint: {endpoint_id}"
-        )
-        return scripts
+            self.logger.debug(
+                f"Retrieved {len(scripts)} validation scripts for endpoint: {endpoint_id}"
+            )
+            return scripts
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_scripts_by_endpoint_id(endpoint_id)
 
     async def get_all(self) -> List[ValidationScript]:
         """Get all validation scripts."""
-        return [self._dict_to_script(data) for data in self._scripts.values()]
+        if self.dataset_id:
+            # Dataset-specific repository
+            return [self._dict_to_script(data) for data in self._scripts.values()]
+        else:
+            # Global repository - use lookup service
+            all_scripts, _ = await self.lookup_service.get_all_scripts()
+            return [
+                self.lookup_service._dict_to_script(data)
+                for data in all_scripts.values()
+            ]
 
     async def update(
         self, script_id: str, script: ValidationScript
@@ -174,8 +217,13 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
 
     async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
         """Get all validation scripts for a specific constraint."""
-        scripts = []
-        for script_data in self._scripts.values():
-            if script_data.get("constraint_id") == constraint_id:
-                scripts.append(self._dict_to_script(script_data))
-        return scripts
+        if self.dataset_id:
+            # Dataset-specific repository
+            scripts = []
+            for script_data in self._scripts.values():
+                if script_data.get("constraint_id") == constraint_id:
+                    scripts.append(self._dict_to_script(script_data))
+            return scripts
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_scripts_by_constraint_id(constraint_id)

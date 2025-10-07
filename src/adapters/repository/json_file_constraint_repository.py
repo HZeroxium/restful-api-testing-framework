@@ -9,25 +9,45 @@ from pathlib import Path
 from domain.ports.constraint_repository import ConstraintRepositoryInterface
 from schemas.tools.constraint_miner import ApiConstraint, ConstraintType
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from application.services.constraint_lookup_service import ConstraintLookupService
 
 
 class JsonFileConstraintRepository(ConstraintRepositoryInterface):
     """JSON file-based implementation of ConstraintRepositoryInterface."""
 
-    def __init__(self, file_path: str = "data/constraints.json"):
-        self.file_path = Path(file_path)
-        self.logger = LoggerFactory.get_logger(
-            name="repository.constraint",
-            logger_type=LoggerType.STANDARD,
-            level=LogLevel.INFO,
-        )
+    def __init__(
+        self, file_path: str = "data/constraints.json", dataset_id: Optional[str] = None
+    ):
+        self.dataset_id = dataset_id
+        if dataset_id:
+            # Dataset-specific storage
+            self.file_path = Path("data/datasets") / dataset_id / "constraints.json"
+            self.logger = LoggerFactory.get_logger(
+                name="repository.constraint",
+                logger_type=LoggerType.STANDARD,
+                level=LogLevel.INFO,
+            )
 
-        self.logger.info(
-            f"Initializing JsonFileConstraintRepository with file: {file_path}"
-        )
-        self._ensure_file_exists()
-        self._load_constraints()
-        self.logger.info(f"Loaded {len(self._constraints)} constraints from storage")
+            self.logger.info(
+                f"Initializing JsonFileConstraintRepository with file: {self.file_path}"
+            )
+            self._ensure_file_exists()
+            self._load_constraints()
+            self.logger.info(
+                f"Loaded {len(self._constraints)} constraints from storage"
+            )
+        else:
+            # Global storage - use lookup service to search across all datasets
+            self.file_path = Path(file_path)
+            self.lookup_service = ConstraintLookupService()
+            self.logger = LoggerFactory.get_logger(
+                name="repository.constraint",
+                logger_type=LoggerType.STANDARD,
+                level=LogLevel.INFO,
+            )
+            self.logger.info(
+                f"Initializing JsonFileConstraintRepository (global mode) with lookup service"
+            )
 
     def _ensure_file_exists(self):
         """Ensure the JSON file exists."""
@@ -108,43 +128,72 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
 
     async def create(self, constraint: ApiConstraint) -> ApiConstraint:
         """Create a new constraint."""
-        if not constraint.id:
-            constraint.id = str(uuid.uuid4())
+        if self.dataset_id:
+            # Dataset-specific repository
+            if not constraint.id:
+                constraint.id = str(uuid.uuid4())
 
-        constraint.created_at = datetime.now().isoformat()
-        constraint.updated_at = constraint.created_at
+            constraint.created_at = datetime.now().isoformat()
+            constraint.updated_at = constraint.created_at
 
-        constraint_dict = self._constraint_to_dict(constraint)
-        self._constraints[constraint.id] = constraint_dict
-        self._save_constraints()
+            constraint_dict = self._constraint_to_dict(constraint)
+            self._constraints[constraint.id] = constraint_dict
+            self._save_constraints()
 
-        self.logger.info(
-            f"Created constraint: {constraint.id} for endpoint: {constraint.endpoint_id}"
-        )
-        return constraint
+            self.logger.info(
+                f"Created constraint: {constraint.id} for endpoint: {constraint.endpoint_id}"
+            )
+            return constraint
+        else:
+            # Global repository - this shouldn't be called for global mode
+            # Constraints should be created in dataset-specific repositories
+            raise NotImplementedError(
+                "Cannot create constraints in global repository mode. Use dataset-specific repository."
+            )
 
     async def get_by_id(self, constraint_id: str) -> Optional[ApiConstraint]:
         """Get constraint by ID."""
-        constraint_data = self._constraints.get(constraint_id)
-        if not constraint_data:
-            return None
-        return self._dict_to_constraint(constraint_data)
+        if self.dataset_id:
+            # Dataset-specific repository
+            constraint_data = self._constraints.get(constraint_id)
+            if not constraint_data:
+                return None
+            return self._dict_to_constraint(constraint_data)
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_constraint_by_id(constraint_id)
 
     async def get_by_endpoint_id(self, endpoint_id: str) -> List[ApiConstraint]:
         """Get all constraints for a specific endpoint."""
-        constraints = []
-        for constraint_data in self._constraints.values():
-            if constraint_data.get("endpoint_id") == endpoint_id:
-                constraints.append(self._dict_to_constraint(constraint_data))
+        if self.dataset_id:
+            # Dataset-specific repository
+            constraints = []
+            for constraint_data in self._constraints.values():
+                if constraint_data.get("endpoint_id") == endpoint_id:
+                    constraints.append(self._dict_to_constraint(constraint_data))
 
-        self.logger.debug(
-            f"Retrieved {len(constraints)} constraints for endpoint: {endpoint_id}"
-        )
-        return constraints
+            self.logger.debug(
+                f"Retrieved {len(constraints)} constraints for endpoint: {endpoint_id}"
+            )
+            return constraints
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_constraints_by_endpoint_id(endpoint_id)
 
     async def get_all(self) -> List[ApiConstraint]:
         """Get all constraints."""
-        return [self._dict_to_constraint(data) for data in self._constraints.values()]
+        if self.dataset_id:
+            # Dataset-specific repository
+            return [
+                self._dict_to_constraint(data) for data in self._constraints.values()
+            ]
+        else:
+            # Global repository - use lookup service
+            all_constraints, _ = await self.lookup_service.get_all_constraints()
+            return [
+                self.lookup_service._dict_to_constraint(data)
+                for data in all_constraints.values()
+            ]
 
     async def update(
         self, constraint_id: str, constraint: ApiConstraint

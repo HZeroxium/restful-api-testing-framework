@@ -13,6 +13,7 @@ from schemas.tools.test_script_generator import (
     TestScriptGeneratorInput,
     TestScriptGeneratorOutput,
 )
+from common.logger import LoggerFactory, LoggerType, LogLevel
 from tools.llm.test_script_generator import TestScriptGeneratorTool
 
 
@@ -28,6 +29,11 @@ class ValidationScriptService:
         self.script_repository = script_repository
         self.constraint_repository = constraint_repository
         self.endpoint_repository = endpoint_repository
+        self.logger = LoggerFactory.get_logger(
+            name="service.validation_script",
+            logger_type=LoggerType.STANDARD,
+            level=LogLevel.INFO,
+        )
 
     async def create_script(self, script: ValidationScript) -> ValidationScript:
         """Create a new validation script."""
@@ -99,6 +105,20 @@ class ValidationScriptService:
 
         # Save generated scripts to repository
         saved_scripts = []
+
+        # Get dataset_id from endpoint
+        dataset_id = getattr(endpoint, "dataset_id", None)
+        if not dataset_id:
+            self.logger.error(f"Endpoint {endpoint_id} has no dataset_id")
+            raise ValueError(f"Endpoint {endpoint_id} has no dataset_id")
+
+        # Create dataset-specific validation script repository
+        from adapters.repository.json_file_validation_script_repository import (
+            JsonFileValidationScriptRepository,
+        )
+
+        dataset_script_repo = JsonFileValidationScriptRepository(dataset_id=dataset_id)
+
         for script in generator_output.validation_scripts:
             # Set endpoint_id for the script
             script.endpoint_id = endpoint_id
@@ -106,8 +126,8 @@ class ValidationScriptService:
             if not script.id:
                 script.id = str(uuid.uuid4())
 
-            # Save to repository
-            saved_script = await self.script_repository.create(script)
+            # Save to dataset-specific repository
+            saved_script = await dataset_script_repo.create(script)
             saved_scripts.append(saved_script)
 
         self.logger.info(f"Saved {len(saved_scripts)} scripts to repository")

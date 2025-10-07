@@ -103,6 +103,20 @@ class ConstraintService:
 
         # Save mined constraints to repository
         saved_constraints = []
+
+        # Get dataset_id from endpoint
+        dataset_id = getattr(endpoint, "dataset_id", None)
+        if not dataset_id:
+            self.logger.error(f"Endpoint {endpoint_id} has no dataset_id")
+            raise ValueError(f"Endpoint {endpoint_id} has no dataset_id")
+
+        # Create dataset-specific constraint repository
+        from adapters.repository.json_file_constraint_repository import (
+            JsonFileConstraintRepository,
+        )
+
+        dataset_constraint_repo = JsonFileConstraintRepository(dataset_id=dataset_id)
+
         for constraint in miner_output.constraints:
             # Set endpoint_id for the constraint
             constraint.endpoint_id = endpoint_id
@@ -110,8 +124,8 @@ class ConstraintService:
             if not constraint.id:
                 constraint.id = str(uuid.uuid4())
 
-            # Save to repository
-            saved_constraint = await self.constraint_repository.create(constraint)
+            # Save to dataset-specific repository
+            saved_constraint = await dataset_constraint_repo.create(constraint)
             saved_constraints.append(saved_constraint)
 
         self.logger.info(f"Saved {len(saved_constraints)} constraints to repository")

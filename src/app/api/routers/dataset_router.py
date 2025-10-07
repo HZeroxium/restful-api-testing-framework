@@ -27,19 +27,11 @@ class CreateDatasetRequest(BaseModel):
     description: Optional[str] = Field(None, description="Description of the dataset")
 
 
-class UploadSpecRequest(BaseModel):
-    """Request body for uploading OpenAPI spec."""
-
-    spec_content: str = Field(
-        ..., description="OpenAPI specification content (JSON or YAML)"
-    )
-    is_yaml: bool = Field(False, description="Whether the spec is in YAML format")
-
-
-class UploadSpecResponse(BaseModel):
-    """Response for spec upload."""
+class CreateDatasetFromFileResponse(BaseModel):
+    """Response for creating dataset from file."""
 
     dataset_id: str
+    dataset_name: str
     spec_version: Optional[str]
     base_url: Optional[str]
     endpoints_count: int
@@ -70,69 +62,52 @@ async def create_dataset(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/{dataset_id}/upload-spec", response_model=UploadSpecResponse)
-async def upload_spec(
-    dataset_id: str,
-    request: UploadSpecRequest,
+@router.post("/upload-spec", response_model=CreateDatasetFromFileResponse)
+async def create_dataset_from_file(
+    file: UploadFile = File(
+        ..., description="OpenAPI specification file (JSON or YAML)"
+    ),
+    dataset_name: Optional[str] = Form(
+        None, description="Optional custom name for the dataset"
+    ),
     service: DatasetService = dataset_service_dependency,
 ):
-    """Upload and parse an OpenAPI specification for a dataset."""
-    logger.info(f"POST /datasets/{dataset_id}/upload-spec")
+    """Create a new dataset from uploaded OpenAPI specification file."""
+    logger.info(f"POST /datasets/upload-spec - filename: {file.filename}")
 
     try:
-        result = await service.upload_and_parse_spec(
-            dataset_id=dataset_id,
-            spec_content=request.spec_content,
-            is_yaml=request.is_yaml,
-        )
-        logger.info(
-            f"Successfully uploaded spec for dataset {dataset_id}: {result['endpoints_count']} endpoints"
-        )
-        return result
-    except ValueError as e:
-        logger.error(f"Validation error: {e}")
-        raise HTTPException(status_code=404, detail=str(e))
-    except Exception as e:
-        logger.error(f"Failed to upload spec: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        # Validate file type
+        if not file.filename:
+            raise HTTPException(status_code=400, detail="Filename is required")
 
+        # Check if file is valid OpenAPI spec
+        valid_extensions = [".json", ".yaml", ".yml"]
+        if not any(file.filename.lower().endswith(ext) for ext in valid_extensions):
+            raise HTTPException(
+                status_code=400,
+                detail=f"Invalid file type. Supported formats: {', '.join(valid_extensions)}",
+            )
 
-@router.post("/{dataset_id}/upload-spec-file")
-async def upload_spec_file(
-    dataset_id: str,
-    file: UploadFile = File(...),
-    service: DatasetService = dataset_service_dependency,
-):
-    """Upload an OpenAPI specification file for a dataset."""
-    logger.info(
-        f"POST /datasets/{dataset_id}/upload-spec-file - filename: {file.filename}"
-    )
-
-    try:
         # Read file content
-        content = await file.read()
-        spec_content = content.decode("utf-8")
+        file_content = await file.read()
 
-        # Determine if YAML based on file extension
-        is_yaml = file.filename and (
-            file.filename.endswith(".yaml") or file.filename.endswith(".yml")
-        )
-
-        result = await service.upload_and_parse_spec(
-            dataset_id=dataset_id,
-            spec_content=spec_content,
-            is_yaml=is_yaml,
+        # Create dataset from file
+        result = await service.create_dataset_from_file(
+            file_content=file_content,
+            filename=file.filename,
+            dataset_name=dataset_name,
         )
 
         logger.info(
-            f"Successfully uploaded spec file for dataset {dataset_id}: {result['endpoints_count']} endpoints"
+            f"Successfully created dataset {result['dataset_id']} from {file.filename}: {result['endpoints_count']} endpoints"
         )
         return result
+
     except ValueError as e:
         logger.error(f"Validation error: {e}")
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
-        logger.error(f"Failed to upload spec file: {e}")
+        logger.error(f"Failed to create dataset from file: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
 

@@ -98,7 +98,7 @@ class TestDataGeneratorTool(BaseTool):
         self, endpoint, test_case_count, include_invalid_data
     ) -> List[TestData]:
         """Generate test data using LLM with improved error handling."""
-        from ...utils.llm_utils import create_and_execute_llm_agent
+        from utils.llm_utils import create_and_execute_llm_agent
 
         # Prepare the endpoint info as JSON for the LLM prompt
         endpoint_json = {

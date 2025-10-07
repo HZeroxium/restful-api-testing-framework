@@ -176,7 +176,7 @@ class ResponsePropertyScriptGeneratorTool(BaseTool):
         class ValidationScriptResult(BaseModel):
             validation_scripts: List[ScriptOutput] = Field(default_factory=list)
 
-        from ...utils.llm_utils import prepare_endpoint_data_for_llm
+        from utils.llm_utils import prepare_endpoint_data_for_llm
 
         sanitized = prepare_endpoint_data_for_llm(endpoint.model_dump())
 

@@ -48,6 +48,111 @@ class DatasetService:
         self.logger.info(f"Dataset created with ID: {created_dataset.id}")
         return created_dataset
 
+    async def create_dataset_from_file(
+        self, file_content: bytes, filename: str, dataset_name: str = None
+    ) -> Dict[str, Any]:
+        """Create a new dataset from uploaded OpenAPI spec file."""
+        self.logger.info(f"Creating dataset from file: {filename}")
+
+        # Determine if file is YAML or JSON based on extension
+        is_yaml = filename.lower().endswith((".yaml", ".yml"))
+
+        # Parse the file content
+        try:
+            if is_yaml:
+                import yaml
+
+                spec_dict = yaml.safe_load(file_content.decode("utf-8"))
+            else:
+                spec_dict = json.loads(file_content.decode("utf-8"))
+        except Exception as e:
+            self.logger.error(f"Failed to parse spec file: {e}")
+            raise ValueError(f"Invalid spec format: {e}")
+
+        # Extract dataset name from spec if not provided
+        if not dataset_name:
+            dataset_name = spec_dict.get("info", {}).get(
+                "title", f"Dataset from {filename}"
+            )
+
+        # Create new dataset
+        dataset = Dataset(
+            name=dataset_name,
+            description=spec_dict.get("info", {}).get(
+                "description", f"Dataset created from {filename}"
+            ),
+        )
+
+        created_dataset = await self.dataset_repo.create(dataset)
+        dataset_id = created_dataset.id
+
+        # Save spec file to dataset directory
+        datasets_base_path = getattr(
+            self.dataset_repo, "base_path", Path("data/datasets")
+        )
+        dataset_dir = datasets_base_path / dataset_id
+        dataset_dir.mkdir(parents=True, exist_ok=True)
+
+        # Save original file
+        spec_file = dataset_dir / filename
+        with open(spec_file, "wb") as f:
+            f.write(file_content)
+
+        # Also save as JSON for consistency
+        json_spec_file = dataset_dir / "openapi_spec.json"
+        with open(json_spec_file, "w", encoding="utf-8") as f:
+            json.dump(spec_dict, f, indent=2, ensure_ascii=False)
+
+        # Update dataset with spec info
+        created_dataset.spec_file_path = str(spec_file)
+        created_dataset.spec_content = spec_dict
+        created_dataset.version = spec_dict.get("info", {}).get("version")
+
+        # Extract base URL from servers
+        servers = spec_dict.get("servers", [])
+        if servers:
+            created_dataset.base_url = servers[0].get("url")
+
+        await self.dataset_repo.update(dataset_id, created_dataset)
+
+        # Parse endpoints using OpenAPIParserTool
+        from schemas.tools.openapi_parser import OpenAPIParserInput, SpecSourceType
+
+        parser_input = OpenAPIParserInput(
+            spec_source=str(json_spec_file),
+            source_type=SpecSourceType.FILE,
+        )
+
+        parser_output = await self.openapi_parser.execute(parser_input)
+
+        # Create dataset-specific endpoint repository
+        from adapters.repository.json_file_endpoint_repository import (
+            JsonFileEndpointRepository,
+        )
+
+        dataset_endpoint_repo = JsonFileEndpointRepository(dataset_id=dataset_id)
+
+        # Save endpoints to dataset-specific repository
+        endpoints_saved = 0
+        for endpoint_info in parser_output.endpoints:
+            # Set dataset_id for each endpoint
+            endpoint_info.dataset_id = dataset_id
+            await dataset_endpoint_repo.create(endpoint_info)
+            endpoints_saved += 1
+
+        self.logger.info(
+            f"Created dataset {dataset_id} with {endpoints_saved} endpoints from {filename}"
+        )
+
+        return {
+            "dataset_id": dataset_id,
+            "dataset_name": created_dataset.name,
+            "spec_version": created_dataset.version,
+            "base_url": created_dataset.base_url,
+            "endpoints_count": endpoints_saved,
+            "api_title": spec_dict.get("info", {}).get("title", "Unknown API"),
+        }
+
     async def upload_and_parse_spec(
         self, dataset_id: str, spec_content: str, is_yaml: bool = False
     ) -> Dict[str, Any]:
@@ -72,7 +177,9 @@ class DatasetService:
             raise ValueError(f"Invalid spec format: {e}")
 
         # Save spec file to dataset directory
-        datasets_base_path = getattr(self.dataset_repo, "datasets_base_path", "data/datasets")
+        datasets_base_path = getattr(
+            self.dataset_repo, "datasets_base_path", "data/datasets"
+        )
         dataset_dir = Path(datasets_base_path) / dataset_id
         dataset_dir.mkdir(parents=True, exist_ok=True)
         spec_file = dataset_dir / "openapi_spec.json"
@@ -130,7 +237,14 @@ class DatasetService:
         if not dataset:
             raise ValueError(f"Dataset not found: {dataset_id}")
 
-        endpoints = await self.endpoint_repo.get_by_dataset_id(dataset_id)
+        # Create dataset-specific endpoint repository
+        from adapters.repository.json_file_endpoint_repository import (
+            JsonFileEndpointRepository,
+        )
+
+        dataset_endpoint_repo = JsonFileEndpointRepository(dataset_id=dataset_id)
+
+        endpoints = await dataset_endpoint_repo.get_all()
         self.logger.info(
             f"Retrieved {len(endpoints)} endpoints for dataset {dataset_id}"
         )
@@ -148,13 +262,19 @@ class DatasetService:
         """Delete a dataset and all its associated data."""
         self.logger.info(f"Deleting dataset: {dataset_id}")
 
-        # Delete all endpoints for this dataset
-        endpoints = await self.endpoint_repo.get_by_dataset_id(dataset_id)
-        for endpoint in endpoints:
-            if endpoint.id:
-                await self.endpoint_repo.delete(endpoint.id)
+        # Delete the dataset directory and all its files (including endpoints, constraints, etc.)
+        datasets_base_path = getattr(
+            self.dataset_repo, "base_path", Path("data/datasets")
+        )
+        dataset_dir = datasets_base_path / dataset_id
 
-        # Delete the dataset
+        if dataset_dir.exists():
+            import shutil
+
+            shutil.rmtree(dataset_dir)
+            self.logger.info(f"Deleted dataset directory: {dataset_dir}")
+
+        # Delete the dataset from index
         result = await self.dataset_repo.delete(dataset_id)
         if result:
             self.logger.info(f"Successfully deleted dataset: {dataset_id}")
