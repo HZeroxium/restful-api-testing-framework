@@ -1,0 +1,3706 @@
+{
+  "test_cases": [
+    {
+      "id": "_brands_brandId__deleteBrand_1_1",
+      "name": "_brands_brandId__deleteBrand_1_1",
+      "description": "Test case for endpoint delete-/brands/{brandId}",
+      "endpoint": "delete-/brands/{brandId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/brands/{brandId}",
+          "method": "DELETE",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__deleteBrand_2_1",
+      "name": "_brands_brandId__deleteBrand_2_1",
+      "description": "Test case for endpoint delete-/brands/{brandId}",
+      "endpoint": "delete-/brands/{brandId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/brands/{brandId}",
+          "method": "DELETE",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__getBrand_1_1",
+      "name": "_brands_brandId__getBrand_1_1",
+      "description": "Test case for endpoint get-/brands/{brandId}",
+      "endpoint": "get-/brands/{brandId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/brands/{brandId}",
+          "method": "GET",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__getBrand_2_1",
+      "name": "_brands_brandId__getBrand_2_1",
+      "description": "Test case for endpoint get-/brands/{brandId}",
+      "endpoint": "get-/brands/{brandId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/brands/{brandId}",
+          "method": "GET",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__patchBrand_1_1",
+      "name": "_brands_brandId__patchBrand_1_1",
+      "description": "Test case for endpoint patch-/brands/{brandId}",
+      "endpoint": "patch-/brands/{brandId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/brands/{brandId}",
+          "method": "PATCH",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of BrandRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__patchBrand_2_1",
+      "name": "_brands_brandId__patchBrand_2_1",
+      "description": "Test case for endpoint patch-/brands/{brandId}",
+      "endpoint": "patch-/brands/{brandId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/brands/{brandId}",
+          "method": "PATCH",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of BrandRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__updateBrand_1_1",
+      "name": "_brands_brandId__updateBrand_1_1",
+      "description": "Test case for endpoint put-/brands/{brandId}",
+      "endpoint": "put-/brands/{brandId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/brands/{brandId}",
+          "method": "PUT",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of BrandRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_brandId__updateBrand_2_1",
+      "name": "_brands_brandId__updateBrand_2_1",
+      "description": "Test case for endpoint put-/brands/{brandId}",
+      "endpoint": "put-/brands/{brandId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/brands/{brandId}",
+          "method": "PUT",
+          "path_variables": {
+            "brandId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of BrandRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_getBrands_0_1",
+      "name": "_brands_getBrands_0_1",
+      "description": "Test case for endpoint get-/brands",
+      "endpoint": "get-/brands",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_search_searchBrand_1_1",
+      "name": "_brands_search_searchBrand_1_1",
+      "description": "Test case for endpoint get-/brands/search",
+      "endpoint": "get-/brands/search",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/brands",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/brands/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_search_searchBrand_2_1",
+      "name": "_brands_search_searchBrand_2_1",
+      "description": "Test case for endpoint get-/brands/search",
+      "endpoint": "get-/brands/search",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/brands/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_brands_storeBrand_0_1",
+      "name": "_brands_storeBrand_0_1",
+      "description": "Test case for endpoint post-/brands",
+      "endpoint": "post-/brands",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/brands",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of BrandRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_cartId_product_productId__deleteProductFromCart_1_1",
+      "name": "_carts_cartId_product_productId__deleteProductFromCart_1_1",
+      "description": "Test case for endpoint delete-/carts/{cartId}/product/{productId}",
+      "endpoint": "delete-/carts/{cartId}/product/{productId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/carts/{cartId}",
+          "method": "GET",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/carts/{cartId}/product/{productId}",
+          "method": "DELETE",
+          "path_variables": {
+            "cartId": null,
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_cartId_product_productId__deleteProductFromCart_2_1",
+      "name": "_carts_cartId_product_productId__deleteProductFromCart_2_1",
+      "description": "Test case for endpoint delete-/carts/{cartId}/product/{productId}",
+      "endpoint": "delete-/carts/{cartId}/product/{productId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/carts/{cartId}/product/{productId}",
+          "method": "DELETE",
+          "path_variables": {
+            "cartId": null,
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_cartId_product_quantity_updateCartQuantity_1_1",
+      "name": "_carts_cartId_product_quantity_updateCartQuantity_1_1",
+      "description": "Test case for endpoint put-/carts/{cartId}/product/quantity",
+      "endpoint": "put-/carts/{cartId}/product/quantity",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/carts/{cartId}",
+          "method": "GET",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/carts/{cartId}/product/quantity",
+          "method": "PUT",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "product_id": "string",
+            "quantity": "integer"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_cartId__deleteCart_1_1",
+      "name": "_carts_cartId__deleteCart_1_1",
+      "description": "Test case for endpoint delete-/carts/{cartId}",
+      "endpoint": "delete-/carts/{cartId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/carts/{cartId}",
+          "method": "GET",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/carts/{cartId}",
+          "method": "DELETE",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_cartId__getCart_0_1",
+      "name": "_carts_cartId__getCart_0_1",
+      "description": "Test case for endpoint get-/carts/{cartId}",
+      "endpoint": "get-/carts/{cartId}",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/carts/{cartId}",
+          "method": "GET",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_createCart_0_1",
+      "name": "_carts_createCart_0_1",
+      "description": "Test case for endpoint post-/carts",
+      "endpoint": "post-/carts",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/carts",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_carts_id__addItem_1_1",
+      "name": "_carts_id__addItem_1_1",
+      "description": "Test case for endpoint post-/carts/{id}",
+      "endpoint": "post-/carts/{id}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/carts/{cartId}",
+          "method": "GET",
+          "path_variables": {
+            "cartId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "post-/carts/{id}",
+          "method": "POST",
+          "path_variables": {
+            "id": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "product_id": "string",
+            "quantity": "integer"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_categoryId__deleteCategory_1_1",
+      "name": "_categories_categoryId__deleteCategory_1_1",
+      "description": "Test case for endpoint delete-/categories/{categoryId}",
+      "endpoint": "delete-/categories/{categoryId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/categories/{categoryId}",
+          "method": "DELETE",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_categoryId__patchCategory_1_1",
+      "name": "_categories_categoryId__patchCategory_1_1",
+      "description": "Test case for endpoint patch-/categories/{categoryId}",
+      "endpoint": "patch-/categories/{categoryId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/categories/{categoryId}",
+          "method": "PATCH",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of CategoryRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_categoryId__updateCategory_1_1",
+      "name": "_categories_categoryId__updateCategory_1_1",
+      "description": "Test case for endpoint put-/categories/{categoryId}",
+      "endpoint": "put-/categories/{categoryId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/categories/{categoryId}",
+          "method": "PUT",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of CategoryRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_categoryId__updateCategory_2_1",
+      "name": "_categories_categoryId__updateCategory_2_1",
+      "description": "Test case for endpoint put-/categories/{categoryId}",
+      "endpoint": "put-/categories/{categoryId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/categories/{categoryId}",
+          "method": "PUT",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of CategoryRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_getCategories_0_1",
+      "name": "_categories_getCategories_0_1",
+      "description": "Test case for endpoint get-/categories",
+      "endpoint": "get-/categories",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_search_searchCategory_1_1",
+      "name": "_categories_search_searchCategory_1_1",
+      "description": "Test case for endpoint get-/categories/search",
+      "endpoint": "get-/categories/search",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/categories/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_search_searchCategory_2_1",
+      "name": "_categories_search_searchCategory_2_1",
+      "description": "Test case for endpoint get-/categories/search",
+      "endpoint": "get-/categories/search",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/categories/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_storeCategory_0_1",
+      "name": "_categories_storeCategory_0_1",
+      "description": "Test case for endpoint post-/categories",
+      "endpoint": "post-/categories",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/categories",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of CategoryRequest": {
+              "name": "string",
+              "slug": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_tree_categoryId__getCategory_1_1",
+      "name": "_categories_tree_categoryId__getCategory_1_1",
+      "description": "Test case for endpoint get-/categories/tree/{categoryId}",
+      "endpoint": "get-/categories/tree/{categoryId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/categories/tree/{categoryId}",
+          "method": "GET",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_tree_categoryId__getCategory_2_1",
+      "name": "_categories_tree_categoryId__getCategory_2_1",
+      "description": "Test case for endpoint get-/categories/tree/{categoryId}",
+      "endpoint": "get-/categories/tree/{categoryId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/categories/tree/{categoryId}",
+          "method": "GET",
+          "path_variables": {
+            "categoryId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_categories_tree_getCategoriesTree_0_1",
+      "name": "_categories_tree_getCategoriesTree_0_1",
+      "description": "Test case for endpoint get-/categories/tree",
+      "endpoint": "get-/categories/tree",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/categories/tree",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_category_slug": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_favorites_favoriteId__deleteFavorite_1_1",
+      "name": "_favorites_favoriteId__deleteFavorite_1_1",
+      "description": "Test case for endpoint delete-/favorites/{favoriteId}",
+      "endpoint": "delete-/favorites/{favoriteId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/favorites",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of FavoriteRequest": {
+              "product_id": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/favorites/{favoriteId}",
+          "method": "DELETE",
+          "path_variables": {
+            "favoriteId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_favorites_favoriteId__getFavorite_1_1",
+      "name": "_favorites_favoriteId__getFavorite_1_1",
+      "description": "Test case for endpoint get-/favorites/{favoriteId}",
+      "endpoint": "get-/favorites/{favoriteId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/favorites",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of FavoriteRequest": {
+              "product_id": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/favorites/{favoriteId}",
+          "method": "GET",
+          "path_variables": {
+            "favoriteId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_favorites_getFavorites_0_1",
+      "name": "_favorites_getFavorites_0_1",
+      "description": "Test case for endpoint get-/favorites",
+      "endpoint": "get-/favorites",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_favorites_storeFavorite_0_1",
+      "name": "_favorites_storeFavorite_0_1",
+      "description": "Test case for endpoint post-/favorites",
+      "endpoint": "post-/favorites",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/favorites",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of FavoriteRequest": {
+              "product_id": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_images_getImages_0_1",
+      "name": "_images_getImages_0_1",
+      "description": "Test case for endpoint get-/images",
+      "endpoint": "get-/images",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/images",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_getInvoices_0_1",
+      "name": "_invoices_getInvoices_0_1",
+      "description": "Test case for endpoint get-/invoices",
+      "endpoint": "get-/invoices",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId_status_updateInvoiceStatus_1_1",
+      "name": "_invoices_invoiceId_status_updateInvoiceStatus_1_1",
+      "description": "Test case for endpoint put-/invoices/{invoiceId}/status",
+      "endpoint": "put-/invoices/{invoiceId}/status",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/invoices/{invoiceId}/status",
+          "method": "PUT",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "status": "string",
+            "status_message": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId_status_updateInvoiceStatus_2_1",
+      "name": "_invoices_invoiceId_status_updateInvoiceStatus_2_1",
+      "description": "Test case for endpoint put-/invoices/{invoiceId}/status",
+      "endpoint": "put-/invoices/{invoiceId}/status",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/invoices/{invoiceId}/status",
+          "method": "PUT",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "status": "string",
+            "status_message": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__getInvoice_1_1",
+      "name": "_invoices_invoiceId__getInvoice_1_1",
+      "description": "Test case for endpoint get-/invoices/{invoiceId}",
+      "endpoint": "get-/invoices/{invoiceId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoiceId}",
+          "method": "GET",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__getInvoice_2_1",
+      "name": "_invoices_invoiceId__getInvoice_2_1",
+      "description": "Test case for endpoint get-/invoices/{invoiceId}",
+      "endpoint": "get-/invoices/{invoiceId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoiceId}",
+          "method": "GET",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__patchInvoice_1_1",
+      "name": "_invoices_invoiceId__patchInvoice_1_1",
+      "description": "Test case for endpoint patch-/invoices/{invoiceId}",
+      "endpoint": "patch-/invoices/{invoiceId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/invoices/{invoiceId}",
+          "method": "PATCH",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__patchInvoice_2_1",
+      "name": "_invoices_invoiceId__patchInvoice_2_1",
+      "description": "Test case for endpoint patch-/invoices/{invoiceId}",
+      "endpoint": "patch-/invoices/{invoiceId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/invoices/{invoiceId}",
+          "method": "PATCH",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__updateInvoice_1_1",
+      "name": "_invoices_invoiceId__updateInvoice_1_1",
+      "description": "Test case for endpoint put-/invoices/{invoiceId}",
+      "endpoint": "put-/invoices/{invoiceId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/invoices/{invoiceId}",
+          "method": "PUT",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoiceId__updateInvoice_2_1",
+      "name": "_invoices_invoiceId__updateInvoice_2_1",
+      "description": "Test case for endpoint put-/invoices/{invoiceId}",
+      "endpoint": "put-/invoices/{invoiceId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/invoices/{invoiceId}",
+          "method": "PUT",
+          "path_variables": {
+            "invoiceId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoice_number_download-pdf-status_downloadPDFStatus_1_1",
+      "name": "_invoices_invoice_number_download-pdf-status_downloadPDFStatus_1_1",
+      "description": "Test case for endpoint get-/invoices/{invoice_number}/download-pdf-status",
+      "endpoint": "get-/invoices/{invoice_number}/download-pdf-status",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoice_number}/download-pdf-status",
+          "method": "GET",
+          "path_variables": {
+            "invoice_number": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoice_number_download-pdf-status_downloadPDFStatus_2_1",
+      "name": "_invoices_invoice_number_download-pdf-status_downloadPDFStatus_2_1",
+      "description": "Test case for endpoint get-/invoices/{invoice_number}/download-pdf-status",
+      "endpoint": "get-/invoices/{invoice_number}/download-pdf-status",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoice_number}/download-pdf-status",
+          "method": "GET",
+          "path_variables": {
+            "invoice_number": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoice_number_download-pdf_downloadPDF_1_1",
+      "name": "_invoices_invoice_number_download-pdf_downloadPDF_1_1",
+      "description": "Test case for endpoint get-/invoices/{invoice_number}/download-pdf",
+      "endpoint": "get-/invoices/{invoice_number}/download-pdf",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoice_number}/download-pdf",
+          "method": "GET",
+          "path_variables": {
+            "invoice_number": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_invoice_number_download-pdf_downloadPDF_2_1",
+      "name": "_invoices_invoice_number_download-pdf_downloadPDF_2_1",
+      "description": "Test case for endpoint get-/invoices/{invoice_number}/download-pdf",
+      "endpoint": "get-/invoices/{invoice_number}/download-pdf",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/{invoice_number}/download-pdf",
+          "method": "GET",
+          "path_variables": {
+            "invoice_number": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_search_searchInvoice_1_1",
+      "name": "_invoices_search_searchInvoice_1_1",
+      "description": "Test case for endpoint get-/invoices/search",
+      "endpoint": "get-/invoices/search",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_search_searchInvoice_2_1",
+      "name": "_invoices_search_searchInvoice_2_1",
+      "description": "Test case for endpoint get-/invoices/search",
+      "endpoint": "get-/invoices/search",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/invoices/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_invoices_storeInvoice_0_1",
+      "name": "_invoices_storeInvoice_0_1",
+      "description": "Test case for endpoint post-/invoices",
+      "endpoint": "post-/invoices",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/invoices",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of InvoiceRequest": {
+              "billing_street": "string",
+              "billing_city": "string",
+              "billing_state": "string",
+              "billing_country": "string",
+              "billing_postal_code": "string",
+              "payment_method": "string",
+              "cart_id": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_getMessages_0_1",
+      "name": "_messages_getMessages_0_1",
+      "description": "Test case for endpoint get-/messages",
+      "endpoint": "get-/messages",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_messageId_attach-file_attachFile_1_1",
+      "name": "_messages_messageId_attach-file_attachFile_1_1",
+      "description": "Test case for endpoint post-/messages/{messageId}/attach-file",
+      "endpoint": "post-/messages/{messageId}/attach-file",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "post-/messages/{messageId}/attach-file",
+          "method": "POST",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "file": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_messageId_reply_replyToMessage_1_1",
+      "name": "_messages_messageId_reply_replyToMessage_1_1",
+      "description": "Test case for endpoint post-/messages/{messageId}/reply",
+      "endpoint": "post-/messages/{messageId}/reply",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "post-/messages/{messageId}/reply",
+          "method": "POST",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ContactRequest": {
+              "name": "string",
+              "email": "string",
+              "subject": "string",
+              "message": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_messageId_reply_replyToMessage_2_1",
+      "name": "_messages_messageId_reply_replyToMessage_2_1",
+      "description": "Test case for endpoint post-/messages/{messageId}/reply",
+      "endpoint": "post-/messages/{messageId}/reply",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages/{messageId}",
+          "method": "GET",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "post-/messages/{messageId}/reply",
+          "method": "POST",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ContactRequest": {
+              "name": "string",
+              "email": "string",
+              "subject": "string",
+              "message": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_messageId_status_updateMessageStatus_1_1",
+      "name": "_messages_messageId_status_updateMessageStatus_1_1",
+      "description": "Test case for endpoint put-/messages/{messageId}/status",
+      "endpoint": "put-/messages/{messageId}/status",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/messages/{messageId}/status",
+          "method": "PUT",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "status": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_messageId__getMessage_1_1",
+      "name": "_messages_messageId__getMessage_1_1",
+      "description": "Test case for endpoint get-/messages/{messageId}",
+      "endpoint": "get-/messages/{messageId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/messages",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/messages/{messageId}",
+          "method": "GET",
+          "path_variables": {
+            "messageId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_messages_sendMessage_0_1",
+      "name": "_messages_sendMessage_0_1",
+      "description": "Test case for endpoint post-/messages",
+      "endpoint": "post-/messages",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/messages",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "name": "string",
+            "email": "string",
+            "subject": "string",
+            "message": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_payment_check_checkPayment_0_1",
+      "name": "_payment_check_checkPayment_0_1",
+      "description": "Test case for endpoint post-/payment/check",
+      "endpoint": "post-/payment/check",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/payment/check",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of PaymentRequest": {
+              "payment_method": "string",
+              "payment_details": "object"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_getProducts_1_1",
+      "name": "_products_getProducts_1_1",
+      "description": "Test case for endpoint get-/products",
+      "endpoint": "get-/products",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/products",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "by_brand": null,
+            "by_category": null,
+            "is_rental": null,
+            "between": null,
+            "sort": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId_related_getRelatedProducts_1_1",
+      "name": "_products_productId_related_getRelatedProducts_1_1",
+      "description": "Test case for endpoint get-/products/{productId}/related",
+      "endpoint": "get-/products/{productId}/related",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/{productId}/related",
+          "method": "GET",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId_related_getRelatedProducts_2_1",
+      "name": "_products_productId_related_getRelatedProducts_2_1",
+      "description": "Test case for endpoint get-/products/{productId}/related",
+      "endpoint": "get-/products/{productId}/related",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/{productId}/related",
+          "method": "GET",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__deleteProduct_1_1",
+      "name": "_products_productId__deleteProduct_1_1",
+      "description": "Test case for endpoint delete-/products/{productId}",
+      "endpoint": "delete-/products/{productId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/products/{productId}",
+          "method": "DELETE",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__deleteProduct_2_1",
+      "name": "_products_productId__deleteProduct_2_1",
+      "description": "Test case for endpoint delete-/products/{productId}",
+      "endpoint": "delete-/products/{productId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/products/{productId}",
+          "method": "DELETE",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__getProduct_1_1",
+      "name": "_products_productId__getProduct_1_1",
+      "description": "Test case for endpoint get-/products/{productId}",
+      "endpoint": "get-/products/{productId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/{productId}",
+          "method": "GET",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__getProduct_2_1",
+      "name": "_products_productId__getProduct_2_1",
+      "description": "Test case for endpoint get-/products/{productId}",
+      "endpoint": "get-/products/{productId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/{productId}",
+          "method": "GET",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__patchProduct_1_1",
+      "name": "_products_productId__patchProduct_1_1",
+      "description": "Test case for endpoint patch-/products/{productId}",
+      "endpoint": "patch-/products/{productId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/products/{productId}",
+          "method": "PATCH",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__patchProduct_2_1",
+      "name": "_products_productId__patchProduct_2_1",
+      "description": "Test case for endpoint patch-/products/{productId}",
+      "endpoint": "patch-/products/{productId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/products/{productId}",
+          "method": "PATCH",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__updateProduct_1_1",
+      "name": "_products_productId__updateProduct_1_1",
+      "description": "Test case for endpoint put-/products/{productId}",
+      "endpoint": "put-/products/{productId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/products/{productId}",
+          "method": "PUT",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_productId__updateProduct_2_1",
+      "name": "_products_productId__updateProduct_2_1",
+      "description": "Test case for endpoint put-/products/{productId}",
+      "endpoint": "put-/products/{productId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/products/{productId}",
+          "method": "PUT",
+          "path_variables": {
+            "productId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_search_searchProduct_1_1",
+      "name": "_products_search_searchProduct_1_1",
+      "description": "Test case for endpoint get-/products/search",
+      "endpoint": "get-/products/search",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/favorites",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_search_searchProduct_2_1",
+      "name": "_products_search_searchProduct_2_1",
+      "description": "Test case for endpoint get-/products/search",
+      "endpoint": "get-/products/search",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/invoices",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/products/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_products_storeProduct_0_1",
+      "name": "_products_storeProduct_0_1",
+      "description": "Test case for endpoint post-/products",
+      "endpoint": "post-/products",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/products",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of ProductRequest": {
+              "name": "string",
+              "description": "string",
+              "price": "number",
+              "category_id": "string",
+              "brand_id": "string",
+              "product_image_id": "string",
+              "is_location_offer": "boolean",
+              "is_rental": "boolean"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_average-sales-per-month_getAverageSalesPerMonth_0_1",
+      "name": "_reports_average-sales-per-month_getAverageSalesPerMonth_0_1",
+      "description": "Test case for endpoint get-/reports/average-sales-per-month",
+      "endpoint": "get-/reports/average-sales-per-month",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/average-sales-per-month",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "year": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_average-sales-per-week_getAverageSalesPerWeek_0_1",
+      "name": "_reports_average-sales-per-week_getAverageSalesPerWeek_0_1",
+      "description": "Test case for endpoint get-/reports/average-sales-per-week",
+      "endpoint": "get-/reports/average-sales-per-week",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/average-sales-per-week",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "year": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_customers-by-country_getCustomersByCountry_0_1",
+      "name": "_reports_customers-by-country_getCustomersByCountry_0_1",
+      "description": "Test case for endpoint get-/reports/customers-by-country",
+      "endpoint": "get-/reports/customers-by-country",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/customers-by-country",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_top10-best-selling-categories_getBestSellingCategories_0_1",
+      "name": "_reports_top10-best-selling-categories_getBestSellingCategories_0_1",
+      "description": "Test case for endpoint get-/reports/top10-best-selling-categories",
+      "endpoint": "get-/reports/top10-best-selling-categories",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/top10-best-selling-categories",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_top10-purchased-products_getTopPurchasedProducts_0_1",
+      "name": "_reports_top10-purchased-products_getTopPurchasedProducts_0_1",
+      "description": "Test case for endpoint get-/reports/top10-purchased-products",
+      "endpoint": "get-/reports/top10-purchased-products",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/top10-purchased-products",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_total-sales-of-years_getTotalSalesOfYears_0_1",
+      "name": "_reports_total-sales-of-years_getTotalSalesOfYears_0_1",
+      "description": "Test case for endpoint get-/reports/total-sales-of-years",
+      "endpoint": "get-/reports/total-sales-of-years",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/total-sales-of-years",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "years": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_reports_total-sales-per-country_getTotalSalesPerCountry_0_1",
+      "name": "_reports_total-sales-per-country_getTotalSalesPerCountry_0_1",
+      "description": "Test case for endpoint get-/reports/total-sales-per-country",
+      "endpoint": "get-/reports/total-sales-per-country",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/reports/total-sales-per-country",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_totp_setup_6d47e2cfc2f1079261c4c93ce0007ae0_0_1",
+      "name": "_totp_setup_6d47e2cfc2f1079261c4c93ce0007ae0_0_1",
+      "description": "Test case for endpoint post-/totp/setup",
+      "endpoint": "post-/totp/setup",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/totp/setup",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_totp_verify_0a819cdd91a22a616d7ddbb08330394a_0_1",
+      "name": "_totp_verify_0a819cdd91a22a616d7ddbb08330394a_0_1",
+      "description": "Test case for endpoint post-/totp/verify",
+      "endpoint": "post-/totp/verify",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/totp/verify",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "access_token": "string",
+            "totp": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_change-password_changePassword_0_1",
+      "name": "_users_change-password_changePassword_0_1",
+      "description": "Test case for endpoint post-/users/change-password",
+      "endpoint": "post-/users/change-password",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/users/change-password",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "current_password": "string",
+            "new_password": "string",
+            "new_password_confirmation": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_forgot-password_forgotPassword_0_1",
+      "name": "_users_forgot-password_forgotPassword_0_1",
+      "description": "Test case for endpoint post-/users/forgot-password",
+      "endpoint": "post-/users/forgot-password",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/users/forgot-password",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "email": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_getUsers_0_1",
+      "name": "_users_getUsers_0_1",
+      "description": "Test case for endpoint get-/users",
+      "endpoint": "get-/users",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_login_login-customer_0_1",
+      "name": "_users_login_login-customer_0_1",
+      "description": "Test case for endpoint post-/users/login",
+      "endpoint": "post-/users/login",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "post-/users/login",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "email": "string",
+            "password": "string"
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_logout_logOut_0_1",
+      "name": "_users_logout_logOut_0_1",
+      "description": "Test case for endpoint get-/users/logout",
+      "endpoint": "get-/users/logout",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/logout",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_me_get-current-customer-info_0_1",
+      "name": "_users_me_get-current-customer-info_0_1",
+      "description": "Test case for endpoint get-/users/me",
+      "endpoint": "get-/users/me",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_refresh_refreshToken_0_1",
+      "name": "_users_refresh_refreshToken_0_1",
+      "description": "Test case for endpoint get-/users/refresh",
+      "endpoint": "get-/users/refresh",
+      "sequence_index": 0,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/refresh",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_register_storeUser_1_1",
+      "name": "_users_register_storeUser_1_1",
+      "description": "Test case for endpoint post-/users/register",
+      "endpoint": "post-/users/register",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "post-/users/register",
+          "method": "POST",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {
+            "schema of UserRequest": {
+              "first_name": "string",
+              "last_name": "string",
+              "address": "object",
+              "phone": "string",
+              "dob": "string",
+              "password": "string",
+              "email": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_search_searchUser_1_1",
+      "name": "_users_search_searchUser_1_1",
+      "description": "Test case for endpoint get-/users/search",
+      "endpoint": "get-/users/search",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/users/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_search_searchUser_2_1",
+      "name": "_users_search_searchUser_2_1",
+      "description": "Test case for endpoint get-/users/search",
+      "endpoint": "get-/users/search",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/users/search",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "q": null,
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__deleteUser_1_1",
+      "name": "_users_userId__deleteUser_1_1",
+      "description": "Test case for endpoint delete-/users/{userId}",
+      "endpoint": "delete-/users/{userId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/users/{userId}",
+          "method": "DELETE",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__deleteUser_2_1",
+      "name": "_users_userId__deleteUser_2_1",
+      "description": "Test case for endpoint delete-/users/{userId}",
+      "endpoint": "delete-/users/{userId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "delete-/users/{userId}",
+          "method": "DELETE",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__getUser_1_1",
+      "name": "_users_userId__getUser_1_1",
+      "description": "Test case for endpoint get-/users/{userId}",
+      "endpoint": "get-/users/{userId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/users/{userId}",
+          "method": "GET",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__getUser_2_1",
+      "name": "_users_userId__getUser_2_1",
+      "description": "Test case for endpoint get-/users/{userId}",
+      "endpoint": "get-/users/{userId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "get-/users/{userId}",
+          "method": "GET",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__patchUser_1_1",
+      "name": "_users_userId__patchUser_1_1",
+      "description": "Test case for endpoint patch-/users/{userId}",
+      "endpoint": "patch-/users/{userId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/users/{userId}",
+          "method": "PATCH",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of UserRequest": {
+              "first_name": "string",
+              "last_name": "string",
+              "address": "object",
+              "phone": "string",
+              "dob": "string",
+              "password": "string",
+              "email": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__patchUser_2_1",
+      "name": "_users_userId__patchUser_2_1",
+      "description": "Test case for endpoint patch-/users/{userId}",
+      "endpoint": "patch-/users/{userId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "patch-/users/{userId}",
+          "method": "PATCH",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of UserRequest": {
+              "first_name": "string",
+              "last_name": "string",
+              "address": "object",
+              "phone": "string",
+              "dob": "string",
+              "password": "string",
+              "email": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__updateUser_1_1",
+      "name": "_users_userId__updateUser_1_1",
+      "description": "Test case for endpoint put-/users/{userId}",
+      "endpoint": "put-/users/{userId}",
+      "sequence_index": 1,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {
+            "page": null
+          },
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/users/{userId}",
+          "method": "PUT",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of UserRequest": {
+              "first_name": "string",
+              "last_name": "string",
+              "address": "object",
+              "phone": "string",
+              "dob": "string",
+              "password": "string",
+              "email": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    },
+    {
+      "id": "_users_userId__updateUser_2_1",
+      "name": "_users_userId__updateUser_2_1",
+      "description": "Test case for endpoint put-/users/{userId}",
+      "endpoint": "put-/users/{userId}",
+      "sequence_index": 2,
+      "expected_status_code": "2xx",
+      "steps": [
+        {
+          "step_number": 1,
+          "endpoint": "get-/users/me",
+          "method": "GET",
+          "path_variables": {},
+          "query_parameters": {},
+          "request_body": {},
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        },
+        {
+          "step_number": 2,
+          "endpoint": "put-/users/{userId}",
+          "method": "PUT",
+          "path_variables": {
+            "userId": null
+          },
+          "query_parameters": {},
+          "request_body": {
+            "schema of UserRequest": {
+              "first_name": "string",
+              "last_name": "string",
+              "address": "object",
+              "phone": "string",
+              "dob": "string",
+              "password": "string",
+              "email": "string"
+            }
+          },
+          "response_validation": {
+            "status_code": "2xx",
+            "body_validation": {}
+          }
+        }
+      ],
+      "test_data": []
+    }
+  ]
+}

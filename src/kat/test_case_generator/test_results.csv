@@ -1,0 +1,5 @@
+test_case_id,step_number,endpoint,request_data,response_status,response_body,expected_status_code,test_data_index
+_brands_brandId__deleteBrand_1_1,1,get-/brands,"{""params"": {}, ""body"": {}}",error,"HTTPConnectionPool(host='localhost', port=8091): Max retries exceeded with url: /brands (Caused by ResponseError('too many 500 error responses'))",2xx,0
+_brands_brandId__deleteBrand_1_1,2,delete-/brands/{brandId},"{""params"": {}, ""body"": {}}",405,"{""message"": ""Method is not allowed for the requested route""}",2xx,0
+_brands_brandId__deleteBrand_2_1,1,get-/favorites,"{""params"": {}, ""body"": {}}",401,"{""message"": ""Unauthorized""}",2xx,0
+_brands_brandId__deleteBrand_2_1,2,delete-/brands/{brandId},"{""params"": {}, ""body"": {}}",405,"{""message"": ""Method is not allowed for the requested route""}",2xx,0

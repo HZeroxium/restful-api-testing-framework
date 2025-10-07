@@ -1,0 +1,71 @@
+{
+  "services": {
+    "e5154c81-d168-4c32-8ae6-59e7ecb1882b": {
+      "id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
+      "name": "Canada Holidays",
+      "spec_path": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays\\specs\\openapi.json",
+      "spec_source": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\server\\uploads\\openapi.json",
+      "working_dir": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays",
+      "created_at": "2025-09-30T22:56:19.140014",
+      "updated_at": "2025-09-30T22:57:58.764033",
+      "status": "active",
+      "endpoints_count": 6,
+      "test_cases_count": 7,
+      "test_data_count": 6
+    }
+  },
+  "runs": {
+    "611cbea0-bf4a-4db6-b802-4c18878d71eb": {
+      "id": "611cbea0-bf4a-4db6-b802-4c18878d71eb",
+      "service_id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
+      "config": {
+        "base_url": "https://canada-holidays.ca/",
+        "token": null,
+        "endpoint_filter": null,
+        "test_case_filter": null
+      },
+      "status": "running",
+      "created_at": "2025-09-30T22:58:58.570846",
+      "started_at": "2025-09-30T22:58:58.573096",
+      "completed_at": null,
+      "results": {
+        "total": 0,
+        "passed": 0,
+        "failed": 0,
+        "success_rate": 0.0
+      },
+      "artifacts": []
+    },
+    "e491873a-1a7a-41ab-b89e-0504340fa427": {
+      "id": "e491873a-1a7a-41ab-b89e-0504340fa427",
+      "service_id": "e5154c81-d168-4c32-8ae6-59e7ecb1882b",
+      "config": {
+        "base_url": "https://canada-holidays.ca/",
+        "token": null,
+        "endpoint_filter": null,
+        "test_case_filter": null
+      },
+      "status": "completed",
+      "created_at": "2025-10-02T21:10:57.427440",
+      "started_at": "2025-10-02T21:10:57.428440",
+      "completed_at": "2025-10-02T21:11:52.265677",
+      "results": {
+        "total": 96,
+        "passed": 96,
+        "failed": 0,
+        "success_rate": 100.0
+      },
+      "artifacts": [
+        {
+          "name": "results.csv",
+          "path": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Canada Holidays\\results\\e491873a-1a7a-41ab-b89e-0504340fa427.csv",
+          "size": 18244
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "created_at": "2025-09-30T22:22:51.611799",
+    "version": "1.0.0"
+  }
+}

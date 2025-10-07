@@ -1,0 +1,2 @@
+resolved_params: {'data': '{"data": {"username": "user1"}, "expected_code": "2xx"}'}
+resolved_body: {'schema of User': {'id': 'integer', 'username': 'string', 'firstName': 'string', 'lastName': 'string', 'email': 'string', 'password': 'string', 'phone': 'string', 'userStatus': 'integer'}}
