@@ -2,23 +2,25 @@
 
 import asyncio
 import os
-import time
 import json
 import argparse
 from datetime import datetime
 from typing import List, Dict, Any
 
-from tools import RestApiCallerTool, CodeExecutorTool
-from tools.test_execution_reporter import TestExecutionReporterTool
-from tools.test_collection_generator import TestCollectionGeneratorTool
+from tools.core.test_reporter import TestReporterTool
+from tools.core.test_collection_generator import TestCollectionGeneratorTool
+from tools.core.test_executor import TestExecutorTool
 from utils.rest_api_caller_factory import RestApiCallerFactory
 
 from schemas.tools.openapi_parser import EndpointInfo
-from schemas.tools.rest_api_caller import RestApiCallerOutput
-from schemas.tools.test_collection_generator import TestCollectionGeneratorInput
-from schemas.tools.test_suite_generator import TestSuite
-from schemas.tools.test_execution_reporter import (
-    TestExecutionReporterInput,
+from schemas.tools.test_collection_generator import (
+    TestCollectionGeneratorInput,
+    TestCollectionGeneratorOutput,
+    TestCollection,
+)
+from schemas.tools.test_executor import TestExecutorInput, TestExecutorOutput
+from schemas.tools.test_reporter import (
+    TestReporterInput,
     TestCaseResult,
     ValidationResult,
     TestStatus,
@@ -37,290 +39,261 @@ from utils.demo_utils import (
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
-async def execute_test_suite(
+async def simplified_testing_pipeline(
     api_name: str,
     api_version: str,
-    test_suite: TestSuite,
-    endpoint_tool: RestApiCallerTool,
+    endpoints: List[EndpointInfo],
+    base_url: str,
+    report_output_dir: str,
+    test_case_count: int = 2,
+    include_invalid_data: bool = True,
     verbose: bool = False,
-) -> List[TestCaseResult]:
+) -> Dict[str, Any]:
     """
-    Execute all test cases in a test suite.
+    Execute the simplified testing pipeline using only TestCollectionGeneratorTool.
 
-    Args:
-        api_name: Name of the API
-        api_version: Version of the API
-        test_suite: The test suite to execute
-        endpoint_tool: Tool to call the endpoint
-        verbose: Enable verbose logging
+    This pipeline follows the correct architecture:
+    1. Uses TestCollectionGeneratorTool as the main wrapper
+    2. TestCollectionGeneratorTool uses TestSuiteGeneratorTool for each endpoint
+    3. TestSuiteGeneratorTool handles the complete pipeline for each endpoint:
+       - Mines constraints (once per endpoint)
+       - Generates test data (once per endpoint)
+       - Generates validation scripts (once per endpoint)
+       - Verifies test data to filter mismatches
+       - Creates test cases with appropriate validation scripts
+       - Assembles the complete test suite
+    4. Executes all test suites
+    5. Generates comprehensive reports
 
-    Returns:
-        List of test case results
+    This eliminates duplicate LLM calls and follows proper separation of concerns.
     """
-    # Initialize logger for test suite execution
+
+    # Initialize logger
     log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
     logger = LoggerFactory.get_logger(
-        name="test-suite-executor",
+        name="api-test-runner.simplified-pipeline",
         logger_type=LoggerType.STANDARD,
         level=log_level,
     )
 
-    endpoint = test_suite.endpoint_info
-    logger.info(
-        f"Executing test suite for: [{endpoint.method.upper()}] {endpoint.path}"
-    )
+    logger.info(f"Starting simplified testing pipeline for {api_name} v{api_version}")
     logger.add_context(
         api_name=api_name,
         api_version=api_version,
-        endpoint_method=endpoint.method.upper(),
-        endpoint_path=endpoint.path,
-        test_cases_count=len(test_suite.test_cases),
+        endpoints_count=len(endpoints),
+        test_case_count=test_case_count,
+        include_invalid_data=include_invalid_data,
+        base_url=base_url,
+        output_dir=report_output_dir,
     )
 
-    if verbose:
-        logger.debug(f"Test cases: {len(test_suite.test_cases)}")
+    try:
+        # Step 1: Generate complete test collection (this handles everything!)
+        logger.info("Step 1: Generating complete test collection")
+        test_collection_generator = TestCollectionGeneratorTool(verbose=verbose)
 
-    # Initialize the code executor tool for validating scripts
-    code_executor = CodeExecutorTool(
-        verbose=verbose,
-        cache_enabled=False,
-        restricted_modules=["os", "sys", "subprocess"],
-    )
+        collection_input = TestCollectionGeneratorInput(
+            api_name=api_name,
+            api_version=api_version,
+            endpoints=endpoints,
+            test_case_count=test_case_count,
+            include_invalid_data=include_invalid_data,
+        )
 
-    test_case_results = []
+        collection_output: TestCollectionGeneratorOutput = (
+            await test_collection_generator.execute(collection_input)
+        )
+        test_collection: TestCollection = collection_output.test_collection
 
-    for test_case in test_suite.test_cases:
-        logger.debug(f"Running test case: {test_case.name}")
-        logger.add_context(test_case_id=test_case.id, test_case_name=test_case.name)
+        logger.info(
+            f"Generated test collection with {len(test_collection.test_suites)} test suites"
+        )
 
-        # Execute the API call
-        test_start_time = time.perf_counter()
+        # Calculate total test cases
+        total_test_cases = sum(
+            len(suite.test_cases) for suite in test_collection.test_suites
+        )
+        logger.info(f"Total test cases generated: {total_test_cases}")
 
-        try:
-            # Prepare parameters for API call
-            params = {}
+        # Step 2: Execute all test suites
+        logger.info("Step 2: Executing test suites")
+        test_executor = TestExecutorTool(verbose=verbose)
 
-            # Handle request parameters
-            if test_case.request_params:
-                params.update(test_case.request_params)
+        executor_input = TestExecutorInput(
+            test_suites=test_collection.test_suites,
+            base_url=base_url,
+            timeout=30,
+            parallel_execution=True,
+            max_concurrent_requests=10,
+            save_results=True,
+            output_directory=report_output_dir,
+            comprehensive_report_data=collection_output.comprehensive_report_data,
+        )
 
-            # Handle headers
-            if test_case.request_headers:
-                for k, v in test_case.request_headers.items():
-                    params[f"header_{k}"] = v
+        executor_output: TestExecutorOutput = await test_executor.execute(
+            executor_input
+        )
+        test_suite_results = executor_output.test_suite_results
 
-            # Handle body
-            if test_case.request_body:
-                if isinstance(test_case.request_body, dict):
-                    params.update(test_case.request_body)
-                else:
-                    params["body"] = str(test_case.request_body)
+        logger.info(f"Executed {len(test_suite_results)} test suites")
 
-            # Execute API call
-            logger.debug(
-                f"Executing API call: {endpoint.method.upper()} {endpoint.path}"
+        # Use the comprehensive report output directory if available
+        if executor_output.output_directory:
+            comprehensive_report_dir = executor_output.output_directory
+            logger.info(f"Comprehensive reports saved to: {comprehensive_report_dir}")
+        else:
+            comprehensive_report_dir = report_output_dir
+
+        # Step 3: Generate comprehensive reports
+        logger.info("Step 3: Generating test reports")
+        test_reporter = TestReporterTool(verbose=verbose)
+
+        # Generate reports for each test suite separately
+        all_reports = []
+        all_test_case_results = []
+
+        for i, suite_result in enumerate(test_suite_results):
+            if len(suite_result.test_case_results) == 0:
+                logger.warning(
+                    f"Test suite {i+1} has no test case results, skipping report generation"
+                )
+                continue
+
+            # Find corresponding test suite from collection for endpoint info
+            corresponding_suite = (
+                test_collection.test_suites[i]
+                if i < len(test_collection.test_suites)
+                else None
             )
 
-            api_response: RestApiCallerOutput = await endpoint_tool.execute(params)
-            test_elapsed_time = time.perf_counter() - test_start_time
+            if not corresponding_suite:
+                logger.warning(f"Could not find corresponding test suite for index {i}")
+                continue
 
-            logger.info(
-                f"Received response with status code: {api_response.response.status_code}"
-            )
-            logger.add_context(
-                status_code=api_response.response.status_code,
-                response_time=f"{test_elapsed_time:.3f}s",
-            )
-
-            # Run validation scripts
-            validation_results = []
-            test_status = TestStatus.PASS  # Assume success initially
-
-            for script in test_case.validation_scripts:
-                try:
-                    # Create context variables for the script execution
-                    context_variables = {
-                        "request": api_response.request.model_dump(),
-                        "response": api_response.response.model_dump(),
-                        "expected_status_code": test_case.expected_status_code,
-                    }
-
-                    # Extract the main function name from the validation script
-                    import re
-
-                    function_match = re.search(
-                        r"def\s+([a-zA-Z0-9_]+)\s*\(", script.validation_code
-                    )
-                    function_name = function_match.group(1) if function_match else None
-
-                    # Add code to call the function and capture the result
-                    modified_code = script.validation_code
-                    if function_name:
-                        # Add code to call the function and print the result so we can capture it
-                        modified_code += f"""
-
-# Execute the validation function and capture result
-try:
-    _validation_result = {function_name}(request, response)
-    print(f"VALIDATION_RESULT: {{_validation_result}}")
-except Exception as e:
-    print(f"VALIDATION_ERROR: {{str(e)}}")
-    _validation_result = False
-"""
-
-                    # Execute the validation script using CodeExecutorTool
-                    from schemas.tools.code_executor import CodeExecutorInput
-
-                    executor_input = CodeExecutorInput(
-                        code=modified_code,
-                        context_variables=context_variables,
-                        timeout=5.0,  # 5 seconds timeout should be enough for validation scripts
-                    )
-
-                    logger.debug(f"Executing validation script: {script.name}")
-
-                    execution_result = await code_executor.execute(executor_input)
-
-                    # Extract validation result from stdout
-                    script_passed = False
-                    error_message = "Validation failed"
-
-                    if execution_result.success:
-                        # Look for validation result in stdout
-                        if execution_result.stdout:
-                            stdout_lines = execution_result.stdout.strip().split("\n")
-                            for line in stdout_lines:
-                                if line.startswith("VALIDATION_RESULT:"):
-                                    result_str = line.replace(
-                                        "VALIDATION_RESULT:", ""
-                                    ).strip()
-                                    script_passed = result_str.lower() == "true"
-                                    break
-                                elif line.startswith("VALIDATION_ERROR:"):
-                                    error_message = line.replace(
-                                        "VALIDATION_ERROR:", ""
-                                    ).strip()
-                                    script_passed = False
-                                    break
-
-                        # If no explicit result found, check if there were any errors
-                        if not any(
-                            line.startswith(("VALIDATION_RESULT:", "VALIDATION_ERROR:"))
-                            for line in execution_result.stdout.split("\n")
-                        ):
-                            # Fallback: assume success if no errors and code executed successfully
-                            script_passed = True
-                            error_message = "Validation passed"
-                    else:
-                        # Execution failed
-                        script_passed = False
-                        error_message = (
-                            execution_result.error or "Script execution failed"
-                        )
-                        if execution_result.stderr:
-                            error_message += f": {execution_result.stderr}"
-
-                    status = TestStatus.PASS if script_passed else TestStatus.FAIL
-                    message = "Validation passed" if script_passed else error_message
-
-                    # If any script fails, the whole test fails
-                    if status == TestStatus.FAIL:
-                        test_status = TestStatus.FAIL
-
+            # Convert validation results to reporter format
+            test_case_results = []
+            for case_result in suite_result.test_case_results:
+                validation_results = []
+                for validation_result in case_result.validation_results:
                     validation_results.append(
                         ValidationResult(
-                            script_id=script.id,
-                            script_name=script.name,
-                            status=status,
-                            message=message,
-                            validation_code=script.validation_code,
+                            script_id=validation_result.script_id,
+                            script_name=validation_result.script_name,
+                            status=(
+                                TestStatus.PASS
+                                if validation_result.passed
+                                else TestStatus.FAIL
+                            ),
+                            message=validation_result.result,
+                            validation_code="",  # Not needed for reporting
+                            script_type=None,  # Will be determined from script name
                         )
                     )
 
-                    if verbose:
-                        if status == TestStatus.PASS:
-                            logger.debug(f"Validation '{script.name}': PASSED")
-                        else:
-                            logger.warning(
-                                f"Validation '{script.name}': FAILED - {message}"
-                            )
-
-                except Exception as e:
-                    # If an exception occurs, mark as error
-                    validation_results.append(
-                        ValidationResult(
-                            script_id=script.id,
-                            script_name=script.name,
-                            status=TestStatus.ERROR,
-                            message=f"Error executing script: {str(e)}",
-                            validation_code=script.validation_code,
-                        )
+                test_case_results.append(
+                    TestCaseResult(
+                        test_case_id=case_result.test_case_id,
+                        test_case_name=case_result.test_case_name,
+                        status=(
+                            TestStatus.PASS if case_result.passed else TestStatus.FAIL
+                        ),
+                        elapsed_time=case_result.response_time,
+                        request=case_result.request_details,
+                        response={
+                            "status_code": case_result.status_code,
+                            "body": case_result.response_body,
+                            "headers": case_result.response_headers,
+                        },
+                        validation_results=validation_results,
                     )
-                    test_status = TestStatus.ERROR
-                    logger.error(f"Validation '{script.name}': ERROR - {str(e)}")
+                )
 
-            # Create test case result
-            test_case_result = TestCaseResult(
-                test_case_id=test_case.id,
-                test_case_name=test_case.name,
-                status=test_status,
-                elapsed_time=test_elapsed_time,
-                request=api_response.request.model_dump(),
-                response=api_response.response.model_dump(),
-                validation_results=validation_results,
-                message=(
-                    "Test completed successfully"
-                    if test_status == TestStatus.PASS
-                    else "Test failed"
-                ),
-                # Include the original test data for reference
-                test_data={
-                    "expected_status_code": test_case.expected_status_code,
-                    "request_params": test_case.request_params,
-                    "request_headers": test_case.request_headers,
-                    "request_body": test_case.request_body,
-                    "expected_response_schema": test_case.expected_response_schema,
-                    "expected_response_contains": test_case.expected_response_contains,
-                },
-            )
+            # Generate individual report for this endpoint
+            if test_case_results:
+                reporter_input = TestReporterInput(
+                    api_name=api_name,
+                    api_version=api_version,
+                    endpoint_name=corresponding_suite.endpoint_info.name
+                    or corresponding_suite.endpoint_info.path,
+                    endpoint_path=corresponding_suite.endpoint_info.path,
+                    endpoint_method=corresponding_suite.endpoint_info.method,
+                    test_case_results=test_case_results,
+                    started_at=datetime.now(),  # Approximate
+                    finished_at=datetime.now(),  # Approximate
+                )
 
-            logger.info(
-                f"Test case '{test_case.name}' completed with status: {test_status}"
-            )
+                reporter_output = await test_reporter.execute(reporter_input)
 
-            test_case_results.append(test_case_result)
+                # Save the report to a file
+                safe_endpoint_name = (
+                    (
+                        corresponding_suite.endpoint_info.name
+                        or corresponding_suite.endpoint_info.path
+                    )
+                    .replace("/", "_")
+                    .replace("{", "")
+                    .replace("}", "")
+                )
+                filename = f"{api_name}_{safe_endpoint_name}.json"
+                report_path = os.path.join(report_output_dir, filename)
 
-        except Exception as e:
-            test_elapsed_time = time.perf_counter() - test_start_time
-            # Create a result with error status
-            test_case_result = TestCaseResult(
-                test_case_id=test_case.id,
-                test_case_name=test_case.name,
-                status=TestStatus.ERROR,
-                elapsed_time=test_elapsed_time,
-                request={"error": "API call failed"},
-                response={"error": str(e)},
-                validation_results=[],
-                message=f"Error executing API call: {str(e)}",
-                # Include the original test data even for errors
-                test_data={
-                    "expected_status_code": test_case.expected_status_code,
-                    "request_params": test_case.request_params,
-                    "request_headers": test_case.request_headers,
-                    "request_body": test_case.request_body,
-                    "expected_response_schema": test_case.expected_response_schema,
-                    "expected_response_contains": test_case.expected_response_contains,
-                },
-            )
-            test_case_results.append(test_case_result)
-            logger.error(
-                f"Error executing API call for test case '{test_case.name}': {str(e)}"
-            )
+                os.makedirs(os.path.dirname(report_path), exist_ok=True)
+                with open(report_path, "w") as f:
+                    json.dump(
+                        reporter_output.report.model_dump(), f, indent=2, default=str
+                    )
 
-    logger.info(
-        f"Test suite execution completed: {len(test_case_results)} test cases executed"
-    )
-    return test_case_results
+                # Add the report to our collection
+                report_data = reporter_output.report.model_dump()
+                report_data["report_path"] = report_path
+                all_reports.append(report_data)
+                all_test_case_results.extend(test_case_results)
+
+                logger.info(f"Test report saved to: {report_path}")
+
+        # Create overall summary
+        total_test_cases = len(all_test_case_results)
+        passed_tests = sum(
+            1 for result in all_test_case_results if result.status == TestStatus.PASS
+        )
+        failed_tests = sum(
+            1 for result in all_test_case_results if result.status == TestStatus.FAIL
+        )
+
+        summary = {
+            "total_suites": len(test_collection.test_suites),
+            "total_cases": total_test_cases,
+            "passed": passed_tests,
+            "failed": failed_tests,
+            "errors": 0,  # Not tracked separately in current format
+            "skipped": 0,  # Not tracked separately in current format
+            "success_rate": (
+                (passed_tests / total_test_cases * 100) if total_test_cases > 0 else 0.0
+            ),
+            "reports": all_reports,
+            "comprehensive_report_directory": comprehensive_report_dir,
+            "comprehensive_reports_available": bool(executor_output.output_directory),
+        }
+
+        # Save summary to comprehensive report directory if available
+        summary_path = os.path.join(comprehensive_report_dir, "legacy_summary.json")
+        with open(summary_path, "w") as f:
+            json.dump(summary, f, indent=2, default=str)
+
+        logger.info("Pipeline completed successfully")
+        logger.add_context(
+            total_test_suites=len(test_collection.test_suites),
+            total_test_cases=total_test_cases,
+            passed_tests=passed_tests,
+            failed_tests=failed_tests,
+            success_rate=round(summary["success_rate"], 1),
+            summary_path=summary_path,
+        )
+
+        return summary
+    except Exception as e:
+        logger.error(f"Error during testing pipeline: {str(e)}")
+        raise e
 
 
 async def generate_and_execute_test_collection(
@@ -334,13 +307,13 @@ async def generate_and_execute_test_collection(
     verbose: bool = False,
 ) -> Dict[str, Any]:
     """
-    Generate a test collection, execute tests, and generate reports.
+    Generate a test collection, execute tests, and generate reports using the updated pipeline.
 
     Args:
         api_name: Name of the API
         api_version: Version of the API
         endpoints: List of endpoints to test
-        factory: Factory for creating endpoint-specific tools
+        factory: Factory for creating endpoint-specific tools (used for base_url extraction)
         report_output_dir: Directory to save test reports
         test_case_count: Number of test cases per endpoint
         include_invalid_data: Whether to include invalid test data
@@ -349,191 +322,20 @@ async def generate_and_execute_test_collection(
     Returns:
         Summary of test results
     """
-    # Initialize logger for test collection execution
-    log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
-    logger = LoggerFactory.get_logger(
-        name="test-collection-executor",
-        logger_type=LoggerType.STANDARD,
-        level=log_level,
-    )
+    # Extract base URL from factory
+    base_url = factory.server_url
 
-    logger.info(f"Generating test collection for {api_name} v{api_version}")
-    logger.add_context(
-        api_name=api_name,
-        api_version=api_version,
-        endpoints_count=len(endpoints),
-        test_case_count=test_case_count,
-        include_invalid_data=include_invalid_data,
-        output_dir=report_output_dir,
-    )
-
-    if verbose:
-        logger.debug(f"Endpoints to test: {len(endpoints)}")
-        logger.debug(f"Test cases per endpoint: {test_case_count}")
-        logger.debug(f"Include invalid data: {include_invalid_data}")
-
-    # Initialize the test collection generator
-    test_collection_generator = TestCollectionGeneratorTool(verbose=verbose)
-
-    # Generate the test collection
-    collection_input = TestCollectionGeneratorInput(
+    # Use the new simplified testing pipeline
+    return await simplified_testing_pipeline(
         api_name=api_name,
         api_version=api_version,
         endpoints=endpoints,
-        test_case_count=test_case_count,  # Use the parameter value
-        include_invalid_data=include_invalid_data,  # Use the parameter value
+        base_url=base_url,
+        report_output_dir=report_output_dir,
+        test_case_count=test_case_count,
+        include_invalid_data=include_invalid_data,
+        verbose=verbose,
     )
-
-    collection_output = await test_collection_generator.execute(collection_input)
-    test_collection = collection_output.test_collection
-
-    logger.info(
-        f"Generated test collection with {len(test_collection.test_suites)} test suites"
-    )
-
-    # Initialize the report tool
-    test_report_tool = TestExecutionReporterTool(verbose=verbose)
-
-    # Execute each test suite and generate reports
-    all_reports = []
-    summary = {
-        "total_suites": len(test_collection.test_suites),
-        "total_cases": 0,
-        "passed": 0,
-        "failed": 0,
-        "errors": 0,
-        "skipped": 0,
-    }
-
-    for i, test_suite in enumerate(test_collection.test_suites, 1):
-        logger.info(f"Processing test suite {i}/{len(test_collection.test_suites)}")
-
-        # Get the endpoint-specific tool
-        endpoint = test_suite.endpoint_info
-        tool_key = f"{endpoint.method.lower()}_{factory._path_to_name(endpoint.path)}"
-
-        if tool_key not in factory.create_tools_from_endpoints([endpoint]):
-            logger.warning(
-                f"No tool found for endpoint: {endpoint.method.upper()} {endpoint.path}"
-            )
-            continue
-
-        endpoint_tool = factory.create_tool_from_endpoint(endpoint)
-
-        # Record start time
-        started_at = datetime.now()
-
-        # Execute all test cases in the suite
-        test_case_results = await execute_test_suite(
-            api_name=api_name,
-            api_version=api_version,
-            test_suite=test_suite,
-            endpoint_tool=endpoint_tool,
-            verbose=verbose,
-        )
-
-        # Record finish time
-        finished_at = datetime.now()
-
-        # Update summary statistics
-        summary["total_cases"] += len(test_case_results)
-        for result in test_case_results:
-            if result.status == TestStatus.PASS:
-                summary["passed"] += 1
-            elif result.status == TestStatus.FAIL:
-                summary["failed"] += 1
-            elif result.status == TestStatus.ERROR:
-                summary["errors"] += 1
-            elif result.status == TestStatus.SKIPPED:
-                summary["skipped"] += 1
-
-        # Generate a report for this test suite
-        report_input = TestExecutionReporterInput(
-            api_name=api_name,
-            api_version=api_version,
-            endpoint_name=endpoint.name or endpoint.path,
-            endpoint_path=endpoint.path,
-            endpoint_method=endpoint.method,
-            test_case_results=test_case_results,
-            started_at=started_at,
-            finished_at=finished_at,
-        )
-
-        report_output = await test_report_tool.execute(report_input)
-
-        # Save the report to a file
-        safe_endpoint_name = (
-            (endpoint.name or endpoint.path)
-            .replace("/", "_")
-            .replace("{", "")
-            .replace("}", "")
-        )
-        filename = f"{api_name}_{safe_endpoint_name}.json"
-        report_path = os.path.join(report_output_dir, filename)
-
-        os.makedirs(os.path.dirname(report_path), exist_ok=True)
-        with open(report_path, "w") as f:
-            json.dump(report_output.report.model_dump(), f, indent=2, default=str)
-
-        # Add the report path to the output
-        report_data = report_output.report.model_dump()
-        report_data["report_path"] = report_path
-        all_reports.append(report_data)
-
-        logger.info(f"Test report saved to: {report_path}")
-
-        if verbose:
-            logger.debug(
-                f"Test Report Summary for {endpoint.method.upper()} {endpoint.path}:"
-            )
-            logger.debug(f"  Total tests: {report_output.report.summary.total_tests}")
-            logger.debug(f"  Passed: {report_output.report.summary.passed}")
-            logger.debug(f"  Failed: {report_output.report.summary.failed}")
-            logger.debug(f"  Errors: {report_output.report.summary.errors}")
-            logger.debug(
-                f"  Success rate: {report_output.report.summary.success_rate:.1f}%"
-            )
-            logger.debug(f"  Total time: {report_output.report.total_time:.2f} seconds")
-
-    # Calculate overall success rate
-    total_tests = summary["total_cases"]
-    if total_tests > 0:
-        summary["success_rate"] = (summary["passed"] / total_tests) * 100
-    else:
-        summary["success_rate"] = 0
-
-    # Add reports to summary
-    summary["reports"] = all_reports
-
-    # Create a summary file
-    summary_path = os.path.join(report_output_dir, "summary.json")
-    with open(summary_path, "w") as f:
-        json.dump(summary, f, indent=2, default=str)
-
-    logger.info("Test collection execution completed successfully")
-    logger.add_context(
-        total_suites=summary["total_suites"],
-        total_cases=summary["total_cases"],
-        passed=summary["passed"],
-        failed=summary["failed"],
-        errors=summary["errors"],
-        skipped=summary["skipped"],
-        success_rate=round(summary["success_rate"], 1),
-        summary_path=summary_path,
-    )
-
-    if verbose:
-        logger.debug("Overall Test Summary:")
-        logger.debug(f"  Total test suites: {summary['total_suites']}")
-        logger.debug(f"  Total test cases: {summary['total_cases']}")
-        logger.debug(f"  Passed: {summary['passed']}")
-        logger.debug(f"  Failed: {summary['failed']}")
-        logger.debug(f"  Errors: {summary['errors']}")
-        logger.debug(f"  Skipped: {summary['skipped']}")
-        logger.debug(f"  Overall success rate: {summary['success_rate']:.1f}%")
-        logger.debug(f"  Summary saved to: {summary_path}")
-
-    return summary
 
 
 async def main():
@@ -544,6 +346,11 @@ async def main():
         type=str,
         default=get_default_spec_path(),
         help="Path to OpenAPI specification file",
+    )
+    parser.add_argument(
+        "--endpoints",
+        type=str,
+        help="Comma-separated list of endpoint indices to test (e.g., '1,2,3' or '43')",
     )
     parser.add_argument(
         "--test-cases",
@@ -590,7 +397,7 @@ async def main():
     logger.add_context(output_directory=report_output_dir)
 
     # Parse OpenAPI spec
-    api_info = await parse_openapi_spec(args.spec, verbose=True)
+    api_info = await parse_openapi_spec(args.spec, verbose=False)
 
     if not api_info["endpoints"]:
         logger.error("No endpoints found in the OpenAPI specification.")
@@ -616,6 +423,7 @@ async def main():
     selected_endpoints = select_endpoints(
         api_info["endpoints"],
         "Enter endpoint numbers to test (comma-separated, or 'all'): ",
+        pre_selected_indices=args.endpoints,
     )
 
     logger.info(f"Selected {len(selected_endpoints)} endpoints for testing")

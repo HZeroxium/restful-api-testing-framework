@@ -13,7 +13,7 @@ import json
 import argparse
 from typing import List
 
-from tools.test_data_generator import TestDataGeneratorTool
+from tools.llm.test_data_generator import TestDataGeneratorTool
 from schemas.tools.openapi_parser import (
     EndpointInfo,
 )

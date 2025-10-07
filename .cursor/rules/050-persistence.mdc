@@ -1,0 +1,21 @@
+---
+description: SQLAlchemy 2.0 async, migrations, and transactional rules.
+globs:
+  - "infra/db/**"
+  - "**/repositories/**"
+  - "**/migrations/**"
+alwaysApply: false
+---
+
+# ORM & Sessions
+
+- Use SQLAlchemy 2.0 async engine and sessions; one session per request; no global sessions.
+- Use explicit transactions; prefer `async with session.begin()`; commit only at use-case boundary.
+
+# Schema & Migrations
+
+- Use Alembic for migrations; keep repeatable seeds in separate scripts; zero destructive changes without explicit ADR.
+
+# DTO Mapping
+
+- Map DB entities to Pydantic DTOs at boundary; no leaking ORM models into handlers or agents.

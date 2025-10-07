@@ -1,0 +1,18 @@
+---
+description: Vector store selection & usage (Qdrant, Chroma, Pinecone).
+globs:
+  - "infra/vector/**"
+  - "agents/**"
+alwaysApply: false
+---
+
+# Index & Data Policy
+
+- Version embeddings by model+dim; include chunking parameters in metadata.
+- Choose store by needs: local dev (Chroma or Qdrant local), prod (Qdrant managed or Pinecone).
+- Use hybrid retrieval when supported; log query latency and recall diagnostics.
+
+# Operations
+
+- Batch upserts; enforce idempotent IDs; backfill jobs with checkpoints.
+- GC orphaned vectors on source deletion; maintain schema evolution scripts.

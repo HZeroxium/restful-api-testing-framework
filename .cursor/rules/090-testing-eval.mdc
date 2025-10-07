@@ -1,0 +1,18 @@
+---
+description: Testing pyramid and LLM evaluation (pytest, pytest-asyncio, Ragas, DeepEval).
+globs:
+  - "tests/**"
+  - "agents/**"
+alwaysApply: false
+---
+
+# Tests
+
+- Unit tests for pure functions/tools; integration tests for routers/db/cache/queue; contract tests for external APIs (schemas & example fixtures).
+- Use pytest-asyncio for async flows; prefer httpx AsyncClient for API tests; seed deterministic data.
+
+# LLM/Agent Evals
+
+- Maintain golden datasets for typical tasks; add regression cases for prior failures.
+- Evaluate RAG/agent quality offline in CI (small sample) and nightly (full) with Ragas/DeepEval.
+- Fail CI on severe regressions (faithfulness/correctness) beyond configured thresholds.

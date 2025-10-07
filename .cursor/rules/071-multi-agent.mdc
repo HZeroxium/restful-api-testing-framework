@@ -1,0 +1,20 @@
+---
+description: Multi-agent topologies, coordination, and governance.
+globs:
+  - "agents/**"
+alwaysApply: false
+---
+
+# Topologies
+
+- Choose among: single-agent w/tools, supervisor-worker, hierarchical, or debate/consensus patterns.
+- Keep each agent single-responsibility with minimal tool surface.
+
+# Coordination
+
+- Define shared message schema; include role, tool invocations, partial results, and costs.
+- Avoid unbounded fan-out; apply queues/bulkheads; require human-in-the-loop for high-risk actions.
+
+# Determinism
+
+- Use explicit prompts/system directives per agent; version prompts; record model/params/seeds.

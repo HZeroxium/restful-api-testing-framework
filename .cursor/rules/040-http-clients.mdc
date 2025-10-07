@@ -1,0 +1,20 @@
+---
+description: HTTP client policy (httpx + retries, timeouts, pooling).
+globs:
+  - "**/clients/**"
+  - "**/integrations/**"
+  - "**/tools/**"
+alwaysApply: false
+---
+
+# Client Construction
+
+- Use a shared async `httpx.AsyncClient` per service with:
+  - Connect/read/write/pool timeouts set explicitly.
+  - Connection pooling configured by expected concurrency.
+- Retries: idempotent methods only; exponential backoff + jitter; cap attempts; respect Retry-After.
+
+# Safety
+
+- Enforce strict TLS; pin allowed hosts if feasible.
+- Redact tokens from logs; include correlation and trace headers on every request.

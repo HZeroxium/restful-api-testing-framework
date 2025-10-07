@@ -1,0 +1,28 @@
+---
+description: Pydantic v2 usage, settings, and serialization rules.
+globs:
+  - "**/*.py"
+  - "**/schemas/**"
+  - "**/models/**"
+  - "**/configs/**"
+  - "domain/**"
+  - "app/api/dto/**"
+alwaysApply: false
+---
+
+# Models
+
+- Use Pydantic v2 `BaseModel`; annotate all fields; forbid extras; prefer `field_validator` for complex rules.
+- Use `model_validate`, `model_dump` with explicit `mode` and `by_alias` flags at boundaries.
+- Domain entities (in `domain/entities/`) must be framework-agnostic and avoid API-only fields.
+- API DTOs (in `app/api/dto/`) are edge contracts; map to/from domain models explicitly.
+- Use `ConfigDict(extra='forbid')` for DTOs; allow minimal extras in adapters only if interop requires.
+
+# Settings
+
+- Use `pydantic-settings` for configuration; map env vars via `env_prefix`; document required vars.
+- No defaults for secrets; fail fast if missing.
+
+# JSON & Examples
+
+- Provide `json_schema_extra` with concise examples for public APIs.

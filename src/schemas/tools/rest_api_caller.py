@@ -15,8 +15,8 @@ class RestRequest(BaseModel):
     params: Optional[Dict[str, Any]] = Field(
         default=None, description="Query parameters"
     )
-    json: Optional[Dict[str, Any]] = Field(
-        default=None, description="JSON body for POST/PUT"
+    json_body: Optional[Dict[str, Any]] = Field(
+        default=None, description="JSON body for POST/PUT", alias="body"
     )
 
 

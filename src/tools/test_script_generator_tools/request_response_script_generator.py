@@ -51,7 +51,6 @@ class RequestResponseScriptGeneratorTool(BaseTool):
     ) -> TestScriptGeneratorOutput:
         """Generate request-response correlation validation scripts."""
         endpoint = inp.endpoint_info
-        test_data = inp.test_data
         constraints = inp.constraints or []
 
         # Filter constraints to only request-response constraints
@@ -96,7 +95,6 @@ class RequestResponseScriptGeneratorTool(BaseTool):
                 constraints_data=json.dumps(
                     [c.model_dump() for c in correlation_constraints], indent=2
                 ),
-                test_data=json.dumps(test_data.model_dump(), indent=2),
                 constraint_count=len(correlation_constraints),
             )
 
@@ -107,12 +105,11 @@ class RequestResponseScriptGeneratorTool(BaseTool):
             # Execute LLM analysis
             raw_json = await create_and_execute_llm_agent(
                 app_name="request_response_script_generator",
-                agent_name="correlation_script_analyzer",
+                agent_name="request_response_script_generator",
                 instruction=formatted_prompt,
                 input_data={
                     "endpoint": sanitized_endpoint_data,
                     "constraints": [c.model_dump() for c in correlation_constraints],
-                    "test_data": test_data.model_dump(),
                     "constraint_count": len(correlation_constraints),
                 },
                 output_schema=ValidationScriptResult,

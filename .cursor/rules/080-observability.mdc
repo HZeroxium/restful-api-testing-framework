@@ -1,0 +1,25 @@
+---
+description: Observability with OpenTelemetry, tracing/metrics/logs, and LLM traces.
+globs:
+  - "app/**"
+  - "agents/**"
+  - "infra/observability/**"
+  - "adapters/**"
+alwaysApply: false
+---
+
+# Tracing
+
+- Auto-instrument FastAPI and httpx; propagate W3C trace context through agent/tool calls.
+- Tag spans with route, user/tenant (hashed), tool name, tokens_in/out, cost_estimate, cache_hit, and retries.
+- Add adapter-layer spans (rest/llm/reporting) and include dependency endpoints, status, and retry count.
+
+# Metrics
+
+- Export latency, error rate, throughput per endpoint/tool; include saturation (queues, pool usage).
+- Record success rate and distribution for test executor and constraint miners.
+
+# Logs
+
+- Use structured JSON logs (request_id, trace_id, span_id, level, msg, fields).
+- For LLM traces, capture prompts and outputs with redaction for secrets/PII.

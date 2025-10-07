@@ -1,0 +1,17 @@
+---
+description: Guardrails for inputs/outputs and policy enforcement (GuardrailsAI, NeMo Guardrails).
+globs:
+  - "agents/**"
+  - "app/**"
+alwaysApply: false
+---
+
+# Validation & Safety
+
+- Validate input/output against Pydantic schemas; reject or repair before downstream use.
+- Apply content safety, PII detection/redaction, topic constraints, and tool allowlists.
+
+# Runtime
+
+- Run guardrails inline for synchronous flows; use streaming validation for token streams when available.
+- Log violations with trace IDs; never leak raw PII in logs.

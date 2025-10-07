@@ -45,6 +45,14 @@ class EndpointInfo(BaseModel):
         default_factory=dict, description="Schema for response"
     )
 
+    # Additional fields for database storage (optional)
+    id: Optional[str] = Field(None, description="Unique identifier for the endpoint")
+    dataset_id: Optional[str] = Field(
+        None, description="Dataset ID this endpoint belongs to"
+    )
+    created_at: Optional[str] = Field(None, description="Creation timestamp")
+    updated_at: Optional[str] = Field(None, description="Last update timestamp")
+
 
 class OpenAPIParserInput(ToolInput):
     """Input for OpenAPI parser tool."""
