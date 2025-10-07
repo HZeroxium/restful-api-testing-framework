@@ -1,0 +1,17 @@
+---
+description: Caching and idempotency with Redis and in-memory caches.
+globs:
+  - "infra/cache/**"
+  - "**/services/**"
+alwaysApply: false
+---
+
+# Policy
+
+- Cache only pure, deterministic results; set TTL; include version in keys.
+- Implement request idempotency keys for POST/PUT where applicable.
+- Use Redis for cross-process cache; Caffeine-like in-memory cache per-process for hot paths.
+
+# Invalidations
+
+- Prefer write-through or explicit bust on source-of-truth changes; never silent stale writes.

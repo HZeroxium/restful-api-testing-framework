@@ -1,0 +1,26 @@
+---
+description: Python style, typing, and quality gates.
+globs:
+  - "**/*.py"
+  - "pyproject.toml"
+  - ".pre-commit-config.yaml"
+alwaysApply: false
+---
+
+# Style & Tooling
+
+- Enforce Ruff for lint + fixes; Black for format; isort for imports; MyPy strict mode on src/ and agents/.
+- Use `pyproject.toml` as single source for tool config; avoid per-tool config files.
+- Prefer `typing` aliases and `NewType` for domain IDs; use `Annotated` for validation/meta.
+- Prefer dataclasses only for internal immutable value objects; use Pydantic models at boundaries (API, tools, persistence DTOs).
+
+# Code Organization
+
+- Package layout:
+  - `app/` (FastAPI app, routers, di/dependencies)
+  - `agents/` (graphs, tools, memory, policies)
+  - `core/` (domain, services, ports)
+  - `infra/` (db, cache, queues, vector stores)
+  - `tests/` (unit/integration/contract/eval)
+  - `scripts/` (devops, data prep)
+- Keep modules ≤ 400 lines where practical; prefer composition over inheritance.

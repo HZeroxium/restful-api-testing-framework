@@ -26,7 +26,7 @@ class RequestParamScriptGeneratorTool(BaseTool):
         description: str = "Generates validation scripts for request parameters",
         config: Optional[Dict] = None,
         verbose: bool = True,
-        cache_enabled: bool = False,
+        cache_enabled: bool = True,
     ):
         super().__init__(
             name=name,
@@ -51,7 +51,6 @@ class RequestParamScriptGeneratorTool(BaseTool):
     ) -> TestScriptGeneratorOutput:
         """Generate request parameter validation scripts."""
         endpoint = inp.endpoint_info
-        test_data = inp.test_data
         constraints = inp.constraints or []
 
         # Filter constraints to only request parameter constraints
@@ -92,7 +91,6 @@ class RequestParamScriptGeneratorTool(BaseTool):
                 constraints_data=json.dumps(
                     [c.model_dump() for c in param_constraints], indent=2
                 ),
-                test_data=json.dumps(test_data.model_dump(), indent=2),
                 constraint_count=len(param_constraints),
             )
 
@@ -103,12 +101,11 @@ class RequestParamScriptGeneratorTool(BaseTool):
             # Execute LLM analysis
             raw_json = await create_and_execute_llm_agent(
                 app_name="request_param_script_generator",
-                agent_name="param_script_analyzer",
+                agent_name="request_param_script_generator",
                 instruction=formatted_prompt,
                 input_data={
                     "endpoint": sanitized_endpoint_data,
                     "constraints": [c.model_dump() for c in param_constraints],
-                    "test_data": test_data.model_dump(),
                     "constraint_count": len(param_constraints),
                 },
                 output_schema=ValidationScriptResult,

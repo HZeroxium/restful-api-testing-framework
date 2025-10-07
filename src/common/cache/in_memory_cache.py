@@ -7,7 +7,7 @@ import re
 from typing import Any, Optional, Dict, List
 from collections import OrderedDict
 
-from .cache_interface import CacheInterface, CacheStats
+from common.cache.cache_interface import CacheInterface, CacheStats
 
 
 class CacheEntry:
@@ -89,6 +89,11 @@ class InMemoryCache(CacheInterface):
             for key in expired_keys:
                 del self._cache[key]
                 self._stats.record_expired()
+
+    def _evict_lru(self):
+        """Evict least recently used entry"""
+        if self._cache:
+            self._cache.popitem(last=False)  # Remove first (oldest) item
 
     def _evict_lru(self):
         """Evict least recently used entry"""

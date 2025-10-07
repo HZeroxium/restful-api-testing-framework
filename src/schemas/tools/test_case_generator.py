@@ -28,8 +28,13 @@ class TestCaseGeneratorInput(BaseModel):
     """Input for TestCaseGeneratorTool."""
 
     endpoint_info: EndpointInfo
-    constraints: Optional[List[ApiConstraint]] = None
-    test_data: TestData  # Now using the TestData model directly
+    test_data: TestData  # The test data to create a test case from
+    validation_scripts: Optional[List[ValidationScript]] = (
+        None  # Pre-generated validation scripts
+    )
+    constraints: Optional[List[ApiConstraint]] = (
+        None  # Constraints for script generation if scripts not provided
+    )
     name: Optional[str] = None
     description: Optional[str] = None
 

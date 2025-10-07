@@ -3,7 +3,7 @@
 from typing import Any, Dict, Optional
 from pydantic import Field, field_validator
 
-from ..core import ToolInput, ToolOutput
+from schemas.core import ToolInput, ToolOutput
 
 
 class CodeExecutorInput(ToolInput):

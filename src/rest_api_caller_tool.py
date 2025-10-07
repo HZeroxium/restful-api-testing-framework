@@ -5,7 +5,7 @@ import os
 import json
 from datetime import datetime
 
-from tools.rest_api_caller import RestApiCallerTool
+from tools.core.rest_api_caller import RestApiCallerTool
 from schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
@@ -34,7 +34,7 @@ async def main():
         ),
         # JSON POST
         "httpbin_post": RestRequest(
-            method="POST", url="https://httpbin.org/post", json={"foo": "bar"}
+            method="POST", url="https://httpbin.org/post", body={"foo": "bar"}
         ),
         # JSONPlaceholder examples
         "get_posts": RestRequest(
@@ -49,19 +49,19 @@ async def main():
             method="POST",
             url="https://jsonplaceholder.typicode.com/posts",
             headers={"Content-type": "application/json; charset=UTF-8"},
-            json={"title": "foo", "body": "bar", "userId": 1},
+            body={"title": "foo", "body": "bar", "userId": 1},
         ),
         "update_post_1": RestRequest(
             method="PUT",
             url="https://jsonplaceholder.typicode.com/posts/1",
             headers={"Content-type": "application/json; charset=UTF-8"},
-            json={"id": 1, "title": "foo", "body": "bar", "userId": 1},
+            body={"id": 1, "title": "foo", "body": "bar", "userId": 1},
         ),
         "patch_post_1": RestRequest(
             method="PATCH",
             url="https://jsonplaceholder.typicode.com/posts/1",
             headers={"Content-type": "application/json; charset=UTF-8"},
-            json={"title": "updated title"},
+            body={"title": "updated title"},
         ),
         "delete_post_1": RestRequest(
             method="DELETE",
@@ -116,7 +116,7 @@ async def main():
             method=req.method,
             url=req.url,
             has_params=bool(req.params),
-            has_json=bool(req.json),
+            has_json=bool(req.body),
         )
 
         try:

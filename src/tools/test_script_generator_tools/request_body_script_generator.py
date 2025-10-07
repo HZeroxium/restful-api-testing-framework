@@ -51,7 +51,6 @@ class RequestBodyScriptGeneratorTool(BaseTool):
     ) -> TestScriptGeneratorOutput:
         """Generate request body validation scripts."""
         endpoint = inp.endpoint_info
-        test_data = inp.test_data
         constraints = inp.constraints or []
 
         # Filter constraints to only request body constraints
@@ -99,7 +98,6 @@ class RequestBodyScriptGeneratorTool(BaseTool):
                 constraints_data=json.dumps(
                     [c.model_dump() for c in body_constraints], indent=2
                 ),
-                test_data=json.dumps(test_data.model_dump(), indent=2),
                 constraint_count=len(body_constraints),
             )
 
@@ -110,12 +108,11 @@ class RequestBodyScriptGeneratorTool(BaseTool):
             # Execute LLM analysis
             raw_json = await create_and_execute_llm_agent(
                 app_name="request_body_script_generator",
-                agent_name="body_script_analyzer",
+                agent_name="request_body_script_generator",
                 instruction=formatted_prompt,
                 input_data={
                     "endpoint": sanitized_endpoint_data,
                     "constraints": [c.model_dump() for c in body_constraints],
-                    "test_data": test_data.model_dump(),
                     "constraint_count": len(body_constraints),
                 },
                 output_schema=ValidationScriptResult,

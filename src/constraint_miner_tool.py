@@ -23,7 +23,7 @@ from utils.demo_utils import (
     validate_file_exists,
     get_default_spec_path,
 )
-from report_visualizer import export_constraint_report_to_excel
+from visualizers.report_visualizer import export_constraint_report_to_excel
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 

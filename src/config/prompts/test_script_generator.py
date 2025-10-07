@@ -56,14 +56,12 @@ Endpoint Information:
 Request Parameter Constraints:
 {constraints_data}
 
-Test Data Context:
-{test_data}
-
 **MANDATORY REQUIREMENTS**:
 1. Generate exactly {constraint_count} validation scripts (one per constraint)
 2. Each script must validate ONE specific constraint
 3. Use the constraint description and details to create targeted validation logic
 4. Include the constraint ID reference in script comments
+5. Scripts should work with any test data that follows the endpoint schema
 
 Generate validation scripts in this JSON format:
 
@@ -135,14 +133,12 @@ Endpoint Information:
 Request Body Constraints:
 {constraints_data}
 
-Test Data Context:
-{test_data}
-
 **MANDATORY REQUIREMENTS**:
 1. Generate exactly {constraint_count} validation scripts (one per constraint)
 2. Each script must validate ONE specific constraint
 3. Use the constraint description and details to create targeted validation logic
 4. Include the constraint ID reference in script comments
+5. Scripts should work with any test data that follows the endpoint schema
 
 Generate validation scripts in this JSON format:
 
@@ -214,14 +210,12 @@ Endpoint Information:
 Response Property Constraints:
 {constraints_data}
 
-Test Data Context:
-{test_data}
-
 **MANDATORY REQUIREMENTS**:
 1. Generate exactly {constraint_count} validation scripts (one per constraint)
 2. Each script must validate ONE specific constraint
 3. Use the constraint description and details to create targeted validation logic
 4. Include the constraint ID reference in script comments
+5. Scripts should work with any test data that follows the endpoint schema
 
 Generate validation scripts in this JSON format:
 {{{{
@@ -291,14 +285,12 @@ Endpoint Information:
 Request-Response Correlation Constraints:
 {constraints_data}
 
-Test Data Context:
-{test_data}
-
 **MANDATORY REQUIREMENTS**:
 1. Generate exactly {constraint_count} validation scripts (one per constraint)
 2. Each script must validate ONE specific constraint
 3. Use the constraint description and details to create targeted validation logic
 4. Include the constraint ID reference in script comments
+5. Scripts should work with any test data that follows the endpoint schema
 
 Generate validation scripts in this JSON format:
 {{{{

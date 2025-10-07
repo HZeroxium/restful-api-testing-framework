@@ -1,0 +1,23 @@
+---
+description: CI/CD, pre-commit, security scanning, container policy.
+globs:
+  - ".github/workflows/**"
+  - ".pre-commit-config.yaml"
+  - "Dockerfile"
+  - "helm/**"
+alwaysApply: false
+---
+
+# CI
+
+- Jobs: lint (ruff/black/isort), typecheck (mypy), unit, integration (with services via docker-compose or Testcontainers), eval (smoke), SCA (pip-audit/safety), image scan.
+- Cache virtualenv and wheels; pin deps by range with lock file.
+
+# Container
+
+- Use slim base; build wheels at layer; non-root user; healthcheck; read-only FS; drop caps.
+- Expose OTEL envs and minimal runtime env vars only.
+
+# Deployment
+
+- Blue/green or canary; SLO-based promotion; rollback scripts and config snapshots.

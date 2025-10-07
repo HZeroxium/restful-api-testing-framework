@@ -1,0 +1,34 @@
+---
+description: Agent stack selection and core patterns (LangGraph/LangChain, Google ADK, LlamaIndex).
+globs:
+  - "agents/**"
+  - "src/agents/**"
+  - "app/agents/**"
+  - "application/**"
+  - "domain/ports/**"
+alwaysApply: false
+---
+
+# Orchestration
+
+- Prefer graph-based agents (LangGraph) for stateful, multi-step, or multi-actor workflows.
+- Keep tools pure and side-effect aware; define clear input/output schemas (Pydantic).
+- Agents must depend on application use-cases or `domain/ports` (interfaces). Do not import concrete adapters.
+
+# Interop
+
+- When targeting Google ecosystem or multi-agent A2A protocols, consider ADK for orchestration and eval harnesses.
+- LlamaIndex agents may be used when document-centric primitives (indices, retrievers, routers) simplify the design.
+
+# Sessions & Memory
+
+- Use explicit session/state stores (Redis/SQLite/Postgres) for conversation or task memory; scope by tenant/user.
+- Persist tool call traces and tokens to enable replay and debugging.
+
+# Wiring
+
+- Provide factories in `infra/di/` to assemble agents with port implementations.
+
+# Safety & Budgets
+
+- Configure token/tool budgets per task; enforce step/time caps; provide deterministic fallbacks on exhaustion.
