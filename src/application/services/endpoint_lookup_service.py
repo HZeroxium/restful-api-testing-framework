@@ -83,6 +83,31 @@ class EndpointLookupService:
         self.logger.debug(f"Endpoint {endpoint_id} not found in any dataset")
         return None
 
+    async def get_endpoint_by_name(self, name: str) -> Optional[EndpointInfo]:
+        """Get endpoint by name across all datasets."""
+        self.logger.debug(f"Looking up endpoint by name: {name}")
+
+        # Get all dataset IDs
+        if not self.datasets_base_path.exists():
+            return None
+
+        for dataset_dir in self.datasets_base_path.iterdir():
+            if not dataset_dir.is_dir():
+                continue
+
+            dataset_id = dataset_dir.name
+            endpoints = self._load_endpoints_from_dataset(dataset_id)
+
+            for endpoint_data in endpoints.values():
+                if endpoint_data.get("name") == name:
+                    self.logger.debug(
+                        f"Found endpoint '{name}' in dataset {dataset_id}"
+                    )
+                    return self._dict_to_endpoint(endpoint_data)
+
+        self.logger.debug(f"Endpoint '{name}' not found in any dataset")
+        return None
+
     async def get_all_endpoints(self) -> tuple[Dict[str, Any], Dict[str, str]]:
         """Get all endpoints across all datasets.
 

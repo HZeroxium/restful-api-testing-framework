@@ -36,6 +36,10 @@ class EndpointService:
         """Get endpoint by ID."""
         return await self.repository.get_by_id(endpoint_id)
 
+    async def get_endpoint_by_name(self, name: str) -> Optional[EndpointInfo]:
+        """Get endpoint by name."""
+        return await self.repository.get_by_name(name)
+
     async def get_endpoint_by_path_method(
         self, path: str, method: str
     ) -> Optional[EndpointInfo]:

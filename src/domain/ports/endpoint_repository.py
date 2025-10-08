@@ -19,6 +19,11 @@ class EndpointRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    async def get_by_name(self, name: str) -> Optional[EndpointInfo]:
+        """Get endpoint by name."""
+        pass
+
+    @abstractmethod
     async def get_by_path_method(
         self, path: str, method: str
     ) -> Optional[EndpointInfo]:

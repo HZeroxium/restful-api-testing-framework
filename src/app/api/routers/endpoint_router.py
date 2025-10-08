@@ -304,3 +304,32 @@ async def export_endpoints(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to export endpoints: {str(e)}",
         )
+
+
+@router.get(
+    "/by-endpoint-name/{endpoint_name}",
+    response_model=EndpointResponse,
+    summary="Get endpoint by name",
+)
+async def get_endpoint_by_name(
+    endpoint_name: str,
+    service: EndpointService = endpoint_service_dependency,
+):
+    """Get a specific endpoint by name."""
+    try:
+        endpoint = await service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint with name '{endpoint_name}' not found",
+            )
+
+        return EndpointResponse.from_endpoint_info(endpoint)
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get endpoint by name: {str(e)}",
+        )

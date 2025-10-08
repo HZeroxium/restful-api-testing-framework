@@ -26,7 +26,10 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             self._load_endpoints()
         else:
             # Global storage - use lookup service to search across all datasets
-            self.file_path = Path(file_path)
+            # For global repository, file_path is not used since we use lookup service
+            self.file_path = (
+                Path(file_path) if file_path else Path("data/endpoints.json")
+            )
             self.lookup_service = EndpointLookupService()
             # For global repository, we don't load endpoints at init
             # Instead, we'll use the lookup service when needed
@@ -131,6 +134,18 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
         else:
             # Global repository - use lookup service
             return await self.lookup_service.get_endpoint_by_id(endpoint_id)
+
+    async def get_by_name(self, name: str) -> Optional[EndpointInfo]:
+        """Get endpoint by name."""
+        if self.dataset_id:
+            # Dataset-specific repository
+            for endpoint_data in self._endpoints.values():
+                if endpoint_data.get("name") == name:
+                    return self._dict_to_endpoint(endpoint_data)
+            return None
+        else:
+            # Global repository - use lookup service
+            return await self.lookup_service.get_endpoint_by_name(name)
 
     async def get_by_path_method(
         self, path: str, method: str

@@ -3,6 +3,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from application.services.constraint_service import ConstraintService
+from application.services.endpoint_service import EndpointService
 from app.api.dto.constraint_dto import (
     ConstraintCreateRequest,
     ConstraintResponse,
@@ -11,7 +12,10 @@ from app.api.dto.constraint_dto import (
     MineConstraintsResponse,
 )
 from schemas.tools.constraint_miner import ApiConstraint
-from infra.di.container import constraint_service_dependency
+from infra.di.container import (
+    constraint_service_dependency,
+    endpoint_service_dependency,
+)
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/constraints", tags=["constraints"])
@@ -121,6 +125,132 @@ async def list_constraints(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to list constraints: {str(e)}",
+        )
+
+
+@router.get(
+    "/by-endpoint-name/{endpoint_name}",
+    response_model=ConstraintListResponse,
+    summary="Get constraints by endpoint name",
+)
+async def get_constraints_by_endpoint_name(
+    endpoint_name: str,
+    constraint_service: ConstraintService = constraint_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """Get constraints for a specific endpoint by endpoint name."""
+    logger.info(f"GET /constraints/by-endpoint-name/{endpoint_name}")
+
+    try:
+        # First, find the endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint with name '{endpoint_name}' not found",
+            )
+
+        # Get constraints for the endpoint
+        constraints = await constraint_service.get_constraints_by_endpoint_id(
+            endpoint.id
+        )
+
+        logger.debug(
+            f"Retrieved {len(constraints)} constraints for endpoint '{endpoint_name}'"
+        )
+        return ConstraintListResponse(
+            constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
+            total=len(constraints),
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(f"Failed to get constraints for endpoint '{endpoint_name}'")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get constraints for endpoint '{endpoint_name}': {str(e)}",
+        )
+
+
+@router.post(
+    "/mine/by-endpoint-name/{endpoint_name}",
+    response_model=MineConstraintsResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Mine constraints by endpoint name",
+)
+async def mine_constraints_by_endpoint_name(
+    endpoint_name: str,
+    constraint_service: ConstraintService = constraint_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """
+    Mine constraints for a specific endpoint using endpoint name.
+
+    This is a convenience endpoint that:
+    1. Finds the endpoint by name
+    2. Mines constraints for that endpoint
+    3. Returns the mined constraints
+    """
+    logger.info(f"POST /constraints/mine/by-endpoint-name/{endpoint_name}")
+
+    try:
+        # First, find the endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint with name '{endpoint_name}' not found",
+            )
+
+        # Mine constraints for the endpoint
+        miner_output = await constraint_service.mine_constraints_for_endpoint(
+            endpoint.id
+        )
+        return MineConstraintsResponse.from_miner_output(miner_output, endpoint.id)
+
+    except HTTPException:
+        raise
+    except ValueError as e:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        logger.exception(f"Failed to mine constraints for endpoint '{endpoint_name}'")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to mine constraints for endpoint '{endpoint_name}': {str(e)}",
+        )
+
+
+@router.get(
+    "/by-endpoint-id/{endpoint_id}",
+    response_model=ConstraintListResponse,
+    summary="Get constraints by endpoint ID",
+)
+async def get_constraints_by_endpoint_id(
+    endpoint_id: str,
+    constraint_service: ConstraintService = constraint_service_dependency,
+):
+    """Get constraints for a specific endpoint by endpoint ID."""
+    logger.info(f"GET /constraints/by-endpoint-id/{endpoint_id}")
+
+    try:
+        constraints = await constraint_service.get_constraints_by_endpoint_id(
+            endpoint_id
+        )
+
+        logger.debug(
+            f"Retrieved {len(constraints)} constraints for endpoint ID '{endpoint_id}'"
+        )
+        return ConstraintListResponse(
+            constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
+            total=len(constraints),
+        )
+
+    except Exception as e:
+        logger.exception(f"Failed to get constraints for endpoint ID '{endpoint_id}'")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get constraints for endpoint ID '{endpoint_id}': {str(e)}",
         )
 
 

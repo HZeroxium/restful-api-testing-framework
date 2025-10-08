@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 import logging
 
 from infra.configs.app_config import settings
-from infra.di.container import Container
+from infra.di.container import Container, get_container
 from app.api.routers.endpoint_router import router as endpoint_router
 from app.api.routers.constraint_router import router as constraint_router
 from app.api.routers.validation_script_router import router as validation_script_router
@@ -20,16 +20,16 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Dependency injection container
-container = Container()
-
-# Configure container
-container.config.endpoints.file_path.from_value(settings.endpoints_file_path)
-container.config.constraints.file_path.from_value(settings.constraints_file_path)
-container.config.validation_scripts.file_path.from_value(
-    settings.validation_scripts_file_path
+# Configure the global container
+container = get_container()
+container.config.from_dict(
+    {
+        "endpoints": {"file_path": settings.endpoints_file_path},
+        "constraints": {"file_path": settings.constraints_file_path},
+        "validation_scripts": {"file_path": settings.validation_scripts_file_path},
+        "datasets": {"base_path": settings.datasets_base_path},
+    }
 )
-container.config.datasets.base_path.from_value(settings.datasets_base_path)
 
 
 @asynccontextmanager
@@ -40,23 +40,15 @@ async def lifespan(app: FastAPI):
     logger.info(f"Application: {settings.app_name} v{settings.app_version}")
     logger.info(f"Debug mode: {settings.debug}")
 
-    # Wire container
-    container.wire(
-        modules=[
-            "app.api.routers.endpoint_router",
-            "app.api.routers.constraint_router",
-            "app.api.routers.validation_script_router",
-            "app.api.routers.dataset_router",
-        ]
-    )
-
-    logger.info("Dependency injection container wired successfully")
+    # Container is now configured with dependency functions
+    # No need for wiring since we're using direct dependency functions
+    logger.info("Dependency injection container configured successfully")
 
     yield
 
     # Shutdown
     logger.info("Shutting down application...")
-    container.unwire()
+    # No unwiring needed since we're not using wiring anymore
 
 
 # Create FastAPI application
@@ -110,7 +102,7 @@ async def health_check():
 async def global_exception_handler(request, exc):
     """Global exception handler."""
     from fastapi.responses import JSONResponse
-    
+
     logger.error(f"Unhandled exception: {exc}", exc_info=True)
     return JSONResponse(
         status_code=500,

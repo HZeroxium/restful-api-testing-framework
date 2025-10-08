@@ -3,6 +3,7 @@
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from application.services.validation_script_service import ValidationScriptService
+from application.services.endpoint_service import EndpointService
 from app.api.dto.validation_script_dto import (
     ValidationScriptCreateRequest,
     ValidationScriptResponse,
@@ -11,7 +12,10 @@ from app.api.dto.validation_script_dto import (
     GenerateScriptsResponse,
 )
 from schemas.tools.test_script_generator import ValidationScript
-from infra.di.container import validation_script_service_dependency
+from infra.di.container import (
+    validation_script_service_dependency,
+    endpoint_service_dependency,
+)
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 router = APIRouter(prefix="/validation-scripts", tags=["validation-scripts"])
@@ -131,6 +135,142 @@ async def list_validation_scripts(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to list validation scripts: {str(e)}",
+        )
+
+
+@router.get(
+    "/by-endpoint-name/{endpoint_name}",
+    response_model=ValidationScriptListResponse,
+    summary="Get validation scripts by endpoint name",
+)
+async def get_validation_scripts_by_endpoint_name(
+    endpoint_name: str,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """Get validation scripts for a specific endpoint by endpoint name."""
+    logger.info(f"GET /validation-scripts/by-endpoint-name/{endpoint_name}")
+
+    try:
+        # First, find the endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint with name '{endpoint_name}' not found",
+            )
+
+        # Get validation scripts for the endpoint
+        scripts = await validation_script_service.get_scripts_by_endpoint_id(
+            endpoint.id
+        )
+
+        logger.debug(
+            f"Retrieved {len(scripts)} validation scripts for endpoint '{endpoint_name}'"
+        )
+        return ValidationScriptListResponse(
+            scripts=[ValidationScriptResponse.from_script(s) for s in scripts],
+            total=len(scripts),
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(
+            f"Failed to get validation scripts for endpoint '{endpoint_name}'"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get validation scripts for endpoint '{endpoint_name}': {str(e)}",
+        )
+
+
+@router.post(
+    "/generate/by-endpoint-name/{endpoint_name}",
+    response_model=GenerateScriptsResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Generate validation scripts by endpoint name",
+)
+async def generate_validation_scripts_by_endpoint_name(
+    endpoint_name: str,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """
+    Generate validation scripts for a specific endpoint using endpoint name.
+
+    This is a convenience endpoint that:
+    1. Finds the endpoint by name
+    2. Generates validation scripts for that endpoint
+    3. Returns the generated scripts
+    """
+    logger.info(f"POST /validation-scripts/generate/by-endpoint-name/{endpoint_name}")
+
+    try:
+        # First, find the endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint with name '{endpoint_name}' not found",
+            )
+
+        # Generate validation scripts for the endpoint
+        generator_output = (
+            await validation_script_service.generate_scripts_for_endpoint(endpoint.id)
+        )
+        logger.info(
+            f"Successfully generated {len(generator_output.validation_scripts)} scripts for endpoint: {endpoint_name}"
+        )
+        return GenerateScriptsResponse.from_generator_output(
+            generator_output, endpoint.id
+        )
+
+    except HTTPException:
+        raise
+    except ValueError as e:
+        logger.error(f"Endpoint not found: {endpoint_name} - {str(e)}")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(e))
+    except Exception as e:
+        logger.exception(f"Failed to generate scripts for endpoint: {endpoint_name}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to generate validation scripts for endpoint '{endpoint_name}': {str(e)}",
+        )
+
+
+@router.get(
+    "/by-endpoint-id/{endpoint_id}",
+    response_model=ValidationScriptListResponse,
+    summary="Get validation scripts by endpoint ID",
+)
+async def get_validation_scripts_by_endpoint_id(
+    endpoint_id: str,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+):
+    """Get validation scripts for a specific endpoint by endpoint ID."""
+    logger.info(f"GET /validation-scripts/by-endpoint-id/{endpoint_id}")
+
+    try:
+        scripts = await validation_script_service.get_scripts_by_endpoint_id(
+            endpoint_id
+        )
+
+        logger.debug(
+            f"Retrieved {len(scripts)} validation scripts for endpoint ID '{endpoint_id}'"
+        )
+        return ValidationScriptListResponse(
+            scripts=[ValidationScriptResponse.from_script(s) for s in scripts],
+            total=len(scripts),
+        )
+
+    except Exception as e:
+        logger.exception(
+            f"Failed to get validation scripts for endpoint ID '{endpoint_id}'"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to get validation scripts for endpoint ID '{endpoint_id}': {str(e)}",
         )
 
 
