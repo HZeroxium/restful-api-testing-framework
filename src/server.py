@@ -11,6 +11,8 @@ from app.api.routers.endpoint_router import router as endpoint_router
 from app.api.routers.constraint_router import router as constraint_router
 from app.api.routers.validation_script_router import router as validation_script_router
 from app.api.routers.dataset_router import router as dataset_router
+from app.api.routers.verification_router import router as verification_router
+from app.api.routers.aggregator_router import router as aggregator_router
 
 
 # Setup logging
@@ -74,6 +76,8 @@ app.include_router(dataset_router)
 app.include_router(endpoint_router, prefix="/api/v1")
 app.include_router(constraint_router, prefix="/api/v1")
 app.include_router(validation_script_router, prefix="/api/v1")
+app.include_router(verification_router, prefix="/api/v1")
+app.include_router(aggregator_router, prefix="/api/v1")
 
 
 @app.get("/")

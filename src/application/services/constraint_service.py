@@ -68,7 +68,7 @@ class ConstraintService:
         return await self.constraint_repository.delete_by_endpoint_id(endpoint_id)
 
     async def mine_constraints_for_endpoint(
-        self, endpoint_id: str
+        self, endpoint_id: str, override_existing: bool = True
     ) -> StaticConstraintMinerOutput:
         """Mine constraints for a specific endpoint using StaticConstraintMinerTool."""
         self.logger.info(f"Starting constraint mining for endpoint: {endpoint_id}")
@@ -80,6 +80,23 @@ class ConstraintService:
             raise ValueError(f"Endpoint with ID {endpoint_id} not found")
 
         self.logger.debug(f"Found endpoint: {endpoint.method} {endpoint.path}")
+
+        # If override_existing is True, delete existing constraints first
+        if override_existing:
+            existing_constraints = await self.constraint_repository.get_by_endpoint_id(
+                endpoint_id
+            )
+            if existing_constraints:
+                deleted_count = await self.constraint_repository.delete_by_endpoint_id(
+                    endpoint_id
+                )
+                self.logger.info(
+                    f"Deleted {deleted_count} existing constraints for endpoint {endpoint_id}"
+                )
+            else:
+                self.logger.info(
+                    f"No existing constraints found for endpoint {endpoint_id}"
+                )
 
         # Create input for constraint miner
         miner_input = StaticConstraintMinerInput(

@@ -28,6 +28,11 @@ from application.services.endpoint_service import EndpointService
 from application.services.constraint_service import ConstraintService
 from application.services.validation_script_service import ValidationScriptService
 from application.services.dataset_service import DatasetService
+from application.services.verification_service import VerificationService
+from application.services.aggregator_service import AggregatorService
+
+from tools.core.test_data_verifier import TestDataVerifierTool
+from tools.core.code_executor import CodeExecutorTool
 
 
 class Container(containers.DeclarativeContainer):
@@ -88,6 +93,32 @@ class Container(containers.DeclarativeContainer):
         endpoint_repo=endpoint_repository,
     )
 
+    # Tools
+    test_data_verifier: providers.Singleton[TestDataVerifierTool] = providers.Singleton(
+        TestDataVerifierTool
+    )
+
+    code_executor: providers.Singleton[CodeExecutorTool] = providers.Singleton(
+        CodeExecutorTool
+    )
+
+    # Verification Service
+    verification_service: providers.Factory[VerificationService] = providers.Factory(
+        VerificationService,
+        endpoint_service=endpoint_service,
+        validation_script_service=validation_script_service,
+        test_data_verifier=test_data_verifier,
+        code_executor=code_executor,
+    )
+
+    # Aggregator Service
+    aggregator_service: providers.Factory[AggregatorService] = providers.Factory(
+        AggregatorService,
+        constraint_service=constraint_service,
+        validation_script_service=validation_script_service,
+        endpoint_service=endpoint_service,
+    )
+
 
 # Global container instance
 _container: Container = None
@@ -126,9 +157,21 @@ def get_dataset_service() -> DatasetService:
     return get_container().dataset_service()
 
 
+def get_verification_service() -> VerificationService:
+    """Get VerificationService instance from DI container."""
+    return get_container().verification_service()
+
+
+def get_aggregator_service() -> AggregatorService:
+    """Get AggregatorService instance from DI container."""
+    return get_container().aggregator_service()
+
+
 # FastAPI dependency providers
 # These can be used directly in router endpoints as Depends(get_service_name)
 endpoint_service_dependency = Depends(get_endpoint_service)
 constraint_service_dependency = Depends(get_constraint_service)
 validation_script_service_dependency = Depends(get_validation_script_service)
 dataset_service_dependency = Depends(get_dataset_service)
+verification_service_dependency = Depends(get_verification_service)
+aggregator_service_dependency = Depends(get_aggregator_service)

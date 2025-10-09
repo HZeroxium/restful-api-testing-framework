@@ -226,16 +226,57 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
 
     async def delete_by_endpoint_id(self, endpoint_id: str) -> int:
         """Delete all constraints for a specific endpoint."""
-        to_delete = [
-            cid
-            for cid, data in self._constraints.items()
-            if data.get("endpoint_id") == endpoint_id
-        ]
+        if self.dataset_id:
+            # Dataset-specific repository
+            to_delete = [
+                cid
+                for cid, data in self._constraints.items()
+                if data.get("endpoint_id") == endpoint_id
+            ]
 
-        for cid in to_delete:
-            del self._constraints[cid]
+            for cid in to_delete:
+                del self._constraints[cid]
 
-        if to_delete:
-            self._save_constraints()
+            if to_delete:
+                self._save_constraints()
 
-        return len(to_delete)
+            return len(to_delete)
+        else:
+            # Global repository - need to delete from all datasets
+            deleted_count = 0
+            datasets_base_path = Path("data/datasets")
+
+            if not datasets_base_path.exists():
+                return 0
+
+            for dataset_dir in datasets_base_path.iterdir():
+                if not dataset_dir.is_dir():
+                    continue
+
+                # Load constraints for this dataset
+                constraints_file = dataset_dir / "constraints.json"
+                if not constraints_file.exists():
+                    continue
+
+                with open(constraints_file, "r") as f:
+                    data = json.load(f)
+
+                constraints = data.get("constraints", {})
+                to_delete = [
+                    cid
+                    for cid, constraint_data in constraints.items()
+                    if constraint_data.get("endpoint_id") == endpoint_id
+                ]
+
+                # Delete constraints
+                for cid in to_delete:
+                    del constraints[cid]
+                    deleted_count += 1
+
+                # Save updated constraints
+                if to_delete:
+                    data["constraints"] = constraints
+                    with open(constraints_file, "w") as f:
+                        json.dump(data, f, indent=2)
+
+            return deleted_count

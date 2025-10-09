@@ -1,6 +1,7 @@
 # app/api/routers/validation_script_router.py
 
 from typing import List
+from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from application.services.validation_script_service import ValidationScriptService
 from application.services.endpoint_service import EndpointService
@@ -304,6 +305,50 @@ async def get_validation_script(
 
 
 @router.delete(
+    "/by-endpoint-name/{endpoint_name}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete all validation scripts for an endpoint",
+)
+async def delete_validation_scripts_by_endpoint_name(
+    endpoint_name: str,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """
+    Delete all validation scripts for a specific endpoint by endpoint name.
+    """
+    logger.info(f"DELETE /validation-scripts/by-endpoint-name/{endpoint_name}")
+    try:
+        # Find endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            logger.warning(f"Endpoint '{endpoint_name}' not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint '{endpoint_name}' not found",
+            )
+
+        # Delete all validation scripts for this endpoint
+        deleted_count = await validation_script_service.delete_scripts_by_endpoint_id(
+            endpoint.id
+        )
+        logger.info(
+            f"Deleted {deleted_count} validation scripts for endpoint '{endpoint_name}'"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(
+            f"Internal server error during validation scripts deletion for {endpoint_name}"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error during deletion",
+        )
+
+
+@router.delete(
     "/{script_id}",
     status_code=status.HTTP_204_NO_CONTENT,
     summary="Delete a validation script",
@@ -328,3 +373,136 @@ async def delete_validation_script(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to delete validation script: {str(e)}",
         )
+
+
+@router.post(
+    "/to-python-file/{endpoint_name}",
+    status_code=status.HTTP_200_OK,
+    summary="Export validation scripts to Python file",
+)
+async def export_validation_scripts_to_python_file(
+    endpoint_name: str,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """
+    Export all validation scripts for an endpoint to a Python file.
+    """
+    logger.info(f"POST /validation-scripts/to-python-file/{endpoint_name}")
+    try:
+        # Find endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            logger.warning(f"Endpoint '{endpoint_name}' not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint '{endpoint_name}' not found",
+            )
+
+        # Get all validation scripts for this endpoint
+        scripts = await validation_script_service.get_scripts_by_endpoint_id(
+            endpoint.id
+        )
+        if not scripts:
+            logger.warning(
+                f"No validation scripts found for endpoint '{endpoint_name}'"
+            )
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No validation scripts found for endpoint '{endpoint_name}'",
+            )
+
+        # Create Python file content
+        python_content = _generate_python_file_content(endpoint_name, scripts)
+
+        # Save to file
+        import os
+        from pathlib import Path
+
+        output_dir = Path("data/exports")
+        output_dir.mkdir(parents=True, exist_ok=True)
+
+        filename = f"{endpoint_name}_validation_scripts.py"
+        file_path = output_dir / filename
+
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(python_content)
+
+        logger.info(f"Exported {len(scripts)} validation scripts to {file_path}")
+
+        return {
+            "message": f"Successfully exported {len(scripts)} validation scripts to Python file",
+            "endpoint_name": endpoint_name,
+            "scripts_count": len(scripts),
+            "file_path": str(file_path),
+            "filename": filename,
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(
+            f"Internal server error during script export for {endpoint_name}"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error during script export",
+        )
+
+
+def _generate_python_file_content(endpoint_name: str, scripts) -> str:
+    """Generate Python file content from validation scripts."""
+
+    # Create safe filename
+    safe_endpoint_name = endpoint_name.replace("/", "_").replace("-", "_")
+
+    content = f'''"""
+Validation Scripts for Endpoint: {endpoint_name}
+Generated on: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+Total Scripts: {len(scripts)}
+
+This file contains all validation scripts for the endpoint '{endpoint_name}'.
+Each function represents a validation script that can be used to validate
+request parameters, request body, response properties, or request-response correlations.
+"""
+
+from typing import Dict, Any, Optional
+
+
+def validate_endpoint_{safe_endpoint_name}():
+    """
+    Main validation function for endpoint '{endpoint_name}'.
+    Call this function to run all validations for this endpoint.
+    """
+    print(f"Running validations for endpoint: {endpoint_name}")
+    # Add your validation orchestration logic here
+    pass
+
+
+'''
+
+    # Add each validation script
+    for i, script in enumerate(scripts, 1):
+        content += f"""
+# =============================================================================
+# Validation Script {i}: {script.name}
+# =============================================================================
+# Script Type: {script.script_type}
+# Description: {script.description}
+# Constraint ID: {script.constraint_id or 'N/A'}
+# Created: {script.created_at or 'N/A'}
+# Updated: {script.updated_at or 'N/A'}
+# =============================================================================
+
+{script.validation_code}
+
+"""
+
+    content += f"""
+# =============================================================================
+# End of Validation Scripts for Endpoint: {endpoint_name}
+# Total Scripts: {len(scripts)}
+# =============================================================================
+"""
+
+    return content

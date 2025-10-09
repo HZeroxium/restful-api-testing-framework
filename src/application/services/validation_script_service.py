@@ -73,7 +73,7 @@ class ValidationScriptService:
         return await self.script_repository.delete_by_endpoint_id(endpoint_id)
 
     async def generate_scripts_for_endpoint(
-        self, endpoint_id: str
+        self, endpoint_id: str, override_existing: bool = True
     ) -> TestScriptGeneratorOutput:
         """Generate validation scripts for a specific endpoint using TestScriptGeneratorTool."""
         self.logger.info(f"Starting script generation for endpoint: {endpoint_id}")
@@ -85,6 +85,23 @@ class ValidationScriptService:
             raise ValueError(f"Endpoint with ID {endpoint_id} not found")
 
         self.logger.debug(f"Found endpoint: {endpoint.method} {endpoint.path}")
+
+        # If override_existing is True, delete existing validation scripts first
+        if override_existing:
+            existing_scripts = await self.script_repository.get_by_endpoint_id(
+                endpoint_id
+            )
+            if existing_scripts:
+                deleted_count = await self.script_repository.delete_by_endpoint_id(
+                    endpoint_id
+                )
+                self.logger.info(
+                    f"Deleted {deleted_count} existing validation scripts for endpoint {endpoint_id}"
+                )
+            else:
+                self.logger.info(
+                    f"No existing validation scripts found for endpoint {endpoint_id}"
+                )
 
         # Get constraints for the endpoint
         constraints = await self.constraint_repository.get_by_endpoint_id(endpoint_id)
@@ -126,6 +143,11 @@ class ValidationScriptService:
             if not script.id:
                 script.id = str(uuid.uuid4())
 
+            # Normalize validation script code to use .get() syntax
+            script.validation_code = self._normalize_validation_script(
+                script.validation_code
+            )
+
             # Save to dataset-specific repository
             saved_script = await dataset_script_repo.create(script)
             saved_scripts.append(saved_script)
@@ -136,3 +158,60 @@ class ValidationScriptService:
         generator_output.validation_scripts = saved_scripts
 
         return generator_output
+
+    def _normalize_validation_script(self, validation_code: str) -> str:
+        """
+        Normalize validation script code to use .get() syntax instead of direct attribute access.
+
+        Args:
+            validation_code: The original validation script code
+
+        Returns:
+            Normalized validation script code
+        """
+        if not validation_code:
+            return validation_code
+
+        normalized_code = validation_code
+
+        # Fix response.status_code -> response.get('status_code')
+        normalized_code = normalized_code.replace(
+            "response.status_code", "response.get('status_code')"
+        )
+
+        # Fix response.get('status') -> response.get('status_code') for consistency
+        normalized_code = normalized_code.replace(
+            "response.get('status')", "response.get('status_code')"
+        )
+
+        # Fix other common response attribute access patterns
+        response_attributes = [
+            "headers",
+            "body",
+            "json",
+            "text",
+            "content",
+            "url",
+            "method",
+        ]
+
+        for attr in response_attributes:
+            # Fix response.attr -> response.get('attr')
+            normalized_code = normalized_code.replace(
+                f"response.{attr}", f"response.get('{attr}')"
+            )
+
+        # Fix request attribute access patterns
+        request_attributes = ["params", "headers", "body", "json", "method", "url"]
+
+        for attr in request_attributes:
+            # Fix request.attr -> request.get('attr')
+            normalized_code = normalized_code.replace(
+                f"request.{attr}", f"request.get('{attr}')"
+            )
+
+        # Log normalization if changes were made
+        if normalized_code != validation_code:
+            self.logger.debug("Normalized validation script code to use .get() syntax")
+
+        return normalized_code

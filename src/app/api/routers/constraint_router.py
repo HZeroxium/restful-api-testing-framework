@@ -4,6 +4,7 @@ from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from application.services.constraint_service import ConstraintService
 from application.services.endpoint_service import EndpointService
+from application.services.validation_script_service import ValidationScriptService
 from app.api.dto.constraint_dto import (
     ConstraintCreateRequest,
     ConstraintResponse,
@@ -15,6 +16,7 @@ from schemas.tools.constraint_miner import ApiConstraint
 from infra.di.container import (
     constraint_service_dependency,
     endpoint_service_dependency,
+    validation_script_service_dependency,
 )
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
@@ -280,6 +282,60 @@ async def get_constraint(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to get constraint: {str(e)}",
+        )
+
+
+@router.delete(
+    "/by-endpoint-name/{endpoint_name}",
+    status_code=status.HTTP_204_NO_CONTENT,
+    summary="Delete all constraints for an endpoint",
+)
+async def delete_constraints_by_endpoint_name(
+    endpoint_name: str,
+    constraint_service: ConstraintService = constraint_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+    validation_script_service: ValidationScriptService = validation_script_service_dependency,
+):
+    """
+    Delete all constraints for a specific endpoint by endpoint name.
+    Also deletes all related validation scripts first.
+    """
+    logger.info(f"DELETE /constraints/by-endpoint-name/{endpoint_name}")
+    try:
+        # Find endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            logger.warning(f"Endpoint '{endpoint_name}' not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint '{endpoint_name}' not found",
+            )
+
+        # First delete all validation scripts for this endpoint
+        deleted_scripts_count = (
+            await validation_script_service.delete_scripts_by_endpoint_id(endpoint.id)
+        )
+        logger.info(
+            f"Deleted {deleted_scripts_count} validation scripts for endpoint '{endpoint_name}'"
+        )
+
+        # Then delete all constraints for this endpoint
+        deleted_constraints_count = (
+            await constraint_service.delete_constraints_by_endpoint_id(endpoint.id)
+        )
+        logger.info(
+            f"Deleted {deleted_constraints_count} constraints for endpoint '{endpoint_name}'"
+        )
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.exception(
+            f"Internal server error during constraints deletion for {endpoint_name}"
+        )
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error during deletion",
         )
 
 

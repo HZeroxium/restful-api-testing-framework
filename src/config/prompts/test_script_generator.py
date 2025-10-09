@@ -25,6 +25,7 @@ Each validation script should:
 - Have descriptive function names and docstrings
 - Handle edge cases like missing or null values
 - Be specific to ONE constraint only
+- **IMPORTANT**: Both request and response parameters are Python dictionaries, use .get("key") syntax instead of .key syntax
 
 **EXAMPLE MAPPING**:
 If you have these constraints:
@@ -102,6 +103,7 @@ Each validation script should:
 - Have descriptive function names and docstrings
 - Handle nested object validation and array validation
 - Be specific to ONE constraint only
+- **IMPORTANT**: Both request and response parameters are Python dictionaries, use .get("key") syntax instead of .key syntax
 
 **EXAMPLE MAPPING**:
 If you have these constraints:
@@ -179,6 +181,7 @@ Each validation script should:
 - Have descriptive function names and docstrings
 - Handle different response formats and status codes
 - Be specific to ONE constraint only
+- **IMPORTANT**: Both request and response parameters are Python dictionaries, use .get("key") syntax instead of .key syntax
 
 **EXAMPLE MAPPING**:
 If you have these constraints:
@@ -255,6 +258,7 @@ Each validation script should:
 - Have descriptive function names and docstrings
 - Compare request input with response output to verify correlations
 - Be specific to ONE constraint only
+- **IMPORTANT**: Both request and response parameters are Python dictionaries, use .get("key") syntax instead of .key syntax
 
 **EXAMPLE MAPPING**:
 If you have these constraints:

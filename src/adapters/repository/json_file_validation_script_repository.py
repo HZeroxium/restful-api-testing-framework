@@ -201,19 +201,60 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
 
     async def delete_by_endpoint_id(self, endpoint_id: str) -> int:
         """Delete all validation scripts for a specific endpoint."""
-        to_delete = [
-            sid
-            for sid, data in self._scripts.items()
-            if data.get("endpoint_id") == endpoint_id
-        ]
+        if self.dataset_id:
+            # Dataset-specific repository
+            to_delete = [
+                sid
+                for sid, data in self._scripts.items()
+                if data.get("endpoint_id") == endpoint_id
+            ]
 
-        for sid in to_delete:
-            del self._scripts[sid]
+            for sid in to_delete:
+                del self._scripts[sid]
 
-        if to_delete:
-            self._save_scripts()
+            if to_delete:
+                self._save_scripts()
 
-        return len(to_delete)
+            return len(to_delete)
+        else:
+            # Global repository - need to delete from all datasets
+            deleted_count = 0
+            datasets_base_path = Path("data/datasets")
+
+            if not datasets_base_path.exists():
+                return 0
+
+            for dataset_dir in datasets_base_path.iterdir():
+                if not dataset_dir.is_dir():
+                    continue
+
+                # Load scripts for this dataset
+                scripts_file = dataset_dir / "validation_scripts.json"
+                if not scripts_file.exists():
+                    continue
+
+                with open(scripts_file, "r") as f:
+                    data = json.load(f)
+
+                scripts = data.get("scripts", {})
+                to_delete = [
+                    sid
+                    for sid, script_data in scripts.items()
+                    if script_data.get("endpoint_id") == endpoint_id
+                ]
+
+                # Delete scripts
+                for sid in to_delete:
+                    del scripts[sid]
+                    deleted_count += 1
+
+                # Save updated scripts
+                if to_delete:
+                    data["scripts"] = scripts
+                    with open(scripts_file, "w") as f:
+                        json.dump(data, f, indent=2)
+
+            return deleted_count
 
     async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
         """Get all validation scripts for a specific constraint."""
