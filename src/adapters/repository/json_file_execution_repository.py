@@ -166,43 +166,37 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
             executions.sort(key=lambda x: x.started_at, reverse=True)
             return executions[:limit]
 
-    async def get_all(self, limit: int = 10) -> List[ExecutionHistory]:
-        """Get all execution history with limit."""
+    async def get_all(self, limit: int = 10, offset: int = 0) -> List[ExecutionHistory]:
+        """Get all execution history with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
-            executions = [
+            all_executions = [
                 ExecutionHistory(**execution_dict)
                 for execution_dict in self._executions.values()
             ]
-
-            # Sort by started_at descending and limit
-            executions.sort(key=lambda x: x.started_at, reverse=True)
-            return executions[:limit]
         else:
             # Global repository - search all datasets
-            executions = []
+            all_executions = []
             datasets_base_path = Path("data/datasets")
 
-            if not datasets_base_path.exists():
-                return executions
+            if datasets_base_path.exists():
+                for dataset_dir in datasets_base_path.iterdir():
+                    if not dataset_dir.is_dir():
+                        continue
 
-            for dataset_dir in datasets_base_path.iterdir():
-                if not dataset_dir.is_dir():
-                    continue
+                    execution_file = dataset_dir / "executions.json"
+                    if not execution_file.exists():
+                        continue
 
-                execution_file = dataset_dir / "executions.json"
-                if not execution_file.exists():
-                    continue
+                    with open(execution_file, "r") as f:
+                        data = json.load(f)
 
-                with open(execution_file, "r") as f:
-                    data = json.load(f)
+                    for execution_dict in data.get("executions", {}).values():
+                        all_executions.append(ExecutionHistory(**execution_dict))
 
-                for execution_dict in data.get("executions", {}).values():
-                    executions.append(ExecutionHistory(**execution_dict))
-
-            # Sort by started_at descending and limit
-            executions.sort(key=lambda x: x.started_at, reverse=True)
-            return executions[:limit]
+        # Sort by started_at descending and apply pagination
+        all_executions.sort(key=lambda x: x.started_at, reverse=True)
+        return all_executions[offset : offset + limit]
 
     async def update(
         self, execution_id: str, execution: ExecutionHistory

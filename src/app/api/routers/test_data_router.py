@@ -187,6 +187,45 @@ async def get_test_data_by_endpoint_id(
 
 
 @router.get(
+    "/",
+    response_model=TestDataListResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get all test data",
+    description="Retrieve all test data items across all endpoints.",
+)
+async def get_all_test_data(
+    limit: int = 100,
+    offset: int = 0,
+    test_data_service: TestDataService = test_data_service_dependency,
+):
+    """Get all test data with pagination."""
+    try:
+        # Get all test data
+        all_test_data_items = await test_data_service.get_all_test_data(
+            limit=limit, offset=offset
+        )
+
+        # Convert to response format
+        test_data_responses = [
+            TestDataResponse(**test_data.model_dump())
+            for test_data in all_test_data_items
+        ]
+
+        return TestDataListResponse(
+            test_data_items=test_data_responses,
+            total_count=len(test_data_responses),
+            valid_count=sum(1 for item in test_data_responses if item.is_valid),
+            invalid_count=sum(1 for item in test_data_responses if not item.is_valid),
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to retrieve all test data: {str(e)}",
+        )
+
+
+@router.get(
     "/{test_data_id}",
     response_model=TestDataResponse,
     status_code=status.HTTP_200_OK,

@@ -216,3 +216,10 @@ class TestDataService:
             f"Created test data collection for endpoint {endpoint_name}: {collection.total_count} items ({collection.valid_count} valid, {collection.invalid_count} invalid)"
         )
         return collection
+
+    async def get_all_test_data(
+        self, limit: int = 100, offset: int = 0
+    ) -> List[CoreTestData]:
+        """Get all test data across all endpoints with pagination."""
+        self.logger.info(f"Retrieving all test data (limit={limit}, offset={offset})")
+        return await self.test_data_repository.get_all(limit=limit, offset=offset)

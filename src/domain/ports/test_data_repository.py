@@ -25,8 +25,8 @@ class TestDataRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[TestData]:
-        """Get all test data."""
+    async def get_all(self, limit: int = 100, offset: int = 0) -> List[TestData]:
+        """Get all test data with pagination."""
         pass
 
     @abstractmethod

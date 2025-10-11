@@ -27,8 +27,8 @@ class ExecutionRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self, limit: int = 10) -> List[ExecutionHistory]:
-        """Get all execution history with limit."""
+    async def get_all(self, limit: int = 10, offset: int = 0) -> List[ExecutionHistory]:
+        """Get all execution history with pagination."""
         pass
 
     @abstractmethod

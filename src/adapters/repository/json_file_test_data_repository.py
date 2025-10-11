@@ -157,37 +157,36 @@ class JsonFileTestDataRepository(TestDataRepositoryInterface):
 
             return test_data_items
 
-    async def get_all(self) -> List[TestData]:
-        """Get all test data."""
+    async def get_all(self, limit: int = 100, offset: int = 0) -> List[TestData]:
+        """Get all test data with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
-            return [
+            all_data = [
                 TestData(**test_data_dict)
                 for test_data_dict in self._test_data.values()
             ]
         else:
             # Global repository - search all datasets
-            all_test_data = []
+            all_data = []
             datasets_base_path = Path("data/datasets")
 
-            if not datasets_base_path.exists():
-                return all_test_data
+            if datasets_base_path.exists():
+                for dataset_dir in datasets_base_path.iterdir():
+                    if not dataset_dir.is_dir():
+                        continue
 
-            for dataset_dir in datasets_base_path.iterdir():
-                if not dataset_dir.is_dir():
-                    continue
+                    test_data_file = dataset_dir / "test_data.json"
+                    if not test_data_file.exists():
+                        continue
 
-                test_data_file = dataset_dir / "test_data.json"
-                if not test_data_file.exists():
-                    continue
+                    with open(test_data_file, "r") as f:
+                        data = json.load(f)
 
-                with open(test_data_file, "r") as f:
-                    data = json.load(f)
+                    for test_data_dict in data.get("test_data", {}).values():
+                        all_data.append(TestData(**test_data_dict))
 
-                for test_data_dict in data.get("test_data", {}).values():
-                    all_test_data.append(TestData(**test_data_dict))
-
-            return all_test_data
+        # Apply pagination
+        return all_data[offset : offset + limit]
 
     async def update(
         self, test_data_id: str, test_data: TestData

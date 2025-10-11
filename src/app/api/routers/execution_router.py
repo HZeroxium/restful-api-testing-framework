@@ -151,6 +151,42 @@ async def execute_tests_by_endpoint_id(
 
 
 @router.get(
+    "/history/",
+    response_model=ExecutionHistoryListResponse,
+    status_code=status.HTTP_200_OK,
+    summary="Get all execution history",
+    description="Retrieve execution history across all endpoints.",
+)
+async def get_all_execution_history(
+    limit: int = 50,
+    offset: int = 0,
+    test_execution_service: TestExecutionService = test_execution_service_dependency,
+):
+    """Get all execution history with pagination."""
+    try:
+        # Get all execution history
+        all_executions = await test_execution_service.get_all_execution_history(
+            limit=limit, offset=offset
+        )
+
+        # Convert to response format
+        execution_responses = [
+            ExecutionHistoryResponse(**execution.model_dump())
+            for execution in all_executions
+        ]
+
+        return ExecutionHistoryListResponse(
+            executions=execution_responses, total_count=len(execution_responses)
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to retrieve all execution history: {str(e)}",
+        )
+
+
+@router.get(
     "/history/by-endpoint-name/{endpoint_name}",
     response_model=ExecutionHistoryListResponse,
     status_code=status.HTTP_200_OK,

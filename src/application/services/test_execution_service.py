@@ -282,3 +282,12 @@ class TestExecutionService:
         """Save execution result."""
         self.logger.info(f"Saving execution result: {execution.id}")
         return await self.execution_repository.create(execution)
+
+    async def get_all_execution_history(
+        self, limit: int = 50, offset: int = 0
+    ) -> List[ExecutionHistory]:
+        """Get all execution history across all endpoints with pagination."""
+        self.logger.info(
+            f"Retrieving all execution history (limit={limit}, offset={offset})"
+        )
+        return await self.execution_repository.get_all(limit=limit, offset=offset)
