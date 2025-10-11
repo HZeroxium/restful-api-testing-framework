@@ -9,10 +9,13 @@ from typing import Optional
 from ..services.constraint_service import ConstraintService
 from ..services.validation_script_service import ValidationScriptService
 from ..services.endpoint_service import EndpointService
+from ..services.test_data_service import TestDataService
+from ..services.test_execution_service import TestExecutionService
 from app.api.dto.aggregator_dto import ConstraintsScriptsAggregatorResponse
 from app.api.dto.constraint_dto import MineConstraintsResponse
 from app.api.dto.validation_script_dto import GenerateScriptsResponse
 from schemas.tools.openapi_parser import EndpointInfo
+from schemas.core.execution_history import ExecutionHistory
 
 
 class AggregatorService:
@@ -23,10 +26,14 @@ class AggregatorService:
         constraint_service: ConstraintService,
         validation_script_service: ValidationScriptService,
         endpoint_service: EndpointService,
+        test_data_service: TestDataService,
+        test_execution_service: TestExecutionService,
     ):
         self.constraint_service = constraint_service
         self.validation_script_service = validation_script_service
         self.endpoint_service = endpoint_service
+        self.test_data_service = test_data_service
+        self.test_execution_service = test_execution_service
         self.logger = constraint_service.logger
 
     async def mine_constraints_and_generate_scripts(
@@ -188,6 +195,9 @@ class AggregatorService:
 
             return response
 
+        except ValueError as e:
+            # Re-raise ValueError (like endpoint not found) to be handled by router
+            raise e
         except Exception as e:
             total_execution_time = time.time() - start_time
             error_msg = (
@@ -226,3 +236,258 @@ class AggregatorService:
                 scripts_error=scripts_error,
                 execution_timestamp=execution_timestamp,
             )
+
+    async def run_full_pipeline_for_endpoint(
+        self,
+        endpoint_name: str,
+        base_url: str,
+        test_count: int = 5,
+        include_invalid: bool = True,
+        override_existing: bool = True,
+    ) -> dict:
+        """
+        Run the complete testing pipeline for an endpoint.
+
+        This method orchestrates the full testing workflow:
+        1. Mine constraints (if not exist or override)
+        2. Generate validation scripts (if not exist or override)
+        3. Generate test data
+        4. Execute tests with real API calls
+        5. Save execution results
+        6. Return comprehensive report
+
+        Args:
+            endpoint_name: Name of the endpoint to test
+            base_url: Base URL for API calls
+            test_count: Number of test data items to generate
+            include_invalid: Whether to include invalid test data
+            override_existing: Whether to override existing constraints/scripts
+
+        Returns:
+            Dictionary with comprehensive pipeline results
+        """
+        start_time = time.time()
+        execution_timestamp = datetime.now().isoformat()
+
+        self.logger.info(f"Starting full pipeline for endpoint: {endpoint_name}")
+
+        pipeline_results = {
+            "endpoint_name": endpoint_name,
+            "base_url": base_url,
+            "execution_timestamp": execution_timestamp,
+            "steps": {},
+            "overall_success": False,
+            "total_execution_time": 0.0,
+        }
+
+        try:
+            # Step 1: Find endpoint
+            endpoint = await self.endpoint_service.get_endpoint_by_name(endpoint_name)
+            if not endpoint:
+                error_msg = f"Endpoint '{endpoint_name}' not found"
+                self.logger.error(error_msg)
+                raise ValueError(error_msg)
+
+            pipeline_results["endpoint_id"] = endpoint.id
+            pipeline_results["endpoint_info"] = {
+                "path": endpoint.path,
+                "method": endpoint.method,
+                "description": endpoint.description,
+                "dataset_id": endpoint.dataset_id,
+            }
+
+            self.logger.info(
+                f"Found endpoint: {endpoint.id} - {endpoint.path} {endpoint.method}"
+            )
+
+            # Step 2: Mine constraints (with override)
+            step_start = time.time()
+            try:
+                self.logger.info("Step 2: Mining constraints...")
+                constraint_output = (
+                    await self.constraint_service.mine_constraints_for_endpoint(
+                        endpoint.id, override_existing=override_existing
+                    )
+                )
+
+                pipeline_results["steps"]["constraints"] = {
+                    "success": True,
+                    "constraints_found": len(constraint_output.constraints),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.info(
+                    f"Constraints mined: {len(constraint_output.constraints)} constraints"
+                )
+
+            except Exception as e:
+                pipeline_results["steps"]["constraints"] = {
+                    "success": False,
+                    "error": str(e),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.error(f"Constraint mining failed: {e}")
+
+            # Step 3: Generate validation scripts (with override)
+            step_start = time.time()
+            try:
+                self.logger.info("Step 3: Generating validation scripts...")
+                script_output = (
+                    await self.validation_script_service.generate_scripts_for_endpoint(
+                        endpoint.id, override_existing=override_existing
+                    )
+                )
+
+                pipeline_results["steps"]["validation_scripts"] = {
+                    "success": True,
+                    "scripts_generated": len(script_output.validation_scripts),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.info(
+                    f"Validation scripts generated: {len(script_output.validation_scripts)} scripts"
+                )
+
+            except Exception as e:
+                pipeline_results["steps"]["validation_scripts"] = {
+                    "success": False,
+                    "error": str(e),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.error(f"Validation script generation failed: {e}")
+
+            # Step 4: Generate test data
+            step_start = time.time()
+            try:
+                self.logger.info("Step 4: Generating test data...")
+
+                # Convert endpoint to dict for the generator
+                endpoint_dict = {
+                    "id": endpoint.id,
+                    "name": endpoint.name,
+                    "path": endpoint.path,
+                    "method": endpoint.method,
+                    "description": endpoint.description,
+                    "input_schema": endpoint.input_schema,
+                    "output_schema": endpoint.output_schema,
+                    "tags": endpoint.tags,
+                    "auth_required": endpoint.auth_required,
+                    "auth_type": endpoint.auth_type,
+                    "dataset_id": endpoint.dataset_id,
+                }
+
+                test_data_output = (
+                    await self.test_data_service.generate_test_data_for_endpoint(
+                        endpoint_id=endpoint.id,
+                        endpoint_info=endpoint_dict,
+                        count=test_count,
+                        include_invalid=include_invalid,
+                        override_existing=override_existing,
+                    )
+                )
+
+                pipeline_results["steps"]["test_data"] = {
+                    "success": True,
+                    "test_data_generated": len(test_data_output.test_data_collection),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.info(
+                    f"Test data generated: {len(test_data_output.test_data_collection)} items"
+                )
+
+            except Exception as e:
+                pipeline_results["steps"]["test_data"] = {
+                    "success": False,
+                    "error": str(e),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.error(f"Test data generation failed: {e}")
+
+            # Step 5: Execute tests
+            step_start = time.time()
+            execution_result = None
+            try:
+                self.logger.info("Step 5: Executing tests...")
+                execution_result = (
+                    await self.test_execution_service.execute_test_for_endpoint(
+                        endpoint_id=endpoint.id,
+                        endpoint_name=endpoint_name,
+                        base_url=base_url,
+                        dataset_id=endpoint.dataset_id,
+                        timeout=30,
+                    )
+                )
+
+                pipeline_results["steps"]["test_execution"] = {
+                    "success": True,
+                    "execution_id": execution_result.id,
+                    "total_tests": execution_result.total_tests,
+                    "passed_tests": execution_result.passed_tests,
+                    "failed_tests": execution_result.failed_tests,
+                    "success_rate": execution_result.success_rate,
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.info(
+                    f"Test execution completed: {execution_result.passed_tests}/{execution_result.total_tests} passed "
+                    f"({execution_result.success_rate:.2%} success rate)"
+                )
+
+            except Exception as e:
+                pipeline_results["steps"]["test_execution"] = {
+                    "success": False,
+                    "error": str(e),
+                    "execution_time": time.time() - step_start,
+                }
+                self.logger.error(f"Test execution failed: {e}")
+
+            # Calculate overall success
+            steps_success = [
+                pipeline_results["steps"].get("constraints", {}).get("success", False),
+                pipeline_results["steps"]
+                .get("validation_scripts", {})
+                .get("success", False),
+                pipeline_results["steps"].get("test_data", {}).get("success", False),
+                pipeline_results["steps"]
+                .get("test_execution", {})
+                .get("success", False),
+            ]
+            pipeline_results["overall_success"] = all(steps_success)
+            pipeline_results["total_execution_time"] = time.time() - start_time
+
+            # Add execution result details if available
+            if execution_result:
+                pipeline_results["execution_details"] = {
+                    "execution_id": execution_result.id,
+                    "overall_status": execution_result.overall_status,
+                    "total_execution_time_ms": execution_result.total_execution_time_ms,
+                    "test_results_summary": {
+                        "total": execution_result.total_tests,
+                        "passed": execution_result.passed_tests,
+                        "failed": execution_result.failed_tests,
+                        "success_rate": execution_result.success_rate,
+                    },
+                }
+
+            if pipeline_results["overall_success"]:
+                self.logger.info(
+                    f"Full pipeline completed successfully for '{endpoint_name}' "
+                    f"in {pipeline_results['total_execution_time']:.2f}s"
+                )
+            else:
+                self.logger.warning(
+                    f"Full pipeline completed with issues for '{endpoint_name}': "
+                    f"Some steps may have failed"
+                )
+
+            return pipeline_results
+
+        except ValueError as e:
+            # Re-raise ValueError (like endpoint not found) to be handled by router
+            raise e
+        except Exception as e:
+            pipeline_results["overall_success"] = False
+            pipeline_results["total_execution_time"] = time.time() - start_time
+            pipeline_results["error"] = str(e)
+
+            self.logger.error(
+                f"Full pipeline failed for endpoint '{endpoint_name}': {e}"
+            )
+            return pipeline_results

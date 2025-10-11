@@ -8,6 +8,7 @@ from schemas.tools.test_script_generator import (
     TestScriptGeneratorOutput,
     ValidationScript,
 )
+from schemas.tools.constraint_miner import ApiConstraint
 from tools.test_script_generator_tools.request_param_script_generator import (
     RequestParamScriptGeneratorTool,
 )
@@ -85,8 +86,12 @@ class TestScriptGeneratorTool(BaseTool):
         endpoint = inp.endpoint_info
         constraints = inp.constraints or []
 
-        # Replace all id in constraints with a placeholder
-        for constraint in constraints:
+        # Store original constraint IDs and replace with placeholder for LLM
+        original_constraint_ids = {}
+        for i, constraint in enumerate(constraints):
+            original_id = constraint.id
+            # Use index as key since we'll iterate in same order
+            original_constraint_ids[i] = original_id
             constraint.id = "placeholder_id"
 
         self.logger.info(
@@ -263,7 +268,84 @@ class TestScriptGeneratorTool(BaseTool):
             self.logger.debug(f"Total scripts generated: {total_scripts}")
             self.logger.debug("Status: Success")
 
+        # Restore original constraint IDs and assign to validation scripts
+        self._restore_constraint_ids_and_assign_to_scripts(
+            constraints, original_constraint_ids, all_validation_scripts
+        )
+
         return TestScriptGeneratorOutput(validation_scripts=all_validation_scripts)
+
+    def _restore_constraint_ids_and_assign_to_scripts(
+        self,
+        constraints: List[ApiConstraint],
+        original_constraint_ids: Dict[str, str],
+        validation_scripts: List[ValidationScript],
+    ) -> None:
+        """
+        Restore original constraint IDs and assign them to validation scripts.
+
+        Args:
+            constraints: List of constraints with placeholder IDs
+            original_constraint_ids: Mapping of placeholder to original IDs
+            validation_scripts: List of generated validation scripts
+        """
+        # First, restore the original constraint IDs
+        for i, constraint in enumerate(constraints):
+            original_id = original_constraint_ids[i]
+            constraint.id = original_id
+            self.logger.debug(
+                f"Restored constraint ID from 'placeholder_id' to '{original_id}'"
+            )
+
+        # Create a mapping of constraint types to constraints for easier matching
+        constraints_by_type = {}
+        for constraint in constraints:
+            constraint_type = constraint.type.value.lower()  # Convert enum to string
+            if constraint_type not in constraints_by_type:
+                constraints_by_type[constraint_type] = []
+            constraints_by_type[constraint_type].append(constraint)
+
+        # Assign constraint IDs to validation scripts based on script type
+        constraint_usage_count = (
+            {}
+        )  # Track how many times each constraint has been used
+
+        for script in validation_scripts:
+            script_type = script.script_type.lower()
+
+            # Find matching constraints by type
+            if script_type in constraints_by_type:
+                available_constraints = constraints_by_type[script_type]
+
+                # Use the first available constraint of this type
+                # If multiple scripts of same type, use constraints in order
+                constraint_index = constraint_usage_count.get(script_type, 0)
+
+                if constraint_index < len(available_constraints):
+                    selected_constraint = available_constraints[constraint_index]
+                    script.constraint_id = selected_constraint.id
+                    constraint_usage_count[script_type] = constraint_index + 1
+                    self.logger.debug(
+                        f"Assigned script '{script.name}' (type: {script_type}) to constraint '{selected_constraint.id}'"
+                    )
+                else:
+                    # If we run out of constraints of this type, use the last one
+                    selected_constraint = available_constraints[-1]
+                    script.constraint_id = selected_constraint.id
+            else:
+                # If no matching constraint type, try to find a fallback
+                # Look for request_response type or use the first available constraint
+                if "request_response" in constraints_by_type:
+                    script.constraint_id = constraints_by_type["request_response"][0].id
+                elif constraints:
+                    script.constraint_id = constraints[0].id
+                else:
+                    script.constraint_id = None
+
+        self.logger.debug(
+            f"Restored constraint IDs and assigned to {len(validation_scripts)} validation scripts"
+        )
+        self.logger.debug(f"Constraint usage count: {constraint_usage_count}")
 
     def _generate_basic_fallback_scripts(self) -> List[ValidationScript]:
         """Generate basic validation scripts as fallback when all specialized tools fail."""

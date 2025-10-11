@@ -17,8 +17,10 @@ class JsonFileDatasetRepository(DatasetRepositoryInterface):
     def __init__(self, base_path: Optional[str] = None):
         # Use default if base_path is None
         if base_path is None:
-            base_path = "data/datasets"
-        
+            base_path = (
+                "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+            )
+
         self.base_path = Path(base_path)
         self.index_file = self.base_path / "index.json"
         self.logger = LoggerFactory.get_logger(

@@ -28,7 +28,11 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
         if dataset_id:
             # Dataset-specific storage
             self.file_path = (
-                Path("data/datasets") / dataset_id / "validation_scripts.json"
+                Path(
+                    "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+                )
+                / dataset_id
+                / "validation_scripts.json"
             )
             self.logger = LoggerFactory.get_logger(
                 name="repository.validation_script",
@@ -40,7 +44,9 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
         else:
             # Global storage - use lookup service to search across all datasets
             self.file_path = Path(file_path)
-            self.lookup_service = ValidationScriptLookupService()
+            self.lookup_service = ValidationScriptLookupService(
+                "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+            )
             self.logger = LoggerFactory.get_logger(
                 name="repository.validation_script",
                 logger_type=LoggerType.STANDARD,

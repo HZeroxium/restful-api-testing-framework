@@ -21,7 +21,13 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
         self.dataset_id = dataset_id
         if dataset_id:
             # Dataset-specific storage
-            self.file_path = Path("data/datasets") / dataset_id / "endpoints.json"
+            self.file_path = (
+                Path(
+                    "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+                )
+                / dataset_id
+                / "endpoints.json"
+            )
             self._ensure_file_exists()
             self._load_endpoints()
         else:
@@ -30,7 +36,9 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             self.file_path = (
                 Path(file_path) if file_path else Path("data/endpoints.json")
             )
-            self.lookup_service = EndpointLookupService()
+            self.lookup_service = EndpointLookupService(
+                "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+            )
             # For global repository, we don't load endpoints at init
             # Instead, we'll use the lookup service when needed
 
@@ -167,10 +175,7 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
         else:
             # Global repository - use lookup service
             all_endpoints, _ = await self.lookup_service.get_all_endpoints()
-            return [
-                self.lookup_service._dict_to_endpoint(data)
-                for data in all_endpoints.values()
-            ]
+            return [self._dict_to_endpoint(data) for data in all_endpoints.values()]
 
     async def update(
         self, endpoint_id: str, endpoint: EndpointInfo

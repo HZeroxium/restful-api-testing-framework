@@ -10,6 +10,8 @@ from domain.ports.validation_script_repository import (
     ValidationScriptRepositoryInterface,
 )
 from domain.ports.dataset_repository import DatasetRepositoryInterface
+from domain.ports.test_data_repository import TestDataRepositoryInterface
+from domain.ports.execution_repository import ExecutionRepositoryInterface
 
 from adapters.repository.json_file_endpoint_repository import (
     JsonFileEndpointRepository,
@@ -23,6 +25,12 @@ from adapters.repository.json_file_validation_script_repository import (
 from adapters.repository.json_file_dataset_repository import (
     JsonFileDatasetRepository,
 )
+from adapters.repository.json_file_test_data_repository import (
+    JsonFileTestDataRepository,
+)
+from adapters.repository.json_file_execution_repository import (
+    JsonFileExecutionRepository,
+)
 
 from application.services.endpoint_service import EndpointService
 from application.services.constraint_service import ConstraintService
@@ -30,6 +38,8 @@ from application.services.validation_script_service import ValidationScriptServi
 from application.services.dataset_service import DatasetService
 from application.services.verification_service import VerificationService
 from application.services.aggregator_service import AggregatorService
+from application.services.test_data_service import TestDataService
+from application.services.test_execution_service import TestExecutionService
 
 from tools.core.test_data_verifier import TestDataVerifierTool
 from tools.core.code_executor import CodeExecutorTool
@@ -67,6 +77,14 @@ class Container(containers.DeclarativeContainer):
         )
     )
 
+    test_data_repository: providers.Singleton[TestDataRepositoryInterface] = (
+        providers.Singleton(JsonFileTestDataRepository)
+    )
+
+    execution_repository: providers.Singleton[ExecutionRepositoryInterface] = (
+        providers.Singleton(JsonFileExecutionRepository)
+    )
+
     # Services
     endpoint_service: providers.Factory[EndpointService] = providers.Factory(
         EndpointService, repository=endpoint_repository
@@ -93,6 +111,17 @@ class Container(containers.DeclarativeContainer):
         endpoint_repo=endpoint_repository,
     )
 
+    test_data_service: providers.Factory[TestDataService] = providers.Factory(
+        TestDataService,
+        test_data_repository=test_data_repository,
+    )
+
+    test_execution_service: providers.Factory[TestExecutionService] = providers.Factory(
+        TestExecutionService,
+        execution_repository=execution_repository,
+        test_data_repository=test_data_repository,
+    )
+
     # Tools
     test_data_verifier: providers.Singleton[TestDataVerifierTool] = providers.Singleton(
         TestDataVerifierTool
@@ -117,6 +146,8 @@ class Container(containers.DeclarativeContainer):
         constraint_service=constraint_service,
         validation_script_service=validation_script_service,
         endpoint_service=endpoint_service,
+        test_data_service=test_data_service,
+        test_execution_service=test_execution_service,
     )
 
 
@@ -167,6 +198,16 @@ def get_aggregator_service() -> AggregatorService:
     return get_container().aggregator_service()
 
 
+def get_test_data_service() -> TestDataService:
+    """Get TestDataService instance from DI container."""
+    return get_container().test_data_service()
+
+
+def get_test_execution_service() -> TestExecutionService:
+    """Get TestExecutionService instance from DI container."""
+    return get_container().test_execution_service()
+
+
 # FastAPI dependency providers
 # These can be used directly in router endpoints as Depends(get_service_name)
 endpoint_service_dependency = Depends(get_endpoint_service)
@@ -175,3 +216,5 @@ validation_script_service_dependency = Depends(get_validation_script_service)
 dataset_service_dependency = Depends(get_dataset_service)
 verification_service_dependency = Depends(get_verification_service)
 aggregator_service_dependency = Depends(get_aggregator_service)
+test_data_service_dependency = Depends(get_test_data_service)
+test_execution_service_dependency = Depends(get_test_execution_service)

@@ -11,7 +11,10 @@ from common.logger import LoggerFactory, LoggerType, LogLevel
 class ConstraintLookupService:
     """Service for looking up constraints across all datasets."""
 
-    def __init__(self, datasets_base_path: str = "data/datasets"):
+    def __init__(
+        self,
+        datasets_base_path: str = "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets",
+    ):
         self.datasets_base_path = Path(datasets_base_path)
         self.logger = LoggerFactory.get_logger(
             name="service.constraint_lookup",

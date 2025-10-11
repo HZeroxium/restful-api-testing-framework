@@ -21,7 +21,13 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
         self.dataset_id = dataset_id
         if dataset_id:
             # Dataset-specific storage
-            self.file_path = Path("data/datasets") / dataset_id / "constraints.json"
+            self.file_path = (
+                Path(
+                    "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+                )
+                / dataset_id
+                / "constraints.json"
+            )
             self.logger = LoggerFactory.get_logger(
                 name="repository.constraint",
                 logger_type=LoggerType.STANDARD,
@@ -39,7 +45,9 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
         else:
             # Global storage - use lookup service to search across all datasets
             self.file_path = Path(file_path)
-            self.lookup_service = ConstraintLookupService()
+            self.lookup_service = ConstraintLookupService(
+                "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+            )
             self.logger = LoggerFactory.get_logger(
                 name="repository.constraint",
                 logger_type=LoggerType.STANDARD,

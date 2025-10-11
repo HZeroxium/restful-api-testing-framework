@@ -1,7 +1,6 @@
 # main.py - Entry point at project root
 
 import sys
-import os
 from pathlib import Path
 
 # Add src directory to Python path

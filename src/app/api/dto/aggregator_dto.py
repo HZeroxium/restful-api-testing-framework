@@ -31,7 +31,7 @@ class ConstraintsScriptsAggregatorResponse(BaseModel):
     total_execution_time: float = Field(
         ..., description="Total execution time in seconds"
     )
-    
+
     # Override information
     deleted_constraints_count: int = Field(
         default=0, description="Number of existing constraints that were deleted"
@@ -55,7 +55,9 @@ class ConstraintsScriptsAggregatorResponse(BaseModel):
     constraints_error: Optional[str] = Field(
         None, description="Error message from constraint mining"
     )
-    scripts_error: Optional[str] = Field(None, description="Error message from script generation")
+    scripts_error: Optional[str] = Field(
+        None, description="Error message from script generation"
+    )
 
     # Metadata
     execution_timestamp: str = Field(

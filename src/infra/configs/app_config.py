@@ -20,7 +20,9 @@ class AppSettings(BaseSettings):
     endpoints_file_path: str = "data/endpoints.json"
     constraints_file_path: str = "data/constraints.json"
     validation_scripts_file_path: str = "data/validation_scripts.json"
-    datasets_base_path: str = "data/datasets"
+    datasets_base_path: str = (
+        "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+    )
 
     # LLM settings
     llm_provider: str = "openai"
