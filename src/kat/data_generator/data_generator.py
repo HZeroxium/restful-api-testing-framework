@@ -60,6 +60,7 @@ class TestDataGenerator:
                  selected_endpoints: list = None,
                  generation_mode: str = "all",
                  working_directory: str = None):
+        self.enabled_mutation = False
         self.swagger_spec: dict = swagger_spec
         self.service_name: str = service_name
         self.collection = collection
@@ -219,17 +220,6 @@ class TestDataGenerator:
             
     
     def _validate_and_correct_expected_code(self, items, endpoint, part="param"):
-        """
-        Validate LLM-generated data and correct expected_code based on actual constraint violations.
-        
-        Args:
-            items: List of data items from LLM (with "data", "expected_code", "reason" format)
-            endpoint: The API endpoint
-            part: "param" or "body"
-            
-        Returns:
-            Tuple of (valid_2xx_items, invalid_4xx_items)
-        """
         if not items:
             return [], []
             
@@ -240,188 +230,25 @@ class TestDataGenerator:
             if not isinstance(item, dict):
                 continue
                 
-            # Extract data and expected_code from LLM response
             data_payload = item.get("data", {})
-            llm_expected_code = item.get("expected_code", "2xx")
+            llm_expected_code = str(item.get("expected_code", "2xx")).lower()
             reason = item.get("reason", "")
-            
-            # Validate data against actual constraints
-            is_actually_valid = self._validate_data_against_constraints(data_payload, endpoint, part)
-            
-            # Determine correct expected_code
-            correct_expected_code = "2xx" if is_actually_valid else "4xx"
-            
-            # Create normalized payload with correct expected_code
+
+            # Chuẩn hoá payload
             payload = copy.deepcopy(data_payload)
-            
-            # Add reason with validation info
-            if llm_expected_code != correct_expected_code:
-                # LLM was wrong, add correction info
-                corrected_reason = f"[CORRECTED from {llm_expected_code} to {correct_expected_code}] {reason}"
-                payload["__reason"] = corrected_reason
-            else:
-                # LLM was right
-                payload["__reason"] = reason
-            
-            # Categorize based on actual validation
-            if is_actually_valid:
+            if not isinstance(payload, dict):
+                payload = {"data": payload}
+            # Giữ nguyên reason của LLM, KHÔNG thêm [CORRECTED ...]
+            payload["__reason"] = reason
+
+            # Phân loại THEO LLM (không theo validator)
+            # Hỗ trợ các biến thể: "2xx", "200", "201", ...
+            if llm_expected_code.startswith("2"):
                 valid_2xx.append(payload)
             else:
                 invalid_4xx.append(payload)
                 
         return valid_2xx, invalid_4xx
-    
-    def _validate_data_against_constraints(self, data, endpoint, part="param"):
-        """
-        Validate data against OpenAPI constraints to determine if it should be 2xx or 4xx.
-        
-        Args:
-            data: The data payload to validate
-            endpoint: The API endpoint 
-            part: "param" or "body"
-            
-        Returns:
-            bool: True if data is valid (should be 2xx), False if invalid (should be 4xx)
-        """
-        try:
-            if part == "param":
-                return self._validate_parameters(data, endpoint)
-            elif part == "body":
-                return self._validate_request_body(data, endpoint)
-        except Exception as e:
-            print(f"[WARNING] Validation error for {endpoint} {part}: {e}")
-            return False
-        return True
-    
-    def _validate_parameters(self, data, endpoint):
-        """Validate parameter data against OpenAPI parameter constraints."""
-        try:
-            endpoint_data = get_endpoint_data(self.swagger_spec, endpoint)
-            
-            method = endpoint.split('-')[0]
-            path   = '-'.join(endpoint.split('-')[1:])
-
-            parameters = collect_merged_parameters(self.swagger_spec, path, method)
-            for param in parameters:
-                param_name = param.get('name')
-                param_schema = param.get('schema', {})
-                param_in = param.get('in')
-                param_required = param.get('required', False)
-                
-                if param_name in data:
-                    value = data[param_name]
-                    
-                    # ĐẶC BIỆT: Path parameters không bao giờ được null
-                    if param_in == 'path' and value is None:
-                        return False
-                    
-                    # Required parameters không được null
-                    if param_required and value is None:
-                        return False
-                        
-                    if not self._validate_value_against_schema(value, param_schema, param_name):
-                        return False
-                elif param_required:
-                    # Missing required parameter
-                    return False
-                        
-            return True
-        except Exception as e:
-            logging.error(f"Error validating parameters for {endpoint}: {e}")
-            return False
-    
-    def _validate_request_body(self, data, endpoint):
-        """Validate request body data against OpenAPI schema constraints."""
-        try:
-            endpoint_data = get_endpoint_data(self.swagger_spec, endpoint)
-            request_body = endpoint_data.get('definition', {}).get('requestBody', {})
-            
-            # Get schema reference
-            from kat.utils.swagger_utils.swagger_utils import find_object_with_key, get_ref
-            schema_ref = find_object_with_key(request_body, "$ref")
-            if not schema_ref:
-                return True
-                
-            schema = get_ref(self.swagger_spec, schema_ref["$ref"])
-            if not schema:
-                return True
-                
-            properties = schema.get("properties", {})
-            required_fields = schema.get("required", [])
-            
-            # Check required fields
-            for field in required_fields:
-                if field not in data or data[field] is None:
-                    return False
-            
-            # Check each field against its schema
-            for field_name, value in data.items():
-                if field_name in properties:
-                    field_schema = properties[field_name]
-                    if not self._validate_value_against_schema(value, field_schema, field_name):
-                        return False
-                        
-            return True
-        except Exception:
-            return False
-    
-    def _validate_value_against_schema(self, value, schema, field_name):
-        """Validate a single value against its OpenAPI schema."""
-        if value is None:
-            return schema.get("nullable", True)
-            
-        # Special case: %not-sure% marker is always valid (will be resolved at runtime)
-        if value == "%not-sure%":
-            return True
-            
-        # Type validation
-        expected_type = schema.get("type")
-        if expected_type:
-            if expected_type == "integer" and not isinstance(value, int):
-                return False
-            elif expected_type == "number" and not isinstance(value, (int, float)):
-                return False
-            elif expected_type == "string" and not isinstance(value, str):
-                return False
-            elif expected_type == "boolean" and not isinstance(value, bool):
-                return False
-            elif expected_type == "array" and not isinstance(value, list):
-                return False
-            elif expected_type == "object" and not isinstance(value, dict):
-                return False
-        
-        # Numeric constraints
-        if isinstance(value, (int, float)):
-            minimum = schema.get("minimum")
-            maximum = schema.get("maximum")
-            if minimum is not None and value < minimum:
-                return False
-            if maximum is not None and value > maximum:
-                return False
-        
-        # String constraints
-        if isinstance(value, str):
-            min_length = schema.get("minLength")
-            max_length = schema.get("maxLength")
-            if min_length is not None and len(value) < min_length:
-                return False
-            if max_length is not None and len(value) > max_length:
-                return False
-            
-            # Pattern validation
-            pattern = schema.get("pattern")
-            if pattern:
-                import re
-                if not re.match(pattern, value):
-                    return False
-        
-        # Enum validation
-        enum_values = schema.get("enum")
-        if enum_values and value not in enum_values:
-            return False
-            
-        return True
-
     def _normalize_llm_items(self, items, fallback_source: str):
         """
         Accepts a list returned by parse_jsonl_response().
@@ -600,7 +427,7 @@ class TestDataGenerator:
         return None
 
     def create_test_data_file_from_swagger(self) -> None:
-        amount_instruction = "containing 5 data items,"
+        amount_instruction = "containing 2 data items,"
         # amount_instruction = ""
         
         if self.selected_endpoints:
@@ -721,49 +548,50 @@ class TestDataGenerator:
                 
                 if self.generation_mode in ["all", "4xx"]:
                     # Generate data for only 4xx status code by using mutation
-                    params: list = endpoint_data.get('definition', {}).get('parameters', [])
-                    if len(params) != 0:
-                        # Get 1 row of valid data for parameters using GPT model
-                        param_1_item = None
-                        if param_data_2xx:
-                            param_1_item = param_data_2xx[0]
-                        else:
-                            new_1_item_data = DataGeneratorUtils.parse_jsonl_response(
-                                self.get_data_from_gpt(GET_DATASET_PROMPT.format(                            
-                                    amount_instruction="containing 1 data item,",
-                                    additional_context=param_inter_param_prompt_context,
-                                    part="PARAMETERS",
-                                    additional_instruction=INSTRUCT_SUCCESS,
-                                    endpoint_data=json.dumps(endpoint_data_parameter_only),
-                                    ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                            )))
-                            if new_1_item_data:
-                                param_1_item = new_1_item_data[0]
-            
-                        if param_1_item is not None:
-                            # Loop into each parameter and mutate the value
-                            try:
-                                # 404
-                                base_data_item = copy.deepcopy(param_1_item)
-                                param_404_data = DataMutator.mutate(base_data_item)
-                                
-                                if param_404_data:
-                                    param_data_4xx += [param_404_data]
+                    if not self.enabled_mutation:
+                        params: list = endpoint_data.get('definition', {}).get('parameters', [])
+                        if len(params) != 0:
+                            # Get 1 row of valid data for parameters using GPT model
+                            param_1_item = None
+                            if param_data_2xx:
+                                param_1_item = param_data_2xx[0]
+                            else:
+                                new_1_item_data = DataGeneratorUtils.parse_jsonl_response(
+                                    self.get_data_from_gpt(GET_DATASET_PROMPT.format(                            
+                                        amount_instruction="containing 1 data item,",
+                                        additional_context=param_inter_param_prompt_context,
+                                        part="PARAMETERS",
+                                        additional_instruction=INSTRUCT_SUCCESS,
+                                        endpoint_data=json.dumps(endpoint_data_parameter_only),
+                                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
+                                )))
+                                if new_1_item_data:
+                                    param_1_item = new_1_item_data[0]
+                
+                            if param_1_item is not None:
+                                # Loop into each parameter and mutate the value
+                                try:
+                                    # 404
+                                    base_data_item = copy.deepcopy(param_1_item)
+                                    param_404_data = DataMutator.mutate(base_data_item)
+                                    
+                                    if param_404_data:
+                                        param_data_4xx += [param_404_data]
 
-                                # Missing required
-                                mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item))
-                                # Wrong dtype  
-                                mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_parameter_only, true_data= copy.deepcopy(base_data_item))
-                                # Write to file
-                                if mutated_data:
-                                    param_data_4xx += mutated_data
-                                # self.create_test_data_file(mutated_data, 
-                                #                         self.get_data_file_path_name(path, method, part="param"), expected_status_code="4xx")
-                            except Exception as e:
-                                lprint("[INFO] Error when trying to mutate parameters: ", e)
-                                pass
-                        else:
-                            print("[INFO] Param 1-item data is None, skip mutation")
+                                    # Missing required
+                                    mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item))
+                                    # Wrong dtype  
+                                    mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_parameter_only, true_data= copy.deepcopy(base_data_item))
+                                    # Write to file
+                                    if mutated_data:
+                                        param_data_4xx += mutated_data
+                                    # self.create_test_data_file(mutated_data, 
+                                    #                         self.get_data_file_path_name(path, method, part="param"), expected_status_code="4xx")
+                                except Exception as e:
+                                    lprint("[INFO] Error when trying to mutate parameters: ", e)
+                                    pass
+                            else:
+                                print("[INFO] Param 1-item data is None, skip mutation")
 
 
             if "requestBody" in endpoint_data.get("definition", {}) and endpoint_data.get("definition", {}).get("requestBody", {}) is not None:
@@ -858,37 +686,39 @@ class TestDataGenerator:
                         body_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(body_data_4xx, body_validation_script, filter_valid=False)
                 
                 if self.generation_mode in ["all", "4xx"]:
+                    if not self.enabled_mutation:
+                        
                     # Generate data for only 4xx status code by using mutation
-                    if 'requestBody' in self.simplified_swagger_spec[endpoint] and \
-                        self.simplified_swagger_spec[endpoint]['requestBody'] is not None and \
-                        self.simplified_swagger_spec[endpoint]['requestBody'] != "":
-                        
-                        body_1_item = None
-                        if body_data_2xx:
-                            body_1_item = body_data_2xx[0]
-                        else:
-                            new_1_item_data = self.generate_data_items(GET_DATASET_PROMPT.format(
-                                amount_instruction="containing 1 data item,",
-                                additional_context=body_inter_param_prompt_context,
-                                part="REQUEST BODY",
-                                additional_instruction=INSTRUCT_SUCCESS,
-                                endpoint_data=json.dumps(endpoint_data_request_body_only),
-                                ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                            ), enc=False)
-                            if new_1_item_data:
-                                body_1_item = new_1_item_data[0]
-                        
-                        if body_1_item is not None:
-                            base_data_item = copy.deepcopy(body_1_item)
-                            ### Mutated by heuristic
-                            mutated_data = []
-                            # Missing required
-                            mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item), for_request_body=True)
-                            # Wrong dtype
-                            mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_request_body_only, true_data= copy.deepcopy(base_data_item))
+                        if 'requestBody' in self.simplified_swagger_spec[endpoint] and \
+                            self.simplified_swagger_spec[endpoint]['requestBody'] is not None and \
+                            self.simplified_swagger_spec[endpoint]['requestBody'] != "":
                             
-                            if mutated_data:
-                                body_data_4xx += mutated_data
+                            body_1_item = None
+                            if body_data_2xx:
+                                body_1_item = body_data_2xx[0]
+                            else:
+                                new_1_item_data = self.generate_data_items(GET_DATASET_PROMPT.format(
+                                    amount_instruction="containing 1 data item,",
+                                    additional_context=body_inter_param_prompt_context,
+                                    part="REQUEST BODY",
+                                    additional_instruction=INSTRUCT_SUCCESS,
+                                    endpoint_data=json.dumps(endpoint_data_request_body_only),
+                                    ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
+                                ), enc=False)
+                                if new_1_item_data:
+                                    body_1_item = new_1_item_data[0]
+                            
+                            if body_1_item is not None:
+                                base_data_item = copy.deepcopy(body_1_item)
+                                ### Mutated by heuristic
+                                mutated_data = []
+                                # Missing required
+                                mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item), for_request_body=True)
+                                # Wrong dtype
+                                # mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_request_body_only, true_data= copy.deepcopy(base_data_item))
+                                
+                                if mutated_data:
+                                    body_data_4xx += mutated_data
             
             # Balance data items at parameter and request body
             param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)

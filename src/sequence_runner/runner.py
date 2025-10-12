@@ -17,7 +17,6 @@ from .url_builder import clean_endpoint, required_path_vars, substitute_path_var
 from .models import TestCaseCore, DataRow, InjectedDataset, TestCaseWithDataset, StepModel
 from .parser import parse_test_case_core_from_dict, parse_all_from_files
 import datetime
-logger = setup_logging()
 
 
 class SequenceRunner:
@@ -30,12 +29,15 @@ class SequenceRunner:
         skip_preload: bool = False,
         base_module_file: str = __file__,
         out_file_name: Optional[str] = None,
+        headers: Optional[Dict[str, str]] = None,
     ):
+        self.file = FileService(service_name , base_module_file, out_file_name)
+        self.logger = setup_logging(log_file=self.file.get_log_path())
         self.service_name = service_name
         self.base_url = base_url.rstrip("/")
         self.endpoint_filter = endpoint
-        self.file = FileService(service_name , base_module_file, out_file_name)
-        self.http = HttpClient(token=token)
+        self.headers = headers
+        self.http = HttpClient(token=token, default_headers=self.headers)
         self.dep = DependencyService()
         self.response_cache: Dict[str, Any] = {}
 
@@ -52,10 +54,39 @@ class SequenceRunner:
                     test_case = parse_test_case_core_from_dict(doc)
                     test_cases.append(test_case)
                 except Exception as e:
-                    logger.warning(f"Failed to parse test case {f}: {e}")
+                    self.logger.warning(f"Failed to parse test case {f}: {e}")
             
             eps, mappings = self.dep.auto_discover_dependencies(test_cases)
-            self.dep.preload_dependencies(self.base_url, self.http, eps, mappings)
+            try:
+                t0 = time.time()
+                self.dep.preload_dependencies(self.base_url, self.http, eps, mappings)
+                t1 = time.time()
+                total_ids = sum(len(v) for v in self.dep.available_ids_cache.values())
+                self.logger.info(
+                    f"🧰 Preload done in {t1 - t0:.2f}s | "
+                    f"global_cache={len(self.dep.global_dependency_cache)} endpoint(s), "
+                    f"available_ids={total_ids}"
+                )
+            except Exception as e:
+                self.logger.warning(f"Failed to preload dependencies: {e}")
+
+
+    def _extract_reason_from_row(self, row: Dict[str, Any]) -> str:
+        """Extract reason from nested test data row structure"""
+        # Try to get reason from param data first
+        if "param" in row and isinstance(row["param"], dict):
+            reason = row["param"].get("reason", "")
+            if reason:
+                return reason
+        
+        # Try to get reason from body data
+        if "body" in row and isinstance(row["body"], dict):
+            reason = row["body"].get("reason", "")
+            if reason:
+                return reason
+        
+        # Fallback to top-level reason (for backward compatibility)
+        return row.get("reason", "")
 
     # ------------------------------------------------------------------
     # Single step executor (handles deps, merge, not-sure, URL, request)
@@ -116,7 +147,7 @@ class SequenceRunner:
         ]
         if unresolved_not_sure:
             reason = f"Unresolved %not-sure% parameter(s): {', '.join(unresolved_not_sure)}"
-            logger.error(f"🚫 Skip calling HTTP: {reason}")
+            self.logger.error(f"🚫 Skip calling HTTP: {reason}")
             return {
                 "url": f"{self.base_url}{cleaned}",
                 "status_code": None,
@@ -159,15 +190,15 @@ class SequenceRunner:
         base_with_path, full_with_query, final_params = build_urls(self.base_url, final_endpoint, final_params)
 
         # Debug log
-        logger.info("  🔗 URL Construction:")
-        logger.info(f"    Original endpoint: {cleaned}")
-        logger.info(f"    Final endpoint:    {final_endpoint}")
-        logger.info(f"    Base URL:          {base_with_path}")
-        logger.info(f"    Full URL + query:  {full_with_query}")
+        self.logger.info("  🔗 URL Construction:")
+        self.logger.info(f"    Original endpoint: {cleaned}")
+        self.logger.info(f"    Final endpoint:    {final_endpoint}")
+        self.logger.info(f"    Base URL:          {base_with_path}")
+        self.logger.info(f"    Full URL + query:  {full_with_query}")
         if all_path_vars:
-            logger.info(f"    Path variables:    {all_path_vars}")
+            self.logger.info(f"    Path variables:    {all_path_vars}")
         if final_params:
-            logger.info(f"    Query parameters:  {final_params}")
+            self.logger.info(f"    Query parameters:  {final_params}")
 
         # 5) Prepare request kwargs
         req_kwargs: Dict[str, Any] = {"timeout": 30}
@@ -220,7 +251,7 @@ class SequenceRunner:
     # Run a single test case file
     # ------------------------------------------------------------------
     def run_test_case(self, test_case_file: Path) -> bool:
-        logger.info(f"Running test case: {test_case_file.name}")
+        self.logger.info(f"Running test case: {test_case_file.name}")
         is_pass = False
 
         # Load and parse test case using models
@@ -228,11 +259,11 @@ class SequenceRunner:
         test_case = parse_test_case_core_from_dict(test_case_dict)
         test_case_id = test_case_file.stem
         target_endpoint = test_case.endpoint
-        logger.info(f"🎯 Target endpoint: {target_endpoint}")
+        self.logger.info(f"🎯 Target endpoint: {target_endpoint}")
 
         steps: List[StepModel] = test_case.steps
         if not steps:
-            logger.warning(f"No steps found in test case: {test_case_id}")
+            self.logger.warning(f"No steps found in test case: {test_case_id}")
             return is_pass
 
         # CSV locate by endpoint_identifier (compat rules)
@@ -244,13 +275,13 @@ class SequenceRunner:
         body_rows = self.file.load_csv_rows(files["body"]) if files["body"] else []
 
         if files["param"]:
-            logger.info(f"📄 Param CSV: {files['param'].name} -> {len(param_rows)} rows")
+            self.logger.info(f"📄 Param CSV: {files['param'].name} -> {len(param_rows)} rows")
         if files["body"]:
-            logger.info(f"📄 Body  CSV: {files['body'].name}  -> {len(body_rows)} rows")
+            self.logger.info(f"📄 Body  CSV: {files['body'].name}  -> {len(body_rows)} rows")
 
         if not param_rows and not body_rows:
             test_data_rows: List[Dict[str, Any]] = [{}]
-            logger.info("🧪 No test data found, will run 1 time with empty data")
+            self.logger.info("🧪 No test data found, will run 1 time with empty data")
         else:
             max_len = max(len(param_rows), len(body_rows))
             test_data_rows = []
@@ -261,13 +292,13 @@ class SequenceRunner:
                         "body": body_rows[i] if i < len(body_rows) else {},
                     }
                 )
-            logger.info(f"🧪 Will run {len(test_data_rows)} times (combine param/body rows by index)")
+            self.logger.info(f"🧪 Will run {len(test_data_rows)} times (combine param/body rows by index)")
 
         # Iterate rows
         for row_idx, row in enumerate(test_data_rows, start=1):
-            logger.info(f"Running with test data row {row_idx}/{len(test_data_rows)}")
+            self.logger.info(f"Running with test data row {row_idx}/{len(test_data_rows)}")
             expected_status = extract_expected_status(row)
-            logger.info(f"  🎯 Expected status extracted: {expected_status}")
+            self.logger.info(f"  🎯 Expected status extracted: {expected_status}")
 
             step_responses: List[Optional[Dict[str, Any]]] = []
             skip_row = False
@@ -287,16 +318,17 @@ class SequenceRunner:
                             "endpoint": step.endpoint,
                             "method": step.method,
                             "test_data_row": row_idx,
+                            "reason": self._extract_reason_from_row(row),
                             "request_params": json.dumps(result.get("merged_params", {})),
                             "request_body": json.dumps(result.get("merged_body", {})),
                             "final_url": result.get("url", ""),
                             "response_status": None,
                             "expected_status": expected_status,
-                            "execution_time": f"{result.get('execution_time', 0.0):.3f}s",
                             "status": "ERROR(%not-sure%)",
+
                         }
                     )
-                    logger.error(f"  ❌ ERROR(%not-sure%): {result.get('error')}")
+                    self.logger.error(f"  ❌ ERROR(%not-sure%): {result.get('error')}")
                     skip_row = True
                     break
 
@@ -308,7 +340,7 @@ class SequenceRunner:
 
                 # Dependency step: no assert, just continue
                 if not is_target_step:
-                    logger.info(
+                    self.logger.info(
                         f"  🔄 Step {step_idx+1}: {step.method} {step_endpoint} "
                         f"-> {result['status_code']} (dependency - skip assert)"
                     )
@@ -358,6 +390,7 @@ class SequenceRunner:
                         "endpoint": step.endpoint,
                         "method": step.method,
                         "test_data_row": row_idx,
+                        "reason": self._extract_reason_from_row(row),
                         "request_params": json.dumps(result.get("merged_params", {})),
                         "request_body": json.dumps(result.get("merged_body", {})),
                         "final_url": result.get("url", ""),
@@ -370,14 +403,14 @@ class SequenceRunner:
 
                 status_emoji = "✅" if is_pass else "❌"
                 expected_info = f"(expected: {expected_status})" if expected_status != "2xx" else ""
-                logger.info(
+                self.logger.info(
                     f"  {status_emoji} 🎯 TARGET: {step.method} {step.endpoint} "
                     f"-> {result['status_code']} {expected_info} ({result['execution_time']:.3f}s)"
                 )
                 if not is_pass and result.get("error"):
-                    logger.error(f"    Error: {result.get('error')}")
+                    self.logger.error(f"    Error: {result.get('error')}")
                 if not is_pass and result["response"]:
-                    logger.error(f"    Response: {json.dumps(result['response'], indent=2)}")
+                    self.logger.error(f"    Response: {json.dumps(result['response'], indent=2)}")
 
                 time.sleep(0.1)
 
@@ -391,10 +424,10 @@ class SequenceRunner:
     # Run all test cases
     # ------------------------------------------------------------------
     def run_all(self):
-        logger.info(f"Starting test execution for service: {self.service_name}")
+        self.logger.info(f"Starting test execution for service: {self.service_name}")
         test_case_files = self.file.find_test_case_files(self.endpoint_filter)
         if not test_case_files:
-            logger.error("No test case files found!")
+            self.logger.error("No test case files found!")
             return
         out_file_name = self.file.open_csv_output(self.service_name)
 
@@ -418,7 +451,7 @@ class SequenceRunner:
                                 return i
                 return len(topolist)
 
-            logger.info("📋 Sorting test cases by topolist order...")
+            self.logger.info("📋 Sorting test cases by topolist order...")
             test_case_files.sort(key=sort_key)
 
         
@@ -427,7 +460,7 @@ class SequenceRunner:
                 if self.run_test_case(test_case_file):
                     pass
             except Exception as e:
-                logger.error(f"Error running test case {test_case_file.name}: {e}")
+                self.logger.error(f"Error running test case {test_case_file.name}: {e}")
 
         return out_file_name
     # ------------------------------------------------------------------

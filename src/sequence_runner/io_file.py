@@ -168,8 +168,8 @@ class FileService:
         self._csv_file = out_path.open("w", newline="", encoding="utf-8")
         headers = [
             "test_case_id","step_number","endpoint","method",
-            "test_data_row","request_params","request_body","final_url",
-            "response_status","expected_status","execution_time","status",
+            "test_data_row","reason","request_params","request_body","final_url",
+            "response_status","expected_status","execution_time","status", 
         ]
         self._csv_writer = csv.DictWriter(self._csv_file, fieldnames=headers)
         self._csv_writer.writeheader()
@@ -198,3 +198,8 @@ class FileService:
         finally:
             self._csv_file = None
             self._csv_writer = None
+    def get_log_path(self) -> Path:
+        if not self.out_file_name:
+            # Phòng hờ: nếu ai đó gọi trước open_csv_output
+            self._ensure_out_name("run")
+        return self.paths.output_csv_dir / f"{self.out_file_name}.log"
