@@ -12,25 +12,25 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Alert,
+  Chip,
+  LinearProgress,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
-  Alert,
-  Chip,
-  LinearProgress,
 } from "@mui/material";
 import { Search, PlayArrow, FilterList, Refresh } from "@mui/icons-material";
 import { format } from "date-fns";
 import {
-  useGetEndpointsQuery,
   useExecuteTestsByEndpointNameMutation,
   useGetTestDataByEndpointNameQuery,
-  useGetExecutionHistoryByEndpointNameQuery,
   useGetAllExecutionsQuery,
 } from "@/services/api";
 import { DataTable } from "@/components/common/DataTable";
 import { StatusBadge } from "@/components/common/StatusBadge";
+import EndpointAutocomplete from "@/components/common/EndpointAutocomplete";
+import { usePagination } from "@/hooks/usePagination";
 import type { ExecutionHistoryResponse, TableColumn } from "@/types";
 
 const ExecutionsPage: React.FC = () => {
@@ -38,6 +38,15 @@ const ExecutionsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const endpointNameFromQuery = searchParams.get("endpoint") || "";
 
+  const {
+    page,
+    pageSize,
+    offset,
+    limit,
+    handlePageChange,
+    handlePageSizeChange,
+    resetPagination,
+  } = usePagination({ defaultPageSize: 20 });
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [executeDialogOpen, setExecuteDialogOpen] = useState(false);
@@ -48,7 +57,12 @@ const ExecutionsPage: React.FC = () => {
   const [baseUrl, setBaseUrl] = useState("");
   const [timeout, setTimeout] = useState(30);
 
-  const { data: endpointsData } = useGetEndpointsQuery({ page: 1, size: 100 });
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [searchTerm, statusFilter, resetPagination]);
+
+  // Endpoints are fetched by EndpointAutocomplete component
   const { data: testDataData } = useGetTestDataByEndpointNameQuery(
     selectedEndpointName,
     {
@@ -64,7 +78,7 @@ const ExecutionsPage: React.FC = () => {
   const [executions, setExecutions] = useState<ExecutionHistoryResponse[]>([]);
   const [pollingEnabled, setPollingEnabled] = useState(false);
 
-  const endpoints = endpointsData?.endpoints || [];
+  // Endpoints are fetched by EndpointAutocomplete component
   const testDataItems = testDataData?.test_data_items || [];
 
   // Fetch all executions from backend
@@ -73,7 +87,7 @@ const ExecutionsPage: React.FC = () => {
     isLoading: isLoadingExecutions,
     error: executionsError,
     refetch: refetchExecutions,
-  } = useGetAllExecutionsQuery({ limit: 1000, offset: 0 });
+  } = useGetAllExecutionsQuery({ limit, offset });
 
   const allExecutions = allExecutionsData?.executions || [];
 
@@ -105,17 +119,24 @@ const ExecutionsPage: React.FC = () => {
   // Combine local executions with API executions
   const combinedExecutions = [...executions, ...allExecutions];
 
-  // Filter executions
-  const filteredExecutions = combinedExecutions.filter((execution) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      execution.endpoint_name.toLowerCase().includes(searchTerm.toLowerCase());
+  // Check if client-side filtering is active
+  const hasActiveFilters = searchTerm !== "" || statusFilter !== "all";
 
-    const matchesStatus =
-      statusFilter === "all" || execution.overall_status === statusFilter;
+  // Filter executions (only when filters are active)
+  const filteredExecutions = hasActiveFilters
+    ? combinedExecutions.filter((execution) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          execution.endpoint_name
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase());
 
-    return matchesSearch && matchesStatus;
-  });
+        const matchesStatus =
+          statusFilter === "all" || execution.overall_status === statusFilter;
+
+        return matchesSearch && matchesStatus;
+      })
+    : combinedExecutions;
 
   const handleExecuteTests = async () => {
     if (!selectedEndpointName || !baseUrl) return;
@@ -349,6 +370,26 @@ const ExecutionsPage: React.FC = () => {
               onRowClick={(execution: any) =>
                 navigate(`/executions/${execution.id}`)
               }
+              page={hasActiveFilters ? 0 : page}
+              pageSize={hasActiveFilters ? filteredExecutions.length : pageSize}
+              totalCount={
+                hasActiveFilters
+                  ? filteredExecutions.length
+                  : allExecutionsData?.pagination.total_items || 0
+              }
+              onPageChange={
+                hasActiveFilters
+                  ? () => {}
+                  : (page: number) => handlePageChange(undefined, page)
+              }
+              onPageSizeChange={
+                hasActiveFilters
+                  ? () => {}
+                  : (pageSize: number) =>
+                      handlePageSizeChange({
+                        target: { value: pageSize.toString() },
+                      } as React.ChangeEvent<HTMLInputElement>)
+              }
             />
           )}
         </CardContent>
@@ -383,21 +424,15 @@ const ExecutionsPage: React.FC = () => {
               </Box>
             )}
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-                disabled={isExecuting}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
 
             {selectedEndpointName && (
               <Alert severity="info">

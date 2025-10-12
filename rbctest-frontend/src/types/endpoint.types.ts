@@ -52,11 +52,18 @@ export interface EndpointUpdateRequest {
   output_schema?: Record<string, any>;
 }
 
+export interface PaginationMetadata {
+  page: number;
+  page_size: number;
+  total_items: number;
+  total_pages: number;
+  has_next: boolean;
+  has_previous: boolean;
+}
+
 export interface EndpointListResponse {
   endpoints: EndpointResponse[];
-  total: number;
-  page: number;
-  size: number;
+  pagination: PaginationMetadata;
 }
 
 export interface ParseSpecRequest {

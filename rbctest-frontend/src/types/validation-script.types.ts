@@ -31,9 +31,11 @@ export interface ValidationScriptCreateRequest {
   constraint_id?: string;
 }
 
+import type { PaginationMetadata } from "./endpoint.types";
+
 export interface ValidationScriptListResponse {
   scripts: ValidationScriptResponse[];
-  total: number;
+  pagination: PaginationMetadata;
 }
 
 export interface GenerateScriptsRequest {

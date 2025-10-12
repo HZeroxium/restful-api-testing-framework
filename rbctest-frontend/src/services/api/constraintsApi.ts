@@ -11,11 +11,11 @@ export const constraintsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getConstraints: builder.query<
       ConstraintListResponse,
-      { endpoint_id?: string }
+      { endpoint_id?: string; limit?: number; offset?: number }
     >({
-      query: ({ endpoint_id }) => ({
+      query: ({ endpoint_id, limit = 50, offset = 0 }) => ({
         url: "/api/v1/constraints/",
-        params: endpoint_id ? { endpoint_id } : {},
+        params: { ...(endpoint_id && { endpoint_id }), limit, offset },
       }),
       providesTags: ["Constraint"],
     }),

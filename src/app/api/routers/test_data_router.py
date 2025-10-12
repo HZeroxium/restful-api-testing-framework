@@ -2,6 +2,7 @@
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
+from datetime import datetime
 
 from app.api.dto.test_data_dto import (
     GenerateTestDataRequest,
@@ -13,11 +14,20 @@ from app.api.dto.test_data_dto import (
 from application.services.test_data_service import TestDataService
 from application.services.endpoint_service import EndpointService
 from infra.di.container import test_data_service_dependency, endpoint_service_dependency
-from schemas.core.test_data import TestData
+from schemas.tools.test_data_generator import TestData
 from schemas.core.pagination import PaginationParams
 from utils.pagination_utils import calculate_pagination_metadata
 
 router = APIRouter(prefix="/test-data", tags=["test-data"])
+
+
+def convert_test_data_to_response(test_data: TestData) -> TestDataResponse:
+    """Convert TestData to TestDataResponse, handling datetime conversion."""
+    test_data_dict = test_data.model_dump()
+    # Convert string timestamps to datetime objects for the response
+    test_data_dict["created_at"] = datetime.fromisoformat(test_data_dict["created_at"])
+    test_data_dict["updated_at"] = datetime.fromisoformat(test_data_dict["updated_at"])
+    return TestDataResponse(**test_data_dict)
 
 
 @router.post(
@@ -49,6 +59,13 @@ async def generate_test_data_by_endpoint_name(
         )
         deleted_count = len(existing_test_data) if request.override_existing else 0
 
+        # Validate dataset_id exists
+        if not endpoint.dataset_id:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=f"Endpoint '{endpoint_name}' does not have a dataset_id. Cannot generate test data without dataset context.",
+            )
+
         # Convert endpoint to dict for the generator
         endpoint_dict = {
             "id": endpoint.id,
@@ -61,6 +78,7 @@ async def generate_test_data_by_endpoint_name(
             "tags": endpoint.tags,
             "auth_required": endpoint.auth_required,
             "auth_type": endpoint.auth_type,
+            "dataset_id": endpoint.dataset_id,
         }
 
         # Generate test data
@@ -74,7 +92,7 @@ async def generate_test_data_by_endpoint_name(
 
         # Convert to response format
         test_data_responses = [
-            TestDataResponse(**test_data.model_dump())
+            convert_test_data_to_response(test_data)
             for test_data in generator_output.test_data_collection
         ]
 
@@ -134,7 +152,7 @@ async def get_test_data_by_endpoint_name(
 
         # Convert to response format
         test_data_responses = [
-            TestDataResponse(**test_data.model_dump()) for test_data in test_data_items
+            convert_test_data_to_response(test_data) for test_data in test_data_items
         ]
 
         return TestDataListResponse(
@@ -176,7 +194,7 @@ async def get_test_data_by_endpoint_id(
 
         # Convert to response format
         test_data_responses = [
-            TestDataResponse(**test_data.model_dump()) for test_data in test_data_items
+            convert_test_data_to_response(test_data) for test_data in test_data_items
         ]
 
         # Calculate pagination metadata

@@ -85,6 +85,57 @@ def extract_function_name(code: str) -> Optional[str]:
     return None
 
 
+def normalize_validation_script(script_code: str) -> str:
+    """
+    Normalize validation script to use correct response schema.
+
+    Converts common incorrect patterns to correct ones:
+    - response.data → response.get('body')
+    - response['data'] → response.get('body')
+    - response.status_code → response.get('status_code')
+    - response['status_code'] → response.get('status_code')
+    - response.headers → response.get('headers')
+    - response['headers'] → response.get('headers')
+
+    Args:
+        script_code: The validation script code to normalize
+
+    Returns:
+        Normalized script code with correct response schema access patterns
+    """
+    logger.debug("Normalizing validation script for correct response schema")
+
+    # Pattern 1: response.data (attribute access)
+    script_code = re.sub(r"\bresponse\.data\b", "response.get('body')", script_code)
+
+    # Pattern 2: response['data'] (bracket notation)
+    script_code = re.sub(r"response\['data'\]", "response.get('body')", script_code)
+    script_code = re.sub(r'response\["data"\]', "response.get('body')", script_code)
+
+    # Pattern 3: response.status_code (attribute)
+    script_code = re.sub(
+        r"\bresponse\.status_code\b", "response.get('status_code')", script_code
+    )
+
+    # Pattern 4: response['status_code'] (bracket)
+    script_code = re.sub(
+        r"response\['status_code'\]", "response.get('status_code')", script_code
+    )
+
+    # Pattern 5: response.headers (attribute)
+    script_code = re.sub(
+        r"\bresponse\.headers\b", "response.get('headers')", script_code
+    )
+
+    # Pattern 6: response['headers'] (bracket)
+    script_code = re.sub(
+        r"response\['headers'\]", "response.get('headers')", script_code
+    )
+
+    logger.debug("Validation script normalization completed")
+    return script_code
+
+
 class ValidationResult(BaseModel):
     """Model for validation result data."""
 

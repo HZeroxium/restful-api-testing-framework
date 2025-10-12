@@ -342,6 +342,15 @@ class TestScriptGeneratorTool(BaseTool):
                 else:
                     script.constraint_id = None
 
+        # NEW: Normalize all validation scripts before returning
+        from utils.code_script_utils import normalize_validation_script
+
+        for script in validation_scripts:
+            original_code = script.validation_code
+            script.validation_code = normalize_validation_script(original_code)
+            if original_code != script.validation_code:
+                self.logger.debug(f"Normalized validation script: {script.name}")
+
         self.logger.debug(
             f"Restored constraint IDs and assigned to {len(validation_scripts)} validation scripts"
         )

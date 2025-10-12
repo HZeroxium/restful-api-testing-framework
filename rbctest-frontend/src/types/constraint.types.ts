@@ -31,9 +31,11 @@ export interface ConstraintCreateRequest {
   details: Record<string, any>;
 }
 
+import type { PaginationMetadata } from "./endpoint.types";
+
 export interface ConstraintListResponse {
   constraints: ConstraintResponse[];
-  total: number;
+  pagination: PaginationMetadata;
 }
 
 export interface MineConstraintsRequest {

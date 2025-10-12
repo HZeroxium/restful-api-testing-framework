@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { Box, CssBaseline, Toolbar } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Header from "./Header";
+// import Header from "./Header"; // Not used currently
 import Sidebar from "./Sidebar";
 import Breadcrumb from "../common/Breadcrumb";
 import theme from "@/theme/theme";
@@ -72,7 +72,7 @@ const AppLayout: React.FC = () => {
     return { title, breadcrumbs };
   };
 
-  const { title, breadcrumbs } = getPageInfo();
+  const { breadcrumbs } = getPageInfo();
 
   return (
     <ThemeProvider theme={theme}>

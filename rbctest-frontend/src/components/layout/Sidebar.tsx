@@ -25,7 +25,9 @@ import {
   VerifiedUser,
   ExpandLess,
   ExpandMore,
+  GroupWork,
 } from "@mui/icons-material";
+import HealthIndicator from "@/components/common/HealthIndicator";
 
 const DRAWER_WIDTH = 280;
 
@@ -112,6 +114,12 @@ const navigationItems: NavigationItem[] = [
         icon: <VerifiedUser />,
       },
     ],
+  },
+  {
+    id: "batch-operations",
+    label: "Batch Operations",
+    path: "/batch-operations",
+    icon: <GroupWork />,
   },
 ];
 
@@ -239,7 +247,25 @@ const Sidebar: React.FC<SidebarProps> = ({ open, onClose }) => {
 
       {/* Footer */}
       <Box sx={{ p: 2, borderTop: 1, borderColor: "divider" }}>
-        <Typography variant="caption" color="text.secondary" align="center">
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            mb: 1,
+          }}
+        >
+          <Typography variant="caption" color="text.secondary">
+            System Status:
+          </Typography>
+          <HealthIndicator />
+        </Box>
+        <Typography
+          variant="caption"
+          color="text.secondary"
+          align="center"
+          sx={{ display: "block" }}
+        >
           Version 0.1.0
         </Typography>
       </Box>

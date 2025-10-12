@@ -2,6 +2,7 @@
 
 from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional, Union
+from datetime import datetime
 
 from schemas.tools.openapi_parser import EndpointInfo
 
@@ -32,6 +33,9 @@ class TestData(BaseModel):
     """Raw test data for a single test scenario."""
 
     id: str
+    endpoint_id: str = Field(
+        ..., description="ID of the endpoint this test data belongs to"
+    )
     name: str
     description: str
     request_params: Optional[Dict[str, Any]] = None
@@ -40,6 +44,18 @@ class TestData(BaseModel):
     expected_status_code: int
     expected_response_schema: Optional[Dict[str, Any]] = None
     expected_response_contains: Optional[List[str]] = None
+    is_valid: bool = Field(
+        True,
+        description="Whether this is valid test data (true) or invalid test data (false)",
+    )
+    created_at: str = Field(
+        default_factory=lambda: datetime.now().isoformat(),
+        description="Creation timestamp",
+    )
+    updated_at: str = Field(
+        default_factory=lambda: datetime.now().isoformat(),
+        description="Last update timestamp",
+    )
 
 
 class TestDataGeneratorOutput(BaseModel):

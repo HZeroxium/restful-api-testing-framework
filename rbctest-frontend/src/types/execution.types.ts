@@ -83,9 +83,11 @@ export interface ExecuteTestResponse {
   execution_results: TestCaseExecutionResultResponse[];
 }
 
+import type { PaginationMetadata } from "./endpoint.types";
+
 export interface ExecutionHistoryListResponse {
   executions: ExecutionHistoryResponse[];
-  total_count: number;
+  pagination: PaginationMetadata;
 }
 
 export interface ExecutionDetailResponse {

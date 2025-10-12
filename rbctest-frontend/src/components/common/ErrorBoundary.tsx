@@ -16,24 +16,27 @@ interface Props {
 
 interface State {
   hasError: boolean;
-  error?: Error;
-  errorInfo?: ErrorInfo;
+  error: Error | undefined;
+  errorInfo: ErrorInfo | undefined;
 }
 
 class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: undefined, errorInfo: undefined };
   }
 
   static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI
-    return { hasError: true, error };
+    return { hasError: true, error, errorInfo: undefined };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  override componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log the error to console in development
-    if (process.env.NODE_ENV === "development") {
+    if (
+      typeof window !== "undefined" &&
+      window.location.hostname === "localhost"
+    ) {
       console.error("ErrorBoundary caught an error:", error, errorInfo);
     }
 
@@ -51,7 +54,7 @@ class ErrorBoundary extends Component<Props, State> {
     window.location.reload();
   };
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       // Custom fallback UI
       if (this.props.fallback) {
@@ -100,35 +103,41 @@ class ErrorBoundary extends Component<Props, State> {
                   persists.
                 </Typography>
 
-                {process.env.NODE_ENV === "development" && this.state.error && (
-                  <Card
-                    variant="outlined"
-                    sx={{ mb: 3, p: 2, textAlign: "left" }}
-                  >
-                    <Typography variant="subtitle2" gutterBottom color="error">
-                      Error Details (Development Only):
-                    </Typography>
-                    <Typography
-                      variant="body2"
-                      component="pre"
-                      sx={{
-                        fontFamily: "monospace",
-                        fontSize: "0.75rem",
-                        color: "error.main",
-                        whiteSpace: "pre-wrap",
-                        wordBreak: "break-word",
-                      }}
+                {typeof window !== "undefined" &&
+                  window.location.hostname === "localhost" &&
+                  this.state.error && (
+                    <Card
+                      variant="outlined"
+                      sx={{ mb: 3, p: 2, textAlign: "left" }}
                     >
-                      {this.state.error.message}
-                      {this.state.errorInfo?.componentStack && (
-                        <>
-                          {"\n\nComponent Stack:"}
-                          {this.state.errorInfo.componentStack}
-                        </>
-                      )}
-                    </Typography>
-                  </Card>
-                )}
+                      <Typography
+                        variant="subtitle2"
+                        gutterBottom
+                        color="error"
+                      >
+                        Error Details (Development Only):
+                      </Typography>
+                      <Typography
+                        variant="body2"
+                        component="pre"
+                        sx={{
+                          fontFamily: "monospace",
+                          fontSize: "0.75rem",
+                          color: "error.main",
+                          whiteSpace: "pre-wrap",
+                          wordBreak: "break-word",
+                        }}
+                      >
+                        {this.state.error.message}
+                        {this.state.errorInfo?.componentStack && (
+                          <>
+                            {"\n\nComponent Stack:"}
+                            {this.state.errorInfo.componentStack}
+                          </>
+                        )}
+                      </Typography>
+                    </Card>
+                  )}
 
                 <Box
                   sx={{

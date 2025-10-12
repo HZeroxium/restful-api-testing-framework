@@ -13,10 +13,12 @@ export const endpointsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getEndpoints: builder.query<
       EndpointListResponse,
-      { page?: number; size?: number }
+      { limit?: number; offset?: number }
     >({
-      query: ({ page = 1, size = 10 }) =>
-        `/api/v1/endpoints/?page=${page}&size=${size}`,
+      query: ({ limit = 10, offset = 0 }) => ({
+        url: "/api/v1/endpoints/",
+        params: { limit, offset },
+      }),
       providesTags: ["Endpoint"],
     }),
 

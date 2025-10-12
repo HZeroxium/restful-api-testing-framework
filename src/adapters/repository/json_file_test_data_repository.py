@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 from domain.ports.test_data_repository import TestDataRepositoryInterface
-from schemas.core.test_data import TestData
+from schemas.tools.test_data_generator import TestData
 from common.logger import LoggerFactory, LoggerType, LogLevel
 
 
@@ -82,10 +82,15 @@ class JsonFileTestDataRepository(TestDataRepositoryInterface):
         if not test_data.id:
             test_data.id = str(uuid.uuid4())
 
-        self._test_data[test_data.id] = test_data.model_dump()
+        # Validate dataset_id exists before saving
+        if not self.dataset_id:
+            raise ValueError(
+                f"Cannot save test data {test_data.id}: Repository not initialized with dataset_id. "
+                "Test data must be associated with a specific dataset."
+            )
 
-        if self.dataset_id:
-            self._save_test_data()
+        self._test_data[test_data.id] = test_data.model_dump()
+        self._save_test_data()
 
         self.logger.info(
             f"Created test data: {test_data.id} for endpoint: {test_data.endpoint_id}"

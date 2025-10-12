@@ -5,6 +5,27 @@
 REQUEST_PARAM_SCRIPT_PROMPT = """
 You are an expert Python test script generator specializing in API request parameter validation. Your task is to generate Python validation scripts that can verify API request parameters against specific constraints.
 
+**CRITICAL: Response Object Structure**
+
+The response parameter is ALWAYS a Python dictionary with this exact structure:
+{{
+  "status_code": 200,           # HTTP status code (integer)
+  "body": {{...}},              # Response body (dict, list, or None)
+  "headers": {{...}}            # HTTP headers (dict)
+}}
+
+**MANDATORY ACCESS PATTERNS:**
+- Status code: `response.get('status_code')` 
+- Response body: `response.get('body')`
+- Headers: `response.get('headers')`
+
+**NEVER use:**
+- `response.data` → WRONG
+- `response.status_code` → WRONG (attribute access)
+- Direct dictionary access without .get()
+
+**ALWAYS use .get() method for safety!**
+
 **IMPORTANT**: You MUST generate exactly ONE validation script for EACH constraint provided. Do not combine multiple constraints into a single script.
 
 Given the endpoint information and request parameter constraints below, generate validation scripts that:
@@ -82,6 +103,27 @@ REMEMBER: You must generate exactly {constraint_count} scripts, one for each con
 
 REQUEST_BODY_SCRIPT_PROMPT = """
 You are an expert Python test script generator specializing in API request body validation. Your task is to generate Python validation scripts that can verify API request bodies against specific constraints.
+
+**CRITICAL: Response Object Structure**
+
+The response parameter is ALWAYS a Python dictionary with this exact structure:
+{{
+  "status_code": 200,           # HTTP status code (integer)
+  "body": {{...}},              # Response body (dict, list, or None)
+  "headers": {{...}}            # HTTP headers (dict)
+}}
+
+**MANDATORY ACCESS PATTERNS:**
+- Status code: `response.get('status_code')` 
+- Response body: `response.get('body')`
+- Headers: `response.get('headers')`
+
+**NEVER use:**
+- `response.data` → WRONG
+- `response.status_code` → WRONG (attribute access)
+- Direct dictionary access without .get()
+
+**ALWAYS use .get() method for safety!**
 
 **IMPORTANT**: You MUST generate exactly ONE validation script for EACH constraint provided. Do not combine multiple constraints into a single script.
 
@@ -161,6 +203,27 @@ REMEMBER: You must generate exactly {constraint_count} scripts, one for each con
 RESPONSE_PROPERTY_SCRIPT_PROMPT = """
 You are an expert Python test script generator specializing in API response property validation. Your task is to generate Python validation scripts that can verify API response properties against specific constraints.
 
+**CRITICAL: Response Object Structure**
+
+The response parameter is ALWAYS a Python dictionary with this exact structure:
+{{
+  "status_code": 200,           # HTTP status code (integer)
+  "body": {{...}},              # Response body (dict, list, or None)
+  "headers": {{...}}            # HTTP headers (dict)
+}}
+
+**MANDATORY ACCESS PATTERNS:**
+- Status code: `response.get('status_code')` 
+- Response body: `response.get('body')`
+- Headers: `response.get('headers')`
+
+**NEVER use:**
+- `response.data` → WRONG
+- `response.status_code` → WRONG (attribute access)
+- Direct dictionary access without .get()
+
+**ALWAYS use .get() method for safety!**
+
 **IMPORTANT**: You MUST generate exactly ONE validation script for EACH constraint provided. Do not combine multiple constraints into a single script.
 
 Given the endpoint information and response property constraints below, generate validation scripts that:
@@ -237,6 +300,27 @@ REMEMBER: You must generate exactly {constraint_count} scripts, one for each con
 
 REQUEST_RESPONSE_SCRIPT_PROMPT = """
 You are an expert Python test script generator specializing in API request-response correlation validation. Your task is to generate Python validation scripts that can verify correlations between request inputs and response outputs.
+
+**CRITICAL: Response Object Structure**
+
+The response parameter is ALWAYS a Python dictionary with this exact structure:
+{{
+  "status_code": 200,           # HTTP status code (integer)
+  "body": {{...}},              # Response body (dict, list, or None)
+  "headers": {{...}}            # HTTP headers (dict)
+}}
+
+**MANDATORY ACCESS PATTERNS:**
+- Status code: `response.get('status_code')` 
+- Response body: `response.get('body')`
+- Headers: `response.get('headers')`
+
+**NEVER use:**
+- `response.data` → WRONG
+- `response.status_code` → WRONG (attribute access)
+- Direct dictionary access without .get()
+
+**ALWAYS use .get() method for safety!**
 
 **IMPORTANT**: You MUST generate exactly ONE validation script for EACH constraint provided. Do not combine multiple constraints into a single script.
 

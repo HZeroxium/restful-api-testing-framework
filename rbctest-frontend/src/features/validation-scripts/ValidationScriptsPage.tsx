@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -11,10 +11,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Alert,
   Accordion,
   AccordionSummary,
@@ -22,6 +18,11 @@ import {
   Chip,
   Grid,
   Divider,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TablePagination,
 } from "@mui/material";
 import {
   Search,
@@ -32,15 +33,25 @@ import {
 } from "@mui/icons-material";
 import {
   useGetScriptsQuery,
-  useGetEndpointsQuery,
   useGenerateScriptsByEndpointNameMutation,
   useExportToPythonFileMutation,
 } from "@/services/api";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { CodeViewer } from "@/components/common/CodeViewer";
+import EndpointAutocomplete from "@/components/common/EndpointAutocomplete";
+import { usePagination } from "@/hooks/usePagination";
 
 const ValidationScriptsPage: React.FC = () => {
+  const {
+    page,
+    pageSize,
+    offset,
+    limit,
+    handlePageChange,
+    handlePageSizeChange,
+    resetPagination,
+  } = usePagination({ defaultPageSize: 20 });
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [generateDialogOpen, setGenerateDialogOpen] = useState(false);
@@ -48,33 +59,43 @@ const ValidationScriptsPage: React.FC = () => {
   const [selectedEndpointName, setSelectedEndpointName] = useState("");
   const [expandedScript, setExpandedScript] = useState<string | false>(false);
 
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [searchTerm, typeFilter, resetPagination]);
+
   const {
     data: scriptsData,
     isLoading,
     error,
     refetch,
-  } = useGetScriptsQuery({});
-  const { data: endpointsData } = useGetEndpointsQuery({ page: 1, size: 100 });
+  } = useGetScriptsQuery({ limit, offset });
+  // Endpoints are fetched by EndpointAutocomplete component
   const [generateScripts, { isLoading: isGenerating, error: generateError }] =
     useGenerateScriptsByEndpointNameMutation();
   const [exportScripts, { isLoading: isExporting, error: exportError }] =
     useExportToPythonFileMutation();
 
   const scripts = scriptsData?.scripts || [];
-  const endpoints = endpointsData?.endpoints || [];
+  // Endpoints are fetched by EndpointAutocomplete component
 
-  // Filter scripts
-  const filteredScripts = scripts.filter((script) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      script.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      script.description.toLowerCase().includes(searchTerm.toLowerCase());
+  // Check if client-side filtering is active
+  const hasActiveFilters = searchTerm !== "" || typeFilter !== "all";
 
-    const matchesType =
-      typeFilter === "all" || script.script_type === typeFilter;
+  // Filter scripts (only when filters are active)
+  const filteredScripts = hasActiveFilters
+    ? scripts.filter((script) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          script.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          script.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesSearch && matchesType;
-  });
+        const matchesType =
+          typeFilter === "all" || script.script_type === typeFilter;
+
+        return matchesSearch && matchesType;
+      })
+    : scripts;
 
   const handleGenerateScripts = async () => {
     if (!selectedEndpointName) return;
@@ -369,6 +390,23 @@ const ValidationScriptsPage: React.FC = () => {
         </Box>
       )}
 
+      {/* Pagination */}
+      {!hasActiveFilters && (
+        <TablePagination
+          component="div"
+          count={scriptsData?.pagination.total_items || 0}
+          page={page}
+          onPageChange={handlePageChange}
+          rowsPerPage={pageSize}
+          onRowsPerPageChange={handlePageSizeChange}
+          rowsPerPageOptions={[10, 20, 50, 100]}
+          labelRowsPerPage="Rows per page:"
+          labelDisplayedRows={({ from, to, count }) =>
+            `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`
+          }
+        />
+      )}
+
       {/* Generate Scripts Dialog */}
       <Dialog
         open={generateDialogOpen}
@@ -390,20 +428,15 @@ const ValidationScriptsPage: React.FC = () => {
               </Alert>
             )}
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
           </Box>
         </DialogContent>
         <DialogActions>
@@ -439,20 +472,15 @@ const ValidationScriptsPage: React.FC = () => {
               </Alert>
             )}
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
           </Box>
         </DialogContent>
         <DialogActions>

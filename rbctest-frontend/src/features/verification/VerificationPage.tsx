@@ -9,10 +9,6 @@ import {
   Divider,
   Alert,
   TextField,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -26,11 +22,11 @@ import {
   PlayArrow,
 } from "@mui/icons-material";
 import {
-  useGetEndpointsQuery,
   useVerifyTestDataMutation,
   useVerifyRequestResponseMutation,
 } from "@/services/api";
 import { CodeViewer } from "@/components/common/CodeViewer";
+import EndpointAutocomplete from "@/components/common/EndpointAutocomplete";
 import type { TestDataItem, RequestResponsePair } from "@/types";
 
 interface TabPanelProps {
@@ -75,8 +71,8 @@ const VerificationPage: React.FC = () => {
     },
   ] = useVerifyRequestResponseMutation();
 
-  const { data: endpointsData } = useGetEndpointsQuery({ page: 1, size: 100 });
-  const endpoints = endpointsData?.endpoints || [];
+  // Endpoints are fetched by EndpointAutocomplete component
+  // Endpoints are fetched by EndpointAutocomplete component
 
   const [expandedTestDataResult, setExpandedTestDataResult] = useState<
     string | false
@@ -159,20 +155,15 @@ const VerificationPage: React.FC = () => {
               Provide test data in JSON format.
             </Typography>
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
 
             <Box>
               <Typography
@@ -370,20 +361,15 @@ const VerificationPage: React.FC = () => {
               pairs in JSON format.
             </Typography>
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
 
             <Box>
               <Typography

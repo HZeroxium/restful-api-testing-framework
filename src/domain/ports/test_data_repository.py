@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from typing import List, Optional, Tuple
 
-from schemas.core.test_data import TestData
+from schemas.tools.test_data_generator import TestData
 
 
 class TestDataRepositoryInterface(ABC):

@@ -30,9 +30,11 @@ export interface TestDataResponse {
   updated_at: string;
 }
 
+import type { PaginationMetadata } from "./endpoint.types";
+
 export interface TestDataListResponse {
   test_data_items: TestDataResponse[];
-  total_count: number;
+  pagination: PaginationMetadata;
   valid_count: number;
   invalid_count: number;
 }

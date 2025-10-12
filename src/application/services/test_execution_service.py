@@ -12,7 +12,7 @@ from schemas.core.execution_history import (
     ExecutionStatus,
     TestCaseExecutionResult,
 )
-from schemas.core.test_data import TestData
+from schemas.tools.test_data_generator import TestData
 from tools.core.test_executor import TestExecutorTool
 from tools.core.test_data_verifier import TestDataVerifierTool
 from tools.core.rest_api_caller import RestApiCallerTool

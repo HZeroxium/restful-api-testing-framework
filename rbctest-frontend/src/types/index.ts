@@ -7,6 +7,9 @@ export * from "./test-data.types";
 export * from "./execution.types";
 export * from "./verification.types";
 export * from "./aggregator.types";
+export * from "./batch.types";
+export * from "./cleanup.types";
+export * from "./health.types";
 
 // Common types
 export interface ApiResponse<T = any> {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -12,45 +12,119 @@ import {
   Select,
   FormControl,
   InputLabel,
+  IconButton,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from "@mui/material";
-import { Search, FilterList, Api } from "@mui/icons-material";
-import { useGetEndpointsQuery } from "@/services/api";
+import {
+  Search,
+  FilterList,
+  Api,
+  MoreVert,
+  Delete,
+  Clear,
+} from "@mui/icons-material";
+import {
+  useGetEndpointsQuery,
+  useCleanupEndpointArtifactsMutation,
+} from "@/services/api";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { DataTable } from "@/components/common/DataTable";
+import { ConfirmDialog } from "@/components/common/ConfirmDialog";
+import { usePagination } from "@/hooks/usePagination";
 import type { EndpointResponse, TableColumn } from "@/types";
 
 const EndpointsPage: React.FC = () => {
   const navigate = useNavigate();
-  const [page] = useState(1);
+  const {
+    page,
+    pageSize,
+    offset,
+    limit,
+    handlePageChange,
+    handlePageSizeChange,
+    resetPagination,
+  } = usePagination({ defaultPageSize: 10 });
   const [searchTerm, setSearchTerm] = useState("");
   const [methodFilter, setMethodFilter] = useState<string>("all");
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedEndpoint, setSelectedEndpoint] =
+    useState<EndpointResponse | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [cleanupType, setCleanupType] = useState<string>("");
+
+  const [cleanupEndpointArtifacts] = useCleanupEndpointArtifactsMutation();
 
   const { data, isLoading, error, refetch } = useGetEndpointsQuery({
-    page,
-    size: 50,
+    limit,
+    offset,
   });
 
   const endpoints = data?.endpoints || [];
 
-  // Filter endpoints based on search and method
-  const filteredEndpoints = endpoints.filter((endpoint) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      endpoint.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      endpoint.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      endpoint.tags.some((tag) =>
-        tag.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [searchTerm, methodFilter, resetPagination]);
 
-    const matchesMethod =
-      methodFilter === "all" || endpoint.method === methodFilter;
+  // Check if client-side filtering is active
+  const hasActiveFilters = searchTerm !== "" || methodFilter !== "all";
 
-    return matchesSearch && matchesMethod;
-  });
+  // Filter endpoints based on search and method (only when filters are active)
+  const filteredEndpoints = hasActiveFilters
+    ? endpoints.filter((endpoint) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          endpoint.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          endpoint.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          endpoint.tags.some((tag) =>
+            tag.toLowerCase().includes(searchTerm.toLowerCase())
+          );
+
+        const matchesMethod =
+          methodFilter === "all" || endpoint.method === methodFilter;
+
+        return matchesSearch && matchesMethod;
+      })
+    : endpoints;
 
   const handleEndpointClick = (endpoint: EndpointResponse) => {
     navigate(`/endpoints/${endpoint.id}`);
+  };
+
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    endpoint: EndpointResponse
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedEndpoint(endpoint);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedEndpoint(null);
+  };
+
+  const handleCleanupAction = (type: string) => {
+    setCleanupType(type);
+    setShowConfirmDialog(true);
+    handleMenuClose();
+  };
+
+  const handleConfirmCleanup = async () => {
+    if (!selectedEndpoint) return;
+
+    try {
+      await cleanupEndpointArtifacts(selectedEndpoint.name).unwrap();
+      setShowConfirmDialog(false);
+      setCleanupType("");
+      // Optionally show success message or refresh data
+    } catch (error) {
+      console.error("Cleanup failed:", error);
+      // Optionally show error message
+    }
   };
 
   const columns: TableColumn<EndpointResponse>[] = [
@@ -153,6 +227,15 @@ const EndpointsPage: React.FC = () => {
         >
           {value || "-"}
         </Typography>
+      ),
+    },
+    {
+      key: "actions",
+      label: "Actions",
+      render: (_, row: EndpointResponse) => (
+        <IconButton size="small" onClick={(e) => handleMenuOpen(e, row)}>
+          <MoreVert />
+        </IconButton>
       ),
     },
   ];
@@ -260,10 +343,82 @@ const EndpointsPage: React.FC = () => {
               columns={columns}
               data={filteredEndpoints}
               onRowClick={handleEndpointClick}
+              page={hasActiveFilters ? 0 : page}
+              pageSize={hasActiveFilters ? filteredEndpoints.length : pageSize}
+              totalCount={
+                hasActiveFilters
+                  ? filteredEndpoints.length
+                  : data?.pagination.total_items || 0
+              }
+              onPageChange={
+                hasActiveFilters
+                  ? () => {}
+                  : (page: number) => handlePageChange(undefined, page)
+              }
+              onPageSizeChange={
+                hasActiveFilters
+                  ? () => {}
+                  : (pageSize: number) =>
+                      handlePageSizeChange({
+                        target: { value: pageSize.toString() },
+                      } as React.ChangeEvent<HTMLInputElement>)
+              }
             />
           )}
         </CardContent>
       </Card>
+
+      {/* Context Menu */}
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={() => handleCleanupAction("artifacts")}>
+          <ListItemIcon>
+            <Delete fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Clean All Artifacts</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => handleCleanupAction("constraints")}>
+          <ListItemIcon>
+            <Clear fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Clean Constraints Only</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => handleCleanupAction("test-data")}>
+          <ListItemIcon>
+            <Clear fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Clean Test Data Only</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={() => handleCleanupAction("executions")}>
+          <ListItemIcon>
+            <Clear fontSize="small" />
+          </ListItemIcon>
+          <ListItemText>Clean Executions Only</ListItemText>
+        </MenuItem>
+      </Menu>
+
+      {/* Confirm Dialog */}
+      <ConfirmDialog
+        open={showConfirmDialog}
+        onCancel={() => setShowConfirmDialog(false)}
+        onConfirm={handleConfirmCleanup}
+        title={`Clean ${
+          cleanupType === "artifacts"
+            ? "All Artifacts"
+            : cleanupType.replace("-", " ")
+        }`}
+        message={`Are you sure you want to clean ${
+          cleanupType === "artifacts"
+            ? "all artifacts"
+            : cleanupType.replace("-", " ")
+        } for endpoint "${
+          selectedEndpoint?.name
+        }"? This action cannot be undone.`}
+        severity="warning"
+      />
     </Box>
   );
 };

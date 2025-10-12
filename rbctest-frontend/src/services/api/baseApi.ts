@@ -22,6 +22,7 @@ export const baseApi = createApi({
     "TestData",
     "Execution",
     "Verification",
+    "Health",
   ],
   endpoints: () => ({}),
 });

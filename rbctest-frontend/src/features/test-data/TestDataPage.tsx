@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Box,
@@ -12,10 +12,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Alert,
   Chip,
   Switch,
@@ -25,6 +21,11 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  TablePagination,
 } from "@mui/material";
 import {
   Search,
@@ -39,11 +40,22 @@ import {
   useGetAllTestDataQuery,
 } from "@/services/api";
 import { CodeViewer } from "@/components/common/CodeViewer";
+import EndpointAutocomplete from "@/components/common/EndpointAutocomplete";
+import { usePagination } from "@/hooks/usePagination";
 
 const TestDataPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const endpointNameFromQuery = searchParams.get("endpoint") || "";
 
+  const {
+    page,
+    pageSize,
+    offset,
+    limit,
+    handlePageChange,
+    handlePageSizeChange,
+    resetPagination,
+  } = usePagination({ defaultPageSize: 20 });
   const [searchTerm, setSearchTerm] = useState("");
   const [validityFilter, setValidityFilter] = useState<string>("all");
   const [generateDialogOpen, setGenerateDialogOpen] = useState(false);
@@ -56,7 +68,15 @@ const TestDataPage: React.FC = () => {
   const [includeInvalid, setIncludeInvalid] = useState(true);
   const [overrideExisting, setOverrideExisting] = useState(false);
 
-  const { data: endpointsData } = useGetEndpointsQuery({ page: 1, size: 100 });
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [searchTerm, validityFilter, resetPagination]);
+
+  const { data: endpointsData } = useGetEndpointsQuery({
+    limit: 100,
+    offset: 0,
+  });
   const [
     generateTestData,
     { isLoading: isGenerating, error: generateError, data: generatedData },
@@ -68,7 +88,7 @@ const TestDataPage: React.FC = () => {
     isLoading: isLoadingTestData,
     error: testDataError,
     refetch: refetchTestData,
-  } = useGetAllTestDataQuery({ limit: 1000, offset: 0 });
+  } = useGetAllTestDataQuery({ limit, offset });
 
   const endpoints = endpointsData?.endpoints || [];
 
@@ -78,20 +98,25 @@ const TestDataPage: React.FC = () => {
     ...(generatedData?.test_data_items || []),
   ];
 
-  // Filter test data
-  const filteredTestData = testDataItems.filter((item) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description.toLowerCase().includes(searchTerm.toLowerCase());
+  // Check if client-side filtering is active
+  const hasActiveFilters = searchTerm !== "" || validityFilter !== "all";
 
-    const matchesValidity =
-      validityFilter === "all" ||
-      (validityFilter === "valid" && item.is_valid) ||
-      (validityFilter === "invalid" && !item.is_valid);
+  // Filter test data (only when filters are active)
+  const filteredTestData = hasActiveFilters
+    ? testDataItems.filter((item) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.description.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesSearch && matchesValidity;
-  });
+        const matchesValidity =
+          validityFilter === "all" ||
+          (validityFilter === "valid" && item.is_valid) ||
+          (validityFilter === "invalid" && !item.is_valid);
+
+        return matchesSearch && matchesValidity;
+      })
+    : testDataItems;
 
   const handleGenerateTestData = async () => {
     if (!selectedEndpointName) return;
@@ -421,6 +446,23 @@ const TestDataPage: React.FC = () => {
               ))}
             </Box>
           )}
+
+          {/* Pagination */}
+          {!hasActiveFilters && (
+            <TablePagination
+              component="div"
+              count={allTestDataData?.pagination.total_items || 0}
+              page={page}
+              onPageChange={handlePageChange}
+              rowsPerPage={pageSize}
+              onRowsPerPageChange={handlePageSizeChange}
+              rowsPerPageOptions={[10, 20, 50, 100]}
+              labelRowsPerPage="Rows per page:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`
+              }
+            />
+          )}
         </CardContent>
       </Card>
 
@@ -445,20 +487,15 @@ const TestDataPage: React.FC = () => {
               </Alert>
             )}
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
 
             <TextField
               label="Number of Test Cases"

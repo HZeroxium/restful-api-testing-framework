@@ -186,31 +186,47 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 f"Processing {len(raw_json['test_cases'])} test cases from LLM response"
             )
 
-            for test_case in raw_json["test_cases"]:
-                # Ensure all required fields are present
-                name = test_case.get(
-                    "name", f"Test case for {endpoint.method} {endpoint.path}"
-                )
-                description = test_case.get(
-                    "description", f"Testing {endpoint.method} {endpoint.path}"
-                )
-                expected_status_code = test_case.get("expected_status_code", 200)
+            for idx, test_case in enumerate(raw_json["test_cases"]):
+                try:
+                    # Ensure all required fields are present
+                    name = test_case.get(
+                        "name", f"Test case for {endpoint.method} {endpoint.path}"
+                    )
+                    description = test_case.get(
+                        "description", f"Testing {endpoint.method} {endpoint.path}"
+                    )
+                    expected_status_code = test_case.get("expected_status_code", 200)
 
-                # Create TestData object
-                test_data = TestData(
-                    id=str(uuid.uuid4()),
-                    name=name,
-                    description=description,
-                    request_params=test_case.get("request_params"),
-                    request_headers=test_case.get("request_headers"),
-                    request_body=test_case.get("request_body"),
-                    expected_status_code=expected_status_code,
-                    expected_response_schema=test_case.get("expected_response_schema"),
-                    expected_response_contains=test_case.get(
-                        "expected_response_contains"
-                    ),
-                )
-                test_data_collection.append(test_data)
+                    # Create TestData object
+                    self.logger.debug(
+                        f"Creating TestData #{idx} with endpoint_id: {endpoint.id}"
+                    )
+                    self.logger.debug(f"Test case data: {test_case}")
+                    test_data = TestData(
+                        id=str(uuid.uuid4()),
+                        endpoint_id=endpoint.id,
+                        name=name,
+                        description=description,
+                        request_params=test_case.get("request_params"),
+                        request_headers=test_case.get("request_headers"),
+                        request_body=test_case.get("request_body"),
+                        expected_status_code=expected_status_code,
+                        expected_response_schema=test_case.get(
+                            "expected_response_schema"
+                        ),
+                        expected_response_contains=test_case.get(
+                            "expected_response_contains"
+                        ),
+                        is_valid=test_case.get("is_valid_request", True),
+                    )
+                    self.logger.debug(f"Created TestData: {test_data.model_dump()}")
+                    test_data_collection.append(test_data)
+                except Exception as e:
+                    self.logger.error(
+                        f"Error creating TestData from test_case #{idx}: {e}"
+                    )
+                    self.logger.error(f"Test case data: {test_case}")
+                    raise
 
         self.logger.info(
             f"Generated {len(test_data_collection)} test data items from LLM"
@@ -229,6 +245,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
         test_data_collection.append(
             TestData(
                 id=str(uuid.uuid4()),
+                endpoint_id=endpoint.id,
                 name=f"Success test for {endpoint.name}",
                 description=f"Test {endpoint.method} {endpoint.path} with valid data",
                 request_params={} if endpoint.method.upper() == "GET" else None,
@@ -246,6 +263,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                     else 201 if endpoint.method.upper() == "POST" else 200
                 ),
                 expected_response_schema={},
+                is_valid=True,
             )
         )
 
@@ -256,6 +274,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 test_data_collection.append(
                     TestData(
                         id=str(uuid.uuid4()),
+                        endpoint_id=endpoint.id,
                         name=f"Validation error test for {endpoint.name}",
                         description=f"Test {endpoint.method} {endpoint.path} with invalid data",
                         request_params={},
@@ -267,6 +286,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                         request_body={"invalid_field": "invalid_value"},
                         expected_status_code=400,
                         expected_response_schema={},
+                        is_valid=False,
                     )
                 )
 
@@ -275,6 +295,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 test_data_collection.append(
                     TestData(
                         id=str(uuid.uuid4()),
+                        endpoint_id=endpoint.id,
                         name=f"Unauthorized test for {endpoint.name}",
                         description=f"Test {endpoint.method} {endpoint.path} without authorization",
                         request_params={} if endpoint.method.upper() == "GET" else None,
@@ -286,6 +307,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                         ),
                         expected_status_code=401,
                         expected_response_schema={},
+                        is_valid=False,
                     )
                 )
 
@@ -298,6 +320,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                 test_data_collection.append(
                     TestData(
                         id=str(uuid.uuid4()),
+                        endpoint_id=endpoint.id,
                         name=f"Not found test for {endpoint.name}",
                         description=f"Test {endpoint.method} {endpoint.path} with non-existent ID",
                         request_params={},
@@ -309,6 +332,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                         request_body=None,
                         expected_status_code=404,
                         expected_response_schema={},
+                        is_valid=False,
                     )
                 )
 
@@ -317,6 +341,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
             test_data_collection.append(
                 TestData(
                     id=str(uuid.uuid4()),
+                    endpoint_id=endpoint.id,
                     name=f"Success test variant for {endpoint.name} (#{len(test_data_collection)+1})",
                     description=f"Additional test for {endpoint.method} {endpoint.path} with valid data",
                     request_params={} if endpoint.method.upper() == "GET" else None,
@@ -336,6 +361,7 @@ Review your JSON output before responding to ensure it's valid and matches the r
                         else 201 if endpoint.method.upper() == "POST" else 200
                     ),
                     expected_response_schema={},
+                    is_valid=True,
                 )
             )
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -22,19 +22,30 @@ import {
   Chip,
   Grid,
   Divider,
+  TablePagination,
 } from "@mui/material";
 import { Search, BugReport, FilterList, ExpandMore } from "@mui/icons-material";
 import {
   useGetConstraintsQuery,
-  useGetEndpointsQuery,
   useMineConstraintsByEndpointNameMutation,
 } from "@/services/api";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
 import { StatusBadge } from "@/components/common/StatusBadge";
 import { CodeViewer } from "@/components/common/CodeViewer";
+import EndpointAutocomplete from "@/components/common/EndpointAutocomplete";
+import { usePagination } from "@/hooks/usePagination";
 
 const ConstraintsPage: React.FC = () => {
+  const {
+    page,
+    pageSize,
+    offset,
+    limit,
+    handlePageChange,
+    handlePageSizeChange,
+    resetPagination,
+  } = usePagination({ defaultPageSize: 20 });
   const [searchTerm, setSearchTerm] = useState("");
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [severityFilter, setSeverityFilter] = useState<string>("all");
@@ -44,32 +55,44 @@ const ConstraintsPage: React.FC = () => {
     false
   );
 
+  // Reset pagination when filters change
+  useEffect(() => {
+    resetPagination();
+  }, [searchTerm, typeFilter, severityFilter, resetPagination]);
+
   const {
     data: constraintsData,
     isLoading,
     error,
     refetch,
-  } = useGetConstraintsQuery({});
-  const { data: endpointsData } = useGetEndpointsQuery({ page: 1, size: 100 });
+  } = useGetConstraintsQuery({ limit, offset });
   const [mineConstraints, { isLoading: isMining, error: mineError }] =
     useMineConstraintsByEndpointNameMutation();
 
   const constraints = constraintsData?.constraints || [];
-  const endpoints = endpointsData?.endpoints || [];
 
-  // Filter constraints
-  const filteredConstraints = constraints.filter((constraint) => {
-    const matchesSearch =
-      searchTerm === "" ||
-      constraint.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      constraint.type.toLowerCase().includes(searchTerm.toLowerCase());
+  // Check if client-side filtering is active
+  const hasActiveFilters =
+    searchTerm !== "" || typeFilter !== "all" || severityFilter !== "all";
 
-    const matchesType = typeFilter === "all" || constraint.type === typeFilter;
-    const matchesSeverity =
-      severityFilter === "all" || constraint.severity === severityFilter;
+  // Filter constraints (only when filters are active)
+  const filteredConstraints = hasActiveFilters
+    ? constraints.filter((constraint) => {
+        const matchesSearch =
+          searchTerm === "" ||
+          constraint.description
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase()) ||
+          constraint.type.toLowerCase().includes(searchTerm.toLowerCase());
 
-    return matchesSearch && matchesType && matchesSeverity;
-  });
+        const matchesType =
+          typeFilter === "all" || constraint.type === typeFilter;
+        const matchesSeverity =
+          severityFilter === "all" || constraint.severity === severityFilter;
+
+        return matchesSearch && matchesType && matchesSeverity;
+      })
+    : constraints;
 
   const handleMineConstraints = async () => {
     if (!selectedEndpointName) return;
@@ -359,6 +382,23 @@ const ConstraintsPage: React.FC = () => {
               ))}
             </Box>
           )}
+
+          {/* Pagination */}
+          {!hasActiveFilters && (
+            <TablePagination
+              component="div"
+              count={constraintsData?.pagination.total_items || 0}
+              page={page}
+              onPageChange={handlePageChange}
+              rowsPerPage={pageSize}
+              onRowsPerPageChange={handlePageSizeChange}
+              rowsPerPageOptions={[10, 20, 50, 100]}
+              labelRowsPerPage="Rows per page:"
+              labelDisplayedRows={({ from, to, count }) =>
+                `${from}–${to} of ${count !== -1 ? count : `more than ${to}`}`
+              }
+            />
+          )}
         </CardContent>
       </Card>
 
@@ -383,20 +423,15 @@ const ConstraintsPage: React.FC = () => {
               </Alert>
             )}
 
-            <FormControl fullWidth>
-              <InputLabel>Select Endpoint</InputLabel>
-              <Select
-                value={selectedEndpointName}
-                label="Select Endpoint"
-                onChange={(e) => setSelectedEndpointName(e.target.value)}
-              >
-                {endpoints.map((endpoint) => (
-                  <MenuItem key={endpoint.id} value={endpoint.name}>
-                    {endpoint.method} {endpoint.path} - {endpoint.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+            <EndpointAutocomplete
+              value={selectedEndpointName}
+              onChange={(value) =>
+                setSelectedEndpointName(
+                  Array.isArray(value) ? value[0] || "" : value
+                )
+              }
+              label="Select Endpoint"
+            />
           </Box>
         </DialogContent>
         <DialogActions>

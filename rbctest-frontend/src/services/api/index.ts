@@ -8,3 +8,6 @@ export * from "./testDataApi";
 export * from "./executionApi";
 export * from "./verificationApi";
 export * from "./aggregatorApi";
+export * from "./batchApi";
+export * from "./cleanupApi";
+export * from "./healthApi";

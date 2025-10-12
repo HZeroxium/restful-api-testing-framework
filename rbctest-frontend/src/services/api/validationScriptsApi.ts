@@ -11,11 +11,11 @@ export const validationScriptsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getScripts: builder.query<
       ValidationScriptListResponse,
-      { endpoint_id?: string }
+      { endpoint_id?: string; limit?: number; offset?: number }
     >({
-      query: ({ endpoint_id }) => ({
+      query: ({ endpoint_id, limit = 50, offset = 0 }) => ({
         url: "/api/v1/validation-scripts/",
-        params: endpoint_id ? { endpoint_id } : {},
+        params: { ...(endpoint_id && { endpoint_id }), limit, offset },
       }),
       providesTags: ["ValidationScript"],
     }),

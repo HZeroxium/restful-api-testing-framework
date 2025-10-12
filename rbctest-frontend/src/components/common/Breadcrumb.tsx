@@ -1,5 +1,5 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Breadcrumbs, Typography, Link, Box, IconButton } from "@mui/material";
 import { Home, ChevronRight, ArrowBack } from "@mui/icons-material";
 
@@ -20,7 +20,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({
   onBack,
 }) => {
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation(); // Not used currently
 
   const handleBack = () => {
     if (onBack) {

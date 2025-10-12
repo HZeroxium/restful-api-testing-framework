@@ -5,10 +5,9 @@ from typing import List, Optional, Tuple
 from datetime import datetime
 
 from domain.ports.test_data_repository import TestDataRepositoryInterface
-from schemas.core.test_data import TestData as CoreTestData, TestDataCollection
 from schemas.tools.test_data_generator import (
     TestDataGeneratorOutput,
-    TestData as ToolsTestData,
+    TestData,
 )
 from tools.llm.test_data_generator import TestDataGeneratorTool
 from common.logger import LoggerFactory, LoggerType, LogLevel
@@ -71,18 +70,12 @@ class TestDataService:
         # Get dataset_id from endpoint_info
         dataset_id = endpoint_info.get("dataset_id")
         if not dataset_id:
-            self.logger.warning(
-                f"No dataset_id found in endpoint_info for endpoint {endpoint_id}"
-            )
-            # Fall back to global repository
-            dataset_specific_repository = self.test_data_repository
-        else:
-            self.logger.info(
-                f"Using dataset-specific repository for dataset: {dataset_id}"
-            )
-            dataset_specific_repository = self._get_dataset_specific_repository(
-                dataset_id
-            )
+            error_msg = f"No dataset_id found in endpoint_info for endpoint {endpoint_id}. Cannot generate test data without dataset context."
+            self.logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        self.logger.info(f"Using dataset-specific repository for dataset: {dataset_id}")
+        dataset_specific_repository = self._get_dataset_specific_repository(dataset_id)
 
         # If override_existing, delete existing test data first
         if override_existing:
@@ -114,74 +107,45 @@ class TestDataService:
             await self.test_data_generator.execute(generator_input)
         )
 
-        # Convert and save generated test data
+        # Save generated test data directly (no conversion needed since schemas are now the same)
         saved_test_data = []
         for test_data in generator_output.test_data_collection:
-            # Convert to core TestData format and add endpoint_id
-            core_test_data = CoreTestData(
-                id=str(uuid.uuid4()),
-                endpoint_id=endpoint_id,
-                name=test_data.name,
-                description=test_data.description,
-                request_params=test_data.request_params,
-                request_headers=test_data.request_headers,
-                request_body=test_data.request_body,
-                expected_status_code=test_data.expected_status_code,
-                expected_response_schema=test_data.expected_response_schema,
-                expected_response_contains=test_data.expected_response_contains,
-                is_valid=test_data.expected_status_code < 400,  # Simple validity check
-            )
+            # Ensure endpoint_id is set correctly
+            self.logger.debug(f"Before setting endpoint_id: {test_data.model_dump()}")
+            test_data.endpoint_id = endpoint_id
+            self.logger.debug(f"After setting endpoint_id: {test_data.model_dump()}")
 
-            saved_test_data.append(
-                await dataset_specific_repository.create(core_test_data)
-            )
+            saved_test_data.append(await dataset_specific_repository.create(test_data))
 
         self.logger.info(
             f"Generated and saved {len(saved_test_data)} test data items for endpoint: {endpoint_id}"
         )
 
-        # Convert CoreTestData back to ToolsTestData for the output
-        tools_test_data = []
-        for core_test_data in saved_test_data:
-            tools_test_data.append(
-                ToolsTestData(
-                    id=core_test_data.id,
-                    name=core_test_data.name,
-                    description=core_test_data.description,
-                    request_params=core_test_data.request_params,
-                    request_headers=core_test_data.request_headers,
-                    request_body=core_test_data.request_body,
-                    expected_status_code=core_test_data.expected_status_code,
-                    expected_response_schema=core_test_data.expected_response_schema,
-                    expected_response_contains=core_test_data.expected_response_contains,
-                )
-            )
-
         # Return in the expected format
-        return TestDataGeneratorOutput(test_data_collection=tools_test_data)
+        return TestDataGeneratorOutput(test_data_collection=saved_test_data)
 
     async def get_test_data_by_endpoint_id(
         self, endpoint_id: str, limit: int = 50, offset: int = 0
-    ) -> Tuple[List[CoreTestData], int]:
+    ) -> Tuple[List[TestData], int]:
         """Get all test data for an endpoint with pagination."""
         self.logger.info(f"Retrieving test data for endpoint: {endpoint_id}")
         return await self.test_data_repository.get_by_endpoint_id(
             endpoint_id, limit, offset
         )
 
-    async def get_test_data_by_id(self, test_data_id: str) -> Optional[CoreTestData]:
+    async def get_test_data_by_id(self, test_data_id: str) -> Optional[TestData]:
         """Get test data by ID."""
         self.logger.info(f"Retrieving test data: {test_data_id}")
         return await self.test_data_repository.get_by_id(test_data_id)
 
-    async def save_test_data(self, test_data: CoreTestData) -> CoreTestData:
+    async def save_test_data(self, test_data: TestData) -> TestData:
         """Save test data."""
         self.logger.info(f"Saving test data: {test_data.id}")
         return await self.test_data_repository.create(test_data)
 
     async def update_test_data(
-        self, test_data_id: str, test_data: CoreTestData
-    ) -> Optional[CoreTestData]:
+        self, test_data_id: str, test_data: TestData
+    ) -> Optional[TestData]:
         """Update test data."""
         self.logger.info(f"Updating test data: {test_data_id}")
         test_data.updated_at = datetime.now()
@@ -197,33 +161,9 @@ class TestDataService:
         self.logger.info(f"Deleting all test data for endpoint: {endpoint_id}")
         return await self.test_data_repository.delete_by_endpoint_id(endpoint_id)
 
-    async def get_test_data_collection(
-        self, endpoint_id: str, endpoint_name: str
-    ) -> TestDataCollection:
-        """Get test data collection for an endpoint."""
-        test_data_items, total_count = await self.get_test_data_by_endpoint_id(
-            endpoint_id
-        )
-
-        collection = TestDataCollection(
-            endpoint_id=endpoint_id,
-            endpoint_name=endpoint_name,
-            test_data_items=test_data_items,
-            total_count=total_count,
-            valid_count=sum(1 for item in test_data_items if item.is_valid),
-            invalid_count=sum(1 for item in test_data_items if not item.is_valid),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
-        )
-
-        self.logger.info(
-            f"Created test data collection for endpoint {endpoint_name}: {collection.total_count} items ({collection.valid_count} valid, {collection.invalid_count} invalid)"
-        )
-        return collection
-
     async def get_all_test_data(
         self, limit: int = 100, offset: int = 0
-    ) -> Tuple[List[CoreTestData], int]:
+    ) -> Tuple[List[TestData], int]:
         """Get all test data across all endpoints with pagination."""
         self.logger.info(f"Retrieving all test data (limit={limit}, offset={offset})")
         return await self.test_data_repository.get_all(limit=limit, offset=offset)
