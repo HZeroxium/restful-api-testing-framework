@@ -1,4 +1,4 @@
-# tools/operation_sequencer.py
+# tools/llm/operation_sequencer.py
 
 import uuid
 import json
@@ -13,19 +13,38 @@ from schemas.tools.operation_sequencer import (
     OperationSequencerOutput,
     OperationSequence,
     OperationDependency,
+    DependencyGraph,
+    OperationNode,
+    DependencyEdge,
 )
-from utils.llm_utils import extract_json_from_response as extract_json_from_text
+from tools.llm.operation_sequencer_helpers.schema_analyzer import SchemaBasedAnalyzer
+from utils.llm_utils import (
+    create_and_execute_llm_agent,
+    extract_json_from_response as extract_json_from_text,
+)
 from config.settings import settings
 from config.constants import DEFAULT_LLM_TIMEOUT
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from pydantic import BaseModel, Field
+
+
+class SequenceRefinementOutput(BaseModel):
+    """Output schema for LLM sequence refinement."""
+
+    sequences: List[Dict[str, Any]] = Field(
+        default_factory=list, description="Validated/enhanced existing sequences"
+    )
+    new_sequences: List[Dict[str, Any]] = Field(
+        default_factory=list, description="Completely new sequences identified by LLM"
+    )
 
 
 class OperationSequencerTool(BaseTool):
     """
     Tool for sequencing API operations based on their dependencies.
 
-    This tool analyzes API endpoints and identifies dependencies between them,
-    then creates sequences of operations that should be executed in order.
+    This tool uses a hybrid approach: schema-based analysis first (fast, deterministic),
+    then LLM refinement to add context and handle complex cases.
     """
 
     def __init__(
@@ -56,7 +75,7 @@ class OperationSequencerTool(BaseTool):
         )
 
     async def _execute(self, inp: OperationSequencerInput) -> OperationSequencerOutput:
-        """Sequence operations based on dependencies using LLM."""
+        """Hybrid approach: Schema analysis + LLM refinement."""
         endpoints = inp.endpoints
         collection_name = inp.collection_name or "API Operations"
         include_data_mapping = inp.include_data_mapping
@@ -68,20 +87,56 @@ class OperationSequencerTool(BaseTool):
             include_data_mapping=include_data_mapping,
         )
 
-        # Check if we have too many endpoints and batch them if needed
-        MAX_ENDPOINTS_PER_BATCH = (
-            20  # Limit endpoints per analysis to prevent context overflow
+        # Step 1: Schema-based analysis (fast, deterministic)
+        self.logger.info("Starting schema-based dependency analysis...")
+        schema_analyzer = SchemaBasedAnalyzer(endpoints)
+        schema_nodes, schema_edges = schema_analyzer.analyze_dependencies()
+        schema_sequences = schema_analyzer.generate_sequences(
+            schema_nodes, schema_edges
         )
-        if len(endpoints) > MAX_ENDPOINTS_PER_BATCH:
-            self.logger.info(
-                f"Large number of endpoints detected ({len(endpoints)}). Processing in batches..."
-            )
 
-            return await self._process_in_batches(
-                endpoints, collection_name, include_data_mapping
-            )
+        self.logger.info(
+            f"Schema analysis found {len(schema_sequences)} sequences with {len(schema_edges)} dependencies"
+        )
 
-        # Prepare input for the LLM - convert endpoints to simplified format
+        # Step 2: LLM refinement (adds context, handles complex cases)
+        # Only send simplified endpoint data + schema analysis results to LLM
+        llm_input = {
+            "endpoints": self._simplify_endpoints_for_llm(endpoints),
+            "schema_analysis": {
+                "sequences": [seq.model_dump() for seq in schema_sequences],
+                "dependencies_count": len(schema_edges),
+            },
+            "collection_name": collection_name,
+            "include_data_mapping": include_data_mapping,
+        }
+
+        # Call LLM to refine and add additional insights
+        llm_sequences = await self._call_llm_for_refinement(llm_input)
+
+        # Step 3: Merge results (schema-based + LLM insights)
+        final_sequences = self._merge_sequences(schema_sequences, llm_sequences)
+
+        # Step 4: Build dependency graph
+        graph = self._build_dependency_graph(
+            schema_nodes, schema_edges, final_sequences
+        )
+
+        return OperationSequencerOutput(
+            sequences=final_sequences,
+            total_sequences=len(final_sequences),
+            graph=graph,
+            analysis_method="hybrid",
+            result={
+                "schema_sequences": len(schema_sequences),
+                "llm_sequences": len(llm_sequences),
+                "final_sequences": len(final_sequences),
+                "total_dependencies": len(schema_edges),
+            },
+        )
+
+    def _simplify_endpoints_for_llm(self, endpoints: List[Any]) -> List[Dict]:
+        """Extract minimal info for LLM context."""
         endpoint_data = []
         for endpoint in endpoints:
             endpoint_data.append(
@@ -113,429 +168,182 @@ class OperationSequencerTool(BaseTool):
                     ),
                     # Include only necessary response fields
                     "responses": {
-                        code: {
-                            "description": details.get("description", "")[
-                                :100
-                            ],  # Truncate long descriptions
-                        }
+                        code: {"description": details.get("description", "")[:100]}
                         for code, details in getattr(endpoint, "responses", {}).items()
                     },
                 }
             )
+        return endpoint_data
 
-        llm_input = {
-            "endpoints": endpoint_data,
-            "collection_name": collection_name,
-            "include_data_mapping": include_data_mapping,
-        }
-
-        # Execute the LLM with timeout and retries
-        timeout = self.config.get("timeout", DEFAULT_LLM_TIMEOUT)
-        max_retries = self.config.get("max_retries", 2)  # Default to 2 retries
-        retry_delay = self.config.get("retry_delay", 1.0)  # Default to 1 second
-
-        for retry in range(max_retries + 1):
-            if retry > 0:
-                self.logger.info(
-                    f"Retry {retry}/{max_retries} after waiting {retry_delay}s..."
-                )
-                await asyncio.sleep(retry_delay)
-
-            try:
-                # Initialize LLM components
-                from google.adk.agents import LlmAgent
-                from google.adk.runners import Runner
-                from google.adk.sessions import InMemorySessionService
-                from google.adk.artifacts import InMemoryArtifactService
-                from google.adk.memory import InMemoryMemoryService
-                from google.genai import types
-
-                # Set up session services
-                session_service = InMemorySessionService()
-                artifact_service = InMemoryArtifactService()
-                memory_service = InMemoryMemoryService()
-                session_id = str(uuid.uuid4())
-                user_id = "system"
-
-                # Initialize session
-                session_service.create_session(
-                    app_name="operation_sequencer",
-                    user_id=user_id,
-                    session_id=session_id,
-                    state={},
-                )
-
-                # Use simple fixed instruction string that matches successful tools
-                instruction = "You are an API Operation Sequencer. Analyze endpoints and create sequences of operations with dependencies. Note: Path parameters are shown in square brackets like [userId] instead of curly braces."
-
-                # Create the LLM agent without schema validation to prevent errors
-                sequencer_agent = LlmAgent(
-                    name="llm_operation_sequencer",
-                    model=settings.llm.LLM_MODEL,
-                    instruction=instruction,
-                    disallow_transfer_to_parent=True,
-                    disallow_transfer_to_peers=True,
-                )
-
-                # Create a runner
-                runner = Runner(
-                    app_name="operation_sequencer",
-                    agent=sequencer_agent,
-                    session_service=session_service,
-                    artifact_service=artifact_service,
-                    memory_service=memory_service,
-                )
-
-                # Prepare prompt directly in user message
-                prompt = """
-Analyze these API endpoints and identify dependencies between operations. 
-Create sequences of operations that should be executed in order.
-
-Note: Path parameters are shown in square brackets (e.g., [userId], [brandId]) instead of curly braces.
-
-Focus on:
-1. Path parameters that match IDs returned by other endpoints
-2. Request body fields that require data from GET responses
-3. Natural workflows like create-retrieve-update-delete sequences
-
-Return a JSON object with this structure:
-{
-  "sequences": [
-    {
-      "name": "Descriptive name of the sequence",
-      "description": "Detailed explanation of the sequence's purpose",
-      "operations": ["GET /path1", "POST /path2", "PUT /path3/[id]"],
-      "dependencies": [
-        {
-          "source": "PUT /path3/[id]",
-          "target": "POST /path2",
-          "reason": "Need ID from POST /path2 response to use in PUT /path3/[id] path",
-          "data_mapping": {"id": "response.id"}
-        }
-      ]
-    }
-  ]
-}
-
-Create multiple logical sequences for complete user journeys or workflows.
-Explain why each dependency exists.
-
-Here are the endpoints to analyze:
-"""
-
-                # Sanitize the llm_input before including it
-                from utils.llm_utils import prepare_endpoint_data_for_llm
-
-                sanitized_llm_input = prepare_endpoint_data_for_llm(llm_input)
-
-                # Create complete user message with prompt and sanitized endpoint data
-                user_message = prompt + "\n" + json.dumps(sanitized_llm_input, indent=2)
-
-                # Prepare user message
-                user_input = types.Content(
-                    role="user", parts=[types.Part(text=user_message)]
-                )
-
-                self.logger.debug("Running LLM to identify operation sequences")
-
-                # Execute with timeout protection
-                start_time = time.time()
-
-                async def get_llm_response():
-                    result_text = ""
-                    try:
-                        for event in runner.run(
-                            session_id=session_id,
-                            user_id=user_id,
-                            new_message=user_input,
-                        ):
-                            if event.content:
-                                result_text = "".join(
-                                    part.text for part in event.content.parts
-                                )
-                        return result_text
-                    except Exception as e:
-                        self.logger.debug(f"Error during LLM generation: {str(e)}")
-                        return ""
-
-                # Execute with timeout protection
-                try:
-                    raw_text = await asyncio.wait_for(
-                        get_llm_response(), timeout=timeout
-                    )
-                except asyncio.TimeoutError:
-                    self.logger.warning(
-                        f"LLM request timed out after {timeout} seconds"
-                    )
-                    raw_text = ""
-
-                # Process the LLM response
-                if not raw_text:
-                    self.logger.warning("No response received from LLM")
-                    # If this isn't the last retry, continue to the next iteration
-                    if retry < max_retries:
-                        continue
-                    # On last retry, return empty result
-                    return OperationSequencerOutput(
-                        sequences=[],
-                        total_sequences=0,
-                        result={"error": "No response received from LLM after retries"},
-                    )
-
-                # Extract JSON from text response
-                json_data = None
-                try:
-                    # Try direct JSON parsing first
-                    json_data = json.loads(raw_text)
-                except json.JSONDecodeError:
-                    # If that fails, try to extract JSON from text
-                    try:
-                        # Look for JSON content that might be wrapped in markdown code blocks
-                        if "```json" in raw_text:
-                            json_parts = raw_text.split("```json")
-                            if len(json_parts) > 1:
-                                json_content = json_parts[1].split("```")[0].strip()
-                                json_data = json.loads(json_content)
-                        elif "```" in raw_text:
-                            json_parts = raw_text.split("```")
-                            if len(json_parts) > 1:
-                                json_content = json_parts[1].strip()
-                                json_data = json.loads(json_content)
-                        else:
-                            # Try to find JSON object using regex
-                            pattern = r"\{[\s\S]*\}"
-                            matches = re.search(pattern, raw_text)
-                            if matches:
-                                json_data = json.loads(matches.group(0))
-                    except Exception:
-                        self.logger.debug(
-                            "Failed to extract JSON from text with standard methods"
-                        )
-                        json_data = None
-
-                # If we still don't have JSON data, try the utility function
-                if not json_data:
-                    try:
-                        json_data = await extract_json_from_text(raw_text)
-                    except:
-                        json_data = None
-
-                # If still no valid JSON, return error
-                if not json_data:
-                    self.logger.error(f"Failed to extract JSON from LLM response")
-                    if self.verbose:
-                        self.logger.debug(f"Raw response preview: {raw_text[:200]}...")
-                    return OperationSequencerOutput(
-                        sequences=[],
-                        total_sequences=0,
-                        result={
-                            "error": "Failed to extract valid JSON from LLM response"
-                        },
-                    )
-
-                # Convert LLM output to our schema format
-                operation_sequences = []
-
-                if "sequences" in json_data:
-                    for seq in json_data["sequences"]:
-                        # Ensure we have all required fields
-                        if not all(
-                            key in seq for key in ["name", "description", "operations"]
-                        ):
-                            self.logger.debug(
-                                f"Skipping incomplete sequence: {seq.get('name', 'unnamed')}"
-                            )
-                            continue
-
-                        dependencies = []
-
-                        # Process dependencies with safe handling
-                        for dep in seq.get("dependencies", []):
-                            if not isinstance(dep, dict) or not all(
-                                key in dep for key in ["source", "target", "reason"]
-                            ):
-                                continue
-
-                            # Extract required fields with safety checks
-                            source = dep.get("source", "")
-                            target = dep.get("target", "")
-                            reason = dep.get("reason", "")
-
-                            # Skip invalid dependencies
-                            if not source or not target:
-                                continue
-
-                            # Ensure data_mapping is a valid dict
-                            data_mapping = dep.get("data_mapping", {})
-                            if not isinstance(data_mapping, dict):
-                                data_mapping = {}
-
-                            try:
-                                dependencies.append(
-                                    OperationDependency(
-                                        source_operation=source,
-                                        target_operation=target,
-                                        reason=reason,
-                                        data_mapping=data_mapping,
-                                    )
-                                )
-                            except Exception as e:
-                                self.logger.debug(
-                                    f"Error creating dependency: {str(e)}"
-                                )
-                                continue
-
-                        # Create sequence
-                        try:
-                            sequence = OperationSequence(
-                                id=str(uuid.uuid4()),
-                                name=seq["name"],
-                                description=seq["description"],
-                                operations=seq["operations"],
-                                dependencies=dependencies,
-                            )
-                            operation_sequences.append(sequence)
-                        except Exception as e:
-                            self.logger.debug(f"Error creating sequence: {str(e)}")
-                            continue
-
-                # Create result summary
-                result_summary = {
-                    "total_endpoints": len(endpoints),
-                    "total_sequences": len(operation_sequences),
-                    "has_dependencies": any(
-                        seq.dependencies for seq in operation_sequences
-                    ),
-                    "collection_name": collection_name,
-                    "execution_time": round(time.time() - start_time, 2),
-                }
-
-                self.logger.info(
-                    f"Found {len(operation_sequences)} operation sequences"
-                )
-                self.logger.add_context(
-                    sequences_found=len(operation_sequences),
-                    execution_time=result_summary["execution_time"],
-                )
-
-                # Print a few examples for verbose mode
-                if self.verbose and operation_sequences:
-                    for i, seq in enumerate(operation_sequences[:2]):
-                        self.logger.debug(f"Sequence {i+1}: {seq.name}")
-                        self.logger.debug(f"Description: {seq.description}")
-                        self.logger.debug(
-                            f"Operations ({len(seq.operations)}): {seq.operations}"
-                        )
-                        if seq.dependencies:
-                            for dep in seq.dependencies[:3]:
-                                self.logger.debug(
-                                    f"Dependency: {dep.source_operation} depends on {dep.target_operation}: {dep.reason}"
-                                )
-                                if dep.data_mapping:
-                                    self.logger.debug(
-                                        f"Data mapping: {dep.data_mapping}"
-                                    )
-
-                return OperationSequencerOutput(
-                    sequences=operation_sequences,
-                    total_sequences=len(operation_sequences),
-                    result=result_summary,
-                )
-
-            except Exception as e:
-                self.logger.error(f"Error during LLM processing: {str(e)}")
-                return OperationSequencerOutput(
-                    sequences=[],
-                    total_sequences=0,
-                    result={"error": str(e)},
-                )
-
-    async def _process_in_batches(
-        self, endpoints: List[Any], collection_name: str, include_data_mapping: bool
-    ) -> OperationSequencerOutput:
-        """Process large numbers of endpoints in smaller batches."""
-        BATCH_SIZE = 15  # Reduced batch size for better stability
-        all_sequences = []
-        batch_results = {}
-
-        # Group endpoints by their first path segment for more logical batching
-        endpoint_groups = {}
-        for endpoint in endpoints:
-            # Extract first path segment
-            path_parts = endpoint.path.strip("/").split("/")
-            first_segment = path_parts[0] if path_parts else ""
-
-            if first_segment not in endpoint_groups:
-                endpoint_groups[first_segment] = []
-            endpoint_groups[first_segment].append(endpoint)
-
-        # Process each group
-        group_count = 0
-        for group_name, group_endpoints in endpoint_groups.items():
-            group_count += 1
-            self.logger.info(
-                f"Processing endpoint group '{group_name}' with {len(group_endpoints)} endpoints"
+    async def _call_llm_for_refinement(
+        self, llm_input: Dict
+    ) -> List[OperationSequence]:
+        """Ask LLM to refine schema-based sequences and add insights."""
+        try:
+            # Use standard LLM agent pattern
+            result = await create_and_execute_llm_agent(
+                app_name="operation_sequencer",
+                agent_name="sequence_refiner",
+                instruction=self._build_refinement_instruction(llm_input),
+                input_data=llm_input,
+                output_schema=SequenceRefinementOutput,
+                timeout=self.config.get("llm_timeout", DEFAULT_LLM_TIMEOUT),
+                max_retries=self.config.get("max_retries", 2),
+                verbose=self.verbose,
+                cache_enabled=self.cache_enabled,
             )
 
-            # Further batch if the group is still too large
-            batch_num = 0
-            for i in range(0, len(group_endpoints), BATCH_SIZE):
-                batch_num += 1
-                batch = group_endpoints[i : i + BATCH_SIZE]
+            # Extract sequences from both validated and new sequences
+            all_sequences = []
 
-                self.logger.debug(
-                    f"Processing batch {batch_num} ({len(batch)} endpoints)"
+            # Process validated/enhanced sequences
+            for seq_data in result.sequences:
+                sequence = self._parse_sequence_data(seq_data)
+                if sequence:
+                    all_sequences.append(sequence)
+
+            # Process new sequences
+            for seq_data in result.new_sequences:
+                sequence = self._parse_sequence_data(seq_data)
+                if sequence:
+                    all_sequences.append(sequence)
+
+            self.logger.info(f"LLM refinement generated {len(all_sequences)} sequences")
+            return all_sequences
+
+        except Exception as e:
+            self.logger.warning(f"LLM refinement failed: {str(e)}")
+            return []
+
+    def _build_refinement_instruction(self, llm_input: Dict) -> str:
+        """Build the instruction for LLM refinement."""
+        schema_sequences = llm_input["schema_analysis"]["sequences"]
+        # endpoints are already simplified in _execute method
+        simplified_endpoints = llm_input["endpoints"]
+
+        return f"""You are an API Operation Sequencer. Analyze the endpoints and existing sequences.
+
+Schema Analysis Results:
+{json.dumps(schema_sequences, indent=2)}
+
+API Endpoints:
+{json.dumps(simplified_endpoints, indent=2)}
+
+Your Tasks:
+1. VALIDATE existing schema-generated sequences
+2. GENERATE new sequences for patterns schema analysis missed:
+   - Different workflow patterns (create, read, update, delete flows)
+   - Cross-resource workflows
+   - Hierarchical access patterns
+   - Authentication/authorization flows
+3. ENHANCE sequence descriptions and dependency reasons
+4. IDENTIFY complex dependencies schema analysis couldn't detect
+
+Requirements:
+- Each sequence must have at least 2 operations
+- Operations can appear in multiple sequences
+- Provide clear dependency reasons
+- Include data_mapping for parameter passing
+
+Return JSON:
+{{
+  "sequences": [...validated/enhanced existing sequences...],
+  "new_sequences": [...completely new sequences you identified...]
+}}"""
+
+    def _parse_sequence_data(
+        self, seq_data: Dict[str, Any]
+    ) -> Optional[OperationSequence]:
+        """Parse sequence data from LLM response into OperationSequence object."""
+        try:
+            # Extract dependencies
+            dependencies = []
+            for dep_data in seq_data.get("dependencies", []):
+                dependency = OperationDependency(
+                    source_operation=dep_data.get("source_operation", ""),
+                    target_operation=dep_data.get("target_operation", ""),
+                    reason=dep_data.get("reason", ""),
+                    data_mapping=dep_data.get("data_mapping", {}),
                 )
+                dependencies.append(dependency)
 
-                # Create input for this batch
-                batch_input = OperationSequencerInput(
-                    endpoints=batch,
-                    collection_name=f"{collection_name} - {group_name}",
-                    include_data_mapping=include_data_mapping,
+            # Create sequence
+            sequence = OperationSequence(
+                id=seq_data.get("id", str(uuid.uuid4())),
+                name=seq_data.get("name", "Unnamed Sequence"),
+                description=seq_data.get("description", ""),
+                operations=seq_data.get("operations", []),
+                dependencies=dependencies,
+                sequence_type=seq_data.get("sequence_type", "unknown"),
+                priority=seq_data.get("priority", 3),
+                metadata=seq_data.get("metadata", {}),
+            )
+
+            return sequence
+
+        except Exception as e:
+            self.logger.warning(f"Failed to parse sequence data: {str(e)}")
+            return None
+
+    def _merge_sequences(
+        self, schema_seqs: List[OperationSequence], llm_seqs: List[OperationSequence]
+    ) -> List[OperationSequence]:
+        """Merge schema-based and LLM sequences, prioritizing schema-based for conflicts."""
+        # Start with schema-based sequences (higher confidence)
+        final_sequences = list(schema_seqs)
+
+        # Add LLM sequences that don't conflict
+        for llm_seq in llm_seqs:
+            # Check if this sequence conflicts with existing ones
+            conflicts = False
+            for existing_seq in final_sequences:
+                if existing_seq.name.lower() == llm_seq.name.lower() or set(
+                    existing_seq.operations
+                ) == set(llm_seq.operations):
+                    conflicts = True
+                    break
+
+            if not conflicts:
+                # Add LLM sequence with lower confidence metadata
+                if not llm_seq.metadata:
+                    llm_seq.metadata = {}
+                llm_seq.metadata["confidence"] = (
+                    0.8  # LLM sequences have lower confidence
                 )
+                final_sequences.append(llm_seq)
 
-                # Process batch
-                try:
-                    batch_output = await self._execute(batch_input)
-                    batch_results[f"{group_name}_batch{batch_num}"] = {
-                        "endpoints": len(batch),
-                        "sequences": len(batch_output.sequences),
-                    }
+        return final_sequences
 
-                    # Collect sequences
-                    if batch_output.sequences:
-                        all_sequences.extend(batch_output.sequences)
-                except Exception as e:
-                    self.logger.error(f"Error processing batch: {str(e)}")
-                    batch_results[f"{group_name}_batch{batch_num}"] = {
-                        "endpoints": len(batch),
-                        "sequences": 0,
-                        "error": str(e),
-                    }
+    def _build_dependency_graph(
+        self,
+        nodes: List[OperationNode],
+        edges: List[DependencyEdge],
+        sequences: List[OperationSequence],
+    ) -> DependencyGraph:
+        """Build graph representation for visualization."""
+        # Add sequence metadata to nodes
+        node_map = {node.id: node for node in nodes}
+        for sequence in sequences:
+            for operation in sequence.operations:
+                # Find corresponding node
+                for node in nodes:
+                    if node.operation == operation:
+                        if not node.metadata:
+                            node.metadata = {}
+                        node.metadata["sequences"] = node.metadata.get("sequences", [])
+                        if sequence.name not in node.metadata["sequences"]:
+                            node.metadata["sequences"].append(sequence.name)
 
-                # Short pause to avoid rate limiting
-                await asyncio.sleep(0.5)
-
-        # Create combined output
-        result_summary = {
-            "total_endpoints": len(endpoints),
-            "total_sequences": len(all_sequences),
-            "has_dependencies": any(seq.dependencies for seq in all_sequences),
-            "collection_name": collection_name,
-            "processed_in_batches": True,
-            "batch_count": group_count,
-            "batch_results": batch_results,
+        # Add graph metadata
+        metadata = {
+            "total_nodes": len(nodes),
+            "total_edges": len(edges),
+            "total_sequences": len(sequences),
+            "analysis_method": "hybrid",
+            "generated_at": time.time(),
         }
 
-        self.logger.info(
-            f"Combined results: Found {len(all_sequences)} operation sequences from all batches"
-        )
-
-        return OperationSequencerOutput(
-            sequences=all_sequences,
-            total_sequences=len(all_sequences),
-            result=result_summary,
-        )
+        return DependencyGraph(nodes=nodes, edges=edges, metadata=metadata)
 
     def _simplify_request_body(self, request_body: Optional[Dict]) -> Optional[Dict]:
         """Simplify the request body schema to reduce context size."""

@@ -12,6 +12,9 @@ from domain.ports.validation_script_repository import (
 from domain.ports.dataset_repository import DatasetRepositoryInterface
 from domain.ports.test_data_repository import TestDataRepositoryInterface
 from domain.ports.execution_repository import ExecutionRepositoryInterface
+from domain.ports.operation_sequence_repository import (
+    OperationSequenceRepositoryInterface,
+)
 
 from adapters.repository.json_file_endpoint_repository import (
     JsonFileEndpointRepository,
@@ -31,6 +34,9 @@ from adapters.repository.json_file_test_data_repository import (
 from adapters.repository.json_file_execution_repository import (
     JsonFileExecutionRepository,
 )
+from adapters.repository.json_file_operation_sequence_repository import (
+    JsonFileOperationSequenceRepository,
+)
 
 from application.services.endpoint_service import EndpointService
 from application.services.constraint_service import ConstraintService
@@ -40,6 +46,7 @@ from application.services.verification_service import VerificationService
 from application.services.aggregator_service import AggregatorService
 from application.services.test_data_service import TestDataService
 from application.services.test_execution_service import TestExecutionService
+from application.services.operation_sequence_service import OperationSequenceService
 
 from tools.core.test_data_verifier import TestDataVerifierTool
 from tools.core.code_executor import CodeExecutorTool
@@ -85,6 +92,10 @@ class Container(containers.DeclarativeContainer):
         providers.Singleton(JsonFileExecutionRepository)
     )
 
+    operation_sequence_repository: providers.Singleton[
+        OperationSequenceRepositoryInterface
+    ] = providers.Singleton(JsonFileOperationSequenceRepository)
+
     # Services
     endpoint_service: providers.Factory[EndpointService] = providers.Factory(
         EndpointService, repository=endpoint_repository
@@ -120,6 +131,14 @@ class Container(containers.DeclarativeContainer):
         TestExecutionService,
         execution_repository=execution_repository,
         test_data_repository=test_data_repository,
+    )
+
+    operation_sequence_service: providers.Factory[OperationSequenceService] = (
+        providers.Factory(
+            OperationSequenceService,
+            sequence_repository=operation_sequence_repository,
+            endpoint_repository=endpoint_repository,
+        )
     )
 
     # Tools
@@ -208,6 +227,11 @@ def get_test_execution_service() -> TestExecutionService:
     return get_container().test_execution_service()
 
 
+def get_operation_sequence_service() -> OperationSequenceService:
+    """Get OperationSequenceService instance from DI container."""
+    return get_container().operation_sequence_service()
+
+
 # FastAPI dependency providers
 # These can be used directly in router endpoints as Depends(get_service_name)
 endpoint_service_dependency = Depends(get_endpoint_service)
@@ -218,3 +242,4 @@ verification_service_dependency = Depends(get_verification_service)
 aggregator_service_dependency = Depends(get_aggregator_service)
 test_data_service_dependency = Depends(get_test_data_service)
 test_execution_service_dependency = Depends(get_test_execution_service)
+operation_sequence_service_dependency = Depends(get_operation_sequence_service)
