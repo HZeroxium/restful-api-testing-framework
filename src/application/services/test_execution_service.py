@@ -2,7 +2,7 @@
 
 import uuid
 import time
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from datetime import datetime
 
 from domain.ports.execution_repository import ExecutionRepositoryInterface
@@ -28,9 +28,11 @@ class TestExecutionService:
         execution_repository: ExecutionRepositoryInterface,
         test_data_repository: TestDataRepositoryInterface,
         verbose: bool = False,
+        use_mock: bool = False,
     ):
         self.execution_repository = execution_repository
         self.test_data_repository = test_data_repository
+        self.use_mock = use_mock
         self.logger = LoggerFactory.get_logger(
             name="service.test_execution",
             logger_type=LoggerType.STANDARD,
@@ -40,7 +42,17 @@ class TestExecutionService:
         # Initialize tools
         self.test_executor = TestExecutorTool(verbose=verbose)
         self.test_data_verifier = TestDataVerifierTool(verbose=verbose)
-        self.rest_api_caller = RestApiCallerTool(verbose=verbose)
+
+        # Initialize REST API caller (real or mock)
+        if use_mock:
+            from tools.core.mock_rest_api_caller import MockRestApiCallerTool
+
+            self.rest_api_caller = MockRestApiCallerTool(verbose=verbose)
+            self.logger.info("Using MockRestApiCallerTool for offline testing")
+        else:
+            self.rest_api_caller = RestApiCallerTool(verbose=verbose)
+            self.logger.info("Using RestApiCallerTool for real API calls")
+
         self.code_executor = CodeExecutorTool(verbose=verbose)
 
         # Import here to avoid circular imports
@@ -68,6 +80,7 @@ class TestExecutionService:
         dataset_id: Optional[str] = None,
         test_data_ids: Optional[List[str]] = None,
         timeout: int = 30,
+        endpoint_path: Optional[str] = None,
     ) -> ExecutionHistory:
         """
         Execute tests for an endpoint.
@@ -122,7 +135,9 @@ class TestExecutionService:
                     if test_data:
                         test_data_items.append(test_data)
             else:
-                test_data_items = await test_data_repo.get_by_endpoint_id(endpoint_id)
+                test_data_items, _ = await test_data_repo.get_by_endpoint_id(
+                    endpoint_id
+                )
 
             if not test_data_items:
                 execution.overall_status = ExecutionStatus.FAILED
@@ -144,7 +159,7 @@ class TestExecutionService:
 
             for test_data in test_data_items:
                 test_result = await self._execute_single_test_case(
-                    test_data, base_url, timeout
+                    test_data, base_url, timeout, endpoint_path
                 )
                 execution_results.append(test_result)
                 total_execution_time += test_result.execution_time_ms
@@ -186,21 +201,31 @@ class TestExecutionService:
             return execution
 
     async def _execute_single_test_case(
-        self, test_data: TestData, base_url: str, timeout: int
+        self,
+        test_data: TestData,
+        base_url: str,
+        timeout: int,
+        endpoint_path: str = None,
     ) -> TestCaseExecutionResult:
         """Execute a single test case."""
         start_time = time.time()
 
         try:
-            # Build request URL
+            # Build request URL - combine base_url with endpoint path
+            if endpoint_path:
+                # Remove leading slash if present and ensure proper URL construction
+                endpoint_path = endpoint_path.lstrip("/")
+                base_url = base_url.rstrip("/")
+                full_url = f"{base_url}/{endpoint_path}"
+            else:
+                full_url = base_url
+
+            # Add query parameters if present
             if test_data.request_params:
-                # Simple query string building (could be enhanced)
                 query_params = "&".join(
                     [f"{k}={v}" for k, v in test_data.request_params.items()]
                 )
-                full_url = f"{base_url}?{query_params}"
-            else:
-                full_url = base_url
+                full_url = f"{full_url}?{query_params}"
 
             # Prepare request
             from schemas.tools.rest_api_caller import RestApiCallerInput, RestRequest
@@ -217,13 +242,21 @@ class TestExecutionService:
             # Make API call
             api_response = await self.rest_api_caller.execute(request_data)
 
-            # Prepare response data
+            # Properly extract response from RestApiCallerOutput (not dict)
             response_data = {
-                "status_code": api_response.get("status_code", 0),
-                "headers": api_response.get("headers", {}),
-                "body": api_response.get("body", {}),
-                "text": api_response.get("text", ""),
-                "json": api_response.get("json", {}),
+                "status_code": api_response.response.status_code,
+                "headers": api_response.response.headers,
+                "body": api_response.response.body,
+                "elapsed": api_response.elapsed,
+            }
+
+            # Also prepare request_sent data for proper serialization
+            request_sent = {
+                "method": rest_request.method,
+                "url": rest_request.url,
+                "headers": rest_request.headers or {},
+                "params": rest_request.params or {},
+                "body": rest_request.json_body,
             }
 
             # Simple validation (status code check)
@@ -234,7 +267,7 @@ class TestExecutionService:
             return TestCaseExecutionResult(
                 test_data_id=test_data.id,
                 test_data_name=test_data.name,
-                request_sent=rest_request.dict(),
+                request_sent=request_sent,
                 response_received=response_data,
                 execution_status=ExecutionStatus.COMPLETED,
                 validation_results=[],  # Could be enhanced with actual validation scripts
@@ -245,10 +278,22 @@ class TestExecutionService:
 
         except Exception as e:
             execution_time_ms = (time.time() - start_time) * 1000
+
+            # Prepare request_sent even in case of error
+            request_sent = {}
+            if "rest_request" in locals():
+                request_sent = {
+                    "method": rest_request.method,
+                    "url": rest_request.url,
+                    "headers": rest_request.headers or {},
+                    "params": rest_request.params or {},
+                    "body": rest_request.json_body,
+                }
+
             return TestCaseExecutionResult(
                 test_data_id=test_data.id,
                 test_data_name=test_data.name,
-                request_sent={},
+                request_sent=request_sent,
                 response_received={},
                 execution_status=ExecutionStatus.FAILED,
                 validation_results=[],
@@ -258,11 +303,13 @@ class TestExecutionService:
             )
 
     async def get_execution_history(
-        self, endpoint_id: str, limit: int = 10
-    ) -> List[ExecutionHistory]:
-        """Get execution history for an endpoint."""
+        self, endpoint_id: str, limit: int = 10, offset: int = 0
+    ) -> Tuple[List[ExecutionHistory], int]:
+        """Get execution history for an endpoint with pagination."""
         self.logger.info(f"Retrieving execution history for endpoint: {endpoint_id}")
-        return await self.execution_repository.get_by_endpoint_id(endpoint_id, limit)
+        return await self.execution_repository.get_by_endpoint_id(
+            endpoint_id, limit, offset
+        )
 
     async def get_execution_by_id(
         self, execution_id: str
@@ -285,9 +332,14 @@ class TestExecutionService:
 
     async def get_all_execution_history(
         self, limit: int = 50, offset: int = 0
-    ) -> List[ExecutionHistory]:
+    ) -> Tuple[List[ExecutionHistory], int]:
         """Get all execution history across all endpoints with pagination."""
         self.logger.info(
             f"Retrieving all execution history (limit={limit}, offset={offset})"
         )
         return await self.execution_repository.get_all(limit=limit, offset=offset)
+
+    async def delete_executions_by_endpoint_id(self, endpoint_id: str) -> int:
+        """Delete all executions for a specific endpoint."""
+        self.logger.info(f"Deleting all executions for endpoint: {endpoint_id}")
+        return await self.execution_repository.delete_by_endpoint_id(endpoint_id)

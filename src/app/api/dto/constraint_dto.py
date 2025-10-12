@@ -3,6 +3,8 @@
 from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 
+from schemas.core.pagination import PaginationMetadata
+
 from schemas.tools.constraint_miner import ApiConstraint, ConstraintType
 
 
@@ -56,7 +58,7 @@ class ConstraintListResponse(BaseModel):
     """Response model for a list of constraints."""
 
     constraints: List[ConstraintResponse]
-    total: int
+    pagination: PaginationMetadata
 
 
 class MineConstraintsRequest(BaseModel):

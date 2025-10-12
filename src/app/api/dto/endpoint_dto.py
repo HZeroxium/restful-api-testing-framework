@@ -4,6 +4,8 @@ from typing import List, Optional, Dict, Any
 from pydantic import BaseModel, Field
 from datetime import datetime
 
+from schemas.core.pagination import PaginationMetadata
+
 from schemas.tools.openapi_parser import EndpointInfo, AuthType, SpecSourceType
 
 
@@ -94,9 +96,7 @@ class EndpointListResponse(BaseModel):
     """Response model for endpoint list."""
 
     endpoints: List[EndpointResponse] = Field(..., description="List of endpoints")
-    total: int = Field(..., description="Total number of endpoints")
-    page: int = Field(1, description="Current page number")
-    size: int = Field(10, description="Page size")
+    pagination: PaginationMetadata
 
 
 class ParseSpecRequest(BaseModel):

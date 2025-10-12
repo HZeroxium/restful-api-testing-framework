@@ -3,7 +3,7 @@
 import json
 import uuid
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from domain.ports.test_data_repository import TestDataRepositoryInterface
 from schemas.core.test_data import TestData
@@ -123,22 +123,31 @@ class JsonFileTestDataRepository(TestDataRepositoryInterface):
 
             return None
 
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[TestData]:
-        """Get all test data for an endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[TestData], int]:
+        """Get all test data for an endpoint with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             test_data_items = []
             for test_data_dict in self._test_data.values():
                 if test_data_dict.get("endpoint_id") == endpoint_id:
                     test_data_items.append(TestData(**test_data_dict))
-            return test_data_items
+
+            # Calculate total count before pagination
+            total_count = len(test_data_items)
+
+            # Apply pagination
+            paginated_items = test_data_items[offset : offset + limit]
+
+            return paginated_items, total_count
         else:
             # Global repository - search all datasets
             test_data_items = []
             datasets_base_path = Path("data/datasets")
 
             if not datasets_base_path.exists():
-                return test_data_items
+                return [], 0
 
             for dataset_dir in datasets_base_path.iterdir():
                 if not dataset_dir.is_dir():
@@ -155,9 +164,17 @@ class JsonFileTestDataRepository(TestDataRepositoryInterface):
                     if test_data_dict.get("endpoint_id") == endpoint_id:
                         test_data_items.append(TestData(**test_data_dict))
 
-            return test_data_items
+            # Calculate total count before pagination
+            total_count = len(test_data_items)
 
-    async def get_all(self, limit: int = 100, offset: int = 0) -> List[TestData]:
+            # Apply pagination
+            paginated_items = test_data_items[offset : offset + limit]
+
+            return paginated_items, total_count
+
+    async def get_all(
+        self, limit: int = 100, offset: int = 0
+    ) -> Tuple[List[TestData], int]:
         """Get all test data with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
@@ -185,8 +202,13 @@ class JsonFileTestDataRepository(TestDataRepositoryInterface):
                     for test_data_dict in data.get("test_data", {}).values():
                         all_data.append(TestData(**test_data_dict))
 
+        # Calculate total count before pagination
+        total_count = len(all_data)
+
         # Apply pagination
-        return all_data[offset : offset + limit]
+        paginated_data = all_data[offset : offset + limit]
+
+        return paginated_data, total_count
 
     async def update(
         self, test_data_id: str, test_data: TestData

@@ -1,11 +1,12 @@
 # application/services/validation_script_lookup_service.py
 
 import json
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from schemas.tools.test_script_generator import ValidationScript
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.pagination_utils import paginate_list
 
 
 class ValidationScriptLookupService:
@@ -77,17 +78,14 @@ class ValidationScriptLookupService:
         self.logger.debug(f"Validation script {script_id} not found in any dataset")
         return None
 
-    async def get_all_scripts(self) -> tuple[Dict[str, Any], Dict[str, str]]:
-        """Get all validation scripts across all datasets.
-
-        Returns:
-            Tuple of (scripts_dict, dataset_mapping) where dataset_mapping maps script_id to dataset_id
-        """
-        all_scripts = {}
-        dataset_mapping = {}
+    async def get_all_scripts(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts across all datasets with pagination."""
+        all_scripts = []
 
         if not self.datasets_base_path.exists():
-            return all_scripts, dataset_mapping
+            return paginate_list(all_scripts, offset, limit)
 
         for dataset_dir in self.datasets_base_path.iterdir():
             if not dataset_dir.is_dir():
@@ -96,23 +94,20 @@ class ValidationScriptLookupService:
             dataset_id = dataset_dir.name
             scripts = self._load_scripts_from_dataset(dataset_id)
 
-            for script_id, script_data in scripts.items():
-                all_scripts[script_id] = script_data
-                dataset_mapping[script_id] = dataset_id
+            for script_data in scripts.values():
+                all_scripts.append(self._dict_to_script(script_data))
 
-        self.logger.debug(
-            f"Loaded {len(all_scripts)} validation scripts from {len(dataset_mapping)} datasets"
-        )
-        return all_scripts, dataset_mapping
+        self.logger.debug(f"Loaded {len(all_scripts)} validation scripts from datasets")
+        return paginate_list(all_scripts, offset, limit)
 
     async def get_scripts_by_endpoint_id(
-        self, endpoint_id: str
-    ) -> List[ValidationScript]:
-        """Get all validation scripts for a specific endpoint across all datasets."""
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific endpoint across all datasets with pagination."""
         results = []
 
         if not self.datasets_base_path.exists():
-            return results
+            return paginate_list(results, offset, limit)
 
         for dataset_dir in self.datasets_base_path.iterdir():
             if not dataset_dir.is_dir():
@@ -124,16 +119,16 @@ class ValidationScriptLookupService:
                 if script_data.get("endpoint_id") == endpoint_id:
                     results.append(self._dict_to_script(script_data))
 
-        return results
+        return paginate_list(results, offset, limit)
 
     async def get_scripts_by_constraint_id(
-        self, constraint_id: str
-    ) -> List[ValidationScript]:
-        """Get all validation scripts for a specific constraint across all datasets."""
+        self, constraint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific constraint across all datasets with pagination."""
         results = []
 
         if not self.datasets_base_path.exists():
-            return results
+            return paginate_list(results, offset, limit)
 
         for dataset_dir in self.datasets_base_path.iterdir():
             if not dataset_dir.is_dir():
@@ -145,7 +140,7 @@ class ValidationScriptLookupService:
                 if script_data.get("constraint_id") == constraint_id:
                     results.append(self._dict_to_script(script_data))
 
-        return results
+        return paginate_list(results, offset, limit)
 
     async def get_scripts_by_dataset_id(
         self, dataset_id: str

@@ -1,6 +1,6 @@
 # application/services/endpoint_service.py
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from datetime import datetime
 import uuid
 
@@ -46,9 +46,11 @@ class EndpointService:
         """Get endpoint by path and method."""
         return await self.repository.get_by_path_method(path, method)
 
-    async def get_all_endpoints(self) -> List[EndpointInfo]:
-        """Get all endpoints."""
-        return await self.repository.get_all()
+    async def get_all_endpoints(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints with pagination."""
+        return await self.repository.get_all(limit, offset)
 
     async def update_endpoint(
         self, endpoint_id: str, endpoint: EndpointInfo
@@ -75,13 +77,17 @@ class EndpointService:
         """Delete an endpoint."""
         return await self.repository.delete(endpoint_id)
 
-    async def search_endpoints_by_tag(self, tag: str) -> List[EndpointInfo]:
-        """Search endpoints by tag."""
-        return await self.repository.search_by_tag(tag)
+    async def search_endpoints_by_tag(
+        self, tag: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by tag with pagination."""
+        return await self.repository.search_by_tag(tag, limit, offset)
 
-    async def search_endpoints_by_path(self, path_pattern: str) -> List[EndpointInfo]:
-        """Search endpoints by path pattern."""
-        return await self.repository.search_by_path(path_pattern)
+    async def search_endpoints_by_path(
+        self, path_pattern: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by path pattern with pagination."""
+        return await self.repository.search_by_path(path_pattern, limit, offset)
 
     async def get_endpoint_stats(self) -> Dict[str, Any]:
         """Get endpoint statistics."""
@@ -140,14 +146,14 @@ class EndpointService:
 
     async def export_endpoints(self, format: str = "json") -> Dict[str, Any]:
         """Export all endpoints in specified format."""
-        endpoints = await self.get_all_endpoints()
+        endpoints, total_count = await self.get_all_endpoints()
         stats = await self.get_endpoint_stats()
 
         return {
             "endpoints": [self._endpoint_to_dict(endpoint) for endpoint in endpoints],
             "metadata": {
                 "export_timestamp": datetime.now().isoformat(),
-                "total_count": len(endpoints),
+                "total_count": total_count,
                 "stats": stats,
             },
         }

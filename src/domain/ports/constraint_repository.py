@@ -1,7 +1,7 @@
 # domain/ports/constraint_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from schemas.tools.constraint_miner import ApiConstraint
 
 
@@ -19,13 +19,17 @@ class ConstraintRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[ApiConstraint]:
-        """Get all constraints for a specific endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints for a specific endpoint with pagination."""
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[ApiConstraint]:
-        """Get all constraints."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints with pagination."""
         pass
 
     @abstractmethod

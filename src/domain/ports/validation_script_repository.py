@@ -1,7 +1,7 @@
 # domain/ports/validation_script_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from schemas.tools.test_script_generator import ValidationScript
 
 
@@ -19,13 +19,17 @@ class ValidationScriptRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[ValidationScript]:
-        """Get all validation scripts for a specific endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific endpoint with pagination."""
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[ValidationScript]:
-        """Get all validation scripts."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts with pagination."""
         pass
 
     @abstractmethod
@@ -46,6 +50,8 @@ class ValidationScriptRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
-        """Get all validation scripts for a specific constraint."""
+    async def get_by_constraint_id(
+        self, constraint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific constraint with pagination."""
         pass

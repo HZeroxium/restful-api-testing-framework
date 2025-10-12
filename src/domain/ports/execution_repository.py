@@ -1,7 +1,7 @@
 # domain/ports/execution_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from schemas.core.execution_history import ExecutionHistory
 
@@ -21,13 +21,15 @@ class ExecutionRepositoryInterface(ABC):
 
     @abstractmethod
     async def get_by_endpoint_id(
-        self, endpoint_id: str, limit: int = 10
-    ) -> List[ExecutionHistory]:
-        """Get execution history for an endpoint with limit."""
+        self, endpoint_id: str, limit: int = 10, offset: int = 0
+    ) -> Tuple[List[ExecutionHistory], int]:
+        """Get execution history for an endpoint with pagination."""
         pass
 
     @abstractmethod
-    async def get_all(self, limit: int = 10, offset: int = 0) -> List[ExecutionHistory]:
+    async def get_all(
+        self, limit: int = 10, offset: int = 0
+    ) -> Tuple[List[ExecutionHistory], int]:
         """Get all execution history with pagination."""
         pass
 

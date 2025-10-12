@@ -1,6 +1,6 @@
 # application/services/validation_script_service.py
 
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import uuid
 
 from domain.ports.validation_script_repository import (
@@ -46,14 +46,32 @@ class ValidationScriptService:
         return await self.script_repository.get_by_id(script_id)
 
     async def get_scripts_by_endpoint_id(
-        self, endpoint_id: str
-    ) -> List[ValidationScript]:
-        """Get all validation scripts for a specific endpoint."""
-        return await self.script_repository.get_by_endpoint_id(endpoint_id)
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific endpoint with pagination."""
+        return await self.script_repository.get_by_endpoint_id(
+            endpoint_id, limit, offset
+        )
 
-    async def get_all_scripts(self) -> List[ValidationScript]:
-        """Get all validation scripts."""
-        return await self.script_repository.get_all()
+    async def get_validation_scripts_by_endpoint_name(
+        self, endpoint_name: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get validation scripts for a specific endpoint by name with pagination."""
+        # Get endpoint by name to get the ID
+        endpoint = await self.endpoint_repository.get_by_name(endpoint_name)
+        if not endpoint:
+            self.logger.warning(f"Endpoint '{endpoint_name}' not found")
+            return [], 0
+
+        return await self.script_repository.get_by_endpoint_id(
+            endpoint.id, limit, offset
+        )
+
+    async def get_all_scripts(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts with pagination."""
+        return await self.script_repository.get_all(limit, offset)
 
     async def update_script(
         self, script_id: str, script: ValidationScript
@@ -72,6 +90,18 @@ class ValidationScriptService:
         """Delete all validation scripts for a specific endpoint."""
         return await self.script_repository.delete_by_endpoint_id(endpoint_id)
 
+    async def delete_validation_scripts_by_endpoint_name(
+        self, endpoint_name: str
+    ) -> int:
+        """Delete all validation scripts for a specific endpoint by name."""
+        # Get endpoint by name to get the ID
+        endpoint = await self.endpoint_repository.get_by_name(endpoint_name)
+        if not endpoint:
+            self.logger.warning(f"Endpoint '{endpoint_name}' not found for deletion")
+            return 0
+
+        return await self.script_repository.delete_by_endpoint_id(endpoint.id)
+
     async def generate_scripts_for_endpoint(
         self, endpoint_id: str, override_existing: bool = True
     ) -> TestScriptGeneratorOutput:
@@ -88,7 +118,7 @@ class ValidationScriptService:
 
         # If override_existing is True, delete existing validation scripts first
         if override_existing:
-            existing_scripts = await self.script_repository.get_by_endpoint_id(
+            existing_scripts, _ = await self.script_repository.get_by_endpoint_id(
                 endpoint_id
             )
             if existing_scripts:
@@ -104,7 +134,9 @@ class ValidationScriptService:
                 )
 
         # Get constraints for the endpoint
-        constraints = await self.constraint_repository.get_by_endpoint_id(endpoint_id)
+        constraints, _ = await self.constraint_repository.get_by_endpoint_id(
+            endpoint_id
+        )
         self.logger.info(f"Retrieved {len(constraints)} constraints for endpoint")
 
         # Create input for script generator

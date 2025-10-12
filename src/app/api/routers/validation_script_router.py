@@ -18,6 +18,8 @@ from infra.di.container import (
     endpoint_service_dependency,
 )
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from schemas.core.pagination import PaginationParams
+from utils.pagination_utils import calculate_pagination_metadata
 
 router = APIRouter(prefix="/validation-scripts", tags=["validation-scripts"])
 
@@ -118,18 +120,29 @@ async def generate_validation_scripts(
 )
 async def list_validation_scripts(
     endpoint_id: str = Query(None, description="Filter by endpoint ID"),
+    pagination: PaginationParams = Depends(),
     service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Get all validation scripts, optionally filtered by endpoint_id."""
     try:
         if endpoint_id:
-            scripts = await service.get_scripts_by_endpoint_id(endpoint_id)
+            scripts, total_count = await service.get_scripts_by_endpoint_id(
+                endpoint_id, limit=pagination.limit, offset=pagination.offset
+            )
         else:
-            scripts = await service.get_all_scripts()
+            scripts, total_count = await service.get_all_scripts(
+                limit=pagination.limit, offset=pagination.offset
+            )
+
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
 
         return ValidationScriptListResponse(
             scripts=[ValidationScriptResponse.from_script(s) for s in scripts],
-            total=len(scripts),
+            total=total_count,
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -146,6 +159,7 @@ async def list_validation_scripts(
 )
 async def get_validation_scripts_by_endpoint_name(
     endpoint_name: str,
+    pagination: PaginationParams = Depends(),
     validation_script_service: ValidationScriptService = validation_script_service_dependency,
     endpoint_service: EndpointService = endpoint_service_dependency,
 ):
@@ -162,16 +176,25 @@ async def get_validation_scripts_by_endpoint_name(
             )
 
         # Get validation scripts for the endpoint
-        scripts = await validation_script_service.get_scripts_by_endpoint_id(
-            endpoint.id
+        scripts, total_count = (
+            await validation_script_service.get_scripts_by_endpoint_id(
+                endpoint.id, limit=pagination.limit, offset=pagination.offset
+            )
         )
 
         logger.debug(
             f"Retrieved {len(scripts)} validation scripts for endpoint '{endpoint_name}'"
         )
+
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return ValidationScriptListResponse(
             scripts=[ValidationScriptResponse.from_script(s) for s in scripts],
-            total=len(scripts),
+            total=total_count,
+            pagination=pagination_metadata,
         )
 
     except HTTPException:
@@ -247,22 +270,32 @@ async def generate_validation_scripts_by_endpoint_name(
 )
 async def get_validation_scripts_by_endpoint_id(
     endpoint_id: str,
+    pagination: PaginationParams = Depends(),
     validation_script_service: ValidationScriptService = validation_script_service_dependency,
 ):
     """Get validation scripts for a specific endpoint by endpoint ID."""
     logger.info(f"GET /validation-scripts/by-endpoint-id/{endpoint_id}")
 
     try:
-        scripts = await validation_script_service.get_scripts_by_endpoint_id(
-            endpoint_id
+        scripts, total_count = (
+            await validation_script_service.get_scripts_by_endpoint_id(
+                endpoint_id, limit=pagination.limit, offset=pagination.offset
+            )
         )
 
         logger.debug(
             f"Retrieved {len(scripts)} validation scripts for endpoint ID '{endpoint_id}'"
         )
+
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return ValidationScriptListResponse(
             scripts=[ValidationScriptResponse.from_script(s) for s in scripts],
-            total=len(scripts),
+            total=total_count,
+            pagination=pagination_metadata,
         )
 
     except Exception as e:

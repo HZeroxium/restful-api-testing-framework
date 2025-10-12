@@ -1,7 +1,7 @@
 # application/services/test_data_service.py
 
 import uuid
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from datetime import datetime
 
 from domain.ports.test_data_repository import TestDataRepositoryInterface
@@ -86,8 +86,8 @@ class TestDataService:
 
         # If override_existing, delete existing test data first
         if override_existing:
-            existing_test_data = await dataset_specific_repository.get_by_endpoint_id(
-                endpoint_id
+            existing_test_data, _ = (
+                await dataset_specific_repository.get_by_endpoint_id(endpoint_id)
             )
             if existing_test_data:
                 deleted_count = await dataset_specific_repository.delete_by_endpoint_id(
@@ -161,11 +161,13 @@ class TestDataService:
         return TestDataGeneratorOutput(test_data_collection=tools_test_data)
 
     async def get_test_data_by_endpoint_id(
-        self, endpoint_id: str
-    ) -> List[CoreTestData]:
-        """Get all test data for an endpoint."""
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[CoreTestData], int]:
+        """Get all test data for an endpoint with pagination."""
         self.logger.info(f"Retrieving test data for endpoint: {endpoint_id}")
-        return await self.test_data_repository.get_by_endpoint_id(endpoint_id)
+        return await self.test_data_repository.get_by_endpoint_id(
+            endpoint_id, limit, offset
+        )
 
     async def get_test_data_by_id(self, test_data_id: str) -> Optional[CoreTestData]:
         """Get test data by ID."""
@@ -199,13 +201,15 @@ class TestDataService:
         self, endpoint_id: str, endpoint_name: str
     ) -> TestDataCollection:
         """Get test data collection for an endpoint."""
-        test_data_items = await self.get_test_data_by_endpoint_id(endpoint_id)
+        test_data_items, total_count = await self.get_test_data_by_endpoint_id(
+            endpoint_id
+        )
 
         collection = TestDataCollection(
             endpoint_id=endpoint_id,
             endpoint_name=endpoint_name,
             test_data_items=test_data_items,
-            total_count=len(test_data_items),
+            total_count=total_count,
             valid_count=sum(1 for item in test_data_items if item.is_valid),
             invalid_count=sum(1 for item in test_data_items if not item.is_valid),
             created_at=datetime.now(),
@@ -219,7 +223,7 @@ class TestDataService:
 
     async def get_all_test_data(
         self, limit: int = 100, offset: int = 0
-    ) -> List[CoreTestData]:
+    ) -> Tuple[List[CoreTestData], int]:
         """Get all test data across all endpoints with pagination."""
         self.logger.info(f"Retrieving all test data (limit={limit}, offset={offset})")
         return await self.test_data_repository.get_all(limit=limit, offset=offset)

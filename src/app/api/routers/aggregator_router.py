@@ -24,6 +24,9 @@ class FullPipelineRequest(BaseModel):
     override_existing: bool = Field(
         True, description="Whether to override existing constraints/scripts"
     )
+    use_mock_api: bool = Field(
+        False, description="Whether to use mock API calls instead of real HTTP requests"
+    )
 
 
 router = APIRouter(prefix="/aggregator", tags=["aggregator"])
@@ -124,6 +127,7 @@ async def run_full_pipeline(
             test_count=request.test_count,
             include_invalid=request.include_invalid,
             override_existing=request.override_existing,
+            use_mock_api=request.use_mock_api,
         )
 
         # If the endpoint wasn't found, return 404

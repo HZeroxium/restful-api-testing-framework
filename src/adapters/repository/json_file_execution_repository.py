@@ -3,11 +3,12 @@
 import json
 import uuid
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from domain.ports.execution_repository import ExecutionRepositoryInterface
 from schemas.core.execution_history import ExecutionHistory
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.pagination_utils import paginate_list
 
 
 class JsonFileExecutionRepository(ExecutionRepositoryInterface):
@@ -126,9 +127,9 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
             return None
 
     async def get_by_endpoint_id(
-        self, endpoint_id: str, limit: int = 10
-    ) -> List[ExecutionHistory]:
-        """Get execution history for an endpoint with limit."""
+        self, endpoint_id: str, limit: int = 10, offset: int = 0
+    ) -> Tuple[List[ExecutionHistory], int]:
+        """Get execution history for an endpoint with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             executions = []
@@ -136,16 +137,16 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
                 if execution_dict.get("endpoint_id") == endpoint_id:
                     executions.append(ExecutionHistory(**execution_dict))
 
-            # Sort by started_at descending and limit
+            # Sort by started_at descending
             executions.sort(key=lambda x: x.started_at, reverse=True)
-            return executions[:limit]
+            return paginate_list(executions, offset, limit)
         else:
             # Global repository - search all datasets
             executions = []
             datasets_base_path = Path("data/datasets")
 
             if not datasets_base_path.exists():
-                return executions
+                return paginate_list(executions, offset, limit)
 
             for dataset_dir in datasets_base_path.iterdir():
                 if not dataset_dir.is_dir():
@@ -162,11 +163,13 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
                     if execution_dict.get("endpoint_id") == endpoint_id:
                         executions.append(ExecutionHistory(**execution_dict))
 
-            # Sort by started_at descending and limit
+            # Sort by started_at descending
             executions.sort(key=lambda x: x.started_at, reverse=True)
-            return executions[:limit]
+            return paginate_list(executions, offset, limit)
 
-    async def get_all(self, limit: int = 10, offset: int = 0) -> List[ExecutionHistory]:
+    async def get_all(
+        self, limit: int = 10, offset: int = 0
+    ) -> Tuple[List[ExecutionHistory], int]:
         """Get all execution history with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
@@ -196,7 +199,7 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
 
         # Sort by started_at descending and apply pagination
         all_executions.sort(key=lambda x: x.started_at, reverse=True)
-        return all_executions[offset : offset + limit]
+        return paginate_list(all_executions, offset, limit)
 
     async def update(
         self, execution_id: str, execution: ExecutionHistory
@@ -279,3 +282,62 @@ class JsonFileExecutionRepository(ExecutionRepositoryInterface):
                     return True
 
             return False
+
+    async def delete_by_endpoint_id(self, endpoint_id: str) -> int:
+        """Delete all executions for a specific endpoint."""
+        deleted_count = 0
+
+        if self.dataset_id:
+            # Dataset-specific repository
+            executions_to_delete = []
+            for execution_id, execution_data in self._executions.items():
+                if execution_data.get("endpoint_id") == endpoint_id:
+                    executions_to_delete.append(execution_id)
+
+            for execution_id in executions_to_delete:
+                del self._executions[execution_id]
+                deleted_count += 1
+
+            if deleted_count > 0:
+                self._save_executions()
+                self.logger.info(
+                    f"Deleted {deleted_count} executions for endpoint: {endpoint_id}"
+                )
+        else:
+            # Global repository - delete from appropriate dataset files
+            datasets_base_path = Path(
+                "D:\\Projects\\Desktop\\restful-api-testing-framework\\data\\datasets"
+            )
+
+            if not datasets_base_path.exists():
+                return 0
+
+            for dataset_dir in datasets_base_path.iterdir():
+                if not dataset_dir.is_dir():
+                    continue
+
+                execution_file = dataset_dir / "executions.json"
+                if not execution_file.exists():
+                    continue
+
+                with open(execution_file, "r") as f:
+                    data = json.load(f)
+
+                executions_to_delete = []
+                for execution_id, execution_data in data.get("executions", {}).items():
+                    if execution_data.get("endpoint_id") == endpoint_id:
+                        executions_to_delete.append(execution_id)
+
+                for execution_id in executions_to_delete:
+                    del data["executions"][execution_id]
+                    deleted_count += 1
+
+                if executions_to_delete:
+                    with open(execution_file, "w") as f:
+                        json.dump(data, f, indent=2, default=str)
+
+                    self.logger.info(
+                        f"Deleted {len(executions_to_delete)} executions from {dataset_dir.name} for endpoint: {endpoint_id}"
+                    )
+
+        return deleted_count

@@ -1,7 +1,7 @@
 # domain/ports/endpoint_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from schemas.tools.openapi_parser import EndpointInfo
 
 
@@ -31,8 +31,10 @@ class EndpointRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[EndpointInfo]:
-        """Get all endpoints."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints with pagination."""
         pass
 
     @abstractmethod
@@ -48,13 +50,17 @@ class EndpointRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def search_by_tag(self, tag: str) -> List[EndpointInfo]:
-        """Search endpoints by tag."""
+    async def search_by_tag(
+        self, tag: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by tag with pagination."""
         pass
 
     @abstractmethod
-    async def search_by_path(self, path_pattern: str) -> List[EndpointInfo]:
-        """Search endpoints by path pattern."""
+    async def search_by_path(
+        self, path_pattern: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by path pattern with pagination."""
         pass
 
     @abstractmethod
@@ -63,6 +69,8 @@ class EndpointRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_by_dataset_id(self, dataset_id: str) -> List[EndpointInfo]:
-        """Get all endpoints for a specific dataset."""
+    async def get_by_dataset_id(
+        self, dataset_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints for a specific dataset with pagination."""
         pass

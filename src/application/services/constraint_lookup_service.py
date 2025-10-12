@@ -1,11 +1,12 @@
 # application/services/constraint_lookup_service.py
 
 import json
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from schemas.tools.constraint_miner import ApiConstraint, ConstraintType
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.pagination_utils import paginate_list
 
 
 class ConstraintLookupService:
@@ -81,17 +82,14 @@ class ConstraintLookupService:
         self.logger.debug(f"Constraint {constraint_id} not found in any dataset")
         return None
 
-    async def get_all_constraints(self) -> tuple[Dict[str, Any], Dict[str, str]]:
-        """Get all constraints across all datasets.
-
-        Returns:
-            Tuple of (constraints_dict, dataset_mapping) where dataset_mapping maps constraint_id to dataset_id
-        """
-        all_constraints = {}
-        dataset_mapping = {}
+    async def get_all_constraints(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints across all datasets with pagination."""
+        all_constraints = []
 
         if not self.datasets_base_path.exists():
-            return all_constraints, dataset_mapping
+            return paginate_list(all_constraints, offset, limit)
 
         for dataset_dir in self.datasets_base_path.iterdir():
             if not dataset_dir.is_dir():
@@ -100,23 +98,20 @@ class ConstraintLookupService:
             dataset_id = dataset_dir.name
             constraints = self._load_constraints_from_dataset(dataset_id)
 
-            for constraint_id, constraint_data in constraints.items():
-                all_constraints[constraint_id] = constraint_data
-                dataset_mapping[constraint_id] = dataset_id
+            for constraint_data in constraints.values():
+                all_constraints.append(self._dict_to_constraint(constraint_data))
 
-        self.logger.debug(
-            f"Loaded {len(all_constraints)} constraints from {len(dataset_mapping)} datasets"
-        )
-        return all_constraints, dataset_mapping
+        self.logger.debug(f"Loaded {len(all_constraints)} constraints from datasets")
+        return paginate_list(all_constraints, offset, limit)
 
     async def get_constraints_by_endpoint_id(
-        self, endpoint_id: str
-    ) -> List[ApiConstraint]:
-        """Get all constraints for a specific endpoint across all datasets."""
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints for a specific endpoint across all datasets with pagination."""
         results = []
 
         if not self.datasets_base_path.exists():
-            return results
+            return paginate_list(results, offset, limit)
 
         for dataset_dir in self.datasets_base_path.iterdir():
             if not dataset_dir.is_dir():
@@ -128,7 +123,7 @@ class ConstraintLookupService:
                 if constraint_data.get("endpoint_id") == endpoint_id:
                     results.append(self._dict_to_constraint(constraint_data))
 
-        return results
+        return paginate_list(results, offset, limit)
 
     async def get_constraints_by_dataset_id(
         self, dataset_id: str

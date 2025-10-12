@@ -4,6 +4,8 @@ from pydantic import BaseModel, Field
 from typing import Any, Dict, List, Optional
 from datetime import datetime
 
+from schemas.core.pagination import PaginationMetadata
+
 
 class GenerateTestDataRequest(BaseModel):
     """Request for generating test data."""
@@ -51,9 +53,7 @@ class TestDataListResponse(BaseModel):
     test_data_items: List[TestDataResponse] = Field(
         default_factory=list, description="List of test data items"
     )
-    total_count: int = Field(0, description="Total number of test data items")
-    valid_count: int = Field(0, description="Number of valid test data items")
-    invalid_count: int = Field(0, description="Number of invalid test data items")
+    pagination: PaginationMetadata
 
 
 class GenerateTestDataResponse(BaseModel):

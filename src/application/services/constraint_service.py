@@ -1,6 +1,6 @@
 # application/services/constraint_service.py
 
-from typing import List, Optional
+from typing import List, Optional, Tuple
 import uuid
 
 from domain.ports.constraint_repository import ConstraintRepositoryInterface
@@ -41,14 +41,32 @@ class ConstraintService:
         return await self.constraint_repository.get_by_id(constraint_id)
 
     async def get_constraints_by_endpoint_id(
-        self, endpoint_id: str
-    ) -> List[ApiConstraint]:
-        """Get all constraints for a specific endpoint."""
-        return await self.constraint_repository.get_by_endpoint_id(endpoint_id)
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints for a specific endpoint with pagination."""
+        return await self.constraint_repository.get_by_endpoint_id(
+            endpoint_id, limit, offset
+        )
 
-    async def get_all_constraints(self) -> List[ApiConstraint]:
-        """Get all constraints."""
-        return await self.constraint_repository.get_all()
+    async def get_constraints_by_endpoint_name(
+        self, endpoint_name: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get constraints for a specific endpoint by name with pagination."""
+        # Get endpoint by name to get the ID
+        endpoint = await self.endpoint_repository.get_by_name(endpoint_name)
+        if not endpoint:
+            self.logger.warning(f"Endpoint '{endpoint_name}' not found")
+            return [], 0
+
+        return await self.constraint_repository.get_by_endpoint_id(
+            endpoint.id, limit, offset
+        )
+
+    async def get_all_constraints(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints with pagination."""
+        return await self.constraint_repository.get_all(limit, offset)
 
     async def update_constraint(
         self, constraint_id: str, constraint: ApiConstraint
@@ -67,6 +85,16 @@ class ConstraintService:
         """Delete all constraints for a specific endpoint."""
         return await self.constraint_repository.delete_by_endpoint_id(endpoint_id)
 
+    async def delete_constraints_by_endpoint_name(self, endpoint_name: str) -> int:
+        """Delete all constraints for a specific endpoint by name."""
+        # Get endpoint by name to get the ID
+        endpoint = await self.endpoint_repository.get_by_name(endpoint_name)
+        if not endpoint:
+            self.logger.warning(f"Endpoint '{endpoint_name}' not found for deletion")
+            return 0
+
+        return await self.constraint_repository.delete_by_endpoint_id(endpoint.id)
+
     async def mine_constraints_for_endpoint(
         self, endpoint_id: str, override_existing: bool = True
     ) -> StaticConstraintMinerOutput:
@@ -83,8 +111,8 @@ class ConstraintService:
 
         # If override_existing is True, delete existing constraints first
         if override_existing:
-            existing_constraints = await self.constraint_repository.get_by_endpoint_id(
-                endpoint_id
+            existing_constraints, _ = (
+                await self.constraint_repository.get_by_endpoint_id(endpoint_id)
             )
             if existing_constraints:
                 deleted_count = await self.constraint_repository.delete_by_endpoint_id(

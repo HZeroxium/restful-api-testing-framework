@@ -2,6 +2,9 @@
 
 from typing import List
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+
+from schemas.core.pagination import PaginationParams
+from utils.pagination_utils import calculate_pagination_metadata
 from application.services.constraint_service import ConstraintService
 from application.services.endpoint_service import EndpointService
 from application.services.validation_script_service import ValidationScriptService
@@ -105,6 +108,7 @@ async def mine_constraints(
 )
 async def list_constraints(
     endpoint_id: str = Query(None, description="Filter by endpoint ID"),
+    pagination: PaginationParams = Depends(),
     service: ConstraintService = constraint_service_dependency,
 ):
     """Get all constraints, optionally filtered by endpoint_id."""
@@ -112,14 +116,21 @@ async def list_constraints(
 
     try:
         if endpoint_id:
-            constraints = await service.get_constraints_by_endpoint_id(endpoint_id)
+            constraints, total_count = await service.get_constraints_by_endpoint_id(
+                endpoint_id, pagination.limit, pagination.offset
+            )
         else:
-            constraints = await service.get_all_constraints()
+            constraints, total_count = await service.get_all_constraints(
+                pagination.limit, pagination.offset
+            )
 
         logger.debug(f"Retrieved {len(constraints)} constraints")
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
         return ConstraintListResponse(
             constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
-            total=len(constraints),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -137,6 +148,7 @@ async def list_constraints(
 )
 async def get_constraints_by_endpoint_name(
     endpoint_name: str,
+    pagination: PaginationParams = Depends(),
     constraint_service: ConstraintService = constraint_service_dependency,
     endpoint_service: EndpointService = endpoint_service_dependency,
 ):
@@ -153,16 +165,21 @@ async def get_constraints_by_endpoint_name(
             )
 
         # Get constraints for the endpoint
-        constraints = await constraint_service.get_constraints_by_endpoint_id(
-            endpoint.id
+        constraints, total_count = (
+            await constraint_service.get_constraints_by_endpoint_id(
+                endpoint.id, pagination.limit, pagination.offset
+            )
         )
 
         logger.debug(
             f"Retrieved {len(constraints)} constraints for endpoint '{endpoint_name}'"
         )
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
         return ConstraintListResponse(
             constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
-            total=len(constraints),
+            pagination=pagination_metadata,
         )
 
     except HTTPException:
@@ -230,22 +247,28 @@ async def mine_constraints_by_endpoint_name(
 )
 async def get_constraints_by_endpoint_id(
     endpoint_id: str,
+    pagination: PaginationParams = Depends(),
     constraint_service: ConstraintService = constraint_service_dependency,
 ):
     """Get constraints for a specific endpoint by endpoint ID."""
     logger.info(f"GET /constraints/by-endpoint-id/{endpoint_id}")
 
     try:
-        constraints = await constraint_service.get_constraints_by_endpoint_id(
-            endpoint_id
+        constraints, total_count = (
+            await constraint_service.get_constraints_by_endpoint_id(
+                endpoint_id, pagination.limit, pagination.offset
+            )
         )
 
         logger.debug(
             f"Retrieved {len(constraints)} constraints for endpoint ID '{endpoint_id}'"
         )
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
         return ConstraintListResponse(
             constraints=[ConstraintResponse.from_constraint(c) for c in constraints],
-            total=len(constraints),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:

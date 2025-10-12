@@ -2,6 +2,9 @@
 
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Query, status
+
+from schemas.core.pagination import PaginationParams
+from utils.pagination_utils import calculate_pagination_metadata
 from application.services.endpoint_service import EndpointService
 from schemas.tools.openapi_parser import EndpointInfo, AuthType
 from app.api.dto.endpoint_dto import (
@@ -54,27 +57,22 @@ async def create_endpoint(
 
 @router.get("/", response_model=EndpointListResponse)
 async def list_endpoints(
-    page: int = Query(1, ge=1, description="Page number"),
-    size: int = Query(10, ge=1, le=100, description="Page size"),
+    pagination: PaginationParams = Depends(),
     service: EndpointService = endpoint_service_dependency,
 ):
     """Get all endpoints with pagination."""
     try:
-        all_endpoints = await service.get_all_endpoints()
-        total = len(all_endpoints)
+        endpoints, total_count = await service.get_all_endpoints(
+            pagination.limit, pagination.offset
+        )
 
-        # Simple pagination
-        start_idx = (page - 1) * size
-        end_idx = start_idx + size
-        paginated_endpoints = all_endpoints[start_idx:end_idx]
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
 
         return EndpointListResponse(
-            endpoints=[
-                EndpointResponse.from_endpoint_info(ep) for ep in paginated_endpoints
-            ],
-            total=total,
-            page=page,
-            size=size,
+            endpoints=[EndpointResponse.from_endpoint_info(ep) for ep in endpoints],
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -192,16 +190,21 @@ async def delete_endpoint(
 
 @router.get("/search/tag/{tag}", response_model=EndpointListResponse)
 async def search_by_tag(
-    tag: str, service: EndpointService = endpoint_service_dependency
+    tag: str,
+    pagination: PaginationParams = Depends(),
+    service: EndpointService = endpoint_service_dependency,
 ):
     """Search endpoints by tag."""
     try:
-        endpoints = await service.search_endpoints_by_tag(tag)
+        endpoints, total_count = await service.search_endpoints_by_tag(
+            tag, pagination.limit, pagination.offset
+        )
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
         return EndpointListResponse(
             endpoints=[EndpointResponse.from_endpoint_info(ep) for ep in endpoints],
-            total=len(endpoints),
-            page=1,
-            size=len(endpoints),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -214,16 +217,20 @@ async def search_by_tag(
 @router.get("/search/path", response_model=EndpointListResponse)
 async def search_by_path(
     pattern: str = Query(..., description="Path pattern to search"),
+    pagination: PaginationParams = Depends(),
     service: EndpointService = endpoint_service_dependency,
 ):
     """Search endpoints by path pattern."""
     try:
-        endpoints = await service.search_endpoints_by_path(pattern)
+        endpoints, total_count = await service.search_endpoints_by_path(
+            pattern, pagination.limit, pagination.offset
+        )
+        pagination_metadata = calculate_pagination_metadata(
+            pagination.offset, pagination.limit, total_count
+        )
         return EndpointListResponse(
             endpoints=[EndpointResponse.from_endpoint_info(ep) for ep in endpoints],
-            total=len(endpoints),
-            page=1,
-            size=len(endpoints),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:

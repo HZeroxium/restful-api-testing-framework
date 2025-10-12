@@ -3,6 +3,8 @@
 from typing import List, Optional
 from pydantic import BaseModel, Field
 
+from schemas.core.pagination import PaginationMetadata
+
 from schemas.tools.test_script_generator import ValidationScript
 
 
@@ -50,7 +52,7 @@ class ValidationScriptListResponse(BaseModel):
     """Response model for a list of validation scripts."""
 
     scripts: List[ValidationScriptResponse]
-    total: int
+    pagination: PaginationMetadata
 
 
 class GenerateScriptsRequest(BaseModel):

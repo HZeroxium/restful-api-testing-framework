@@ -14,6 +14,8 @@ from application.services.test_data_service import TestDataService
 from application.services.endpoint_service import EndpointService
 from infra.di.container import test_data_service_dependency, endpoint_service_dependency
 from schemas.core.test_data import TestData
+from schemas.core.pagination import PaginationParams
+from utils.pagination_utils import calculate_pagination_metadata
 
 router = APIRouter(prefix="/test-data", tags=["test-data"])
 
@@ -124,8 +126,10 @@ async def get_test_data_by_endpoint_name(
             )
 
         # Get test data
-        test_data_items = await test_data_service.get_test_data_by_endpoint_id(
-            endpoint.id
+        test_data_items, total_count = (
+            await test_data_service.get_test_data_by_endpoint_id(
+                endpoint.id, limit=1000, offset=0
+            )
         )
 
         # Convert to response format
@@ -135,7 +139,7 @@ async def get_test_data_by_endpoint_name(
 
         return TestDataListResponse(
             test_data_items=test_data_responses,
-            total_count=len(test_data_responses),
+            total_count=total_count,
             valid_count=sum(1 for item in test_data_responses if item.is_valid),
             invalid_count=sum(1 for item in test_data_responses if not item.is_valid),
         )
@@ -158,13 +162,16 @@ async def get_test_data_by_endpoint_name(
 )
 async def get_test_data_by_endpoint_id(
     endpoint_id: str,
+    pagination: PaginationParams = Depends(),
     test_data_service: TestDataService = test_data_service_dependency,
 ):
     """Get test data for an endpoint by ID."""
     try:
         # Get test data
-        test_data_items = await test_data_service.get_test_data_by_endpoint_id(
-            endpoint_id
+        test_data_items, total_count = (
+            await test_data_service.get_test_data_by_endpoint_id(
+                endpoint_id, limit=pagination.limit, offset=pagination.offset
+            )
         )
 
         # Convert to response format
@@ -172,11 +179,17 @@ async def get_test_data_by_endpoint_id(
             TestDataResponse(**test_data.model_dump()) for test_data in test_data_items
         ]
 
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return TestDataListResponse(
             test_data_items=test_data_responses,
-            total_count=len(test_data_responses),
+            total_count=total_count,
             valid_count=sum(1 for item in test_data_responses if item.is_valid),
             invalid_count=sum(1 for item in test_data_responses if not item.is_valid),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -194,15 +207,14 @@ async def get_test_data_by_endpoint_id(
     description="Retrieve all test data items across all endpoints.",
 )
 async def get_all_test_data(
-    limit: int = 100,
-    offset: int = 0,
+    pagination: PaginationParams = Depends(),
     test_data_service: TestDataService = test_data_service_dependency,
 ):
     """Get all test data with pagination."""
     try:
         # Get all test data
-        all_test_data_items = await test_data_service.get_all_test_data(
-            limit=limit, offset=offset
+        all_test_data_items, total_count = await test_data_service.get_all_test_data(
+            limit=pagination.limit, offset=pagination.offset
         )
 
         # Convert to response format
@@ -211,11 +223,19 @@ async def get_all_test_data(
             for test_data in all_test_data_items
         ]
 
+        print(f"Test data responses: {test_data_responses}")
+
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return TestDataListResponse(
             test_data_items=test_data_responses,
-            total_count=len(test_data_responses),
+            total_count=total_count,
             valid_count=sum(1 for item in test_data_responses if item.is_valid),
             invalid_count=sum(1 for item in test_data_responses if not item.is_valid),
+            pagination=pagination_metadata,
         )
 
     except Exception as e:

@@ -3,13 +3,14 @@
 import json
 import uuid
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from domain.ports.constraint_repository import ConstraintRepositoryInterface
 from schemas.tools.constraint_miner import ApiConstraint, ConstraintType
 from common.logger import LoggerFactory, LoggerType, LogLevel
 from application.services.constraint_lookup_service import ConstraintLookupService
+from utils.pagination_utils import paginate_list
 
 
 class JsonFileConstraintRepository(ConstraintRepositoryInterface):
@@ -171,8 +172,10 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
             # Global repository - use lookup service
             return await self.lookup_service.get_constraint_by_id(constraint_id)
 
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[ApiConstraint]:
-        """Get all constraints for a specific endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints for a specific endpoint with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             constraints = []
@@ -180,28 +183,35 @@ class JsonFileConstraintRepository(ConstraintRepositoryInterface):
                 if constraint_data.get("endpoint_id") == endpoint_id:
                     constraints.append(self._dict_to_constraint(constraint_data))
 
-            self.logger.debug(
-                f"Retrieved {len(constraints)} constraints for endpoint: {endpoint_id}"
+            # Apply pagination
+            paginated_constraints, total_count = paginate_list(
+                constraints, offset, limit
             )
-            return constraints
+
+            self.logger.debug(
+                f"Retrieved {len(paginated_constraints)} constraints for endpoint: {endpoint_id} (total: {total_count})"
+            )
+            return paginated_constraints, total_count
         else:
             # Global repository - use lookup service
-            return await self.lookup_service.get_constraints_by_endpoint_id(endpoint_id)
+            return await self.lookup_service.get_constraints_by_endpoint_id(
+                endpoint_id, limit, offset
+            )
 
-    async def get_all(self) -> List[ApiConstraint]:
-        """Get all constraints."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ApiConstraint], int]:
+        """Get all constraints with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
-            return [
+            all_constraints = [
                 self._dict_to_constraint(data) for data in self._constraints.values()
             ]
+            # Apply pagination
+            return paginate_list(all_constraints, offset, limit)
         else:
             # Global repository - use lookup service
-            all_constraints, _ = await self.lookup_service.get_all_constraints()
-            return [
-                self.lookup_service._dict_to_constraint(data)
-                for data in all_constraints.values()
-            ]
+            return await self.lookup_service.get_all_constraints(limit, offset)
 
     async def update(
         self, constraint_id: str, constraint: ApiConstraint

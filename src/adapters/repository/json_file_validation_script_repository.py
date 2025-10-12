@@ -3,7 +3,7 @@
 import json
 import uuid
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from domain.ports.validation_script_repository import (
@@ -14,6 +14,7 @@ from common.logger import LoggerFactory, LoggerType, LogLevel
 from application.services.validation_script_lookup_service import (
     ValidationScriptLookupService,
 )
+from utils.pagination_utils import paginate_list
 
 
 class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
@@ -148,8 +149,10 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
             # Global repository - use lookup service
             return await self.lookup_service.get_script_by_id(script_id)
 
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[ValidationScript]:
-        """Get all validation scripts for a specific endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific endpoint with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             scripts = []
@@ -160,23 +163,24 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
             self.logger.debug(
                 f"Retrieved {len(scripts)} validation scripts for endpoint: {endpoint_id}"
             )
-            return scripts
+            return paginate_list(scripts, offset, limit)
         else:
             # Global repository - use lookup service
-            return await self.lookup_service.get_scripts_by_endpoint_id(endpoint_id)
+            return await self.lookup_service.get_scripts_by_endpoint_id(
+                endpoint_id, limit, offset
+            )
 
-    async def get_all(self) -> List[ValidationScript]:
-        """Get all validation scripts."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
-            return [self._dict_to_script(data) for data in self._scripts.values()]
+            scripts = [self._dict_to_script(data) for data in self._scripts.values()]
+            return paginate_list(scripts, offset, limit)
         else:
             # Global repository - use lookup service
-            all_scripts, _ = await self.lookup_service.get_all_scripts()
-            return [
-                self.lookup_service._dict_to_script(data)
-                for data in all_scripts.values()
-            ]
+            return await self.lookup_service.get_all_scripts(limit, offset)
 
     async def update(
         self, script_id: str, script: ValidationScript
@@ -262,15 +266,19 @@ class JsonFileValidationScriptRepository(ValidationScriptRepositoryInterface):
 
             return deleted_count
 
-    async def get_by_constraint_id(self, constraint_id: str) -> List[ValidationScript]:
-        """Get all validation scripts for a specific constraint."""
+    async def get_by_constraint_id(
+        self, constraint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[ValidationScript], int]:
+        """Get all validation scripts for a specific constraint with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             scripts = []
             for script_data in self._scripts.values():
                 if script_data.get("constraint_id") == constraint_id:
                     scripts.append(self._dict_to_script(script_data))
-            return scripts
+            return paginate_list(scripts, offset, limit)
         else:
             # Global repository - use lookup service
-            return await self.lookup_service.get_scripts_by_constraint_id(constraint_id)
+            return await self.lookup_service.get_scripts_by_constraint_id(
+                constraint_id, limit, offset
+            )

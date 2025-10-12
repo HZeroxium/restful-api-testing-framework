@@ -4,12 +4,13 @@ import json
 import os
 import uuid
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from domain.ports.endpoint_repository import EndpointRepositoryInterface
 from schemas.tools.openapi_parser import EndpointInfo, AuthType
 from application.services.endpoint_lookup_service import EndpointLookupService
+from utils.pagination_utils import paginate_list
 
 
 class JsonFileEndpointRepository(EndpointRepositoryInterface):
@@ -167,15 +168,19 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
                 return self._dict_to_endpoint(endpoint_data)
         return None
 
-    async def get_all(self) -> List[EndpointInfo]:
-        """Get all endpoints."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
-            return [self._dict_to_endpoint(data) for data in self._endpoints.values()]
+            all_endpoints = [
+                self._dict_to_endpoint(data) for data in self._endpoints.values()
+            ]
+            return paginate_list(all_endpoints, offset, limit)
         else:
             # Global repository - use lookup service
-            all_endpoints, _ = await self.lookup_service.get_all_endpoints()
-            return [self._dict_to_endpoint(data) for data in all_endpoints.values()]
+            return await self.lookup_service.get_all_endpoints(limit, offset)
 
     async def update(
         self, endpoint_id: str, endpoint: EndpointInfo
@@ -204,31 +209,37 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             return True
         return False
 
-    async def search_by_tag(self, tag: str) -> List[EndpointInfo]:
-        """Search endpoints by tag."""
+    async def search_by_tag(
+        self, tag: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by tag with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             results = []
             for endpoint_data in self._endpoints.values():
                 if tag in endpoint_data.get("tags", []):
                     results.append(self._dict_to_endpoint(endpoint_data))
-            return results
+            return paginate_list(results, offset, limit)
         else:
             # Global repository - use lookup service
-            return await self.lookup_service.search_endpoints_by_tag(tag)
+            return await self.lookup_service.search_endpoints_by_tag(tag, limit, offset)
 
-    async def search_by_path(self, path_pattern: str) -> List[EndpointInfo]:
-        """Search endpoints by path pattern."""
+    async def search_by_path(
+        self, path_pattern: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Search endpoints by path pattern with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             results = []
             for endpoint_data in self._endpoints.values():
                 if path_pattern.lower() in endpoint_data["path"].lower():
                     results.append(self._dict_to_endpoint(endpoint_data))
-            return results
+            return paginate_list(results, offset, limit)
         else:
             # Global repository - use lookup service
-            return await self.lookup_service.search_endpoints_by_path(path_pattern)
+            return await self.lookup_service.search_endpoints_by_path(
+                path_pattern, limit, offset
+            )
 
     async def get_stats(self) -> Dict[str, Any]:
         """Get repository statistics."""
@@ -267,15 +278,17 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             # Global repository - use lookup service
             return await self.lookup_service.get_endpoint_stats()
 
-    async def get_by_dataset_id(self, dataset_id: str) -> List[EndpointInfo]:
-        """Get all endpoints for a specific dataset."""
+    async def get_by_dataset_id(
+        self, dataset_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints for a specific dataset with pagination."""
         if self.dataset_id:
             # Dataset-specific repository
             results = []
             for endpoint_data in self._endpoints.values():
                 if endpoint_data.get("dataset_id") == dataset_id:
                     results.append(self._dict_to_endpoint(endpoint_data))
-            return results
+            return paginate_list(results, offset, limit)
         else:
             # Global repository - use dataset-specific repository
             from adapters.repository.json_file_endpoint_repository import (
@@ -283,4 +296,4 @@ class JsonFileEndpointRepository(EndpointRepositoryInterface):
             )
 
             dataset_repo = JsonFileEndpointRepository(dataset_id=dataset_id)
-            return await dataset_repo.get_all()
+            return await dataset_repo.get_all(limit, offset)

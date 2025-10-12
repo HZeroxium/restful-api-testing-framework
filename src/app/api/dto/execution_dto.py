@@ -5,6 +5,8 @@ from typing import Any, Dict, List, Optional
 from datetime import datetime
 from enum import Enum
 
+from schemas.core.pagination import PaginationMetadata
+
 from schemas.core.execution_history import ExecutionStatus
 
 
@@ -100,7 +102,7 @@ class ExecutionHistoryListResponse(BaseModel):
     executions: List[ExecutionHistoryResponse] = Field(
         default_factory=list, description="List of executions"
     )
-    total_count: int = Field(0, description="Total number of executions")
+    pagination: PaginationMetadata
 
 
 class ExecutionDetailResponse(BaseModel):

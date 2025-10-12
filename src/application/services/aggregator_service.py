@@ -244,6 +244,7 @@ class AggregatorService:
         test_count: int = 5,
         include_invalid: bool = True,
         override_existing: bool = True,
+        use_mock_api: bool = False,
     ) -> dict:
         """
         Run the complete testing pipeline for an endpoint.
@@ -406,13 +407,44 @@ class AggregatorService:
             execution_result = None
             try:
                 self.logger.info("Step 5: Executing tests...")
+                # Create test execution service with appropriate mock setting
+                from application.services.test_execution_service import (
+                    TestExecutionService,
+                )
+                from adapters.repository.json_file_execution_repository import (
+                    JsonFileExecutionRepository,
+                )
+                from adapters.repository.json_file_test_data_repository import (
+                    JsonFileTestDataRepository,
+                )
+
+                execution_repo, test_data_repo = None, None
+                if endpoint.dataset_id:
+                    execution_repo = JsonFileExecutionRepository(
+                        dataset_id=endpoint.dataset_id
+                    )
+                    test_data_repo = JsonFileTestDataRepository(
+                        dataset_id=endpoint.dataset_id
+                    )
+                else:
+                    execution_repo = self.test_execution_service.execution_repository
+                    test_data_repo = self.test_execution_service.test_data_repository
+
+                test_execution_service = TestExecutionService(
+                    execution_repository=execution_repo,
+                    test_data_repository=test_data_repo,
+                    verbose=True,
+                    use_mock=use_mock_api,
+                )
+
                 execution_result = (
-                    await self.test_execution_service.execute_test_for_endpoint(
+                    await test_execution_service.execute_test_for_endpoint(
                         endpoint_id=endpoint.id,
                         endpoint_name=endpoint_name,
                         base_url=base_url,
                         dataset_id=endpoint.dataset_id,
                         timeout=30,
+                        endpoint_path=endpoint.path,
                     )
                 )
 

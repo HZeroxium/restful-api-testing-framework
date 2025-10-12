@@ -18,6 +18,8 @@ from infra.di.container import (
     endpoint_service_dependency,
 )
 from schemas.core.execution_history import ExecutionHistory, TestCaseExecutionResult
+from schemas.core.pagination import PaginationParams
+from utils.pagination_utils import calculate_pagination_metadata
 
 router = APIRouter(prefix="/execute", tags=["execution"])
 
@@ -158,15 +160,16 @@ async def execute_tests_by_endpoint_id(
     description="Retrieve execution history across all endpoints.",
 )
 async def get_all_execution_history(
-    limit: int = 50,
-    offset: int = 0,
+    pagination: PaginationParams = Depends(),
     test_execution_service: TestExecutionService = test_execution_service_dependency,
 ):
     """Get all execution history with pagination."""
     try:
         # Get all execution history
-        all_executions = await test_execution_service.get_all_execution_history(
-            limit=limit, offset=offset
+        all_executions, total_count = (
+            await test_execution_service.get_all_execution_history(
+                offset=pagination.offset, limit=pagination.limit
+            )
         )
 
         # Convert to response format
@@ -175,8 +178,15 @@ async def get_all_execution_history(
             for execution in all_executions
         ]
 
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return ExecutionHistoryListResponse(
-            executions=execution_responses, total_count=len(execution_responses)
+            executions=execution_responses,
+            total_count=total_count,
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -195,7 +205,7 @@ async def get_all_execution_history(
 )
 async def get_execution_history_by_endpoint_name(
     endpoint_name: str,
-    limit: int = 10,
+    pagination: PaginationParams = Depends(),
     test_execution_service: TestExecutionService = test_execution_service_dependency,
     endpoint_service: EndpointService = endpoint_service_dependency,
 ):
@@ -210,8 +220,8 @@ async def get_execution_history_by_endpoint_name(
             )
 
         # Get execution history
-        executions = await test_execution_service.get_execution_history(
-            endpoint.id, limit
+        executions, total_count = await test_execution_service.get_execution_history(
+            endpoint.id, offset=pagination.offset, limit=pagination.limit
         )
 
         # Convert to response format
@@ -220,8 +230,15 @@ async def get_execution_history_by_endpoint_name(
             for execution in executions
         ]
 
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return ExecutionHistoryListResponse(
-            executions=execution_responses, total_count=len(execution_responses)
+            executions=execution_responses,
+            total_count=total_count,
+            pagination=pagination_metadata,
         )
 
     except HTTPException:
@@ -242,14 +259,14 @@ async def get_execution_history_by_endpoint_name(
 )
 async def get_execution_history_by_endpoint_id(
     endpoint_id: str,
-    limit: int = 10,
+    pagination: PaginationParams = Depends(),
     test_execution_service: TestExecutionService = test_execution_service_dependency,
 ):
     """Get execution history for an endpoint by ID."""
     try:
         # Get execution history
-        executions = await test_execution_service.get_execution_history(
-            endpoint_id, limit
+        executions, total_count = await test_execution_service.get_execution_history(
+            endpoint_id, offset=pagination.offset, limit=pagination.limit
         )
 
         # Convert to response format
@@ -258,8 +275,15 @@ async def get_execution_history_by_endpoint_id(
             for execution in executions
         ]
 
+        # Calculate pagination metadata
+        pagination_metadata = calculate_pagination_metadata(
+            offset=pagination.offset, limit=pagination.limit, total_items=total_count
+        )
+
         return ExecutionHistoryListResponse(
-            executions=execution_responses, total_count=len(execution_responses)
+            executions=execution_responses,
+            total_count=total_count,
+            pagination=pagination_metadata,
         )
 
     except Exception as e:
@@ -353,4 +377,46 @@ async def delete_execution(
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Failed to delete execution: {str(e)}",
+        )
+
+
+@router.delete(
+    "/history/by-endpoint-name/{endpoint_name}",
+    status_code=status.HTTP_200_OK,
+    summary="Delete all execution history for an endpoint by name",
+    description="Delete all execution records for the specified endpoint.",
+)
+async def delete_execution_history_by_endpoint_name(
+    endpoint_name: str,
+    test_execution_service: TestExecutionService = test_execution_service_dependency,
+    endpoint_service: EndpointService = endpoint_service_dependency,
+):
+    """Delete all execution history for an endpoint by name."""
+    try:
+        # Get endpoint by name
+        endpoint = await endpoint_service.get_endpoint_by_name(endpoint_name)
+        if not endpoint:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"Endpoint '{endpoint_name}' not found",
+            )
+
+        # Delete all executions for this endpoint
+        deleted_count = await test_execution_service.delete_executions_by_endpoint_id(
+            endpoint.id
+        )
+
+        return {
+            "message": f"Deleted {deleted_count} execution(s) for endpoint '{endpoint_name}'",
+            "endpoint_name": endpoint_name,
+            "endpoint_id": endpoint.id,
+            "deleted_count": deleted_count,
+        }
+
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to delete execution history: {str(e)}",
         )

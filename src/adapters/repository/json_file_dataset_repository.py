@@ -3,12 +3,13 @@
 import json
 import uuid
 from datetime import datetime
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 
 from domain.ports.dataset_repository import DatasetRepositoryInterface
 from schemas.core.dataset import Dataset
 from common.logger import LoggerFactory, LoggerType, LogLevel
+from utils.pagination_utils import paginate_list
 
 
 class JsonFileDatasetRepository(DatasetRepositoryInterface):
@@ -156,11 +157,16 @@ class JsonFileDatasetRepository(DatasetRepositoryInterface):
                 return self._dict_to_dataset(dataset_data)
         return None
 
-    async def get_all(self) -> List[Dataset]:
-        """Get all datasets."""
-        datasets = [self._dict_to_dataset(data) for data in self._datasets.values()]
-        self.logger.debug(f"Retrieved {len(datasets)} datasets")
-        return datasets
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[Dataset], int]:
+        """Get all datasets with pagination."""
+        all_datasets = [self._dict_to_dataset(data) for data in self._datasets.values()]
+        paginated_datasets, total_count = paginate_list(all_datasets, offset, limit)
+        self.logger.debug(
+            f"Retrieved {len(paginated_datasets)} datasets (total: {total_count})"
+        )
+        return paginated_datasets, total_count
 
     async def update(self, dataset_id: str, dataset: Dataset) -> Optional[Dataset]:
         """Update an existing dataset."""

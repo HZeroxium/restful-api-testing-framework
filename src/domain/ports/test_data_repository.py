@@ -1,7 +1,7 @@
 # domain/ports/test_data_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 from schemas.core.test_data import TestData
 
@@ -20,12 +20,16 @@ class TestDataRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_by_endpoint_id(self, endpoint_id: str) -> List[TestData]:
-        """Get all test data for an endpoint."""
+    async def get_by_endpoint_id(
+        self, endpoint_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[TestData], int]:
+        """Get all test data for an endpoint with pagination."""
         pass
 
     @abstractmethod
-    async def get_all(self, limit: int = 100, offset: int = 0) -> List[TestData]:
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[TestData], int]:
         """Get all test data with pagination."""
         pass
 

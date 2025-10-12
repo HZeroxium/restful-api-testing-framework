@@ -1,7 +1,7 @@
 # domain/ports/dataset_repository.py
 
 from abc import ABC, abstractmethod
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from schemas.core.dataset import Dataset
 
 
@@ -24,8 +24,10 @@ class DatasetRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_all(self) -> List[Dataset]:
-        """Get all datasets."""
+    async def get_all(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[Dataset], int]:
+        """Get all datasets with pagination."""
         pass
 
     @abstractmethod

@@ -1,6 +1,6 @@
 # application/services/dataset_service.py
 
-from typing import List, Optional, Dict, Any
+from typing import List, Optional, Dict, Any, Tuple
 from pathlib import Path
 import json
 
@@ -228,8 +228,10 @@ class DatasetService:
             "api_title": parser_output.title,
         }
 
-    async def get_dataset_endpoints(self, dataset_id: str) -> List[EndpointInfo]:
-        """Get all endpoints for a dataset."""
+    async def get_dataset_endpoints(
+        self, dataset_id: str, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[EndpointInfo], int]:
+        """Get all endpoints for a dataset with pagination."""
         self.logger.info(f"Retrieving endpoints for dataset: {dataset_id}")
 
         # Verify dataset exists
@@ -244,19 +246,21 @@ class DatasetService:
 
         dataset_endpoint_repo = JsonFileEndpointRepository(dataset_id=dataset_id)
 
-        endpoints = await dataset_endpoint_repo.get_all()
+        endpoints, total_count = await dataset_endpoint_repo.get_all(limit, offset)
         self.logger.info(
             f"Retrieved {len(endpoints)} endpoints for dataset {dataset_id}"
         )
-        return endpoints
+        return endpoints, total_count
 
     async def get_dataset(self, dataset_id: str) -> Optional[Dataset]:
         """Get dataset by ID."""
         return await self.dataset_repo.get_by_id(dataset_id)
 
-    async def get_all_datasets(self) -> List[Dataset]:
-        """Get all datasets."""
-        return await self.dataset_repo.get_all()
+    async def get_all_datasets(
+        self, limit: int = 50, offset: int = 0
+    ) -> Tuple[List[Dataset], int]:
+        """Get all datasets with pagination."""
+        return await self.dataset_repo.get_all(limit, offset)
 
     async def delete_dataset(self, dataset_id: str) -> bool:
         """Delete a dataset and all its associated data."""
