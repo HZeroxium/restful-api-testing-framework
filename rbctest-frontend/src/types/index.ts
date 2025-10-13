@@ -10,6 +10,7 @@ export * from "./aggregator.types";
 export * from "./batch.types";
 export * from "./cleanup.types";
 export * from "./health.types";
+export * from "./operation-sequence.types";
 
 // Common types
 export interface ApiResponse<T = any> {

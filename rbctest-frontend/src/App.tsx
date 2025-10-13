@@ -46,6 +46,12 @@ const VerificationPage = React.lazy(
 const BatchOperationsPage = React.lazy(
   () => import("@/features/batch/BatchOperationsPage")
 );
+const OperationSequencesPage = React.lazy(
+  () => import("@/features/operation-sequences/OperationSequencesPage")
+);
+const OperationSequenceDetailPage = React.lazy(
+  () => import("@/features/operation-sequences/OperationSequenceDetailPage")
+);
 const NotFoundPage = React.lazy(() => import("@/pages/NotFoundPage"));
 
 // Loading component for Suspense
@@ -82,6 +88,14 @@ function App() {
                 <Route
                   path="batch-operations"
                   element={<BatchOperationsPage />}
+                />
+                <Route
+                  path="operation-sequences"
+                  element={<OperationSequencesPage />}
+                />
+                <Route
+                  path="operation-sequences/:id"
+                  element={<OperationSequenceDetailPage />}
                 />
               </Route>
               {/* Catch-all route for 404 */}

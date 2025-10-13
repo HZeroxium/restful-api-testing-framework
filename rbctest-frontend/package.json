@@ -15,6 +15,8 @@
     "@hookform/resolvers": "^5.2.2",
     "@mui/icons-material": "^7.3.4",
     "@mui/material": "^7.3.4",
+    "@react-three/drei": "^10.7.6",
+    "@react-three/fiber": "^9.3.0",
     "@reduxjs/toolkit": "^2.9.0",
     "@tailwindcss/postcss": "^4.1.14",
     "axios": "^1.12.2",
@@ -26,6 +28,8 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.9.4",
     "react-syntax-highlighter": "^15.6.6",
+    "reactflow": "^11.11.4",
+    "three": "^0.180.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -34,6 +38,7 @@
     "@types/react": "^19.1.16",
     "@types/react-dom": "^19.1.9",
     "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/three": "^0.180.0",
     "@vitejs/plugin-react-swc": "^4.1.0",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.36.0",

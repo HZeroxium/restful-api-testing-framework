@@ -28,13 +28,32 @@ from common.logger import LoggerFactory, LoggerType, LogLevel
 from pydantic import BaseModel, Field
 
 
+class SimplifiedOperationDependency(BaseModel):
+    """Simplified dependency for LLM output."""
+
+    source_operation: str
+    target_operation: str
+    reason: str
+
+
+class SimplifiedOperationSequence(BaseModel):
+    """Simplified sequence structure for LLM output."""
+
+    name: str
+    description: str
+    operations: List[str]
+    dependencies: List[SimplifiedOperationDependency] = Field(default_factory=list)
+    sequence_type: str
+    priority: int = 2
+
+
 class SequenceRefinementOutput(BaseModel):
     """Output schema for LLM sequence refinement."""
 
-    sequences: List[Dict[str, Any]] = Field(
+    sequences: List[SimplifiedOperationSequence] = Field(
         default_factory=list, description="Validated/enhanced existing sequences"
     )
-    new_sequences: List[Dict[str, Any]] = Field(
+    new_sequences: List[SimplifiedOperationSequence] = Field(
         default_factory=list, description="Completely new sequences identified by LLM"
     )
 
@@ -218,65 +237,77 @@ class OperationSequencerTool(BaseTool):
     def _build_refinement_instruction(self, llm_input: Dict) -> str:
         """Build the instruction for LLM refinement."""
         schema_sequences = llm_input["schema_analysis"]["sequences"]
-        # endpoints are already simplified in _execute method
         simplified_endpoints = llm_input["endpoints"]
 
-        return f"""You are an API Operation Sequencer. Analyze the endpoints and existing sequences.
+        # Further simplify: only send sequence summaries, not full details
+        sequence_summaries = [
+            {
+                "name": seq.get("name", ""),
+                "type": seq.get("sequence_type", ""),
+                "operations": seq.get("operations", [])[:3],  # Only first 3 ops
+                "operation_count": len(seq.get("operations", [])),
+            }
+            for seq in schema_sequences[:10]  # Limit to 10 sequences
+        ]
 
-Schema Analysis Results:
-{json.dumps(schema_sequences, indent=2)}
+        # Only send essential endpoint info
+        endpoint_summaries = [
+            {
+                "method": ep["method"],
+                "path": ep["path"],
+                "name": ep.get("name", f"{ep['method']} {ep['path']}"),
+            }
+            for ep in simplified_endpoints[:20]  # Limit to 20 endpoints
+        ]
 
-API Endpoints:
-{json.dumps(simplified_endpoints, indent=2)}
+        return f"""You are an API Operation Sequencer. Analyze endpoints and validate/enhance sequences.
 
-Your Tasks:
-1. VALIDATE existing schema-generated sequences
-2. GENERATE new sequences for patterns schema analysis missed:
-   - Different workflow patterns (create, read, update, delete flows)
-   - Cross-resource workflows
-   - Hierarchical access patterns
-   - Authentication/authorization flows
-3. ENHANCE sequence descriptions and dependency reasons
-4. IDENTIFY complex dependencies schema analysis couldn't detect
+Existing Sequences ({len(schema_sequences)} total, showing {len(sequence_summaries)}):
+{json.dumps(sequence_summaries, indent=2)}
+
+API Endpoints ({len(simplified_endpoints)} total, showing {len(endpoint_summaries)}):
+{json.dumps(endpoint_summaries, indent=2)}
+
+Tasks:
+1. Validate existing sequences (check if operations make sense together)
+2. Suggest 2-3 NEW sequences for important workflows
+3. Keep sequences focused (2-5 operations each)
 
 Requirements:
-- Each sequence must have at least 2 operations
-- Operations can appear in multiple sequences
-- Provide clear dependency reasons
-- Include data_mapping for parameter passing
+- Each sequence: 2+ operations
+- Clear names and descriptions
+- Specify sequence_type (e.g., "crud", "workflow", "hierarchical")
+- Priority: 1 (high) to 3 (low)
 
-Return JSON:
-{{
-  "sequences": [...validated/enhanced existing sequences...],
-  "new_sequences": [...completely new sequences you identified...]
-}}"""
+Return JSON with validated sequences and new sequences."""
 
     def _parse_sequence_data(
-        self, seq_data: Dict[str, Any]
+        self, seq_data: SimplifiedOperationSequence
     ) -> Optional[OperationSequence]:
         """Parse sequence data from LLM response into OperationSequence object."""
         try:
-            # Extract dependencies
+            # Convert SimplifiedOperationDependency to OperationDependency
             dependencies = []
-            for dep_data in seq_data.get("dependencies", []):
-                dependency = OperationDependency(
-                    source_operation=dep_data.get("source_operation", ""),
-                    target_operation=dep_data.get("target_operation", ""),
-                    reason=dep_data.get("reason", ""),
-                    data_mapping=dep_data.get("data_mapping", {}),
+            for dep in seq_data.dependencies:
+                dependencies.append(
+                    OperationDependency(
+                        source_operation=dep.source_operation,
+                        target_operation=dep.target_operation,
+                        reason=dep.reason,
+                        data_mapping={},  # Empty data_mapping for LLM sequences
+                    )
                 )
-                dependencies.append(dependency)
 
-            # Create sequence
+            # Create sequence with default metadata
             sequence = OperationSequence(
-                id=seq_data.get("id", str(uuid.uuid4())),
-                name=seq_data.get("name", "Unnamed Sequence"),
-                description=seq_data.get("description", ""),
-                operations=seq_data.get("operations", []),
+                id=str(uuid.uuid4()),
+                name=seq_data.name,
+                description=seq_data.description,
+                operations=seq_data.operations,
                 dependencies=dependencies,
-                sequence_type=seq_data.get("sequence_type", "unknown"),
-                priority=seq_data.get("priority", 3),
-                metadata=seq_data.get("metadata", {}),
+                sequence_type=seq_data.sequence_type,
+                priority=seq_data.priority,
+                metadata={},  # Empty metadata for LLM sequences
             )
 
             return sequence

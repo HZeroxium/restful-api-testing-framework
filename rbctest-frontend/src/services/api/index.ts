@@ -11,3 +11,4 @@ export * from "./aggregatorApi";
 export * from "./batchApi";
 export * from "./cleanupApi";
 export * from "./healthApi";
+export * from "./operationSequencesApi";

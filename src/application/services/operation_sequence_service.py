@@ -28,6 +28,7 @@ class OperationSequenceService:
     ):
         self.sequence_repository = sequence_repository
         self.endpoint_repository = endpoint_repository
+        self.verbose = verbose
 
         # Initialize logger
         log_level = LogLevel.DEBUG if verbose else LogLevel.INFO
@@ -46,6 +47,16 @@ class OperationSequenceService:
         """Generate operation sequences for all endpoints in a dataset."""
         self.logger.info(f"Generating operation sequences for dataset: {dataset_id}")
 
+        # Import here to avoid circular dependency
+        from adapters.repository.json_file_operation_sequence_repository import (
+            JsonFileOperationSequenceRepository,
+        )
+
+        # Create dataset-specific repository
+        dataset_repo = JsonFileOperationSequenceRepository(
+            dataset_id=dataset_id, verbose=self.verbose
+        )
+
         # Get all endpoints for dataset
         endpoints, total = await self.endpoint_repository.get_by_dataset_id(dataset_id)
 
@@ -58,9 +69,7 @@ class OperationSequenceService:
 
         # Delete existing sequences if override
         if override_existing:
-            deleted_count = await self.sequence_repository.delete_by_dataset_id(
-                dataset_id
-            )
+            deleted_count = await dataset_repo.delete_by_dataset_id(dataset_id)
             self.logger.info(
                 f"Deleted {deleted_count} existing sequences for dataset {dataset_id}"
             )
@@ -77,7 +86,7 @@ class OperationSequenceService:
         self.logger.info("Starting sequence generation with hybrid approach...")
         output = await self.sequencer_tool.execute(tool_input)
 
-        # Save sequences to repository
+        # Save sequences to dataset-specific repository
         saved_sequences = []
         for sequence in output.sequences:
             # Add dataset_id metadata
@@ -85,7 +94,7 @@ class OperationSequenceService:
                 sequence.metadata = {}
             sequence.metadata["dataset_id"] = dataset_id
 
-            saved_seq = await self.sequence_repository.create(sequence)
+            saved_seq = await dataset_repo.create(sequence)
             saved_sequences.append(saved_seq)
 
         self.logger.info(
@@ -105,7 +114,17 @@ class OperationSequenceService:
         self, dataset_id: str, limit: int = 50, offset: int = 0
     ) -> Tuple[List[OperationSequence], int]:
         """Get sequences for a dataset."""
-        sequences, total = await self.sequence_repository.get_by_dataset_id(
+        # Import here to avoid circular dependency
+        from adapters.repository.json_file_operation_sequence_repository import (
+            JsonFileOperationSequenceRepository,
+        )
+
+        # Create dataset-specific repository
+        dataset_repo = JsonFileOperationSequenceRepository(
+            dataset_id=dataset_id, verbose=self.verbose
+        )
+
+        sequences, total = await dataset_repo.get_by_dataset_id(
             dataset_id, limit, offset
         )
         self.logger.debug(
@@ -114,19 +133,60 @@ class OperationSequenceService:
         return sequences, total
 
     async def get_sequence_by_id(self, sequence_id: str) -> Optional[OperationSequence]:
-        """Get a specific sequence."""
+        """Get a specific sequence by searching across all datasets."""
+        # Import here to avoid circular dependency
+        from adapters.repository.json_file_operation_sequence_repository import (
+            JsonFileOperationSequenceRepository,
+        )
+        import os
+        from pathlib import Path
+
+        # First try the global repository
         sequence = await self.sequence_repository.get_by_id(sequence_id)
         if sequence:
             self.logger.debug(
-                f"Retrieved sequence: {sequence.name} (ID: {sequence_id})"
+                f"Retrieved sequence from global repo: {sequence.name} (ID: {sequence_id})"
             )
-        else:
-            self.logger.debug(f"Sequence not found: {sequence_id}")
-        return sequence
+            return sequence
+
+        # If not found, search in dataset-specific repositories
+        datasets_dir = Path("data/datasets")
+        if datasets_dir.exists():
+            for dataset_dir in datasets_dir.iterdir():
+                if dataset_dir.is_dir():
+                    dataset_id = dataset_dir.name
+                    try:
+                        dataset_repo = JsonFileOperationSequenceRepository(
+                            dataset_id=dataset_id, verbose=self.verbose
+                        )
+                        sequence = await dataset_repo.get_by_id(sequence_id)
+                        if sequence:
+                            self.logger.debug(
+                                f"Retrieved sequence from dataset {dataset_id}: {sequence.name} (ID: {sequence_id})"
+                            )
+                            return sequence
+                    except Exception as e:
+                        self.logger.debug(
+                            f"Error searching dataset {dataset_id}: {str(e)}"
+                        )
+                        continue
+
+        self.logger.debug(f"Sequence not found: {sequence_id}")
+        return None
 
     async def delete_sequences_by_dataset_id(self, dataset_id: str) -> int:
         """Delete all sequences for a dataset."""
-        deleted_count = await self.sequence_repository.delete_by_dataset_id(dataset_id)
+        # Import here to avoid circular dependency
+        from adapters.repository.json_file_operation_sequence_repository import (
+            JsonFileOperationSequenceRepository,
+        )
+
+        # Create dataset-specific repository
+        dataset_repo = JsonFileOperationSequenceRepository(
+            dataset_id=dataset_id, verbose=self.verbose
+        )
+
+        deleted_count = await dataset_repo.delete_by_dataset_id(dataset_id)
         self.logger.info(f"Deleted {deleted_count} sequences for dataset {dataset_id}")
         return deleted_count
 

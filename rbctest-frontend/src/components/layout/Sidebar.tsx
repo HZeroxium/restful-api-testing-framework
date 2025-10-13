@@ -26,6 +26,7 @@ import {
   ExpandLess,
   ExpandMore,
   GroupWork,
+  AccountTree,
 } from "@mui/icons-material";
 import HealthIndicator from "@/components/common/HealthIndicator";
 
@@ -120,6 +121,12 @@ const navigationItems: NavigationItem[] = [
     label: "Batch Operations",
     path: "/batch-operations",
     icon: <GroupWork />,
+  },
+  {
+    id: "operation-sequences",
+    label: "Operation Sequences",
+    path: "/operation-sequences",
+    icon: <AccountTree />,
   },
 ];
 

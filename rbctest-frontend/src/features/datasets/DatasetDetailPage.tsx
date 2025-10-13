@@ -7,10 +7,12 @@ import {
   CardContent,
   Button,
   Chip,
-  Grid,
   IconButton,
   Tooltip,
+  Tabs,
+  Tab,
 } from "@mui/material";
+import Grid from "@mui/material/Grid";
 import {
   ArrowBack,
   Delete,
@@ -18,12 +20,16 @@ import {
   Link as LinkIcon,
   CalendarToday,
   List as ListIcon,
+  AccountTree,
+  PlayArrow,
 } from "@mui/icons-material";
 import { format } from "date-fns";
 import {
   useGetDatasetQuery,
   useGetDatasetEndpointsQuery,
   useDeleteDatasetMutation,
+  useGetSequencesByDatasetQuery,
+  useGenerateSequencesMutation,
 } from "@/services/api";
 import { LoadingOverlay } from "@/components/common/LoadingOverlay";
 import { ErrorAlert } from "@/components/common/ErrorAlert";
@@ -34,6 +40,9 @@ import type { EndpointInfo, TableColumn } from "@/types";
 const DatasetDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+
+  const [activeTab, setActiveTab] = useState(0);
+  const [generateDialogOpen, setGenerateDialogOpen] = useState(false);
 
   const {
     data: dataset,
@@ -49,7 +58,15 @@ const DatasetDetailPage: React.FC = () => {
     refetch: refetchEndpoints,
   } = useGetDatasetEndpointsQuery(id!);
 
+  const {
+    data: sequencesData,
+    isLoading: isLoadingSequences,
+    error: sequencesError,
+    refetch: refetchSequences,
+  } = useGetSequencesByDatasetQuery({ datasetId: id!, limit: 10, offset: 0 });
+
   const [deleteDataset] = useDeleteDatasetMutation();
+  const [generateSequences] = useGenerateSequencesMutation();
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -63,6 +80,25 @@ const DatasetDetailPage: React.FC = () => {
 
   const handleEndpointClick = (endpoint: EndpointInfo) => {
     navigate(`/endpoints/${endpoint.id}`);
+  };
+
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    setActiveTab(newValue);
+  };
+
+  const handleGenerateSequences = async () => {
+    if (!id) return;
+
+    try {
+      await generateSequences({
+        datasetId: id,
+        body: { override_existing: true },
+      }).unwrap();
+      setGenerateDialogOpen(false);
+      refetchSequences();
+    } catch (err) {
+      console.error("Failed to generate sequences:", err);
+    }
   };
 
   const isLoading = isLoadingDataset || isLoadingEndpoints;
@@ -308,40 +344,180 @@ const DatasetDetailPage: React.FC = () => {
         </Grid>
       </Grid>
 
-      {/* Endpoints Table */}
+      {/* Tabs */}
       <Card>
-        <CardContent>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              mb: 2,
-            }}
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            aria-label="dataset tabs"
           >
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Endpoints
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {endpoints.length} endpoint{endpoints.length !== 1 ? "s" : ""}
-            </Typography>
-          </Box>
+            <Tab icon={<ListIcon />} label="Endpoints" iconPosition="start" />
+            <Tab
+              icon={<AccountTree />}
+              label="Operation Sequences"
+              iconPosition="start"
+            />
+          </Tabs>
+        </Box>
 
-          {endpoints.length === 0 ? (
-            <Box sx={{ textAlign: "center", py: 6 }}>
-              <ListIcon sx={{ fontSize: 48, color: "text.secondary", mb: 2 }} />
-              <Typography variant="body1" color="text.secondary">
-                No endpoints found in this dataset
+        {/* Tab Panels */}
+        {activeTab === 0 && (
+          <CardContent>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Endpoints
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {endpoints.length} endpoint{endpoints.length !== 1 ? "s" : ""}
               </Typography>
             </Box>
-          ) : (
-            <DataTable
-              columns={columns}
-              data={endpoints}
-              onRowClick={handleEndpointClick}
-            />
-          )}
-        </CardContent>
+
+            {endpoints.length === 0 ? (
+              <Box sx={{ textAlign: "center", py: 6 }}>
+                <ListIcon
+                  sx={{ fontSize: 48, color: "text.secondary", mb: 2 }}
+                />
+                <Typography variant="body1" color="text.secondary">
+                  No endpoints found in this dataset
+                </Typography>
+              </Box>
+            ) : (
+              <DataTable
+                columns={columns}
+                data={endpoints}
+                onRowClick={handleEndpointClick}
+              />
+            )}
+          </CardContent>
+        )}
+
+        {activeTab === 1 && (
+          <CardContent>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Operation Sequences
+              </Typography>
+              <Box sx={{ display: "flex", gap: 1 }}>
+                <Button
+                  variant="contained"
+                  startIcon={<PlayArrow />}
+                  onClick={() => setGenerateDialogOpen(true)}
+                  size="small"
+                >
+                  Generate
+                </Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => navigate(`/operation-sequences?dataset=${id}`)}
+                  size="small"
+                >
+                  View All
+                </Button>
+              </Box>
+            </Box>
+
+            {isLoadingSequences ? (
+              <LoadingOverlay open={true} />
+            ) : sequencesError ? (
+              <ErrorAlert error={sequencesError.toString()} />
+            ) : !sequencesData || sequencesData.sequences.length === 0 ? (
+              <Box sx={{ textAlign: "center", py: 6 }}>
+                <AccountTree
+                  sx={{ fontSize: 48, color: "text.secondary", mb: 2 }}
+                />
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mb: 2 }}
+                >
+                  No operation sequences found for this dataset
+                </Typography>
+                <Button
+                  variant="contained"
+                  startIcon={<PlayArrow />}
+                  onClick={() => setGenerateDialogOpen(true)}
+                >
+                  Generate Sequences
+                </Button>
+              </Box>
+            ) : (
+              <Box>
+                <Grid container spacing={2}>
+                  {sequencesData.sequences.slice(0, 4).map((sequence) => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={sequence.id}>
+                      <Card variant="outlined">
+                        <CardContent>
+                          <Typography
+                            variant="subtitle1"
+                            fontWeight="medium"
+                            gutterBottom
+                          >
+                            {sequence.name}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            color="text.secondary"
+                            sx={{ mb: 2 }}
+                          >
+                            {sequence.description}
+                          </Typography>
+                          <Box sx={{ display: "flex", gap: 1, mb: 2 }}>
+                            <Chip
+                              label={sequence.sequence_type}
+                              size="small"
+                              color="primary"
+                            />
+                            <Chip
+                              label={`${sequence.operations.length} ops`}
+                              size="small"
+                            />
+                          </Box>
+                          <Button
+                            variant="outlined"
+                            size="small"
+                            onClick={() =>
+                              navigate(`/operation-sequences/${sequence.id}`)
+                            }
+                            fullWidth
+                          >
+                            View Details
+                          </Button>
+                        </CardContent>
+                      </Card>
+                    </Grid>
+                  ))}
+                </Grid>
+                {sequencesData.sequences.length > 4 && (
+                  <Box sx={{ mt: 2, textAlign: "center" }}>
+                    <Button
+                      variant="text"
+                      onClick={() =>
+                        navigate(`/operation-sequences?dataset=${id}`)
+                      }
+                    >
+                      View all {sequencesData.sequences.length} sequences
+                    </Button>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </CardContent>
+        )}
       </Card>
 
       {/* Delete Confirmation Dialog */}
@@ -353,6 +529,17 @@ const DatasetDetailPage: React.FC = () => {
         severity="error"
         onConfirm={handleDelete}
         onCancel={() => setDeleteDialogOpen(false)}
+      />
+
+      {/* Generate Sequences Dialog */}
+      <ConfirmDialog
+        open={generateDialogOpen}
+        title="Generate Operation Sequences"
+        message="This will analyze the dataset endpoints and generate operation sequences based on their dependencies. This may take a few minutes."
+        confirmText="Generate"
+        severity="info"
+        onConfirm={handleGenerateSequences}
+        onCancel={() => setGenerateDialogOpen(false)}
       />
     </Box>
   );
