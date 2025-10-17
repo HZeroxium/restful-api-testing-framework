@@ -116,6 +116,19 @@
       "endpoints_count": 19,
       "test_cases_count": 0,
       "test_data_count": 0
+    },
+    "350978b2-4574-46da-b0a7-2303fde509b0": {
+      "id": "350978b2-4574-46da-b0a7-2303fde509b0",
+      "name": "Bill",
+      "spec_path": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Bill\\specs\\openapi.json",
+      "spec_source": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\server\\uploads\\openapi.json",
+      "working_dir": "C:\\Users\\Admin\\Desktop\\NCKH\\restful-api-testing-framework\\database\\Bill",
+      "created_at": "2025-10-13T20:21:32.329159",
+      "updated_at": "2025-10-13T20:21:32.348195",
+      "status": "active",
+      "endpoints_count": 21,
+      "test_cases_count": 0,
+      "test_data_count": 0
     }
   },
   "runs": {

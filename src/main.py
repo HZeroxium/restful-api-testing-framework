@@ -17,10 +17,14 @@ from sequence_runner.runner import SequenceRunner
 if __name__ == "__main__":
     # sequence_runner = SequenceRunner(service_name="Bill", base_url="https://bills-api.parliament.uk", token=None)
 
+    # headers = {
+    #     "PRIVATE-TOKEN": "glpat-StZArnyBReXqgPkznx-c"
+    # }   
     headers = {
-        "PRIVATE-TOKEN": "glpat-StZArnyBReXqgPkznx-c"
+        "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
     }
-    # endpoint = "_projects_POST_0_1"
-    endpoint = None
-    sequence_runner = SequenceRunner(service_name="Pet Store", base_url="https://petstore3.swagger.io/api/v3", token=None,out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}", headers=headers, endpoint=endpoint)
+    
+    endpoint = "_api_v1_Bills_billId__GetBill_1_1"
+    # endpoint = None
+    sequence_runner = SequenceRunner(service_name="Bill", base_url="https://bills-api.parliament.uk", token=None,out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}", headers=headers, endpoint=endpoint)
     sequence_runner.run_all()

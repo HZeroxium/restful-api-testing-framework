@@ -18,6 +18,11 @@ Some constraints:
 
 For each <constraint> above, you have to give explanation about how the value should be created to variate different levels of complexity and potential adjustments to yield errors. This Constraints section plays a crucial role in the quality of the response.
 
+IMPORTANT FOR BODY IDS:
+- Explicitly list any request-body fields that look like identifiers or foreign keys (e.g., names ending with "id"/"Id"/"ID", or described as identifiers/UUIDs, or $ref to another schema).
+- State whether such IDs are enumerated (enum) or unconstrained references.
+- If the ID refers to external/unknown resources (not enumerable, large/unknown domain), call out that generation SHOULD use "%not-sure%" for valid (2xx) happy-path cases unless examples/enum/small-range are provided.
+
 An example of a nicely written and detailed constraint is as follows:
 - To create a difficult password, you can use a mix of lowercase and uppercase letters, numbers, and special characters, and make sure the password is not too short."""
 ##############################################
@@ -34,6 +39,7 @@ You MUST follow this validation policy WHEN SETTING "expected_code":
   • Do NOT mark 4xx merely because a value is quoted vs unquoted in the URL.
   • Use non-parseable tokens to test type violations (e.g., integer="abc", boolean="tru"), or use format/pattern/enum violations.
 - If the spec allows nullable for a field, providing null is acceptable for that field.
+- IMPORTANT: Do NOT assume database existence checks. Judge correctness solely by the schema/specification (types, enums, ranges, formats, patterns, required).
 
 CRITICAL PATH PARAMETER RULES (if {part} contains path parameters):
 - PATH PARAMETERS (in: "path") are NEVER nullable and ALWAYS required by OpenAPI spec.
@@ -46,15 +52,21 @@ First ANALYZE each path parameter's specification to determine if concrete value
 
 CRITERIA FOR USING CONCRETE VALUES (for 2XX cases):
 ✅ Parameter has ENUM values → Use values from the enum
-✅ Parameter has BOTH minimum AND maximum with small range (≤100) → Use values within range  
+✅ Parameter has BOTH minimum AND maximum with small range (≤100) → Use values within range
 ✅ Parameter has clear examples provided in spec → Use or derive similar values
 ✅ Parameter has specific format constraints (date, uuid, etc.) → Generate valid format values
+✅ If the param has only broad/basic type and no additional constraints, provide a syntactically valid and reasonably realistic value per its type/format (do not rely on DB existence).
 
-CRITERIA FOR USING "%not-sure%" MARKER (for 2XX cases):
-⚠️ Parameter has ONLY minimum without maximum → Use "%not-sure%"
-⚠️ Parameter has very large range (>100 possible values) → Use "%not-sure%"
-⚠️ Parameter has no constraints beyond basic type → Use "%not-sure%"
-⚠️ Parameter appears to reference external system IDs → Use "%not-sure%"
+BODY ID-LIKE FIELD RULES (applies when {part} is "body" or includes a JSON payload):
+- ID-like detection heuristics (use all that apply):
+  • Field name matches /(.*_)?(id|Id|ID)$/ (e.g., userId, product_id, id).
+  • Field description mentions "identifier", "id", "UUID/uid", or refers to another resource/entity.
+  • Schema is a $ref to another object where that object or its parent clearly acts as a foreign reference.
+  • Arrays of references (e.g., itemIds: string[]/integer[]) are also ID-like.
+- When an ID-like field is an ENUM → use concrete enum values for 2xx cases.
+- When an ID-like field has a tight bounded numeric range (both minimum & maximum and ≤100 values) → use a concrete in-range value for 2xx.
+- Otherwise (large/unknown domain, no examples): for **2xx** dataset rows, provide a syntactically valid value per the field's type/format (e.g., a well-formed UUID for uuid fields, a positive integer within typical bounds for integer IDs). Do NOT assume or test database existence in 2xx cases.
+- For **4xx** rows on body IDs: use concrete **invalid but non-null** values (e.g., wrong format/UUID, out-of-range number, enum miss, pattern violation).
 
 TRANSPORT-LEVEL RULES for PATH/QUERY parameters:
 - All values are sent as text; servers parse them back.
@@ -72,7 +84,7 @@ TRANSPORT-LEVEL RULES for PATH/QUERY parameters:
 FOR 4XX CASES (testing validation):
 - Always use INVALID but NON-NULL concrete values to test constraints
 - Examples (path/query): non-parseable tokens for numeric/boolean; outside enum; pattern/format violations; out-of-range values
-- Examples (body): wrong JSON type; out-of-range; enum/pattern/format violations
+- Examples (body): wrong JSON type; out-of-range; enum/pattern/format violations; format(UUID/date) mismatch
 - NEVER use null or empty string for path parameter validation testing
 
 Additionally, you must strictly follow these rules to create the dataset file:
@@ -91,7 +103,6 @@ Additionally, you must strictly follow these rules to create the dataset file:
         - "FIELD is required but missing, violating 'required'."
         - "PATH_PARAM='{{VALUE}}' is in the allowed enum {{ENUM_VALUES}}."
         - "PATH_PARAM={{VALUE}} is within allowed range [{{MIN}}..{{MAX}}]."
-        - "PATH_PARAM=%not-sure% indicates uncertain path parameter requiring dependency resolution."
         - "PATH_PARAM='{{BAD_VALUE}}' is not in the allowed enum {{ENUM_VALUES}}."
         - "PATH_PARAM={{VALUE}} violates {{CONSTRAINT}} constraint."
         - "QUERY_PARAM='{{RAW}}' is not parseable as integer (type=parseability), violating 'type=integer'."
@@ -113,9 +124,15 @@ Data from Swagger Spec:
 
 ANALYSIS EXAMPLES for path parameter decision-making:
 • provinceId with enum ["AB","BC","MB"...] → Use concrete values like "AB", "MB" for 2xx cases
-• holidayId with minimum=1, maximum=34 → Use concrete values like 1, 15, 34 for 2xx cases  
-• billId with only minimum=1 (no maximum) → Use "%not-sure%" for 2xx cases
-• userId with no constraints → Use "%not-sure%" for 2xx cases
+• holidayId with minimum=1, maximum=34 → Use concrete values like 1, 15, 34 for 2xx cases
+• billId with only basic integer type and no additional constraints → Use a realistic positive integer like 100123 for 2xx cases (judge by type/format, not DB existence)
+• userId with format=uuid and no enum → Use a well-formed UUID (e.g., "550e8400-e29b-41d4-a716-446655440000") for 2xx
+
+BODY ID EXAMPLES (apply same logic to request body fields):
+• userId (string, format=uuid, no enum) → for 2xx use a well-formed UUID; for 4xx use "not-a-uuid" to violate format.
+• product_id (integer, minimum=1 only) → for 2xx use a positive integer like 1001; for 4xx use 0 to violate minimum.
+• roleId (enum ["admin","editor","viewer"]) → for 2xx use an enum value; for 4xx use "owner".
+• itemIds (array of integer IDs, unconstrained) → for 2xx use [101, 202]; for 4xx use ["abc"] to violate type/parseability.
 
 Note: The dataset is created for {part} only. First, briefly write "Approach: ..." describing how you selected fields and constraints. Then provide the dataset in JSONL between triple backticks.
 
@@ -126,7 +143,6 @@ Correctness rules (MUST FOLLOW; schema-agnostic):
 - PATH/QUERY type violations are about parseability (e.g., integer="abc", boolean="tru"), not quoting.
 - Missing required field → "4xx", cite 'required'.
 - Path parameter with valid concrete value (enum member or within range) → "2xx", cite the validation.
-- Path parameter with "%not-sure%" value → "2xx", cite 'uncertain path parameter requiring dependency resolution'.
 - Path parameter with null, empty string, or missing value → FORBIDDEN (never generate these cases).
 - Otherwise (all provided fields satisfy constraints) → "2xx".
 
@@ -145,7 +161,7 @@ Format example (JSONL; schema-agnostic):
 {{
   "data": {{ "ENUM_FIELD": "{{BAD_VALUE}}" }},
   "expected_code": "4xx",
-  "reason": "ENUM_FIELD='{{BAD_VALUE}}' is not in the allowed enum {{ALLOWED_ENUM}}."
+  "reason": "ENUM_FIELD='{{BAD_VALUE}}' is not in enum {{ALLOWED_ENUM}}."
 }}
 {{
   "data": {{ "ENUM_PATH_PARAM": "AB", "RANGE_PATH_PARAM": 15, "OPTIONAL_FIELD": "value" }},
@@ -153,9 +169,14 @@ Format example (JSONL; schema-agnostic):
   "reason": "ENUM_PATH_PARAM='AB' is in the allowed enum; RANGE_PATH_PARAM=15 is within allowed range [1..34]; OPTIONAL_FIELD is valid."
 }}
 {{
-  "data": {{ "UNCERTAIN_PATH_PARAM": "%not-sure%", "OPTIONAL_FIELD": "value" }},
-  "expected_code": "2xx",
-  "reason": "UNCERTAIN_PATH_PARAM=%not-sure% indicates uncertain path parameter requiring dependency resolution; OPTIONAL_FIELD is valid."
+  "data": {{ "userId": "not-a-uuid" }},
+  "expected_code": "4xx",
+  "reason": "userId='not-a-uuid' does not match format uuid."
+}}
+{{
+  "data": {{ "itemIds": ["abc"] }},
+  "expected_code": "4xx",
+  "reason": "itemIds[0]='abc' is not parseable as integer, violating 'type=integer' for array items."
 }}
 {{
   "data": {{ "BODY_TYPED_FIELD": "not_a_number" }},
@@ -163,6 +184,7 @@ Format example (JSONL; schema-agnostic):
   "reason": "BODY_TYPED_FIELD has type string but the spec requires integer (JSON body type mismatch)."
 }}
 """
+
 
 ##############################################
 # Specific prompts

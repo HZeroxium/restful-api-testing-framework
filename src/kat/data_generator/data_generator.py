@@ -11,6 +11,8 @@ import numpy as np
 import json
 import copy
 
+from kat.data_generator.data_endpoint_dependency import DataEndpointDependency
+
 # Setup logger
 logger = logging.getLogger(__name__)
 
@@ -45,13 +47,6 @@ def jprint(x):
 
 ##############################################
     
-
-
-
-
-
-
-
 class TestDataGenerator:
     def __init__(self, 
                  swagger_spec: dict, 
@@ -60,6 +55,7 @@ class TestDataGenerator:
                  selected_endpoints: list = None,
                  generation_mode: str = "all",
                  working_directory: str = None):
+        
         self.enabled_mutation = False
         self.swagger_spec: dict = swagger_spec
         self.service_name: str = service_name
@@ -77,6 +73,15 @@ class TestDataGenerator:
         self.filter_params_w_descr             = self.inter_param_dependency_tool._filter_params_w_descr
         self.get_inter_param_constraints       = self.inter_param_dependency_tool.get_inter_param_constraints
         self.get_inter_param_validation_script = self.inter_param_dependency_tool.get_inter_param_validation_script
+        
+        
+        
+        odg_dir = r"C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\database\Bill\ODG"
+        
+        self.dep = DataEndpointDependency(odg_dir=odg_dir, swagger_spec=swagger_spec)
+        self.dep.load_artifacts()
+        
+        
         # Init root directory
         if not os.path.exists(self.root_dir):
             print(f"[INFO] Creating root directory at {self.root_dir}...")
@@ -88,7 +93,29 @@ class TestDataGenerator:
             shutil.rmtree(self.root_dir)
             os.makedirs(self.root_dir)
             os.makedirs(f"{self.root_dir}/csv")
-            
+    def get_data_file_path_name(self, path: str, method: str, part: str) -> str:
+        """
+        Get the name of the data file for the endpoint.
+        P/S: Without the extension.
+
+        Args:
+            path (str): the path of the endpoint
+            method (str): the method of the endpoint
+            part (str): "body" or "param"
+        Returns:
+            str: the name of the data file
+        """
+        try:
+            operation_id = self.swagger_spec['paths'][path][method]['operationId']
+        except:
+            operation_id = method.upper()
+
+        endpoint_id = "{}_{}".format(
+            convert_path_fn(path), 
+            operation_id)
+
+        return f"{endpoint_id}_{part}"
+          
     def get_actual_successful_response(self):
         """
         đơn giản là nó lấy các file có code 200 trong thư mục mutation_resource
@@ -427,7 +454,7 @@ class TestDataGenerator:
         return None
 
     def create_test_data_file_from_swagger(self) -> None:
-        amount_instruction = "containing 2 data items,"
+        amount_instruction = "containing 5 data items,"
         # amount_instruction = ""
         
         if self.selected_endpoints:
@@ -741,5 +768,5 @@ class TestDataGenerator:
 
 ########################################################################################################
 
-
+    def create_data(): 
 

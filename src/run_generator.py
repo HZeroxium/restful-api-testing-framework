@@ -25,15 +25,15 @@ try:
     
     # Khởi tạo generator với service name và collection name
     generator = TestCaseGenerator(
-        service_name="Pet Store",
+        service_name="Bill",
         collection="Default",
         save_prompts=True,
-        regenerate_test_data=False,  # Force regenerate với prompt mới
+        regenerate_test_data=True,  # Force regenerate với prompt mới
         data_generation_mode="all",
         clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
     )
 
-    # generator.generate_test_data_for(generator.get_endpoints())
+    generator.generate_test_data_for(generator.get_endpoints())
     generator.generate_test_cases()
     # generator = TestCaseGenerator(
     #     service_name="Bill",
