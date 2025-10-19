@@ -6,39 +6,27 @@ from dataclasses import dataclass
 import json
 import logging
 from pathlib import Path
+import re
 from typing import Any, Dict, List, Optional as TypingOptional
+from urllib.parse import urlparse
 
 from pyparsing import Optional
 import requests
+
+from kat.data_generator.models import EndpointCache, LoadedArtifacts, DependencyBlock, DependencyContext
 
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-@dataclass
-class LoadedArtifacts:
-    operation_sequences: Dict[str, List[List[str]]]   # { endpointSig: [[chain1...], [chain2...]] }
-    topolist: List[str]                                # [ endpointSig, ... ]
-    endpoint_schema_dependencies: Dict[str, Any]       # { endpointSig: ... }
-    endpoints_belong_to_schemas: Dict[str, List[str]]  # { schemaName: [producerEndpointSig, ...] }
-    cache: Dict[str, Any]                               # free-form cache blob
-@dataclass
-class DependencyBlock:
-    endpoint: str                 # ví dụ: "get-/api/v1/Bills"
-    schema: Optional[str]         # ví dụ: "Bill"
-    json: str                     # chuỗi JSON đã minify (một object đại diện)
 
-@dataclass
-class DependencyContext:
-    schemas: List[str]            # ví dụ: ["Bill","Stage","Publication"]
-    blocks: List[DependencyBlock] # các object upstream gọn để đưa vào prompt
 
 
 class DataEndpointDependency:
     DEFAULT_CONFIG: Dict[str, Any] = {
         "cache_file": "_dep_cache.json",
         "log_level": "INFO",
-        "test_data_csv_dir": r"C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\database\Bill\test_data\csv",
+        "test_data_csv_dir": r"/Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv",
 
     }
     def __init__(
@@ -46,11 +34,14 @@ class DataEndpointDependency:
         odg_dir: str,
         config: Dict[str, Any] | None = None,
         swagger_spec: dict  | None = None,
+        artifacts: LoadedArtifacts | None = None,
     ) -> None:
         self.workdir: Path = Path(odg_dir)
         self.config: Dict[str, Any] = {**self.DEFAULT_CONFIG, **(config or {})}
         self.swagger_spec: dict = swagger_spec
+        self.artifacts: LoadedArtifacts | None = artifacts
 
+        self.cache: list[EndpointCache] = self.load_cache()
         # setup logging level
         try:
             logger.setLevel(getattr(logging, str(self.config["log_level"]).upper(), logging.INFO))
@@ -58,17 +49,86 @@ class DataEndpointDependency:
             logger.setLevel(logging.INFO)
 
         # artifact paths
-        self.path_operation_sequences: Path = self.workdir / "operation_sequences.json"
-        self.path_topolist: Path = self.workdir / "topolist.json"
-        self.path_endpoint_schema_dependencies: Path = self.workdir / "endpoint_schema_dependencies.json"
-        self.path_endpoints_belong_to_schemas: Path = self.workdir / "endpoints_belong_to_schemas.json"
-        self.path_cache: Path = self.workdir / str(self.config.get("cache_file", "_dep_cache.json"))
 
-        # in-memory data after load_artifacts()
-        self.artifacts: LoadedArtifacts | None = None
+
 
     # ---------- Public API ----------
     # ---------- RESPONSE SCHEMA & TRIM SINGLETON ----------
+    def load_cache(self) -> list[EndpointCache]:
+        """
+        Scan <workdir>/cache for *.json files, load them into memory, and return
+        a list[EndpointCache]. Also stores a fast lookup dict on self.cache_index.
+
+        Endpoint resolution strategy:
+        1) If cache JSON contains request.method + request.url, try to infer
+            endpoint_sig by matching the URL path to a swagger path template.
+        2) Otherwise, use the filename stem (without '-response_cache') as a
+            fallback endpoint identifier (sanitized name).
+
+        Returns
+        -------
+        List[EndpointCache]
+        """
+        cache_dir = self.workdir / "cache"
+        cache_dir.mkdir(parents=True, exist_ok=True)
+
+        def _filename_to_hint(p: Path) -> str:
+            name = p.stem  # e.g., "get-_api_v1_Bills_-response_cache" or "get-_api_v1_Bills-..."
+            # strip a known suffix, if present
+            if name.endswith("-response_cache"):
+                name = name[: -len("-response_cache")]
+            return name
+
+        def _infer_from_request(obj: dict) -> str | None:
+            """
+            Try to reconstruct endpoint_sig from cached request info + swagger spec.
+            """
+            try:
+                req = obj.get("request") or {}
+                method = (req.get("method") or "").lower()
+                url = req.get("url") or ""
+                if not method or not url or not isinstance(self.swagger_spec, dict):
+                    return None
+
+                # actual path in the real call
+                path_actual = urlparse(url).path
+
+                # iterate swagger paths and find a template that matches the concrete path
+                paths = (self.swagger_spec.get("paths") or {}).keys()
+                for template in paths:
+                    # convert swagger template "/a/{id}/b" to regex "^/a/[^/]+/b$"
+                    pattern = "^" + re.sub(r"\{[^/}]+\}", r"[^/]+", template) + "$"
+                    if re.match(pattern, path_actual):
+                        return f"{method}-{template}"
+                return None
+            except Exception:
+                return None
+
+        entries: list[EndpointCache] = []
+        cache_index: dict[str, dict] = {}
+
+        for f in sorted(cache_dir.glob("*.json")):
+            try:
+                with f.open("r", encoding="utf-8") as fh:
+                    payload = json.load(fh)
+            except Exception as e:
+                logger.warning("Skipping unreadable cache file %s: %s", f, e)
+                continue
+
+            endpoint_sig = _infer_from_request(payload)
+            if not endpoint_sig:
+                endpoint_sig = _filename_to_hint(f)
+
+            entries.append(EndpointCache(endpoint=endpoint_sig, cache=payload))
+            cache_index[endpoint_sig] = payload
+
+        # keep an in-memory index for fast lookups (doesn't clash with your existing attributes)
+        self.cache_index = cache_index
+
+        logger.info("Loaded %d cache entries from %s", len(entries), cache_dir)
+        return entries
+
+
 
     def _deref(self, schema: dict) -> dict:
         """Deref 1 cấp nếu có $ref; nếu không, trả chính schema."""
@@ -210,60 +270,8 @@ class DataEndpointDependency:
             return data
         return self._trim_by_schema(data, schema)
 
-    def load_artifacts(self) -> LoadedArtifacts:
-        """
-        Đọc các JSON file kể trên. Thiếu file → trả default rỗng (không raise).
-        Trả về một LoadedArtifacts đã chuẩn hoá.
-        """
-        logger.debug("Loading artifacts from %s", self.workdir)
-
-        operation_sequences = self._read_json(self.path_operation_sequences, default={})
-        topolist = self._read_json(self.path_topolist, default=[])
-        endpoint_schema_dependencies = self._read_json(self.path_endpoint_schema_dependencies, default={})
-        endpoints_belong_to_schemas = self._read_json(self.path_endpoints_belong_to_schemas, default={})
-        cache = self._read_json(self.path_cache, default={})
-
-        # Chuẩn hoá kiểu dữ liệu tối thiểu
-        if not isinstance(operation_sequences, dict):
-            operation_sequences = {}
-        if not isinstance(topolist, list):
-            topolist = []
-        if not isinstance(endpoint_schema_dependencies, dict):
-            endpoint_schema_dependencies = {}
-        if not isinstance(endpoints_belong_to_schemas, dict):
-            endpoints_belong_to_schemas = {}
-        if not isinstance(cache, dict):
-            cache = {}
-
-        self.artifacts = LoadedArtifacts(
-            operation_sequences=operation_sequences,
-            topolist=topolist,
-            endpoint_schema_dependencies=endpoint_schema_dependencies,
-            endpoints_belong_to_schemas=endpoints_belong_to_schemas,
-            cache=cache,
-        )
-        logger.info(
-            "Loaded artifacts: sequences=%d, topolist=%d, endpoint-schema-deps=%d, schema-producers=%d, cache=%d",
-            len(operation_sequences),
-            len(topolist),
-            len(endpoint_schema_dependencies),
-            len(endpoints_belong_to_schemas),
-            len(cache),
-        )
-        return self.artifacts
-
     # ---------- Helpers ----------
 
-    def _read_json(self, path: Path, default):
-        try:
-            if not path.exists():
-                logger.debug("File not found: %s (using default)", path)
-                return default
-            with path.open("r", encoding="utf-8") as f:
-                return json.load(f)
-        except Exception as e:
-            logger.warning("Failed reading %s: %s (using default)", path, e)
-            return default
 
     def _schemas_for_endpoint(self, endpoint_sig: str) -> List[str]:
         """
@@ -561,10 +569,6 @@ class DataEndpointDependency:
             },
         }
 
-
-        if self.artifacts and isinstance(self.artifacts.cache, dict):
-            self.artifacts.cache[endpoint_sig] = cached_obj
-
         cache_path = self._cache_file_for_endpoint(endpoint_sig)
         try:
             with cache_path.open("w", encoding="utf-8") as f:
@@ -699,9 +703,11 @@ class DataEndpointDependency:
         Trả về: JSON-serializable object hoặc None nếu không có.
         """
         # 1) in-memory cache (nếu load_artifacts() đã gọi)
-        if self.artifacts and isinstance(self.artifacts.cache, dict):
-            if endpoint_sig in self.artifacts.cache:
-                return self.artifacts.cache[endpoint_sig]
+        if self.cache and isinstance(self.cache, list):
+            for entry in self.cache:
+                if entry.endpoint == endpoint_sig:
+                    logger.info("Found in-memory cache for %s", endpoint_sig)
+                    return entry.cache
 
         # 2) file cache
         logger.info("No in-memory cache for %s, checking file cache...", endpoint_sig)
@@ -712,8 +718,10 @@ class DataEndpointDependency:
                 with cache_path.open("r", encoding="utf-8") as f:
                     data = json.load(f)
                 # đồng bộ vào in-memory cache
-                if self.artifacts and isinstance(self.artifacts.cache, dict):
-                    self.artifacts.cache[endpoint_sig] = data
+                if self.cache is not None:
+                    new_entry = EndpointCache(endpoint=endpoint_sig, cache=data)
+                    self.cache.append(new_entry)
+                logger.info("Loaded file cache for %s", endpoint_sig)
                 return data
             except Exception as e:
                 logger.warning("Failed to read cache file %s: %s", cache_path, e)
@@ -729,8 +737,9 @@ class DataEndpointDependency:
         # Nếu có data, ghi lại cache
         if data is not None:
             # update in-memory
-            if self.artifacts and isinstance(self.artifacts.cache, dict):
-                self.artifacts.cache[endpoint_sig] = data
+            if self.cache is not None:
+                new_entry = EndpointCache(endpoint=endpoint_sig, cache=data)
+                self.cache.append(new_entry)
             # update file
             try:
                 with cache_path.open("w", encoding="utf-8") as f:
@@ -796,21 +805,12 @@ class DataEndpointDependency:
         * Nếu chưa có implement đầy đủ, sẽ trả về context rỗng nhưng đúng format.
         * Bạn có thể thay thế phần 'TODO' bằng logic thật (ensure upstream, cache, compact).
         """
-        # Đảm bảo artifacts đã load
-        if self.artifacts is None:
-            self.load_artifacts()
-
         # Lấy danh sách schemas cho endpoint (nếu có trong artifacts), fallback heuristic.
         schemas = self._schemas_for_endpoint(endpoint_sig)
-
-        # TODO: Thay phần mock này bằng logic thật:
-        # - resolve sequence
-        # - ensure upstream responses (HTTP + cache)
-        # - chọn representative object, compact -> json string
-        # - build blocks theo thứ tự ưu tiên
         blocks: List[DependencyBlock] = []
         producer_endpoints = self._producer_endpoints_for(endpoint_sig)
         if not producer_endpoints:
+            print(f"No producer endpoints found for {endpoint_sig}. Returning empty DependencyContext.")
             return DependencyContext(schemas=schemas, blocks=[])
         else:
             for pe in producer_endpoints:

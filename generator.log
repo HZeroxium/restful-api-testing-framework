@@ -6089,3 +6089,237 @@ TypeError: list indices must be integers or slices, not str
 2025-10-13 20:25:30,609 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
 2025-10-13 20:25:30,610 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
 2025-10-13 20:25:30,615 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-10-18 12:17:23,515 - ERROR - Error in run_generator.py: Swagger spec file for service Bill not found. Please put it according the path: "Dataset/Bill/openapi.json"
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 27, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 90, in __init__
+    raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
+Exception: Swagger spec file for service Bill not found. Please put it according the path: "Dataset/Bill/openapi.json"
+2025-10-18 12:18:03,849 - INFO - Preparing ODG for service: Bill
+2025-10-18 12:18:05,050 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:05,800 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:06,434 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:07,210 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:07,646 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:08,149 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:08,752 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:09,174 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:09,727 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:10,267 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:10,933 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:11,345 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:11,920 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:12,466 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:14,537 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:15,100 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:15,556 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:16,121 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:16,775 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:17,536 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:18,193 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:18,710 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:19,176 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:19,702 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:20,301 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:21,097 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:21,536 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:22,049 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-18 12:18:22,229 - INFO - ODG prepared and saved.
+2025-10-18 12:18:22,235 - INFO - path: /api/v1/BillTypes, method: get
+2025-10-18 12:18:22,235 - INFO - path: /api/v1/BillTypes, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-10-18 12:18:22,236 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Stages, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Stages, method: get
+2025-10-18 12:18:22,237 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,238 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,238 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,238 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,238 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-10-18 12:18:22,239 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-10-18 12:18:22,240 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,240 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-10-18 12:18:22,240 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-10-18 12:18:22,241 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-10-18 12:18:22,241 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,241 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-10-18 12:18:22,241 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-10-18 12:18:22,242 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,242 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-10-18 12:18:22,242 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-10-18 12:18:22,243 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,243 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-10-18 12:18:22,243 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-10-18 12:18:22,243 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,243 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-10-18 12:18:22,244 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-10-18 12:18:22,244 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,245 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-10-18 12:18:22,245 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-10-18 12:18:22,245 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,245 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-10-18 12:18:22,245 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-10-18 12:18:22,246 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,246 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-10-18 12:18:22,246 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-10-18 12:18:22,246 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,246 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-10-18 12:18:22,247 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-10-18 12:18:22,247 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,247 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,247 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-10-18 12:18:22,247 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,248 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,249 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,250 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-10-18 12:18:22,251 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-10-18 12:18:22,251 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,251 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-10-18 12:18:22,252 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Bills, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,253 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-10-18 12:18:22,254 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-10-18 12:18:22,254 - INFO - path: /api/v1/Sittings, method: get
+2025-10-18 12:18:22,254 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-10-18 12:18:22,254 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-10-18 12:18:22,255 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-10-19 14:33:53,283 - ERROR - Error in run_generator.py: Swagger spec file for service Canada Holidays not found. Please put it according the path: "Dataset/Canada Holidays/openapi.json"
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 27, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 90, in __init__
+    raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
+Exception: Swagger spec file for service Canada Holidays not found. Please put it according the path: "Dataset/Canada Holidays/openapi.json"
+2025-10-19 14:34:16,832 - INFO - Preparing ODG for service: Canada Holidays
+2025-10-19 14:34:17,018 - INFO - ODG prepared and saved.
+2025-10-19 14:34:17,021 - INFO - path: /api/v1, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/spec, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/spec, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/holidays, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/holidays, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/provinces, method: get
+2025-10-19 14:34:17,022 - INFO - path: /api/v1/provinces, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/holidays, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/holidays/{holidayId}, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/provinces, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/provinces/{provinceId}, method: get
+2025-10-19 14:34:17,023 - INFO - path: /api/v1/provinces/{provinceId}, method: get
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-10-19 14:34:17,025 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-10-19 14:34:17,025 - ERROR - Error in run_generator.py: unsupported operand type(s) for /: 'str' and 'str'
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 44, in <module>
+    generator.generate_test_data_for(generator.get_endpoints())
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 541, in generate_test_data_for
+    data_generator = TestDataGenerator(
+                     ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/data_generator/data_generator.py", line 82, in __init__
+    self.path_operation_sequences: Path = self.odg_dir / "operation_sequences.json"
+                                          ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+TypeError: unsupported operand type(s) for /: 'str' and 'str'
+2025-10-19 14:36:53,914 - INFO - Preparing ODG for service: Canada Holidays
+2025-10-19 14:36:53,915 - INFO - ODG files already exist. Skipping ODG generation.
+2025-10-19 14:36:53,919 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-10-19 14:36:53,920 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-10-19 14:36:53,920 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-10-19 14:36:53,920 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-10-19 14:36:53,920 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-10-19 14:36:53,920 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-10-19 14:36:53,921 - INFO - Loaded 0 cache entries from /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/ODG/cache
+2025-10-19 14:36:53,921 - WARNING - Request body of get-/api/v1 is not a dictionary
+2025-10-19 14:36:53,921 - WARNING - Request body of get-/api/v1/holidays is not a dictionary
+2025-10-19 14:36:53,922 - WARNING - Request body of get-/api/v1/provinces is not a dictionary
+2025-10-19 14:36:53,922 - WARNING - Request body of get-/api/v1/provinces/{provinceId} is not a dictionary
+2025-10-19 14:36:53,922 - WARNING - Request body of get-/api/v1/holidays/{holidayId} is not a dictionary
+2025-10-19 14:36:53,922 - WARNING - Request body of get-/api/v1/spec is not a dictionary
+2025-10-19 14:36:54,673 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:36:57,659 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:00,738 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:01,101 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:03,822 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:06,683 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:06,685 - INFO - No in-memory cache for get-/api/v1/holidays, checking file cache...
+2025-10-19 14:37:06,685 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/ODG/cache/get-_api_v1_holidays-response_cache.json
+2025-10-19 14:37:06,685 - INFO - No file cache found for get-/api/v1/holidays
+2025-10-19 14:37:06,685 - INFO - No cache found for get-/api/v1/holidays, calling API...
+2025-10-19 14:37:06,685 - INFO - Trying to load test data CSV for endpoint get-/api/v1/holidays
+2025-10-19 14:37:06,685 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_param.csv
+2025-10-19 14:37:06,685 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_body.csv
+2025-10-19 14:37:06,686 - ERROR - No executable test data found for endpoint 'get-/api/v1/holidays'. Tried files:
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_param.csv
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_body.csv
+Make sure the CSV exists and has at least one row with a 2xx expected status code.
+2025-10-19 14:37:06,686 - WARNING - call_api_to_get_data_for_ep(get-/api/v1/holidays) raised: No executable test data found for endpoint 'get-/api/v1/holidays'. Tried files:
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_param.csv
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_holidays_Holidays_body.csv
+Make sure the CSV exists and has at least one row with a 2xx expected status code.
+2025-10-19 14:37:07,046 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:10,111 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:13,662 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:13,665 - INFO - No in-memory cache for get-/api/v1/provinces, checking file cache...
+2025-10-19 14:37:13,665 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/ODG/cache/get-_api_v1_provinces-response_cache.json
+2025-10-19 14:37:13,665 - INFO - No file cache found for get-/api/v1/provinces
+2025-10-19 14:37:13,665 - INFO - No cache found for get-/api/v1/provinces, calling API...
+2025-10-19 14:37:13,665 - INFO - Trying to load test data CSV for endpoint get-/api/v1/provinces
+2025-10-19 14:37:13,666 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_param.csv
+2025-10-19 14:37:13,666 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_body.csv
+2025-10-19 14:37:13,666 - ERROR - No executable test data found for endpoint 'get-/api/v1/provinces'. Tried files:
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_param.csv
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_body.csv
+Make sure the CSV exists and has at least one row with a 2xx expected status code.
+2025-10-19 14:37:13,666 - WARNING - call_api_to_get_data_for_ep(get-/api/v1/provinces) raised: No executable test data found for endpoint 'get-/api/v1/provinces'. Tried files:
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_param.csv
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv/_api_v1_provinces_Provinces_body.csv
+Make sure the CSV exists and has at least one row with a 2xx expected status code.
+2025-10-19 14:37:14,027 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:17,725 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-19 14:37:21,224 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"

@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 1}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid amendmentId available in DependencyContext; cannot generate a real 2xx test case.
+2,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 1}",2xx,llm_success_ignore_optional
+3,"{""billId"": 0, ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+4,"{""billId"": 3973, ""billStageId"": ""abc"", ""amendmentId"": 1}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 0}",4xx,"amendmentId=0 < minimum=1, violating 'minimum' constraint."
+6,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": ""notanint""}",4xx,"amendmentId='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
+7,"{""billId"": 0, ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+8,"{""billId"": 3973, ""billStageId"": 0, ""amendmentId"": 1}",4xx,"billStageId=0 < minimum=1, violating 'minimum' constraint."
+9,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 0}",4xx,"amendmentId=0 < minimum=1, violating 'minimum' constraint."
+10,"{""billId"": -1, ""billStageId"": 0, ""amendmentId"": 1}",4xx,"billId=-1 < minimum=1 and billStageId=0 < minimum=1, both violating 'minimum' constraint."
+11,"{""billId"": ""abc"", ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."

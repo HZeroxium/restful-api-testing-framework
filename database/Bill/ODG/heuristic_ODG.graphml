@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"/>
+<node id="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<node id="get-/api/v1/Bills"/>
+<node id="get-/api/v1/Bills/{billId}/NewsArticles"/>
+<node id="get-/api/v1/Bills/{billId}"/>
+<node id="get-/api/v1/Bills/{billId}/Stages/{billStageId}"/>
+<node id="get-/api/v1/Bills/{billId}/Stages"/>
+<node id="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"/>
+<node id="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+<node id="get-/api/v1/Bills/{billId}/Publications"/>
+<node id="get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/NewsArticles"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Publications"/>
+<edge source="get-/api/v1/Bills" target="get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/NewsArticles"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Publications"/>
+<edge source="get-/api/v1/Bills/{billId}" target="get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages" target="get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"/>
+<edge source="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems" target="get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"/>
+</graph></graphml>

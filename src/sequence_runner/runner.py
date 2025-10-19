@@ -25,7 +25,7 @@ class SequenceRunner:
         service_name: str,
         base_url: str,
         token: Optional[str] = None,
-        endpoint: Optional[str] = None,
+        endpoint: list[str] = None,
         skip_preload: bool = False,
         base_module_file: str = __file__,
         out_file_name: Optional[str] = None,
@@ -38,37 +38,12 @@ class SequenceRunner:
         self.endpoint_filter = endpoint
         self.headers = headers
         self.http = HttpClient(token=token, default_headers=self.headers)
-        self.dep = DependencyService()
         self.response_cache: Dict[str, Any] = {}
 
         # CSV output
         # self.file.open_csv_output(service_name)
 
         # Auto-discover & preload dependencies (optional)
-        if not skip_preload:
-            # Load test cases using models
-            test_cases = []
-            for f in self.file.find_test_case_files(self.endpoint_filter):
-                doc = self.file.load_test_case(f)
-                try:
-                    test_case = parse_test_case_core_from_dict(doc)
-                    test_cases.append(test_case)
-                except Exception as e:
-                    self.logger.warning(f"Failed to parse test case {f}: {e}")
-            
-            eps, mappings = self.dep.auto_discover_dependencies(test_cases)
-            try:
-                t0 = time.time()
-                self.dep.preload_dependencies(self.base_url, self.http, eps, mappings)
-                t1 = time.time()
-                total_ids = sum(len(v) for v in self.dep.available_ids_cache.values())
-                self.logger.info(
-                    f"🧰 Preload done in {t1 - t0:.2f}s | "
-                    f"global_cache={len(self.dep.global_dependency_cache)} endpoint(s), "
-                    f"available_ids={total_ids}"
-                )
-            except Exception as e:
-                self.logger.warning(f"Failed to preload dependencies: {e}")
 
 
     def _extract_reason_from_row(self, row: Dict[str, Any]) -> str:
@@ -103,15 +78,11 @@ class SequenceRunner:
         base_params = step.query_parameters
         base_body = step.request_body
         path_vars = step.path_variables
-        data_deps = step.data_dependencies
 
         if step_responses is None:
             step_responses = []
-
-        # 1) Resolve data dependencies
-        resolved_params, resolved_body = self.dep.resolve_dependencies(
-            base_params, base_body, data_deps, current_step, step_responses
-        )
+        resolved_params = dict(base_params or {})
+        resolved_body = dict(base_body or {})
 
         # 2) Merge test data
         csv_path_vars, not_sure_params = {}, {}
@@ -133,17 +104,10 @@ class SequenceRunner:
             if f"{{{k}}}" in cleaned and (k not in all_path_vars or all_path_vars[k] is None):
                 all_path_vars[k] = v
 
-        # 3a) Resolve %not-sure% (only for vars marked not-sure)
-        for var in not_sure_params:
-            if var not in all_path_vars or all_path_vars[var] in (None, NOT_SURE):
-                val = self.dep.resolve_not_sure_parameter(var, step_responses)
-                if val is not None:
-                    all_path_vars[var] = val
-
         # 3b) Skip row if any required not-sure param remains unresolved
         req_vars = set(required_path_vars(cleaned))
         unresolved_not_sure = [
-            v for v in req_vars if (v in not_sure_params) and (v not in all_path_vars or all_path_vars[v] in (None, NOT_SURE))
+            v for v in req_vars if (v in not_sure_params) and (v not in all_path_vars or all_path_vars[v] is None)
         ]
         if unresolved_not_sure:
             reason = f"Unresolved %not-sure% parameter(s): {', '.join(unresolved_not_sure)}"
@@ -164,12 +128,8 @@ class SequenceRunner:
         missing_vars = [v for v in req_vars if v not in all_path_vars or all_path_vars[v] is None]
         if missing_vars:
             for v in missing_vars:
-                # ưu tiên cache id động nếu có (theo key var)
-                if self.dep.available_ids_cache.get(v):
-                    all_path_vars[v] = self.dep.available_ids_cache[v][0]
-                else:
-                    # generic fallback: id-like -> '1', else 'default'
-                    all_path_vars[v] = "1" if ("id" in v.lower() or v.lower().endswith("id")) else "default"
+                all_path_vars[v] = "1" if ("id" in v.lower() or v.lower().endswith("id")) else "default"
+
 
         # 3d) Remove path variables from query params
         final_params = dict(resolved_params)
@@ -218,12 +178,7 @@ class SequenceRunner:
                 resp_json = resp.json()
             except Exception:
                 resp_json = resp.text
-
-            # Cache response data for later deps
-            if resp.status_code < 400:
-                cache_key = f"{method}_{final_endpoint}"
-                self.response_cache[cache_key] = resp_json
-
+                
             return {
                 "url": full_with_query,
                 "status_code": resp.status_code,

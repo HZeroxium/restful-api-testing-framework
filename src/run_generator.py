@@ -25,7 +25,7 @@ try:
     
     # Khởi tạo generator với service name và collection name
     generator = TestCaseGenerator(
-        service_name="Bill",
+        service_name="Canada Holidays",
         collection="Default",
         save_prompts=True,
         regenerate_test_data=True,  # Force regenerate với prompt mới
@@ -33,15 +33,15 @@ try:
         clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
     )
 
-    generator.generate_test_data_for(generator.get_endpoints())
-    generator.generate_test_cases()
+    # generator.generate_test_data_for(generator.get_endpoints())
+    # generator.generate_test_cases()
     # generator = TestCaseGenerator(
     #     service_name="Bill",
     #     collection="Default",
     #     save_prompts=True,
     #     data_generation_mode="all"
     # )
-    # generator.generate_test_data_for(generator.get_endpoints())
+    generator.generate_test_data_for(generator.get_endpoints())
 
     # get-/api/v1/Bills
     # get-/api/v1/Bills/{billId}/NewsArticles	

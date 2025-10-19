@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 1}",2xx,"billId=3973 and billStageId=19929 are from context; pingPongItemId=1 is within allowed range [1..∞]. However, no real pingPongItemId is resolvable from context, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+2,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 1}",2xx,llm_success_ignore_optional
+3,"{""billId"": 0, ""billStageId"": 19929, ""pingPongItemId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+4,"{""billId"": 3973, ""billStageId"": ""abc"", ""pingPongItemId"": 1}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 0}",4xx,"pingPongItemId=0 < minimum=1, violating 'minimum' constraint."
+6,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": ""notanint""}",4xx,"pingPongItemId='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
+7,"{""billId"": 0, ""billStageId"": 19929, ""pingPongItemId"": 17032}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+8,"{""billId"": 3973, ""billStageId"": 0, ""pingPongItemId"": 17032}",4xx,"billStageId=0 < minimum=1, violating 'minimum' constraint."
+9,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 0}",4xx,"pingPongItemId=0 < minimum=1, violating 'minimum' constraint."
+10,"{""billId"": -1, ""billStageId"": 0, ""pingPongItemId"": 17032}",4xx,"billId=-1 < minimum=1 and billStageId=0 < minimum=1, both violating 'minimum' constraint."
+11,"{""billId"": 0, ""billStageId"": 0, ""pingPongItemId"": 0}",4xx,"billId=0, billStageId=0, and pingPongItemId=0 are all < minimum=1, violating 'minimum' constraint for all fields."

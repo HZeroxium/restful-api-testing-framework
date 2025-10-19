@@ -1,0 +1,5 @@
+{"data": {"billId": 0, "stageId": 7}, "expected_code": "4xx", "reason": "billId%3D0%20%3C%20minimum%3D1%2C%20violating%20%27minimum%27%20constraint."}
+{"data": {"billId": -1, "stageId": 7}, "expected_code": "4xx", "reason": "billId%3D-1%20%3C%20minimum%3D1%2C%20violating%20%27minimum%27%20constraint."}
+{"data": {"billId": "abc", "stageId": 7}, "expected_code": "4xx", "reason": "billId%3D%27abc%27%20is%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20path%20parameter."}
+{"data": {"billId": 3973, "stageId": "xyz"}, "expected_code": "4xx", "reason": "stageId%3D%27xyz%27%20is%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20path%20parameter."}
+{"data": {"billId": "abc", "stageId": "xyz"}, "expected_code": "4xx", "reason": "billId%3D%27abc%27%20and%20stageId%3D%27xyz%27%20are%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20both%20path%20parameters."}

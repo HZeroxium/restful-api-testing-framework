@@ -1,0 +1,67 @@
+2025-10-19 13:20:09,297 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251019132009.log
+2025-10-19 13:20:09,297 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId__GetBill_1_1
+2025-10-19 13:20:09,298 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_stageId_Publications_GET_1_1
+2025-10-19 13:20:09,299 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_GET_1_1
+2025-10-19 13:20:09,299 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Publications_publicationId_Documents_documentId__GET_2_1
+2025-10-19 13:20:09,300 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Stages_GET_0_1
+2025-10-19 13:20:09,301 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Publications_GetBillPublication_1_1
+2025-10-19 13:20:09,301 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: simplified_swagger
+2025-10-19 13:20:09,303 - WARNING - root - Failed to parse test case /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_cases/simplified_swagger.json: Failed to parse TestCaseCore: 4 validation errors for TestCaseCore
+id
+  Field required [type=missing, input_value={'get-/api/v1/Bills/{bill..._v1_Stages_GET_param'}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/missing
+name
+  Field required [type=missing, input_value={'get-/api/v1/Bills/{bill..._v1_Stages_GET_param'}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/missing
+endpoint
+  Field required [type=missing, input_value={'get-/api/v1/Bills/{bill..._v1_Stages_GET_param'}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/missing
+steps
+  Field required [type=missing, input_value={'get-/api/v1/Bills/{bill..._v1_Stages_GET_param'}}}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.10/v/missing
+2025-10-19 13:20:09,303 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Publications_publicationId_Documents_documentId_Download_GET_1_1
+2025-10-19 13:20:09,304 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_BillTypes_GET_0_1
+2025-10-19 13:20:09,304 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_NewsArticles_GetNewsArticles_2_1
+2025-10-19 13:20:09,305 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_2_1
+2025-10-19 13:20:09,305 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_2_1
+2025-10-19 13:20:09,305 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_1_1
+2025-10-19 13:20:09,305 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_1_1
+2025-10-19 13:20:09,306 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_GetBills_0_1
+2025-10-19 13:20:09,306 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_PublicationTypes_GET_0_1
+2025-10-19 13:20:09,306 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Publications_publicationId_Documents_documentId__GET_1_1
+2025-10-19 13:20:09,307 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Rss_allbills_rss_GET_0_1
+2025-10-19 13:20:09,307 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1
+2025-10-19 13:20:09,308 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Publications_GetBillPublication_2_1
+2025-10-19 13:20:09,309 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Rss_publicbills_rss_GET_0_1
+2025-10-19 13:20:09,310 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_stageId_Publications_GET_2_1
+2025-10-19 13:20:09,310 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_GET_2_1
+2025-10-19 13:20:09,310 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Rss_privatebills_rss_GET_0_1
+2025-10-19 13:20:09,311 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_2_1
+2025-10-19 13:20:09,312 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Rss_Bills_id_rss_GET_1_1
+2025-10-19 13:20:09,313 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_1_1
+2025-10-19 13:20:09,315 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_2_1
+2025-10-19 13:20:09,315 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1
+2025-10-19 13:20:09,315 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Sittings_GetSittings_0_1
+2025-10-19 13:20:09,316 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_2_1
+2025-10-19 13:20:09,316 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1
+2025-10-19 13:20:09,316 - INFO - sequence_runner.dependency - 🔍 Found 5 dependency endpoints: ['get-/api/v1/Bills', 'get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}', 'get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments', 'get-/api/v1/Sittings', 'get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications']
+2025-10-19 13:20:09,317 - INFO - sequence_runner.dependency - 📡 Preloading (1/5): get-/api/v1/Bills -> https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 13:20:10,460 - INFO - sequence_runner.dependency -     ⏱️  Response time: 1.14s
+2025-10-19 13:20:10,461 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-19 13:20:10,461 - INFO - sequence_runner.dependency - 📡 Preloading (2/5): get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-19 13:20:10,742 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.28s
+2025-10-19 13:20:10,742 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-19 13:20:10,742 - INFO - sequence_runner.dependency - 📡 Preloading (3/5): get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-19 13:20:11,272 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.53s
+2025-10-19 13:20:11,273 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-19 13:20:11,273 - INFO - sequence_runner.dependency - 📡 Preloading (4/5): get-/api/v1/Sittings -> https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-19 13:20:11,800 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.53s
+2025-10-19 13:20:11,801 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for stageId (ex: ['16143', '16159', '16192'])
+2025-10-19 13:20:11,801 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for pingPongItemId (ex: ['16143', '16159', '16192'])
+2025-10-19 13:20:11,801 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-19 13:20:11,801 - INFO - sequence_runner.dependency - 📡 Preloading (5/5): get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-19 13:20:12,103 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.30s
+2025-10-19 13:20:12,104 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-19 13:20:12,104 - INFO - sequence_runner.dependency - ✅ Preloading complete: 2 endpoints cached
+2025-10-19 13:20:12,104 - INFO - root - 🧰 Preload done in 2.79s | global_cache=2 endpoint(s), available_ids=40
+2025-10-19 13:20:12,105 - INFO - root - Starting test execution for service: Bill

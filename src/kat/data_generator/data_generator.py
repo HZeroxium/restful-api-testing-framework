@@ -1,8 +1,10 @@
 import csv
 import logging
 import os
+from pathlib import Path
 import sys
 import shutil
+from typing import Any, Dict, List
 import uuid
 import random
 from io import StringIO
@@ -12,6 +14,8 @@ import json
 import copy
 
 from kat.data_generator.data_endpoint_dependency import DataEndpointDependency
+from kat.data_generator.helper import load_artifacts
+from kat.data_generator.models import DependencyContext, LineDataBase, SingleEndpointDetailedResult
 
 # Setup logger
 logger = logging.getLogger(__name__)
@@ -54,8 +58,9 @@ class TestDataGenerator:
                  collection: str,
                  selected_endpoints: list = None,
                  generation_mode: str = "all",
-                 working_directory: str = None):
-        
+                 working_directory: str = None,
+                 odg_dir: str = None):
+        self.odg_dir = odg_dir
         self.enabled_mutation = False
         self.swagger_spec: dict = swagger_spec
         self.service_name: str = service_name
@@ -73,26 +78,24 @@ class TestDataGenerator:
         self.filter_params_w_descr             = self.inter_param_dependency_tool._filter_params_w_descr
         self.get_inter_param_constraints       = self.inter_param_dependency_tool.get_inter_param_constraints
         self.get_inter_param_validation_script = self.inter_param_dependency_tool.get_inter_param_validation_script
-        
-        
-        
-        odg_dir = r"C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\database\Bill\ODG"
-        
-        self.dep = DataEndpointDependency(odg_dir=odg_dir, swagger_spec=swagger_spec)
-        self.dep.load_artifacts()
-        
-        
+        self.odg_dir: Path = Path(odg_dir)
+
+
+        self.path_operation_sequences: Path = self.odg_dir / "operation_sequences.json"
+        self.path_topolist: Path = self.odg_dir / "topolist.json"
+        self.path_endpoint_schema_dependencies: Path = self.odg_dir / "endpoint_schema_dependencies.json"
+        self.path_endpoints_belong_to_schemas: Path = self.odg_dir / "endpoints_belong_to_schemas.json"
+        self.artifacts = load_artifacts(odg_path=self.odg_dir)
+        self.dataEndpointDependency = DataEndpointDependency(odg_dir=self.odg_dir, swagger_spec=swagger_spec, artifacts=self.artifacts)
+
         # Init root directory
-        if not os.path.exists(self.root_dir):
-            print(f"[INFO] Creating root directory at {self.root_dir}...")
-            os.makedirs(self.root_dir)
-            os.makedirs(f"{self.root_dir}/csv")
-        else:
-            # Delete all files in the directory
-            print(f"[INFO] Emptying root directory at {self.root_dir}...")
-            shutil.rmtree(self.root_dir)
-            os.makedirs(self.root_dir)
-            os.makedirs(f"{self.root_dir}/csv")
+# Init root directory (SAFE)
+        self.root_dir: str = working_directory
+        self.csv_dir = os.path.join(self.root_dir, "csv")
+
+        os.makedirs(self.root_dir, exist_ok=True)
+        os.makedirs(self.csv_dir, exist_ok=True)
+
     def get_data_file_path_name(self, path: str, method: str, part: str) -> str:
         """
         Get the name of the data file for the endpoint.
@@ -185,7 +188,7 @@ class TestDataGenerator:
         if new_data is None:
             return
         try:
-            csv_file_path: str = f"{self.root_dir}/csv/{data_filename}.csv"
+            csv_file_path: str = f"{self.csv_dir}/{data_filename}.csv"
 
             def _row(idx: int, item: dict):
                 payload = copy.deepcopy(item) if isinstance(item, dict) else {"data": item}
@@ -276,41 +279,6 @@ class TestDataGenerator:
                 invalid_4xx.append(payload)
                 
         return valid_2xx, invalid_4xx
-    def _normalize_llm_items(self, items, fallback_source: str):
-        """
-        Accepts a list returned by parse_jsonl_response().
-        Each item may be either:
-        - {"data": {...}, "reason": "...", "source": "llm_success|llm_violation"}
-        - OR (legacy) a plain dict of payload fields (no wrapper)
-        Returns a list of dict payloads, each with __reason embedded.
-        """
-        if not items:
-            return items
-        out = []
-        for x in items:
-            # Case 1: new wrapped shape with "data"
-            if isinstance(x, dict) and "data" in x and isinstance(x["data"], dict):
-                payload = copy.deepcopy(x["data"])
-                src = (x.get("source") or fallback_source or "").strip()
-                why = (x.get("reason") or "").strip()
-                # combine into __reason
-                tag = src if src else "llm"
-                if why:
-                    payload["__reason"] = f"{tag}: {why}"
-                else:
-                    payload["__reason"] = tag
-                out.append(payload)
-            # Case 2: legacy plain payload (no wrapper)
-            elif isinstance(x, dict):
-                payload = copy.deepcopy(x)
-                # No reason from LLM → mark with fallback
-                payload.setdefault("__reason", f"{fallback_source or 'llm'}")
-                out.append(payload)
-            else:
-                # For non-dict, wrap as {"data":..., "__reason":...}
-                out.append({"data": x, "__reason": f"{fallback_source or 'llm'}"})
-        return out
-
     def get_path_parameter_names(self, endpoint):
         """Get list of path parameter names for an endpoint"""
         try:
@@ -448,325 +416,482 @@ class TestDataGenerator:
             i -= 1
             data = DataGeneratorUtils.parse_jsonl_response(self.get_data_from_gpt(prompt),enc=enc)
             if data is not None:
+                with open ("debug_generated_data.jsonl", "w", encoding="utf-8") as f:
+                    for item in data:
+                        f.write(json.dumps(item, ensure_ascii=False) + "\n")
                 return data
             if i == 0:
                 break
         return None
-
-    def create_test_data_file_from_swagger(self) -> None:
-        amount_instruction = "containing 5 data items,"
-        # amount_instruction = ""
-        
-        if self.selected_endpoints:
-            endpoints = self.selected_endpoints
-        else:
-            endpoints = extract_endpoints(self.swagger_spec)
-        
-        for endpoint in endpoints:
-            param_data_2xx = []
-            param_data_4xx = []
-            body_data_2xx = []
-            body_data_4xx = []
-            
-            print("Generating data for endpoint:", endpoint, "...")
-            # Step 0. Get the method and path from the endpoint string
-            method: str = endpoint.split('-')[0]
-            path: str = '-'.join(endpoint.split('-')[1:])
-
-            if LOGGED:
-                print(f"{endpoint=} -> {method=} {path=}")
-
-            # Step 1. Create the base prompt's smaller parts
-            endpoint_data = get_endpoint_data(self.swagger_spec, endpoint)
-            
-            # Step 2. Generate data in JSON format
-            if "parameters" in endpoint_data.get('definition', {}):
-                lprint(f"{'*'*100}\nGenerating data for parameters of endpoint: {endpoint}...\n{'*'*100}")
-                endpoint_data_parameter_only = copy.deepcopy(endpoint_data)
-                if "responses" in endpoint_data_parameter_only:
-                    del endpoint_data_parameter_only["responses"]
-                if "requestBody" in endpoint_data_parameter_only['definition']:
-                    del endpoint_data_parameter_only['definition']['requestBody']
-                
-                ref_data = ""
-                ref_paths = get_all_reference_schema_path_in_endpoint_object(self.swagger_spec, endpoint_data_parameter_only)
-                
-                for ref_path in ref_paths:
-                    path_list = ref_path.split('/')[1:]
-                    schema_spec = get_object_from_path(self.swagger_spec, path_list)
-                    if schema_spec is not None:
-                        ref_data += f"\n\n{ref_path}:\n"
-                        ref_data += json.dumps(schema_spec)
-                
-                # Context about inter-parameter dependency
-                param_inter_param_constraints = self.get_inter_param_constraints(endpoint, part="param")
-                param_validation_script = ""
-                param_inter_param_prompt_context = ""
-                param_violate_inter_param_prompt_context = ""
-                
-                if param_inter_param_constraints == "":
-                    print(f"The parameters of endpoint {endpoint} do not have any inter-parameter dependency")
-                else:
-                    param_validation_script = self.get_inter_param_validation_script(endpoint, part="param", constraints=param_inter_param_constraints)
-                    param_inter_param_prompt_context = INTER_PARAM_CONTEXT.format(context=param_inter_param_constraints)
-                    param_violate_inter_param_prompt_context = VIOLATE_INTER_PARAM_CONTEXT.format(org_context=param_inter_param_constraints)
-                
-                if self.generation_mode in ["all", "2xx"]:
-                    prompt_2xx        = GET_DATASET_PROMPT.format(
-                        amount_instruction = amount_instruction,
-                        additional_context=param_inter_param_prompt_context,
-                        part="PARAMETERS",
-                        additional_instruction=INSTRUCT_SUCCESS.format(part="PARAMETERS"),
-                        endpoint_data=json.dumps(endpoint_data_parameter_only),
-                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                    )
-                    data_2xx_raw = self.generate_data_items(prompt_2xx)
-                    # Validate and correct LLM output
-                    if data_2xx_raw:
-                        valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(data_2xx_raw, endpoint, "param")
-                        
-                        # Add valid data to 2xx collection
-                        param_data_2xx += valid_2xx
-                        
-                        # Add invalid data that LLM wrongly classified as 2xx to 4xx collection
-                        if invalid_4xx:
-                            param_data_4xx += invalid_4xx
-                        
-                        # Ignore optional combination (only for actually valid data)
-                        if valid_2xx:
-                            extra = DataMutator.ignore_optional_param_combination(self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint)
-                            if extra:
-                                # tag riêng cho biết là bản mở rộng từ logic khung
-                                extra = self._with_reason(extra, "llm_success_ignore_optional")
-                                param_data_2xx += extra
-
-
-                if self.generation_mode in ["all", "4xx"]:
-                    prompt_constraint_violation = GET_DATASET_PROMPT.format(
-                        amount_instruction = amount_instruction,
-                        additional_context=param_violate_inter_param_prompt_context,
-                        part="PARAMETERS",
-                        additional_instruction=INSTRUCTION_CONSTRAINT_VIOLATION,
-                        endpoint_data=json.dumps(endpoint_data_parameter_only),
-                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                    )
-                    data_constraintviolation_raw = self.generate_data_items(prompt_constraint_violation)
-                    if data_constraintviolation_raw:
-                        # Validate and correct LLM output 
-                        valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(data_constraintviolation_raw, endpoint, "param")
-                        
-                        # Add invalid data to 4xx collection
-                        param_data_4xx += invalid_4xx
-                        
-                        # Add valid data that LLM wrongly classified as 4xx to 2xx collection
-                        if valid_2xx:
-                            param_data_2xx += valid_2xx
-
-
-                # Filter data items by the validation script                 
-                if param_validation_script: 
-                    self.save_val_script(self.get_data_file_path_name(path, method, part="param"), param_validation_script)                        
-                    
-                    if self.generation_mode in ["all", "2xx"]:
-                        param_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(json_data_list=param_data_2xx, validation_script=param_validation_script, filter_valid=True)
-                    
-                    if self.generation_mode in ["all", "4xx"]:
-                        param_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(json_data_list=param_data_4xx, validation_script=param_validation_script, filter_valid=False)
-                
-                if self.generation_mode in ["all", "4xx"]:
-                    # Generate data for only 4xx status code by using mutation
-                    if not self.enabled_mutation:
-                        params: list = endpoint_data.get('definition', {}).get('parameters', [])
-                        if len(params) != 0:
-                            # Get 1 row of valid data for parameters using GPT model
-                            param_1_item = None
-                            if param_data_2xx:
-                                param_1_item = param_data_2xx[0]
-                            else:
-                                new_1_item_data = DataGeneratorUtils.parse_jsonl_response(
-                                    self.get_data_from_gpt(GET_DATASET_PROMPT.format(                            
-                                        amount_instruction="containing 1 data item,",
-                                        additional_context=param_inter_param_prompt_context,
-                                        part="PARAMETERS",
-                                        additional_instruction=INSTRUCT_SUCCESS,
-                                        endpoint_data=json.dumps(endpoint_data_parameter_only),
-                                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                                )))
-                                if new_1_item_data:
-                                    param_1_item = new_1_item_data[0]
-                
-                            if param_1_item is not None:
-                                # Loop into each parameter and mutate the value
-                                try:
-                                    # 404
-                                    base_data_item = copy.deepcopy(param_1_item)
-                                    param_404_data = DataMutator.mutate(base_data_item)
-                                    
-                                    if param_404_data:
-                                        param_data_4xx += [param_404_data]
-
-                                    # Missing required
-                                    mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item))
-                                    # Wrong dtype  
-                                    mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_parameter_only, true_data= copy.deepcopy(base_data_item))
-                                    # Write to file
-                                    if mutated_data:
-                                        param_data_4xx += mutated_data
-                                    # self.create_test_data_file(mutated_data, 
-                                    #                         self.get_data_file_path_name(path, method, part="param"), expected_status_code="4xx")
-                                except Exception as e:
-                                    lprint("[INFO] Error when trying to mutate parameters: ", e)
-                                    pass
-                            else:
-                                print("[INFO] Param 1-item data is None, skip mutation")
-
-
-            if "requestBody" in endpoint_data.get("definition", {}) and endpoint_data.get("definition", {}).get("requestBody", {}) is not None:
-                lprint(f"{'*'*100}\nGenerating data for request body of endpoint: {endpoint}...\n{'*'*100}")
-                endpoint_data_request_body_only = copy.deepcopy(endpoint_data)
-                if "responses" in endpoint_data_request_body_only:
-                    del endpoint_data_request_body_only["responses"]
-                if "parameters" in endpoint_data_request_body_only['definition']:
-                    del endpoint_data_request_body_only['definition']['parameters']
-                
-                ref_data = ""
-                ref_paths = get_all_reference_schema_path_in_endpoint_object(self.swagger_spec, 
-                                                         endpoint_data_request_body_only)
-                
-                for ref_path in ref_paths:
-                    path_list = ref_path.split('/')[1:]
-                    schema_spec = get_object_from_path(self.swagger_spec, path_list)
-                    if schema_spec is not None: 
-                        ref_data += f"\n\n{ref_path}:\n"
-                        ref_data += json.dumps(schema_spec)
-
-                # Context about inter-parameter dependency
-                body_inter_param_constraints = self.get_inter_param_constraints(endpoint, part="body")
-                body_validation_script = ""
-                body_inter_param_prompt_context = ""
-                body_violate_inter_param_prompt_context = ""
-                
-                if body_inter_param_constraints == "":
-                    print(f"The body of endpoint {endpoint} do not have any inter-parameter dependency")
-                else:
-                    body_validation_script = self.get_inter_param_validation_script(endpoint, part="body", constraints=body_inter_param_constraints)
-                    body_inter_param_prompt_context = INTER_PARAM_CONTEXT.format(context=body_inter_param_constraints)
-                    body_violate_inter_param_prompt_context = VIOLATE_INTER_PARAM_CONTEXT.format(org_context=body_inter_param_constraints)
-                            
-                if self.generation_mode in ["all", "2xx"]:
-                    prompt_2xx        = GET_DATASET_PROMPT.format(
-                        amount_instruction = amount_instruction,
-                        additional_context=body_inter_param_prompt_context,
-                        part="REQUEST BODY",
-                        additional_instruction=INSTRUCT_SUCCESS.format(part="REQUEST BODY"),
-                        endpoint_data=json.dumps(endpoint_data_request_body_only),
-                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                    )
-                    data_2xx_raw = self.generate_data_items(prompt_2xx, enc=False)
-                    if data_2xx_raw:
-                        # Validate and correct LLM output
-                        valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(data_2xx_raw, endpoint, "body")
-                        
-                        # Add valid data to 2xx collection
-                        body_data_2xx += valid_2xx
-                        
-                        # Add invalid data that LLM wrongly classified as 2xx to 4xx collection
-                        if invalid_4xx:
-                            body_data_4xx += invalid_4xx
-                        
-                        # Ignore optional combination (only for actually valid data)
-                        if valid_2xx:
-                            extra = DataMutator.ignore_optional_param_combination(self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint, for_request_body=True)
-                            if extra:
-                                extra = self._with_reason(extra, "llm_success_ignore_optional")
-                                body_data_2xx += extra
-
-                if self.generation_mode in ["all", "4xx"]:
-                    prompt_constraintviolation = GET_DATASET_PROMPT.format(
-                        amount_instruction = amount_instruction,
-                        additional_context=body_violate_inter_param_prompt_context,
-                        part="REQUEST BODY",
-                        additional_instruction=INSTRUCTION_CONSTRAINT_VIOLATION,
-                        endpoint_data=json.dumps(endpoint_data_request_body_only),
-                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                    )
-                    data_constraintviolation_raw = self.generate_data_items(prompt_constraintviolation, enc=False)
-                    if data_constraintviolation_raw:
-                        # Validate and correct LLM output
-                        valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(data_constraintviolation_raw, endpoint, "body")
-                        
-                        # Add invalid data to 4xx collection
-                        body_data_4xx += invalid_4xx
-                        
-                        # Add valid data that LLM wrongly classified as 4xx to 2xx collection
-                        if valid_2xx:
-                            body_data_2xx += valid_2xx
-
-                # Filter data items by the validation script
-                if body_validation_script:                    
-                    self.save_val_script(self.get_data_file_path_name(path, method, part="body"), body_validation_script)
-                    
-                    if self.generation_mode in ['all', '2xx']:
-                        body_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(body_data_2xx, body_validation_script, filter_valid=True)
-                    
-                    if self.generation_mode in ['all', '4xx']:
-                        body_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(body_data_4xx, body_validation_script, filter_valid=False)
-                
-                if self.generation_mode in ["all", "4xx"]:
-                    if not self.enabled_mutation:
-                        
-                    # Generate data for only 4xx status code by using mutation
-                        if 'requestBody' in self.simplified_swagger_spec[endpoint] and \
-                            self.simplified_swagger_spec[endpoint]['requestBody'] is not None and \
-                            self.simplified_swagger_spec[endpoint]['requestBody'] != "":
-                            
-                            body_1_item = None
-                            if body_data_2xx:
-                                body_1_item = body_data_2xx[0]
-                            else:
-                                new_1_item_data = self.generate_data_items(GET_DATASET_PROMPT.format(
-                                    amount_instruction="containing 1 data item,",
-                                    additional_context=body_inter_param_prompt_context,
-                                    part="REQUEST BODY",
-                                    additional_instruction=INSTRUCT_SUCCESS,
-                                    endpoint_data=json.dumps(endpoint_data_request_body_only),
-                                    ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data != "" else "",
-                                ), enc=False)
-                                if new_1_item_data:
-                                    body_1_item = new_1_item_data[0]
-                            
-                            if body_1_item is not None:
-                                base_data_item = copy.deepcopy(body_1_item)
-                                ### Mutated by heuristic
-                                mutated_data = []
-                                # Missing required
-                                mutated_data = self.mutate_missing_required(endpoint, copy.deepcopy(base_data_item), for_request_body=True)
-                                # Wrong dtype
-                                # mutated_data += DataMutator.mutate_wrong_dtype(swagger_spec=self.swagger_spec,endpoint_data= endpoint_data_request_body_only, true_data= copy.deepcopy(base_data_item))
-                                
-                                if mutated_data:
-                                    body_data_4xx += mutated_data
-            
-            # Balance data items at parameter and request body
-            param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
-            param_data_4xx, body_data_4xx = DataGeneratorUtils.balancing_test_data_item(param_data_4xx, body_data_4xx)
-
-            if param_data_2xx:
-                self.write_test_data_file(param_data_2xx, self.get_data_file_path_name(path, method, part="param"), expected_status_code="2xx")
-            if param_data_4xx:
-                self.write_test_data_file(param_data_4xx, self.get_data_file_path_name(path, method, part="param"), expected_status_code="4xx")
-            if body_data_2xx:
-                self.write_test_data_file(body_data_2xx, self.get_data_file_path_name(path, method, part="body"), expected_status_code="2xx")
-            if body_data_4xx:
-                self.write_test_data_file(body_data_4xx, self.get_data_file_path_name(path, method, part="body"), expected_status_code="4xx")
-
-        # Token count for GPT's test data generation
-        self.input_token_count = round(self.input_token_count/4)
-        self.output_token_count = round(self.output_token_count/4)
-                
 ###################### Add method to handle inter parameter dependencies ###############################
 
+
+
+    def create_test_data_for_endpoint_and_parse(
+        self,
+        endpoint_sig: str,
+        dependency_block: DependencyContext = None,
+        amount_items: int = 5
+    ) -> SingleEndpointDetailedResult:
+        """
+        Sinh test data cho 1 endpoint *không ghi file*, trả về SingleEndpointDetailedResult
+        gồm 4 list (param/body × 2xx/4xx) dưới dạng LineDataBase.
+        """
+
+        # ---------- helpers ----------
+        def _as_line_list(payloads: List[Dict[str, Any]], expected_code: str) -> List[LineDataBase]:
+            """
+            Convert list payload dicts (may contain '__reason') -> List[LineDataBase]
+            expected_code: '2xx' hoặc '4xx'
+            """
+            out: List[LineDataBase] = []
+            idx = 1
+            for p in (payloads or []):
+                if not isinstance(p, dict):
+                    continue
+                # tách reason & data
+                data = {k: v for k, v in p.items() if k != "__reason"}
+                reason = p.get("__reason")
+                out.append(LineDataBase(index=idx, expected_code=expected_code, reason=reason, data=data, raw_json=None))
+                idx += 1
+            return out
+
+        def _merge_ctx(base: str, extra: str) -> str:
+            return f"{base}\n\n{extra}" if base and extra else (base or extra)
+
+        # --- NEW: make reasons consistent with the bucket (2xx/4xx) ---
+        def _reconcile_reasons(payloads: List[Dict[str, Any]], bucket: str, default_reason: str = None) -> List[Dict[str, Any]]:
+            """
+            Ensure every payload in `payloads` has __reason aligned to `bucket`.
+            If reason is missing or contradicts the bucket, overwrite with a sane default.
+            """
+            if not payloads:
+                return payloads
+            bucket = bucket.lower()
+            want_2xx = bucket.startswith("2")
+            for p in payloads:
+                if not isinstance(p, dict):
+                    continue
+                r = (p.get("__reason") or p.get("reason") or "").strip()
+                rl = r.lower()
+                if want_2xx:
+                    bad = (not r) or ("violate" in rl) or ("invalid" in rl) or ("error" in rl) or ("4xx" in rl)
+                    if bad:
+                        p["__reason"] = default_reason or "All provided fields satisfy the spec (2xx)."
+                    else:
+                        p["__reason"] = r
+                else:
+                    bad = (not r) or ("valid" in rl and "invalid" not in rl) or ("2xx" in rl)
+                    if bad:
+                        p["__reason"] = default_reason or "One or more fields deliberately violate the spec (4xx)."
+                    else:
+                        p["__reason"] = r
+            return payloads
+
+        # --- NEW: apply a short tag to a list of payloads (kept in __reason) ---
+        def _tag_reason(payloads: List[Dict[str, Any]], tag: str) -> List[Dict[str, Any]]:
+            if not payloads:
+                return payloads
+            for p in payloads:
+                if isinstance(p, dict):
+                    base = (p.get("__reason") or "").strip()
+                    p["__reason"] = f"{tag}" + (f": {base}" if base else "")
+            return payloads
+
+        # --- NEW: ensure a payload has a reason; if absent, set fallback ---
+        def _ensure_reason(p: Dict[str, Any], fallback: str) -> Dict[str, Any]:
+            if isinstance(p, dict) and not (p.get("__reason") or p.get("reason")):
+                p["__reason"] = fallback
+            return p
+
+        # ---------- chuẩn bị ----------
+        try:
+            method: str = endpoint_sig.split("-")[0]
+            path: str = "-".join(endpoint_sig.split("-")[1:])
+        except Exception as e:
+            raise ValueError(f"Invalid endpoint_sig '{endpoint_sig}': {e}")
+
+        endpoint_data = get_endpoint_data(self.swagger_spec, endpoint_sig)
+        if not endpoint_data:
+            raise RuntimeError(f"Cannot find endpoint data for: {endpoint_sig}")
+
+        amount_instruction = f"containing {amount_items} data items,"
+        # build ref_data cho prompt
+        ref_data = ""
+        try:
+            ref_paths = get_all_reference_schema_path_in_endpoint_object(self.swagger_spec, copy.deepcopy(endpoint_data))
+            for ref_path in ref_paths:
+                path_list = ref_path.split('/')[1:]
+                schema_spec = get_object_from_path(self.swagger_spec, path_list)
+                if schema_spec is not None:
+                    ref_data += f"\n\n{ref_path}:\n{json.dumps(schema_spec, ensure_ascii=False)}"
+        except Exception:
+            pass
+
+        # kết quả in-memory
+        param_data_2xx: list = []
+        param_data_4xx: list = []
+        body_data_2xx: list = []
+        body_data_4xx: list = []
+
+        # =========================
+        # 1) PARAMETERS
+        # =========================
+        if "parameters" in endpoint_data.get("definition", {}):
+            ep_param_only = copy.deepcopy(endpoint_data)
+            ep_param_only.pop("responses", None)
+            ep_param_only["definition"].pop("requestBody", None)
+
+            constraints_param = self.get_inter_param_constraints(endpoint_sig, part="param")
+            inter_ctx = ""
+            violate_ctx = ""
+            param_validation_script = ""
+            if constraints_param:
+                param_validation_script = self.get_inter_param_validation_script(endpoint_sig, part="param", constraints=constraints_param)
+                inter_ctx = INTER_PARAM_CONTEXT.format(context=constraints_param)
+                violate_ctx = VIOLATE_INTER_PARAM_CONTEXT.format(org_context=constraints_param)
+
+            # 2xx
+            prompt_p2 = GET_DATASET_PROMPT.format(
+                amount_instruction=amount_instruction,
+                additional_context=_merge_ctx(inter_ctx, dependency_block),
+                part="PARAMETERS",
+                additional_instruction=INSTRUCT_SUCCESS.format(part="PARAMETERS"),
+                endpoint_data=json.dumps(ep_param_only, ensure_ascii=False),
+                ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            )
+
+            p2_raw = self.generate_data_items(prompt_p2)
+            if p2_raw:
+                # normalize/tags before validation split
+                p2_raw = _tag_reason(p2_raw, "llm_success")
+                valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(p2_raw, endpoint_sig, "param")
+                # reconcile reasons with their actual buckets
+                param_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
+                param_data_4xx += _reconcile_reasons(invalid_4xx, "4xx")
+
+                if valid_2xx:
+                    extra = DataMutator.ignore_optional_param_combination(
+                        self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig
+                    )
+                    if extra:
+                        extra = _tag_reason(extra, "llm_success_ignore_optional")
+                        param_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional parameters omitted while staying valid (2xx).")
+
+            # 4xx
+            prompt_p4 = GET_DATASET_PROMPT.format(
+                amount_instruction=amount_instruction,
+                additional_context=_merge_ctx(violate_ctx, dependency_block),
+                part="PARAMETERS",
+                additional_instruction=INSTRUCTION_CONSTRAINT_VIOLATION,
+                endpoint_data=json.dumps(ep_param_only, ensure_ascii=False),
+                ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            )
+            p4_raw = self.generate_data_items(prompt_p4)
+            if p4_raw:
+                p4_raw = _tag_reason(p4_raw, "llm_violation")
+                valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(p4_raw, endpoint_sig, "param")
+                param_data_4xx += _reconcile_reasons(invalid_4xx, "4xx")
+                param_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
+
+            # validation script filter
+            # if param_validation_script:
+            #     if param_data_2xx:
+            #         param_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+            #             param_data_2xx, param_validation_script, filter_valid=True
+            #         )
+            #     if param_data_4xx:
+            #         param_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+            #             param_data_4xx, param_validation_script, filter_valid=False
+            #         )
+
+            # mutation bồi 4xx
+            # try:
+            #     base_1 = param_data_2xx[0] if param_data_2xx else None
+            #     if not base_1:
+            #         one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
+            #             amount_instruction="containing 1 data item,",
+            #             additional_context=_merge_ctx(inter_ctx, dependency_block),
+            #             part="PARAMETERS",
+            #             additional_instruction=INSTRUCT_SUCCESS,
+            #             endpoint_data=json.dumps(ep_param_only, ensure_ascii=False),
+            #             ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            #         ))
+            #         if one_raw:
+            #             base_1 = one_raw[0]
+            #             _ensure_reason(base_1, "seed sample for mutations")
+
+            #     if base_1:
+            #         # heuristic/out-of-range mutation
+            #         mutated_404 = DataMutator.mutate(copy.deepcopy(base_1))
+            #         if mutated_404:
+            #             _ensure_reason(mutated_404, "heuristic_mutation: out-of-range/invalid primitives")
+            #             param_data_4xx.append(mutated_404)
+
+            #         # missing-required + wrong dtype
+            #         mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1))
+            #         mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in (mutated or []) ]
+
+            #         mutated += DataMutator.mutate_wrong_dtype(
+            #             swagger_spec=self.swagger_spec, endpoint_data=ep_param_only, true_data=copy.deepcopy(base_1)
+            #         ) or []
+            #         mutated = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in mutated ]
+
+            #         if mutated:
+            #             param_data_4xx += mutated
+            # except Exception as e:
+            #     logger.info(f"[PARAM] Mutation error: {e}")
+
+        # =========================
+        # 2) REQUEST BODY
+        # =========================
+        if "requestBody" in endpoint_data.get("definition", {}) and endpoint_data["definition"]["requestBody"] is not None:
+            ep_body_only = copy.deepcopy(endpoint_data)
+            ep_body_only.pop("responses", None)
+            ep_body_only["definition"].pop("parameters", None)
+
+            constraints_body = self.get_inter_param_constraints(endpoint_sig, part="body")
+            inter_ctx_b = ""
+            violate_ctx_b = ""
+            body_validation_script = ""
+            if constraints_body:
+                body_validation_script = self.get_inter_param_validation_script(endpoint_sig, part="body", constraints=constraints_body)
+                inter_ctx_b = INTER_PARAM_CONTEXT.format(context=constraints_body)
+                violate_ctx_b = VIOLATE_INTER_PARAM_CONTEXT.format(org_context=constraints_body)
+
+            # 2xx
+            prompt_b2 = GET_DATASET_PROMPT.format(
+                amount_instruction=amount_instruction,
+                additional_context=_merge_ctx(inter_ctx_b, dependency_block),
+                part="REQUEST BODY",
+                additional_instruction=INSTRUCT_SUCCESS.format(part="REQUEST BODY"),
+                endpoint_data=json.dumps(ep_body_only, ensure_ascii=False),
+                ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            )
+            b2_raw = self.generate_data_items(prompt_b2, enc=False)
+            if b2_raw:
+                b2_raw = _tag_reason(b2_raw, "llm_success")
+                valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(b2_raw, endpoint_sig, "body")
+                body_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
+                body_data_4xx += _reconcile_reasons(invalid_4xx, "4xx")
+                if valid_2xx:
+                    extra = DataMutator.ignore_optional_param_combination(
+                        self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig, for_request_body=True
+                    )
+                    if extra:
+                        extra = _tag_reason(extra, "llm_success_ignore_optional")
+                        body_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional fields omitted while staying valid (2xx).")
+
+            # 4xx
+            prompt_b4 = GET_DATASET_PROMPT.format(
+                amount_instruction=amount_instruction,
+                additional_context=_merge_ctx(violate_ctx_b, dependency_block),
+                part="REQUEST BODY",
+                additional_instruction=INSTRUCTION_CONSTRAINT_VIOLATION,
+                endpoint_data=json.dumps(ep_body_only, ensure_ascii=False),
+                ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            )
+            b4_raw = self.generate_data_items(prompt_b4, enc=False)
+            if b4_raw:
+                b4_raw = _tag_reason(b4_raw, "llm_violation")
+                valid_2xx, invalid_4xx = self._validate_and_correct_expected_code(b4_raw, endpoint_sig, "body")
+                body_data_4xx += _reconcile_reasons(invalid_4xx, "4xx")
+                body_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
+
+            # # validation script filter
+            # if body_validation_script:
+            #     if body_data_2xx:
+            #         body_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+            #             body_data_2xx, body_validation_script, filter_valid=True
+            #         )
+            #     if body_data_4xx:
+            #         body_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+            #             body_data_4xx, body_validation_script, filter_valid=False
+            #         )
+
+            # mutation bồi 4xx
+            # try:
+            #     base_1 = body_data_2xx[0] if body_data_2xx else None
+            #     if not base_1:
+            #         one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
+            #             amount_instruction="containing 1 data item,",
+            #             additional_context=_merge_ctx(inter_ctx_b, dependency_block),
+            #             part="REQUEST BODY",
+            #             additional_instruction=INSTRUCT_SUCCESS,
+            #             endpoint_data=json.dumps(ep_body_only, ensure_ascii=False),
+            #             ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+            #         ), enc=False)
+            #         if one_raw:
+            #             base_1 = one_raw[0]
+            #             _ensure_reason(base_1, "seed sample for mutations")
+
+            #     if base_1:
+            #         mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1), for_request_body=True) or []
+            #         mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in mutated ]
+
+            #         # mở nếu muốn thêm wrong dtype cho body:
+            #         # wd = DataMutator.mutate_wrong_dtype(self.swagger_spec, ep_body_only, copy.deepcopy(base_1)) or []
+            #         # wd = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in wd ]
+            #         # mutated += wd
+
+            #         if mutated:
+            #             body_data_4xx += mutated
+            # except Exception as e:
+            #     logger.info(f"[BODY] Mutation error: {e}")
+
+        # =========================
+        # 3) Cân bằng & convert to model (KHÔNG GHI FILE)
+        # =========================
+        # Final reconciliation before balancing (paranoia pass)
+        param_data_2xx = _reconcile_reasons(param_data_2xx, "2xx")
+        body_data_2xx  = _reconcile_reasons(body_data_2xx,  "2xx")
+        param_data_4xx = _reconcile_reasons(param_data_4xx, "4xx")
+        body_data_4xx  = _reconcile_reasons(body_data_4xx,  "4xx")
+
+        param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
+        param_data_4xx, body_data_4xx = DataGeneratorUtils.balancing_test_data_item(param_data_4xx, body_data_4xx)
+
+        result = SingleEndpointDetailedResult(
+            endpoint=endpoint_sig,
+            param_2xx=_as_line_list(param_data_2xx, "2xx"),
+            param_4xx=_as_line_list(param_data_4xx, "4xx"),
+            body_2xx=_as_line_list(body_data_2xx, "2xx"),
+            body_4xx=_as_line_list(body_data_4xx, "4xx"),
+        )
+        return result
+
 ########################################################################################################
+    def print_dependency_context(self,context: DependencyContext):
+        print("Schemas in context:")
+        for item in context.schemas:
+            print(f"- {json.dumps(item)}")
+        print("Blocks in context:")
+    def generateData(self):
+            """
+            Chạy theo topo list:
+            1) Lấy dependency context cho mỗi endpoint (từ DataEndpointDependency)
+            2) Gọi create_test_data_for_endpoint_and_parse(...) để sinh dữ liệu (LineDataBase lists)
+            3) Ghi ra 4 file CSV: param/body × 2xx/4xx
+            """
+            # Chọn danh sách endpoint để chạy
 
-    def create_data(): 
+            list_endpoints = self.artifacts.topolist
 
+            # Bạn đang thử [:3] ở bản nháp; nếu muốn giữ, mở dòng dưới:
+            # list_endpoints = list_endpoints[:3]
+
+            # Helper convert LineDataBase -> dict payload (phù hợp write_test_data_file)
+            def _lines_to_payloads(lines):
+                out = []
+                for ln in (lines or []):
+                    try:
+                        # LineDataBase: index, expected_code, reason, data, raw_json
+                        payload = copy.deepcopy(ln.data) if isinstance(ln.data, dict) else {"data": ln.data}
+                        # đưa reason vào __reason để write_test_data_file pop sang cột "reason"
+                        if ln.reason:
+                            payload["__reason"] = ln.reason
+                        out.append(payload)
+                    except Exception:
+                        continue
+                return out
+
+            # Chạy từng endpoint
+            summary = []
+            for endpoint in list_endpoints:
+                try:
+                    print(f"Generating data for endpoint: {endpoint}...")
+
+                    # method/path để đặt tên file CSV
+                    method: str = endpoint.split("-")[0]
+                    path:   str = "-".join(endpoint.split("-")[1:])
+
+                    # Lấy dependency context từ ODG
+                    dep_ctx_obj = None
+                    try:
+                        dep_ctx_obj = self.dataEndpointDependency.get_endpoints_dependency_data(endpoint)
+                        self.print_dependency_context(dep_ctx_obj)
+                    except Exception as e:
+                        logger.warning(f"[WARN] get_endpoints_dependency_data failed for {endpoint}: {e}")
+
+
+                    # Gọi core generator (trả về SingleEndpointDetailedResult)
+                    result = self.create_test_data_for_endpoint_and_parse(
+                        endpoint_sig=endpoint,
+                        dependency_block=dep_ctx_obj,
+                        amount_items=5
+                    )
+
+                    # Chuyển LineDataBase -> list[dict] cho writer
+                    param_2xx = _lines_to_payloads(getattr(result, "param_2xx", None))
+                    param_4xx = _lines_to_payloads(getattr(result, "param_4xx", None))
+                    body_2xx  = _lines_to_payloads(getattr(result, "body_2xx", None))
+                    body_4xx  = _lines_to_payloads(getattr(result, "body_4xx", None))
+
+                    # Cân bằng số lượng item giữa param/body (giữ nguyên chiến lược cũ)
+                    param_2xx, body_2xx = DataGeneratorUtils.balancing_test_data_item(param_2xx, body_2xx)
+                    param_4xx, body_4xx = DataGeneratorUtils.balancing_test_data_item(param_4xx, body_4xx)
+
+                    # Ghi file CSV
+                    base_param = self.get_data_file_path_name(path, method, part="param")
+                    base_body  = self.get_data_file_path_name(path, method, part="body")
+
+                    if param_2xx:
+                        self.write_test_data_file(param_2xx, base_param, expected_status_code="2xx")
+                    if param_4xx:
+                        self.write_test_data_file(param_4xx, base_param, expected_status_code="4xx")
+                    if body_2xx:
+                        self.write_test_data_file(body_2xx,  base_body,  expected_status_code="2xx")
+                    if body_4xx:
+                        self.write_test_data_file(body_4xx,  base_body,  expected_status_code="4xx")
+
+                    summary.append({
+                        "endpoint": endpoint,
+                        "param_2xx": len(param_2xx or []),
+                        "param_4xx": len(param_4xx or []),
+                        "body_2xx":  len(body_2xx  or []),
+                        "body_4xx":  len(body_4xx  or []),
+                    })
+                    print(f"✓ Done {endpoint}: "
+                        f"param(2xx={len(param_2xx or [])},4xx={len(param_4xx or [])}), "
+                        f"body(2xx={len(body_2xx or [])},4xx={len(body_4xx or [])})")
+
+                except Exception as e:
+                    logger.error(f"[ERROR] Generate data failed for {endpoint}: {e}", exc_info=False)
+
+            # Token count quy đổi “ước lượng” (đã có trong class)
+            self.input_token_count  = round(self.input_token_count/4)
+            self.output_token_count = round(self.output_token_count/4)
+
+            # Log tổng kết ngắn
+            total_rows = sum(s["param_2xx"]+s["param_4xx"]+s["body_2xx"]+s["body_4xx"] for s in summary)
+            print(f"\n=== SUMMARY ===")
+            print(f"Endpoints processed: {len(summary)}")
+            print(f"Total CSV rows: {total_rows}")
+            for s in summary:
+                print(f"- {s['endpoint']}: "
+                    f"param(2xx={s['param_2xx']},4xx={s['param_4xx']}), "
+                    f"body(2xx={s['body_2xx']},4xx={s['body_4xx']})")
+
+def read_swagger_data(file_path):
+    with open(file_path, 'r', encoding="utf-8") as file:
+        return json.load(file)
+
+
+if __name__ == "__main__":
+    # --- 1. Khởi tạo ---
+    swagger_file = r"database/Bill/specs/openapi.json"
+
+    odg_dir = r"database/Bill/ODG"
+    work_dir = r"database/Bill"
+    if not os.path.exists(work_dir):
+        os.makedirs(work_dir)
+    
+     # --- 2. Đọc swagger_spec ---
+    swagger_spec = read_swagger_data(swagger_file)
+    testDataGenerator = TestDataGenerator(swagger_spec=swagger_spec,
+                                          service_name="Bill",
+                                          collection="Bill Collection",
+                                          generation_mode="all",
+                                          working_directory=work_dir)
+    
+    testDataGenerator.generateData()

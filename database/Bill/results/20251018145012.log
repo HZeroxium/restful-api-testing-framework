@@ -1,0 +1,855 @@
+2025-10-18 14:50:12,594 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018145012.log
+2025-10-18 14:50:12,595 - INFO - sequence_runner.io_file - Found 32 test case files total
+2025-10-18 14:50:12,598 - INFO - sequence_runner.dependency - 🔍 Found 5 dependency endpoints: ['get-/api/v1/Sittings', 'get-/api/v1/Bills', 'get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications', 'get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments', 'get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}']
+2025-10-18 14:50:12,599 - INFO - sequence_runner.dependency - 📡 Preloading (1/5): get-/api/v1/Sittings -> https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.16s
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for billId (ex: ['16143', '16159', '16192'])
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for stageId (ex: ['16143', '16159', '16192'])
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for billStageId (ex: ['16143', '16159', '16192'])
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     📋 Cached 20 IDs for pingPongItemId (ex: ['16143', '16159', '16192'])
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-18 14:50:12,760 - INFO - sequence_runner.dependency - 📡 Preloading (2/5): get-/api/v1/Bills -> https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:12,813 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.05s
+2025-10-18 14:50:12,813 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-18 14:50:12,813 - INFO - sequence_runner.dependency - 📡 Preloading (3/5): get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:12,872 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.06s
+2025-10-18 14:50:12,872 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-18 14:50:12,872 - INFO - sequence_runner.dependency - 📡 Preloading (4/5): get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:12,929 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.06s
+2025-10-18 14:50:12,930 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-18 14:50:12,930 - INFO - sequence_runner.dependency - 📡 Preloading (5/5): get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> https://bills-api.parliament.uk/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-18 14:50:13,046 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.12s
+2025-10-18 14:50:13,046 - WARNING - sequence_runner.dependency -     ❌ Failed (404): 
+2025-10-18 14:50:13,046 - INFO - sequence_runner.dependency - ✅ Preloading complete: 2 endpoints cached
+2025-10-18 14:50:13,046 - INFO - root - 🧰 Preload done in 0.45s | global_cache=2 endpoint(s), available_ids=80
+2025-10-18 14:50:13,046 - INFO - root - Starting test execution for service: Bill
+2025-10-18 14:50:13,046 - INFO - sequence_runner.io_file - Found 32 test case files total
+2025-10-18 14:50:13,047 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018145012.csv
+2025-10-18 14:50:13,047 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-18 14:50:13,047 - INFO - root - Running test case: _api_v1_Bills_GetBills_0_1.json
+2025-10-18 14:50:13,048 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills
+2025-10-18 14:50:13,048 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_GetBills' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:13,048 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:13,048 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:13,048 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:13,048 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:13,048 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:13,048 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:13,048 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:13,048 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:13,126 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (0.076s)
+2025-10-18 14:50:13,227 - INFO - root - Running test case: _api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1.json
+2025-10-18 14:50:13,227 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/NewsArticles
+2025-10-18 14:50:13,227 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_NewsArticles_GetNewsArticles' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:13,227 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:13,227 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:13,227 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:13,227 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:13,227 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:13,227 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:13,227 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:13,227 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:13,282 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:13,282 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:13,282 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16159
+2025-10-18 14:50:13,282 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16159
+2025-10-18 14:50:13,282 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:13,282 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/NewsArticles
+2025-10-18 14:50:13,282 - INFO - root -     Final endpoint:    /api/v1/Bills/16159/NewsArticles
+2025-10-18 14:50:13,282 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16159/NewsArticles
+2025-10-18 14:50:13,282 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16159/NewsArticles
+2025-10-18 14:50:13,282 - INFO - root -     Path variables:    {'billId': '16159'}
+2025-10-18 14:50:14,680 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/NewsArticles -> 404  (1.396s)
+2025-10-18 14:50:14,680 - ERROR - root -     Response: "The resource Bill ID: 16159 was not found"
+2025-10-18 14:50:14,781 - INFO - root - Running test case: _api_v1_Bills_billId_NewsArticles_GetNewsArticles_2_1.json
+2025-10-18 14:50:14,782 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/NewsArticles
+2025-10-18 14:50:14,782 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_NewsArticles_GetNewsArticles' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:14,782 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:14,782 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:14,782 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:14,782 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:14,782 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:14,782 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:14,782 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:14,782 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:14,839 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:14,839 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:14,839 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16192
+2025-10-18 14:50:14,840 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16192
+2025-10-18 14:50:14,840 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:14,840 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/NewsArticles
+2025-10-18 14:50:14,840 - INFO - root -     Final endpoint:    /api/v1/Bills/16192/NewsArticles
+2025-10-18 14:50:14,840 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16192/NewsArticles
+2025-10-18 14:50:14,840 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16192/NewsArticles
+2025-10-18 14:50:14,840 - INFO - root -     Path variables:    {'billId': '16192'}
+2025-10-18 14:50:15,393 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/NewsArticles -> 404  (0.552s)
+2025-10-18 14:50:15,394 - ERROR - root -     Response: "The resource Bill ID: 16192 was not found"
+2025-10-18 14:50:15,495 - INFO - root - Running test case: _api_v1_Bills_billId_Publications_GetBillPublication_1_1.json
+2025-10-18 14:50:15,496 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Publications
+2025-10-18 14:50:15,497 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Publications_GetBillPublication' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:15,497 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:15,497 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:15,497 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:15,497 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:15,497 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:15,497 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:15,497 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:15,497 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:15,554 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16143
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16143
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 17166
+2025-10-18 14:50:15,554 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 17166
+2025-10-18 14:50:15,554 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:15,554 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:15,555 - INFO - root -     Final endpoint:    /api/v1/Bills/16143/Stages/17166/Publications
+2025-10-18 14:50:15,555 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16143/Stages/17166/Publications
+2025-10-18 14:50:15,555 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16143/Stages/17166/Publications
+2025-10-18 14:50:15,555 - INFO - root -     Path variables:    {'billId': '16143', 'stageId': '17166'}
+2025-10-18 14:50:16,346 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:16,347 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:16,347 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16795
+2025-10-18 14:50:16,347 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16795
+2025-10-18 14:50:16,347 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:16,348 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Publications
+2025-10-18 14:50:16,348 - INFO - root -     Final endpoint:    /api/v1/Bills/16795/Publications
+2025-10-18 14:50:16,348 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16795/Publications
+2025-10-18 14:50:16,348 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16795/Publications
+2025-10-18 14:50:16,348 - INFO - root -     Path variables:    {'billId': '16795'}
+2025-10-18 14:50:19,046 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Publications -> 404  (2.696s)
+2025-10-18 14:50:19,046 - ERROR - root -     Response: "The resource Bill ID: 16795 was not found"
+2025-10-18 14:50:19,148 - INFO - root - Running test case: _api_v1_Bills_billId_Publications_GetBillPublication_2_1.json
+2025-10-18 14:50:19,148 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Publications
+2025-10-18 14:50:19,148 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Publications_GetBillPublication' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:19,148 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:19,148 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:19,148 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:19,148 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:19,149 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:19,149 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:19,149 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:19,149 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:19,260 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16954
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16954
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 16900
+2025-10-18 14:50:19,260 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 16900
+2025-10-18 14:50:19,260 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:19,260 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:19,260 - INFO - root -     Final endpoint:    /api/v1/Bills/16954/Stages/16900/Publications
+2025-10-18 14:50:19,260 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16954/Stages/16900/Publications
+2025-10-18 14:50:19,260 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16954/Stages/16900/Publications
+2025-10-18 14:50:19,260 - INFO - root -     Path variables:    {'billId': '16954', 'stageId': '16900'}
+2025-10-18 14:50:19,686 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:19,687 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:19,687 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16233
+2025-10-18 14:50:19,687 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16233
+2025-10-18 14:50:19,687 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:19,687 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Publications
+2025-10-18 14:50:19,687 - INFO - root -     Final endpoint:    /api/v1/Bills/16233/Publications
+2025-10-18 14:50:19,687 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16233/Publications
+2025-10-18 14:50:19,688 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16233/Publications
+2025-10-18 14:50:19,688 - INFO - root -     Path variables:    {'billId': '16233'}
+2025-10-18 14:50:20,198 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Publications -> 404  (0.509s)
+2025-10-18 14:50:20,198 - ERROR - root -     Response: "The resource Bill ID: 16233 was not found"
+2025-10-18 14:50:20,300 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_GET_1_1.json
+2025-10-18 14:50:20,301 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages
+2025-10-18 14:50:20,301 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:20,301 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:20,301 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:20,301 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:20,301 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:20,301 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:20,301 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:20,301 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:20,301 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:20,418 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:20,419 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:20,419 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16233
+2025-10-18 14:50:20,419 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16233
+2025-10-18 14:50:20,419 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:20,419 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages
+2025-10-18 14:50:20,419 - INFO - root -     Final endpoint:    /api/v1/Bills/16233/Stages
+2025-10-18 14:50:20,419 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16233/Stages
+2025-10-18 14:50:20,419 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16233/Stages
+2025-10-18 14:50:20,419 - INFO - root -     Path variables:    {'billId': '16233'}
+2025-10-18 14:50:21,624 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages -> 404  (1.203s)
+2025-10-18 14:50:21,624 - ERROR - root -     Response: "The resource Bill ID: 16233 was not found"
+2025-10-18 14:50:21,725 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_GET_2_1.json
+2025-10-18 14:50:21,726 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages
+2025-10-18 14:50:21,727 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:21,727 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:21,727 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:21,727 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:21,728 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:21,730 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:21,731 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:21,732 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:21,732 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:21,786 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:21,786 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:21,786 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16159
+2025-10-18 14:50:21,786 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16159
+2025-10-18 14:50:21,786 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:21,786 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages
+2025-10-18 14:50:21,786 - INFO - root -     Final endpoint:    /api/v1/Bills/16159/Stages
+2025-10-18 14:50:21,787 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16159/Stages
+2025-10-18 14:50:21,787 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16159/Stages
+2025-10-18 14:50:21,787 - INFO - root -     Path variables:    {'billId': '16159'}
+2025-10-18 14:50:22,616 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages -> 404  (0.827s)
+2025-10-18 14:50:22,616 - ERROR - root -     Response: "The resource Bill ID: 16159 was not found"
+2025-10-18 14:50:22,718 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1.json
+2025-10-18 14:50:22,719 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:22,719 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:22,719 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:22,719 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:22,719 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:22,719 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:22,719 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:22,719 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:22,719 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:22,719 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:22,774 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16233
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16233
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16528
+2025-10-18 14:50:22,774 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16528
+2025-10-18 14:50:22,774 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:22,774 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:22,774 - INFO - root -     Final endpoint:    /api/v1/Bills/16233/Stages/16528/Amendments
+2025-10-18 14:50:22,774 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16233/Stages/16528/Amendments
+2025-10-18 14:50:22,774 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16233/Stages/16528/Amendments
+2025-10-18 14:50:22,774 - INFO - root -     Path variables:    {'billId': '16233', 'billStageId': '16528'}
+2025-10-18 14:50:23,565 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404  (0.789s)
+2025-10-18 14:50:23,565 - ERROR - root -     Response: "The resource Bill ID: 16233, BillStage ID: 16528 was not found"
+2025-10-18 14:50:23,666 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_2_1.json
+2025-10-18 14:50:23,667 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:23,668 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:23,668 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:23,668 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:23,668 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:23,668 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:23,668 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:23,668 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:23,668 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:23,668 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:23,722 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:23,722 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:23,722 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16954
+2025-10-18 14:50:23,722 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16954
+2025-10-18 14:50:23,722 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:23,722 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16639
+2025-10-18 14:50:23,723 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16639
+2025-10-18 14:50:23,723 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:23,723 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:23,723 - INFO - root -     Final endpoint:    /api/v1/Bills/16954/Stages/16639/Amendments
+2025-10-18 14:50:23,723 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16954/Stages/16639/Amendments
+2025-10-18 14:50:23,723 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16954/Stages/16639/Amendments
+2025-10-18 14:50:23,723 - INFO - root -     Path variables:    {'billId': '16954', 'billStageId': '16639'}
+2025-10-18 14:50:24,108 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404  (0.383s)
+2025-10-18 14:50:24,109 - ERROR - root -     Response: "The resource Bill ID: 16954, BillStage ID: 16639 was not found"
+2025-10-18 14:50:24,210 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_1_1.json
+2025-10-18 14:50:24,211 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}
+2025-10-18 14:50:24,211 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:24,211 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:24,211 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:24,211 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:24,211 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:24,211 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:24,211 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:24,211 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:24,211 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:24,264 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 17193
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 17193
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 17166
+2025-10-18 14:50:24,264 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 17166
+2025-10-18 14:50:24,264 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:24,264 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:24,264 - INFO - root -     Final endpoint:    /api/v1/Bills/17193/Stages/17166/Amendments
+2025-10-18 14:50:24,264 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/17193/Stages/17166/Amendments
+2025-10-18 14:50:24,264 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/17193/Stages/17166/Amendments
+2025-10-18 14:50:24,264 - INFO - root -     Path variables:    {'billId': '17193', 'billStageId': '17166'}
+2025-10-18 14:50:24,552 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (dependency - skip assert)
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16159
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16159
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billStageId'
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16608
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16608
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'amendmentId'
+2025-10-18 14:50:24,552 - INFO - sequence_runner.dependency - ✅ Resolved dependency: amendmentId = 16143
+2025-10-18 14:50:24,552 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:24,552 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}
+2025-10-18 14:50:24,552 - INFO - root -     Final endpoint:    /api/v1/Bills/16159/Stages/16608/Amendments/16143
+2025-10-18 14:50:24,552 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16159/Stages/16608/Amendments/16143
+2025-10-18 14:50:24,552 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16159/Stages/16608/Amendments/16143
+2025-10-18 14:50:24,552 - INFO - root -     Path variables:    {'billId': '16159', 'billStageId': '16608', 'amendmentId': '16143'}
+2025-10-18 14:50:25,467 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} -> 404  (0.913s)
+2025-10-18 14:50:25,467 - ERROR - root -     Response: "The resource Bill ID: 16159, BillStage ID: 16608 was not found"
+2025-10-18 14:50:25,571 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_2_1.json
+2025-10-18 14:50:25,573 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}
+2025-10-18 14:50:25,573 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:25,573 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:25,573 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:25,574 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:25,574 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:25,574 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:25,574 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:25,574 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:25,574 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:25,686 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 17222
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 17222
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 17353
+2025-10-18 14:50:25,686 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 17353
+2025-10-18 14:50:25,687 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:25,687 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:50:25,687 - INFO - root -     Final endpoint:    /api/v1/Bills/17222/Stages/17353/Amendments
+2025-10-18 14:50:25,687 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/17222/Stages/17353/Amendments
+2025-10-18 14:50:25,687 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/17222/Stages/17353/Amendments
+2025-10-18 14:50:25,687 - INFO - root -     Path variables:    {'billId': '17222', 'billStageId': '17353'}
+2025-10-18 14:50:26,070 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (dependency - skip assert)
+2025-10-18 14:50:26,070 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:26,070 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 17222
+2025-10-18 14:50:26,070 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 17222
+2025-10-18 14:50:26,070 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billStageId'
+2025-10-18 14:50:26,070 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16594
+2025-10-18 14:50:26,071 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16594
+2025-10-18 14:50:26,071 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'amendmentId'
+2025-10-18 14:50:26,071 - INFO - sequence_runner.dependency - ✅ Resolved dependency: amendmentId = 16143
+2025-10-18 14:50:26,071 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:26,071 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}
+2025-10-18 14:50:26,071 - INFO - root -     Final endpoint:    /api/v1/Bills/17222/Stages/16594/Amendments/16143
+2025-10-18 14:50:26,071 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/17222/Stages/16594/Amendments/16143
+2025-10-18 14:50:26,071 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/17222/Stages/16594/Amendments/16143
+2025-10-18 14:50:26,071 - INFO - root -     Path variables:    {'billId': '17222', 'billStageId': '16594', 'amendmentId': '16143'}
+2025-10-18 14:50:26,555 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId} -> 404  (0.482s)
+2025-10-18 14:50:26,555 - ERROR - root -     Response: "The resource Bill ID: 17222, BillStage ID: 16594 was not found"
+2025-10-18 14:50:26,655 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_1_1.json
+2025-10-18 14:50:26,656 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-18 14:50:26,657 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:26,657 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:26,658 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:26,658 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:26,658 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:26,658 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:26,659 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:26,659 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:26,659 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:26,729 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:26,729 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16192
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16192
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16528
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16528
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'pingPongItemId'
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - 🎲 Random selected pingPongItemId = 16942
+2025-10-18 14:50:26,730 - INFO - sequence_runner.dependency - ✅ Resolved dependency: pingPongItemId = 16942
+2025-10-18 14:50:26,730 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:26,730 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:26,730 - INFO - root -     Final endpoint:    /api/v1/Bills/16192/Stages/16528/PingPongItems/16942
+2025-10-18 14:50:26,730 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16528/PingPongItems/16942
+2025-10-18 14:50:26,730 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16528/PingPongItems/16942
+2025-10-18 14:50:26,731 - INFO - root -     Path variables:    {'billId': '16192', 'billStageId': '16528', 'pingPongItemId': '16942'}
+2025-10-18 14:50:27,090 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> 404 (dependency - skip assert)
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16942
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16942
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billStageId'
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16143
+2025-10-18 14:50:27,090 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16143
+2025-10-18 14:50:27,090 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:27,090 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-18 14:50:27,090 - INFO - root -     Final endpoint:    /api/v1/Bills/16942/Stages/16143/PingPongItems
+2025-10-18 14:50:27,090 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16942/Stages/16143/PingPongItems
+2025-10-18 14:50:27,090 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16942/Stages/16143/PingPongItems
+2025-10-18 14:50:27,091 - INFO - root -     Path variables:    {'billId': '16942', 'billStageId': '16143'}
+2025-10-18 14:50:27,168 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems -> 404  (0.076s)
+2025-10-18 14:50:27,168 - ERROR - root -     Response: "The resource Bill ID: 16942, BillStage ID: 16143 was not found"
+2025-10-18 14:50:27,271 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_2_1.json
+2025-10-18 14:50:27,272 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-18 14:50:27,272 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:27,273 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:27,273 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:27,273 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:27,273 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:27,273 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:27,273 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:27,273 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:27,273 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:27,327 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16528
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16528
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16954
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16954
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'pingPongItemId'
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - 🎲 Random selected pingPongItemId = 16608
+2025-10-18 14:50:27,328 - INFO - sequence_runner.dependency - ✅ Resolved dependency: pingPongItemId = 16608
+2025-10-18 14:50:27,328 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:27,328 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:27,328 - INFO - root -     Final endpoint:    /api/v1/Bills/16528/Stages/16954/PingPongItems/16608
+2025-10-18 14:50:27,328 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16954/PingPongItems/16608
+2025-10-18 14:50:27,328 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16954/PingPongItems/16608
+2025-10-18 14:50:27,328 - INFO - root -     Path variables:    {'billId': '16528', 'billStageId': '16954', 'pingPongItemId': '16608'}
+2025-10-18 14:50:27,618 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> 404 (dependency - skip assert)
+2025-10-18 14:50:27,618 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billId'
+2025-10-18 14:50:27,619 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16192
+2025-10-18 14:50:27,619 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16192
+2025-10-18 14:50:27,619 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'billStageId'
+2025-10-18 14:50:27,619 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16900
+2025-10-18 14:50:27,619 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16900
+2025-10-18 14:50:27,619 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:27,619 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems
+2025-10-18 14:50:27,619 - INFO - root -     Final endpoint:    /api/v1/Bills/16192/Stages/16900/PingPongItems
+2025-10-18 14:50:27,619 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16900/PingPongItems
+2025-10-18 14:50:27,619 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16900/PingPongItems
+2025-10-18 14:50:27,619 - INFO - root -     Path variables:    {'billId': '16192', 'billStageId': '16900'}
+2025-10-18 14:50:28,450 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems -> 404  (0.830s)
+2025-10-18 14:50:28,450 - ERROR - root -     Response: "The resource Bill ID: 16192, BillStage ID: 16900 was not found"
+2025-10-18 14:50:28,553 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_1_1.json
+2025-10-18 14:50:28,554 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:28,555 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:28,555 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:28,555 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:28,555 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:28,555 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:28,555 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:28,555 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:28,555 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:28,555 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:28,608 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16900
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16900
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16192
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16192
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'pingPongItemId'
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - 🎲 Random selected pingPongItemId = 16594
+2025-10-18 14:50:28,609 - INFO - sequence_runner.dependency - ✅ Resolved dependency: pingPongItemId = 16594
+2025-10-18 14:50:28,609 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:28,609 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:28,609 - INFO - root -     Final endpoint:    /api/v1/Bills/16900/Stages/16192/PingPongItems/16594
+2025-10-18 14:50:28,609 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16900/Stages/16192/PingPongItems/16594
+2025-10-18 14:50:28,609 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16900/Stages/16192/PingPongItems/16594
+2025-10-18 14:50:28,609 - INFO - root -     Path variables:    {'billId': '16900', 'billStageId': '16192', 'pingPongItemId': '16594'}
+2025-10-18 14:50:28,917 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> 404  (0.307s)
+2025-10-18 14:50:28,917 - ERROR - root -     Response: "The resource Bill ID: 16900, BillStage ID: 16192 was not found"
+2025-10-18 14:50:29,022 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_2_1.json
+2025-10-18 14:50:29,024 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:29,025 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:29,025 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:29,025 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:29,025 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:29,025 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:29,025 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:29,025 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:29,025 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:29,025 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:29,078 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16942
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16942
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - 🎲 Random selected billStageId = 16245
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billStageId = 16245
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'pingPongItemId'
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - 🎲 Random selected pingPongItemId = 17353
+2025-10-18 14:50:29,079 - INFO - sequence_runner.dependency - ✅ Resolved dependency: pingPongItemId = 17353
+2025-10-18 14:50:29,079 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:29,079 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}
+2025-10-18 14:50:29,079 - INFO - root -     Final endpoint:    /api/v1/Bills/16942/Stages/16245/PingPongItems/17353
+2025-10-18 14:50:29,079 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16942/Stages/16245/PingPongItems/17353
+2025-10-18 14:50:29,079 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16942/Stages/16245/PingPongItems/17353
+2025-10-18 14:50:29,079 - INFO - root -     Path variables:    {'billId': '16942', 'billStageId': '16245', 'pingPongItemId': '17353'}
+2025-10-18 14:50:29,545 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId} -> 404  (0.465s)
+2025-10-18 14:50:29,545 - ERROR - root -     Response: "The resource Bill ID: 16942, BillStage ID: 16245 was not found"
+2025-10-18 14:50:29,650 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_1_1.json
+2025-10-18 14:50:29,654 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}
+2025-10-18 14:50:29,654 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:29,654 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:29,654 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:29,654 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:29,655 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:29,655 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:29,655 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:29,655 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:29,655 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:29,713 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:29,713 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:29,713 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16528
+2025-10-18 14:50:29,714 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16528
+2025-10-18 14:50:29,714 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:29,714 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}
+2025-10-18 14:50:29,714 - INFO - root -     Final endpoint:    /api/v1/Bills/16528/Stages/16143
+2025-10-18 14:50:29,714 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16143
+2025-10-18 14:50:29,714 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16143
+2025-10-18 14:50:29,714 - INFO - root -     Path variables:    {'billId': '16528', 'billStageId': '16143'}
+2025-10-18 14:50:30,784 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId} -> 404  (1.068s)
+2025-10-18 14:50:30,784 - ERROR - root -     Response: "The resource Bill ID: 16528, BillStage ID: 16143 was not found"
+2025-10-18 14:50:30,889 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_2_1.json
+2025-10-18 14:50:30,890 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}
+2025-10-18 14:50:30,890 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:30,890 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:30,891 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:30,891 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:30,891 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:30,891 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:30,891 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:30,891 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:30,891 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:30,965 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:30,965 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:30,965 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16624
+2025-10-18 14:50:30,965 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16624
+2025-10-18 14:50:30,965 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:30,965 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}
+2025-10-18 14:50:30,965 - INFO - root -     Final endpoint:    /api/v1/Bills/16624/Stages/16143
+2025-10-18 14:50:30,965 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16624/Stages/16143
+2025-10-18 14:50:30,965 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16624/Stages/16143
+2025-10-18 14:50:30,965 - INFO - root -     Path variables:    {'billId': '16624', 'billStageId': '16143'}
+2025-10-18 14:50:31,331 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId} -> 404  (0.364s)
+2025-10-18 14:50:31,331 - ERROR - root -     Response: "The resource Bill ID: 16624, BillStage ID: 16143 was not found"
+2025-10-18 14:50:31,433 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_stageId_Publications_GET_1_1.json
+2025-10-18 14:50:31,434 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:31,435 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_stageId_Publications_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:31,435 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:31,435 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:31,435 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:31,435 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:31,435 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:31,435 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:31,435 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:31,435 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:31,493 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16608
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16608
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 16159
+2025-10-18 14:50:31,493 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 16159
+2025-10-18 14:50:31,493 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:31,493 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:31,493 - INFO - root -     Final endpoint:    /api/v1/Bills/16608/Stages/16159/Publications
+2025-10-18 14:50:31,493 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16608/Stages/16159/Publications
+2025-10-18 14:50:31,493 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16608/Stages/16159/Publications
+2025-10-18 14:50:31,493 - INFO - root -     Path variables:    {'billId': '16608', 'stageId': '16159'}
+2025-10-18 14:50:31,824 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404  (0.330s)
+2025-10-18 14:50:31,824 - ERROR - root -     Response: "The resource Bill ID: 16608, BillStage ID: 16159 was not found"
+2025-10-18 14:50:31,930 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_stageId_Publications_GET_2_1.json
+2025-10-18 14:50:31,930 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:31,930 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId_Stages_stageId_Publications_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:31,931 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:31,931 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:31,931 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:31,931 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:31,931 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:31,931 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:31,931 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:31,931 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:32,030 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16594
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16594
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 16192
+2025-10-18 14:50:32,030 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 16192
+2025-10-18 14:50:32,030 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:32,030 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:32,031 - INFO - root -     Final endpoint:    /api/v1/Bills/16594/Stages/16192/Publications
+2025-10-18 14:50:32,031 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16594/Stages/16192/Publications
+2025-10-18 14:50:32,031 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16594/Stages/16192/Publications
+2025-10-18 14:50:32,031 - INFO - root -     Path variables:    {'billId': '16594', 'stageId': '16192'}
+2025-10-18 14:50:32,841 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404  (0.810s)
+2025-10-18 14:50:32,841 - ERROR - root -     Response: "The resource Bill ID: 16594, BillStage ID: 16192 was not found"
+2025-10-18 14:50:32,946 - INFO - root - Running test case: _api_v1_Bills_billId__GetBill_1_1.json
+2025-10-18 14:50:32,948 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}
+2025-10-18 14:50:32,948 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId__GetBill' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:32,948 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:32,948 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:32,948 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:32,948 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:32,948 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:32,948 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:32,948 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:32,948 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:33,035 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:33,035 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:33,035 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16624
+2025-10-18 14:50:33,035 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16624
+2025-10-18 14:50:33,035 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:33,035 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}
+2025-10-18 14:50:33,035 - INFO - root -     Final endpoint:    /api/v1/Bills/16624
+2025-10-18 14:50:33,035 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16624
+2025-10-18 14:50:33,035 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16624
+2025-10-18 14:50:33,035 - INFO - root -     Path variables:    {'billId': '16624'}
+2025-10-18 14:50:33,951 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId} -> 404  (0.916s)
+2025-10-18 14:50:33,952 - ERROR - root -     Response: "The resource Bill ID: 16624 was not found"
+2025-10-18 14:50:34,057 - INFO - root - Running test case: _api_v1_BillTypes_GET_0_1.json
+2025-10-18 14:50:34,058 - INFO - root - 🎯 Target endpoint: get-/api/v1/BillTypes
+2025-10-18 14:50:34,058 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_BillTypes_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:34,058 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:34,058 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:34,058 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:34,059 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:34,059 - INFO - root -     Original endpoint: /api/v1/BillTypes
+2025-10-18 14:50:34,059 - INFO - root -     Final endpoint:    /api/v1/BillTypes
+2025-10-18 14:50:34,059 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/BillTypes
+2025-10-18 14:50:34,059 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/BillTypes
+2025-10-18 14:50:34,118 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/BillTypes -> 200  (0.057s)
+2025-10-18 14:50:34,224 - INFO - root - Running test case: _api_v1_PublicationTypes_GET_0_1.json
+2025-10-18 14:50:34,224 - INFO - root - 🎯 Target endpoint: get-/api/v1/PublicationTypes
+2025-10-18 14:50:34,224 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_PublicationTypes_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:34,224 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:34,224 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:34,224 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:34,224 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:34,224 - INFO - root -     Original endpoint: /api/v1/PublicationTypes
+2025-10-18 14:50:34,224 - INFO - root -     Final endpoint:    /api/v1/PublicationTypes
+2025-10-18 14:50:34,224 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/PublicationTypes
+2025-10-18 14:50:34,224 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/PublicationTypes
+2025-10-18 14:50:34,279 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/PublicationTypes -> 200  (0.054s)
+2025-10-18 14:50:34,385 - INFO - root - Running test case: _api_v1_Publications_publicationId_Documents_documentId_Download_GET_1_1.json
+2025-10-18 14:50:34,385 - INFO - root - 🎯 Target endpoint: get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download
+2025-10-18 14:50:34,385 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Publications_publicationId_Documents_documentId_Download_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:34,385 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:34,385 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:34,385 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:34,385 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:34,386 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:34,386 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:34,386 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:34,386 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:34,448 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:34,449 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:34,456 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16233
+2025-10-18 14:50:34,456 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16233
+2025-10-18 14:50:34,456 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:34,462 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 17353
+2025-10-18 14:50:34,462 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 17353
+2025-10-18 14:50:34,462 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:34,462 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:34,463 - INFO - root -     Final endpoint:    /api/v1/Bills/16233/Stages/17353/Publications
+2025-10-18 14:50:34,463 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16233/Stages/17353/Publications
+2025-10-18 14:50:34,463 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16233/Stages/17353/Publications
+2025-10-18 14:50:34,463 - INFO - root -     Path variables:    {'billId': '16233', 'stageId': '17353'}
+2025-10-18 14:50:34,878 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:34,879 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'publicationId'
+2025-10-18 14:50:34,879 - INFO - sequence_runner.dependency - ✅ Resolved dependency: publicationId = 16143
+2025-10-18 14:50:34,879 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'documentId'
+2025-10-18 14:50:34,879 - INFO - sequence_runner.dependency - ✅ Resolved dependency: documentId = 16143
+2025-10-18 14:50:34,879 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:34,879 - INFO - root -     Original endpoint: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download
+2025-10-18 14:50:34,879 - INFO - root -     Final endpoint:    /api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:34,879 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:34,879 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:34,879 - INFO - root -     Path variables:    {'publicationId': '16143', 'documentId': '16143'}
+2025-10-18 14:50:35,465 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download -> 404  (0.584s)
+2025-10-18 14:50:35,465 - ERROR - root -     Response: "The resource 16143 was not found"
+2025-10-18 14:50:35,571 - INFO - root - Running test case: _api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1.json
+2025-10-18 14:50:35,574 - INFO - root - 🎯 Target endpoint: get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download
+2025-10-18 14:50:35,574 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Publications_publicationId_Documents_documentId_Download_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:35,574 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:35,574 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:35,574 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:35,575 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:35,575 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:35,575 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:35,575 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:35,575 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:35,652 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16528
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16528
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 16159
+2025-10-18 14:50:35,652 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 16159
+2025-10-18 14:50:35,652 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:35,652 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:35,652 - INFO - root -     Final endpoint:    /api/v1/Bills/16528/Stages/16159/Publications
+2025-10-18 14:50:35,652 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16159/Publications
+2025-10-18 14:50:35,652 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16528/Stages/16159/Publications
+2025-10-18 14:50:35,652 - INFO - root -     Path variables:    {'billId': '16528', 'stageId': '16159'}
+2025-10-18 14:50:36,400 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:36,401 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'publicationId'
+2025-10-18 14:50:36,401 - INFO - sequence_runner.dependency - ✅ Resolved dependency: publicationId = 16143
+2025-10-18 14:50:36,401 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'documentId'
+2025-10-18 14:50:36,401 - INFO - sequence_runner.dependency - ✅ Resolved dependency: documentId = 16143
+2025-10-18 14:50:36,401 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:36,402 - INFO - root -     Original endpoint: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download
+2025-10-18 14:50:36,402 - INFO - root -     Final endpoint:    /api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:36,402 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:36,402 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143/Download
+2025-10-18 14:50:36,402 - INFO - root -     Path variables:    {'publicationId': '16143', 'documentId': '16143'}
+2025-10-18 14:50:36,638 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download -> 404  (0.236s)
+2025-10-18 14:50:36,638 - ERROR - root -     Response: "The resource 16143 was not found"
+2025-10-18 14:50:36,743 - INFO - root - Running test case: _api_v1_Publications_publicationId_Documents_documentId__GET_1_1.json
+2025-10-18 14:50:36,744 - INFO - root - 🎯 Target endpoint: get-/api/v1/Publications/{publicationId}/Documents/{documentId}
+2025-10-18 14:50:36,744 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Publications_publicationId_Documents_documentId__GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:36,745 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:36,745 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:36,745 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:36,745 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:36,745 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:36,745 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:36,745 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:36,745 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:36,797 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16192
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16192
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 16477
+2025-10-18 14:50:36,797 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 16477
+2025-10-18 14:50:36,797 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:36,797 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:36,797 - INFO - root -     Final endpoint:    /api/v1/Bills/16192/Stages/16477/Publications
+2025-10-18 14:50:36,797 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16477/Publications
+2025-10-18 14:50:36,797 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16192/Stages/16477/Publications
+2025-10-18 14:50:36,797 - INFO - root -     Path variables:    {'billId': '16192', 'stageId': '16477'}
+2025-10-18 14:50:37,577 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:37,578 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'publicationId'
+2025-10-18 14:50:37,578 - INFO - sequence_runner.dependency - ✅ Resolved dependency: publicationId = 16143
+2025-10-18 14:50:37,578 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'documentId'
+2025-10-18 14:50:37,578 - INFO - sequence_runner.dependency - ✅ Resolved dependency: documentId = 16143
+2025-10-18 14:50:37,578 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:37,578 - INFO - root -     Original endpoint: /api/v1/Publications/{publicationId}/Documents/{documentId}
+2025-10-18 14:50:37,578 - INFO - root -     Final endpoint:    /api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:37,578 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:37,579 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:37,579 - INFO - root -     Path variables:    {'publicationId': '16143', 'documentId': '16143'}
+2025-10-18 14:50:38,911 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Publications/{publicationId}/Documents/{documentId} -> 404  (1.330s)
+2025-10-18 14:50:38,911 - ERROR - root -     Response: "The resource 16143 was not found"
+2025-10-18 14:50:39,012 - INFO - root - Running test case: _api_v1_Publications_publicationId_Documents_documentId__GET_2_1.json
+2025-10-18 14:50:39,014 - INFO - root - 🎯 Target endpoint: get-/api/v1/Publications/{publicationId}/Documents/{documentId}
+2025-10-18 14:50:39,014 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Publications_publicationId_Documents_documentId__GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:39,014 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:39,014 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:39,015 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:39,015 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:39,015 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:39,015 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:39,015 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:39,015 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:39,067 - INFO - root -   🔄 Step 1: GET get-/api/v1/Sittings -> 200 (dependency - skip assert)
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency - 🎲 Random selected billId = 16639
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 16639
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'stageId'
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency - 🎲 Random selected stageId = 17166
+2025-10-18 14:50:39,067 - INFO - sequence_runner.dependency - ✅ Resolved dependency: stageId = 17166
+2025-10-18 14:50:39,067 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:39,067 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{stageId}/Publications
+2025-10-18 14:50:39,067 - INFO - root -     Final endpoint:    /api/v1/Bills/16639/Stages/17166/Publications
+2025-10-18 14:50:39,067 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/16639/Stages/17166/Publications
+2025-10-18 14:50:39,067 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/16639/Stages/17166/Publications
+2025-10-18 14:50:39,067 - INFO - root -     Path variables:    {'billId': '16639', 'stageId': '17166'}
+2025-10-18 14:50:39,962 - INFO - root -   🔄 Step 2: GET get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications -> 404 (dependency - skip assert)
+2025-10-18 14:50:39,962 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'publicationId'
+2025-10-18 14:50:39,962 - INFO - sequence_runner.dependency - ✅ Resolved dependency: publicationId = 16143
+2025-10-18 14:50:39,962 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Sittings' for dep 'documentId'
+2025-10-18 14:50:39,962 - INFO - sequence_runner.dependency - ✅ Resolved dependency: documentId = 16143
+2025-10-18 14:50:39,962 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:39,962 - INFO - root -     Original endpoint: /api/v1/Publications/{publicationId}/Documents/{documentId}
+2025-10-18 14:50:39,962 - INFO - root -     Final endpoint:    /api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:39,962 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:39,962 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Publications/16143/Documents/16143
+2025-10-18 14:50:39,962 - INFO - root -     Path variables:    {'publicationId': '16143', 'documentId': '16143'}
+2025-10-18 14:50:40,019 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Publications/{publicationId}/Documents/{documentId} -> 404  (0.056s)
+2025-10-18 14:50:40,019 - ERROR - root -     Response: "The resource 16143 was not found"
+2025-10-18 14:50:40,123 - INFO - root - Running test case: _api_v1_Rss_Bills_id_rss_GET_1_1.json
+2025-10-18 14:50:40,124 - INFO - root - 🎯 Target endpoint: get-/api/v1/Rss/Bills/{id}.rss
+2025-10-18 14:50:40,124 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Rss_Bills_id_rss_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:40,124 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:40,124 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:40,124 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:40,124 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:40,124 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:50:40,124 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:50:40,124 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:40,124 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:50:40,182 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:50:40,182 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'id'
+2025-10-18 14:50:40,183 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: id from id
+2025-10-18 14:50:40,183 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:40,183 - INFO - root -     Original endpoint: /api/v1/Rss/Bills/{id}.rss
+2025-10-18 14:50:40,183 - INFO - root -     Final endpoint:    /api/v1/Rss/Bills/1.rss
+2025-10-18 14:50:40,183 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Rss/Bills/1.rss
+2025-10-18 14:50:40,183 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Rss/Bills/1.rss
+2025-10-18 14:50:40,183 - INFO - root -     Path variables:    {'id': '1'}
+2025-10-18 14:50:40,265 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Rss/Bills/{id}.rss -> 404  (0.081s)
+2025-10-18 14:50:40,266 - ERROR - root -     Response: "The resource Bill ID: 1 was not found"
+2025-10-18 14:50:40,369 - INFO - root - Running test case: _api_v1_Rss_allbills_rss_GET_0_1.json
+2025-10-18 14:50:40,369 - INFO - root - 🎯 Target endpoint: get-/api/v1/Rss/allbills.rss
+2025-10-18 14:50:40,369 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Rss_allbills_rss_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:40,370 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:40,370 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:40,370 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:40,370 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:40,370 - INFO - root -     Original endpoint: /api/v1/Rss/allbills.rss
+2025-10-18 14:50:40,370 - INFO - root -     Final endpoint:    /api/v1/Rss/allbills.rss
+2025-10-18 14:50:40,370 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Rss/allbills.rss
+2025-10-18 14:50:40,370 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Rss/allbills.rss
+2025-10-18 14:50:40,624 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Rss/allbills.rss -> 200  (0.250s)
+2025-10-18 14:50:40,727 - INFO - root - Running test case: _api_v1_Rss_privatebills_rss_GET_0_1.json
+2025-10-18 14:50:40,728 - INFO - root - 🎯 Target endpoint: get-/api/v1/Rss/privatebills.rss
+2025-10-18 14:50:40,728 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Rss_privatebills_rss_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:40,728 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:40,728 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:40,728 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:40,728 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:40,728 - INFO - root -     Original endpoint: /api/v1/Rss/privatebills.rss
+2025-10-18 14:50:40,728 - INFO - root -     Final endpoint:    /api/v1/Rss/privatebills.rss
+2025-10-18 14:50:40,728 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Rss/privatebills.rss
+2025-10-18 14:50:40,728 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Rss/privatebills.rss
+2025-10-18 14:50:40,892 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Rss/privatebills.rss -> 200  (0.163s)
+2025-10-18 14:50:40,997 - INFO - root - Running test case: _api_v1_Rss_publicbills_rss_GET_0_1.json
+2025-10-18 14:50:40,998 - INFO - root - 🎯 Target endpoint: get-/api/v1/Rss/publicbills.rss
+2025-10-18 14:50:40,998 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Rss_publicbills_rss_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:40,998 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:40,998 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:40,998 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:40,998 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:40,998 - INFO - root -     Original endpoint: /api/v1/Rss/publicbills.rss
+2025-10-18 14:50:40,998 - INFO - root -     Final endpoint:    /api/v1/Rss/publicbills.rss
+2025-10-18 14:50:40,998 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Rss/publicbills.rss
+2025-10-18 14:50:40,998 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Rss/publicbills.rss
+2025-10-18 14:50:41,106 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Rss/publicbills.rss -> 200  (0.106s)
+2025-10-18 14:50:41,212 - INFO - root - Running test case: _api_v1_Sittings_GetSittings_0_1.json
+2025-10-18 14:50:41,213 - INFO - root - 🎯 Target endpoint: get-/api/v1/Sittings
+2025-10-18 14:50:41,213 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Sittings_GetSittings' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:41,213 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:41,213 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:41,213 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:41,213 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:41,213 - INFO - root -     Original endpoint: /api/v1/Sittings
+2025-10-18 14:50:41,213 - INFO - root -     Final endpoint:    /api/v1/Sittings
+2025-10-18 14:50:41,213 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:41,213 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Sittings
+2025-10-18 14:50:41,278 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Sittings -> 200  (0.064s)
+2025-10-18 14:50:41,380 - INFO - root - Running test case: _api_v1_Stages_GET_0_1.json
+2025-10-18 14:50:41,383 - INFO - root - 🎯 Target endpoint: get-/api/v1/Stages
+2025-10-18 14:50:41,384 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Stages_GET' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:50:41,384 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:50:41,384 - INFO - root - Running with test data row 1/1
+2025-10-18 14:50:41,384 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:50:41,384 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:50:41,384 - INFO - root -     Original endpoint: /api/v1/Stages
+2025-10-18 14:50:41,384 - INFO - root -     Final endpoint:    /api/v1/Stages
+2025-10-18 14:50:41,384 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Stages
+2025-10-18 14:50:41,384 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Stages
+2025-10-18 14:50:41,590 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Stages -> 200  (0.205s)

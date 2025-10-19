@@ -123,16 +123,25 @@ Data from Swagger Spec:
 ⚠️  CRITICAL WARNING for PATH PARAMETERS: NEVER generate test cases with null, empty string (""), or missing path parameters. Path parameters MUST ALWAYS have values.
 
 ANALYSIS EXAMPLES for path parameter decision-making:
-• provinceId with enum ["AB","BC","MB"...] → Use concrete values like "AB", "MB" for 2xx cases
-• holidayId with minimum=1, maximum=34 → Use concrete values like 1, 15, 34 for 2xx cases
-• billId with only basic integer type and no additional constraints → Use a realistic positive integer like 100123 for 2xx cases (judge by type/format, not DB existence)
-• userId with format=uuid and no enum → Use a well-formed UUID (e.g., "550e8400-e29b-41d4-a716-446655440000") for 2xx
+• ENUM_PATH_PARAM with enum ["A","B","C"] → Use concrete values like "A", "B" for 2xx cases
+• RANGE_PATH_PARAM with minimum=1, maximum=34 → Use concrete values like 1, 15, 34 for 2xx cases
+• ID_PATH_PARAM (integer with only a basic type and no additional constraints) → Use a realistic positive integer like 100123 for 2xx cases (judge by type/format, not DB existence)
+• UUID_PATH_PARAM (string, format=uuid, no enum) → Use a well-formed UUID (e.g., "550e8400-e29b-41d4-a716-446655440000") for 2xx
+ADDITIONAL CONTEXT & ID RESOLUTION (MANDATORY for 2xx path params or id-like fields):
+  You MUST resolve path IDs. 
+  **from additional context** instead of inventing “magic numbers”.
+  Valid context sources (use in this exact order; stop when you succeed):
+    1) Dependency/producer endpoints in the provided DependencyContext → CREATE the resource first and capture its ID.
+    2) Known fixtures/samples/examples in spec (example values, example URLs, or example responses).
+    3) Cached results or previously successful test rows within this dataset generation pass.
+    4) Cross-endpoint references (e.g., list/search endpoints that return IDs you can reuse).
+  If none of the above yields a usable ID for a 2xx case:
+    • Do NOT fabricate a number like 1001/50123/maxint.
+    • Mark the row as **UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT** by stating it clearly in the `reason`, so the runner can skip or downgrade this row.
 
-BODY ID EXAMPLES (apply same logic to request body fields):
-• userId (string, format=uuid, no enum) → for 2xx use a well-formed UUID; for 4xx use "not-a-uuid" to violate format.
-• product_id (integer, minimum=1 only) → for 2xx use a positive integer like 1001; for 4xx use 0 to violate minimum.
-• roleId (enum ["admin","editor","viewer"]) → for 2xx use an enum value; for 4xx use "owner".
-• itemIds (array of integer IDs, unconstrained) → for 2xx use [101, 202]; for 4xx use ["abc"] to violate type/parseability.
+
+FORBIDDEN IN 2xx (unless explicitly shown in context): 0, 1, -1, 1001, 50123, 100123, 2147483647, or any arbitrary “mid-range” placeholder.
+BOUNDARY/EXTREME VALUES are reserved for 4xx min/max/format violation tests only.
 
 Note: The dataset is created for {part} only. First, briefly write "Approach: ..." describing how you selected fields and constraints. Then provide the dataset in JSONL between triple backticks.
 

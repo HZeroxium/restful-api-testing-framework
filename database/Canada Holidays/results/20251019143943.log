@@ -1,0 +1,1144 @@
+2025-10-19 14:39:43,295 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/20251019143943.log
+2025-10-19 14:39:43,295 - INFO - root - Starting test execution for service: Canada Holidays
+2025-10-19 14:39:43,295 - INFO - sequence_runner.io_file - Found 6 test case files total
+2025-10-19 14:39:43,296 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/results/20251019143943.csv
+2025-10-19 14:39:43,296 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-19 14:39:43,296 - INFO - root - Running test case: _api_v1_holidays_Holidays_0_1.json
+2025-10-19 14:39:43,297 - INFO - root - 🎯 Target endpoint: get-/api/v1/holidays
+2025-10-19 14:39:43,297 - INFO - root - 📄 Param CSV: _api_v1_holidays_Holidays_param.csv -> 17 rows
+2025-10-19 14:39:43,297 - INFO - root - 🧪 Will run 17 times (combine param/body rows by index)
+2025-10-19 14:39:43,297 - INFO - root - Running with test data row 1/17
+2025-10-19 14:39:43,297 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:43,297 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:43,298 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:43,298 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:43,298 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:43,298 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:43,298 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&federal=true&optional=false
+2025-10-19 14:39:43,298 - INFO - root -     Query parameters:  {'year': 2025, 'federal': 'true', 'optional': 'false'}
+2025-10-19 14:39:43,756 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.456s)
+2025-10-19 14:39:43,757 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:43.757Z"
+  }
+}
+2025-10-19 14:39:43,862 - INFO - root - Running with test data row 2/17
+2025-10-19 14:39:43,862 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:43,862 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:43,862 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:43,862 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:43,862 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:43,863 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:43,863 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2014&federal=1&optional=1
+2025-10-19 14:39:43,863 - INFO - root -     Query parameters:  {'year': 2014, 'federal': '1', 'optional': '1'}
+2025-10-19 14:39:44,126 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.262s)
+2025-10-19 14:39:44,126 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:44.121Z"
+  }
+}
+2025-10-19 14:39:44,231 - INFO - root - Running with test data row 3/17
+2025-10-19 14:39:44,232 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:44,232 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:44,232 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:44,232 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:44,232 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:44,232 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:44,232 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:44,505 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.270s)
+2025-10-19 14:39:44,505 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:44.501Z"
+  }
+}
+2025-10-19 14:39:44,607 - INFO - root - Running with test data row 4/17
+2025-10-19 14:39:44,607 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:44,607 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:44,607 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:44,607 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:44,607 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:44,607 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:44,607 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?federal=true
+2025-10-19 14:39:44,607 - INFO - root -     Query parameters:  {'federal': 'true'}
+2025-10-19 14:39:44,858 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.249s)
+2025-10-19 14:39:44,858 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:44.858Z"
+  }
+}
+2025-10-19 14:39:44,963 - INFO - root - Running with test data row 5/17
+2025-10-19 14:39:44,963 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:44,963 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:44,963 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:44,965 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:44,965 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:44,965 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:44,965 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=false
+2025-10-19 14:39:44,965 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:45,212 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.246s)
+2025-10-19 14:39:45,212 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:45.216Z"
+  }
+}
+2025-10-19 14:39:45,317 - INFO - root - Running with test data row 6/17
+2025-10-19 14:39:45,318 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:45,318 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:45,318 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:45,318 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:45,318 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:45,318 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:45,318 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&federal=true&optional=false
+2025-10-19 14:39:45,318 - INFO - root -     Query parameters:  {'year': 2025, 'federal': 'true', 'optional': 'false'}
+2025-10-19 14:39:45,584 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.263s)
+2025-10-19 14:39:45,584 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:45.574Z"
+  }
+}
+2025-10-19 14:39:45,689 - INFO - root - Running with test data row 7/17
+2025-10-19 14:39:45,691 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:45,691 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:45,692 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:45,692 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:45,692 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:45,692 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:45,692 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&federal=true
+2025-10-19 14:39:45,692 - INFO - root -     Query parameters:  {'year': 2025, 'federal': 'true'}
+2025-10-19 14:39:45,947 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.253s)
+2025-10-19 14:39:45,947 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:45.943Z"
+  }
+}
+2025-10-19 14:39:46,052 - INFO - root - Running with test data row 8/17
+2025-10-19 14:39:46,053 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:46,053 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:46,053 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:46,053 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:46,053 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:46,053 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:46,053 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=false
+2025-10-19 14:39:46,053 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:46,312 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.257s)
+2025-10-19 14:39:46,312 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:46.301Z"
+  }
+}
+2025-10-19 14:39:46,417 - INFO - root - Running with test data row 9/17
+2025-10-19 14:39:46,418 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:46,418 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:46,418 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:46,418 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:46,418 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:46,418 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:46,418 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?federal=true&optional=false
+2025-10-19 14:39:46,419 - INFO - root -     Query parameters:  {'federal': 'true', 'optional': 'false'}
+2025-10-19 14:39:46,663 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays -> 404  (0.244s)
+2025-10-19 14:39:46,663 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays\u201d",
+    "timestamp": "2025-10-19T07:39:46.667Z"
+  }
+}
+2025-10-19 14:39:46,769 - INFO - root - Running with test data row 10/17
+2025-10-19 14:39:46,769 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:46,769 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:46,769 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:46,769 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:46,769 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:46,769 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:46,769 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036
+2025-10-19 14:39:46,769 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:39:47,032 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.259s)
+2025-10-19 14:39:47,137 - INFO - root - Running with test data row 11/17
+2025-10-19 14:39:47,139 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:47,140 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:47,140 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:47,140 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:47,140 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:47,140 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:47,140 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?federal=yes
+2025-10-19 14:39:47,140 - INFO - root -     Query parameters:  {'federal': 'yes'}
+2025-10-19 14:39:47,390 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.248s)
+2025-10-19 14:39:47,496 - INFO - root - Running with test data row 12/17
+2025-10-19 14:39:47,497 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:47,497 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:47,497 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:47,498 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:47,498 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:47,498 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:47,498 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=abc
+2025-10-19 14:39:47,498 - INFO - root -     Query parameters:  {'year': 'abc'}
+2025-10-19 14:39:47,746 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.247s)
+2025-10-19 14:39:47,852 - INFO - root - Running with test data row 13/17
+2025-10-19 14:39:47,852 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:47,852 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:47,852 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:47,853 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:47,853 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:47,853 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:47,853 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2013
+2025-10-19 14:39:47,853 - INFO - root -     Query parameters:  {'year': 2013}
+2025-10-19 14:39:48,102 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.247s)
+2025-10-19 14:39:48,207 - INFO - root - Running with test data row 14/17
+2025-10-19 14:39:48,207 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:48,208 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:48,208 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:48,208 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:48,208 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:48,209 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:48,209 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036
+2025-10-19 14:39:48,209 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:39:48,459 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.248s)
+2025-10-19 14:39:48,564 - INFO - root - Running with test data row 15/17
+2025-10-19 14:39:48,565 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:48,565 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:48,567 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:48,567 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:48,567 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:48,567 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:48,567 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?federal=yes
+2025-10-19 14:39:48,567 - INFO - root -     Query parameters:  {'federal': 'yes'}
+2025-10-19 14:39:48,822 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.254s)
+2025-10-19 14:39:48,927 - INFO - root - Running with test data row 16/17
+2025-10-19 14:39:48,928 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:48,928 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:48,928 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:48,928 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:48,928 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:48,928 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:48,928 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?optional=maybe
+2025-10-19 14:39:48,928 - INFO - root -     Query parameters:  {'optional': 'maybe'}
+2025-10-19 14:39:49,181 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.251s)
+2025-10-19 14:39:49,287 - INFO - root - Running with test data row 17/17
+2025-10-19 14:39:49,287 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:49,288 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:49,288 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:49,288 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:49,288 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:49,288 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:49,288 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036&federal=tru
+2025-10-19 14:39:49,288 - INFO - root -     Query parameters:  {'year': 2036, 'federal': 'tru'}
+2025-10-19 14:39:49,535 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays -> 404 (expected: 4xx) (0.245s)
+2025-10-19 14:39:49,638 - INFO - root - Running test case: _api_v1_holidays_holidayId__Holiday_1_1.json
+2025-10-19 14:39:49,640 - INFO - root - 🎯 Target endpoint: get-/api/v1/holidays/{holidayId}
+2025-10-19 14:39:49,641 - INFO - root - 📄 Param CSV: _api_v1_holidays_holidayId__Holiday_param.csv -> 15 rows
+2025-10-19 14:39:49,642 - INFO - root - 🧪 Will run 15 times (combine param/body rows by index)
+2025-10-19 14:39:49,642 - INFO - root - Running with test data row 1/15
+2025-10-19 14:39:49,642 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:49,642 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:49,642 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:49,642 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:49,642 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:49,642 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:49,643 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=false&holidayId=2
+2025-10-19 14:39:49,643 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'holidayId': 2}
+2025-10-19 14:39:49,914 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:49,914 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:49,915 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:49,915 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:49,915 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:49,915 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:49,915 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?year=2025&optional=false
+2025-10-19 14:39:49,915 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:49,915 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:50,176 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.258s)
+2025-10-19 14:39:50,176 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:50.168Z"
+  }
+}
+2025-10-19 14:39:50,277 - INFO - root - Running with test data row 2/15
+2025-10-19 14:39:50,277 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:50,277 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:50,278 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:50,278 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:50,278 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:50,278 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:50,278 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?holidayId=1
+2025-10-19 14:39:50,278 - INFO - root -     Query parameters:  {'holidayId': 1}
+2025-10-19 14:39:50,542 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:50,542 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:50,543 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:50,543 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:50,543 - INFO - root -     Final endpoint:    /api/v1/holidays/1
+2025-10-19 14:39:50,543 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/1
+2025-10-19 14:39:50,543 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/1
+2025-10-19 14:39:50,543 - INFO - root -     Path variables:    {'holidayId': 1}
+2025-10-19 14:39:50,796 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.252s)
+2025-10-19 14:39:50,796 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/1\u201d",
+    "timestamp": "2025-10-19T07:39:50.793Z"
+  }
+}
+2025-10-19 14:39:50,899 - INFO - root - Running with test data row 3/15
+2025-10-19 14:39:50,899 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:50,900 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:50,900 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:50,900 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:50,900 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:50,900 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:50,900 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?holidayId=2
+2025-10-19 14:39:50,900 - INFO - root -     Query parameters:  {'holidayId': 2}
+2025-10-19 14:39:51,150 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:51,150 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:51,151 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:51,151 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:51,151 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:51,151 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:51,151 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:51,151 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:51,402 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.249s)
+2025-10-19 14:39:51,403 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:51.401Z"
+  }
+}
+2025-10-19 14:39:51,508 - INFO - root - Running with test data row 4/15
+2025-10-19 14:39:51,509 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:51,509 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:51,509 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:51,509 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:51,510 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:51,510 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:51,510 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?optional=false&holidayId=2
+2025-10-19 14:39:51,510 - INFO - root -     Query parameters:  {'optional': 'false', 'holidayId': 2}
+2025-10-19 14:39:51,758 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:51,758 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:51,758 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:51,759 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:51,759 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:51,759 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:51,759 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?optional=false
+2025-10-19 14:39:51,759 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:51,759 - INFO - root -     Query parameters:  {'optional': 'false'}
+2025-10-19 14:39:52,016 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.254s)
+2025-10-19 14:39:52,017 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:52.008Z"
+  }
+}
+2025-10-19 14:39:52,118 - INFO - root - Running with test data row 5/15
+2025-10-19 14:39:52,119 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:52,119 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:52,119 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:52,120 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:52,120 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:52,120 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:52,120 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=false&holidayId=2
+2025-10-19 14:39:52,120 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'holidayId': 2}
+2025-10-19 14:39:52,368 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:52,368 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:52,369 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:52,369 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:52,369 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:52,369 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:52,369 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?year=2025&optional=false
+2025-10-19 14:39:52,369 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:52,369 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:52,679 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.309s)
+2025-10-19 14:39:52,679 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:52.618Z"
+  }
+}
+2025-10-19 14:39:52,784 - INFO - root - Running with test data row 6/15
+2025-10-19 14:39:52,784 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:52,784 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:52,785 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:52,785 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:52,785 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:52,785 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:52,785 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&holidayId=2
+2025-10-19 14:39:52,785 - INFO - root -     Query parameters:  {'year': 2025, 'holidayId': 2}
+2025-10-19 14:39:53,028 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:53,028 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:53,029 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:53,029 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:53,029 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:53,029 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:53,029 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?year=2025
+2025-10-19 14:39:53,029 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:53,029 - INFO - root -     Query parameters:  {'year': 2025}
+2025-10-19 14:39:53,276 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.246s)
+2025-10-19 14:39:53,277 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:53.280Z"
+  }
+}
+2025-10-19 14:39:53,381 - INFO - root - Running with test data row 7/15
+2025-10-19 14:39:53,381 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:53,381 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:53,381 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:53,381 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:53,381 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:53,381 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:53,381 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?optional=false&holidayId=2
+2025-10-19 14:39:53,381 - INFO - root -     Query parameters:  {'optional': 'false', 'holidayId': 2}
+2025-10-19 14:39:53,627 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:53,628 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:53,628 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:53,628 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:53,628 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:53,628 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:53,628 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?optional=false
+2025-10-19 14:39:53,629 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:53,629 - INFO - root -     Query parameters:  {'optional': 'false'}
+2025-10-19 14:39:53,880 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404  (0.250s)
+2025-10-19 14:39:53,881 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/holidays/2\u201d",
+    "timestamp": "2025-10-19T07:39:53.878Z"
+  }
+}
+2025-10-19 14:39:53,986 - INFO - root - Running with test data row 8/15
+2025-10-19 14:39:53,987 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:53,987 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:53,987 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:53,987 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:53,988 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:53,988 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:53,988 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?holidayId=0
+2025-10-19 14:39:53,988 - INFO - root -     Query parameters:  {'holidayId': 0}
+2025-10-19 14:39:54,257 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:54,335 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:54,337 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:54,337 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:54,337 - INFO - root -     Final endpoint:    /api/v1/holidays/0
+2025-10-19 14:39:54,337 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/0
+2025-10-19 14:39:54,337 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/0
+2025-10-19 14:39:54,337 - INFO - root -     Path variables:    {'holidayId': 0}
+2025-10-19 14:39:54,666 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.327s)
+2025-10-19 14:39:54,771 - INFO - root - Running with test data row 9/15
+2025-10-19 14:39:54,794 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:54,795 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:54,795 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:54,795 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:54,795 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:54,795 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:54,795 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036&holidayId=3
+2025-10-19 14:39:54,798 - INFO - root -     Query parameters:  {'year': 2036, 'holidayId': 3}
+2025-10-19 14:39:55,044 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:55,044 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:55,044 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:55,045 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:55,045 - INFO - root -     Final endpoint:    /api/v1/holidays/3
+2025-10-19 14:39:55,045 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/3
+2025-10-19 14:39:55,045 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/3?year=2036
+2025-10-19 14:39:55,045 - INFO - root -     Path variables:    {'holidayId': 3}
+2025-10-19 14:39:55,045 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:39:55,292 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.246s)
+2025-10-19 14:39:55,398 - INFO - root - Running with test data row 10/15
+2025-10-19 14:39:55,398 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:55,399 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:55,399 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:55,399 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:55,399 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:55,399 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:55,399 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?optional=tru&holidayId=4
+2025-10-19 14:39:55,399 - INFO - root -     Query parameters:  {'optional': 'tru', 'holidayId': 4}
+2025-10-19 14:39:55,689 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:55,689 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:55,690 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:55,690 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:55,690 - INFO - root -     Final endpoint:    /api/v1/holidays/4
+2025-10-19 14:39:55,690 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/4
+2025-10-19 14:39:55,690 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/4?optional=tru
+2025-10-19 14:39:55,690 - INFO - root -     Path variables:    {'holidayId': 4}
+2025-10-19 14:39:55,690 - INFO - root -     Query parameters:  {'optional': 'tru'}
+2025-10-19 14:39:55,944 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.251s)
+2025-10-19 14:39:56,049 - INFO - root - Running with test data row 11/15
+2025-10-19 14:39:56,049 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:56,050 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:56,050 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:56,050 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:56,050 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:56,050 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:56,050 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=false&holidayId=0
+2025-10-19 14:39:56,050 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'holidayId': 0}
+2025-10-19 14:39:56,296 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:56,297 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:56,298 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:56,298 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:56,298 - INFO - root -     Final endpoint:    /api/v1/holidays/0
+2025-10-19 14:39:56,298 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/0
+2025-10-19 14:39:56,298 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/0?year=2025&optional=false
+2025-10-19 14:39:56,298 - INFO - root -     Path variables:    {'holidayId': 0}
+2025-10-19 14:39:56,298 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:56,551 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.251s)
+2025-10-19 14:39:56,656 - INFO - root - Running with test data row 12/15
+2025-10-19 14:39:56,657 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:56,657 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:56,657 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:56,657 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:56,657 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:56,658 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:56,658 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036&optional=false&holidayId=2
+2025-10-19 14:39:56,658 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'false', 'holidayId': 2}
+2025-10-19 14:39:56,908 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:56,908 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:56,908 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:56,908 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:56,908 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:56,909 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:56,909 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?year=2036&optional=false
+2025-10-19 14:39:56,909 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:56,909 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'false'}
+2025-10-19 14:39:57,164 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.255s)
+2025-10-19 14:39:57,269 - INFO - root - Running with test data row 13/15
+2025-10-19 14:39:57,270 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:57,271 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:57,272 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:57,272 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:57,272 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:57,272 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:57,272 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2025&optional=maybe&holidayId=2
+2025-10-19 14:39:57,272 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'maybe', 'holidayId': 2}
+2025-10-19 14:39:57,522 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:57,522 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:57,522 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:57,523 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:57,523 - INFO - root -     Final endpoint:    /api/v1/holidays/2
+2025-10-19 14:39:57,523 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/2
+2025-10-19 14:39:57,523 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/2?year=2025&optional=maybe
+2025-10-19 14:39:57,523 - INFO - root -     Path variables:    {'holidayId': 2}
+2025-10-19 14:39:57,523 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'maybe'}
+2025-10-19 14:39:57,768 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.243s)
+2025-10-19 14:39:57,874 - INFO - root - Running with test data row 14/15
+2025-10-19 14:39:57,874 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:57,875 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:57,875 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:57,875 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:57,875 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:57,875 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:57,875 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036&optional=false&holidayId=0
+2025-10-19 14:39:57,875 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'false', 'holidayId': 0}
+2025-10-19 14:39:58,129 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:58,129 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:58,130 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:58,130 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:58,130 - INFO - root -     Final endpoint:    /api/v1/holidays/0
+2025-10-19 14:39:58,130 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/0
+2025-10-19 14:39:58,130 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/0?year=2036&optional=false
+2025-10-19 14:39:58,130 - INFO - root -     Path variables:    {'holidayId': 0}
+2025-10-19 14:39:58,130 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'false'}
+2025-10-19 14:39:58,376 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.245s)
+2025-10-19 14:39:58,481 - INFO - root - Running with test data row 15/15
+2025-10-19 14:39:58,482 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:39:58,482 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:58,482 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:58,482 - INFO - root -     Original endpoint: /api/v1/holidays
+2025-10-19 14:39:58,482 - INFO - root -     Final endpoint:    /api/v1/holidays
+2025-10-19 14:39:58,483 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays
+2025-10-19 14:39:58,483 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays?year=2036&optional=maybe&holidayId=0
+2025-10-19 14:39:58,483 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'maybe', 'holidayId': 0}
+2025-10-19 14:39:58,731 - INFO - root -   🔄 Step 1: GET get-/api/v1/holidays -> 404 (dependency - skip assert)
+2025-10-19 14:39:58,731 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:58,731 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:58,731 - INFO - root -     Original endpoint: /api/v1/holidays/{holidayId}
+2025-10-19 14:39:58,731 - INFO - root -     Final endpoint:    /api/v1/holidays/0
+2025-10-19 14:39:58,731 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/holidays/0
+2025-10-19 14:39:58,731 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/holidays/0?year=2036&optional=maybe
+2025-10-19 14:39:58,731 - INFO - root -     Path variables:    {'holidayId': 0}
+2025-10-19 14:39:58,731 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'maybe'}
+2025-10-19 14:39:58,985 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/holidays/{holidayId} -> 404 (expected: 4xx) (0.253s)
+2025-10-19 14:39:59,090 - INFO - root - Running test case: _api_v1_provinces_Provinces_0_1.json
+2025-10-19 14:39:59,090 - INFO - root - 🎯 Target endpoint: get-/api/v1/provinces
+2025-10-19 14:39:59,091 - INFO - root - 📄 Param CSV: _api_v1_provinces_Provinces_param.csv -> 15 rows
+2025-10-19 14:39:59,091 - INFO - root - 🧪 Will run 15 times (combine param/body rows by index)
+2025-10-19 14:39:59,091 - INFO - root - Running with test data row 1/15
+2025-10-19 14:39:59,091 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:59,091 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:59,091 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:59,091 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:39:59,091 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:39:59,091 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:39:59,091 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false
+2025-10-19 14:39:59,091 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:39:59,346 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.252s)
+2025-10-19 14:39:59,346 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:39:59.341Z"
+  }
+}
+2025-10-19 14:39:59,452 - INFO - root - Running with test data row 2/15
+2025-10-19 14:39:59,455 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:59,455 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:59,456 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:59,456 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:39:59,456 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:39:59,456 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:39:59,456 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2014&optional=1
+2025-10-19 14:39:59,456 - INFO - root -     Query parameters:  {'year': 2014, 'optional': '1'}
+2025-10-19 14:39:59,699 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.243s)
+2025-10-19 14:39:59,699 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:39:59.704Z"
+  }
+}
+2025-10-19 14:39:59,800 - INFO - root - Running with test data row 3/15
+2025-10-19 14:39:59,800 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:39:59,800 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:39:59,801 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:39:59,801 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:39:59,801 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:39:59,801 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:39:59,801 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:00,055 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.253s)
+2025-10-19 14:40:00,055 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:40:00.056Z"
+  }
+}
+2025-10-19 14:40:00,156 - INFO - root - Running with test data row 4/15
+2025-10-19 14:40:00,157 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:00,157 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:00,157 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:00,157 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:00,157 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:00,157 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:00,157 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:00,417 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.258s)
+2025-10-19 14:40:00,418 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:40:00.406Z"
+  }
+}
+2025-10-19 14:40:00,523 - INFO - root - Running with test data row 5/15
+2025-10-19 14:40:00,524 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:00,524 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:00,524 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:00,524 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:00,524 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:00,524 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:00,525 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false
+2025-10-19 14:40:00,525 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:40:00,784 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.259s)
+2025-10-19 14:40:00,785 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:40:00.776Z"
+  }
+}
+2025-10-19 14:40:00,887 - INFO - root - Running with test data row 6/15
+2025-10-19 14:40:00,888 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:00,888 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:00,888 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:00,888 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:00,888 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:00,888 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:00,888 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025
+2025-10-19 14:40:00,888 - INFO - root -     Query parameters:  {'year': 2025}
+2025-10-19 14:40:01,131 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.242s)
+2025-10-19 14:40:01,131 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:40:01.137Z"
+  }
+}
+2025-10-19 14:40:01,236 - INFO - root - Running with test data row 7/15
+2025-10-19 14:40:01,236 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:01,236 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:01,236 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:01,236 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:01,236 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:01,236 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:01,236 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?optional=false
+2025-10-19 14:40:01,236 - INFO - root -     Query parameters:  {'optional': 'false'}
+2025-10-19 14:40:01,494 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces -> 404  (0.256s)
+2025-10-19 14:40:01,495 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces\u201d",
+    "timestamp": "2025-10-19T07:40:01.484Z"
+  }
+}
+2025-10-19 14:40:01,599 - INFO - root - Running with test data row 8/15
+2025-10-19 14:40:01,600 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:01,600 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:01,600 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:01,600 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:01,600 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:01,600 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:01,600 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2036
+2025-10-19 14:40:01,601 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:40:01,860 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.258s)
+2025-10-19 14:40:01,961 - INFO - root - Running with test data row 9/15
+2025-10-19 14:40:01,961 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:01,961 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:01,962 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:01,962 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:01,962 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:01,962 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:01,962 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=abc
+2025-10-19 14:40:01,962 - INFO - root -     Query parameters:  {'year': 'abc'}
+2025-10-19 14:40:02,242 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.278s)
+2025-10-19 14:40:02,346 - INFO - root - Running with test data row 10/15
+2025-10-19 14:40:02,346 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:02,346 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:02,346 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:02,346 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:02,347 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:02,347 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:02,347 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?optional=yes
+2025-10-19 14:40:02,347 - INFO - root -     Query parameters:  {'optional': 'yes'}
+2025-10-19 14:40:02,593 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.245s)
+2025-10-19 14:40:02,694 - INFO - root - Running with test data row 11/15
+2025-10-19 14:40:02,694 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:02,694 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:02,694 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:02,694 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:02,694 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:02,694 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:02,694 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2036
+2025-10-19 14:40:02,694 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:40:02,939 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.243s)
+2025-10-19 14:40:03,041 - INFO - root - Running with test data row 12/15
+2025-10-19 14:40:03,041 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:03,041 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:03,041 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:03,041 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:03,041 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:03,041 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:03,041 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?optional=maybe
+2025-10-19 14:40:03,041 - INFO - root -     Query parameters:  {'optional': 'maybe'}
+2025-10-19 14:40:03,291 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.249s)
+2025-10-19 14:40:03,393 - INFO - root - Running with test data row 13/15
+2025-10-19 14:40:03,393 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:03,393 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:03,393 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:03,395 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:03,395 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:03,395 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:03,395 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2013&optional=yes
+2025-10-19 14:40:03,395 - INFO - root -     Query parameters:  {'year': 2013, 'optional': 'yes'}
+2025-10-19 14:40:03,642 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.246s)
+2025-10-19 14:40:03,747 - INFO - root - Running with test data row 14/15
+2025-10-19 14:40:03,747 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:03,747 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:03,747 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:03,747 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:03,747 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:03,747 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:03,747 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=-1&optional=tru
+2025-10-19 14:40:03,747 - INFO - root -     Query parameters:  {'year': -1, 'optional': 'tru'}
+2025-10-19 14:40:03,992 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.244s)
+2025-10-19 14:40:04,093 - INFO - root - Running with test data row 15/15
+2025-10-19 14:40:04,093 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:04,093 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:04,093 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:04,093 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:04,093 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:04,093 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:04,093 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2147483649&optional=2
+2025-10-19 14:40:04,094 - INFO - root -     Query parameters:  {'year': 2147483649, 'optional': '2'}
+2025-10-19 14:40:04,350 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces -> 404 (expected: 4xx) (0.254s)
+2025-10-19 14:40:04,452 - INFO - root - Running test case: _api_v1_provinces_provinceId__Province_1_1.json
+2025-10-19 14:40:04,455 - INFO - root - 🎯 Target endpoint: get-/api/v1/provinces/{provinceId}
+2025-10-19 14:40:04,456 - INFO - root - 📄 Param CSV: _api_v1_provinces_provinceId__Province_param.csv -> 15 rows
+2025-10-19 14:40:04,456 - INFO - root - 🧪 Will run 15 times (combine param/body rows by index)
+2025-10-19 14:40:04,456 - INFO - root - Running with test data row 1/15
+2025-10-19 14:40:04,456 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:04,456 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:04,456 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:04,456 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:04,457 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:04,457 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:04,457 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false&provinceId=MB
+2025-10-19 14:40:04,457 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'provinceId': 'MB'}
+2025-10-19 14:40:04,701 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:04,702 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:04,702 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:04,702 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:04,702 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:04,702 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:04,702 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB?year=2025&optional=false
+2025-10-19 14:40:04,702 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:04,702 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:40:04,951 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.248s)
+2025-10-19 14:40:04,951 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:04.950Z"
+  }
+}
+2025-10-19 14:40:05,051 - INFO - root - Running with test data row 2/15
+2025-10-19 14:40:05,054 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:05,054 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:05,055 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:05,055 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:05,055 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:05,057 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:05,057 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?provinceId=MB
+2025-10-19 14:40:05,057 - INFO - root -     Query parameters:  {'provinceId': 'MB'}
+2025-10-19 14:40:05,302 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:05,302 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:05,302 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:05,302 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:05,302 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:05,302 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:05,302 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:05,302 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:05,551 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.247s)
+2025-10-19 14:40:05,551 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:05.554Z"
+  }
+}
+2025-10-19 14:40:05,657 - INFO - root - Running with test data row 3/15
+2025-10-19 14:40:05,659 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:05,659 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:05,659 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:05,659 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:05,659 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:05,659 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:05,660 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?provinceId=MB
+2025-10-19 14:40:05,660 - INFO - root -     Query parameters:  {'provinceId': 'MB'}
+2025-10-19 14:40:05,926 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:05,927 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:05,927 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:05,927 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:05,927 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:05,927 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:05,927 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:05,927 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:06,177 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.248s)
+2025-10-19 14:40:06,178 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:06.179Z"
+  }
+}
+2025-10-19 14:40:06,284 - INFO - root - Running with test data row 4/15
+2025-10-19 14:40:06,288 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:06,288 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:06,288 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:06,288 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:06,288 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:06,288 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:06,288 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false&provinceId=MB
+2025-10-19 14:40:06,288 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'provinceId': 'MB'}
+2025-10-19 14:40:06,546 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:06,547 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:06,547 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:06,548 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:06,548 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:06,548 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:06,548 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB?year=2025&optional=false
+2025-10-19 14:40:06,554 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:06,554 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:40:06,805 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.249s)
+2025-10-19 14:40:06,805 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:06.804Z"
+  }
+}
+2025-10-19 14:40:06,910 - INFO - root - Running with test data row 5/15
+2025-10-19 14:40:06,911 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:06,911 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:06,911 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:06,911 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:06,911 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:06,911 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:06,911 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&provinceId=MB
+2025-10-19 14:40:06,911 - INFO - root -     Query parameters:  {'year': 2025, 'provinceId': 'MB'}
+2025-10-19 14:40:07,160 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:07,160 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:07,160 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:07,160 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:07,160 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:07,160 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:07,161 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB?year=2025
+2025-10-19 14:40:07,161 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:07,161 - INFO - root -     Query parameters:  {'year': 2025}
+2025-10-19 14:40:07,415 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.253s)
+2025-10-19 14:40:07,415 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:07.411Z"
+  }
+}
+2025-10-19 14:40:07,520 - INFO - root - Running with test data row 6/15
+2025-10-19 14:40:07,520 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:07,520 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:07,521 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:07,521 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:07,521 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:07,521 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:07,521 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?optional=false&provinceId=MB
+2025-10-19 14:40:07,521 - INFO - root -     Query parameters:  {'optional': 'false', 'provinceId': 'MB'}
+2025-10-19 14:40:07,767 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:07,767 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:07,767 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:07,767 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:07,767 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:07,767 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:07,767 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB?optional=false
+2025-10-19 14:40:07,767 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:07,767 - INFO - root -     Query parameters:  {'optional': 'false'}
+2025-10-19 14:40:08,014 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404  (0.246s)
+2025-10-19 14:40:08,014 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/provinces/MB\u201d",
+    "timestamp": "2025-10-19T07:40:08.018Z"
+  }
+}
+2025-10-19 14:40:08,119 - INFO - root - Running with test data row 7/15
+2025-10-19 14:40:08,119 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:08,119 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:08,119 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:08,120 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:08,120 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:08,120 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:08,120 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false&provinceId=ZZ
+2025-10-19 14:40:08,120 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'provinceId': 'ZZ'}
+2025-10-19 14:40:08,371 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:08,371 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:08,372 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:08,372 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:08,372 - INFO - root -     Final endpoint:    /api/v1/provinces/ZZ
+2025-10-19 14:40:08,372 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/ZZ
+2025-10-19 14:40:08,372 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/ZZ?year=2025&optional=false
+2025-10-19 14:40:08,372 - INFO - root -     Path variables:    {'provinceId': 'ZZ'}
+2025-10-19 14:40:08,372 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:40:08,618 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.244s)
+2025-10-19 14:40:08,723 - INFO - root - Running with test data row 8/15
+2025-10-19 14:40:08,723 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:08,724 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:08,724 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:08,724 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:08,724 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:08,724 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:08,724 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2036&provinceId=ON
+2025-10-19 14:40:08,724 - INFO - root -     Query parameters:  {'year': 2036, 'provinceId': 'ON'}
+2025-10-19 14:40:08,994 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:08,994 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:08,994 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:08,994 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:08,995 - INFO - root -     Final endpoint:    /api/v1/provinces/ON
+2025-10-19 14:40:08,995 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/ON
+2025-10-19 14:40:08,995 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/ON?year=2036
+2025-10-19 14:40:08,995 - INFO - root -     Path variables:    {'provinceId': 'ON'}
+2025-10-19 14:40:08,995 - INFO - root -     Query parameters:  {'year': 2036}
+2025-10-19 14:40:09,252 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.256s)
+2025-10-19 14:40:09,358 - INFO - root - Running with test data row 9/15
+2025-10-19 14:40:09,358 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:09,358 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:09,358 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:09,358 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:09,358 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:09,358 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:09,358 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=abc&optional=true&provinceId=QC
+2025-10-19 14:40:09,358 - INFO - root -     Query parameters:  {'year': 'abc', 'optional': 'true', 'provinceId': 'QC'}
+2025-10-19 14:40:09,604 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:09,605 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:09,606 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:09,606 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:09,606 - INFO - root -     Final endpoint:    /api/v1/provinces/QC
+2025-10-19 14:40:09,606 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/QC
+2025-10-19 14:40:09,606 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/QC?year=abc&optional=true
+2025-10-19 14:40:09,606 - INFO - root -     Path variables:    {'provinceId': 'QC'}
+2025-10-19 14:40:09,606 - INFO - root -     Query parameters:  {'year': 'abc', 'optional': 'true'}
+2025-10-19 14:40:09,863 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.255s)
+2025-10-19 14:40:09,967 - INFO - root - Running with test data row 10/15
+2025-10-19 14:40:09,967 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:09,967 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:09,967 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:09,967 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:09,967 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:09,967 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:09,967 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?optional=yes&provinceId=AB
+2025-10-19 14:40:09,967 - INFO - root -     Query parameters:  {'optional': 'yes', 'provinceId': 'AB'}
+2025-10-19 14:40:10,215 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:10,215 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:10,215 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:10,215 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:10,215 - INFO - root -     Final endpoint:    /api/v1/provinces/AB
+2025-10-19 14:40:10,215 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/AB
+2025-10-19 14:40:10,216 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/AB?optional=yes
+2025-10-19 14:40:10,216 - INFO - root -     Path variables:    {'provinceId': 'AB'}
+2025-10-19 14:40:10,216 - INFO - root -     Query parameters:  {'optional': 'yes'}
+2025-10-19 14:40:10,493 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.276s)
+2025-10-19 14:40:10,599 - INFO - root - Running with test data row 11/15
+2025-10-19 14:40:10,599 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:10,599 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:10,599 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:10,599 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:10,599 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:10,599 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:10,599 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=false&provinceId=ZZ
+2025-10-19 14:40:10,599 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false', 'provinceId': 'ZZ'}
+2025-10-19 14:40:10,854 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:10,854 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:10,854 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:10,854 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:10,854 - INFO - root -     Final endpoint:    /api/v1/provinces/ZZ
+2025-10-19 14:40:10,854 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/ZZ
+2025-10-19 14:40:10,854 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/ZZ?year=2025&optional=false
+2025-10-19 14:40:10,855 - INFO - root -     Path variables:    {'provinceId': 'ZZ'}
+2025-10-19 14:40:10,855 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'false'}
+2025-10-19 14:40:11,101 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.244s)
+2025-10-19 14:40:11,207 - INFO - root - Running with test data row 12/15
+2025-10-19 14:40:11,208 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:11,209 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:11,212 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:11,212 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:11,212 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:11,212 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:11,212 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2013&optional=false&provinceId=MB
+2025-10-19 14:40:11,212 - INFO - root -     Query parameters:  {'year': 2013, 'optional': 'false', 'provinceId': 'MB'}
+2025-10-19 14:40:11,458 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:11,458 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:11,458 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:11,458 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:11,458 - INFO - root -     Final endpoint:    /api/v1/provinces/MB
+2025-10-19 14:40:11,458 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/MB
+2025-10-19 14:40:11,458 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/MB?year=2013&optional=false
+2025-10-19 14:40:11,458 - INFO - root -     Path variables:    {'provinceId': 'MB'}
+2025-10-19 14:40:11,458 - INFO - root -     Query parameters:  {'year': 2013, 'optional': 'false'}
+2025-10-19 14:40:11,817 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.357s)
+2025-10-19 14:40:11,922 - INFO - root - Running with test data row 13/15
+2025-10-19 14:40:11,923 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:11,924 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:11,927 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:11,928 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:11,928 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:11,928 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:11,929 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2025&optional=maybe&provinceId=ON
+2025-10-19 14:40:11,929 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'maybe', 'provinceId': 'ON'}
+2025-10-19 14:40:12,181 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:12,182 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:12,182 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:12,182 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:12,182 - INFO - root -     Final endpoint:    /api/v1/provinces/ON
+2025-10-19 14:40:12,182 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/ON
+2025-10-19 14:40:12,182 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/ON?year=2025&optional=maybe
+2025-10-19 14:40:12,182 - INFO - root -     Path variables:    {'provinceId': 'ON'}
+2025-10-19 14:40:12,183 - INFO - root -     Query parameters:  {'year': 2025, 'optional': 'maybe'}
+2025-10-19 14:40:12,432 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.246s)
+2025-10-19 14:40:12,536 - INFO - root - Running with test data row 14/15
+2025-10-19 14:40:12,536 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:12,537 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:12,537 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:12,537 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:12,538 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:12,538 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:12,538 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2036&optional=tru&provinceId=BC
+2025-10-19 14:40:12,538 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'tru', 'provinceId': 'BC'}
+2025-10-19 14:40:12,786 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:12,786 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:12,786 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:12,786 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:12,786 - INFO - root -     Final endpoint:    /api/v1/provinces/BC
+2025-10-19 14:40:12,786 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/BC
+2025-10-19 14:40:12,786 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/BC?year=2036&optional=tru
+2025-10-19 14:40:12,786 - INFO - root -     Path variables:    {'provinceId': 'BC'}
+2025-10-19 14:40:12,786 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'tru'}
+2025-10-19 14:40:13,033 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.244s)
+2025-10-19 14:40:13,136 - INFO - root - Running with test data row 15/15
+2025-10-19 14:40:13,136 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-19 14:40:13,136 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:13,136 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:13,137 - INFO - root -     Original endpoint: /api/v1/provinces
+2025-10-19 14:40:13,137 - INFO - root -     Final endpoint:    /api/v1/provinces
+2025-10-19 14:40:13,137 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces
+2025-10-19 14:40:13,137 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces?year=2036&optional=tru&provinceId=XX
+2025-10-19 14:40:13,137 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'tru', 'provinceId': 'XX'}
+2025-10-19 14:40:13,387 - INFO - root -   🔄 Step 1: GET get-/api/v1/provinces -> 404 (dependency - skip assert)
+2025-10-19 14:40:13,387 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:40:13,387 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:13,387 - INFO - root -     Original endpoint: /api/v1/provinces/{provinceId}
+2025-10-19 14:40:13,387 - INFO - root -     Final endpoint:    /api/v1/provinces/XX
+2025-10-19 14:40:13,387 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/provinces/XX
+2025-10-19 14:40:13,388 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/provinces/XX?year=2036&optional=tru
+2025-10-19 14:40:13,388 - INFO - root -     Path variables:    {'provinceId': 'XX'}
+2025-10-19 14:40:13,388 - INFO - root -     Query parameters:  {'year': 2036, 'optional': 'tru'}
+2025-10-19 14:40:13,637 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/provinces/{provinceId} -> 404 (expected: 4xx) (0.248s)
+2025-10-19 14:40:13,742 - INFO - root - Running test case: _api_v1_Root_0_1.json
+2025-10-19 14:40:13,743 - INFO - root - 🎯 Target endpoint: get-/api/v1
+2025-10-19 14:40:13,743 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Root' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/test_data/csv
+2025-10-19 14:40:13,744 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-19 14:40:13,744 - INFO - root - Running with test data row 1/1
+2025-10-19 14:40:13,744 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:13,744 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:13,744 - INFO - root -     Original endpoint: /api/v1
+2025-10-19 14:40:13,744 - INFO - root -     Final endpoint:    /api/v1
+2025-10-19 14:40:13,744 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1
+2025-10-19 14:40:13,744 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1
+2025-10-19 14:40:13,989 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1 -> 404  (0.244s)
+2025-10-19 14:40:13,990 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1\u201d",
+    "timestamp": "2025-10-19T07:40:13.994Z"
+  }
+}
+2025-10-19 14:40:14,094 - INFO - root - Running test case: _api_v1_spec_Spec_0_1.json
+2025-10-19 14:40:14,097 - INFO - root - 🎯 Target endpoint: get-/api/v1/spec
+2025-10-19 14:40:14,097 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_spec_Spec' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Canada Holidays/test_data/csv
+2025-10-19 14:40:14,098 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-19 14:40:14,098 - INFO - root - Running with test data row 1/1
+2025-10-19 14:40:14,098 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:40:14,098 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:40:14,098 - INFO - root -     Original endpoint: /api/v1/spec
+2025-10-19 14:40:14,098 - INFO - root -     Final endpoint:    /api/v1/spec
+2025-10-19 14:40:14,098 - INFO - root -     Base URL:          https://canada-holidays.ca/api/api/v1/spec
+2025-10-19 14:40:14,098 - INFO - root -     Full URL + query:  https://canada-holidays.ca/api/api/v1/spec
+2025-10-19 14:40:14,355 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/spec -> 404  (0.254s)
+2025-10-19 14:40:14,356 - ERROR - root -     Response: {
+  "error": {
+    "status": 404,
+    "message": "NotFoundError: Error: Could not find route \u201c/api/v1/spec\u201d",
+    "timestamp": "2025-10-19T07:40:14.348Z"
+  }
+}

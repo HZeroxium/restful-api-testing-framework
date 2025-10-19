@@ -90,14 +90,14 @@ class FileService:
             logger.error(f"Failed to read topolist {p}: {e}")
             return []
 
-    def find_test_case_files(self, endpoint_name: Optional[str] = None) -> List[Path]:
+    def find_test_case_files(self, endpoint_name: List[str] = None) -> List[Path]:
         d = self.paths.test_case_dir
         if not d.exists():
             logger.error(f"Test case directory not found: {d}")
             return []
         json_files = list(d.glob("*.json"))
         if endpoint_name:
-            filtered = [f for f in json_files if endpoint_name in f.name]
+            filtered = [f for f in json_files if any(ep in f.name for ep in endpoint_name)]
             logger.info(f"Found {len(filtered)} test case files for endpoint filter: {endpoint_name}")
         else:
             filtered = [f for f in json_files if not f.name.startswith("simplified_swagger")]

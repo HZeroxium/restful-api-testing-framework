@@ -7,7 +7,7 @@ import sys
 from kat.operation_dependency_graph.odg_generator import ODGGenerator
 from .response_validation_utils import *
 from kat.data_generator.data_generator import TestDataGenerator
-from kat.directory_config.directory_config import get_data_dir_file, get_endpoint_schema_dependencies_file_path, get_operation_sequences_file_path, get_output_dir, get_root_dir, get_test_case_generator_working_dir, get_test_data_working_dir, get_topolist_file_path
+from kat.directory_config.directory_config import get_data_dir_file, get_endpoint_schema_dependencies_file_path, get_odg_working_dir, get_operation_sequences_file_path, get_output_dir, get_root_dir, get_test_case_generator_working_dir, get_test_data_working_dir, get_topolist_file_path
 from kat.document_parser.document_parser import extract_endpoints, find_path_to_target, get_delete_operation_store, get_schemas_from_spec
 from kat.utils.llm.gpt.gpt import GPTChatCompletion
 from kat.utils.swagger_utils.swagger_utils import add_test_object_to_swagger, get_endpoint_id, get_endpoint_params
@@ -84,7 +84,7 @@ class TestCaseGenerator():
         self.test_data_gen_output_token_count = 0
         self.working_directory = get_test_case_generator_working_dir(service_name)
         self.test_data_working_directory = get_test_data_working_dir(service_name)
-        
+        self.odg_dir = get_odg_working_dir(service_name)
         if not os.path.exists(get_data_dir_file(service_name)):
             print(get_data_dir_file(service_name))
             raise Exception(f"Swagger spec file for service {service_name} not found. Please put it according the path: \"Dataset/{service_name}/openapi.json\"")
@@ -485,7 +485,7 @@ class TestCaseGenerator():
         data_generator = TestDataGenerator(swagger_spec=self.swagger_spec, service_name=self.service_name, collection=self.collection, selected_endpoints=endpoints, generation_mode=self.data_generation_mode,
                                            working_directory=self.test_data_working_directory)
         data_generator.filter_params_w_descr()
-        data_generator.create_test_data_file_from_swagger()
+        data_generator.generateData()
         
         self.test_data_gen_input_token_count = data_generator.input_token_count
         self.test_data_gen_output_token_count = data_generator.output_token_count
@@ -544,10 +544,11 @@ class TestCaseGenerator():
             collection=self.collection,
             selected_endpoints=endpoints,
             generation_mode=self.data_generation_mode,
-            working_directory=self.test_data_working_directory
+            working_directory=self.test_data_working_directory,
+            odg_dir = self.odg_dir
         )
         data_generator.filter_params_w_descr()
-        data_generator.create_test_data_file_from_swagger()
+        data_generator.generateData()
 
         self.test_data_gen_input_token_count = data_generator.input_token_count
         self.test_data_gen_output_token_count = data_generator.output_token_count

@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""billId"": 3973, ""stageId"": 7}",2xx,billId=3973 is >= minimum=1; stageId=7 is a valid integer.
+2,"{""billId"": 3973, ""stageId"": 7}",2xx,llm_success_ignore_optional
+3,"{""billId"": 0, ""stageId"": 7}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+4,"{""billId"": 3973, ""stageId"": ""abc""}",4xx,"stageId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""billId"": ""xyz"", ""stageId"": 7}",4xx,"billId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""billId"": 3973, ""stageId"": 2147483649}",4xx,"stageId=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."
+7,"{""billId"": 0, ""stageId"": 7}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
+8,"{""billId"": -1, ""stageId"": 7}",4xx,"billId=-1 < minimum=1, violating 'minimum' constraint."
+9,"{""billId"": ""abc"", ""stageId"": 7}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""billId"": 3973, ""stageId"": ""xyz""}",4xx,"stageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+11,"{""billId"": ""abc"", ""stageId"": 2147483649}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer'; stageId=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."

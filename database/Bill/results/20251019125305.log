@@ -1,0 +1,80 @@
+2025-10-19 12:53:05,221 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251019125305.log
+2025-10-19 12:53:05,221 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_GetBills_0_1
+2025-10-19 12:53:05,222 - INFO - sequence_runner.dependency - 🔍 No dependencies found in test cases
+2025-10-19 12:53:05,222 - INFO - root - 🧰 Preload done in 0.00s | global_cache=0 endpoint(s), available_ids=0
+2025-10-19 12:53:05,222 - INFO - root - Starting test execution for service: Bill
+2025-10-19 12:53:05,222 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_GetBills_0_1
+2025-10-19 12:53:05,222 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251019125305.csv
+2025-10-19 12:53:05,223 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-19 12:53:05,223 - INFO - root - Running test case: _api_v1_Bills_GetBills_0_1.json
+2025-10-19 12:53:05,223 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills
+2025-10-19 12:53:05,224 - INFO - root - 📄 Param CSV: _api_v1_Bills_GetBills_param.csv -> 72 rows
+2025-10-19 12:53:05,224 - INFO - root - 🧪 Will run 72 times (combine param/body rows by index)
+2025-10-19 12:53:05,224 - INFO - root - Running with test data row 1/72
+2025-10-19 12:53:05,224 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:05,224 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:05,224 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:05,224 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:05,224 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:05,224 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:05,224 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=education&Session=2023&CurrentHouse=Commons&OriginatingHouse=Lords&MemberId=101&DepartmentId=5&BillStage=1&BillStage=2&BillStage=3&BillStagesExcluded=4&BillStagesExcluded=5&IsDefeated=False&IsWithdrawn=True&BillType=10&BillType=20&SortOrder=TitleAscending&BillIds=1001&BillIds=1002&IsInAmendableStage=True&Skip=0&Take=50
+2025-10-19 12:53:05,224 - INFO - root -     Query parameters:  {'SearchTerm': 'education', 'Session': 2023, 'CurrentHouse': 'Commons', 'OriginatingHouse': 'Lords', 'MemberId': 101, 'DepartmentId': 5, 'BillStage': [1, 2, 3], 'BillStagesExcluded': [4, 5], 'IsDefeated': False, 'IsWithdrawn': True, 'BillType': [10, 20], 'SortOrder': 'TitleAscending', 'BillIds': [1001, 1002], 'IsInAmendableStage': True, 'Skip': 0, 'Take': 50}
+2025-10-19 12:53:05,982 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (0.757s)
+2025-10-19 12:53:06,088 - INFO - root - Running with test data row 2/72
+2025-10-19 12:53:06,088 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:06,088 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:06,088 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:06,088 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:06,088 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:06,088 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:06,088 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?OriginatingHouse=All&SortOrder=TitleDescending&Skip=10&Take=25
+2025-10-19 12:53:06,088 - INFO - root -     Query parameters:  {'OriginatingHouse': 'All', 'SortOrder': 'TitleDescending', 'Skip': 10, 'Take': 25}
+2025-10-19 12:53:06,761 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (0.669s)
+2025-10-19 12:53:06,866 - INFO - root - Running with test data row 3/72
+2025-10-19 12:53:06,868 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:06,868 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:06,868 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:06,868 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:06,868 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:06,868 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:06,868 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:07,436 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (0.566s)
+2025-10-19 12:53:07,536 - INFO - root - Running with test data row 4/72
+2025-10-19 12:53:07,537 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:07,537 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:07,537 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:07,537 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:07,538 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:07,538 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:07,538 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?BillStagesExcluded=4&BillStagesExcluded=5
+2025-10-19 12:53:07,538 - INFO - root -     Query parameters:  {'BillStagesExcluded': [4, 5]}
+2025-10-19 12:53:11,193 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (3.653s)
+2025-10-19 12:53:11,296 - INFO - root - Running with test data row 5/72
+2025-10-19 12:53:11,296 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:11,296 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:11,296 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:11,296 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:11,296 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:11,296 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:11,296 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=education&Skip=0
+2025-10-19 12:53:11,296 - INFO - root -     Query parameters:  {'SearchTerm': 'education', 'Skip': 0}
+2025-10-19 12:53:12,020 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (0.721s)
+2025-10-19 12:53:12,125 - INFO - root - Running with test data row 6/72
+2025-10-19 12:53:12,126 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:12,126 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:12,126 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:12,126 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:12,126 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:12,127 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:12,127 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=education&DepartmentId=5&BillStagesExcluded=4&BillStagesExcluded=5
+2025-10-19 12:53:12,127 - INFO - root -     Query parameters:  {'SearchTerm': 'education', 'DepartmentId': 5, 'BillStagesExcluded': [4, 5]}
+2025-10-19 12:53:16,047 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (3.917s)
+2025-10-19 12:53:16,153 - INFO - root - Running with test data row 7/72
+2025-10-19 12:53:16,153 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 12:53:16,154 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 12:53:16,154 - INFO - root -   🔗 URL Construction:
+2025-10-19 12:53:16,154 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 12:53:16,154 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 12:53:16,154 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 12:53:16,154 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?OriginatingHouse=Lords&MemberId=101&BillStagesExcluded=4&BillStagesExcluded=5&Skip=0
+2025-10-19 12:53:16,155 - INFO - root -     Query parameters:  {'OriginatingHouse': 'Lords', 'MemberId': 101, 'BillStagesExcluded': [4, 5], 'Skip': 0}

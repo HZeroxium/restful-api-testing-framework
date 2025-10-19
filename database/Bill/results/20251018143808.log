@@ -1,0 +1,33 @@
+2025-10-18 14:38:08,057 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018143808.log
+2025-10-18 14:38:08,058 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId__GetBill_1_1
+2025-10-18 14:38:08,058 - INFO - sequence_runner.dependency - 🔍 Found 1 dependency endpoints: ['get-/api/v1/Bills']
+2025-10-18 14:38:08,058 - INFO - sequence_runner.dependency - 📡 Preloading (1/1): get-/api/v1/Bills -> https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:38:08,231 - INFO - sequence_runner.dependency -     ⏱️  Response time: 0.17s
+2025-10-18 14:38:08,231 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-18 14:38:08,231 - INFO - sequence_runner.dependency - ✅ Preloading complete: 1 endpoints cached
+2025-10-18 14:38:08,231 - INFO - root - 🧰 Preload done in 0.17s | global_cache=1 endpoint(s), available_ids=0
+2025-10-18 14:38:08,231 - INFO - root - Starting test execution for service: Bill
+2025-10-18 14:38:08,231 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId__GetBill_1_1
+2025-10-18 14:38:08,232 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018143808.csv
+2025-10-18 14:38:08,232 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-18 14:38:08,232 - INFO - root - Running test case: _api_v1_Bills_billId__GetBill_1_1.json
+2025-10-18 14:38:08,232 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}
+2025-10-18 14:38:08,232 - INFO - sequence_runner.io_file - No CSV found for endpoint identifier '_api_v1_Bills_billId__GetBill' in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/test_data/csv
+2025-10-18 14:38:08,233 - INFO - root - 🧪 No test data found, will run 1 time with empty data
+2025-10-18 14:38:08,233 - INFO - root - Running with test data row 1/1
+2025-10-18 14:38:08,233 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:38:08,233 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:38:08,233 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:38:08,233 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:38:08,233 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:38:08,233 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:38:08,291 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:38:08,291 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:38:08,291 - INFO - sequence_runner.dependency - ✅ Resolved dependency: billId = 3973
+2025-10-18 14:38:08,291 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:38:08,291 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}
+2025-10-18 14:38:08,292 - INFO - root -     Final endpoint:    /api/v1/Bills/3973
+2025-10-18 14:38:08,292 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973
+2025-10-18 14:38:08,292 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973
+2025-10-18 14:38:08,292 - INFO - root -     Path variables:    {'billId': '3973'}
+2025-10-18 14:38:08,559 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId} -> 200  (0.266s)

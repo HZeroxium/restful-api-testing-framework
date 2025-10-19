@@ -1,0 +1,823 @@
+2025-10-18 14:41:24,199 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018144124.log
+2025-10-18 14:41:24,200 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1
+2025-10-18 14:41:24,200 - INFO - sequence_runner.dependency - 🔍 Found 1 dependency endpoints: ['get-/api/v1/Bills']
+2025-10-18 14:41:24,200 - INFO - sequence_runner.dependency - 📡 Preloading (1/1): get-/api/v1/Bills -> https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:25,216 - INFO - sequence_runner.dependency -     ⏱️  Response time: 1.02s
+2025-10-18 14:41:25,221 - INFO - sequence_runner.dependency -     ✅ Success (200)
+2025-10-18 14:41:25,221 - INFO - sequence_runner.dependency - ✅ Preloading complete: 1 endpoints cached
+2025-10-18 14:41:25,221 - INFO - root - 🧰 Preload done in 1.02s | global_cache=1 endpoint(s), available_ids=0
+2025-10-18 14:41:25,221 - INFO - root - Starting test execution for service: Bill
+2025-10-18 14:41:25,222 - INFO - sequence_runner.io_file - Found 1 test case files for endpoint filter: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1
+2025-10-18 14:41:25,223 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251018144124.csv
+2025-10-18 14:41:25,224 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-18 14:41:25,224 - INFO - root - Running test case: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1.json
+2025-10-18 14:41:25,225 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:25,226 - INFO - root - 📄 Param CSV: _api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_param.csv -> 34 rows
+2025-10-18 14:41:25,226 - INFO - root - 🧪 Will run 34 times (combine param/body rows by index)
+2025-10-18 14:41:25,226 - INFO - root - Running with test data row 1/34
+2025-10-18 14:41:25,226 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:25,227 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:25,227 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:25,227 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:25,227 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:25,227 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:25,228 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:25,228 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:26,105 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:26,106 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:26,106 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:26,106 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:26,106 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:26,106 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:26,106 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:26,106 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:26,106 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:26,106 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:26,106 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:41:26,106 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:26,106 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:41:28,686 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (2.580s)
+2025-10-18 14:41:28,788 - INFO - root - Running with test data row 2/34
+2025-10-18 14:41:28,788 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:28,788 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:28,788 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:28,788 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:28,788 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:28,788 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:28,788 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=19929&Decision=WithdrawnBeforeDebate
+2025-10-18 14:41:28,788 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 19929, 'Decision': 'WithdrawnBeforeDebate'}
+2025-10-18 14:41:31,815 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:31,815 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:31,815 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:31,815 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:31,815 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:31,815 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:31,816 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:31,816 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:31,816 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:31,816 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:31,816 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Decision=WithdrawnBeforeDebate
+2025-10-18 14:41:31,816 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:31,816 - INFO - root -     Query parameters:  {'Decision': 'WithdrawnBeforeDebate'}
+2025-10-18 14:41:32,574 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (0.757s)
+2025-10-18 14:41:32,679 - INFO - root - Running with test data row 3/34
+2025-10-18 14:41:32,680 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:32,680 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:32,680 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:32,680 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:32,680 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:32,680 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:32,680 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=19929
+2025-10-18 14:41:32,680 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:33,770 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:33,771 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:33,771 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:33,771 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:33,771 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:33,771 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:33,771 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:33,771 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:33,771 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:33,771 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:33,771 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:33,771 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:33,891 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (0.120s)
+2025-10-18 14:41:33,996 - INFO - root - Running with test data row 4/34
+2025-10-18 14:41:33,996 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:33,996 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:33,996 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:33,996 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:33,997 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:33,997 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:33,997 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=19929
+2025-10-18 14:41:33,997 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:34,071 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:34,071 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:34,071 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:34,071 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:34,071 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:34,071 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:34,071 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:34,071 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:34,071 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:34,071 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:34,071 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:34,071 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:34,161 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (0.089s)
+2025-10-18 14:41:34,267 - INFO - root - Running with test data row 5/34
+2025-10-18 14:41:34,267 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:34,267 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:34,267 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:34,267 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:34,267 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:34,267 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:34,267 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?MemberId=123&billId=3973&billStageId=19929
+2025-10-18 14:41:34,267 - INFO - root -     Query parameters:  {'MemberId': 123, 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:35,264 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:35,264 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:35,264 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:35,264 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:35,264 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:35,264 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:35,265 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:35,265 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:35,265 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:35,265 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:35,265 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?MemberId=123
+2025-10-18 14:41:35,265 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:35,265 - INFO - root -     Query parameters:  {'MemberId': 123}
+2025-10-18 14:41:36,395 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (1.129s)
+2025-10-18 14:41:36,496 - INFO - root - Running with test data row 6/34
+2025-10-18 14:41:36,496 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:36,497 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:36,497 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:36,497 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:36,497 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:36,497 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:36,497 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?Skip=0&Take=20&billId=3973&billStageId=19929
+2025-10-18 14:41:36,497 - INFO - root -     Query parameters:  {'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:37,298 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:37,300 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:37,300 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:37,300 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:37,300 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:37,302 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:37,305 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:37,305 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:37,307 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:37,307 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:37,313 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Skip=0&Take=20
+2025-10-18 14:41:37,313 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:37,314 - INFO - root -     Query parameters:  {'Skip': 0, 'Take': 20}
+2025-10-18 14:41:38,956 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (1.641s)
+2025-10-18 14:41:39,061 - INFO - root - Running with test data row 7/34
+2025-10-18 14:41:39,061 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:39,061 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:39,061 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:39,061 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:39,061 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:39,061 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:39,061 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:39,061 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:41,048 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:41,048 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:41,048 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:41,048 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:41,048 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:41,049 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:41,049 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:41,049 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:41,049 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:41,049 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:41,049 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&Skip=0&Take=20
+2025-10-18 14:41:41,049 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:41,049 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'Skip': 0, 'Take': 20}
+2025-10-18 14:41:44,215 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (3.165s)
+2025-10-18 14:41:44,320 - INFO - root - Running with test data row 8/34
+2025-10-18 14:41:44,320 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:44,321 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:44,321 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:44,321 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:44,321 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:44,321 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:44,321 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:44,321 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:44,420 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:44,420 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:44,420 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:44,420 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:44,420 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:44,420 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:44,420 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:44,420 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:44,421 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:44,421 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:44,421 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:41:44,421 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:44,421 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:41:44,494 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (0.072s)
+2025-10-18 14:41:44,599 - INFO - root - Running with test data row 9/34
+2025-10-18 14:41:44,602 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:44,603 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:44,604 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:44,604 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:44,605 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:44,605 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:44,605 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:44,605 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:45,546 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:45,546 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:45,546 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:45,546 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:45,546 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:45,546 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:45,546 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:45,546 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:45,546 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:45,546 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:45,547 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0
+2025-10-18 14:41:45,547 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:45,547 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0}
+2025-10-18 14:41:48,487 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (2.939s)
+2025-10-18 14:41:48,593 - INFO - root - Running with test data row 10/34
+2025-10-18 14:41:48,594 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:48,595 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:48,595 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:48,595 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:48,596 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:48,597 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:48,597 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:48,597 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:49,587 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:49,588 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:49,588 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:49,588 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:49,588 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:49,588 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:49,588 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:49,588 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:49,588 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:49,588 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:49,588 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Take=20
+2025-10-18 14:41:49,589 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:49,589 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Take': 20}
+2025-10-18 14:41:52,290 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (2.699s)
+2025-10-18 14:41:52,393 - INFO - root - Running with test data row 11/34
+2025-10-18 14:41:52,394 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:52,394 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:52,394 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:52,394 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:52,395 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:52,395 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:52,395 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:52,395 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:52,456 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:52,456 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:52,456 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:52,456 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:52,456 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:52,456 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:52,456 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:52,456 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:52,456 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:52,456 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:52,456 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&Skip=0&Take=20
+2025-10-18 14:41:52,456 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:52,457 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'Skip': 0, 'Take': 20}
+2025-10-18 14:41:52,530 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (0.072s)
+2025-10-18 14:41:52,631 - INFO - root - Running with test data row 12/34
+2025-10-18 14:41:52,632 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:52,632 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:52,632 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:52,632 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:52,632 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:52,632 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:52,632 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=20&billId=3973&billStageId=19929
+2025-10-18 14:41:52,632 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:53,292 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:53,293 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:53,293 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:53,293 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:53,293 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:53,293 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:53,293 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:53,293 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:53,293 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:53,294 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:53,294 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&MemberId=123&Skip=0&Take=20
+2025-10-18 14:41:53,294 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:53,294 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:41:56,564 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (3.270s)
+2025-10-18 14:41:56,667 - INFO - root - Running with test data row 13/34
+2025-10-18 14:41:56,667 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-18 14:41:56,667 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:56,667 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:56,667 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:41:56,667 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:41:56,667 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:41:56,667 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?MemberId=123&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:41:56,667 - INFO - root -     Query parameters:  {'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:41:57,482 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:41:57,482 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:41:57,482 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:41:57,483 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:41:57,483 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:41:57,483 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:41:57,483 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:41:57,483 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:41:57,483 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:57,483 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:41:57,483 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:41:57,483 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:41:57,483 - INFO - root -     Query parameters:  {'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:00,055 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200  (2.572s)
+2025-10-18 14:42:00,158 - INFO - root - Running with test data row 14/34
+2025-10-18 14:42:00,159 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:00,159 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:00,159 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:00,159 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:00,159 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:00,159 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:00,159 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=0&billStageId=19929
+2025-10-18 14:42:00,159 - INFO - root -     Query parameters:  {'billId': 0, 'billStageId': 19929}
+2025-10-18 14:42:00,682 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:00,682 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:00,682 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:00,682 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:00,682 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:00,682 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:00,682 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:00,682 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:00,682 - INFO - root -     Final endpoint:    /api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:00,682 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:00,682 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:00,682 - INFO - root -     Path variables:    {'billId': 0, 'billStageId': 19929}
+2025-10-18 14:42:01,081 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.399s)
+2025-10-18 14:42:01,187 - INFO - root - Running with test data row 15/34
+2025-10-18 14:42:01,187 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:01,187 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:01,187 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:01,187 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:01,187 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:01,187 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:01,187 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=19929&Decision=InvalidDecision
+2025-10-18 14:42:01,187 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 19929, 'Decision': 'InvalidDecision'}
+2025-10-18 14:42:01,793 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:01,793 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:01,793 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:01,793 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:01,793 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:01,793 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:01,793 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:01,793 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:01,793 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:01,793 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:01,793 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Decision=InvalidDecision
+2025-10-18 14:42:01,793 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:01,793 - INFO - root -     Query parameters:  {'Decision': 'InvalidDecision'}
+2025-10-18 14:42:02,296 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 400 (expected: 4xx) (0.502s)
+2025-10-18 14:42:02,402 - INFO - root - Running with test data row 16/34
+2025-10-18 14:42:02,402 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:02,402 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:02,402 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:02,403 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:02,403 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:02,403 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:02,403 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?MemberId=abc&billId=3973&billStageId=19929
+2025-10-18 14:42:02,403 - INFO - root -     Query parameters:  {'MemberId': 'abc', 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:02,729 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 400 (dependency - skip assert)
+2025-10-18 14:42:02,729 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billId'
+2025-10-18 14:42:02,729 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:02,730 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billStageId'
+2025-10-18 14:42:02,730 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:02,730 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:02,730 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:02,730 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:02,730 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:02,730 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:02,730 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?MemberId=abc
+2025-10-18 14:42:02,730 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:02,730 - INFO - root -     Query parameters:  {'MemberId': 'abc'}
+2025-10-18 14:42:03,572 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 400 (expected: 4xx) (0.840s)
+2025-10-18 14:42:03,674 - INFO - root - Running with test data row 17/34
+2025-10-18 14:42:03,674 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:03,674 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:03,674 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:03,674 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:03,674 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:03,674 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:03,674 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=0&billStageId=19929
+2025-10-18 14:42:03,674 - INFO - root -     Query parameters:  {'billId': 0, 'billStageId': 19929}
+2025-10-18 14:42:03,744 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:03,744 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:03,744 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:03,744 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:03,744 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:03,744 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:03,744 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:03,744 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:03,744 - INFO - root -     Final endpoint:    /api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:03,744 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:03,744 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/0/Stages/19929/Amendments
+2025-10-18 14:42:03,744 - INFO - root -     Path variables:    {'billId': 0, 'billStageId': 19929}
+2025-10-18 14:42:03,935 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.190s)
+2025-10-18 14:42:04,041 - INFO - root - Running with test data row 18/34
+2025-10-18 14:42:04,041 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:04,041 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:04,041 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:04,041 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:04,041 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:04,041 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:04,041 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=0
+2025-10-18 14:42:04,041 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 0}
+2025-10-18 14:42:04,738 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:04,738 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:04,738 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:04,754 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:04,754 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:04,754 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:04,754 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:04,754 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:04,754 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/0/Amendments
+2025-10-18 14:42:04,754 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/0/Amendments
+2025-10-18 14:42:04,754 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/0/Amendments
+2025-10-18 14:42:04,754 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 0}
+2025-10-18 14:42:05,430 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.675s)
+2025-10-18 14:42:05,536 - INFO - root - Running with test data row 19/34
+2025-10-18 14:42:05,536 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:05,536 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:05,536 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:05,536 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:05,536 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:05,536 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:05,536 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?billId=3973&billStageId=19929&Decision=InvalidDecision
+2025-10-18 14:42:05,537 - INFO - root -     Query parameters:  {'billId': 3973, 'billStageId': 19929, 'Decision': 'InvalidDecision'}
+2025-10-18 14:42:05,594 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:05,594 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:05,595 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:05,595 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:05,595 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:05,595 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:05,595 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:05,595 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:05,595 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:05,595 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:05,596 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Decision=InvalidDecision
+2025-10-18 14:42:05,596 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:05,596 - INFO - root -     Query parameters:  {'Decision': 'InvalidDecision'}
+2025-10-18 14:42:05,872 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 400 (expected: 4xx) (0.276s)
+2025-10-18 14:42:05,978 - INFO - root - Running with test data row 20/34
+2025-10-18 14:42:05,979 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:05,979 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:05,979 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:05,979 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:05,980 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:05,980 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:05,980 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?MemberId=abc&billId=3973&billStageId=19929
+2025-10-18 14:42:05,980 - INFO - root -     Query parameters:  {'MemberId': 'abc', 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:06,271 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 400 (dependency - skip assert)
+2025-10-18 14:42:06,271 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billId'
+2025-10-18 14:42:06,272 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:06,272 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billStageId'
+2025-10-18 14:42:06,272 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:06,272 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:06,272 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:06,272 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:06,272 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:06,272 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:06,272 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?MemberId=abc
+2025-10-18 14:42:06,272 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:06,272 - INFO - root -     Query parameters:  {'MemberId': 'abc'}
+2025-10-18 14:42:06,697 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 400 (expected: 4xx) (0.422s)
+2025-10-18 14:42:06,798 - INFO - root - Running with test data row 21/34
+2025-10-18 14:42:06,799 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:06,799 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:06,799 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:06,800 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:06,800 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:06,800 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:06,800 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?Skip=notanint&Take=alsoNotInt&billId=3973&billStageId=19929
+2025-10-18 14:42:06,800 - INFO - root -     Query parameters:  {'Skip': 'notanint', 'Take': 'alsoNotInt', 'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:07,205 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 400 (dependency - skip assert)
+2025-10-18 14:42:07,205 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billId'
+2025-10-18 14:42:07,205 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:07,206 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billStageId'
+2025-10-18 14:42:07,206 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:07,206 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:07,206 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:07,206 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:07,206 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:07,206 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:07,206 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?Skip=notanint&Take=alsoNotInt
+2025-10-18 14:42:07,206 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:07,206 - INFO - root -     Query parameters:  {'Skip': 'notanint', 'Take': 'alsoNotInt'}
+2025-10-18 14:42:07,541 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 400 (expected: 4xx) (0.334s)
+2025-10-18 14:42:07,645 - INFO - root - Running with test data row 22/34
+2025-10-18 14:42:07,646 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:07,646 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:07,646 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:07,647 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:07,647 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:07,647 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:07,647 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=&MemberId=-1&Skip=-9999999.0&Take=-9999999.0&billId=-9999999.0&billStageId=-9999999.0&Decision=
+2025-10-18 14:42:07,647 - INFO - root -     Query parameters:  {'SearchTerm': '', 'MemberId': -1, 'Skip': -9999999.0, 'Take': -9999999.0, 'billId': -9999999.0, 'billStageId': -9999999.0, 'Decision': ''}
+2025-10-18 14:42:07,993 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 400 (dependency - skip assert)
+2025-10-18 14:42:07,993 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billId'
+2025-10-18 14:42:07,993 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:07,993 - INFO - sequence_runner.dependency -   📋 Using fallback cached 'api_v1_Bills' for dep 'billStageId'
+2025-10-18 14:42:07,993 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:07,993 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:07,993 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:07,993 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:07,993 - INFO - root -     Final endpoint:    /api/v1/Bills/-9999999.0/Stages/-9999999.0/Amendments
+2025-10-18 14:42:07,994 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/-9999999.0/Stages/-9999999.0/Amendments
+2025-10-18 14:42:07,994 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/-9999999.0/Stages/-9999999.0/Amendments?SearchTerm=&Decision=&MemberId=-1&Skip=-9999999.0&Take=-9999999.0
+2025-10-18 14:42:07,994 - INFO - root -     Path variables:    {'billId': -9999999.0, 'billStageId': -9999999.0}
+2025-10-18 14:42:07,994 - INFO - root -     Query parameters:  {'SearchTerm': '', 'Decision': '', 'MemberId': -1, 'Skip': -9999999.0, 'Take': -9999999.0}
+2025-10-18 14:42:08,301 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.306s)
+2025-10-18 14:42:08,406 - INFO - root - Running with test data row 23/34
+2025-10-18 14:42:08,407 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:08,407 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:08,407 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:08,407 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:08,407 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:08,407 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:08,407 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=20&billId=123456&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:08,407 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': '123456', 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:08,954 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:08,955 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:08,955 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:08,955 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:08,955 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:08,955 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:08,955 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:08,955 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:08,955 - INFO - root -     Final endpoint:    /api/v1/Bills/123456/Stages/19929/Amendments
+2025-10-18 14:42:08,955 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/19929/Amendments
+2025-10-18 14:42:08,955 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:42:08,955 - INFO - root -     Path variables:    {'billId': '123456', 'billStageId': 19929}
+2025-10-18 14:42:08,955 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:09,610 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.652s)
+2025-10-18 14:42:09,713 - INFO - root - Running with test data row 24/34
+2025-10-18 14:42:09,713 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:09,714 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:09,714 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:09,714 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:09,714 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:09,714 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:09,714 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=20&billId=3973&billStageId=123456&Decision=Agreed
+2025-10-18 14:42:09,714 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': '123456', 'Decision': 'Agreed'}
+2025-10-18 14:42:12,803 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:12,804 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:12,804 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:12,804 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:12,804 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:12,805 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:12,805 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:12,805 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:12,805 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/123456/Amendments
+2025-10-18 14:42:12,805 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/123456/Amendments
+2025-10-18 14:42:12,805 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/123456/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:42:12,805 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': '123456'}
+2025-10-18 14:42:12,805 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:13,215 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.409s)
+2025-10-18 14:42:13,320 - INFO - root - Running with test data row 25/34
+2025-10-18 14:42:13,320 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:13,320 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:13,321 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:13,321 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:13,321 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:13,321 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:13,321 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=123456789&MemberId=123&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:13,321 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'MemberId': 123, 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:13,895 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:13,896 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:13,896 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:13,896 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:13,896 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:13,896 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:13,896 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:13,896 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:13,896 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:13,896 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:13,896 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=123456789&Decision=Agreed&MemberId=123&Skip=0&Take=20
+2025-10-18 14:42:13,897 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:13,897 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:15,698 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (1.801s)
+2025-10-18 14:42:15,699 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 20
+}
+2025-10-18 14:42:15,799 - INFO - root - Running with test data row 26/34
+2025-10-18 14:42:15,799 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:15,800 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:15,800 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:15,800 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:15,800 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:15,800 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:15,800 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123456&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:15,800 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': '123456', 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:16,445 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:16,446 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:16,446 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:16,446 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:16,446 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:16,446 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:16,446 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:16,446 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:16,446 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:16,446 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:16,446 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123456&Skip=0&Take=20
+2025-10-18 14:42:16,446 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:16,446 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:18,709 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (2.262s)
+2025-10-18 14:42:18,709 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 20
+}
+2025-10-18 14:42:18,811 - INFO - root - Running with test data row 27/34
+2025-10-18 14:42:18,811 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:18,811 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:18,811 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:18,811 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:18,811 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:18,811 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:18,811 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=123456&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:18,811 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': '123456', 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:19,365 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:19,366 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:19,366 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:19,366 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:19,366 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:19,366 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:19,366 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:19,366 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:19,366 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:19,366 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:19,366 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=123456&Take=20
+2025-10-18 14:42:19,366 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:19,366 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': '123456', 'Take': 20}
+2025-10-18 14:42:21,529 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (2.162s)
+2025-10-18 14:42:21,529 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 20
+}
+2025-10-18 14:42:21,630 - INFO - root - Running with test data row 28/34
+2025-10-18 14:42:21,631 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:21,631 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:21,631 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:21,631 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:21,631 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:21,631 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:21,632 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123&Skip=0&Take=123456&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:21,632 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': 123, 'Skip': 0, 'Take': '123456', 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:22,214 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:22,214 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:22,214 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:22,214 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:22,214 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:22,214 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:22,214 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:22,214 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:22,214 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:22,214 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:22,214 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123&Skip=0&Take=123456
+2025-10-18 14:42:22,214 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:22,214 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': 123, 'Skip': 0, 'Take': '123456'}
+2025-10-18 14:42:24,976 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (2.754s)
+2025-10-18 14:42:24,976 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 123456
+}
+2025-10-18 14:42:25,078 - INFO - root - Running with test data row 29/34
+2025-10-18 14:42:25,078 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:25,078 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:25,078 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:25,078 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:25,078 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:25,078 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:25,078 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123456&Skip=0&Take=20&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:25,078 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': '123456', 'Skip': 0, 'Take': 20, 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:25,206 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:25,206 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:25,206 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:25,206 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:25,206 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:25,206 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:25,207 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:25,207 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:25,207 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:25,207 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:25,207 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123456&Skip=0&Take=20
+2025-10-18 14:42:25,207 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:25,207 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': 0, 'Take': 20}
+2025-10-18 14:42:25,318 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (0.109s)
+2025-10-18 14:42:25,318 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 20
+}
+2025-10-18 14:42:25,421 - INFO - root - Running with test data row 30/34
+2025-10-18 14:42:25,421 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:25,421 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:25,422 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:25,422 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:25,422 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:25,422 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:25,422 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123456&Skip=123456&Take=20&billId=3973&billStageId=123456&Decision=Agreed
+2025-10-18 14:42:25,422 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': '123456', 'Skip': '123456', 'Take': 20, 'billId': 3973, 'billStageId': '123456', 'Decision': 'Agreed'}
+2025-10-18 14:42:26,468 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:26,469 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:26,469 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:26,469 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:26,469 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:26,469 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:26,469 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:26,469 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:26,469 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/123456/Amendments
+2025-10-18 14:42:26,469 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/123456/Amendments
+2025-10-18 14:42:26,469 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/123456/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123456&Skip=123456&Take=20
+2025-10-18 14:42:26,469 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': '123456'}
+2025-10-18 14:42:26,469 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': '123456', 'Take': 20}
+2025-10-18 14:42:26,782 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.311s)
+2025-10-18 14:42:26,884 - INFO - root - Running with test data row 31/34
+2025-10-18 14:42:26,884 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:26,885 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:26,885 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:26,885 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:26,886 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:26,886 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:26,886 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123456&Skip=123456&Take=123456&billId=3973&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:26,886 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': '123456', 'Skip': '123456', 'Take': '123456', 'billId': 3973, 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:27,455 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:27,455 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:27,456 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:27,456 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:27,456 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:27,456 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:27,456 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:27,456 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:27,456 - INFO - root -     Final endpoint:    /api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:27,457 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments
+2025-10-18 14:42:27,457 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123456&Skip=123456&Take=123456
+2025-10-18 14:42:27,457 - INFO - root -     Path variables:    {'billId': 3973, 'billStageId': 19929}
+2025-10-18 14:42:27,457 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': '123456', 'Take': '123456'}
+2025-10-18 14:42:29,656 - INFO - root -   ❌ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 200 (expected: 4xx) (2.198s)
+2025-10-18 14:42:29,656 - ERROR - root -     Response: {
+  "items": [],
+  "totalResults": 0,
+  "itemsPerPage": 123456
+}
+2025-10-18 14:42:29,758 - INFO - root - Running with test data row 32/34
+2025-10-18 14:42:29,758 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:29,758 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:29,758 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:29,758 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:29,758 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:29,758 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:29,758 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=safety&MemberId=123456&Skip=0&Take=123456&billId=123456&billStageId=123456&Decision=Agreed
+2025-10-18 14:42:29,758 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'MemberId': '123456', 'Skip': 0, 'Take': '123456', 'billId': '123456', 'billStageId': '123456', 'Decision': 'Agreed'}
+2025-10-18 14:42:30,290 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:30,290 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:30,290 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:30,290 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:30,292 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:30,292 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:30,292 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:30,292 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:30,293 - INFO - root -     Final endpoint:    /api/v1/Bills/123456/Stages/123456/Amendments
+2025-10-18 14:42:30,293 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/123456/Amendments
+2025-10-18 14:42:30,293 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/123456/Amendments?SearchTerm=safety&Decision=Agreed&MemberId=123456&Skip=0&Take=123456
+2025-10-18 14:42:30,293 - INFO - root -     Path variables:    {'billId': '123456', 'billStageId': '123456'}
+2025-10-18 14:42:30,293 - INFO - root -     Query parameters:  {'SearchTerm': 'safety', 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': 0, 'Take': '123456'}
+2025-10-18 14:42:30,826 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.532s)
+2025-10-18 14:42:30,932 - INFO - root - Running with test data row 33/34
+2025-10-18 14:42:30,932 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:30,932 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:30,932 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:30,933 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:30,933 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:30,933 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:30,933 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=123456789&MemberId=123456&Skip=123456&Take=123456&billId=123456&billStageId=19929&Decision=Agreed
+2025-10-18 14:42:30,933 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'MemberId': '123456', 'Skip': '123456', 'Take': '123456', 'billId': '123456', 'billStageId': 19929, 'Decision': 'Agreed'}
+2025-10-18 14:42:31,450 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:31,450 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:31,450 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:31,450 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:31,451 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:31,451 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:31,451 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:31,451 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:31,451 - INFO - root -     Final endpoint:    /api/v1/Bills/123456/Stages/19929/Amendments
+2025-10-18 14:42:31,451 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/19929/Amendments
+2025-10-18 14:42:31,451 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/19929/Amendments?SearchTerm=123456789&Decision=Agreed&MemberId=123456&Skip=123456&Take=123456
+2025-10-18 14:42:31,451 - INFO - root -     Path variables:    {'billId': '123456', 'billStageId': 19929}
+2025-10-18 14:42:31,452 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': '123456', 'Take': '123456'}
+2025-10-18 14:42:31,813 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.361s)
+2025-10-18 14:42:31,917 - INFO - root - Running with test data row 34/34
+2025-10-18 14:42:31,917 - INFO - root -   🎯 Expected status extracted: 4xx
+2025-10-18 14:42:31,917 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:31,917 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:31,917 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-18 14:42:31,917 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-18 14:42:31,917 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-18 14:42:31,917 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=123456789&MemberId=123456&Skip=123456&Take=123456&billId=123456&billStageId=123456&Decision=Agreed
+2025-10-18 14:42:31,917 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'MemberId': '123456', 'Skip': '123456', 'Take': '123456', 'billId': '123456', 'billStageId': '123456', 'Decision': 'Agreed'}
+2025-10-18 14:42:32,520 - INFO - root -   🔄 Step 1: GET get-/api/v1/Bills -> 200 (dependency - skip assert)
+2025-10-18 14:42:32,521 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billId'
+2025-10-18 14:42:32,521 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billId from id
+2025-10-18 14:42:32,521 - INFO - sequence_runner.dependency -   📋 Using step[1] response for dep 'billStageId'
+2025-10-18 14:42:32,521 - WARNING - sequence_runner.dependency - ❌ Failed to resolve dependency: billStageId from id
+2025-10-18 14:42:32,521 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-18 14:42:32,521 - INFO - root -   🔗 URL Construction:
+2025-10-18 14:42:32,521 - INFO - root -     Original endpoint: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments
+2025-10-18 14:42:32,521 - INFO - root -     Final endpoint:    /api/v1/Bills/123456/Stages/123456/Amendments
+2025-10-18 14:42:32,521 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/123456/Amendments
+2025-10-18 14:42:32,521 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills/123456/Stages/123456/Amendments?SearchTerm=123456789&Decision=Agreed&MemberId=123456&Skip=123456&Take=123456
+2025-10-18 14:42:32,521 - INFO - root -     Path variables:    {'billId': '123456', 'billStageId': '123456'}
+2025-10-18 14:42:32,521 - INFO - root -     Query parameters:  {'SearchTerm': 123456789, 'Decision': 'Agreed', 'MemberId': '123456', 'Skip': '123456', 'Take': '123456'}
+2025-10-18 14:42:32,837 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments -> 404 (expected: 4xx) (0.314s)

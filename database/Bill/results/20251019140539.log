@@ -1,0 +1,28 @@
+2025-10-19 14:05:39,905 - INFO - root - Log file created at: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251019140539.log
+2025-10-19 14:05:39,905 - INFO - root - Starting test execution for service: Bill
+2025-10-19 14:05:39,905 - INFO - sequence_runner.io_file - Found 32 test case files for endpoint filter: ['_api_v1_Bills_billId__GetBill_1_1', '_api_v1_Bills_billId_Stages_stageId_Publications_GET_1_1', '_api_v1_Bills_billId_Stages_GET_1_1', '_api_v1_Publications_publicationId_Documents_documentId__GET_2_1', '_api_v1_Stages_GET_0_1', '_api_v1_Bills_billId_Publications_GetBillPublication_1_1', 'simplified_swagger', '_api_v1_Publications_publicationId_Documents_documentId_Download_GET_1_1', '_api_v1_BillTypes_GET_0_1', '_api_v1_Bills_billId_NewsArticles_GetNewsArticles_2_1', '_api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_2_1', '_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_2_1', '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_1_1', '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_1_1', '_api_v1_Bills_GetBills_0_1', '_api_v1_PublicationTypes_GET_0_1', '_api_v1_Publications_publicationId_Documents_documentId__GET_1_1', '_api_v1_Rss_allbills_rss_GET_0_1', '_api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1', '_api_v1_Bills_billId_Publications_GetBillPublication_2_1', '_api_v1_Rss_publicbills_rss_GET_0_1', '_api_v1_Bills_billId_Stages_stageId_Publications_GET_2_1', '_api_v1_Bills_billId_Stages_GET_2_1', '_api_v1_Rss_privatebills_rss_GET_0_1', '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_SearchPingPongItems_2_1', '_api_v1_Rss_Bills_id_rss_GET_1_1', '_api_v1_Bills_billId_Stages_billStageId__GetBillStageDetails_1_1', '_api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_2_1', '_api_v1_Bills_billId_NewsArticles_GetNewsArticles_1_1', '_api_v1_Sittings_GetSittings_0_1', '_api_v1_Bills_billId_Stages_billStageId_PingPongItems_pingPongItemId__GetPingPongItem_2_1', '_api_v1_Bills_billId_Stages_billStageId_Amendments_GetAmendments_1_1']
+2025-10-19 14:05:39,906 - INFO - sequence_runner.io_file - CSV output will be saved to: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/results/20251019140539.csv
+2025-10-19 14:05:39,906 - INFO - root - 📋 Sorting test cases by topolist order...
+2025-10-19 14:05:39,906 - INFO - root - Running test case: _api_v1_Bills_GetBills_0_1.json
+2025-10-19 14:05:39,907 - INFO - root - 🎯 Target endpoint: get-/api/v1/Bills
+2025-10-19 14:05:39,908 - INFO - root - 📄 Param CSV: _api_v1_Bills_GetBills_param.csv -> 86 rows
+2025-10-19 14:05:39,908 - INFO - root - 🧪 Will run 86 times (combine param/body rows by index)
+2025-10-19 14:05:39,908 - INFO - root - Running with test data row 1/86
+2025-10-19 14:05:39,908 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:05:39,908 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:05:39,908 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:05:39,908 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 14:05:39,908 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 14:05:39,908 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 14:05:39,908 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?SearchTerm=climate&Session=2023&CurrentHouse=Commons&OriginatingHouse=Lords&MemberId=1001&DepartmentId=2002&BillStage=1&BillStage=2&BillStagesExcluded=3&IsDefeated=False&IsWithdrawn=True&BillType=1&SortOrder=TitleAscending&BillIds=101&BillIds=102&IsInAmendableStage=True&Skip=0&Take=50
+2025-10-19 14:05:39,908 - INFO - root -     Query parameters:  {'SearchTerm': 'climate', 'Session': 2023, 'CurrentHouse': 'Commons', 'OriginatingHouse': 'Lords', 'MemberId': 1001, 'DepartmentId': 2002, 'BillStage': [1, 2], 'BillStagesExcluded': [3], 'IsDefeated': False, 'IsWithdrawn': True, 'BillType': [1], 'SortOrder': 'TitleAscending', 'BillIds': [101, 102], 'IsInAmendableStage': True, 'Skip': 0, 'Take': 50}
+2025-10-19 14:05:41,185 - INFO - root -   ✅ 🎯 TARGET: GET get-/api/v1/Bills -> 200  (1.275s)
+2025-10-19 14:05:41,292 - INFO - root - Running with test data row 2/86
+2025-10-19 14:05:41,292 - INFO - root -   🎯 Expected status extracted: 2xx
+2025-10-19 14:05:41,292 - INFO - sequence_runner.data_merge -   📋 Processing nested test data structure (param/body)
+2025-10-19 14:05:41,292 - INFO - root -   🔗 URL Construction:
+2025-10-19 14:05:41,292 - INFO - root -     Original endpoint: /api/v1/Bills
+2025-10-19 14:05:41,292 - INFO - root -     Final endpoint:    /api/v1/Bills
+2025-10-19 14:05:41,292 - INFO - root -     Base URL:          https://bills-api.parliament.uk/api/v1/Bills
+2025-10-19 14:05:41,292 - INFO - root -     Full URL + query:  https://bills-api.parliament.uk/api/v1/Bills?OriginatingHouse=All&SortOrder=DateUpdatedDescending
+2025-10-19 14:05:41,292 - INFO - root -     Query parameters:  {'OriginatingHouse': 'All', 'SortOrder': 'DateUpdatedDescending'}
