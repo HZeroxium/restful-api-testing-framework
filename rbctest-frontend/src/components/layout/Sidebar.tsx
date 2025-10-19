@@ -114,6 +114,12 @@ const navigationItems: NavigationItem[] = [
         path: "/verification",
         icon: <VerifiedUser />,
       },
+      {
+        id: "playground",
+        label: "Playground",
+        path: "/playground",
+        icon: <PlayArrow />,
+      },
     ],
   },
   {

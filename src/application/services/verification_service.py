@@ -202,8 +202,34 @@ class VerificationService:
             script_results = []
             pair_passed = True
 
+            # Normalize request/response with sensible defaults to simplify front-end payloads
+            req_obj = dict(pair.request or {})
+            # Default method and containers
+            if "method" not in req_obj:
+                req_obj["method"] = "GET"
+            req_obj.setdefault("params", req_obj.get("query") or {})
+            req_obj.setdefault("headers", {})
+
+            # response may be just a body; default status_code and headers
+            raw_resp = pair.response or {}
+            if isinstance(raw_resp, dict) and "body" in raw_resp:
+                resp_body = raw_resp.get("body")
+                resp_status = raw_resp.get("status_code", 200)
+                resp_headers = raw_resp.get("headers", {})
+            else:
+                # If front-end provided bare body, wrap it
+                resp_body = raw_resp
+                resp_status = 200
+                resp_headers = {}
+
+            resp_obj = {
+                "status_code": resp_status,
+                "headers": resp_headers,
+                "body": resp_body,
+            }
+
             # Prepare context variables in the format expected by scripts
-            context_vars = {"request": pair.request, "response": pair.response}
+            context_vars = {"request": req_obj, "response": resp_obj}
 
             # Execute each validation script
             for script in relevant_scripts:

@@ -136,7 +136,8 @@ class ConstraintService:
                 "REQUEST_RESPONSE",
             ],
             include_examples=True,
-            include_schema_constraints=True,
+            # Avoid generating schema-only/type/required constraints; focus on complex rules
+            include_schema_constraints=False,
             include_correlation_constraints=True,
         )
 
@@ -145,6 +146,25 @@ class ConstraintService:
         miner_tool = StaticConstraintMinerTool(verbose=False, cache_enabled=False)
         miner_output = await miner_tool.execute(miner_input)
         self.logger.info(f"Mined {len(miner_output.constraints)} constraints")
+
+        # Post-filter: drop trivial constraints (type/required/shape-only)
+        try:
+            from tools.constraint_miner_tools.filters import is_trivial_constraint
+
+            before_count = len(miner_output.constraints)
+            filtered_constraints = [
+                c for c in miner_output.constraints if not is_trivial_constraint(c)
+            ]
+            dropped = before_count - len(filtered_constraints)
+            if dropped > 0:
+                self.logger.info(
+                    f"Dropped {dropped} trivial constraints out of {before_count}"
+                )
+            # miner_output.constraints = filtered_constraints
+        except Exception as e:
+            self.logger.warning(
+                f"Constraint filter failed; proceeding without drop. Error: {e}"
+            )
 
         # Save mined constraints to repository
         saved_constraints = []

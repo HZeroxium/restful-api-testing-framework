@@ -43,6 +43,9 @@ const ExecutionDetailPage = React.lazy(
 const VerificationPage = React.lazy(
   () => import("@/features/verification/VerificationPage")
 );
+const PlaygroundPage = React.lazy(
+  () => import("@/features/playground/PlaygroundPage")
+);
 const BatchOperationsPage = React.lazy(
   () => import("@/features/batch/BatchOperationsPage")
 );
@@ -85,6 +88,7 @@ function App() {
                   element={<ExecutionDetailPage />}
                 />
                 <Route path="verification" element={<VerificationPage />} />
+                <Route path="playground" element={<PlaygroundPage />} />
                 <Route
                   path="batch-operations"
                   element={<BatchOperationsPage />}

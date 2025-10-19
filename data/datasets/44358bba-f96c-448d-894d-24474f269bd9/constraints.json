@@ -1,0 +1,361 @@
+{
+  "constraints": {
+    "8348c0ab-4ec6-4df5-8c3b-fbb6826e6b35": {
+      "id": "8348c0ab-4ec6-4df5-8c3b-fbb6826e6b35",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "request_param",
+      "description": "Basic parameter validation",
+      "severity": "info",
+      "source": "fallback",
+      "details": {
+        "parameter_name": "general",
+        "parameter_type": "query",
+        "constraint_type": "basic_validation",
+        "validation_rule": "basic_param_check"
+      },
+      "created_at": "2025-10-19T22:07:45.932256",
+      "updated_at": "2025-10-19T22:07:45.932256"
+    },
+    "3f10d735-71bb-42ce-8b25-c5ddd823040a": {
+      "id": "3f10d735-71bb-42ce-8b25-c5ddd823040a",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "response_property",
+      "description": "The response body must be an array of objects.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "",
+        "constraint_type": "structure",
+        "validation_rule": "type",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "ARRAY"
+      },
+      "created_at": "2025-10-19T22:07:45.935793",
+      "updated_at": "2025-10-19T22:07:45.935793"
+    },
+    "26242e8b-b2b5-4f69-8c65-bd0ed69c3117": {
+      "id": "26242e8b-b2b5-4f69-8c65-bd0ed69c3117",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "response_property",
+      "description": "Each item in the array must be an object with 'id', 'name', and 'slug' properties.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "items",
+        "constraint_type": "structure",
+        "validation_rule": "type",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "OBJECT"
+      },
+      "created_at": "2025-10-19T22:07:45.940607",
+      "updated_at": "2025-10-19T22:07:45.940607"
+    },
+    "d1c6f4f7-7f24-4f6b-8c4c-6ebcb5577a9c": {
+      "id": "d1c6f4f7-7f24-4f6b-8c4c-6ebcb5577a9c",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "response_property",
+      "description": "The 'id' property of each object must be a string.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "items.id",
+        "constraint_type": "required",
+        "validation_rule": "type",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "STRING"
+      },
+      "created_at": "2025-10-19T22:07:45.944918",
+      "updated_at": "2025-10-19T22:07:45.944918"
+    },
+    "80b8c23b-dac8-4d9c-9a55-4e94b857f990": {
+      "id": "80b8c23b-dac8-4d9c-9a55-4e94b857f990",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "response_property",
+      "description": "The 'name' property of each object must be a string.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "items.name",
+        "constraint_type": "required",
+        "validation_rule": "type",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "STRING"
+      },
+      "created_at": "2025-10-19T22:07:45.949774",
+      "updated_at": "2025-10-19T22:07:45.949774"
+    },
+    "b0c52950-89da-478d-9e45-a880c2c619a9": {
+      "id": "b0c52950-89da-478d-9e45-a880c2c619a9",
+      "endpoint_id": "8a2588c4-883d-4874-9c47-ec6a0ce0c914",
+      "type": "response_property",
+      "description": "The 'slug' property of each object must be a string.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "items.slug",
+        "constraint_type": "required",
+        "validation_rule": "type",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "STRING"
+      },
+      "created_at": "2025-10-19T22:07:45.953778",
+      "updated_at": "2025-10-19T22:07:45.953778"
+    },
+    "14203fe1-395a-4fed-8312-31afadb29bd7": {
+      "id": "14203fe1-395a-4fed-8312-31afadb29bd7",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_param",
+      "description": "Must adhere to the format 'price,min,max' where min and max are numeric values representing the price range.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "parameter_name": "between",
+        "parameter_type": "query",
+        "constraint_type": "format",
+        "validation_rule": "price_range_format",
+        "pattern": "^price,\\d+,\\d+$"
+      },
+      "created_at": "2025-10-19T22:45:04.306211",
+      "updated_at": "2025-10-19T22:45:04.306211"
+    },
+    "2d3f0e34-1fbf-4f53-986c-1b12779d0b20": {
+      "id": "2d3f0e34-1fbf-4f53-986c-1b12779d0b20",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_param",
+      "description": "Must adhere to the format 'column,direction' where column is 'name' or 'price' and direction is 'asc' or 'desc'.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "parameter_name": "sort",
+        "parameter_type": "query",
+        "constraint_type": "format",
+        "validation_rule": "sort_format",
+        "pattern": "^(name|price),(asc|desc)$"
+      },
+      "created_at": "2025-10-19T22:45:04.307202",
+      "updated_at": "2025-10-19T22:45:04.307202"
+    },
+    "9eee9584-0bf0-4386-9ac9-66235319e6c0": {
+      "id": "9eee9584-0bf0-4386-9ac9-66235319e6c0",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "response_property",
+      "description": "The 'brand' object within each product in the 'data' array must have both 'id' and 'name' properties present.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "data[*].brand",
+        "constraint_type": "structure",
+        "validation_rule": "required",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "OBJECT"
+      },
+      "created_at": "2025-10-19T22:45:04.307202",
+      "updated_at": "2025-10-19T22:45:04.307202"
+    },
+    "b81ff400-c157-4892-9e50-2d4604f96e3b": {
+      "id": "b81ff400-c157-4892-9e50-2d4604f96e3b",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "response_property",
+      "description": "The 'category' object within each product in the 'data' array must have 'id', 'name', and 'slug' properties present.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "data[*].category",
+        "constraint_type": "structure",
+        "validation_rule": "required",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "OBJECT"
+      },
+      "created_at": "2025-10-19T22:45:04.308251",
+      "updated_at": "2025-10-19T22:45:04.308251"
+    },
+    "ae224cc9-346a-415f-a959-bba21cd702e9": {
+      "id": "ae224cc9-346a-415f-a959-bba21cd702e9",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "response_property",
+      "description": "The 'product_image' object within each product in the 'data' array must have an 'id' property present.",
+      "severity": "error",
+      "source": "llm",
+      "details": {
+        "property_path": "data[*].product_image",
+        "constraint_type": "structure",
+        "validation_rule": "required",
+        "applies_to_status": [
+          200
+        ],
+        "chunk_index": 0,
+        "focus_areas": [
+          "all"
+        ],
+        "data_type": "OBJECT"
+      },
+      "created_at": "2025-10-19T22:45:04.309249",
+      "updated_at": "2025-10-19T22:45:04.309249"
+    },
+    "f02c571d-d72b-4f17-85ec-7ae07285c9f3": {
+      "id": "f02c571d-d72b-4f17-85ec-7ae07285c9f3",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The response data will only contain products with the brand ID specified in the `by_brand` query parameter.",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "by_brand",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "filter",
+        "validation_rule": "FILTER_BY_BRAND"
+      },
+      "created_at": "2025-10-19T22:45:04.309249",
+      "updated_at": "2025-10-19T22:45:04.309249"
+    },
+    "f9200117-f930-43ac-a832-fad4b6169edf": {
+      "id": "f9200117-f930-43ac-a832-fad4b6169edf",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The response data will only contain products with the category ID specified in the `by_category` query parameter.",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "by_category",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "filter",
+        "validation_rule": "FILTER_BY_CATEGORY"
+      },
+      "created_at": "2025-10-19T22:45:04.310250",
+      "updated_at": "2025-10-19T22:45:04.310250"
+    },
+    "1c92d2c9-4f90-4d80-b745-a3056cf03227": {
+      "id": "1c92d2c9-4f90-4d80-b745-a3056cf03227",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The response data will only contain products that are rentals if `is_rental` is true, and non-rentals if `is_rental` is false.",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "is_rental",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "filter",
+        "validation_rule": "FILTER_BY_IS_RENTAL"
+      },
+      "created_at": "2025-10-19T22:45:04.310250",
+      "updated_at": "2025-10-19T22:45:04.310250"
+    },
+    "0b1dc9c8-984f-452b-bf20-8c63d6047c86": {
+      "id": "0b1dc9c8-984f-452b-bf20-8c63d6047c86",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The response data will only contain products with prices within the range specified in the `between` query parameter (e.g., `price,10,30`).",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "between",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "filter",
+        "validation_rule": "FILTER_BY_PRICE_RANGE"
+      },
+      "created_at": "2025-10-19T22:45:04.311754",
+      "updated_at": "2025-10-19T22:45:04.311754"
+    },
+    "cbc5a1ae-544b-48e8-8996-609053ed0102": {
+      "id": "cbc5a1ae-544b-48e8-8996-609053ed0102",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The order of products in the response data is determined by the `sort` query parameter (e.g., `name,asc` or `price,desc`).",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "sort",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "sort",
+        "validation_rule": "SORT_PRODUCTS"
+      },
+      "created_at": "2025-10-19T22:45:04.311754",
+      "updated_at": "2025-10-19T22:45:04.311754"
+    },
+    "8ac4d165-b695-42ff-85ee-2c3a30659071": {
+      "id": "8ac4d165-b695-42ff-85ee-2c3a30659071",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The `page` query parameter determines which page of products is returned in the response.",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "page",
+        "request_location": "query",
+        "response_element": "data",
+        "constraint_type": "pagination",
+        "validation_rule": "PAGINATE_PRODUCTS"
+      },
+      "created_at": "2025-10-19T22:45:04.312758",
+      "updated_at": "2025-10-19T22:45:04.312758"
+    },
+    "98214eec-3ec1-4d18-a371-316ca2ead0d7": {
+      "id": "98214eec-3ec1-4d18-a371-316ca2ead0d7",
+      "endpoint_id": "7e93a033-9141-4771-94f1-66508c29ec91",
+      "type": "request_response",
+      "description": "The response's `current_page` value reflects the `page` query parameter.",
+      "severity": "info",
+      "source": "llm",
+      "details": {
+        "request_element": "page",
+        "request_location": "query",
+        "response_element": "current_page",
+        "constraint_type": "reflection",
+        "validation_rule": "REFLECT_CURRENT_PAGE"
+      },
+      "created_at": "2025-10-19T22:45:04.313765",
+      "updated_at": "2025-10-19T22:45:04.313765"
+    }
+  },
+  "metadata": {
+    "updated_at": "2025-10-19T22:45:04.313765",
+    "total_constraints": 18
+  }
+}

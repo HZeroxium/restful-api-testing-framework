@@ -15,6 +15,13 @@ from app.api.routers.verification_router import router as verification_router
 from app.api.routers.aggregator_router import router as aggregator_router
 from app.api.routers.test_data_router import router as test_data_router
 from app.api.routers.execution_router import router as execution_router
+from app.api.routers.cleanup_router import router as cleanup_router
+from app.api.routers.health_router import router as health_router
+from app.api.routers.batch_router import router as batch_router
+from app.api.routers.operation_sequence_router import (
+    router as operation_sequence_router,
+)
+from app.api.routers.playground_router import router as playground_router
 
 
 # Setup logging
@@ -82,6 +89,11 @@ app.include_router(verification_router, prefix="/api/v1")
 app.include_router(aggregator_router, prefix="/api/v1")
 app.include_router(test_data_router, prefix="/api/v1")
 app.include_router(execution_router, prefix="/api/v1")
+app.include_router(cleanup_router, prefix="/api/v1")
+app.include_router(health_router, prefix="/api/v1")
+app.include_router(batch_router, prefix="/api/v1")
+app.include_router(operation_sequence_router)
+app.include_router(playground_router)
 
 
 @app.get("/")

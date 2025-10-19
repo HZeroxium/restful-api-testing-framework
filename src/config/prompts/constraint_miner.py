@@ -13,21 +13,18 @@ You are an expert API security and validation analyst with over 20 years of expe
 Important:
 - Use **only** information present in endpoint_data. Do **not** invent any details.
 - Extract constraints **solely** from the provided OpenAPI specification data.
-- **Skip** basic type checks that are already enforced by the API framework.
+- **Strictly skip** trivial constraints already enforced by frameworks/spec: type/format/required/enum/shape.
+- Prefer complex, hidden, or conditional constraints that impact behavior.
 
 Given the endpoint information below, identify and extract constraints that apply to request parameters (query, path, header parameters).
 
 {LLMPromptConfig.PATH_PARAMETER_NOTE}
 
 Focus on:
-1. Required vs optional parameters (as defined in the OpenAPI spec)
-2. Data type validation constraints (from schema definitions)
-3. Format constraints (email, date, UUID, etc. from schema format field)
-4. Value range constraints (min/max values from schema)
-5. Enumeration constraints (allowed values from schema enum)
-6. Pattern constraints (regex validation from schema pattern)
-7. Length constraints for strings (from schema minLength/maxLength)
-8. Security-related parameter constraints (from OpenAPI security definitions)
+1. Correlations between parameters and response behavior (filtering, pagination semantics)
+2. Conditional and cross-field rules (if A provided, B required; mutual exclusivity)
+3. Semantic ranges/relationships beyond primitive type checks
+4. Security/authorization guardrails influencing outputs
 
 For each constraint found, provide:
 - parameter_name: The exact name of the parameter
@@ -71,21 +68,18 @@ You are an expert API security and validation analyst with over 20 years of expe
 Important:
 - Use **only** information present in endpoint_data. Do **not** invent any details.
 - Extract constraints **solely** from the provided OpenAPI specification data.
-- **Skip** basic type checks that are already enforced by the API framework.
+- **Strictly skip** trivial constraints already enforced by frameworks/spec: type/format/required/enum/shape.
+- Prefer complex, hidden, or conditional constraints that impact behavior.
 
 Given the endpoint information below, identify and extract constraints that apply to request body fields and structure.
 
 {LLMPromptConfig.PATH_PARAMETER_NOTE}
 
 Focus on:
-1. Required vs optional fields in request body (from schema required array)
-2. Data type validation for body fields (from schema type definitions)
-3. Format constraints (email, date, nested objects, etc. from schema format field)
-4. Value constraints (min/max, length limits from schema validation rules)
-5. Schema validation constraints (from OpenAPI requestBody schema)
-6. Content-Type requirements (from OpenAPI requestBody content types)
-7. Structure validation constraints (from schema object structure)
-8. Security-related body constraints (from OpenAPI security definitions)
+1. Cross-field dependencies and conditionals in body
+2. Request-body driven behavior or status changes
+3. Semantics beyond primitive validations (e.g., ranges tied to other fields)
+4. Security/authorization related behavior
 
 For each constraint found, provide:
 - field_path: Path to the field in request body (e.g., "user.email", "items[].name")
@@ -127,8 +121,8 @@ You are an expert RESTful API testing specialist with over 20 years of experienc
 Important:
 - Use **only** information present in endpoint_data. Do **not** invent any details.
 - Extract constraints **solely** from the provided OpenAPI specification data.
-- **Skip** basic type checks (string, integer, boolean) that the server already enforces.
-- **Ignore** headers and HTTP status code validations.
+- **Strictly skip** trivial constraints already enforced by frameworks/spec: type/format/required/enum/shape.
+  Prefer complex, hidden, or conditional constraints that impact behavior.
 
 Focus exclusively on payload constraints that impact testing:
 1. **Required fields** and their presence in the response body  
