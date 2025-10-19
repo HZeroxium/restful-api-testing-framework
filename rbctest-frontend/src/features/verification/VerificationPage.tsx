@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -14,12 +14,22 @@ import {
   AccordionDetails,
   Chip,
   LinearProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  IconButton,
 } from "@mui/material";
+
+import Grid from "@mui/material/Grid";
+
 import {
   ExpandMore,
   CheckCircle,
   Error as ErrorIcon,
   PlayArrow,
+  Add as AddIcon,
+  Delete as DeleteIcon,
 } from "@mui/icons-material";
 import {
   useVerifyTestDataMutation,
@@ -41,14 +51,47 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => (
   </div>
 );
 
+interface TestDataItemForm {
+  id: string;
+  method?: string;
+  path?: string;
+  params: string;
+  headers: string;
+  body: string;
+  expectedStatus: number;
+  timeout: number;
+}
+
+interface RequestResponseForm {
+  id: string;
+  method?: string;
+  path?: string;
+  params: string;
+  headers: string;
+  body: string;
+  expectedStatus: number;
+  responseHeaders: string;
+  responseBody: string;
+  timeout: number;
+}
+
 const VerificationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedEndpointName, setSelectedEndpointName] = useState("");
+  const [selectedEndpoint, setSelectedEndpoint] = useState<any>(null);
 
   // Test Data Verification
-  const [testDataJson, setTestDataJson] = useState(
-    '[\n  {\n    "request_body": {},\n    "expected_status_code": 200\n  }\n]'
-  );
+  const [testDataItems, setTestDataItems] = useState<TestDataItemForm[]>([
+    {
+      id: "1",
+      params: "{}",
+      headers: "{}",
+      body: "{}",
+      expectedStatus: 200,
+      timeout: 30,
+    },
+  ]);
+
   const [
     verifyTestData,
     {
@@ -59,9 +102,21 @@ const VerificationPage: React.FC = () => {
   ] = useVerifyTestDataMutation();
 
   // Request-Response Verification
-  const [requestResponseJson, setRequestResponseJson] = useState(
-    '[\n  {\n    "request": {},\n    "response": {}\n  }\n]'
-  );
+  const [requestResponseItems, setRequestResponseItems] = useState<
+    RequestResponseForm[]
+  >([
+    {
+      id: "1",
+      params: "{}",
+      headers: "{}",
+      body: "{}",
+      expectedStatus: 200,
+      responseHeaders: "{}",
+      responseBody: "{}",
+      timeout: 30,
+    },
+  ]);
+
   const [
     verifyRequestResponse,
     {
@@ -71,24 +126,61 @@ const VerificationPage: React.FC = () => {
     },
   ] = useVerifyRequestResponseMutation();
 
-  // Endpoints are fetched by EndpointAutocomplete component
-  // Endpoints are fetched by EndpointAutocomplete component
-
   const [expandedTestDataResult, setExpandedTestDataResult] = useState<
     string | false
   >(false);
   const [expandedRequestResponseResult, setExpandedRequestResponseResult] =
     useState<string | false>(false);
 
+  // Load endpoint data when selected
+  useEffect(() => {
+    if (selectedEndpoint) {
+      // Update all items with endpoint defaults
+      setTestDataItems((prev) =>
+        prev.map((item) => ({
+          ...item,
+          method: selectedEndpoint.method,
+          path: selectedEndpoint.path,
+        }))
+      );
+      setRequestResponseItems((prev) =>
+        prev.map((item) => ({
+          ...item,
+          method: selectedEndpoint.method,
+          path: selectedEndpoint.path,
+        }))
+      );
+    }
+  }, [selectedEndpoint]);
+
+  const parseJson = (text: string) => {
+    try {
+      return text ? JSON.parse(text) : {};
+    } catch {
+      return {};
+    }
+  };
+
   const handleVerifyTestData = async () => {
     if (!selectedEndpointName) return;
 
     try {
-      const testDataItems: TestDataItem[] = JSON.parse(testDataJson);
+      const testDataItemsFormatted: TestDataItem[] = testDataItems.map(
+        (item) => ({
+          request_params: parseJson(item.params),
+          request_headers: parseJson(item.headers),
+          request_body: parseJson(item.body),
+          expected_status_code: item.expectedStatus,
+          method: item.method,
+          path: item.path,
+          timeout: item.timeout,
+        })
+      );
+
       await verifyTestData({
         endpointName: selectedEndpointName,
         body: {
-          test_data_items: testDataItems,
+          test_data_items: testDataItemsFormatted,
         },
       }).unwrap();
     } catch (err) {
@@ -100,7 +192,21 @@ const VerificationPage: React.FC = () => {
     if (!selectedEndpointName) return;
 
     try {
-      const pairs: RequestResponsePair[] = JSON.parse(requestResponseJson);
+      const pairs: RequestResponsePair[] = requestResponseItems.map((item) => ({
+        request: {
+          method: item.method || "GET",
+          url: `${selectedEndpoint?.baseUrl || ""}${item.path || ""}`,
+          params: parseJson(item.params),
+          headers: parseJson(item.headers),
+          body: parseJson(item.body),
+        },
+        response: {
+          status_code: item.expectedStatus,
+          headers: parseJson(item.responseHeaders),
+          body: parseJson(item.responseBody),
+        },
+      }));
+
       await verifyRequestResponse({
         endpointName: selectedEndpointName,
         body: {
@@ -110,6 +216,64 @@ const VerificationPage: React.FC = () => {
     } catch (err) {
       console.error("Failed to verify request-response:", err);
     }
+  };
+
+  const addTestDataItem = () => {
+    const newItem: TestDataItemForm = {
+      id: Date.now().toString(),
+      method: selectedEndpoint?.method,
+      path: selectedEndpoint?.path,
+      params: "{}",
+      headers: "{}",
+      body: "{}",
+      expectedStatus: 200,
+      timeout: 30,
+    };
+    setTestDataItems((prev) => [...prev, newItem]);
+  };
+
+  const removeTestDataItem = (id: string) => {
+    setTestDataItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const updateTestDataItem = (
+    id: string,
+    field: keyof TestDataItemForm,
+    value: any
+  ) => {
+    setTestDataItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  const addRequestResponseItem = () => {
+    const newItem: RequestResponseForm = {
+      id: Date.now().toString(),
+      method: selectedEndpoint?.method,
+      path: selectedEndpoint?.path,
+      params: "{}",
+      headers: "{}",
+      body: "{}",
+      expectedStatus: 200,
+      responseHeaders: "{}",
+      responseBody: "{}",
+      timeout: 30,
+    };
+    setRequestResponseItems((prev) => [...prev, newItem]);
+  };
+
+  const removeRequestResponseItem = (id: string) => {
+    setRequestResponseItems((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const updateRequestResponseItem = (
+    id: string,
+    field: keyof RequestResponseForm,
+    value: any
+  ) => {
+    setRequestResponseItems((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
   };
 
   const handleTestDataAccordionChange =
@@ -152,37 +316,170 @@ const VerificationPage: React.FC = () => {
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Typography variant="body2" color="text.secondary">
               Verify test data items against validation scripts for an endpoint.
-              Provide test data in JSON format.
+              Provide test data in a structured format.
             </Typography>
 
             <EndpointAutocomplete
               value={selectedEndpointName}
-              onChange={(value) =>
-                setSelectedEndpointName(
-                  Array.isArray(value) ? value[0] || "" : value
-                )
-              }
+              onChange={(value) => {
+                const endpointName = Array.isArray(value)
+                  ? value[0] || ""
+                  : value;
+                setSelectedEndpointName(endpointName);
+                // You would typically fetch endpoint details here
+                setSelectedEndpoint({
+                  method: "GET",
+                  path: "/api/example",
+                  baseUrl: "https://api.example.com",
+                });
+              }}
               label="Select Endpoint"
             />
 
-            <Box>
-              <Typography
-                variant="subtitle2"
-                gutterBottom
-                sx={{ fontWeight: 600 }}
-              >
-                Test Data (JSON Array)
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Test Data Items
               </Typography>
-              <TextField
-                value={testDataJson}
-                onChange={(e) => setTestDataJson(e.target.value)}
-                multiline
-                rows={10}
-                fullWidth
-                placeholder='[{"request_body": {}, "expected_status_code": 200}]'
-                sx={{ fontFamily: "monospace" }}
-              />
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={addTestDataItem}
+              >
+                Add Item
+              </Button>
             </Box>
+
+            {testDataItems.map((item, index) => (
+              <Card key={item.id} variant="outlined" sx={{ p: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    Test Data Item {index + 1}
+                  </Typography>
+                  <Box>
+                    <IconButton
+                      size="small"
+                      onClick={() => removeTestDataItem(item.id)}
+                      disabled={testDataItems.length === 1}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, md: 3 }}>
+                    <FormControl fullWidth>
+                      <InputLabel>Method</InputLabel>
+                      <Select
+                        value={item.method || ""}
+                        onChange={(e) =>
+                          updateTestDataItem(item.id, "method", e.target.value)
+                        }
+                      >
+                        <MenuItem value="GET">GET</MenuItem>
+                        <MenuItem value="POST">POST</MenuItem>
+                        <MenuItem value="PUT">PUT</MenuItem>
+                        <MenuItem value="PATCH">PATCH</MenuItem>
+                        <MenuItem value="DELETE">DELETE</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 9 }}>
+                    <TextField
+                      label="Path"
+                      value={item.path || ""}
+                      onChange={(e) =>
+                        updateTestDataItem(item.id, "path", e.target.value)
+                      }
+                      fullWidth
+                      placeholder="/api/users"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Query Parameters (JSON)"
+                      value={item.params}
+                      onChange={(e) =>
+                        updateTestDataItem(item.id, "params", e.target.value)
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"page": 1, "limit": 10}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Headers (JSON)"
+                      value={item.headers}
+                      onChange={(e) =>
+                        updateTestDataItem(item.id, "headers", e.target.value)
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"Content-Type": "application/json"}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      label="Request Body (JSON)"
+                      value={item.body}
+                      onChange={(e) =>
+                        updateTestDataItem(item.id, "body", e.target.value)
+                      }
+                      multiline
+                      rows={4}
+                      fullWidth
+                      placeholder='{"name": "John Doe", "email": "john@example.com"}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Expected Status Code"
+                      type="number"
+                      value={item.expectedStatus}
+                      onChange={(e) =>
+                        updateTestDataItem(
+                          item.id,
+                          "expectedStatus",
+                          Number(e.target.value)
+                        )
+                      }
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Timeout (seconds)"
+                      type="number"
+                      value={item.timeout}
+                      onChange={(e) =>
+                        updateTestDataItem(
+                          item.id,
+                          "timeout",
+                          Number(e.target.value)
+                        )
+                      }
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Card>
+            ))}
 
             {testDataError && (
               <Alert severity="error">
@@ -205,6 +502,7 @@ const VerificationPage: React.FC = () => {
               startIcon={<PlayArrow />}
               onClick={handleVerifyTestData}
               disabled={!selectedEndpointName || isVerifyingTestData}
+              size="large"
             >
               {isVerifyingTestData ? "Verifying..." : "Verify Test Data"}
             </Button>
@@ -358,37 +656,223 @@ const VerificationPage: React.FC = () => {
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             <Typography variant="body2" color="text.secondary">
               Verify request-response pairs against validation scripts. Provide
-              pairs in JSON format.
+              pairs in a structured format.
             </Typography>
 
             <EndpointAutocomplete
               value={selectedEndpointName}
-              onChange={(value) =>
-                setSelectedEndpointName(
-                  Array.isArray(value) ? value[0] || "" : value
-                )
-              }
+              onChange={(value) => {
+                const endpointName = Array.isArray(value)
+                  ? value[0] || ""
+                  : value;
+                setSelectedEndpointName(endpointName);
+                setSelectedEndpoint({
+                  method: "GET",
+                  path: "/api/example",
+                  baseUrl: "https://api.example.com",
+                });
+              }}
               label="Select Endpoint"
             />
 
-            <Box>
-              <Typography
-                variant="subtitle2"
-                gutterBottom
-                sx={{ fontWeight: 600 }}
-              >
-                Request-Response Pairs (JSON Array)
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                Request-Response Pairs
               </Typography>
-              <TextField
-                value={requestResponseJson}
-                onChange={(e) => setRequestResponseJson(e.target.value)}
-                multiline
-                rows={10}
-                fullWidth
-                placeholder='[{"request": {}, "response": {}}]'
-                sx={{ fontFamily: "monospace" }}
-              />
+              <Button
+                variant="outlined"
+                startIcon={<AddIcon />}
+                onClick={addRequestResponseItem}
+              >
+                Add Pair
+              </Button>
             </Box>
+
+            {requestResponseItems.map((item, index) => (
+              <Card key={item.id} variant="outlined" sx={{ p: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                    Request-Response Pair {index + 1}
+                  </Typography>
+                  <Box>
+                    <IconButton
+                      size="small"
+                      onClick={() => removeRequestResponseItem(item.id)}
+                      disabled={requestResponseItems.length === 1}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                </Box>
+
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, md: 3 }}>
+                    <FormControl fullWidth>
+                      <InputLabel>Method</InputLabel>
+                      <Select
+                        value={item.method || ""}
+                        onChange={(e) =>
+                          updateRequestResponseItem(
+                            item.id,
+                            "method",
+                            e.target.value
+                          )
+                        }
+                      >
+                        <MenuItem value="GET">GET</MenuItem>
+                        <MenuItem value="POST">POST</MenuItem>
+                        <MenuItem value="PUT">PUT</MenuItem>
+                        <MenuItem value="PATCH">PATCH</MenuItem>
+                        <MenuItem value="DELETE">DELETE</MenuItem>
+                      </Select>
+                    </FormControl>
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 9 }}>
+                    <TextField
+                      label="Path"
+                      value={item.path || ""}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "path",
+                          e.target.value
+                        )
+                      }
+                      fullWidth
+                      placeholder="/api/users"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Query Parameters (JSON)"
+                      value={item.params}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "params",
+                          e.target.value
+                        )
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"page": 1, "limit": 10}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Headers (JSON)"
+                      value={item.headers}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "headers",
+                          e.target.value
+                        )
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"Content-Type": "application/json"}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12 }}>
+                    <TextField
+                      label="Request Body (JSON)"
+                      value={item.body}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "body",
+                          e.target.value
+                        )
+                      }
+                      multiline
+                      rows={4}
+                      fullWidth
+                      placeholder='{"name": "John Doe", "email": "john@example.com"}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Expected Status Code"
+                      type="number"
+                      value={item.expectedStatus}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "expectedStatus",
+                          Number(e.target.value)
+                        )
+                      }
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Timeout (seconds)"
+                      type="number"
+                      value={item.timeout}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "timeout",
+                          Number(e.target.value)
+                        )
+                      }
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Response Headers (JSON)"
+                      value={item.responseHeaders}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "responseHeaders",
+                          e.target.value
+                        )
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"Content-Type": "application/json"}'
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      label="Response Body (JSON)"
+                      value={item.responseBody}
+                      onChange={(e) =>
+                        updateRequestResponseItem(
+                          item.id,
+                          "responseBody",
+                          e.target.value
+                        )
+                      }
+                      multiline
+                      rows={3}
+                      fullWidth
+                      placeholder='{"id": 1, "name": "John Doe"}'
+                    />
+                  </Grid>
+                </Grid>
+              </Card>
+            ))}
 
             {requestResponseError && (
               <Alert severity="error">
@@ -411,6 +895,7 @@ const VerificationPage: React.FC = () => {
               startIcon={<PlayArrow />}
               onClick={handleVerifyRequestResponse}
               disabled={!selectedEndpointName || isVerifyingRequestResponse}
+              size="large"
             >
               {isVerifyingRequestResponse
                 ? "Verifying..."

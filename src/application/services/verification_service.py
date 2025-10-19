@@ -86,9 +86,14 @@ class VerificationService:
                 total_execution_time=0.0,
             )
 
-        # Convert test data items to TestData objects
+        # Convert test data items to TestData objects with defaults
         test_data_list = []
         for i, item in enumerate(request.test_data_items):
+            # Fill defaults from endpoint if not provided
+            method = item.method or endpoint.method
+            path = item.path or endpoint.path
+            timeout = item.timeout or 30
+
             test_data = TestData(
                 id=f"test_data_{i}",
                 name=f"Test Data {i+1}",
@@ -98,6 +103,8 @@ class VerificationService:
                 request_headers=item.request_headers or {},
                 request_body=item.request_body,
                 expected_status_code=item.expected_status_code or 200,
+                # Add method and path for reference
+                metadata={"method": method, "path": path, "timeout": timeout},
             )
             test_data_list.append(test_data)
 

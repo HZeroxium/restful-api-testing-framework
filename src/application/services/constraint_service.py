@@ -149,21 +149,43 @@ class ConstraintService:
 
         # Post-filter: drop trivial constraints (type/required/shape-only)
         try:
-            from tools.constraint_miner_tools.filters import is_trivial_constraint
+            from tools.constraint_miner_tools.filters import (
+                is_trivial_constraint,
+                is_trivial_schema_constraint,
+                is_trivial_type_constraint,
+            )
 
             before_count = len(miner_output.constraints)
-            filtered_constraints = [
-                c for c in miner_output.constraints if not is_trivial_constraint(c)
-            ]
-            dropped = before_count - len(filtered_constraints)
-            if dropped > 0:
+
+            # Apply enhanced filtering for logical constraints only
+            filtered_constraints = []
+            schema_dropped = 0
+            type_dropped = 0
+
+            for constraint in miner_output.constraints:
+                # Check both schema and type triviality
+                if is_trivial_schema_constraint(constraint):
+                    schema_dropped += 1
+                    continue
+                if is_trivial_type_constraint(constraint):
+                    type_dropped += 1
+                    continue
+                # Keep the constraint if it passes both checks
+                filtered_constraints.append(constraint)
+
+            total_dropped = before_count - len(filtered_constraints)
+            if total_dropped > 0:
                 self.logger.info(
-                    f"Dropped {dropped} trivial constraints out of {before_count}"
+                    f"Enhanced filtering: dropped {total_dropped} trivial constraints "
+                    f"({schema_dropped} schema, {type_dropped} type) out of {before_count}"
                 )
-            # miner_output.constraints = filtered_constraints
+
+            # Update miner output with filtered constraints
+            miner_output.constraints = filtered_constraints
+
         except Exception as e:
             self.logger.warning(
-                f"Constraint filter failed; proceeding without drop. Error: {e}"
+                f"Enhanced constraint filter failed; proceeding without drop. Error: {e}"
             )
 
         # Save mined constraints to repository

@@ -56,15 +56,12 @@ def _is_obvious_field_presence(details: dict[str, Any]) -> bool:
     return False
 
 
-def is_trivial_constraint(constraint: ApiConstraint) -> bool:
+def is_trivial_schema_constraint(constraint: ApiConstraint) -> bool:
     """
-    Returns True if the constraint is trivial and should be dropped.
+    Returns True if the constraint is a trivial schema/type constraint.
 
-    Heuristics:
-    - Any pure type/required/format/enum checks on params/properties
-    - Basic array/object structure assertions
-    - Presence of common fields (id/name/slug) without cross-field logic
-    - For request/response property types, if only structure/type is asserted
+    Focuses on excluding basic datatype, structure, and format constraints
+    that are already enforced by API frameworks.
     """
     try:
         ctype = (
@@ -74,28 +71,123 @@ def is_trivial_constraint(constraint: ApiConstraint) -> bool:
         )
         ctype = ctype.lower()
         details = getattr(constraint, "details", {}) or {}
-        source = str(getattr(constraint, "source", "")).lower()
+        desc = (constraint.description or "").lower()
 
-        # If it's a request_response constraint, it's rarely trivial; keep by default
+        # Always keep request_response constraints - they contain logical relationships
         if ctype == "request_response":
             return False
 
-        # Drop trivial type/required/structure-only assertions
+        # Drop basic type/format/required/structure constraints
         if _is_structure_only(details):
             return True
 
-        # Drop obvious field presence requirements without any correlation
+        # Drop obvious field presence without cross-field logic
         if _is_obvious_field_presence(details):
             return True
 
-        # If description explicitly talks only about "must be string/number/boolean"
-        desc = (constraint.description or "").lower()
+        # Drop pure datatype assertions
         if any(
-            token in desc for token in ["must be of type", "should be of type", "type "]
+            token in desc
+            for token in [
+                "must be of type",
+                "should be of type",
+                "type ",
+                "must be string",
+                "must be number",
+                "must be boolean",
+                "must be array",
+                "must be object",
+            ]
         ):
             return True
 
-        # Keep others by default (possible complex rules)
+        # Drop response schema structure constraints
+        if ctype in ["response_property"] and any(
+            token in desc
+            for token in [
+                "response body must be",
+                "response must contain",
+                "must have property",
+                "array of",
+                "object representing",
+                "must have an",
+            ]
+        ):
+            return True
+
+        return False
+    except Exception:
+        return False
+
+
+def is_trivial_type_constraint(constraint: ApiConstraint) -> bool:
+    """
+    Returns True if the constraint is a trivial type constraint.
+
+    Focuses on excluding basic parameter type constraints that are
+    already enforced by OpenAPI spec validation.
+    """
+    try:
+        ctype = (
+            constraint.type.value
+            if hasattr(constraint.type, "value")
+            else str(constraint.type)
+        )
+        ctype = ctype.lower()
+        details = getattr(constraint, "details", {}) or {}
+        desc = (constraint.description or "").lower()
+
+        # Keep request_response constraints
+        if ctype == "request_response":
+            return False
+
+        # Drop basic parameter type constraints
+        if ctype in ["request_param", "request_body"]:
+            if any(
+                token in desc
+                for token in [
+                    "must be of type",
+                    "parameter must be",
+                    "should be of type",
+                    "must be string",
+                    "must be number",
+                    "must be boolean",
+                ]
+            ):
+                return True
+
+        # Drop trivial enum constraints without business logic
+        if "enum" in details.get("constraint_type", "").lower():
+            if not any(
+                token in desc
+                for token in ["depending on", "based on", "when", "if", "conditional"]
+            ):
+                return True
+
+        return False
+    except Exception:
+        return False
+
+
+def is_trivial_constraint(constraint: ApiConstraint) -> bool:
+    """
+    Returns True if the constraint is trivial and should be dropped.
+
+    Enhanced to focus on logical constraints only, excluding:
+    - Basic datatype/structure constraints
+    - Trivial type/format/required checks
+    - Response schema structure assertions
+    - Parameter type constraints without business logic
+    """
+    try:
+        # Apply both schema and type triviality checks
+        if is_trivial_schema_constraint(constraint):
+            return True
+
+        if is_trivial_type_constraint(constraint):
+            return True
+
+        # Keep complex logical constraints
         return False
     except Exception:
         # Be conservative on errors: keep the constraint

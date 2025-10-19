@@ -9,6 +9,7 @@ export interface PlaygroundExecuteRequest {
   body?: any;
   timeout?: number;
   retries?: number;
+  token?: string;
 }
 
 export interface PlaygroundExecuteResponse {

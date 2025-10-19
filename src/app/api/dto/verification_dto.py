@@ -21,6 +21,16 @@ class TestDataItem(BaseModel):
     expected_status_code: Optional[int] = Field(
         default=200, description="Expected HTTP status code"
     )
+    # Additional fields for simplified input
+    method: Optional[str] = Field(
+        default=None,
+        description="HTTP method (will be filled from endpoint if not provided)",
+    )
+    path: Optional[str] = Field(
+        default=None,
+        description="Request path (will be filled from endpoint if not provided)",
+    )
+    timeout: Optional[int] = Field(default=30, description="Request timeout in seconds")
 
 
 class VerifyTestDataRequest(BaseModel):
@@ -90,11 +100,59 @@ class RequestResponsePair(BaseModel):
     )
 
 
+class SimplifiedRequestResponsePair(BaseModel):
+    """Simplified request-response pair for easier input."""
+
+    # Request fields
+    method: Optional[str] = Field(
+        default=None,
+        description="HTTP method (will be filled from endpoint if not provided)",
+    )
+    path: Optional[str] = Field(
+        default=None,
+        description="Request path (will be filled from endpoint if not provided)",
+    )
+    params: Optional[Dict[str, Any]] = Field(
+        default_factory=dict, description="Request parameters"
+    )
+    headers: Optional[Dict[str, str]] = Field(
+        default_factory=dict, description="Request headers"
+    )
+    body: Optional[Union[Dict[str, Any], str]] = Field(
+        default=None, description="Request body"
+    )
+
+    # Response fields
+    status_code: Optional[int] = Field(
+        default=200, description="Expected response status code"
+    )
+    response_headers: Optional[Dict[str, str]] = Field(
+        default_factory=dict, description="Expected response headers"
+    )
+    response_body: Optional[Union[Dict[str, Any], str]] = Field(
+        default=None, description="Expected response body"
+    )
+
+    # Additional options
+    timeout: Optional[int] = Field(default=30, description="Request timeout in seconds")
+
+
 class VerifyRequestResponseRequest(BaseModel):
     """Request for verifying request-response pairs."""
 
     request_response_pairs: List[RequestResponsePair] = Field(
         ..., description="List of request-response pairs to verify"
+    )
+    timeout: Optional[int] = Field(
+        default=30, description="Script execution timeout in seconds"
+    )
+
+
+class VerifySimplifiedRequestResponseRequest(BaseModel):
+    """Simplified request for verifying request-response pairs."""
+
+    request_response_pairs: List[SimplifiedRequestResponsePair] = Field(
+        ..., description="List of simplified request-response pairs to verify"
     )
     timeout: Optional[int] = Field(
         default=30, description="Script execution timeout in seconds"

@@ -11,6 +11,11 @@ class PlaygroundExecuteRequest(BaseModel):
     body: Optional[Any] = Field(default=None)
     timeout: Optional[float] = Field(default=15.0, ge=1.0, le=120.0)
     retries: Optional[int] = Field(default=2, ge=0, le=5)
+    # Token authentication support
+    token: Optional[str] = Field(
+        default=None,
+        description="Bearer token for authentication (will be added to Authorization header)",
+    )
 
 
 class PlaygroundExecuteResponse(BaseModel):

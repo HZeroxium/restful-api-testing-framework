@@ -21,6 +21,11 @@ async def _execute_http(req: PlaygroundExecuteRequest) -> PlaygroundExecuteRespo
     timeout = httpx.Timeout(req.timeout or 15.0)
     transport = httpx.AsyncHTTPTransport(retries=req.retries or 2)
 
+    # Prepare headers with token authentication
+    headers = dict(req.headers or {})
+    if req.token:
+        headers["Authorization"] = f"Bearer {req.token}"
+
     start = time.time()
     async with httpx.AsyncClient(timeout=timeout, transport=transport) as client:
         try:
@@ -28,7 +33,7 @@ async def _execute_http(req: PlaygroundExecuteRequest) -> PlaygroundExecuteRespo
                 method=method,
                 url=url,
                 params=req.params or None,
-                headers=req.headers or None,
+                headers=headers,
                 json=req.body if method in {"POST", "PUT", "PATCH"} else None,
             )
 

@@ -394,25 +394,60 @@ const EndpointDetailPage: React.FC = () => {
                 {constraints.map((constraint, index) => (
                   <Accordion key={constraint.id} defaultExpanded={index === 0}>
                     <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 1 }}>
-                        <Avatar sx={{ bgcolor: constraint.severity === 'error' ? 'error.main' : constraint.severity === 'warning' ? 'warning.main' : 'info.main', width: 32, height: 32 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          flexGrow: 1,
+                        }}
+                      >
+                        {/* <Avatar sx={{ bgcolor: constraint.severity === 'error' ? 'error.main' : constraint.severity === 'warning' ? 'warning.main' : 'info.main', width: 32, height: 32 }}>
                           {constraint.severity === 'error' ? <Error fontSize="small" /> : constraint.severity === 'warning' ? <Warning fontSize="small" /> : <Info fontSize="small" />}
-                        </Avatar>
+                        </Avatar> */}
                         <Box sx={{ flexGrow: 1 }}>
-                          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              mb: 0.5,
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ fontWeight: 600 }}
+                            >
                               {constraint.description}
                             </Typography>
-                            <StatusBadge status={constraint.severity as "error" | "warning" | "info"} />
+                            {/* <StatusBadge
+                              status={
+                                constraint.severity as
+                                  | "error"
+                                  | "warning"
+                                  | "info"
+                              }
+                            /> */}
                           </Box>
-                          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
                             <Chip
-                              label={constraint.type.replace(/_/g, ' ').toUpperCase()}
+                              label={constraint.type
+                                .replace(/_/g, " ")
+                                .toUpperCase()}
                               size="small"
                               color="primary"
                               variant="outlined"
                             />
-                            <Typography variant="caption" color="text.secondary">
+                            <Typography
+                              variant="caption"
+                              color="text.secondary"
+                            >
                               Source: {constraint.source}
                             </Typography>
                           </Box>
@@ -420,14 +455,22 @@ const EndpointDetailPage: React.FC = () => {
                       </Box>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 2,
+                        }}
+                      >
                         <Grid container spacing={2}>
                           <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="subtitle2" gutterBottom>
                               Type
                             </Typography>
                             <Chip
-                              label={constraint.type.replace(/_/g, ' ').toUpperCase()}
+                              label={constraint.type
+                                .replace(/_/g, " ")
+                                .toUpperCase()}
                               color="primary"
                               variant="outlined"
                             />
@@ -436,7 +479,14 @@ const EndpointDetailPage: React.FC = () => {
                             <Typography variant="subtitle2" gutterBottom>
                               Severity
                             </Typography>
-                            <StatusBadge status={constraint.severity as "error" | "warning" | "info"} />
+                            <StatusBadge
+                              status={
+                                constraint.severity as
+                                  | "error"
+                                  | "warning"
+                                  | "info"
+                              }
+                            />
                           </Grid>
                           <Grid size={{ xs: 12 }}>
                             <Typography variant="subtitle2" gutterBottom>
@@ -514,37 +564,76 @@ const EndpointDetailPage: React.FC = () => {
               <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
                 {scripts.map((script, index) => {
                   // Find associated constraint
-                  const associatedConstraint = constraints.find(c => c.id === script.constraint_id);
-                  
+                  const associatedConstraint = constraints.find(
+                    (c) => c.id === script.constraint_id
+                  );
+
                   return (
                     <Accordion key={script.id} defaultExpanded={index === 0}>
                       <AccordionSummary expandIcon={<ExpandMore />}>
-                        <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 1 }}>
-                          <Avatar sx={{ bgcolor: "primary.main", width: 32, height: 32 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 2,
+                            flexGrow: 1,
+                          }}
+                        >
+                          <Avatar
+                            sx={{
+                              bgcolor: "primary.main",
+                              width: 32,
+                              height: 32,
+                            }}
+                          >
                             <Code fontSize="small" />
                           </Avatar>
                           <Box sx={{ flexGrow: 1 }}>
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                              <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                                mb: 0.5,
+                              }}
+                            >
+                              <Typography
+                                variant="subtitle1"
+                                sx={{ fontWeight: 600 }}
+                              >
                                 {script.name}
                               </Typography>
                               <Chip
-                                label={script.script_type.replace(/_/g, ' ').toUpperCase()}
+                                label={script.script_type
+                                  .replace(/_/g, " ")
+                                  .toUpperCase()}
                                 size="small"
                                 color="primary"
                                 variant="outlined"
                               />
                             </Box>
-                            <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
+                              }}
+                            >
                               {script.constraint_id && (
                                 <Chip
-                                  label={`Constraint: ${script.constraint_id.slice(0, 8)}...`}
+                                  label={`Constraint: ${script.constraint_id.slice(
+                                    0,
+                                    8
+                                  )}...`}
                                   size="small"
                                   color="secondary"
                                   variant="outlined"
                                 />
                               )}
-                              <Typography variant="caption" color="text.secondary">
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
                                 {script.description}
                               </Typography>
                             </Box>
@@ -552,14 +641,22 @@ const EndpointDetailPage: React.FC = () => {
                         </Box>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: 2,
+                          }}
+                        >
                           <Grid container spacing={2}>
                             <Grid size={{ xs: 12, sm: 6 }}>
                               <Typography variant="subtitle2" gutterBottom>
                                 Script Type
                               </Typography>
                               <Chip
-                                label={script.script_type.replace(/_/g, ' ').toUpperCase()}
+                                label={script.script_type
+                                  .replace(/_/g, " ")
+                                  .toUpperCase()}
                                 color="primary"
                                 variant="outlined"
                               />
@@ -569,19 +666,42 @@ const EndpointDetailPage: React.FC = () => {
                                 Associated Constraint
                               </Typography>
                               {script.constraint_id ? (
-                                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                  }}
+                                >
                                   <Chip
-                                    label={associatedConstraint ? associatedConstraint.description : `ID: ${script.constraint_id.slice(0, 8)}...`}
+                                    label={
+                                      associatedConstraint
+                                        ? associatedConstraint.description
+                                        : `ID: ${script.constraint_id.slice(
+                                            0,
+                                            8
+                                          )}...`
+                                    }
                                     size="small"
                                     color="secondary"
                                     variant="outlined"
                                   />
                                   {associatedConstraint && (
-                                    <StatusBadge status={associatedConstraint.severity as "error" | "warning" | "info"} />
+                                    <StatusBadge
+                                      status={
+                                        associatedConstraint.severity as
+                                          | "error"
+                                          | "warning"
+                                          | "info"
+                                      }
+                                    />
                                   )}
                                 </Box>
                               ) : (
-                                <Typography variant="body2" color="text.secondary">
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
                                   No constraint associated
                                 </Typography>
                               )}
@@ -606,7 +726,10 @@ const EndpointDetailPage: React.FC = () => {
                               <Typography variant="subtitle2" gutterBottom>
                                 Description
                               </Typography>
-                              <Typography variant="body2" color="text.secondary">
+                              <Typography
+                                variant="body2"
+                                color="text.secondary"
+                              >
                                 {script.description}
                               </Typography>
                             </Box>
@@ -655,13 +778,42 @@ const EndpointDetailPage: React.FC = () => {
                 {testDataItems.map((testData, index) => (
                   <Accordion key={testData.id} defaultExpanded={index === 0}>
                     <AccordionSummary expandIcon={<ExpandMore />}>
-                      <Box sx={{ display: "flex", alignItems: "center", gap: 2, flexGrow: 1 }}>
-                        <Avatar sx={{ bgcolor: testData.is_valid ? "success.main" : "error.main", width: 32, height: 32 }}>
-                          {testData.is_valid ? <CheckCircle fontSize="small" /> : <Error fontSize="small" />}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 2,
+                          flexGrow: 1,
+                        }}
+                      >
+                        <Avatar
+                          sx={{
+                            bgcolor: testData.is_valid
+                              ? "success.main"
+                              : "error.main",
+                            width: 32,
+                            height: 32,
+                          }}
+                        >
+                          {testData.is_valid ? (
+                            <CheckCircle fontSize="small" />
+                          ) : (
+                            <Error fontSize="small" />
+                          )}
                         </Avatar>
                         <Box sx={{ flexGrow: 1 }}>
-                          <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 0.5 }}>
-                            <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                              mb: 0.5,
+                            }}
+                          >
+                            <Typography
+                              variant="subtitle1"
+                              sx={{ fontWeight: 600 }}
+                            >
                               {testData.name}
                             </Typography>
                             <Chip
@@ -670,7 +822,13 @@ const EndpointDetailPage: React.FC = () => {
                               color={testData.is_valid ? "success" : "error"}
                             />
                           </Box>
-                          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 1,
+                            }}
+                          >
                             <Chip
                               label={`Status: ${testData.expected_status_code}`}
                               size="small"
@@ -678,7 +836,10 @@ const EndpointDetailPage: React.FC = () => {
                               variant="outlined"
                             />
                             {testData.description && (
-                              <Typography variant="caption" color="text.secondary">
+                              <Typography
+                                variant="caption"
+                                color="text.secondary"
+                              >
                                 {testData.description}
                               </Typography>
                             )}
@@ -687,7 +848,13 @@ const EndpointDetailPage: React.FC = () => {
                       </Box>
                     </AccordionSummary>
                     <AccordionDetails>
-                      <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: 2,
+                        }}
+                      >
                         <Grid container spacing={2}>
                           <Grid size={{ xs: 12, sm: 6 }}>
                             <Typography variant="subtitle2" gutterBottom>
@@ -728,13 +895,19 @@ const EndpointDetailPage: React.FC = () => {
                             Test Data Content
                           </Typography>
                           <CodeViewer
-                            code={JSON.stringify({
-                              request_params: testData.request_params,
-                              request_headers: testData.request_headers,
-                              request_body: testData.request_body,
-                              expected_response_schema: testData.expected_response_schema,
-                              expected_response_contains: testData.expected_response_contains
-                            }, null, 2)}
+                            code={JSON.stringify(
+                              {
+                                request_params: testData.request_params,
+                                request_headers: testData.request_headers,
+                                request_body: testData.request_body,
+                                expected_response_schema:
+                                  testData.expected_response_schema,
+                                expected_response_contains:
+                                  testData.expected_response_contains,
+                              },
+                              null,
+                              2
+                            )}
                             language="json"
                             maxHeight={300}
                           />
