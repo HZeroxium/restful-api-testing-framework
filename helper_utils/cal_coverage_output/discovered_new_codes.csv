@@ -1,0 +1,7 @@
+﻿endpoint,new_codes
+delete-/user/{username},['405']
+get-/user/{username},['405']
+post-/pet,['500']
+post-/pet/{petId},['404']
+post-/user,"['400', '500']"
+post-/user/createWithList,['400']

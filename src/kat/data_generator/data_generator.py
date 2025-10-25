@@ -186,11 +186,17 @@ class TestDataGenerator:
             self.output_token_count += len(response)
         return response
 
-    def write_test_data_file(self, new_data: list, data_filename: str, expected_status_code: str, default_reason: str = "") -> None:
-        if new_data is None:
+    def write_test_data_file(
+        self,
+        new_data: list,
+        data_filename: str,
+        expected_status_code: str,
+        default_reason: str = "",
+    ) -> None:
+        if not new_data:
             return
         try:
-            csv_file_path: str = f"{self.csv_dir}/{data_filename}.csv"
+            csv_file_path: str = os.path.join(self.csv_dir, f"{data_filename}.csv")
 
             def _row(idx: int, item: dict):
                 payload = copy.deepcopy(item) if isinstance(item, dict) else {"data": item}
@@ -206,27 +212,13 @@ class TestDataGenerator:
 
             header = ["index", "data", "expected_status_code", "reason"]
 
-            if os.path.exists(csv_file_path):
-                with open(csv_file_path, "r+", newline="", encoding="utf-8") as f:
-                    # tìm last_index
-                    try:
-                        reader = csv.DictReader(f)
-                        rows = list(reader)
-                        last_index = int(rows[-1]["index"]) if rows else 0
-                    except Exception:
-                        last_index = 0
-                    f.seek(0, os.SEEK_END)
-                    writer = csv.DictWriter(f, fieldnames=header)
-                    if f.tell() == 0:
-                        writer.writeheader()
-                    for i, item in enumerate(new_data):
-                        writer.writerow(_row(last_index + i + 1, item))
-            else:
-                with open(csv_file_path, "w", newline="", encoding="utf-8") as f:
-                    writer = csv.DictWriter(f, fieldnames=header)
-                    writer.writeheader()
-                    for i, item in enumerate(new_data):
-                        writer.writerow(_row(i + 1, item))
+            # Always overwrite the existing file
+            with open(csv_file_path, "w", newline="", encoding="utf-8") as f:
+                writer = csv.DictWriter(f, fieldnames=header)
+                writer.writeheader()
+                for i, item in enumerate(new_data):
+                    writer.writerow(_row(i + 1, item))
+
         except Exception as e:
             raise RuntimeError(f"Error when trying to create data file:\n{e}")
 

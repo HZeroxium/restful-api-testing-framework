@@ -1,0 +1,14 @@
+{
+  "overall_coverage_pct": 55.56,
+  "total_documented_codes": 45,
+  "total_matched_codes": 25,
+  "overall_2xx_coverage_pct": 63.16,
+  "total_documented_2xx_codes": 19,
+  "total_matched_2xx_codes": 12,
+  "overall_4xx_coverage_pct": 50.0,
+  "total_documented_4xx_codes": 26,
+  "total_matched_4xx_codes": 13,
+  "untracked_endpoints_count": 0,
+  "total_5xx_unique_codes": 2,
+  "count_default_in_denominator": false
+}

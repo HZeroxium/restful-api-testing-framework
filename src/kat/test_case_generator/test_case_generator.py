@@ -74,7 +74,7 @@ class TestCaseGenerator():
         save_prompts=True, 
         regenerate_test_data=False,
         data_generation_mode="all", 
-        clear_test_cases=True,
+        clear_test_cases=False,
         headers: Dict[str, str] = None
         ) -> None:
         self.headers = headers
@@ -147,6 +147,7 @@ class TestCaseGenerator():
         # Only clear test cases if explicitly requested
         if self.clear_test_cases and os.path.exists(self.test_cases_path): 
             shutil.rmtree(self.test_cases_path)
+            shutil.rmtree(self.odg_dir)
         if self.regenerate_test_data and os.path.exists(self.test_data_path): 
             shutil.rmtree(self.test_data_path)
         

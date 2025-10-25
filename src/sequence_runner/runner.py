@@ -1,12 +1,14 @@
 # src/sequence_runner/runner.py
 from __future__ import annotations
-
+# add near other imports
+from sequence_runner.models import StepModel
+from .test_data_runner import TestDataRunner, TestRow
 import json
 from .logging_setup import setup_logging
 import re   
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 
 from .http_client import HttpClient
 from .io_file import FileService
@@ -14,7 +16,6 @@ from .validator import extract_expected_status, is_status_match
 from .data_merge import merge_test_data
 from .dependency import DependencyService, NOT_SURE
 from .url_builder import clean_endpoint, required_path_vars, substitute_path_vars, build_urls
-from .models import TestCaseCore, DataRow, InjectedDataset, TestCaseWithDataset, StepModel
 from .parser import parse_test_case_core_from_dict, parse_all_from_files
 import datetime
 
@@ -30,7 +31,15 @@ class SequenceRunner:
         base_module_file: str = __file__,
         out_file_name: Optional[str] = None,
         headers: Optional[Dict[str, str]] = None,
-    ):
+        sampling_strategy: Literal["random", "all"] = "all",
+        want_2xx: int = 10,
+        want_4xx: int = 10,
+        seed: Optional[int] = 42,
+    ):     
+        self.sampling_strategy = sampling_strategy
+        self.want_2xx = want_2xx
+        self.want_4xx = want_4xx
+        self.seed = seed
         self.file = FileService(service_name , base_module_file, out_file_name)
         self.logger = setup_logging(log_file=self.file.get_log_path())
         self.service_name = service_name
@@ -200,8 +209,20 @@ class SequenceRunner:
                 "error": str(e),
                 "merged_params": final_params,
                 "merged_body": resolved_body,
-            }
-
+        }
+    def get_test_rows_from_path(self, path: Optional[Path]) -> List[TestRow]:
+        if not path:
+            return []
+        try:
+            # TestDataRunner returns List[TestRow]
+            tdr = TestDataRunner(path, seed=self.seed)
+            if self.sampling_strategy == "all":
+                return tdr.select_all()
+            else:
+                return tdr.select_random_quota(self.want_2xx, self.want_4xx, allow_less=True)
+        except Exception as e:
+            self.logger.error(f"Failed to load CSV {path}: {e}")
+            return []
     # ------------------------------------------------------------------
     # Run a single test case file
     # ------------------------------------------------------------------
@@ -226,28 +247,56 @@ class SequenceRunner:
             test_case_id.replace("_0_1", "").replace("_1_1", "").replace("_2_1", "")
         )
         files = self.file.find_test_data_files(endpoint_identifier)
-        param_rows = self.file.load_csv_rows(files["param"]) if files["param"] else []
-        body_rows = self.file.load_csv_rows(files["body"]) if files["body"] else []
+
+        # --- NEW: load TestRow lists (per-side) via TestDataRunner
+        param_tr_rows: List[TestRow] = self.get_test_rows_from_path(files["param"]) if files["param"] else []
+        body_tr_rows:  List[TestRow] = self.get_test_rows_from_path(files["body"])  if files["body"]  else []
 
         if files["param"]:
-            self.logger.info(f"📄 Param CSV: {files['param'].name} -> {len(param_rows)} rows")
+            self.logger.info(
+                f"📄 Param CSV: {files['param'].name} -> {len(param_tr_rows)} rows "
+                f"(strategy='{getattr(self, 'sampling_strategy', 'random_quota')}', "
+                f"want_2xx={getattr(self, 'want_2xx', 10)}, want_4xx={getattr(self, 'want_4xx', 10)})"
+            )
         if files["body"]:
-            self.logger.info(f"📄 Body  CSV: {files['body'].name}  -> {len(body_rows)} rows")
+            self.logger.info(
+                f"📄 Body  CSV: {files['body'].name}  -> {len(body_tr_rows)} rows "
+                f"(strategy='{getattr(self, 'sampling_strategy', 'random_quota')}', "
+                f"want_2xx={getattr(self, 'want_2xx', 10)}, want_4xx={getattr(self, 'want_4xx', 10)})"
+            )
 
-        if not param_rows and not body_rows:
+        # Convert TestRow → side dict your pipeline expects
+        def _testrow_to_obj(tr: Optional[TestRow]) -> Dict[str, Any]:
+            if not tr:
+                return {}
+            try:
+                obj = json.loads(tr.data_json) if tr.data_json else {}
+            except Exception:
+                obj = {}
+            if isinstance(obj, dict):
+                # ensure keys needed by extract_expected_status(...)
+                obj.setdefault("reason", tr.reason)
+                obj.setdefault("expected_status_code", tr.expected_status_code)
+            return obj
+
+        # Build combined rows (index-wise)
+        if not param_tr_rows and not body_tr_rows:
             test_data_rows: List[Dict[str, Any]] = [{}]
             self.logger.info("🧪 No test data found, will run 1 time with empty data")
         else:
-            max_len = max(len(param_rows), len(body_rows))
+            max_len = max(len(param_tr_rows), len(body_tr_rows))
             test_data_rows = []
             for i in range(max_len):
                 test_data_rows.append(
                     {
-                        "param": param_rows[i] if i < len(param_rows) else {},
-                        "body": body_rows[i] if i < len(body_rows) else {},
+                        "param": _testrow_to_obj(param_tr_rows[i] if i < len(param_tr_rows) else None),
+                        "body":  _testrow_to_obj(body_tr_rows[i]  if i < len(body_tr_rows)  else None),
                     }
                 )
-            self.logger.info(f"🧪 Will run {len(test_data_rows)} times (combine param/body rows by index)")
+            self.logger.info(
+                f"🧪 Will run {len(test_data_rows)} times "
+                f"(combine param/body rows by index; strategy='{getattr(self, 'sampling_strategy', 'random_quota')}')"
+            )
 
         # Iterate rows
         for row_idx, row in enumerate(test_data_rows, start=1):
@@ -280,7 +329,6 @@ class SequenceRunner:
                             "response_status": None,
                             "expected_status": expected_status,
                             "status": "ERROR(%not-sure%)",
-
                         }
                     )
                     self.logger.error(f"  ❌ ERROR(%not-sure%): {result.get('error')}")
@@ -370,7 +418,6 @@ class SequenceRunner:
                 time.sleep(0.1)
 
             if skip_row:
-                # chuyển ngay sang row kế tiếp
                 continue
 
         return is_pass

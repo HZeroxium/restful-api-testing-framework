@@ -18542,3 +18542,175 @@ Make sure the CSV exists and has at least one row with a 2xx expected status cod
 2025-10-23 22:50:23,927 - INFO - path: /pet, method: post
 2025-10-23 22:50:23,928 - INFO - path: /pet/{petId}, method: delete
 2025-10-23 22:50:23,928 - INFO - path: /pet/{petId}, method: delete
+2025-10-25 12:20:44,561 - INFO - Preparing ODG for service: Pet Store
+2025-10-25 12:20:44,561 - INFO - ODG files already exist. Skipping ODG generation.
+2025-10-25 12:20:44,565 - INFO - path: /store/inventory, method: get
+2025-10-25 12:20:44,565 - INFO - path: /store/inventory, method: get
+2025-10-25 12:20:44,566 - INFO - path: /user/logout, method: get
+2025-10-25 12:20:44,566 - INFO - path: /user/logout, method: get
+2025-10-25 12:20:44,566 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,566 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,567 - INFO - path: /user, method: post
+2025-10-25 12:20:44,567 - INFO - path: /user, method: post
+2025-10-25 12:20:44,567 - INFO - path: /store/order, method: post
+2025-10-25 12:20:44,567 - INFO - path: /store/order, method: post
+2025-10-25 12:20:44,567 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,567 - INFO - path: /pet, method: put
+2025-10-25 12:20:44,567 - INFO - path: /pet, method: put
+2025-10-25 12:20:44,568 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,568 - INFO - path: /pet/{petId}, method: get
+2025-10-25 12:20:44,568 - INFO - path: /pet/{petId}, method: get
+2025-10-25 12:20:44,568 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,568 - INFO - path: /pet/{petId}/uploadImage, method: post
+2025-10-25 12:20:44,568 - INFO - path: /pet/{petId}/uploadImage, method: post
+2025-10-25 12:20:44,568 - INFO - path: /user, method: post
+2025-10-25 12:20:44,568 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:20:44,568 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:20:44,568 - INFO - path: /user, method: post
+2025-10-25 12:20:44,568 - INFO - path: /user/login, method: get
+2025-10-25 12:20:44,568 - INFO - path: /user/login, method: get
+2025-10-25 12:20:44,569 - INFO - path: /store/order, method: post
+2025-10-25 12:20:44,569 - INFO - path: /store/order/{orderId}, method: get
+2025-10-25 12:20:44,569 - INFO - path: /store/order/{orderId}, method: get
+2025-10-25 12:20:44,569 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,569 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:20:44,569 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:20:44,570 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,570 - INFO - path: /pet, method: put
+2025-10-25 12:20:44,570 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:20:44,570 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:20:44,570 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,570 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:20:44,570 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:20:44,570 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,570 - INFO - path: /pet, method: put
+2025-10-25 12:20:44,570 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:20:44,571 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:20:44,571 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,571 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:20:44,571 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:20:44,571 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,571 - INFO - path: /pet, method: put
+2025-10-25 12:20:44,571 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:20:44,571 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:20:44,571 - INFO - path: /user, method: post
+2025-10-25 12:20:44,571 - INFO - path: /user/{username}, method: get
+2025-10-25 12:20:44,571 - INFO - path: /user/{username}, method: get
+2025-10-25 12:20:44,572 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: get
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: get
+2025-10-25 12:20:44,572 - INFO - path: /user, method: post
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: put
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: put
+2025-10-25 12:20:44,572 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: put
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: put
+2025-10-25 12:20:44,572 - INFO - path: /user, method: post
+2025-10-25 12:20:44,572 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:20:44,573 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /store/order, method: post
+2025-10-25 12:20:44,573 - INFO - path: /store/order/{orderId}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /store/order/{orderId}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /pet, method: post
+2025-10-25 12:20:44,573 - INFO - path: /pet/{petId}, method: delete
+2025-10-25 12:20:44,573 - INFO - path: /pet/{petId}, method: delete
+2025-10-25 12:21:06,668 - INFO - Preparing ODG for service: Pet Store
+2025-10-25 12:21:07,775 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:08,157 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:08,592 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:09,022 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:09,416 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:09,914 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:10,344 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:10,845 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:11,250 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:11,701 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:12,164 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:12,589 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:12,979 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:13,364 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:13,783 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:14,165 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:14,636 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:15,049 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:15,420 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:15,826 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:16,374 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:16,813 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-10-25 12:21:17,017 - INFO - ODG prepared and saved.
+2025-10-25 12:21:17,023 - INFO - path: /store/inventory, method: get
+2025-10-25 12:21:17,023 - INFO - path: /store/inventory, method: get
+2025-10-25 12:21:17,024 - INFO - path: /user/logout, method: get
+2025-10-25 12:21:17,024 - INFO - path: /user/logout, method: get
+2025-10-25 12:21:17,024 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,024 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,024 - INFO - path: /user, method: post
+2025-10-25 12:21:17,024 - INFO - path: /user, method: post
+2025-10-25 12:21:17,025 - INFO - path: /store/order, method: post
+2025-10-25 12:21:17,025 - INFO - path: /store/order, method: post
+2025-10-25 12:21:17,025 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,025 - INFO - path: /pet, method: put
+2025-10-25 12:21:17,025 - INFO - path: /pet, method: put
+2025-10-25 12:21:17,025 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,025 - INFO - path: /pet/{petId}, method: get
+2025-10-25 12:21:17,026 - INFO - path: /pet/{petId}, method: get
+2025-10-25 12:21:17,026 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,026 - INFO - path: /pet/{petId}/uploadImage, method: post
+2025-10-25 12:21:17,026 - INFO - path: /pet/{petId}/uploadImage, method: post
+2025-10-25 12:21:17,026 - INFO - path: /user, method: post
+2025-10-25 12:21:17,026 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:21:17,026 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:21:17,027 - INFO - path: /user, method: post
+2025-10-25 12:21:17,027 - INFO - path: /user/login, method: get
+2025-10-25 12:21:17,027 - INFO - path: /user/login, method: get
+2025-10-25 12:21:17,028 - INFO - path: /store/order, method: post
+2025-10-25 12:21:17,028 - INFO - path: /store/order/{orderId}, method: get
+2025-10-25 12:21:17,028 - INFO - path: /store/order/{orderId}, method: get
+2025-10-25 12:21:17,029 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,029 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:21:17,029 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:21:17,029 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,029 - INFO - path: /pet, method: put
+2025-10-25 12:21:17,029 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet/findByStatus, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,030 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,030 - INFO - path: /pet, method: put
+2025-10-25 12:21:17,030 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet/findByTags, method: get
+2025-10-25 12:21:17,030 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,031 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:21:17,031 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:21:17,031 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,031 - INFO - path: /pet, method: put
+2025-10-25 12:21:17,031 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:21:17,031 - INFO - path: /pet/{petId}, method: post
+2025-10-25 12:21:17,031 - INFO - path: /user, method: post
+2025-10-25 12:21:17,031 - INFO - path: /user/{username}, method: get
+2025-10-25 12:21:17,031 - INFO - path: /user/{username}, method: get
+2025-10-25 12:21:17,032 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:21:17,032 - INFO - path: /user/{username}, method: get
+2025-10-25 12:21:17,032 - INFO - path: /user/{username}, method: get
+2025-10-25 12:21:17,032 - INFO - path: /user, method: post
+2025-10-25 12:21:17,032 - INFO - path: /user/{username}, method: put
+2025-10-25 12:21:17,032 - INFO - path: /user/{username}, method: put
+2025-10-25 12:21:17,033 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: put
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: put
+2025-10-25 12:21:17,033 - INFO - path: /user, method: post
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:21:17,033 - INFO - path: /user/createWithList, method: post
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:21:17,033 - INFO - path: /user/{username}, method: delete
+2025-10-25 12:21:17,034 - INFO - path: /store/order, method: post
+2025-10-25 12:21:17,034 - INFO - path: /store/order/{orderId}, method: delete
+2025-10-25 12:21:17,034 - INFO - path: /store/order/{orderId}, method: delete
+2025-10-25 12:21:17,034 - INFO - path: /pet, method: post
+2025-10-25 12:21:17,034 - INFO - path: /pet/{petId}, method: delete
+2025-10-25 12:21:17,034 - INFO - path: /pet/{petId}, method: delete

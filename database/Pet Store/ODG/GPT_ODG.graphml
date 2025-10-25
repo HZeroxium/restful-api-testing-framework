@@ -1,34 +1,31 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <graph edgedefault="directed">
-    <node id="post-/pet" />
-    <node id="get-/pet/findByStatus" />
-    <node id="get-/pet/findByTags" />
-    <node id="get-/pet/{petId}" />
-    <node id="post-/pet/{petId}" />
-    <node id="delete-/pet/{petId}" />
-    <node id="post-/pet/{petId}/uploadImage" />
-    <node id="post-/store/order" />
-    <node id="get-/store/order/{orderId}" />
-    <node id="delete-/store/order/{orderId}" />
-    <node id="post-/user" />
-    <node id="get-/user/{username}" />
-    <node id="post-/user/createWithList" />
-    <node id="put-/user/{username}" />
-    <node id="delete-/user/{username}" />
-    <edge source="post-/pet" target="get-/pet/findByStatus" />
-    <edge source="post-/pet" target="get-/pet/findByTags" />
-    <edge source="post-/pet" target="get-/pet/{petId}" />
-    <edge source="post-/pet" target="post-/pet/{petId}" />
-    <edge source="post-/pet" target="delete-/pet/{petId}" />
-    <edge source="post-/pet" target="post-/pet/{petId}/uploadImage" />
-    <edge source="post-/store/order" target="get-/store/order/{orderId}" />
-    <edge source="post-/store/order" target="delete-/store/order/{orderId}" />
-    <edge source="post-/user" target="get-/user/{username}" />
-    <edge source="post-/user" target="put-/user/{username}" />
-    <edge source="post-/user" target="delete-/user/{username}" />
-    <edge source="post-/user/createWithList" target="get-/user/{username}" />
-    <edge source="post-/user/createWithList" target="put-/user/{username}" />
-    <edge source="post-/user/createWithList" target="delete-/user/{username}" />
-  </graph>
-</graphml>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="post-/pet"/>
+<node id="get-/pet/findByStatus"/>
+<node id="get-/pet/findByTags"/>
+<node id="get-/pet/{petId}"/>
+<node id="post-/pet/{petId}"/>
+<node id="delete-/pet/{petId}"/>
+<node id="post-/pet/{petId}/uploadImage"/>
+<node id="post-/store/order"/>
+<node id="get-/store/order/{orderId}"/>
+<node id="delete-/store/order/{orderId}"/>
+<node id="post-/user"/>
+<node id="get-/user/{username}"/>
+<node id="post-/user/createWithList"/>
+<node id="put-/user/{username}"/>
+<node id="delete-/user/{username}"/>
+<edge source="post-/pet" target="get-/pet/findByStatus"/>
+<edge source="post-/pet" target="get-/pet/findByTags"/>
+<edge source="post-/pet" target="get-/pet/{petId}"/>
+<edge source="post-/pet" target="post-/pet/{petId}"/>
+<edge source="post-/pet" target="delete-/pet/{petId}"/>
+<edge source="post-/pet" target="post-/pet/{petId}/uploadImage"/>
+<edge source="post-/store/order" target="get-/store/order/{orderId}"/>
+<edge source="post-/store/order" target="delete-/store/order/{orderId}"/>
+<edge source="post-/user" target="get-/user/{username}"/>
+<edge source="post-/user" target="put-/user/{username}"/>
+<edge source="post-/user" target="delete-/user/{username}"/>
+<edge source="post-/user/createWithList" target="get-/user/{username}"/>
+<edge source="post-/user/createWithList" target="put-/user/{username}"/>
+<edge source="post-/user/createWithList" target="delete-/user/{username}"/>
+</graph></graphml>

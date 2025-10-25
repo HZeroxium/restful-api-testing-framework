@@ -36,7 +36,7 @@ try:
         save_prompts=True,
         regenerate_test_data=False,  # Force regenerate với prompt mới
         data_generation_mode="all",
-        clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
+        clear_test_cases=True,  # Không xóa test cases khi chỉ generate test data
         headers=gitlab_headers
     )
     generator.generate_test_cases()

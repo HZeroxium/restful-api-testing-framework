@@ -1,0 +1,335 @@
+{
+  "put-/pet": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "422"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404",
+        "422"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/pet": {
+    "status_codes": [
+      "200",
+      "400",
+      "422"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "422"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/pet/findByStatus": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/pet/findByTags": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/pet/{petId}/uploadImage": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/store/inventory": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/store/order": {
+    "status_codes": [
+      "200",
+      "400",
+      "422"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "422"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/store/order/{orderId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/store/order/{orderId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/user": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/user/createWithList": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/user/login": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/user/logout": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "put-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

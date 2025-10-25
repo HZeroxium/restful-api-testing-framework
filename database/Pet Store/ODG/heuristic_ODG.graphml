@@ -1,30 +1,27 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <graph edgedefault="directed">
-    <node id="put-/pet" />
-    <node id="get-/pet/findByStatus" />
-    <node id="get-/pet/findByTags" />
-    <node id="post-/pet/{petId}" />
-    <node id="post-/pet" />
-    <node id="post-/user" />
-    <node id="post-/user/createWithList" />
-    <node id="get-/user/login" />
-    <node id="get-/user/{username}" />
-    <node id="put-/user/{username}" />
-    <node id="delete-/user/{username}" />
-    <edge source="put-/pet" target="get-/pet/findByStatus" />
-    <edge source="put-/pet" target="get-/pet/findByTags" />
-    <edge source="put-/pet" target="post-/pet/{petId}" />
-    <edge source="post-/pet" target="put-/pet" />
-    <edge source="post-/pet" target="get-/pet/findByStatus" />
-    <edge source="post-/pet" target="get-/pet/findByTags" />
-    <edge source="post-/pet" target="post-/pet/{petId}" />
-    <edge source="post-/user" target="post-/user/createWithList" />
-    <edge source="post-/user" target="get-/user/login" />
-    <edge source="post-/user" target="get-/user/{username}" />
-    <edge source="post-/user" target="put-/user/{username}" />
-    <edge source="post-/user" target="delete-/user/{username}" />
-    <edge source="get-/user/{username}" target="put-/user/{username}" />
-    <edge source="get-/user/{username}" target="delete-/user/{username}" />
-  </graph>
-</graphml>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="put-/pet"/>
+<node id="get-/pet/findByStatus"/>
+<node id="get-/pet/findByTags"/>
+<node id="post-/pet/{petId}"/>
+<node id="post-/pet"/>
+<node id="post-/user"/>
+<node id="post-/user/createWithList"/>
+<node id="get-/user/login"/>
+<node id="get-/user/{username}"/>
+<node id="put-/user/{username}"/>
+<node id="delete-/user/{username}"/>
+<edge source="put-/pet" target="get-/pet/findByStatus"/>
+<edge source="put-/pet" target="get-/pet/findByTags"/>
+<edge source="put-/pet" target="post-/pet/{petId}"/>
+<edge source="post-/pet" target="put-/pet"/>
+<edge source="post-/pet" target="get-/pet/findByStatus"/>
+<edge source="post-/pet" target="get-/pet/findByTags"/>
+<edge source="post-/pet" target="post-/pet/{petId}"/>
+<edge source="post-/user" target="post-/user/createWithList"/>
+<edge source="post-/user" target="get-/user/login"/>
+<edge source="post-/user" target="get-/user/{username}"/>
+<edge source="post-/user" target="put-/user/{username}"/>
+<edge source="post-/user" target="delete-/user/{username}"/>
+<edge source="get-/user/{username}" target="put-/user/{username}"/>
+<edge source="get-/user/{username}" target="delete-/user/{username}"/>
+</graph></graphml>
