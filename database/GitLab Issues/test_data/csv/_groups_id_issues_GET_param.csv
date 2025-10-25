@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""id"": 12345}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint, fixture, or example group ID provided in spec or context."
+2,"{""id"": 12345}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint, fixture, or example group ID provided in spec or context."
+3,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 12345, ""due_date"": ""invalid_due""}",4xx,"due_date='invalid_due' is not in enum {'0','overdue','week','month','next_month_and_previous_two_weeks'}."
+5,"{""id"": 12345, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
+6,"{""id"": 12345, ""created_after"": ""not-a-date""}",4xx,created_after='not-a-date' does not match format date-time.
+7,"{""id"": ""abc"", ""per_page"": 20}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 1, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum' constraint."
+9,"{""id"": 1, ""due_date"": ""tomorrow""}",4xx,"due_date='tomorrow' is not in enum {'0','overdue','week','month','next_month_and_previous_two_weeks'}."
+10,"{""id"": 1, ""created_after"": ""2021-02-30T07:60:15Z""}",4xx,created_after='2021-02-30T07:60:15Z' does not match format date-time.
+11,"{""id"": 1, ""iids[]"": [""abc"", 2]}",4xx,"iids[][0]='abc' is not parseable as integer, violating 'type=integer' for array items."

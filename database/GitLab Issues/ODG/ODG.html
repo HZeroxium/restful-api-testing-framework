@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects", "label": "get-/projects", "shape": "dot", "title": "get-/projects"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects", "label": "post-/projects", "shape": "dot", "title": "post-/projects"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/issues", "label": "get-/issues", "shape": "dot", "title": "get-/issues"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/issues/{id}", "label": "get-/issues/{id}", "shape": "dot", "title": "get-/issues/{id}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/groups", "label": "get-/groups", "shape": "dot", "title": "get-/groups"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/groups", "label": "post-/groups", "shape": "dot", "title": "post-/groups"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/groups/{id}/issues", "label": "get-/groups/{id}/issues", "shape": "dot", "title": "get-/groups/{id}/issues"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues", "label": "get-/projects/{id}/issues", "shape": "dot", "title": "get-/projects/{id}/issues"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues", "label": "post-/projects/{id}/issues", "shape": "dot", "title": "post-/projects/{id}/issues"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}", "label": "get-/projects/{id}/issues/{issue_iid}", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "put-/projects/{id}/issues/{issue_iid}", "label": "put-/projects/{id}/issues/{issue_iid}", "shape": "dot", "title": "put-/projects/{id}/issues/{issue_iid}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "delete-/projects/{id}/issues/{issue_iid}", "label": "delete-/projects/{id}/issues/{issue_iid}", "shape": "dot", "title": "delete-/projects/{id}/issues/{issue_iid}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "put-/projects/{id}/issues/{issue_iid}/reorder", "label": "put-/projects/{id}/issues/{issue_iid}/reorder", "shape": "dot", "title": "put-/projects/{id}/issues/{issue_iid}/reorder"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/move", "label": "post-/projects/{id}/issues/{issue_iid}/move", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/move"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/subscribe", "label": "post-/projects/{id}/issues/{issue_iid}/subscribe", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/subscribe"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/unsubscribe", "label": "post-/projects/{id}/issues/{issue_iid}/unsubscribe", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/unsubscribe"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/todo", "label": "post-/projects/{id}/issues/{issue_iid}/todo", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/todo"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/time_estimate", "label": "post-/projects/{id}/issues/{issue_iid}/time_estimate", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/time_estimate"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate", "label": "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/add_spent_time", "label": "post-/projects/{id}/issues/{issue_iid}/add_spent_time", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/add_spent_time"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/reset_spent_time", "label": "post-/projects/{id}/issues/{issue_iid}/reset_spent_time", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/reset_spent_time"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}/time_stats", "label": "get-/projects/{id}/issues/{issue_iid}/time_stats", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}/time_stats"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests", "label": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}/closed_by", "label": "get-/projects/{id}/issues/{issue_iid}/closed_by", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}/closed_by"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}/participants", "label": "get-/projects/{id}/issues/{issue_iid}/participants", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}/participants"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/projects/{id}/issues/{issue_iid}/metric_images", "label": "get-/projects/{id}/issues/{issue_iid}/metric_images", "shape": "dot", "title": "get-/projects/{id}/issues/{issue_iid}/metric_images"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/projects/{id}/issues/{issue_iid}/metric_images", "label": "post-/projects/{id}/issues/{issue_iid}/metric_images", "shape": "dot", "title": "post-/projects/{id}/issues/{issue_iid}/metric_images"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e delete-/projects/{id}/issues/{issue_iid}", "to": "delete-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e delete-/projects/{id}/issues/{issue_iid}", "to": "delete-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues/{issue_iid}/subscribe", "to": "post-/projects/{id}/issues/{issue_iid}/subscribe"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/subscribe", "to": "post-/projects/{id}/issues/{issue_iid}/subscribe"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/reset_time_estimate", "to": "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/reset_time_estimate", "to": "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e put-/projects/{id}/issues/{issue_iid}", "to": "put-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e put-/projects/{id}/issues/{issue_iid}", "to": "put-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e post-/projects/{id}/issues/{issue_iid}/move", "to": "post-/projects/{id}/issues/{issue_iid}/move"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/move", "to": "post-/projects/{id}/issues/{issue_iid}/move"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/projects/{id}/issues", "to": "get-/projects/{id}/issues"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects/{id}/issues", "to": "get-/projects/{id}/issues"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues/{issue_iid}/unsubscribe", "to": "post-/projects/{id}/issues/{issue_iid}/unsubscribe"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e post-/projects/{id}/issues/{issue_iid}/unsubscribe", "to": "post-/projects/{id}/issues/{issue_iid}/unsubscribe"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues/{issue_iid}/reset_spent_time", "to": "post-/projects/{id}/issues/{issue_iid}/reset_spent_time"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/reset_spent_time", "to": "post-/projects/{id}/issues/{issue_iid}/reset_spent_time"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/projects/{id}/issues/{issue_iid}/closed_by", "to": "get-/projects/{id}/issues/{issue_iid}/closed_by"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e get-/projects/{id}/issues/{issue_iid}/closed_by", "to": "get-/projects/{id}/issues/{issue_iid}/closed_by"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects", "to": "get-/projects"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e post-/projects/{id}/issues/{issue_iid}/add_spent_time", "to": "post-/projects/{id}/issues/{issue_iid}/add_spent_time"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/add_spent_time", "to": "post-/projects/{id}/issues/{issue_iid}/add_spent_time"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e put-/projects/{id}/issues/{issue_iid}/reorder", "to": "put-/projects/{id}/issues/{issue_iid}/reorder"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e put-/projects/{id}/issues/{issue_iid}/reorder", "to": "put-/projects/{id}/issues/{issue_iid}/reorder"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/projects/{id}/issues/{issue_iid}/metric_images", "to": "get-/projects/{id}/issues/{issue_iid}/metric_images"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e get-/projects/{id}/issues/{issue_iid}/metric_images", "to": "get-/projects/{id}/issues/{issue_iid}/metric_images"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues/{issue_iid}/time_estimate", "to": "post-/projects/{id}/issues/{issue_iid}/time_estimate"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e get-/projects/{id}/issues/{issue_iid}/time_stats", "to": "get-/projects/{id}/issues/{issue_iid}/time_stats"}, {"arrows": "to", "from": "get-/projects/{id}/issues/{issue_iid}/time_stats", "title": "get-/projects/{id}/issues/{issue_iid}/time_stats -\u003e post-/projects/{id}/issues/{issue_iid}/time_estimate", "to": "post-/projects/{id}/issues/{issue_iid}/time_estimate"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/projects/{id}/issues/{issue_iid}", "to": "get-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects/{id}/issues/{issue_iid}", "to": "get-/projects/{id}/issues/{issue_iid}"}, {"arrows": "to", "from": "post-/groups", "title": "post-/groups -\u003e get-/groups", "to": "get-/groups"}, {"arrows": "to", "from": "get-/groups", "title": "get-/groups -\u003e get-/groups/{id}/issues", "to": "get-/groups/{id}/issues"}, {"arrows": "to", "from": "post-/groups", "title": "post-/groups -\u003e get-/groups/{id}/issues", "to": "get-/groups/{id}/issues"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/todo", "to": "post-/projects/{id}/issues/{issue_iid}/todo"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/todo", "to": "post-/projects/{id}/issues/{issue_iid}/todo"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/issues/{id}", "to": "get-/issues/{id}"}, {"arrows": "to", "from": "post-/projects/{id}/issues/{issue_iid}/todo", "title": "post-/projects/{id}/issues/{issue_iid}/todo -\u003e get-/projects/{id}/issues/{issue_iid}/participants", "to": "get-/projects/{id}/issues/{issue_iid}/participants"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects/{id}/issues/{issue_iid}/participants", "to": "get-/projects/{id}/issues/{issue_iid}/participants"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects/{id}/issues/{issue_iid}/time_stats", "to": "get-/projects/{id}/issues/{issue_iid}/time_stats"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e get-/projects/{id}/issues/{issue_iid}/related_merge_requests", "to": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e get-/projects/{id}/issues/{issue_iid}/related_merge_requests", "to": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues", "to": "post-/projects/{id}/issues"}, {"arrows": "to", "from": "post-/projects", "title": "post-/projects -\u003e post-/projects/{id}/issues", "to": "post-/projects/{id}/issues"}, {"arrows": "to", "from": "get-/issues", "title": "get-/issues -\u003e post-/projects/{id}/issues/{issue_iid}/metric_images", "to": "post-/projects/{id}/issues/{issue_iid}/metric_images"}, {"arrows": "to", "from": "get-/projects", "title": "get-/projects -\u003e post-/projects/{id}/issues/{issue_iid}/metric_images", "to": "post-/projects/{id}/issues/{issue_iid}/metric_images"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.5,
+            "damping": 0.09,
+            "gravitationalConstant": -9000,
+            "springConstant": 0.1,
+            "springLength": 180
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

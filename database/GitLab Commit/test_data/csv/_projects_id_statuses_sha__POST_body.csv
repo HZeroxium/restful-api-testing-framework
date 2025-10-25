@@ -1,0 +1,16 @@
+index,data,expected_status_code,reason
+1,"{""state"": ""success"", ""ref"": ""main"", ""target_url"": ""https://ci.example.com/build/123"", ""description"": ""Build passed"", ""name"": ""ci/build"", ""context"": ""ci/build"", ""coverage"": 98.5, ""pipeline_id"": 42}",2xx,All fields are present and valid; 'state' is in the allowed enum; optional fields match their types.
+2,"{""state"": ""pending""}",2xx,'state' is present and in the allowed enum; all optional fields are omitted as allowed.
+3,"{""state"": ""success"", ""ref"": ""main"", ""target_url"": ""https://ci.example.com/build/123"", ""description"": ""Build passed"", ""name"": ""ci/build"", ""context"": ""ci/build"", ""coverage"": 98.5, ""pipeline_id"": 42}",2xx,All fields are present and valid; 'state' is in the allowed enum; optional fields match their types.
+4,"{""state"": ""pending""}",2xx,'state' is present and in the allowed enum; all optional fields are omitted as allowed.
+5,"{""state"": ""success"", ""ref"": ""main"", ""target_url"": ""https://ci.example.com/build/123"", ""description"": ""Build passed"", ""name"": ""ci/build"", ""context"": ""ci/build"", ""coverage"": 98.5, ""pipeline_id"": 42}",2xx,All fields are present and valid; 'state' is in the allowed enum; optional fields match their types.
+6,"{""state"": ""pending""}",2xx,'state' is present and in the allowed enum; all optional fields are omitted as allowed.
+7,"{""state"": ""success"", ""ref"": ""main"", ""target_url"": ""https://ci.example.com/build/123"", ""description"": ""Build passed"", ""name"": ""ci/build"", ""context"": ""ci/build"", ""coverage"": 98.5, ""pipeline_id"": 42}",2xx,All fields are present and valid; 'state' is in the allowed enum; optional fields match their types.
+8,"{""ref"": ""main"", ""description"": ""Missing state""}",4xx,"'state' is required but missing, violating 'required'."
+9,"{""state"": ""in_progress"", ""ref"": ""main""}",4xx,"state='in_progress' is not in enum {'pending', 'running', 'success', 'failed', 'canceled'}."
+10,"{""state"": ""failed"", ""coverage"": ""high"", ""pipeline_id"": ""not_an_int""}",4xx,"coverage='high' is not a number, violating 'type=number'; pipeline_id='not_an_int' is not parseable as integer, violating 'type=integer'."
+11,"{""state"": ""unknown""}",4xx,"state='unknown' is not in enum {pending, running, success, failed, canceled}."
+12,"{""state"": ""success"", ""pipeline_id"": ""not-an-integer""}",4xx,"pipeline_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+13,"{""state"": ""failed"", ""coverage"": ""not-a-number""}",4xx,"coverage='not-a-number' is not parseable as number, violating 'type=number'."
+14,"{""state"": ""canceled"", ""pipeline_id"": 2147483649}",4xx,"pipeline_id=2147483649 exceeds int32 maximum (2147483647), violating 'format=int32'."
+15,"{""state"": ""invalid"", ""pipeline_id"": ""bad"", ""coverage"": ""NaN""}",4xx,"state='invalid' is not in enum {pending, running, success, failed, canceled}; pipeline_id='bad' is not parseable as integer; coverage='NaN' is not parseable as number."

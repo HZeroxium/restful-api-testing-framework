@@ -1,0 +1,2 @@
+test_case_id,step_number,endpoint,method,test_data_row,reason,request_params,request_body,final_url,response_status,expected_status,execution_time,status
+_api_v1_Stages_GET_0_1,1,get-/api/v1/Stages,GET,1,,{},{},https://bills-api.parliament.uk/api/v1/Stages,200,2xx,0.621s,PASS

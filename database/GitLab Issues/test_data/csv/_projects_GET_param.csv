@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""order_by"": ""created_at"", ""sort"": ""asc"", ""visibility"": ""public"", ""min_access_level"": 30, ""archived"": true, ""last_activity_after"": ""2023-12-01T10:00:00Z""}",2xx,All provided fields are within their allowed types and enums; last_activity_after matches format date-time.
+2,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+3,"{""sort"": ""descending""}",4xx,"sort='descending' is not in enum {'asc', 'desc'}."
+4,"{""last_activity_before"": ""2024-06-01T25:61:00Z""}",4xx,last_activity_before='2024-06-01T25:61:00Z' does not match format date-time (invalid hour/minute).
+5,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+6,"{""archived"": ""tru""}",4xx,"archived='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+7,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query parameter."
+8,"{""order_by"": ""foobar""}",4xx,"order_by='foobar' is not in enum {id, name, path, created_at, updated_at, last_activity_at, repository_size, storage_size, packages_size, wiki_size}."
+9,"{""last_activity_after"": ""2021-02-30T25:61:61Z""}",4xx,last_activity_after='2021-02-30T25:61:61Z' does not match format date-time (ISO 8601).
+10,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."

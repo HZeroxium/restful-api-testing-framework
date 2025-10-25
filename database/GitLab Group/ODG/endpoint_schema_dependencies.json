@@ -1,0 +1,184 @@
+{
+  "get-/groups/{id}": {
+    "Hook": {
+      "id": "id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "Namespace": {
+      "id": "id"
+    }
+  },
+  "put-/groups/{id}": {
+    "Hook": {
+      "id": "id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "Namespace": {
+      "id": "id"
+    }
+  },
+  "delete-/groups/{id}": {
+    "Hook": {
+      "id": "id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "Namespace": {
+      "id": "id"
+    }
+  },
+  "post-/groups/{id}/share": {
+    "Group": {
+      "group_id": "id"
+    }
+  },
+  "delete-/groups/{id}/share/{group_id}": {
+    "Hook": {
+      "id": "id",
+      "group_id": "group_id"
+    },
+    "SharedProject": {
+      "id": "id"
+    },
+    "Namespace": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/subgroups": {
+    "Group": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/hooks": {
+    "Hook": {
+      "id": "id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    }
+  },
+  "post-/groups/{id}/hooks": {
+    "Hook": {
+      "id": "id",
+      "url": "url"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/hooks/{hook_id}": {
+    "Hook": {
+      "hook_id": "id",
+      "id": "group_id"
+    },
+    "Group": {
+      "id": "id"
+    }
+  },
+  "put-/groups/{id}/hooks/{hook_id}": {
+    "Hook": {
+      "hook_id": "id",
+      "url": "url",
+      "id": "group_id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    }
+  },
+  "delete-/groups/{id}/hooks/{hook_id}": {
+    "Hook": {
+      "id": "id",
+      "hook_id": "id",
+      "group_id": "group_id"
+    },
+    "Group": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/descendant_groups": {
+    "Group": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/projects": {
+    "Project": {
+      "id": "id"
+    },
+    "SharedProject": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    },
+    "Group": {
+      "id": "id"
+    }
+  },
+  "post-/groups/{id}/projects/{project_id}": {
+    "Project": {
+      "id": "id",
+      "project_id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    },
+    "SharedProject": {
+      "project_id": "id"
+    },
+    "Group": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/projects/shared": {
+    "Project": {
+      "id": "id"
+    },
+    "SharedProject": {
+      "id": "id"
+    },
+    "GroupDetails": {
+      "id": "id"
+    }
+  }
+}

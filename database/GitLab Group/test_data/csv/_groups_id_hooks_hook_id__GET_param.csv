@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1001, ""hook_id"": 2002}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or hook IDs available from producer endpoints, examples, or fixtures."
+2,"{""id"": ""abc"", ""hook_id"": 2002}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 1001, ""hook_id"": ""xyz""}",4xx,"hook_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 1001}",4xx,"hook_id is required but missing, violating 'required' for path parameter."
+5,"{""hook_id"": 2002}",4xx,"id is required but missing, violating 'required' for path parameter."
+6,"{""id"": ""abc"", ""hook_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 456, ""hook_id"": ""xyz""}",4xx,"hook_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""notanint"", ""hook_id"": ""notanint""}",4xx,"id='notanint' and hook_id='notanint' are not parseable as integer, violating 'type=integer' for both path parameters."
+9,"{""id"": ""12x"", ""hook_id"": ""34y""}",4xx,"id='12x' and hook_id='34y' are not parseable as integer, violating 'type=integer' for both path parameters."
+10,"{""id"": ""!"", ""hook_id"": ""@""}",4xx,"id='!' and hook_id='@' are not parseable as integer, violating 'type=integer' for both path parameters."

@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers."", ""avatar"": ""devops.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
+2,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+3,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."
+4,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 12345}",4xx,"'avatar' has type integer but the spec requires string (format: file), violating 'type'."
+5,"{""name"": 789, ""path"": ""data-science""}",4xx,"'name' has type integer but the spec requires string, violating 'type'."
+6,"{""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."
+7,"{""name"": ""Test Group"", ""description"": ""A test group"", ""avatar"": ""avatar.png""}",4xx,"path is required but missing, violating 'required'."
+8,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""not_a_file_string""}",4xx,avatar='not_a_file_string' does not match format 'file'.
+9,"{""name"": 12345, ""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""avatar.png""}",4xx,name=12345 has type integer but the spec requires string (type mismatch).
+10,"{""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""not_a_file_string""}",4xx,"name is required but missing, violating 'required'; avatar='not_a_file_string' does not match format 'file'."
+11,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."

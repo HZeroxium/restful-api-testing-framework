@@ -1,0 +1,19 @@
+[
+  "post-/pet",
+  "post-/user",
+  "post-/store/order",
+  "put-/pet",
+  "get-/pet/{petId}",
+  "post-/pet/{petId}/uploadImage",
+  "post-/user/createWithList",
+  "get-/user/login",
+  "get-/store/order/{orderId}",
+  "get-/pet/findByStatus",
+  "get-/pet/findByTags",
+  "post-/pet/{petId}",
+  "get-/user/{username}",
+  "put-/user/{username}",
+  "delete-/user/{username}",
+  "delete-/store/order/{orderId}",
+  "delete-/pet/{petId}"
+]

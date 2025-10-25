@@ -1,0 +1,429 @@
+{
+  "get-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    }
+  },
+  "post-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "parameters": {
+      "name": "string (description: The name of the new project. Either path or name is required, not both)"
+    },
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "string",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    }
+  },
+  "get-/projects/{id}/repository/tree": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "PRIVATE_TOKEN": "string (description: You can find or reset your private token in your account page)",
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)"
+    },
+    "responseBody": {
+      "schema of FileTree": {
+        "id": "string",
+        "mode": "string",
+        "name": "string",
+        "path": "string",
+        "type": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The blob SHA)"
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}/raw": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The blob SHA)"
+    }
+  },
+  "get-/projects/{id}/repository/archive": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)"
+    }
+  },
+  "get-/projects/{id}/repository/compare": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "from": "string (description: The commit SHA or branch name)",
+      "to": "string (description: The commit SHA or branch name)"
+    },
+    "responseBody": {
+      "schema of Compare": {
+        "commit": {
+          "schema of RepoCommit": {
+            "authored_date": "string",
+            "author_name": "string",
+            "author_email": "string",
+            "committer_email": "string",
+            "committer_name": "string",
+            "committer_date": "string",
+            "created_at": "string",
+            "id": "string",
+            "message": "string",
+            "short_id": "string",
+            "title": "string",
+            "parent_ids": "array"
+          }
+        },
+        "commits": {
+          "array of RepoCommit objects": [
+            null
+          ]
+        },
+        "compare_same_ref": "string",
+        "compare_timeout": "string",
+        "diffs": {
+          "schema of RepoDiff": {
+            "a_mode": "string",
+            "b_mode": "string",
+            "deleted_file": "string",
+            "diff": "string",
+            "new_file": "string",
+            "new_path": "string",
+            "old_path": "string",
+            "renamed_file": "string"
+          }
+        }
+      }
+    }
+  },
+  "get-/projects/{id}/repository/contributors": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)"
+    },
+    "responseBody": {
+      "schema of Contributors": {
+        "additions": "string",
+        "commits": "string",
+        "deletions": "string",
+        "email": "string",
+        "name": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/merge_base": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "refs": "array (description: The refs to find the common ancestor of, multiple refs can be passed)"
+    },
+    "responseBody": {
+      "schema of MergeBase": {
+        "author_email": "string",
+        "author_name": "string",
+        "authored_date": "string",
+        "committed_date": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "parent_ids": "array",
+        "short_id": "string",
+        "title": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/changelog": {
+    "tags": [
+      "Repositories"
+    ],
+    "parameters": {
+      "id": "integer (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "version": "string (description: The version to generate the changelog for. The format must follow semantic versioning)"
+    }
+  }
+}

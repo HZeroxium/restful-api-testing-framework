@@ -1,0 +1,15 @@
+index,data,expected_status_code,reason
+1,"{""Skip"": 0, ""Take"": 10}",2xx,"Skip and Take are both integers, satisfying 'type=integer' for query parameters."
+2,"{""Take"": 2147483647}",2xx,"Take is a valid int32 integer, satisfying 'type=integer' for query parameter."
+3,{},2xx,No query parameters provided; all fields are optional and none are required.
+4,"{""Skip"": ""abc"", ""Take"": 5}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+5,"{""Skip"": 3.14}",4xx,"Skip=3.14 is a float, not an integer, violating 'type=integer' for query parameter."
+6,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+7,"{""Take"": ""xyz""}",4xx,"Take='xyz' is not parseable as integer, violating 'type=integer' for query/parseability."
+8,"{""Skip"": ""12.5""}",4xx,"Skip='12.5' is not parseable as integer, violating 'type=integer' for query/parseability."
+9,"{""Take"": ""false""}",4xx,"Take='false' is not parseable as integer, violating 'type=integer' for query/parseability."
+10,"{""Skip"": ""one"", ""Take"": ""two""}",4xx,"Skip='one' and Take='two' are not parseable as integer, violating 'type=integer' for query/parseability."
+11,"{""Skip"": -9999999.0, ""Take"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""Skip"": ""123456"", ""Take"": 10}",4xx,"Skip and Take are both integers, satisfying 'type=integer' for query parameters."
+13,"{""Skip"": 0, ""Take"": ""123456""}",4xx,"Skip and Take are both integers, satisfying 'type=integer' for query parameters."
+14,"{""Skip"": ""123456"", ""Take"": ""123456""}",4xx,"Skip and Take are both integers, satisfying 'type=integer' for query parameters."

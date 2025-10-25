@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""archived"": true, ""order_by"": ""created_at"", ""sort"": ""desc"", ""visibility"": ""public""}",2xx,archived is a valid boolean; order_by and sort are in their allowed enums; visibility is in its allowed enum.
+2,"{""last_activity_after"": ""2024-06-01T12:34:56Z"", ""last_activity_before"": ""2024-06-30T23:59:59Z"", ""membership"": false, ""search"": ""gitlab""}",2xx,last_activity_after and last_activity_before match format date-time; membership is a valid boolean; search is a valid string.
+3,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0, 10, 20, 30, 40, 50]."
+4,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+5,"{""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum ['asc', 'desc']."
+6,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0, 10, 20, 30, 40, 50], violating 'enum'."
+7,"{""order_by"": ""foobar""}",4xx,"order_by='foobar' is not in enum ['id', 'name', 'path', 'created_at', 'updated_at', 'last_activity_at', 'repository_size', 'storage_size', 'packages_size', 'wiki_size'], violating 'enum'."
+8,"{""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum ['asc', 'desc'], violating 'enum'."
+9,"{""visibility"": ""protected""}",4xx,"visibility='protected' is not in enum ['public', 'internal', 'private'], violating 'enum'."
+10,"{""last_activity_after"": ""2021-02-30T25:61:61Z""}",4xx,"last_activity_after='2021-02-30T25:61:61Z' does not match format date-time, violating 'format'."

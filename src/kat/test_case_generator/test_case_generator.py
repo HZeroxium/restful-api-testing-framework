@@ -3,6 +3,7 @@ import copy
 import logging
 import re
 import sys
+from typing import Dict
 
 from kat.operation_dependency_graph.odg_generator import ODGGenerator
 from .response_validation_utils import *
@@ -67,7 +68,16 @@ class ObjectRepoGenerator:
         self.collection = collection
         self.object_repo_name = "API"
 class TestCaseGenerator():
-    def __init__(self, service_name, collection, selected_endpoints=None, save_prompts=True, regenerate_test_data=False, data_generation_mode="all", clear_test_cases=True) -> None:
+    def __init__(
+        self, service_name, collection, 
+        selected_endpoints=None, 
+        save_prompts=True, 
+        regenerate_test_data=False,
+        data_generation_mode="all", 
+        clear_test_cases=True,
+        headers: Dict[str, str] = None
+        ) -> None:
+        self.headers = headers
         self.save_prompts = save_prompts
         self.service_name = service_name
         self.collection = collection
@@ -483,7 +493,7 @@ class TestCaseGenerator():
         
     def generate_test_data(self, endpoints):
         data_generator = TestDataGenerator(swagger_spec=self.swagger_spec, service_name=self.service_name, collection=self.collection, selected_endpoints=endpoints, generation_mode=self.data_generation_mode,
-                                           working_directory=self.test_data_working_directory)
+                                           working_directory=self.test_data_working_directory, headers=self.headers)
         data_generator.filter_params_w_descr()
         data_generator.generateData()
         
@@ -545,7 +555,8 @@ class TestCaseGenerator():
             selected_endpoints=endpoints,
             generation_mode=self.data_generation_mode,
             working_directory=self.test_data_working_directory,
-            odg_dir = self.odg_dir
+            odg_dir = self.odg_dir,
+            headers=self.headers
         )
         data_generator.filter_params_w_descr()
         data_generator.generateData()

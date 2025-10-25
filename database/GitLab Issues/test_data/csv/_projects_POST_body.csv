@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""1 week"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*delete.*"", ""name_regex_keep"": "".*keep.*"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All fields are present and match their required types; next_run_at matches format date-time.
+2,"{""cadence"": ""weekly""}",2xx,cadence is a string and matches its type; all other fields are optional and omitted.
+3,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'."
+4,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+5,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time.
+6,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (type mismatch).
+7,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (type mismatch).
+8,"{""keep_n"": ""ten""}",4xx,keep_n='ten' has type string but the spec requires integer (type mismatch).
+9,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+10,"{""cadence"": 0, ""enabled"": ""tru"", ""keep_n"": ""NaN"", ""older_than"": 999, ""name_regex"": false, ""name_regex_delete"": [], ""name_regex_keep"": {}, ""next_run_at"": ""2021-02-30T25:61:61Z""}",4xx,All provided fields violate their type or format constraints: cadence=0 is integer not string; enabled='tru' is string not boolean; keep_n='NaN' is string not integer; older_than=999 is integer not string; name_regex=false is boolean not string; name_regex_delete=[] is array not string; name_regex_keep={} is object not string; next_run_at='2021-02-30T25:61:61Z' does not match format date-time.

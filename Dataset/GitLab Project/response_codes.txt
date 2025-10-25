@@ -1,0 +1,247 @@
+DELETE /projects/{id}
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+DELETE /projects/{id}/fork
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+DELETE /projects/{id}/hooks/{hook_id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+DELETE /projects/{id}/share/{group_id}
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/forks
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/hooks
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/hooks/{hook_id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/languages
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/snapshot
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/starrers
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/users
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /users/{user_id}/projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /users/{user_id}/starred_projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/user/{user_id}
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/archive
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/fork
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/fork/{forked_from_id}
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/hooks
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/housekeeping
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/restore
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/share
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/star
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/unarchive
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/unstar
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/uploads
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /projects/{id}
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /projects/{id}/hooks/{hook_id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /projects/{id}/transfer
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default

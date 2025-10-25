@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""type"": ""branch""}",2xx,"id and sha are valid strings from context; type='branch' is in the allowed enum ['branch','tag','all']."
+2,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""type"": ""tag""}",2xx,"id and sha are valid strings from context; type='tag' is in the allowed enum ['branch','tag','all']."
+3,"{""id"": ""root/MyProject"", ""sha"": ""main""}",2xx,"id and sha are valid strings from context; type is omitted, so default 'all' applies and is valid."
+4,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""type"": ""invalid""}",4xx,"type='invalid' is not in enum ['branch','tag','all'], violating 'enum'."
+5,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""type"": ""123""}",4xx,"type='123' is not in enum ['branch','tag','all'], violating 'enum'."
+6,"{""id"": ""3"", ""sha"": ""main"", ""type"": ""branches""}",4xx,"type='branches' is not in enum {'branch', 'tag', 'all'}."
+7,"{""id"": ""MyProject"", ""sha"": ""main"", ""type"": ""tags""}",4xx,"type='tags' is not in enum {'branch', 'tag', 'all'}."
+8,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""type"": ""everything""}",4xx,"type='everything' is not in enum {'branch', 'tag', 'all'}."
+9,"{""id"": ""3"", ""sha"": ""main"", ""type"": """"}",4xx,"type='' is not in enum {'branch', 'tag', 'all'}."
+10,"{""id"": ""MyProject"", ""sha"": ""main"", ""type"": ""123""}",4xx,"type='123' is not in enum {'branch', 'tag', 'all'}."

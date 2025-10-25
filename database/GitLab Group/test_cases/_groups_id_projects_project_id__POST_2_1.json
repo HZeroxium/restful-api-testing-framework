@@ -1,0 +1,101 @@
+{
+  "test_case": {
+    "id": "_groups_id_projects_project_id__POST_2_1",
+    "name": "_groups_id_projects_project_id__POST_2_1",
+    "description": "Test case for endpoint post-/groups/{id}/projects/{project_id}",
+    "endpoint": "post-/groups/{id}/projects/{project_id}",
+    "sequence_index": 2,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/groups",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {
+          "visibility": null,
+          "share_with_group_lock": null,
+          "require_two_factor_authentication": null,
+          "two_factor_grace_period": null,
+          "project_creation_level": null,
+          "auto_devops_enabled": null,
+          "subgroup_creation_level": null,
+          "emails_disabled": null,
+          "mentions_disabled": null,
+          "lfs_enabled": null,
+          "request_access_enabled": null,
+          "parent_id": null,
+          "default_branch_protection": null,
+          "shared_runners_setting": null
+        },
+        "request_body": {
+          "name": "string",
+          "path": "string",
+          "description": "string",
+          "avatar": "string"
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "post-/groups/{id}/share",
+        "method": "POST",
+        "path_variables": {
+          "id": null
+        },
+        "query_parameters": {
+          "group_id": null,
+          "group_access": null,
+          "expires_at": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "group_id": {
+            "from_step": 1,
+            "field_mappings": {
+              "group_id": "id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
+        "endpoint": "post-/groups/{id}/projects/{project_id}",
+        "method": "POST",
+        "path_variables": {
+          "id": null,
+          "project_id": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 2,
+            "field_mappings": {
+              "id": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

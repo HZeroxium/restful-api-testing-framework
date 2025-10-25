@@ -24,31 +24,38 @@ try:
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
     
     # Khởi tạo generator với service name và collection name
+    gitlab_headers = {
+        "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    }
+    list_services = ["GitLab Branch", "GitLab Issues", "GitLab Group", "GitLab Project", "GitLab Repository"]
+    service = "Pet Store"
+            
     generator = TestCaseGenerator(
-        service_name="Canada Holidays",
+        service_name=service,
         collection="Default",
         save_prompts=True,
-        regenerate_test_data=True,  # Force regenerate với prompt mới
+        regenerate_test_data=False,  # Force regenerate với prompt mới
         data_generation_mode="all",
         clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
+        headers=gitlab_headers
     )
-
+    generator.generate_test_cases()
     # generator.generate_test_data_for(generator.get_endpoints())
-    # generator.generate_test_cases()
-    # generator = TestCaseGenerator(
-    #     service_name="Bill",
-    #     collection="Default",
-    #     save_prompts=True,
-    #     data_generation_mode="all"
-    # )
-    generator.generate_test_data_for(generator.get_endpoints())
+    # for service in list_services:
+        
+    #     generator = TestCaseGenerator(
+    #         service_name=service,
+    #         collection="Default",
+    #         save_prompts=True,
+    #         regenerate_test_data=True,  # Force regenerate với prompt mới
+    #         data_generation_mode="all",
+    #         clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
+    #         headers=gitlab_headers
+    #     )
+    #     generator.generate_test_cases()
+    #     generator.generate_test_data_for(generator.get_endpoints())
 
-    # get-/api/v1/Bills
-    # get-/api/v1/Bills/{billId}/NewsArticles	
-    # Chạy generator - chỉ generate test data, không xóa test cases hiện có
-
-    # generator.generate_test_data_for(generator.get_endpoints())
-    # generator.generate_test_cases()
+   
     print("✅ Generator completed successfully!")
 
     

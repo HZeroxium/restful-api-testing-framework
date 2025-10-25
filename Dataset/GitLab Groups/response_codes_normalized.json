@@ -1,0 +1,291 @@
+{
+  "get-/groups": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/groups": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/groups/{id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/groups/{id}": {
+    "status_codes": [
+      "202",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "202"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/groups/{id}/share": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/groups/{id}/share/{group_id}": {
+    "status_codes": [
+      "204",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/subgroups": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/hooks": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/groups/{id}/hooks": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/groups/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/groups/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "204",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/descendant_groups": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/projects": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/groups/{id}/projects/{project_id}": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/groups/{id}/projects/shared": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  }
+}

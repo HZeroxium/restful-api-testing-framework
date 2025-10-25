@@ -1,0 +1,134 @@
+{
+  "get-/projects": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/repository/branches": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/repository/branches": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/branches/{branch}": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/projects/{id}/repository/branches/{branch}": {
+    "status_codes": [
+      "202"
+    ],
+    "by_class": {
+      "2xx": [
+        "202"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/protected_branches": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/projects/{id}/protected_branches/{name}": {
+    "status_codes": [
+      "202"
+    ],
+    "by_class": {
+      "2xx": [
+        "202"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/projects/{id}/repository/merged_branches": {
+    "status_codes": [
+      "202"
+    ],
+    "by_class": {
+      "2xx": [
+        "202"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<node id="get-/projects/{id}/repository/commits"/>
+<node id="post-/projects/{id}/repository/commits/{sha}/revert"/>
+<node id="post-/projects/{id}/repository/commits"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<node id="post-/projects/{id}/statuses/{sha}"/>
+<node id="get-/projects/{id}/repository/commits/{sha}"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/comments"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/discussions"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/merge_requests"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="get-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="post-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="get-/projects/{id}/repository/commits/{sha}"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="get-/projects/{id}/repository/commits" target="post-/projects/{id}/repository/commits"/>
+<edge source="get-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}"/>
+<edge source="get-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="get-/projects/{id}/repository/commits" target="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<edge source="get-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="get-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="post-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="get-/projects/{id}/repository/commits/{sha}"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="post-/projects/{id}/repository/commits" target="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<edge source="post-/projects/{id}/repository/commits" target="post-/projects/{id}/repository/commits/{sha}/revert"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/comments"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/discussions"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/merge_requests"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}/statuses" target="post-/projects/{id}/repository/commits"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}/statuses" target="post-/projects/{id}/statuses/{sha}"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}/statuses" target="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<edge source="post-/projects/{id}/statuses/{sha}" target="post-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/statuses/{sha}" target="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<edge source="post-/projects/{id}/statuses/{sha}" target="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="post-/projects/{id}/repository/commits/{sha}/revert"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/comments"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/discussions"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/merge_requests"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}/merge_requests" target="post-/projects/{id}/statuses/{sha}"/>
+</graph></graphml>

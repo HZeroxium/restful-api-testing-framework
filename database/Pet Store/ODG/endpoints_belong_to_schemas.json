@@ -1,0 +1,38 @@
+{
+  "Category": [
+    "put-/pet",
+    "post-/pet",
+    "get-/pet/findByStatus",
+    "get-/pet/findByTags",
+    "get-/pet/{petId}",
+    "post-/pet/{petId}"
+  ],
+  "Pet": [
+    "put-/pet",
+    "post-/pet",
+    "get-/pet/findByStatus",
+    "get-/pet/findByTags",
+    "get-/pet/{petId}",
+    "post-/pet/{petId}"
+  ],
+  "Tag": [
+    "put-/pet",
+    "post-/pet",
+    "get-/pet/findByStatus",
+    "get-/pet/findByTags",
+    "get-/pet/{petId}",
+    "post-/pet/{petId}"
+  ],
+  "ApiResponse": [
+    "post-/pet/{petId}/uploadImage"
+  ],
+  "Order": [
+    "post-/store/order",
+    "get-/store/order/{orderId}"
+  ],
+  "User": [
+    "post-/user",
+    "post-/user/createWithList",
+    "get-/user/{username}"
+  ]
+}

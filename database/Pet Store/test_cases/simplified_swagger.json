@@ -1,0 +1,517 @@
+{
+  "put-/pet": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Update an existing pet.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet/updatePet",
+    "requestBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Request body data": "Data Files/_pet_updatePet_body"
+    }
+  },
+  "post-/pet": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Add a new pet to the store.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet/addPet",
+    "requestBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Request body data": "Data Files/_pet_addPet_body"
+    }
+  },
+  "get-/pet/findByStatus": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Finds Pets by status.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_findByStatus/findPetsByStatus",
+    "parameters": {
+      "status": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_findByStatus_findPetsByStatus_param"
+    }
+  },
+  "get-/pet/findByTags": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Finds Pets by tags.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_findByTags/findPetsByTags",
+    "parameters": {
+      "tags": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_findByTags_findPetsByTags_param"
+    }
+  },
+  "get-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Find pet by ID.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_petId_/getPetById",
+    "parameters": {
+      "petId": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_petId__getPetById_param"
+    }
+  },
+  "post-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Updates a pet in the store with form data.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_petId_/updatePetWithForm",
+    "parameters": {
+      "petId": "PATH VARIABLE",
+      "name": "QUERY PARAMETER",
+      "status": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_petId__updatePetWithForm_param"
+    }
+  },
+  "delete-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Deletes a pet.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_petId_/deletePet",
+    "parameters": {
+      "api_key": "QUERY PARAMETER",
+      "petId": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_petId__deletePet_param"
+    }
+  },
+  "post-/pet/{petId}/uploadImage": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Uploads an image.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_petId_uploadImage/uploadFile",
+    "parameters": {
+      "petId": "PATH VARIABLE",
+      "additionalMetadata": "QUERY PARAMETER"
+    },
+    "requestBody": "string",
+    "responseBody": {
+      "schema of ApiResponse": {
+        "code": "integer",
+        "type": "string",
+        "message": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_pet_petId_uploadImage_uploadFile_param",
+      "Request body data": "Data Files/_pet_petId_uploadImage_uploadFile_body"
+    }
+  },
+  "get-/store/inventory": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Returns pet inventories by status.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_store_inventory/getInventory",
+    "responseBody": "object",
+    "available_test_data": {}
+  },
+  "post-/store/order": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Place an order for a pet.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_store_order/placeOrder",
+    "requestBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string",
+        "complete": "boolean"
+      }
+    },
+    "responseBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string",
+        "complete": "boolean"
+      }
+    },
+    "available_test_data": {
+      "Request body data": "Data Files/_store_order_placeOrder_body"
+    }
+  },
+  "get-/store/order/{orderId}": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Find purchase order by ID.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_store_order_orderId_/getOrderById",
+    "parameters": {
+      "orderId": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string",
+        "complete": "boolean"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_store_order_orderId__getOrderById_param"
+    }
+  },
+  "delete-/store/order/{orderId}": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Delete purchase order by identifier.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_store_order_orderId_/deleteOrder",
+    "parameters": {
+      "orderId": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_store_order_orderId__deleteOrder_param"
+    }
+  },
+  "post-/user": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Create user.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user/createUser",
+    "requestBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      }
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      }
+    },
+    "available_test_data": {
+      "Request body data": "Data Files/_user_createUser_body"
+    }
+  },
+  "post-/user/createWithList": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Creates list of users with given input array.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_createWithList/createUsersWithListInput",
+    "requestBody": {
+      "id": "integer",
+      "username": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "password": "string",
+      "phone": "string",
+      "userStatus": "integer"
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      }
+    },
+    "available_test_data": {
+      "Request body data": "Data Files/_user_createWithList_createUsersWithListInput_body"
+    }
+  },
+  "get-/user/login": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Logs user into the system.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_login/loginUser",
+    "parameters": {
+      "username": "QUERY PARAMETER",
+      "password": "QUERY PARAMETER"
+    },
+    "responseBody": "integer",
+    "available_test_data": {
+      "Parameter data": "Data Files/_user_login_loginUser_param"
+    }
+  },
+  "get-/user/logout": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Logs out current logged in user session.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_logout/logoutUser",
+    "available_test_data": {}
+  },
+  "get-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Get user by user name.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_username_/getUserByName",
+    "parameters": {
+      "username": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_user_username__getUserByName_param"
+    }
+  },
+  "put-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Update user resource.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_username_/updateUser",
+    "parameters": {
+      "username": "PATH VARIABLE"
+    },
+    "requestBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_user_username__updateUser_param",
+      "Request body data": "Data Files/_user_username__updateUser_body"
+    }
+  },
+  "delete-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Delete user resource.",
+    "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_user_username_/deleteUser",
+    "parameters": {
+      "username": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_user_username__deleteUser_param"
+    }
+  }
+}

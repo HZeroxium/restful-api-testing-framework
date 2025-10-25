@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""MyProject"", ""sha"": ""e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1"", ""dry_run"": true}",2xx,id='MyProject' is a valid project path from context; sha='e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1' is a syntactically valid commit hash; dry_run=true is a valid boolean.
+2,"{""id"": ""3"", ""sha"": ""e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1""}",2xx,"id='3' is a valid project ID from context; sha='e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1' is a syntactically valid commit hash; dry_run omitted, defaults to false."
+3,"{""id"": ""3"", ""sha"": ""not-a-hash""}",2xx,id='3' is a valid project ID from context; sha='not-a-hash' is a string and satisfies the type constraint (no pattern/format specified).
+4,"{""id"": ""MyProject"", ""sha"": ""e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1"", ""dry_run"": ""tru""}",4xx,"dry_run='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."
+5,"{""id"": 3, ""sha"": ""e5b2c3a4d6f7b8c9e0a1b2c3d4e5f6a7b8c9d0e1""}",4xx,"id=3 is an integer, but the spec requires type=string for path parameter 'id' (type mismatch)."
+6,"{""id"": ""MyProject"", ""sha"": ""e5f6d7c8b9a0"", ""dry_run"": ""tru""}",4xx,"dry_run='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+7,"{""id"": ""MyProject"", ""sha"": ""e5f6d7c8b9a0"", ""dry_run"": ""yes""}",4xx,"dry_run='yes' is not parseable as boolean, violating 'type=boolean' for query parameter."
+8,"{""id"": ""MyProject"", ""sha"": ""e5f6d7c8b9a0"", ""dry_run"": ""1""}",4xx,"dry_run='1' is not parseable as boolean, violating 'type=boolean' for query parameter."
+9,"{""id"": ""MyProject"", ""sha"": ""e5f6d7c8b9a0"", ""dry_run"": ""abc""}",4xx,"dry_run='abc' is not parseable as boolean, violating 'type=boolean' for query parameter."
+10,"{""id"": ""MyProject"", ""sha"": ""e5f6d7c8b9a0"", ""dry_run"": ""maybe""}",4xx,"dry_run='maybe' is not parseable as boolean, violating 'type=boolean' for query parameter."

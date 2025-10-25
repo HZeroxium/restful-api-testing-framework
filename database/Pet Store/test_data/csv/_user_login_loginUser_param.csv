@@ -1,0 +1,29 @@
+index,data,expected_status_code,reason
+1,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,"Both 'username' and 'password' are present as strings, satisfying 'type=string' for both query parameters."
+2,"{""username"": ""jane_doe""}",2xx,"'username' is present as a string and 'password' is omitted (optional), satisfying all constraints."
+3,"{""password"": ""hunter2""}",2xx,"'password' is present as a string and 'username' is omitted (optional), satisfying all constraints."
+4,"{""username"": null, ""password"": null}",2xx,llm_success_ignore_optional
+5,"{""username"": ""theUser"", ""password"": null}",2xx,llm_success_ignore_optional
+6,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,llm_success_ignore_optional
+7,"{""username"": ""theUser"", ""password"": null}",2xx,"llm_success_ignore_optional: Both 'username' and 'password' are present as strings, satisfying 'type=string' for both query parameters."
+8,"{""username"": null, ""password"": ""12345""}",2xx,"llm_success_ignore_optional: Both 'username' and 'password' are present as strings, satisfying 'type=string' for both query parameters."
+9,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,Both 'username' and 'password' are optional and of type string; provided values are valid.
+10,"{""username"": ""alice""}",2xx,"'username' is optional and of type string; provided value is valid. 'password' is omitted, which is allowed."
+11,"{""password"": ""hunter2""}",2xx,"'password' is optional and of type string; provided value is valid. 'username' is omitted, which is allowed."
+12,{},2xx,Both 'username' and 'password' are optional; omitting both is allowed.
+13,"{""username"": ""bob.smith"", ""password"": ""p@ssw0rd!""}",2xx,Both 'username' and 'password' are optional and of type string; provided values are valid.
+14,"{""username"": 12345, ""password"": ""abcde""}",4xx,"'username'=12345 is not a string, violating 'type=string' for query parameter."
+15,"{""username"": ""user1"", ""password"": [""not"", ""a"", ""string""]}",4xx,"'password' is an array, violating 'type=string' for query parameter."
+16,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,"Both 'username' and 'password' are present as strings, matching the allowed types and constraints."
+17,"{""username"": ""theUser""}",2xx,"'username' is present as a string; 'password' is omitted, which is allowed since both are optional."
+18,"{""password"": ""12345""}",2xx,"'password' is present as a string; 'username' is omitted, which is allowed since both are optional."
+19,{},2xx,"Both 'username' and 'password' are omitted; both are optional, so this is valid."
+20,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,All provided fields satisfy the spec (2xx).
+21,"{""username"": ""john.doe""}",2xx,All provided fields satisfy the spec (2xx).
+22,"{""password"": ""p@ssw0rd!""}",2xx,All provided fields satisfy the spec (2xx).
+23,"{""username"": """", ""password"": """"}",2xx,All provided fields satisfy the spec (2xx).
+24,"{""username"": 12345, ""password"": ""12345""}",4xx,"'username'=12345 is an integer, violating 'type=string' for query parameter."
+25,"{""username"": """", ""password"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+26,"{""username"": 123456789, ""password"": ""12345""}",4xx,"Both 'username' and 'password' are present as strings, matching the allowed types and constraints."
+27,"{""username"": ""theUser"", ""password"": 123456789}",4xx,"Both 'username' and 'password' are present as strings, matching the allowed types and constraints."
+28,"{""username"": 123456789, ""password"": 123456789}",4xx,"Both 'username' and 'password' are present as strings, matching the allowed types and constraints."

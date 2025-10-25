@@ -1,0 +1,240 @@
+{
+  "post-/v1/account_links": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/apple_pay/domains": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/apple_pay/domains": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/ephemeral_keys": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/issuing/settlements": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/radar/value_list_items": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/radar/value_list_items": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/reporting/report_types": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/tax_rates": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/tax_rates": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/test_helpers/test_clocks": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/test_helpers/test_clocks": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/v1/webhook_endpoints": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/v1/webhook_endpoints": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  }
+}

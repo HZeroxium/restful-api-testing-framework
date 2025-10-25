@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 12345, ""issue_iid"": 678, ""to_project_id"": 98765}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from dependency context or spec examples.
+2,"{""id"": ""abc"", ""issue_iid"": 678, ""to_project_id"": 98765}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 12345, ""issue_iid"": ""notanint"", ""to_project_id"": 98765}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 12345, ""issue_iid"": 678}",4xx,"to_project_id is required but missing, violating 'required' for query parameter."
+5,"{""id"": 12345, ""issue_iid"": 678, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
+6,"{""id"": ""abc"", ""issue_iid"": 12345, ""to_project_id"": 67890}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 12345, ""issue_iid"": ""xyz"", ""to_project_id"": 67890}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 12345, ""issue_iid"": 67890, ""to_project_id"": ""notanint""}",4xx,"to_project_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
+9,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""to_project_id"": 67890}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for path parameters."
+10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""to_project_id"": ""notanint""}",4xx,"id='abc', issue_iid='xyz', and to_project_id='notanint' are not parseable as integer, violating 'type=integer' for all parameters."

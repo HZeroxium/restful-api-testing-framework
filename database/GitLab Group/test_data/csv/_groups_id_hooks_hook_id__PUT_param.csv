@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1001, ""hook_id"": 2002, ""url"": ""https://hooks.example.com/notify"", ""push_events"": true, ""issues_events"": false, ""confidential_issues_events"": true, ""merge_requests_events"": false, ""tag_push_events"": true, ""note_events"": false, ""confidential_note_events"": true, ""job_events"": false, ""pipeline_events"": true, ""wiki_events"": false, ""deployment_events"": true, ""releases_events"": false, ""enable_ssl_verification"": true, ""token"": ""secret-token-123""}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or hook IDs available from producer endpoints, examples, or cached results."
+2,"{""id"": -5, ""hook_id"": 2002, ""url"": ""https://hooks.example.com/notify""}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or hook IDs available from producer endpoints, examples, or cached results."
+3,"{""id"": ""abc"", ""hook_id"": 2002, ""url"": ""https://hooks.example.com/notify""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 1001, ""hook_id"": 2002, ""push_events"": true}",4xx,"url is required but missing, violating 'required' for query parameter."
+5,"{""id"": 1001, ""hook_id"": 2002, ""url"": ""https://hooks.example.com/notify"", ""push_events"": ""tru""}",4xx,"push_events='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+6,"{""id"": ""abc"", ""hook_id"": 12345, ""url"": ""https://example.com/hook""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 67890, ""hook_id"": ""notanint"", ""url"": ""https://example.com/hook""}",4xx,"hook_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 67890, ""hook_id"": 12345}",4xx,"url is required but missing, violating 'required' constraint for query parameter."
+9,"{""id"": 67890, ""hook_id"": 12345, ""url"": ""https://example.com/hook"", ""push_events"": ""tru""}",4xx,"push_events='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+10,"{""id"": ""abc"", ""hook_id"": 12345}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter; url is required but missing, violating 'required' constraint for query parameter."

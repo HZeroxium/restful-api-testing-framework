@@ -26,8 +26,6 @@ class DataEndpointDependency:
     DEFAULT_CONFIG: Dict[str, Any] = {
         "cache_file": "_dep_cache.json",
         "log_level": "INFO",
-        "test_data_csv_dir": r"/Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_data/csv",
-
     }
     def __init__(
         self,
@@ -35,12 +33,15 @@ class DataEndpointDependency:
         config: Dict[str, Any] | None = None,
         swagger_spec: dict  | None = None,
         artifacts: LoadedArtifacts | None = None,
+        csv_dir: str | None = None,
+        headers: Dict[str, str] | None = None,
     ) -> None:
+        self.headers = headers 
         self.workdir: Path = Path(odg_dir)
         self.config: Dict[str, Any] = {**self.DEFAULT_CONFIG, **(config or {})}
         self.swagger_spec: dict = swagger_spec
         self.artifacts: LoadedArtifacts | None = artifacts
-
+        self.csv_dir: Path = Path(csv_dir)
         self.cache: list[EndpointCache] = self.load_cache()
         # setup logging level
         try:
@@ -426,7 +427,7 @@ class DataEndpointDependency:
         # $ref → deref
         from kat.utils.swagger_utils.swagger_utils import find_object_with_key, get_ref
         ref = find_object_with_key(schema, '$ref')
-        return get_ref(self.swagger, ref['$ref']) if ref else schema
+        return get_ref(self.swagger_spec, ref['$ref']) if ref else schema
 
     def _prune_body_to_required(self, body: dict, schema: dict):
         """
@@ -460,29 +461,22 @@ class DataEndpointDependency:
         return minimal
 
     def _build_minimal_request_parts(self, endpoint_sig: str, exec_data: dict):
-        """
-        Lọc dữ liệu thực thi để chỉ giữ tối thiểu cần thiết:
-        - PATH: tất cả path params (luôn required theo spec)
-        - QUERY/HEADER/COOKIE: chỉ giữ param có required=true
-        - BODY: chỉ giữ các field thuộc 'required' (đệ quy)
-        """
         method, raw_path = self._split_endpoint_sig(endpoint_sig)
 
-        # 1) phân loại param theo location & required
         params_spec   = self._merged_params(raw_path, method)
         path_params   = {}
         query_params  = {}
-        header_params = {}
+        header_params = dict(self.headers)  # copy so we don't mutate self.headers
         cookie_params = {}
 
         provided = exec_data.get('parameters') or {}
+
         for p in params_spec:
             name = p.get('name')
             loc  = p.get('in')
             reqd = bool(p.get('required'))
-            if loc == 'path':
-                # path luôn giữ nếu có giá trị cung cấp
-                if name in provided: path_params[name] = provided[name]
+            if loc == 'path' and name in provided:
+                path_params[name] = provided[name]
             elif reqd and name in provided:
                 if loc == 'query':
                     query_params[name] = provided[name]
@@ -491,14 +485,14 @@ class DataEndpointDependency:
                 elif loc == 'cookie':
                     cookie_params[name] = provided[name]
 
-        # 2) body → chỉ required fields
+        # optional: drop accidental None values
+        header_params = {k: v for k, v in header_params.items() if v is not None}
+
         json_body = None
         if exec_data.get('requestBody') is not None:
-            schema = self._get_request_body_schema(raw_path, method) or {}
-            json_body = self._prune_body_to_required(exec_data['requestBody'], schema)
+            json_body = exec_data['requestBody']
 
         return path_params, query_params, header_params, cookie_params, json_body
-    # -----------------------------------------------------------------------------
 
     def call_api_to_get_data_for_ep(self, endpoint_sig: str):
         """
@@ -655,7 +649,7 @@ class DataEndpointDependency:
         Nếu không tìm thấy dữ liệu hợp lệ → raise RuntimeError.
         """
         method, path = self._split_endpoint_sig(endpoint_sig)
-        csv_dir = Path(self.config.get("test_data_csv_dir"))
+        csv_dir = self.csv_dir
 
         # --- Build tên file ---
         param_name = self._get_data_file_basename(method, path, "param") + ".csv"
@@ -840,38 +834,3 @@ class DataEndpointDependency:
 def read_swagger_data(file_path):
     with open(file_path, 'r', encoding="utf-8") as file:
         return json.load(file)
-if __name__ == "__main__":
-    # --- 1. Khởi tạo ---
-    swagger_file = r"C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\database\Bill\specs\openapi.json"
-    odg_dir = r"C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\database\Bill\ODG"
-    
-    swagger_spec = read_swagger_data(swagger_file)
-    dep = DataEndpointDependency(odg_dir=odg_dir, swagger_spec=swagger_spec)
-    
-    # --- 2. Nạp các file cấu hình (artifacts) ---
-    dep.load_artifacts()
-
-    # --- 3. Thực thi cho endpoint cụ thể ---
-    target_endpoint_sig = "get-/api/v1/Bills/{billId}"
-    print("\n" + "="*80)
-    print(f"Executing dependency data retrieval for: {target_endpoint_sig}")
-    print("="*80)
-
-    dependency_context = dep.get_endpoints_dependency_data(target_endpoint_sig)
-
-    # --- 4. In kết quả ---
-    print("\n--- Execution Result ---")
-    print(f"Schemas required by '{target_endpoint_sig}':")
-    print(f"  {dependency_context.schemas}")
-    
-    print(f"\nDependency Blocks (Upstream Data Context):")
-    if not dependency_context.blocks:
-        print("  No dependency blocks were generated.")
-    else:
-        for i, block in enumerate(dependency_context.blocks):
-            print(f"\n  --- Block {i+1} ---")
-            print(f"    Producer Endpoint: {block.endpoint}")
-            print(f"    Associated Schema: {block.schema}")
-            print(f"    Minified JSON Data: {block.json}")
-    print("\n" + "="*80)
-

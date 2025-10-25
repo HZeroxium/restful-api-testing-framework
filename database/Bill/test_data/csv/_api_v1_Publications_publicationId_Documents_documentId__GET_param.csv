@@ -1,12 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""publicationId"": 3973, ""documentId"": 1}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid publicationId or documentId available from dependency context, spec examples, or fixtures."
-2,"{""publicationId"": 3973, ""documentId"": 1}",2xx,llm_success_ignore_optional
-3,"{""publicationId"": ""abc"", ""documentId"": 123}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-4,"{""publicationId"": 123, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""publicationId"": 2147483648, ""documentId"": 123}",4xx,"publicationId=2147483648 exceeds int32 maximum=2147483647, violating 'format=int32'."
-6,"{""publicationId"": 123, ""documentId"": -2147483649}",4xx,"documentId=-2147483649 is less than int32 minimum=-2147483648, violating 'format=int32'."
+1,"{""publicationId"": 3973, ""documentId"": 1}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete publicationId or documentId available from DependencyContext or spec examples.
+2,"{""publicationId"": 3973, ""documentId"": 17032}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid documentId/publicationId pair available from dependency context or examples.
+3,"{""publicationId"": ""abc"", ""documentId"": 1}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+4,"{""publicationId"": 3973, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""publicationId"": 2147483649, ""documentId"": 1}",4xx,"publicationId=2147483649 exceeds int32 maximum (2147483647), violating 'format=int32'."
+6,"{""publicationId"": 3973, ""documentId"": -2147483649}",4xx,"documentId=-2147483649 is less than int32 minimum (-2147483648), violating 'format=int32'."
 7,"{""publicationId"": ""abc"", ""documentId"": 17032}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""publicationId"": 3973, ""documentId"": ""notanint""}",4xx,"documentId='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
-9,"{""publicationId"": 2147483648, ""documentId"": 17032}",4xx,"publicationId=2147483648 exceeds int32 maximum (2147483647), violating 'format=int32'."
-10,"{""publicationId"": 3973, ""documentId"": -2147483649}",4xx,"documentId=-2147483649 is less than int32 minimum (-2147483648), violating 'format=int32'."
-11,"{""publicationId"": 2147483648, ""documentId"": -2147483649}",4xx,"publicationId=2147483648 exceeds int32 maximum (2147483647), and documentId=-2147483649 is less than int32 minimum (-2147483648); both violate 'format=int32'."
+8,"{""publicationId"": 3973, ""documentId"": ""12x""}",4xx,"documentId='12x' is not parseable as integer, violating 'type=integer' for path/parseability."
+9,"{""publicationId"": 2147483648, ""documentId"": 17032}",4xx,"publicationId=2147483648 > int32 maximum=2147483647, violating 'format=int32'."
+10,"{""publicationId"": 3973, ""documentId"": -2147483649}",4xx,"documentId=-2147483649 < int32 minimum=-2147483648, violating 'format=int32'."
+11,"{""publicationId"": -1, ""documentId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""publicationId"": ""123456"", ""documentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""publicationId"": 3973, ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""publicationId"": ""123456"", ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

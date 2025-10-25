@@ -1,0 +1,79 @@
+GET /projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/archive
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/blobs/{sha}
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/blobs/{sha}/raw
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/changelog
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/compare
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/contributors
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/merge_base
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/tree
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default

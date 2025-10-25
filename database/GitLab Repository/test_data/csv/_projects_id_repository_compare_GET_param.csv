@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""develop""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+2,"{""id"": 2147483649, ""from"": ""main"", ""to"": ""develop"", ""from_project_id"": ""notanint""}",4xx,"from_project_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
+3,"{""id"": 2147483647, ""from"": 12345, ""to"": ""feature-branch""}",4xx,from=12345 has type integer but the spec requires string (query parameter type mismatch).
+4,"{""id"": 2147483647, ""from"": ""main"", ""to"": ""feature-branch"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+5,"{""id"": 2147483647, ""from"": ""main""}",4xx,"to is required but missing, violating 'required' for query parameter."
+6,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""develop""}",4xx,"id='abc' is not parseable as integer in path, violating 'type=integer'."
+7,"{""id"": 12345, ""to"": ""feature-branch""}",4xx,"from is required but missing, violating 'required'."
+8,"{""id"": 12345, ""from"": ""main""}",4xx,"to is required but missing, violating 'required'."
+9,"{""id"": 12345, ""from"": ""main"", ""to"": ""develop"", ""from_project_id"": ""notanint""}",4xx,"from_project_id='notanint' is not parseable as integer in query, violating 'type=integer'."
+10,"{""id"": 12345, ""from"": ""main"", ""to"": ""develop"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean in query, violating 'type=boolean'."

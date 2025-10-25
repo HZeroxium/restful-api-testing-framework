@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2}",2xx,"id=2 is a valid integer path parameter, resolved from producer endpoint get-/groups."
+2,"{""id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
+3,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+5,"{""id"": 2147483649}",4xx,"id=2147483649 is an excessively large integer, likely exceeding practical ID bounds for resource identifiers."
+6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 3.14}",4xx,"id=3.14 is a float, but the spec requires integer type for path parameter."
+8,"{""id"": true}",4xx,"id=true is a boolean, but the spec requires integer type for path parameter."
+9,"{""id"": [123]}",4xx,"id=[123] is an array, but the spec requires integer type for path parameter."
+10,"{""id"": {""value"": 123}}",4xx,"id={""value"": 123} is an object, but the spec requires integer type for path parameter."

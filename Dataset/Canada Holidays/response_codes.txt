@@ -1,0 +1,47 @@
+GET /api/v1
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /api/v1/holidays
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /api/v1/holidays/{holidayId}
+  status_codes: 200, 400
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: -
+
+GET /api/v1/provinces
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /api/v1/provinces/{provinceId}
+  status_codes: 200, 400
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: -
+
+GET /api/v1/spec
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -

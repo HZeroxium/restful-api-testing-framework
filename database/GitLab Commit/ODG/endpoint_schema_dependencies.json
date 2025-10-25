@@ -1,0 +1,155 @@
+{
+  "get-/projects/{id}/repository/commits": {
+    "RepoCommit": {
+      "id": "id"
+    },
+    "RepoCommitDetail": {
+      "id": "id"
+    },
+    "RepoCommitDiscussion": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/repository/commits": {
+    "RepoCommit": {
+      "id": "id"
+    },
+    "RepoCommitDetail": {
+      "id": "id"
+    },
+    "CommitStatus": {
+      "id": "id",
+      "branch": "ref"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}": {
+    "RepoCommit": {
+      "sha": "id"
+    },
+    "RepoCommitDetail": {
+      "sha": "id"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/refs": {
+    "RepoCommitRefs": {
+      "id": "name",
+      "sha": "name"
+    },
+    "RepoCommit": {
+      "sha": "id"
+    },
+    "RepoCommitLastPipeline": {
+      "sha": "sha",
+      "id": "id"
+    },
+    "RepoCommitDetail": {
+      "sha": "id",
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/cherry_pick": {
+    "RepoCommitLastPipeline": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "RepoCommitDetail": {
+      "id": "id",
+      "sha": "id"
+    },
+    "RepoCommit": {
+      "id": "id",
+      "sha": "id"
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/revert": {
+    "RepoCommitLastPipeline": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "RepoCommitDetail": {
+      "id": "id",
+      "sha": "id"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/diff": {
+    "RepoCommitDiff": {
+      "id": "id",
+      "sha": "id"
+    },
+    "RepoCommitDetail": {
+      "id": "id",
+      "sha": "id"
+    },
+    "RepoCommit": {
+      "id": "id",
+      "sha": "id"
+    },
+    "RepoCommitLastPipeline": {
+      "id": "id",
+      "sha": "sha"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/comments": {
+    "RepoCommitLastPipeline": {
+      "sha": "sha",
+      "id": "id"
+    },
+    "RepoCommitDetail": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/discussions": {
+    "RepoCommitDiscussion": {
+      "id": "id"
+    },
+    "RepoCommitLastPipeline": {
+      "id": "id",
+      "sha": "sha"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/statuses": {
+    "CommitStatus": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "RepoCommitLastPipeline": {
+      "id": "id",
+      "sha": "sha"
+    }
+  },
+  "post-/projects/{id}/statuses/{sha}": {
+    "CommitStatus": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "MergeRequests": {
+      "id": "id",
+      "sha": "sha"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/merge_requests": {
+    "MergeRequests": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "RepoCommitDetail": {
+      "sha": "id"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/signature": {
+    "RepoCommitLastPipeline": {
+      "id": "id"
+    },
+    "RepoCommitDiscussion": {
+      "id": "id"
+    },
+    "CommitStatus": {
+      "id": "id",
+      "sha": "sha"
+    },
+    "RepoCommit": {
+      "id": "id"
+    },
+    "Signature": {}
+  }
+}

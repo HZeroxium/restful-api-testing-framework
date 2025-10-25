@@ -1,0 +1,215 @@
+DELETE /projects/{id}/issues/{issue_iid}
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/issues
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /issues
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /issues/{id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}/closed_by
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}/metric_images
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}/participants
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}/related_merge_requests
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/issues/{issue_iid}/time_stats
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /groups
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/add_spent_time
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/metric_images
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/move
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/reset_spent_time
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/reset_time_estimate
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/subscribe
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/time_estimate
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/todo
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/issues/{issue_iid}/unsubscribe
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /projects/{id}/issues/{issue_iid}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /projects/{id}/issues/{issue_iid}/reorder
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default

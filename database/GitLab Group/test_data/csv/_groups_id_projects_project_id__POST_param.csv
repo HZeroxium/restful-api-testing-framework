@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1, ""project_id"": 2}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or project IDs available from dependency context or examples.
+2,"{""id"": 2147483649, ""project_id"": 2}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or project IDs available from dependency context or examples.
+3,"{""id"": 1, ""project_id"": -1}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete group or project IDs available from dependency context or examples.
+4,"{""id"": ""abc"", ""project_id"": 2}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 1, ""project_id"": ""xyz""}",4xx,"project_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": ""abc"", ""project_id"": 12345}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 67890, ""project_id"": ""xyz""}",4xx,"project_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.34"", ""project_id"": 555}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 222, ""project_id"": ""false""}",4xx,"project_id='false' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""one"", ""project_id"": ""two""}",4xx,"id='one' and project_id='two' are not parseable as integer, violating 'type=integer' for both path parameters."

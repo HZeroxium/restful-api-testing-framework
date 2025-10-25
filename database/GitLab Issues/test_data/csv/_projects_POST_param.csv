@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""name"": ""MyProject"", ""visibility"": ""private"", ""builds_access_level"": ""enabled"", ""auto_devops_enabled"": true, ""build_timeout"": 3600, ""tag_list"": [""ci"", ""automation""], ""default_branch"": ""main""}",2xx,All provided fields are within their allowed types and enums; 'name' is present as required.
+2,"{""path"": ""repo-path"", ""visibility"": ""public"", ""issues_access_level"": ""private""}",2xx,path is present (name omitted per mutual exclusion); all fields are within allowed enums and types.
+3,"{""name"": ""AnotherProject"", ""auto_cancel_pending_pipelines"": ""active""}",4xx,"auto_cancel_pending_pipelines='active' is not in enum {'enabled', 'disabled'}."
+4,"{""name"": ""TestProject"", ""build_timeout"": ""notanumber""}",4xx,"build_timeout='notanumber' is not parseable as integer, violating 'type=integer' for query/parseability."
+5,"{""name"": ""ProjectX"", ""pages_access_level"": ""external""}",4xx,"pages_access_level='external' is not in enum {'disabled', 'private', 'enabled', 'public'}."
+6,"{""name"": ""Valid Project"", ""auto_cancel_pending_pipelines"": ""not_enabled""}",4xx,"auto_cancel_pending_pipelines='not_enabled' is not in enum {""enabled"", ""disabled""}."
+7,"{""name"": ""Valid Project"", ""auto_devops_enabled"": ""tru""}",4xx,"auto_devops_enabled='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."
+8,"{""name"": ""Valid Project"", ""avatar"": ""not_a_file.txt""}",4xx,avatar='not_a_file.txt' does not match format 'file'.
+9,"{""auto_devops_deploy_strategy"": ""continuous""}",4xx,"name is required but missing, violating 'required'."
+10,"{""name"": ""Valid Project"", ""import_url"": ""https://example.com/repo.git"", ""template_name"": ""rails""}",4xx,"Both import_url and template_name are provided, violating the mutual exclusivity constraint."

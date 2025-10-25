@@ -1,0 +1,19 @@
+[
+  "post-/groups",
+  "get-/groups",
+  "get-/groups/{id}",
+  "post-/groups/{id}/share",
+  "get-/groups/{id}/subgroups",
+  "get-/groups/{id}/hooks",
+  "get-/groups/{id}/projects",
+  "put-/groups/{id}/hooks/{hook_id}",
+  "put-/groups/{id}",
+  "post-/groups/{id}/projects/{project_id}",
+  "get-/groups/{id}/projects/shared",
+  "post-/groups/{id}/hooks",
+  "get-/groups/{id}/descendant_groups",
+  "get-/groups/{id}/hooks/{hook_id}",
+  "delete-/groups/{id}/hooks/{hook_id}",
+  "delete-/groups/{id}/share/{group_id}",
+  "delete-/groups/{id}"
+]

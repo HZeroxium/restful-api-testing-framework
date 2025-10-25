@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""archived"": true, ""min_access_level"": 30, ""order_by"": ""created_at"", ""sort"": ""asc"", ""visibility"": ""internal"", ""last_activity_after"": ""2024-06-01T12:00:00Z""}",2xx,"All provided fields match their types; min_access_level=30 is in enum {0,10,20,30,40,50}; order_by='created_at' and sort='asc' are in their allowed enums; visibility='internal' is in enum {public,internal,private}; last_activity_after matches format date-time."
+2,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+3,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0,10,20,30,40,50}."
+4,"{""last_activity_before"": ""2024-06-01""}",4xx,last_activity_before='2024-06-01' does not match format date-time (expected ISO 8601 YYYY-MM-DDTHH:MM:SSZ).
+5,"{""order_by"": ""stars"", ""sort"": ""desc""}",4xx,"order_by='stars' is not in enum {id,name,path,created_at,updated_at,last_activity_at,repository_size,storage_size,packages_size,wiki_size}."
+6,"{""archived"": ""tru""}",4xx,"archived='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."
+7,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+8,"{""last_activity_after"": ""2021-02-30T07:60:15Z""}",4xx,last_activity_after='2021-02-30T07:60:15Z' does not match format date-time (invalid date and time).
+9,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+10,"{""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum {'asc', 'desc'}."

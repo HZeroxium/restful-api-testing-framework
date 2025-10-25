@@ -1,0 +1,198 @@
+{
+  "get-/issues/{id}": {
+    "Issue": {
+      "id": "id"
+    },
+    "Milestone": {
+      "id": "id"
+    }
+  },
+  "get-/groups/{id}/issues": {
+    "Group": {
+      "id": "id"
+    },
+    "Issue": {},
+    "GroupStatistics": {},
+    "MergeRequest": {}
+  },
+  "get-/projects/{id}/issues": {
+    "Issue": {
+      "id": "project_id"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues": {
+    "Issue": {
+      "id": "id",
+      "title": "title"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}": {
+    "Issue": {
+      "id": "project_id",
+      "issue_iid": "iid"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}/issues/{issue_iid}": {
+    "Issue": {
+      "id": "id",
+      "issue_iid": "iid"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/issues/{issue_iid}": {
+    "Issue": {
+      "id": "project_id",
+      "issue_iid": "iid"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}/issues/{issue_iid}/reorder": {
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/move": {
+    "ProjectInfo": {
+      "id": "id",
+      "to_project_id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/subscribe": {
+    "Issue": {
+      "id": "project_id",
+      "issue_iid": "iid"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/unsubscribe": {
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "Milestone": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/todo": {
+    "ProjectInfo": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/time_estimate": {
+    "Issue": {
+      "id": "id",
+      "issue_iid": "iid"
+    },
+    "TimeEstimate": {
+      "duration": "human_time_estimate"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/add_spent_time": {
+    "ProjectInfo": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/time_stats": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": {
+    "Project": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/closed_by": {
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "ClosedBy": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/participants": {
+    "ProjectInfo": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/metric_images": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid",
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/metric_images": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    }
+  }
+}

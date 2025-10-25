@@ -1,0 +1,56 @@
+{
+  "ProjectAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "BasicProjectDetails": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Links": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "GroupAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Permissions": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Namespace": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Owner": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Statistics": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "SharedWithGroups": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "FileTree": [
+    "get-/projects/{id}/repository/tree"
+  ],
+  "Compare": [
+    "get-/projects/{id}/repository/compare"
+  ],
+  "RepoCommit": [
+    "get-/projects/{id}/repository/compare"
+  ],
+  "RepoDiff": [
+    "get-/projects/{id}/repository/compare"
+  ],
+  "Contributor": [
+    "get-/projects/{id}/repository/contributors"
+  ],
+  "MergeBase": [
+    "get-/projects/{id}/repository/merge_base"
+  ]
+}

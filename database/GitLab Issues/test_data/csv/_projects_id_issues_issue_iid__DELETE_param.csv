@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2147483647, ""issue_iid"": 2147483647}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint, fixture, or example for 'id' or 'issue_iid'."
+2,"{""id"": -1, ""issue_iid"": 10}",2xx,id=-1 is a valid integer; no minimum constraint specified.
+3,"{""id"": 10, ""issue_iid"": -5}",2xx,issue_iid=-5 is a valid integer; no minimum constraint specified.
+4,"{""id"": ""abc"", ""issue_iid"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""id"": 123, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.5"", ""issue_iid"": 7}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 555, ""issue_iid"": ""false""}",4xx,"issue_iid='false' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""xyz"", ""issue_iid"": ""qwerty""}",4xx,"id='xyz' and issue_iid='qwerty' are not parseable as integer, violating 'type=integer' for both path parameters."

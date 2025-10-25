@@ -1,0 +1,20 @@
+{
+  "status": 200,
+  "body": {
+    "items": [],
+    "totalResults": 0,
+    "itemsPerPage": 20
+  },
+  "request": {
+    "method": "GET",
+    "url": "https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/19929/Amendments",
+    "params": {},
+    "path_params": {
+      "billId": 3973,
+      "billStageId": 19929
+    },
+    "headers": {},
+    "cookies": {},
+    "json": null
+  }
+}

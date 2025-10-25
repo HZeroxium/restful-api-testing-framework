@@ -1,0 +1,2634 @@
+{
+  "get-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects/GET",
+    "parameters": {
+      "archived": "QUERY PARAMETER",
+      "id_after": "QUERY PARAMETER",
+      "id_before": "QUERY PARAMETER",
+      "last_activity_after": "QUERY PARAMETER",
+      "last_activity_before": "QUERY PARAMETER",
+      "membership": "QUERY PARAMETER",
+      "min_access_level": "QUERY PARAMETER",
+      "order_by": "QUERY PARAMETER",
+      "owned": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "search_namespaces": "QUERY PARAMETER",
+      "search": "QUERY PARAMETER",
+      "simple": "QUERY PARAMETER",
+      "sort": "QUERY PARAMETER",
+      "starred": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "visibility": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER",
+      "with_issues_enabled": "QUERY PARAMETER",
+      "with_merge_requests_enabled": "QUERY PARAMETER",
+      "with_programming_language": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_GET_param"
+    }
+  },
+  "post-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects/POST",
+    "parameters": {
+      "allow_merge_on_skipped_pipeline": "QUERY PARAMETER",
+      "auto_cancel_pending_pipelines": "QUERY PARAMETER",
+      "auto_devops_deploy_strategy": "QUERY PARAMETER",
+      "auto_devops_enabled": "QUERY PARAMETER",
+      "autoclose_referenced_issues": "QUERY PARAMETER",
+      "avatar": "QUERY PARAMETER",
+      "build_coverage_regex": "QUERY PARAMETER",
+      "build_git_strategy": "QUERY PARAMETER",
+      "build_timeout": "QUERY PARAMETER",
+      "builds_access_level": "QUERY PARAMETER",
+      "ci_config_path": "QUERY PARAMETER",
+      "container_registry_enabled": "QUERY PARAMETER",
+      "default_branch": "QUERY PARAMETER",
+      "description": "QUERY PARAMETER",
+      "emails_disabled": "QUERY PARAMETER",
+      "forking_access_level": "QUERY PARAMETER",
+      "import_url": "QUERY PARAMETER",
+      "initialize_with_readme": "QUERY PARAMETER",
+      "issues_access_level": "QUERY PARAMETER",
+      "issues_enabled": "QUERY PARAMETER",
+      "jobs_enabled": "QUERY PARAMETER",
+      "lfs_enabled": "QUERY PARAMETER",
+      "merge_method": "QUERY PARAMETER",
+      "merge_requests_access_level": "QUERY PARAMETER",
+      "merge_requests_enabled": "QUERY PARAMETER",
+      "name": "QUERY PARAMETER",
+      "namespace_id": "QUERY PARAMETER",
+      "only_allow_merge_if_all_discussions_are_resolved": "QUERY PARAMETER",
+      "only_allow_merge_if_pipeline_succeeds": "QUERY PARAMETER",
+      "packages_enabled": "QUERY PARAMETER",
+      "pages_access_level": "QUERY PARAMETER",
+      "requirements_access_level": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER",
+      "printing_merge_request_link_enabled": "QUERY PARAMETER",
+      "public_builds": "QUERY PARAMETER",
+      "remove_source_branch_after_merge": "QUERY PARAMETER",
+      "repository_access_level": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "request_access_enabled": "QUERY PARAMETER",
+      "resolve_outdated_diff_discussions": "QUERY PARAMETER",
+      "shared_runners_enabled": "QUERY PARAMETER",
+      "show_default_award_emojis": "QUERY PARAMETER",
+      "snippets_access_level": "QUERY PARAMETER",
+      "snippets_enabled": "QUERY PARAMETER",
+      "tag_list": "QUERY PARAMETER",
+      "template_name": "QUERY PARAMETER",
+      "visibility": "QUERY PARAMETER",
+      "wiki_access_level": "QUERY PARAMETER",
+      "wiki_enabled": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "integer",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_POST_param",
+      "Request body data": "Data Files/_projects_POST_body"
+    }
+  },
+  "post-/projects/user/{user_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_user_user_id_/POST",
+    "parameters": {
+      "allow_merge_on_skipped_pipeline": "QUERY PARAMETER",
+      "auto_cancel_pending_pipelines": "QUERY PARAMETER",
+      "auto_devops_deploy_strategy": "QUERY PARAMETER",
+      "auto_devops_enabled": "QUERY PARAMETER",
+      "autoclose_referenced_issues": "QUERY PARAMETER",
+      "avatar": "QUERY PARAMETER",
+      "build_coverage_regex": "QUERY PARAMETER",
+      "build_git_strategy": "QUERY PARAMETER",
+      "build_timeout": "QUERY PARAMETER",
+      "builds_access_level": "QUERY PARAMETER",
+      "ci_config_path": "QUERY PARAMETER",
+      "container_registry_enabled": "QUERY PARAMETER",
+      "description": "QUERY PARAMETER",
+      "emails_disabled": "QUERY PARAMETER",
+      "forking_access_level": "QUERY PARAMETER",
+      "import_url": "QUERY PARAMETER",
+      "initialize_with_readme": "QUERY PARAMETER",
+      "issues_access_level": "QUERY PARAMETER",
+      "issues_enabled": "QUERY PARAMETER",
+      "jobs_enabled": "QUERY PARAMETER",
+      "lfs_enabled": "QUERY PARAMETER",
+      "merge_method": "QUERY PARAMETER",
+      "merge_requests_access_level": "QUERY PARAMETER",
+      "merge_requests_enabled": "QUERY PARAMETER",
+      "name": "QUERY PARAMETER",
+      "namespace_id": "QUERY PARAMETER",
+      "only_allow_merge_if_all_discussions_are_resolved": "QUERY PARAMETER",
+      "only_allow_merge_if_pipeline_succeeds": "QUERY PARAMETER",
+      "packages_enabled": "QUERY PARAMETER",
+      "pages_access_level": "QUERY PARAMETER",
+      "requirements_access_level": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER",
+      "printing_merge_request_link_enabled": "QUERY PARAMETER",
+      "public_builds": "QUERY PARAMETER",
+      "remove_source_branch_after_merge": "QUERY PARAMETER",
+      "repository_access_level": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "request_access_enabled": "QUERY PARAMETER",
+      "resolve_outdated_diff_discussions": "QUERY PARAMETER",
+      "shared_runners_enabled": "QUERY PARAMETER",
+      "show_default_award_emojis": "QUERY PARAMETER",
+      "snippets_access_level": "QUERY PARAMETER",
+      "snippets_enabled": "QUERY PARAMETER",
+      "suggestion_commit_message": "QUERY PARAMETER",
+      "tag_list": "QUERY PARAMETER",
+      "template_name": "QUERY PARAMETER",
+      "user_id": "PATH VARIABLE",
+      "visibility": "QUERY PARAMETER",
+      "wiki_access_level": "QUERY PARAMETER",
+      "wiki_enabled": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_user_user_id__POST_param"
+    }
+  },
+  "get-/projects/{id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "license": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of ProjectWithAcess": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "container_expiration_policy": {
+          "schema of ContainerExpirationPolicy": {
+            "cadence": "string",
+            "enabled": "boolean",
+            "keep_n": "integer",
+            "older_than": "string",
+            "name_regex": "string",
+            "name_regex_delete": "string",
+            "name_regex_keep": "string",
+            "next_run_at": "string"
+          }
+        },
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "printing_merge_requests_link_enabled": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "compliance_frameworks": "array",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        },
+        "forked_from_project": {
+          "schema of ForkedFromProject": {
+            "id": "integer",
+            "description": "string",
+            "name": "string",
+            "name_with_namespace": "string",
+            "path": "string",
+            "path_with_namespace": "string",
+            "created_at": "string",
+            "default_branch": "string",
+            "tag_list": "array",
+            "ssh_url_to_repo": "string",
+            "http_url_to_repo": "string",
+            "web_url": "string",
+            "avatar_url": "string",
+            "license_url": "string",
+            "forks_count": "integer",
+            "star_count": "integer",
+            "last_activity_at": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id__GET_param"
+    }
+  },
+  "put-/projects/{id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_/PUT",
+    "parameters": {
+      "allow_merge_on_skipped_pipeline": "QUERY PARAMETER",
+      "auto_cancel_pending_pipelines": "QUERY PARAMETER",
+      "auto_devops_deploy_strategy": "QUERY PARAMETER",
+      "auto_devops_enabled": "QUERY PARAMETER",
+      "autoclose_referenced_issues": "QUERY PARAMETER",
+      "avatar": "QUERY PARAMETER",
+      "build_coverage_regex": "QUERY PARAMETER",
+      "build_git_strategy": "QUERY PARAMETER",
+      "build_timeout": "QUERY PARAMETER",
+      "builds_access_level": "QUERY PARAMETER",
+      "ci_config_path": "QUERY PARAMETER",
+      "ci_default_git_depth": "QUERY PARAMETER",
+      "ci_forward_deployment_enabled": "QUERY PARAMETER",
+      "container_registry_enabled": "QUERY PARAMETER",
+      "default_branch": "QUERY PARAMETER",
+      "description": "QUERY PARAMETER",
+      "emails_disabled": "QUERY PARAMETER",
+      "forking_access_level": "QUERY PARAMETER",
+      "import_url": "QUERY PARAMETER",
+      "issues_access_level": "QUERY PARAMETER",
+      "issues_enabled": "QUERY PARAMETER",
+      "jobs_enabled": "QUERY PARAMETER",
+      "lfs_enabled": "QUERY PARAMETER",
+      "merge_method": "QUERY PARAMETER",
+      "merge_requests_access_level": "QUERY PARAMETER",
+      "merge_requests_enabled": "QUERY PARAMETER",
+      "name": "QUERY PARAMETER",
+      "only_allow_merge_if_all_discussions_are_resolved": "QUERY PARAMETER",
+      "only_allow_merge_if_pipeline_succeeds": "QUERY PARAMETER",
+      "packages_enabled": "QUERY PARAMETER",
+      "pages_access_level": "QUERY PARAMETER",
+      "requirements_access_level": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER",
+      "public_builds": "QUERY PARAMETER",
+      "remove_source_branch_after_merge": "QUERY PARAMETER",
+      "repository_access_level": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "request_access_enabled": "QUERY PARAMETER",
+      "resolve_outdated_diff_discussions": "QUERY PARAMETER",
+      "service_desk_enabled": "QUERY PARAMETER",
+      "shared_runners_enabled": "QUERY PARAMETER",
+      "show_default_award_emojis": "QUERY PARAMETER",
+      "snippets_access_level": "QUERY PARAMETER",
+      "snippets_enabled": "QUERY PARAMETER",
+      "suggestion_commit_message": "QUERY PARAMETER",
+      "tag_list": "QUERY PARAMETER",
+      "id": "PATH VARIABLE",
+      "visibility": "QUERY PARAMETER",
+      "wiki_access_level": "QUERY PARAMETER",
+      "wiki_enabled": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "integer",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id__PUT_param",
+      "Request body data": "Data Files/_projects_id__PUT_body"
+    }
+  },
+  "delete-/projects/{id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_/DELETE",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id__DELETE_param"
+    }
+  },
+  "get-/projects/{id}/users": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_users/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "search": "QUERY PARAMETER",
+      "skip_users": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Author": {
+        "web_url": "string",
+        "avatar_url": "string",
+        "username": "string",
+        "state": "string",
+        "name": "string",
+        "id": "integer"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_users_GET_param"
+    }
+  },
+  "post-/projects/{id}/fork": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_fork/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "name": "QUERY PARAMETER",
+      "namespace_id": "QUERY PARAMETER",
+      "namespace_path": "QUERY PARAMETER",
+      "namespace": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_fork_POST_param"
+    }
+  },
+  "delete-/projects/{id}/fork": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_fork/DELETE",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_fork_DELETE_param"
+    }
+  },
+  "get-/projects/{id}/forks": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_forks/GET",
+    "parameters": {
+      "archived": "QUERY PARAMETER",
+      "id": "PATH VARIABLE",
+      "membership": "QUERY PARAMETER",
+      "min_access_level": "QUERY PARAMETER",
+      "order_by": "QUERY PARAMETER",
+      "owned": "QUERY PARAMETER",
+      "search": "QUERY PARAMETER",
+      "simple": "QUERY PARAMETER",
+      "sort": "QUERY PARAMETER",
+      "starred": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "visibility": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER",
+      "with_issues_enabled": "QUERY PARAMETER",
+      "with_merge_requests_enabled": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Project": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "autoclose_referenced_issues": "boolean",
+        "suggestion_commit_message": "string",
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_forks_GET_param"
+    }
+  },
+  "post-/projects/{id}/star": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_star/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of StarProject": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "autoclose_referenced_issues": "boolean",
+        "suggestion_commit_message": "string",
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_star_POST_param"
+    }
+  },
+  "post-/projects/{id}/unstar": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_unstar/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of StarProject": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "autoclose_referenced_issues": "boolean",
+        "suggestion_commit_message": "string",
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_unstar_POST_param"
+    }
+  },
+  "get-/projects/{id}/starrers": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_starrers/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "search": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of Starrer": {
+        "starred_since": "string",
+        "user": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_starrers_GET_param"
+    }
+  },
+  "get-/projects/{id}/languages": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_languages/GET",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of Language": {
+        "Ruby": "number",
+        "JavaScript": "number",
+        "HTML": "number",
+        "CoffeeScript": "number"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_languages_GET_param"
+    }
+  },
+  "post-/projects/{id}/archive": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_archive/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of ArchiveProject": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "autoclose_referenced_issues": "boolean",
+        "suggestion_commit_message": "string",
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_archive_POST_param"
+    }
+  },
+  "post-/projects/{id}/unarchive": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_unarchive/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of ArchiveProject": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "autoclose_referenced_issues": "boolean",
+        "suggestion_commit_message": "string",
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_unarchive_POST_param"
+    }
+  },
+  "post-/projects/{id}/restore": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_restore/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_restore_POST_param"
+    }
+  },
+  "post-/projects/{id}/uploads": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_uploads/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "requestBody": {
+      "file": "string"
+    },
+    "responseBody": {
+      "schema of File": {
+        "alt": "string",
+        "url": "string",
+        "full_path": "string",
+        "markdown": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_uploads_POST_param",
+      "Request body data": "Data Files/_projects_id_uploads_POST_body"
+    }
+  },
+  "post-/projects/{id}/share": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_share/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "expires_at": "QUERY PARAMETER",
+      "group_access": "QUERY PARAMETER",
+      "group_id": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of ProjectGroupLink": {
+        "expires_at": "string",
+        "group_access": "string",
+        "group_id": "string",
+        "id": "string",
+        "project_id": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_share_POST_param"
+    }
+  },
+  "delete-/projects/{id}/share/{group_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_share_group_id_/DELETE",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "group_id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_share_group_id__DELETE_param"
+    }
+  },
+  "get-/projects/{id}/hooks": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_hooks/GET",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of ProjectHook": {
+        "build_events": "string",
+        "created_at": "string",
+        "enable_ssl_verification": "string",
+        "id": "string",
+        "issues_events": "string",
+        "merge_requests_events": "string",
+        "note_events": "string",
+        "pipeline_events": "string",
+        "project_id": "string",
+        "push_events": "string",
+        "tag_push_events": "string",
+        "url": "string",
+        "wiki_page_events": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_hooks_GET_param"
+    }
+  },
+  "post-/projects/{id}/hooks": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_hooks/POST",
+    "parameters": {
+      "confidential_issues_events": "QUERY PARAMETER",
+      "confidential_note_events": "QUERY PARAMETER",
+      "deployment_events": "QUERY PARAMETER",
+      "enable_ssl_verification": "QUERY PARAMETER",
+      "id": "PATH VARIABLE",
+      "issues_events": "QUERY PARAMETER",
+      "job_events": "QUERY PARAMETER",
+      "merge_requests_events": "QUERY PARAMETER",
+      "note_events": "QUERY PARAMETER",
+      "pipeline_events": "QUERY PARAMETER",
+      "push_events_branch_filter": "QUERY PARAMETER",
+      "push_events": "QUERY PARAMETER",
+      "tag_push_events": "QUERY PARAMETER",
+      "token": "QUERY PARAMETER",
+      "url": "QUERY PARAMETER",
+      "wiki_page_events": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of ProjectHook": {
+        "build_events": "string",
+        "created_at": "string",
+        "enable_ssl_verification": "string",
+        "id": "string",
+        "issues_events": "string",
+        "merge_requests_events": "string",
+        "note_events": "string",
+        "pipeline_events": "string",
+        "project_id": "string",
+        "push_events": "string",
+        "tag_push_events": "string",
+        "url": "string",
+        "wiki_page_events": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_hooks_POST_param"
+    }
+  },
+  "get-/projects/{id}/hooks/{hook_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_hooks_hook_id_/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "hook_id": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of ProjectHook": {
+        "build_events": "string",
+        "created_at": "string",
+        "enable_ssl_verification": "string",
+        "id": "string",
+        "issues_events": "string",
+        "merge_requests_events": "string",
+        "note_events": "string",
+        "pipeline_events": "string",
+        "project_id": "string",
+        "push_events": "string",
+        "tag_push_events": "string",
+        "url": "string",
+        "wiki_page_events": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_hooks_hook_id__GET_param"
+    }
+  },
+  "put-/projects/{id}/hooks/{hook_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_hooks_hook_id_/PUT",
+    "parameters": {
+      "confidential_issues_events": "QUERY PARAMETER",
+      "confidential_note_events": "QUERY PARAMETER",
+      "deployment_events": "QUERY PARAMETER",
+      "enable_ssl_verification": "QUERY PARAMETER",
+      "hook_id": "PATH VARIABLE",
+      "id": "PATH VARIABLE",
+      "issues_events": "QUERY PARAMETER",
+      "job_events": "QUERY PARAMETER",
+      "merge_requests_events": "QUERY PARAMETER",
+      "note_events": "QUERY PARAMETER",
+      "pipeline_events": "QUERY PARAMETER",
+      "push_events_branch_filter": "QUERY PARAMETER",
+      "push_events": "QUERY PARAMETER",
+      "tag_push_events": "QUERY PARAMETER",
+      "token": "QUERY PARAMETER",
+      "url": "QUERY PARAMETER",
+      "wiki_events": "QUERY PARAMETER",
+      "releases_events": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of ProjectHook": {
+        "build_events": "string",
+        "created_at": "string",
+        "enable_ssl_verification": "string",
+        "id": "string",
+        "issues_events": "string",
+        "merge_requests_events": "string",
+        "note_events": "string",
+        "pipeline_events": "string",
+        "project_id": "string",
+        "push_events": "string",
+        "tag_push_events": "string",
+        "url": "string",
+        "wiki_page_events": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_hooks_hook_id__PUT_param"
+    }
+  },
+  "delete-/projects/{id}/hooks/{hook_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_hooks_hook_id_/DELETE",
+    "parameters": {
+      "hook_id": "PATH VARIABLE",
+      "id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_hooks_hook_id__DELETE_param"
+    }
+  },
+  "post-/projects/{id}/housekeeping": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_housekeeping/POST",
+    "parameters": {
+      "id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_housekeeping_POST_param"
+    }
+  },
+  "put-/projects/{id}/transfer": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_transfer/PUT",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "namespace": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of ProjectWithAcess": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "container_expiration_policy": {
+          "schema of ContainerExpirationPolicy": {
+            "cadence": "string",
+            "enabled": "boolean",
+            "keep_n": "integer",
+            "older_than": "string",
+            "name_regex": "string",
+            "name_regex_delete": "string",
+            "name_regex_keep": "string",
+            "next_run_at": "string"
+          }
+        },
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "license_url": "string",
+        "license": {
+          "schema of License": {
+            "key": "string",
+            "name": "string",
+            "nickname": "string",
+            "html_url": "string",
+            "source_url": "string"
+          }
+        },
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "printing_merge_requests_link_enabled": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "compliance_frameworks": "array",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        },
+        "forked_from_project": {
+          "schema of ForkedFromProject": {
+            "id": "integer",
+            "description": "string",
+            "name": "string",
+            "name_with_namespace": "string",
+            "path": "string",
+            "path_with_namespace": "string",
+            "created_at": "string",
+            "default_branch": "string",
+            "tag_list": "array",
+            "ssh_url_to_repo": "string",
+            "http_url_to_repo": "string",
+            "web_url": "string",
+            "avatar_url": "string",
+            "license_url": "string",
+            "forks_count": "integer",
+            "star_count": "integer",
+            "last_activity_at": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_transfer_PUT_param"
+    }
+  },
+  "post-/projects/{id}/fork/{forked_from_id}": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_fork_forked_from_id_/POST",
+    "parameters": {
+      "forked_from_id": "PATH VARIABLE",
+      "id": "PATH VARIABLE"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_fork_forked_from_id__POST_param"
+    }
+  },
+  "get-/projects/{id}/snapshot": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_projects_id_snapshot/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "wiki": "QUERY PARAMETER"
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_snapshot_GET_param"
+    }
+  },
+  "get-/users/{user_id}/projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_users_user_id_projects/GET",
+    "parameters": {
+      "archived": "QUERY PARAMETER",
+      "id_after": "QUERY PARAMETER",
+      "id_before": "QUERY PARAMETER",
+      "membership": "QUERY PARAMETER",
+      "min_access_level": "QUERY PARAMETER",
+      "order_by": "QUERY PARAMETER",
+      "owned": "QUERY PARAMETER",
+      "search": "QUERY PARAMETER",
+      "simple": "QUERY PARAMETER",
+      "sort": "QUERY PARAMETER",
+      "starred": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "user_id": "PATH VARIABLE",
+      "visibility": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER",
+      "with_issues_enabled": "QUERY PARAMETER",
+      "with_merge_requests_enabled": "QUERY PARAMETER",
+      "with_programming_language": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_users_user_id_projects_GET_param"
+    }
+  },
+  "get-/users/{user_id}/starred_projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Project API/_users_user_id_starred_projects/GET",
+    "parameters": {
+      "archived": "QUERY PARAMETER",
+      "membership": "QUERY PARAMETER",
+      "min_access_level": "QUERY PARAMETER",
+      "order_by": "QUERY PARAMETER",
+      "owned": "QUERY PARAMETER",
+      "search": "QUERY PARAMETER",
+      "simple": "QUERY PARAMETER",
+      "sort": "QUERY PARAMETER",
+      "starred": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "user_id": "PATH VARIABLE",
+      "visibility": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER",
+      "with_issues_enabled": "QUERY PARAMETER",
+      "with_merge_requests_enabled": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_users_user_id_starred_projects_GET_param"
+    }
+  }
+}

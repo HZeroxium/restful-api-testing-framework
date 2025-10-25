@@ -1,0 +1,575 @@
+DELETE /brands/{brandId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /carts/{cartId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /carts/{cartId}/product/{productId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /categories/{categoryId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /favorites/{favoriteId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /products/{productId}
+  status_codes: 204, 401, 404, 405, 409, 422
+  2xx: 204
+  3xx: -
+  4xx: 401, 404, 405, 409, 422
+  5xx: -
+  other: -
+
+DELETE /users/{userId}
+  status_codes: 204, 401, 403, 404, 405, 409
+  2xx: 204
+  3xx: -
+  4xx: 401, 403, 404, 405, 409
+  5xx: -
+  other: -
+
+GET /brands
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /brands/search
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /brands/{brandId}
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /carts/{cartId}
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /categories
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /categories/search
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /categories/tree
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /categories/tree/{categoryId}
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /favorites
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /favorites/{favoriteId}
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /images
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /invoices
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /invoices/search
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /invoices/{invoiceId}
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /invoices/{invoice_number}/download-pdf
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /invoices/{invoice_number}/download-pdf-status
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /messages
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /messages/{messageId}
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+GET /products
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /products/search
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /products/{productId}
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /products/{productId}/related
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+GET /reports/average-sales-per-month
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/average-sales-per-week
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/customers-by-country
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/top10-best-selling-categories
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/top10-purchased-products
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/total-sales-of-years
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /reports/total-sales-per-country
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /users
+  status_codes: 200, 400, 401
+  2xx: 200
+  3xx: -
+  4xx: 400, 401
+  5xx: -
+  other: -
+
+GET /users/logout
+  status_codes: 200, 400, 401
+  2xx: 200
+  3xx: -
+  4xx: 400, 401
+  5xx: -
+  other: -
+
+GET /users/me
+  status_codes: 200, 401
+  2xx: 200
+  3xx: -
+  4xx: 401
+  5xx: -
+  other: -
+
+GET /users/refresh
+  status_codes: 200, 400, 401
+  2xx: 200
+  3xx: -
+  4xx: 400, 401
+  5xx: -
+  other: -
+
+GET /users/search
+  status_codes: 200, 401, 404
+  2xx: 200
+  3xx: -
+  4xx: 401, 404
+  5xx: -
+  other: -
+
+GET /users/{userId}
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+PATCH /brands/{brandId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PATCH /categories/{categoryId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PATCH /invoices/{invoiceId}
+  status_codes: 200, 401, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405, 422
+  5xx: -
+  other: -
+
+PATCH /products/{productId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PATCH /users/{userId}
+  status_codes: 200, 401, 403, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 403, 405, 422
+  5xx: -
+  other: -
+
+POST /brands
+  status_codes: 201, 404, 405, 422
+  2xx: 201
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+POST /carts
+  status_codes: 201, 404, 405, 422
+  2xx: 201
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+POST /carts/{id}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+POST /categories
+  status_codes: 201, 404, 405, 422
+  2xx: 201
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+POST /favorites
+  status_codes: 200, 401, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405, 422
+  5xx: -
+  other: -
+
+POST /invoices
+  status_codes: 200, 401, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405, 422
+  5xx: -
+  other: -
+
+POST /messages
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+POST /messages/{messageId}/attach-file
+  status_codes: 200, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 404, 405
+  5xx: -
+  other: -
+
+POST /messages/{messageId}/reply
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+POST /payment/check
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+POST /products
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+POST /totp/setup
+  status_codes: 200, 400
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: -
+
+POST /totp/verify
+  status_codes: 200, 400
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: -
+
+POST /users/change-password
+  status_codes: 200, 401
+  2xx: 200
+  3xx: -
+  4xx: 401
+  5xx: -
+  other: -
+
+POST /users/forgot-password
+  status_codes: 200, 400, 401, 403
+  2xx: 200
+  3xx: -
+  4xx: 400, 401, 403
+  5xx: -
+  other: -
+
+POST /users/login
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+POST /users/register
+  status_codes: 201, 400, 401, 403
+  2xx: 201
+  3xx: -
+  4xx: 400, 401, 403
+  5xx: -
+  other: -
+
+PUT /brands/{brandId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /carts/{cartId}/product/quantity
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /categories/{categoryId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /invoices/{invoiceId}
+  status_codes: 200, 401, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /invoices/{invoiceId}/status
+  status_codes: 200, 401, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /messages/{messageId}/status
+  status_codes: 200, 401, 404, 405
+  2xx: 200
+  3xx: -
+  4xx: 401, 404, 405
+  5xx: -
+  other: -
+
+PUT /products/{productId}
+  status_codes: 200, 404, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 404, 405, 422
+  5xx: -
+  other: -
+
+PUT /users/{userId}
+  status_codes: 200, 401, 403, 405, 422
+  2xx: 200
+  3xx: -
+  4xx: 401, 403, 405, 422
+  5xx: -
+  other: -

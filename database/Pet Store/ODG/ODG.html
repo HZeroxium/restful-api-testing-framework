@@ -1,0 +1,165 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        
+            <script src="lib/bindings/utils.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/dist/vis-network.min.css" integrity="sha512-WgxfT5LWjfszlPHXRmBWHkV2eceiWTOBvrKCNbdgDYTHrT2AeLCGbF4sZlZw3UMN3WtL0tGUoIAKsu8mllg/XA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js" integrity="sha512-LnvoEWDFrqGHlHmDD2101OrLcbsfkrzoSpvtSQtxK3RMnRV0eOkhhBN2dXHKRrUU8p2DGRTk35n4O8nWSVe1mQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            
+        
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+        <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6"
+          crossorigin="anonymous"
+        />
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
+          crossorigin="anonymous"
+        ></script>
+
+
+        <center>
+          <h1></h1>
+        </center>
+        <style type="text/css">
+
+             #mynetwork {
+                 width: 100%;
+                 height: 600px;
+                 background-color: white;
+                 border: 1px solid lightgray;
+                 position: relative;
+                 float: left;
+             }
+
+             
+
+             
+
+             
+        </style>
+    </head>
+
+
+    <body>
+        <div class="card" style="width: 100%">
+            
+            
+            <div id="mynetwork" class="card-body"></div>
+        </div>
+
+        
+        
+
+        <script type="text/javascript">
+
+              // initialize global variables.
+              var edges;
+              var nodes;
+              var allNodes;
+              var allEdges;
+              var nodeColors;
+              var originalNodes;
+              var network;
+              var container;
+              var options, data;
+              var filter = {
+                  item : '',
+                  property : '',
+                  value : []
+              };
+
+              
+
+              
+
+              // This method is responsible for drawing the graph, returns the drawn network
+              function drawGraph() {
+                  var container = document.getElementById('mynetwork');
+
+                  
+
+                  // parsing and collecting nodes and edges from the python
+                  nodes = new vis.DataSet([{"color": "#97c2fc", "font": {"color": "black"}, "id": "put-/pet", "label": "put-/pet", "shape": "dot", "title": "put-/pet"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/pet", "label": "post-/pet", "shape": "dot", "title": "post-/pet"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/pet/findByStatus", "label": "get-/pet/findByStatus", "shape": "dot", "title": "get-/pet/findByStatus"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/pet/findByTags", "label": "get-/pet/findByTags", "shape": "dot", "title": "get-/pet/findByTags"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/pet/{petId}", "label": "get-/pet/{petId}", "shape": "dot", "title": "get-/pet/{petId}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/pet/{petId}", "label": "post-/pet/{petId}", "shape": "dot", "title": "post-/pet/{petId}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "delete-/pet/{petId}", "label": "delete-/pet/{petId}", "shape": "dot", "title": "delete-/pet/{petId}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/pet/{petId}/uploadImage", "label": "post-/pet/{petId}/uploadImage", "shape": "dot", "title": "post-/pet/{petId}/uploadImage"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/store/inventory", "label": "get-/store/inventory", "shape": "dot", "title": "get-/store/inventory"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/store/order", "label": "post-/store/order", "shape": "dot", "title": "post-/store/order"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/store/order/{orderId}", "label": "get-/store/order/{orderId}", "shape": "dot", "title": "get-/store/order/{orderId}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "delete-/store/order/{orderId}", "label": "delete-/store/order/{orderId}", "shape": "dot", "title": "delete-/store/order/{orderId}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/user", "label": "post-/user", "shape": "dot", "title": "post-/user"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "post-/user/createWithList", "label": "post-/user/createWithList", "shape": "dot", "title": "post-/user/createWithList"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/user/login", "label": "get-/user/login", "shape": "dot", "title": "get-/user/login"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/user/logout", "label": "get-/user/logout", "shape": "dot", "title": "get-/user/logout"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "get-/user/{username}", "label": "get-/user/{username}", "shape": "dot", "title": "get-/user/{username}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "put-/user/{username}", "label": "put-/user/{username}", "shape": "dot", "title": "put-/user/{username}"}, {"color": "#97c2fc", "font": {"color": "black"}, "id": "delete-/user/{username}", "label": "delete-/user/{username}", "shape": "dot", "title": "delete-/user/{username}"}]);
+                  edges = new vis.DataSet([{"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e get-/pet/{petId}", "to": "get-/pet/{petId}"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e get-/pet/findByStatus", "to": "get-/pet/findByStatus"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e put-/pet", "to": "put-/pet"}, {"arrows": "to", "from": "put-/pet", "title": "put-/pet -\u003e get-/pet/findByStatus", "to": "get-/pet/findByStatus"}, {"arrows": "to", "from": "post-/user", "title": "post-/user -\u003e get-/user/login", "to": "get-/user/login"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e post-/pet/{petId}", "to": "post-/pet/{petId}"}, {"arrows": "to", "from": "put-/pet", "title": "put-/pet -\u003e post-/pet/{petId}", "to": "post-/pet/{petId}"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e get-/pet/findByTags", "to": "get-/pet/findByTags"}, {"arrows": "to", "from": "put-/pet", "title": "put-/pet -\u003e get-/pet/findByTags", "to": "get-/pet/findByTags"}, {"arrows": "to", "from": "post-/user", "title": "post-/user -\u003e put-/user/{username}", "to": "put-/user/{username}"}, {"arrows": "to", "from": "post-/user/createWithList", "title": "post-/user/createWithList -\u003e put-/user/{username}", "to": "put-/user/{username}"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e delete-/pet/{petId}", "to": "delete-/pet/{petId}"}, {"arrows": "to", "from": "post-/user", "title": "post-/user -\u003e delete-/user/{username}", "to": "delete-/user/{username}"}, {"arrows": "to", "from": "post-/user/createWithList", "title": "post-/user/createWithList -\u003e delete-/user/{username}", "to": "delete-/user/{username}"}, {"arrows": "to", "from": "post-/store/order", "title": "post-/store/order -\u003e delete-/store/order/{orderId}", "to": "delete-/store/order/{orderId}"}, {"arrows": "to", "from": "post-/store/order", "title": "post-/store/order -\u003e get-/store/order/{orderId}", "to": "get-/store/order/{orderId}"}, {"arrows": "to", "from": "post-/user", "title": "post-/user -\u003e post-/user/createWithList", "to": "post-/user/createWithList"}, {"arrows": "to", "from": "post-/user", "title": "post-/user -\u003e get-/user/{username}", "to": "get-/user/{username}"}, {"arrows": "to", "from": "post-/user/createWithList", "title": "post-/user/createWithList -\u003e get-/user/{username}", "to": "get-/user/{username}"}, {"arrows": "to", "from": "post-/pet", "title": "post-/pet -\u003e post-/pet/{petId}/uploadImage", "to": "post-/pet/{petId}/uploadImage"}]);
+
+                  nodeColors = {};
+                  allNodes = nodes.get({ returnType: "Object" });
+                  for (nodeId in allNodes) {
+                    nodeColors[nodeId] = allNodes[nodeId].color;
+                  }
+                  allEdges = edges.get({ returnType: "Object" });
+                  // adding nodes and edges to the graph
+                  data = {nodes: nodes, edges: edges};
+
+                  var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.5,
+            "damping": 0.09,
+            "gravitationalConstant": -9000,
+            "springConstant": 0.1,
+            "springLength": 180
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+
+                  
+
+
+                  
+
+                  network = new vis.Network(container, data, options);
+
+                  
+                    network.on("click", neighbourhoodHighlight);
+                  
+
+                  
+
+                  
+
+
+                  
+
+                  return network;
+
+              }
+              drawGraph();
+        </script>
+    </body>
+</html>

@@ -1,0 +1,392 @@
+{
+  "put-/pet": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "422",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404",
+        "422"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/pet": {
+    "status_codes": [
+      "200",
+      "400",
+      "422",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "422"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/pet/findByStatus": {
+    "status_codes": [
+      "200",
+      "400",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/pet/findByTags": {
+    "status_codes": [
+      "200",
+      "400",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/pet/{petId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/pet/{petId}/uploadImage": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/store/inventory": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/store/order": {
+    "status_codes": [
+      "200",
+      "400",
+      "422",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "422"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/store/order/{orderId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/store/order/{orderId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/user": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/user/createWithList": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/user/login": {
+    "status_codes": [
+      "200",
+      "400",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/user/logout": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/user/{username}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  }
+}

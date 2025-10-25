@@ -1,0 +1,749 @@
+{
+  "get-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    }
+  },
+  "post-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "integer",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    }
+  },
+  "post-/projects/{id}/repository/commits": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "branch": "string (description: Name of the branch to commit into. To create a new branch, also provide either start_branch or start_sha, and optionally start_project)",
+      "commit_message": "string (description: Commit message)"
+    },
+    "requestBody": {
+      "schema of Actions": {
+        "action": "string (description: The action to perform)",
+        "file_path": "string (description: The full path to the file)",
+        "previous_path": "string (description: The original full path to the file being moved)",
+        "content": "string (description: The file content, required for all except `delete` and optional for `move`)",
+        "encoding": "string (description: The file encoding)",
+        "last_commit_id": "string (description: Last known file commit ID. Will be only considered in update, move, and delete actions)",
+        "execute_filemode": "boolean (description: When true/false enables/disables the execute flag on the file. Only considered for chmod action)"
+      }
+    },
+    "responseBody": {
+      "schema of RepoCommitDetail": {
+        "author_email": "string",
+        "author_name": "string",
+        "authored_date": "string",
+        "committed_date": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "parent_ids": "array",
+        "short_id": "string",
+        "stats": {
+          "schema of RepoCommitStats": {
+            "additions": "integer",
+            "deletions": "integer",
+            "total": "integer"
+          }
+        },
+        "last_pipeline": {
+          "schema of RepoCommitLastPipeline": {
+            "id": "integer",
+            "ref": "string",
+            "sha": "string",
+            "status": "string"
+          }
+        },
+        "status": "string",
+        "title": "string",
+        "web_url": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "responseBody": {
+      "schema of RepoCommitDetail": {
+        "author_email": "string",
+        "author_name": "string",
+        "authored_date": "string",
+        "committed_date": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "parent_ids": "array",
+        "short_id": "string",
+        "stats": {
+          "schema of RepoCommitStats": {
+            "additions": "integer",
+            "deletions": "integer",
+            "total": "integer"
+          }
+        },
+        "last_pipeline": {
+          "schema of RepoCommitLastPipeline": {
+            "id": "integer",
+            "ref": "string",
+            "sha": "string",
+            "status": "string"
+          }
+        },
+        "status": "string",
+        "title": "string",
+        "web_url": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/refs": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "responseBody": {
+      "schema of RepoCommitRefs": {
+        "type": "string",
+        "name": "string"
+      }
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/cherry_pick": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash)"
+    },
+    "requestBody": {
+      "branch": "string (description: The name of the branch)"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/revert": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: Commit SHA to revert)"
+    },
+    "requestBody": {
+      "branch": "string (description: Target branch name)"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/diff": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "responseBody": {
+      "schema of RepoCommitDiff": {
+        "a_mode": "string",
+        "b_mode": "string",
+        "deleted_file": "string",
+        "diff": "string",
+        "new_file": "string",
+        "new_path": "string",
+        "old_path": "string",
+        "renamed_file": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/comments": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "requestBody": {
+      "note": "string (description: The text of the comment)",
+      "path": "string (description: The file path relative to the repository)",
+      "line": "integer (description: The line number where the comment should be placed)",
+      "line_type": "string (description: The line type)"
+    },
+    "responseBody": {
+      "schema of RepoCommitComment": {
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "line_type": "string",
+        "path": "string",
+        "line": "integer",
+        "note": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/discussions": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "responseBody": {
+      "schema of RepoCommitDiscussion": {
+        "id": "integer",
+        "individual_note": "boolean",
+        "notes": {
+          "array of Note objects": [
+            {
+              "id": "integer",
+              "type": "string",
+              "body": "string",
+              "attachment": "string",
+              "author": {
+                "schema of Author": {
+                  "web_url": "string",
+                  "avatar_url": "string",
+                  "username": "string",
+                  "state": "string",
+                  "name": "string",
+                  "id": "integer"
+                }
+              },
+              "created_at": "string",
+              "updated_at": "string",
+              "system": "boolean",
+              "noteable_id": "integer",
+              "noteable_type": "string",
+              "resolvable": "boolean",
+              "confidential": "string",
+              "noteable_iid": "integer",
+              "commands_changes": "object"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/statuses": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit hash or name of a repository branch or tag)"
+    },
+    "responseBody": {
+      "schema of CommitStatus": {
+        "allow_failure": "boolean",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "description": "string",
+        "finished_at": "string",
+        "id": "string",
+        "name": "string",
+        "ref": "string",
+        "sha": "string",
+        "started_at": "string",
+        "status": "string",
+        "target_url": "string",
+        "coverage": "string"
+      }
+    }
+  },
+  "post-/projects/{id}/statuses/{sha}": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit SHA)"
+    },
+    "requestBody": {
+      "state": "string (description: The state of the status)",
+      "ref": "string (description: The ref (branch or tag) to which the status refers)",
+      "target_url": "string (description: The target URL to associate with this status)",
+      "description": "string (description: A short description of the status)",
+      "name": "string (description: The label to differentiate this status from the status of other systems)",
+      "context": "string (description: The label to differentiate this status from the status of other systems)",
+      "coverage": "number (description: The total code coverage)",
+      "pipeline_id": "integer (description: The ID of the pipeline to set status. Use in case of several pipeline on same SHA)"
+    },
+    "responseBody": {
+      "schema of CommitStatus": {
+        "allow_failure": "boolean",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "description": "string",
+        "finished_at": "string",
+        "id": "string",
+        "name": "string",
+        "ref": "string",
+        "sha": "string",
+        "started_at": "string",
+        "status": "string",
+        "target_url": "string",
+        "coverage": "string"
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/merge_requests": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit SHA)"
+    },
+    "responseBody": {
+      "schema of MergeRequests": {
+        "id": "integer",
+        "iid": "integer",
+        "project_id": "integer",
+        "title": "string",
+        "description": "string",
+        "state": "string",
+        "created_at": "string",
+        "updated_at": "string",
+        "target_branch": "string",
+        "source_branch": "string",
+        "upvotes": "integer",
+        "downvotes": "integer",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "assignee": "string",
+        "source_project_id": "integer",
+        "target_project_id": "integer",
+        "labels": "array",
+        "work_in_progress": "boolean",
+        "milestone": "string",
+        "merge_when_pipeline_succeeds": "integer",
+        "merge_status": "string",
+        "sha": "string",
+        "merge_commit_sha": "string",
+        "squash_commit_sha": "string",
+        "user_notes_count": "integer",
+        "discussion_locked": "string",
+        "should_remove_source_branch": "string",
+        "force_remove_source_branch": "boolean",
+        "web_url": "string",
+        "time_stats": {
+          "schema of TimeStats": {
+            "time_estimate": "integer",
+            "total_time_spent": "integer",
+            "human_time_estimate": "string",
+            "human_total_time_spent": "string"
+          }
+        }
+      }
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/signature": {
+    "tags": [
+      "Commit"
+    ],
+    "parameters": {
+      "id": "string (description: The ID or URL-encoded path of the project owned by the authenticated user)",
+      "sha": "string (description: The commit SHA)"
+    },
+    "responseBody": {
+      "schema of Signature": {
+        "signature_type": "string",
+        "verification_status": "string",
+        "gpg_key_id": "integer",
+        "gpg_key_primary_keyid": "string",
+        "gpg_key_user_name": "string",
+        "gpg_key_user_email": "string",
+        "gpg_key_subkey_id": "string",
+        "commit_source": "string",
+        "x509_certificate": {
+          "schema of X509Certificate": {
+            "id": "integer",
+            "subject": "string",
+            "subject_key_identifier": "string",
+            "serial_number": "number",
+            "certificate_status": "string",
+            "x509_issuer": {
+              "schema of X509Issuer": {
+                "id": "integer",
+                "subject": "string",
+                "subject_key_identifier": "string",
+                "crl_url": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

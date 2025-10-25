@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""user_id"": 12345, ""path"": ""my-new-project"", ""import_url"": ""https://github.com/example/repo.git"", ""builds_access_level"": ""enabled"", ""issues_access_level"": ""private"", ""merge_requests_access_level"": ""enabled"", ""snippets_access_level"": ""disabled"", ""wiki_access_level"": ""private"", ""visibility"": ""public"", ""auto_devops_enabled"": true, ""build_timeout"": 3600, ""tag_list"": [""dev"", ""api"", ""test""]}",2xx,"user_id is a positive integer (no producer context, so cannot guarantee real existence); all provided fields are within their allowed types and enums; inter-parameter dependencies are respected (only path, not name; only import_url, not template_name)."
+2,"{""user_id"": 12345, ""path"": ""my-new-project"", ""avatar"": ""not_a_file.jpg""}",2xx,"user_id is a positive integer; avatar is a string (format=file), and the value is a plausible filename; all fields satisfy their type and format constraints."
+3,"{""user_id"": ""abcde"", ""path"": ""my-new-project""}",4xx,"user_id='abcde' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""user_id"": 12345, ""path"": ""my-new-project"", ""builds_access_level"": ""superuser""}",4xx,"builds_access_level='superuser' is not in enum {'disabled', 'private', 'enabled'}."
+5,"{""user_id"": 12345, ""path"": ""my-new-project"", ""build_timeout"": ""notanumber""}",4xx,"build_timeout='notanumber' is not parseable as integer, violating 'type=integer' for query parameter."
+6,"{""user_id"": ""abc""}",4xx,"user_id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""user_id"": 2147483647, ""auto_cancel_pending_pipelines"": ""maybe""}",4xx,"auto_cancel_pending_pipelines='maybe' is not in enum {'enabled', 'disabled'}."
+8,"{""user_id"": 2147483647, ""auto_devops_enabled"": ""tru""}",4xx,"auto_devops_enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+9,"{""user_id"": 2147483647, ""build_timeout"": ""ten""}",4xx,"build_timeout='ten' is not parseable as integer, violating 'type=integer'."
+10,"{""user_id"": 2147483647, ""avatar"": ""not_a_file.jpg""}",4xx,avatar='not_a_file.jpg' does not match format 'file'.

@@ -1,0 +1,59 @@
+{
+  "test_case": {
+    "id": "_user_login_loginUser_1_1",
+    "name": "_user_login_loginUser_1_1",
+    "description": "Test case for endpoint get-/user/login",
+    "endpoint": "get-/user/login",
+    "sequence_index": 1,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/user",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {},
+        "request_body": {
+          "schema of User": {
+            "id": "integer",
+            "username": "string",
+            "firstName": "string",
+            "lastName": "string",
+            "email": "string",
+            "password": "string",
+            "phone": "string",
+            "userStatus": "integer"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/user/login",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {
+          "username": null,
+          "password": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {}
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

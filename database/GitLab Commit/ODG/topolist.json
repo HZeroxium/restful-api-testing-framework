@@ -1,0 +1,17 @@
+[
+  "post-/projects",
+  "get-/projects",
+  "get-/projects/{id}/repository/commits",
+  "get-/projects/{id}/repository/commits/{sha}/refs",
+  "post-/projects/{id}/repository/commits/{sha}/cherry_pick",
+  "post-/projects/{id}/repository/commits",
+  "get-/projects/{id}/repository/commits/{sha}",
+  "post-/projects/{id}/repository/commits/{sha}/revert",
+  "get-/projects/{id}/repository/commits/{sha}/comments",
+  "get-/projects/{id}/repository/commits/{sha}/discussions",
+  "get-/projects/{id}/repository/commits/{sha}/statuses",
+  "get-/projects/{id}/repository/commits/{sha}/merge_requests",
+  "get-/projects/{id}/repository/commits/{sha}/diff",
+  "post-/projects/{id}/statuses/{sha}",
+  "get-/projects/{id}/repository/commits/{sha}/signature"
+]

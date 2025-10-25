@@ -1,0 +1,20 @@
+index,data,expected_status_code,reason
+1,"{""House"": ""Commons"", ""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": 0, ""Take"": 10}",2xx,House='Commons' is in the allowed enum; DateFrom and DateTo are valid ISO 8601 date-times; Skip and Take are parseable integers.
+2,"{""House"": ""Lords"", ""Take"": 25}",2xx,House='Lords' is in the allowed enum; Take=25 is a valid integer.
+3,"{""House"": ""Senate""}",4xx,"House='Senate' is not in enum ['All', 'Commons', 'Lords', 'Unassigned']."
+4,"{""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": ""not-a-date""}",4xx,DateTo='not-a-date' does not match format date-time (ISO 8601).
+5,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+6,"{""House"": ""Senate""}",4xx,"House='Senate' is not in enum {""All"", ""Commons"", ""Lords"", ""Unassigned""}."
+7,"{""DateFrom"": ""2021-02-30T07:60:15Z""}",4xx,DateFrom='2021-02-30T07:60:15Z' does not match format date-time.
+8,"{""DateTo"": ""not-a-date""}",4xx,DateTo='not-a-date' does not match format date-time.
+9,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+10,"{""Take"": ""-1""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""House"": """", ""DateFrom"": """", ""DateTo"": """", ""Skip"": -9999999.0, ""Take"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""House"": ""Commons"", ""DateFrom"": 123456789, ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": 0, ""Take"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""House"": ""Commons"", ""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": 123456789, ""Skip"": 0, ""Take"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""House"": ""Commons"", ""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": ""123456"", ""Take"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""House"": ""Commons"", ""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": 0, ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""House"": ""Commons"", ""DateFrom"": 123456789, ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": 0, ""Take"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""House"": ""Commons"", ""DateFrom"": ""2024-06-01T09:00:00Z"", ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""House"": ""Commons"", ""DateFrom"": 123456789, ""DateTo"": ""2024-06-30T17:00:00Z"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""House"": ""Commons"", ""DateFrom"": 123456789, ""DateTo"": 123456789, ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

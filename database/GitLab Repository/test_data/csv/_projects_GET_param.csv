@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""order_by"": ""created_at"", ""sort"": ""asc"", ""visibility"": ""public"", ""min_access_level"": 30, ""archived"": true}",2xx,"order_by, sort, and visibility are in their allowed enums; min_access_level=30 is in its allowed enum; archived=true is a valid boolean."
+2,"{""last_activity_after"": ""2024-06-01T12:00:00Z"", ""last_activity_before"": ""2024-06-30T23:59:59Z""}",2xx,last_activity_after and last_activity_before are valid ISO 8601 date-time strings.
+3,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0, 10, 20, 30, 40, 50]."
+4,"{""sort"": ""descending""}",4xx,"sort='descending' is not in enum ['asc', 'desc']."
+5,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+6,"{""archived"": ""tru""}",4xx,"archived='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."
+7,"{""id_after"": ""abc""}",4xx,"id_after='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+8,"{""last_activity_after"": ""2021-02-30T07:60:15Z""}",4xx,last_activity_after='2021-02-30T07:60:15Z' does not match format date-time (invalid date/time).
+9,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+10,"{""order_by"": ""foobar"", ""sort"": ""ascending""}",4xx,"order_by='foobar' is not in enum {id, name, path, created_at, updated_at, last_activity_at, repository_size, storage_size, packages_size, wiki_size}; sort='ascending' is not in enum {asc, desc}."

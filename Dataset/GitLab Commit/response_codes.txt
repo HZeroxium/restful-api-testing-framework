@@ -1,0 +1,119 @@
+GET /projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/comments
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/diff
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/discussions
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/merge_requests
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/refs
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/signature
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/commits/{sha}/statuses
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/repository/commits
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/repository/commits/{sha}/cherry_pick
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/repository/commits/{sha}/revert
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/statuses/{sha}
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default

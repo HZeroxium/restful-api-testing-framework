@@ -1,12 +1,17 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973}",2xx,billId=3973 is a valid integer path parameter from dependency context and >= minimum=1.
-2,"{""billId"": 3973, ""Skip"": 0, ""Take"": 20}",2xx,billId=3973 is valid; Skip=0 and Take=20 are valid integers for optional query parameters.
-3,"{""billId"": 3973}",2xx,llm_success_ignore_optional
-4,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint for path parameter."
-5,"{""billId"": 3973, ""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query parameter."
-6,"{""billId"": ""not-an-int""}",4xx,"billId='not-an-int' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint for path parameter."
-8,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""billId"": 3973, ""Skip"": ""notanint""}",4xx,"Skip='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
-10,"{""billId"": 3973, ""Take"": ""xyz""}",4xx,"Take='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
-11,"{""billId"": 2147483648}",4xx,"billId=2147483648 exceeds int32 maximum=2147483647, violating 'format=int32'."
+1,"{""billId"": 3973, ""Skip"": 0, ""Take"": 5}",2xx,billId=3973 is within allowed range [1..2147483647]; Skip=0 and Take=5 are valid integers.
+2,"{""billId"": 3973, ""Skip"": 10}",2xx,billId=3973 is within allowed range [1..2147483647]; Skip=10 is a valid integer.
+3,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint for path parameter."
+4,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""billId"": 3973, ""Skip"": ""ten"", ""Take"": ""five""}",4xx,"Skip='ten' and Take='five' are not parseable as integers, violating 'type=integer' for query parameters."
+6,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint for path parameter."
+7,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""billId"": 3973, ""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query parameter."
+9,"{""billId"": 3973, ""Take"": ""abc""}",4xx,"Take='abc' is not parseable as integer, violating 'type=integer' for query parameter."
+10,"{""billId"": 3973, ""Skip"": -1, ""Take"": -1}",4xx,"Skip=-1 and Take=-1 are negative values; while not explicitly forbidden, negative pagination is typically invalid and may violate business rules."
+11,"{""billId"": -1, ""Skip"": -9999999.0, ""Take"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""billId"": ""123456"", ""Skip"": 0, ""Take"": 5}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""billId"": 3973, ""Skip"": ""123456"", ""Take"": 5}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""billId"": 3973, ""Skip"": 0, ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""billId"": ""123456"", ""Skip"": 0, ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""billId"": ""123456"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

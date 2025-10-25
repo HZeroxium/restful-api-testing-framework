@@ -1,0 +1,27 @@
+{
+  "status": 500,
+  "body": {
+    "code": 500,
+    "message": "There was an error processing your request. It has been logged (ID: 4f10d1b7769d4bf3)"
+  },
+  "request": {
+    "method": "POST",
+    "url": "https://petstore3.swagger.io/api/v3/user",
+    "params": {},
+    "path_params": {},
+    "headers": {
+      "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    },
+    "cookies": {},
+    "json": {
+      "id": 10,
+      "username": "theUser",
+      "firstName": "John",
+      "lastName": "James",
+      "email": "john@email.com",
+      "password": "12345",
+      "phone": "12345",
+      "userStatus": 1
+    }
+  }
+}

@@ -1,0 +1,151 @@
+DELETE /pet/{petId}
+  status_codes: 200, 400, default
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: default
+
+DELETE /store/order/{orderId}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+DELETE /user/{username}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+GET /pet/findByStatus
+  status_codes: 200, 400, default
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: default
+
+GET /pet/findByTags
+  status_codes: 200, 400, default
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: default
+
+GET /pet/{petId}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+GET /store/inventory
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /store/order/{orderId}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+GET /user/login
+  status_codes: 200, 400, default
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: default
+
+GET /user/logout
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /user/{username}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+POST /pet
+  status_codes: 200, 400, 422, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 422
+  5xx: -
+  other: default
+
+POST /pet/{petId}
+  status_codes: 200, 400, default
+  2xx: 200
+  3xx: -
+  4xx: 400
+  5xx: -
+  other: default
+
+POST /pet/{petId}/uploadImage
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default
+
+POST /store/order
+  status_codes: 200, 400, 422, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 422
+  5xx: -
+  other: default
+
+POST /user
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /user/createWithList
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /pet
+  status_codes: 200, 400, 404, 422, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404, 422
+  5xx: -
+  other: default
+
+PUT /user/{username}
+  status_codes: 200, 400, 404, default
+  2xx: 200
+  3xx: -
+  4xx: 400, 404
+  5xx: -
+  other: default

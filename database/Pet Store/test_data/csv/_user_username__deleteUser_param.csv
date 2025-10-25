@@ -1,0 +1,20 @@
+index,data,expected_status_code,reason
+1,"{""username"": ""aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa""}",2xx,"username is a string of 257 characters, which is valid since there is no maxLength constraint."
+2,"{""username"": ""aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa""}",2xx,llm_success_ignore_optional
+3,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the created user from dependency context.
+4,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the created user from dependency context.
+5,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the created user from dependency context.
+6,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the created user from dependency context.
+7,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the created user from dependency context.
+8,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the required path parameter; satisfies 'type=string' and 'required'.
+9,"{""username"": 12345}",4xx,"username=12345 is an integer, violating 'type=string' for path parameter."
+10,"{""username"": true}",4xx,"username=true is a boolean, violating 'type=string' for path parameter."
+11,"{""username"": [""theUser""]}",4xx,"username=['theUser'] is an array, violating 'type=string' for path parameter."
+12,"{""username"": {""name"": ""theUser""}}",4xx,"username={""name"": ""theUser""} is an object, violating 'type=string' for path parameter."
+13,"{""username"": 123}",4xx,"username=123 is an integer, violating 'type=string' for path parameter."
+14,"{""username"": true}",4xx,"username=true is a boolean, violating 'type=string' for path parameter."
+15,"{""username"": [""theUser""]}",4xx,"username=['theUser'] is an array, violating 'type=string' for path parameter."
+16,"{""username"": {""name"": ""theUser""}}",4xx,"username={""name"": ""theUser""} is an object, violating 'type=string' for path parameter."
+17,"{""username"": 12.34}",4xx,"username=12.34 is a number, violating 'type=string' for path parameter."
+18,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+19,"{""username"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

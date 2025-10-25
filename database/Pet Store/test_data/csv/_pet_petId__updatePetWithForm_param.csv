@@ -1,0 +1,32 @@
+index,data,expected_status_code,reason
+1,"{""petId"": 7, ""name"": ""Lion 1"", ""status"": ""available""}",2xx,petId=7 is a valid integer from context; name and status are valid strings.
+2,"{""petId"": 7}",2xx,petId=7 is a valid integer from context; optional query parameters are omitted as allowed.
+3,"{""petId"": 2147483649, ""status"": ""available""}",2xx,petId=2147483649 is a valid int64 integer; status is a valid string.
+4,"{""petId"": 7, ""name"": null, ""status"": null}",2xx,llm_success_ignore_optional
+5,"{""petId"": 7, ""name"": null, ""status"": ""available""}",2xx,llm_success_ignore_optional
+6,"{""petId"": 7, ""name"": ""Lion 1"", ""status"": ""available""}",2xx,llm_success_ignore_optional
+7,"{""petId"": 7, ""name"": ""Lion 1"", ""status"": null}",2xx,llm_success_ignore_optional: petId=7 is a valid integer from context; name and status are valid strings.
+8,"{""petId"": 7, ""name"": null, ""status"": ""available""}",2xx,llm_success_ignore_optional: petId=7 is a valid integer from context; name and status are valid strings.
+9,"{""petId"": ""abc"", ""name"": ""Lion 1""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""petId"": 7, ""name"": 123}",4xx,"name=123 is not a string, violating 'type=string' for query parameter."
+11,"{""petId"": ""abc"", ""name"": ""Lion 1"", ""status"": ""available""}",4xx,"petId='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+12,"{""petId"": ""12x"", ""name"": ""Tiger"", ""status"": ""pending""}",4xx,"petId='12x' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+13,"{""petId"": ""-1"", ""name"": ""Bear"", ""status"": ""sold""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""petId"": ""1.5"", ""name"": ""Wolf"", ""status"": ""available""}",4xx,"petId='1.5' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+15,"{""petId"": ""2147483649"", ""name"": ""Leopard"", ""status"": ""pending""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""petId"": 10, ""name"": ""doggie"", ""status"": ""available""}",2xx,petId=10 is a valid integer from context; name and status are valid strings.
+17,"{""petId"": 10}",2xx,petId=10 is a valid integer from context; optional fields name and status are omitted.
+18,"{""petId"": 2147483649, ""status"": ""available""}",2xx,petId=2147483649 is a valid int64 integer; status is a valid string.
+19,"{""petId"": 2147483649, ""name"": ""doggie"", ""status"": ""available""}",2xx,petId=2147483649 is parseable as int64 and within int64 bounds; name and status are valid strings.
+20,"{""petId"": -1, ""name"": ""doggie"", ""status"": ""available""}",2xx,petId=-1 is parseable as int64 and within int64 bounds; name and status are valid strings.
+21,"{""petId"": ""abc"", ""name"": ""doggie""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+22,"{""petId"": 10, ""name"": 123}",4xx,"name=123 is not a string, violating 'type=string' for query parameter."
+23,"{""petId"": ""abc"", ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+24,"{""petId"": ""12.34"", ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+25,"{""petId"": ""1e10"", ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId='1e10' is not parseable as integer, violating 'type=integer' for path parameter."
+26,"{""petId"": -1, ""name"": """", ""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+27,"{""petId"": ""123456"", ""name"": ""doggie"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+28,"{""petId"": 10, ""name"": 123456789, ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+29,"{""petId"": 10, ""name"": ""doggie"", ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+30,"{""petId"": 10, ""name"": 123456789, ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+31,"{""petId"": ""123456"", ""name"": 123456789, ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,0 +1,50 @@
+{
+  "status": 200,
+  "body": {
+    "id": 10,
+    "category": {
+      "id": 1,
+      "name": "Dogs"
+    },
+    "name": "doggie",
+    "photoUrls": [
+      "https://example.com/photo1.jpg"
+    ],
+    "tags": [
+      {
+        "id": 100,
+        "name": "friendly"
+      }
+    ],
+    "status": "available"
+  },
+  "request": {
+    "method": "POST",
+    "url": "https://petstore3.swagger.io/api/v3/pet",
+    "params": {},
+    "path_params": {},
+    "headers": {
+      "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    },
+    "cookies": {},
+    "json": {
+      "id": 10,
+      "name": "doggie",
+      "category": {
+        "id": 1,
+        "name": "Dogs"
+      },
+      "photoUrls": [
+        "https://example.com/photo1.jpg",
+        "https://example.com/photo2.jpg"
+      ],
+      "tags": [
+        {
+          "id": 100,
+          "name": "friendly"
+        }
+      ],
+      "status": "available"
+    }
+  }
+}

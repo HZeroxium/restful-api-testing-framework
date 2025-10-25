@@ -1,12 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973, ""billStageId"": 19929}",2xx,billId=3973 and billStageId=19929 are valid integers from context and both are >= minimum=0.
-2,"{""billId"": 3973, ""billStageId"": 19929}",2xx,llm_success_ignore_optional
-3,"{""billId"": 3973, ""billStageId"": 19929}",2xx,"billId=3973 and billStageId=19929 are both integers ≥ 0, satisfying 'minimum' and 'type' constraints."
-4,"{""billId"": -1, ""billStageId"": 19929}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
-5,"{""billId"": 3973, ""billStageId"": -5}",4xx,"billStageId=-5 < minimum=0, violating 'minimum' constraint."
-6,"{""billId"": ""abc"", ""billStageId"": 19929}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-7,"{""billId"": 3973, ""billStageId"": ""notanint""}",4xx,"billStageId='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""billId"": -1, ""billStageId"": 19929}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
-9,"{""billId"": 3973, ""billStageId"": ""abc""}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""billId"": ""xyz"", ""billStageId"": -5}",4xx,"billId='xyz' is not parseable as integer, violating 'type=integer'; billStageId=-5 < minimum=0, violating 'minimum'."
-11,"{""billId"": 2147483649, ""billStageId"": 2147483649}",4xx,"billId=2147483649 and billStageId=2147483649 exceed int32 maximum (2,147,483,647), violating 'format=int32'."
+1,"{""billId"": 3973, ""billStageId"": 19929}",2xx,"billId=3973 and billStageId=19929 are both valid integers ≥ minimum=0, and are resolved from dependency context."
+2,"{""billId"": -1, ""billStageId"": 19929}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
+3,"{""billId"": 3973, ""billStageId"": -5}",4xx,"billStageId=-5 < minimum=0, violating 'minimum' constraint."
+4,"{""billId"": ""abc"", ""billStageId"": 19929}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""billId"": 3973, ""billStageId"": ""xyz""}",4xx,"billStageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""billId"": -1, ""billStageId"": 17032}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
+7,"{""billId"": 3973, ""billStageId"": -1}",4xx,"billStageId=-1 < minimum=0, violating 'minimum' constraint."
+8,"{""billId"": ""abc"", ""billStageId"": 17032}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+9,"{""billId"": 3973, ""billStageId"": ""xyz""}",4xx,"billStageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""billId"": -1, ""billStageId"": -1}",4xx,"billId=-1 < minimum=0 and billStageId=-1 < minimum=0, both violating 'minimum' constraint."
+11,"{""billId"": -1, ""billStageId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""billId"": ""123456"", ""billStageId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""billId"": 3973, ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""billId"": ""123456"", ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

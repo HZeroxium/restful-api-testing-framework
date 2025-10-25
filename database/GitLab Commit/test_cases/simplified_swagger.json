@@ -1,0 +1,914 @@
+{
+  "get-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects/GET",
+    "parameters": {
+      "archived": "QUERY PARAMETER",
+      "id_after": "QUERY PARAMETER",
+      "id_before": "QUERY PARAMETER",
+      "last_activity_after": "QUERY PARAMETER",
+      "last_activity_before": "QUERY PARAMETER",
+      "membership": "QUERY PARAMETER",
+      "min_access_level": "QUERY PARAMETER",
+      "order_by": "QUERY PARAMETER",
+      "owned": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "search_namespaces": "QUERY PARAMETER",
+      "search": "QUERY PARAMETER",
+      "simple": "QUERY PARAMETER",
+      "sort": "QUERY PARAMETER",
+      "starred": "QUERY PARAMETER",
+      "statistics": "QUERY PARAMETER",
+      "visibility": "QUERY PARAMETER",
+      "with_custom_attributes": "QUERY PARAMETER",
+      "with_issues_enabled": "QUERY PARAMETER",
+      "with_merge_requests_enabled": "QUERY PARAMETER",
+      "with_programming_language": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_GET_param"
+    }
+  },
+  "post-/projects": {
+    "tags": [
+      "Project"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects/POST",
+    "parameters": {
+      "allow_merge_on_skipped_pipeline": "QUERY PARAMETER",
+      "auto_cancel_pending_pipelines": "QUERY PARAMETER",
+      "auto_devops_deploy_strategy": "QUERY PARAMETER",
+      "auto_devops_enabled": "QUERY PARAMETER",
+      "autoclose_referenced_issues": "QUERY PARAMETER",
+      "avatar": "QUERY PARAMETER",
+      "build_coverage_regex": "QUERY PARAMETER",
+      "build_git_strategy": "QUERY PARAMETER",
+      "build_timeout": "QUERY PARAMETER",
+      "builds_access_level": "QUERY PARAMETER",
+      "ci_config_path": "QUERY PARAMETER",
+      "container_registry_enabled": "QUERY PARAMETER",
+      "default_branch": "QUERY PARAMETER",
+      "description": "QUERY PARAMETER",
+      "emails_disabled": "QUERY PARAMETER",
+      "forking_access_level": "QUERY PARAMETER",
+      "import_url": "QUERY PARAMETER",
+      "initialize_with_readme": "QUERY PARAMETER",
+      "issues_access_level": "QUERY PARAMETER",
+      "issues_enabled": "QUERY PARAMETER",
+      "jobs_enabled": "QUERY PARAMETER",
+      "lfs_enabled": "QUERY PARAMETER",
+      "merge_method": "QUERY PARAMETER",
+      "merge_requests_access_level": "QUERY PARAMETER",
+      "merge_requests_enabled": "QUERY PARAMETER",
+      "name": "QUERY PARAMETER",
+      "namespace_id": "QUERY PARAMETER",
+      "only_allow_merge_if_all_discussions_are_resolved": "QUERY PARAMETER",
+      "only_allow_merge_if_pipeline_succeeds": "QUERY PARAMETER",
+      "packages_enabled": "QUERY PARAMETER",
+      "pages_access_level": "QUERY PARAMETER",
+      "requirements_access_level": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER",
+      "printing_merge_request_link_enabled": "QUERY PARAMETER",
+      "public_builds": "QUERY PARAMETER",
+      "remove_source_branch_after_merge": "QUERY PARAMETER",
+      "repository_access_level": "QUERY PARAMETER",
+      "repository_storage": "QUERY PARAMETER",
+      "request_access_enabled": "QUERY PARAMETER",
+      "resolve_outdated_diff_discussions": "QUERY PARAMETER",
+      "shared_runners_enabled": "QUERY PARAMETER",
+      "show_default_award_emojis": "QUERY PARAMETER",
+      "snippets_access_level": "QUERY PARAMETER",
+      "snippets_enabled": "QUERY PARAMETER",
+      "tag_list": "QUERY PARAMETER",
+      "template_name": "QUERY PARAMETER",
+      "visibility": "QUERY PARAMETER",
+      "wiki_access_level": "QUERY PARAMETER",
+      "wiki_enabled": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "integer",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
+    "responseBody": {
+      "schema of BasicProjectDetails": {
+        "id": "integer",
+        "description": "string",
+        "default_branch": "string",
+        "visibility": "string",
+        "ssh_url_to_repo": "string",
+        "http_url_to_repo": "string",
+        "web_url": "string",
+        "readme_url": "string",
+        "tag_list": "array",
+        "owner": {
+          "schema of Owner": {
+            "id": "integer",
+            "name": "string",
+            "created_at": "string"
+          }
+        },
+        "name": "string",
+        "name_with_namespace": "string",
+        "path": "string",
+        "path_with_namespace": "string",
+        "issues_enabled": "boolean",
+        "open_issues_count": "integer",
+        "merge_requests_enabled": "boolean",
+        "jobs_enabled": "boolean",
+        "wiki_enabled": "boolean",
+        "snippets_enabled": "boolean",
+        "can_create_merge_request_in": "boolean",
+        "resolve_outdated_diff_discussions": "boolean",
+        "container_registry_enabled": "boolean",
+        "created_at": "string",
+        "last_activity_at": "string",
+        "creator_id": "integer",
+        "namespace": {
+          "schema of Namespace": {
+            "id": "integer",
+            "name": "string",
+            "path": "string",
+            "kind": "string",
+            "full_path": "string"
+          }
+        },
+        "import_status": "string",
+        "import_error": "string",
+        "permissions": {
+          "schema of Permissions": {
+            "project_access": {
+              "schema of ProjectAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            },
+            "group_access": {
+              "schema of GroupAccess": {
+                "access_level": "integer",
+                "notification_level": "integer"
+              }
+            }
+          }
+        },
+        "archived": "boolean",
+        "avatar_url": "string",
+        "shared_runners_enabled": "boolean",
+        "forks_count": "integer",
+        "star_count": "integer",
+        "runners_token": "string",
+        "ci_default_git_depth": "integer",
+        "ci_forward_deployment_enabled": "boolean",
+        "public_jobs": "boolean",
+        "shared_with_groups": {
+          "array of SharedWithGroups objects": [
+            {
+              "group_id": "integer",
+              "group_name": "string",
+              "group_full_path": "string",
+              "group_access_level": "integer",
+              "expires_at": "string"
+            }
+          ]
+        },
+        "only_allow_merge_if_pipeline_succeeds": "boolean",
+        "allow_merge_on_skipped_pipeline": "boolean",
+        "only_allow_merge_if_all_discussions_are_resolved": "boolean",
+        "remove_source_branch_after_merge": "boolean",
+        "request_access_enabled": "boolean",
+        "merge_method": "string",
+        "auto_devops_enabled": "boolean",
+        "suggestion_commit_message": "string",
+        "auto_devops_deploy_strategy": "string",
+        "repository_storage": "string",
+        "marked_for_deletion_at": "string",
+        "marked_for_deletion_on": "string",
+        "approvals_before_merge": "integer",
+        "mirror": "boolean",
+        "mirror_user_id": "integer",
+        "mirror_trigger_builds": "boolean",
+        "only_mirror_protected_branches": "boolean",
+        "mirror_overwrites_diverged_branches": "boolean",
+        "external_authorization_classification_label": "string",
+        "packages_enabled": "boolean",
+        "service_desk_enabled": "boolean",
+        "service_desk_address": "string",
+        "autoclose_referenced_issues": "boolean",
+        "statistics": {
+          "schema of Statistics": {
+            "commit_count": "integer",
+            "storage_size": "integer",
+            "repository_size": "integer",
+            "wiki_size": "integer",
+            "lfs_objects_size": "integer",
+            "job_artifacts_size": "integer",
+            "packages_size": "integer",
+            "snippets_size": "integer"
+          }
+        },
+        "_links": {
+          "schema of Links": {
+            "self": "string",
+            "issues": "string",
+            "merge_requests": "string",
+            "repo_branches": "string",
+            "labels": "string",
+            "events": "string",
+            "members": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_POST_param",
+      "Request body data": "Data Files/_projects_POST_body"
+    }
+  },
+  "get-/projects/{id}/repository/commits": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "ref_name": "QUERY PARAMETER",
+      "since": "QUERY PARAMETER",
+      "until": "QUERY PARAMETER",
+      "path": "QUERY PARAMETER",
+      "all": "QUERY PARAMETER",
+      "with_stats": "QUERY PARAMETER",
+      "first_parent": "QUERY PARAMETER",
+      "order": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_GET_param"
+    }
+  },
+  "post-/projects/{id}/repository/commits": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "branch": "QUERY PARAMETER",
+      "commit_message": "QUERY PARAMETER",
+      "start_branch": "QUERY PARAMETER",
+      "start_sha": "QUERY PARAMETER",
+      "start_project": "QUERY PARAMETER",
+      "author_email": "QUERY PARAMETER",
+      "author_name": "QUERY PARAMETER",
+      "stats": "QUERY PARAMETER",
+      "force": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "schema of Actions": {
+        "action": "string",
+        "file_path": "string",
+        "previous_path": "string",
+        "content": "string",
+        "encoding": "string",
+        "last_commit_id": "string",
+        "execute_filemode": "boolean"
+      }
+    },
+    "responseBody": {
+      "schema of RepoCommitDetail": {
+        "author_email": "string",
+        "author_name": "string",
+        "authored_date": "string",
+        "committed_date": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "parent_ids": "array",
+        "short_id": "string",
+        "stats": {
+          "schema of RepoCommitStats": {
+            "additions": "integer",
+            "deletions": "integer",
+            "total": "integer"
+          }
+        },
+        "last_pipeline": {
+          "schema of RepoCommitLastPipeline": {
+            "id": "integer",
+            "ref": "string",
+            "sha": "string",
+            "status": "string"
+          }
+        },
+        "status": "string",
+        "title": "string",
+        "web_url": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_POST_param",
+      "Request body data": "Data Files/_projects_id_repository_commits_POST_body"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE",
+      "stats": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of RepoCommitDetail": {
+        "author_email": "string",
+        "author_name": "string",
+        "authored_date": "string",
+        "committed_date": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "parent_ids": "array",
+        "short_id": "string",
+        "stats": {
+          "schema of RepoCommitStats": {
+            "additions": "integer",
+            "deletions": "integer",
+            "total": "integer"
+          }
+        },
+        "last_pipeline": {
+          "schema of RepoCommitLastPipeline": {
+            "id": "integer",
+            "ref": "string",
+            "sha": "string",
+            "status": "string"
+          }
+        },
+        "status": "string",
+        "title": "string",
+        "web_url": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha__GET_param"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/refs": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_refs/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE",
+      "type": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of RepoCommitRefs": {
+        "type": "string",
+        "name": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_refs_GET_param"
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/cherry_pick": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_cherry_pick/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE",
+      "dry_run": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "branch": "string"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_cherry_pick_POST_param",
+      "Request body data": "Data Files/_projects_id_repository_commits_sha_cherry_pick_POST_body"
+    }
+  },
+  "post-/projects/{id}/repository/commits/{sha}/revert": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_revert/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE",
+      "dry_run": "QUERY PARAMETER"
+    },
+    "requestBody": {
+      "branch": "string"
+    },
+    "responseBody": {
+      "schema of RepoCommit": {
+        "authored_date": "string",
+        "author_name": "string",
+        "author_email": "string",
+        "committer_email": "string",
+        "committer_name": "string",
+        "committer_date": "string",
+        "created_at": "string",
+        "id": "string",
+        "message": "string",
+        "short_id": "string",
+        "title": "string",
+        "parent_ids": "array"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_revert_POST_param",
+      "Request body data": "Data Files/_projects_id_repository_commits_sha_revert_POST_body"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/diff": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_diff/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of RepoCommitDiff": {
+        "a_mode": "string",
+        "b_mode": "string",
+        "deleted_file": "string",
+        "diff": "string",
+        "new_file": "string",
+        "new_path": "string",
+        "old_path": "string",
+        "renamed_file": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_diff_GET_param"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/comments": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_comments/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "requestBody": {
+      "note": "string",
+      "path": "string",
+      "line": "integer",
+      "line_type": "string"
+    },
+    "responseBody": {
+      "schema of RepoCommitComment": {
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "line_type": "string",
+        "path": "string",
+        "line": "integer",
+        "note": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_comments_GET_param",
+      "Request body data": "Data Files/_projects_id_repository_commits_sha_comments_GET_body"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/discussions": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_discussions/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of RepoCommitDiscussion": {
+        "id": "integer",
+        "individual_note": "boolean",
+        "notes": {
+          "array of Note objects": [
+            {
+              "id": "integer",
+              "type": "string",
+              "body": "string",
+              "attachment": "string",
+              "author": {
+                "schema of Author": {
+                  "web_url": "string",
+                  "avatar_url": "string",
+                  "username": "string",
+                  "state": "string",
+                  "name": "string",
+                  "id": "integer"
+                }
+              },
+              "created_at": "string",
+              "updated_at": "string",
+              "system": "boolean",
+              "noteable_id": "integer",
+              "noteable_type": "string",
+              "resolvable": "boolean",
+              "confidential": "string",
+              "noteable_iid": "integer",
+              "commands_changes": "object"
+            }
+          ]
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_discussions_GET_param"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/statuses": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_statuses/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE",
+      "ref": "QUERY PARAMETER",
+      "stage": "QUERY PARAMETER",
+      "name": "QUERY PARAMETER",
+      "all": "QUERY PARAMETER",
+      "page": "QUERY PARAMETER",
+      "per_page": "QUERY PARAMETER"
+    },
+    "responseBody": {
+      "schema of CommitStatus": {
+        "allow_failure": "boolean",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "description": "string",
+        "finished_at": "string",
+        "id": "string",
+        "name": "string",
+        "ref": "string",
+        "sha": "string",
+        "started_at": "string",
+        "status": "string",
+        "target_url": "string",
+        "coverage": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_statuses_GET_param"
+    }
+  },
+  "post-/projects/{id}/statuses/{sha}": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_statuses_sha_/POST",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "requestBody": {
+      "state": "string",
+      "ref": "string",
+      "target_url": "string",
+      "description": "string",
+      "name": "string",
+      "context": "string",
+      "coverage": "number",
+      "pipeline_id": "integer"
+    },
+    "responseBody": {
+      "schema of CommitStatus": {
+        "allow_failure": "boolean",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "created_at": "string",
+        "description": "string",
+        "finished_at": "string",
+        "id": "string",
+        "name": "string",
+        "ref": "string",
+        "sha": "string",
+        "started_at": "string",
+        "status": "string",
+        "target_url": "string",
+        "coverage": "string"
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_statuses_sha__POST_param",
+      "Request body data": "Data Files/_projects_id_statuses_sha__POST_body"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/merge_requests": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_merge_requests/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of MergeRequests": {
+        "id": "integer",
+        "iid": "integer",
+        "project_id": "integer",
+        "title": "string",
+        "description": "string",
+        "state": "string",
+        "created_at": "string",
+        "updated_at": "string",
+        "target_branch": "string",
+        "source_branch": "string",
+        "upvotes": "integer",
+        "downvotes": "integer",
+        "author": {
+          "schema of Author": {
+            "web_url": "string",
+            "avatar_url": "string",
+            "username": "string",
+            "state": "string",
+            "name": "string",
+            "id": "integer"
+          }
+        },
+        "assignee": "string",
+        "source_project_id": "integer",
+        "target_project_id": "integer",
+        "labels": "array",
+        "work_in_progress": "boolean",
+        "milestone": "string",
+        "merge_when_pipeline_succeeds": "integer",
+        "merge_status": "string",
+        "sha": "string",
+        "merge_commit_sha": "string",
+        "squash_commit_sha": "string",
+        "user_notes_count": "integer",
+        "discussion_locked": "string",
+        "should_remove_source_branch": "string",
+        "force_remove_source_branch": "boolean",
+        "web_url": "string",
+        "time_stats": {
+          "schema of TimeStats": {
+            "time_estimate": "integer",
+            "total_time_spent": "integer",
+            "human_time_estimate": "string",
+            "human_total_time_spent": "string"
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_merge_requests_GET_param"
+    }
+  },
+  "get-/projects/{id}/repository/commits/{sha}/signature": {
+    "tags": [
+      "Commit"
+    ],
+    "test_object": "Object Repository/GitLab Commit API/_projects_id_repository_commits_sha_signature/GET",
+    "parameters": {
+      "id": "PATH VARIABLE",
+      "sha": "PATH VARIABLE"
+    },
+    "responseBody": {
+      "schema of Signature": {
+        "signature_type": "string",
+        "verification_status": "string",
+        "gpg_key_id": "integer",
+        "gpg_key_primary_keyid": "string",
+        "gpg_key_user_name": "string",
+        "gpg_key_user_email": "string",
+        "gpg_key_subkey_id": "string",
+        "commit_source": "string",
+        "x509_certificate": {
+          "schema of X509Certificate": {
+            "id": "integer",
+            "subject": "string",
+            "subject_key_identifier": "string",
+            "serial_number": "number",
+            "certificate_status": "string",
+            "x509_issuer": {
+              "schema of X509Issuer": {
+                "id": "integer",
+                "subject": "string",
+                "subject_key_identifier": "string",
+                "crl_url": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "available_test_data": {
+      "Parameter data": "Data Files/_projects_id_repository_commits_sha_signature_GET_param"
+    }
+  }
+}

@@ -1,0 +1,135 @@
+DELETE /groups/{id}
+  status_codes: 202, default
+  2xx: 202
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+DELETE /groups/{id}/hooks/{hook_id}
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+DELETE /groups/{id}/share/{group_id}
+  status_codes: 204, default
+  2xx: 204
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/descendant_groups
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/hooks
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/hooks/{hook_id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/projects/shared
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /groups/{id}/subgroups
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /groups
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /groups/{id}/hooks
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /groups/{id}/projects/{project_id}
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /groups/{id}/share
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /groups/{id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+PUT /groups/{id}/hooks/{hook_id}
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default

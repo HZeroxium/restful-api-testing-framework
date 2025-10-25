@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 10, ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""2024-06-01T12:34:56Z"", ""status"": ""approved"", ""complete"": true}",2xx,"All fields are present and valid; id, petId, quantity match example values; shipDate matches format date-time; status is in enum {placed, approved, delivered}; complete is boolean."
+2,"{""petId"": 198772, ""quantity"": 7}",2xx,petId and quantity are valid integers; all provided fields satisfy their type and constraints; missing optional fields is allowed.
+3,"{""id"": ""not-an-integer"", ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""2024-06-01T12:34:56Z"", ""status"": ""approved"", ""complete"": true}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+4,"{""id"": 10, ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""not-a-date"", ""status"": ""approved"", ""complete"": true}",4xx,shipDate='not-a-date' does not match format date-time.
+5,"{""id"": 10, ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""2024-06-01T12:34:56Z"", ""status"": ""pending"", ""complete"": true}",4xx,"status='pending' is not in enum {placed, approved, delivered}."
+6,"{""id"": ""not-an-integer"", ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""2021-03-15T10:00:00Z"", ""status"": ""approved"", ""complete"": true}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+7,"{""id"": 10, ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""not-a-date"", ""status"": ""placed"", ""complete"": false}",4xx,shipDate='not-a-date' does not match format date-time.
+8,"{""id"": 10, ""petId"": 198772, ""quantity"": 7, ""shipDate"": ""2021-03-15T10:00:00Z"", ""status"": ""pending"", ""complete"": true}",4xx,"status='pending' is not in enum {""placed"", ""approved"", ""delivered""}."
+9,"{""id"": 10, ""petId"": 198772, ""quantity"": ""seven"", ""shipDate"": ""2021-03-15T10:00:00Z"", ""status"": ""delivered"", ""complete"": true}",4xx,"quantity='seven' is not parseable as integer, violating 'type=integer'."
+10,"{""id"": 10, ""petId"": ""not-an-integer"", ""quantity"": 7, ""shipDate"": ""2021-03-15T10:00:00Z"", ""status"": ""approved"", ""complete"": ""yes""}",4xx,"petId='not-an-integer' is not parseable as integer, violating 'type=integer'; complete='yes' is not a boolean, violating 'type=boolean'."

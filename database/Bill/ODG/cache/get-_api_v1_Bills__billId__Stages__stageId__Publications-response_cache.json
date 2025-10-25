@@ -1,0 +1,16 @@
+{
+  "status": 404,
+  "body": "The resource Bill ID: 3973, BillStage ID: 7 was not found",
+  "request": {
+    "method": "GET",
+    "url": "https://bills-api.parliament.uk/api/v1/Bills/3973/Stages/7/Publications",
+    "params": {},
+    "path_params": {
+      "billId": 3973,
+      "stageId": 7
+    },
+    "headers": {},
+    "cookies": {},
+    "json": null
+  }
+}

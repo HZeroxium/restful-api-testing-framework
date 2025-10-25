@@ -1,12 +1,13 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973}",2xx,billId=3973 is a valid integer and matches a known example from context; satisfies minimum=1 and type=int32.
-2,"{""billId"": 3973}",2xx,llm_success_ignore_optional
-3,"{""billId"": 3973}",2xx,billId=3973 is within allowed range [1..]; type is integer; format is int32.
-4,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-5,"{""billId"": -1}",4xx,"billId=-1 < minimum=1, violating 'minimum' constraint."
+1,"{""billId"": 3973}",2xx,billId=3973 is a valid integer from the dependency context and satisfies minimum=1.
+2,"{""billId"": 1}",2xx,billId=1 is at the minimum boundary and satisfies 'minimum=1'.
+3,"{""billId"": 3973}",2xx,billId=3973 is a valid billId from context and satisfies all constraints.
+4,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
+5,"{""billId"": -5}",4xx,"billId=-5 < minimum=1, violating 'minimum'."
 6,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
 7,"{""billId"": 2147483649}",4xx,"billId=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."
 8,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
 9,"{""billId"": -1}",4xx,"billId=-1 < minimum=1, violating 'minimum'."
 10,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-11,"{""billId"": 1.5}",4xx,"billId=1.5 is not an integer, violating 'type=integer' for path/parseability."
+11,"{""billId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""billId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

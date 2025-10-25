@@ -1,0 +1,13 @@
+index,data,expected_status_code,reason
+1,"{""orderId"": 10}",2xx,"orderId=10 is >10, which is allowed per the spec for valid responses."
+2,"{""orderId"": 1}",2xx,"orderId=1 is ≤5, which is allowed per the spec for valid responses."
+3,"{""orderId"": 11}",2xx,"orderId=11 is >10, which is allowed per the spec for valid responses."
+4,"{""orderId"": -1}",2xx,"orderId=-1 is <=5, which satisfies the allowed value constraint (<=5 or >10)."
+5,"{""orderId"": 7}",4xx,"orderId=7 is in [6..10], which is not allowed per the spec."
+6,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""orderId"": 6}",4xx,"orderId=6 is within [6..10], violating the allowed value constraint (must be <=5 or >10)."
+8,"{""orderId"": 10}",4xx,"orderId=10 is within [6..10], violating the allowed value constraint (must be <=5 or >10)."
+9,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""orderId"": 8.5}",4xx,"orderId=8.5 is not an integer, violating 'type=integer' for path parameter."
+11,"{""orderId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""orderId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

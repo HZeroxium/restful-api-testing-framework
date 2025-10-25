@@ -1,0 +1,113 @@
+{
+  "test_case": {
+    "id": "_groups_id_hooks_POST_2_2",
+    "name": "_groups_id_hooks_POST_2_2",
+    "description": "Test case for endpoint post-/groups/{id}/hooks",
+    "endpoint": "post-/groups/{id}/hooks",
+    "sequence_index": 2,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/groups",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {
+          "visibility": null,
+          "share_with_group_lock": null,
+          "require_two_factor_authentication": null,
+          "two_factor_grace_period": null,
+          "project_creation_level": null,
+          "auto_devops_enabled": null,
+          "subgroup_creation_level": null,
+          "emails_disabled": null,
+          "mentions_disabled": null,
+          "lfs_enabled": null,
+          "request_access_enabled": null,
+          "parent_id": null,
+          "default_branch_protection": null,
+          "shared_runners_setting": null
+        },
+        "request_body": {
+          "name": "string",
+          "path": "string",
+          "description": "string",
+          "avatar": "string"
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/groups/{id}/hooks/{hook_id}",
+        "method": "GET",
+        "path_variables": {
+          "hook_id": null,
+          "id": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
+        "endpoint": "post-/groups/{id}/hooks",
+        "method": "POST",
+        "path_variables": {
+          "id": null
+        },
+        "query_parameters": {
+          "url": null,
+          "push_events": null,
+          "issues_events": null,
+          "confidential_issues_events": null,
+          "merge_requests_events": null,
+          "tag_push_events": null,
+          "note_events": null,
+          "confidential_note_events": null,
+          "job_events": null,
+          "pipeline_events": null,
+          "wiki_page_events": null,
+          "deployment_events": null,
+          "releases_events": null,
+          "enable_ssl_verification": null,
+          "token": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 2,
+            "field_mappings": {
+              "id": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

@@ -1,0 +1,124 @@
+{
+  "test_case": {
+    "id": "_projects_id_issues_GET_1_2",
+    "name": "_projects_id_issues_GET_1_2",
+    "description": "Test case for endpoint get-/projects/{id}/issues",
+    "endpoint": "get-/projects/{id}/issues",
+    "sequence_index": 1,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/issues",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {
+          "page": null,
+          "per_page": null,
+          "assignee_id": null,
+          "assignee_username": null,
+          "author_id": null,
+          "author_username": null,
+          "confidential": null,
+          "created_after": null,
+          "created_before": null,
+          "due_date": null,
+          "iids[]": null,
+          "in": null,
+          "milestone": null,
+          "labels": null,
+          "my_reaction_emoji": null,
+          "non_archived": null,
+          "order_by": null,
+          "scope": null,
+          "search": null,
+          "sort": null,
+          "state": null,
+          "updated_after": null,
+          "updated_before": null,
+          "with_labels_details": null
+        },
+        "request_body": {
+          "schema of NotIssue": {
+            "labels": "string",
+            "milestone": "string",
+            "author_id": "integer",
+            "author_username": "string",
+            "assignee_id": "integer",
+            "assignee_username": "string",
+            "my_reaction_emoji": "string"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "get-/projects/{id}/issues",
+        "method": "GET",
+        "path_variables": {
+          "id": null
+        },
+        "query_parameters": {
+          "page": null,
+          "per_page": null,
+          "assignee_id": null,
+          "assignee_username": null,
+          "author_id": null,
+          "author_username": null,
+          "confidential": null,
+          "created_after": null,
+          "created_before": null,
+          "due_date": null,
+          "iids[]": null,
+          "labels": null,
+          "milestone": null,
+          "my_reaction_emoji": null,
+          "order_by": null,
+          "scope": null,
+          "search": null,
+          "sort": null,
+          "state": null,
+          "updated_after": null,
+          "updated_before": null,
+          "with_labels_details": null
+        },
+        "request_body": {
+          "schema of NotGroupsIssue": {
+            "labels": "string",
+            "milestone": "string",
+            "author_id": "integer",
+            "author_username": "string",
+            "assignee_id": "integer",
+            "assignee_username": "string",
+            "my_reaction_emoji": "string",
+            "search": "string",
+            "in": "string"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "project_id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

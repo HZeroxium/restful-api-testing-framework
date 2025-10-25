@@ -1,0 +1,190 @@
+{
+  "delete-/projects/{id}/issues/{issue_iid}": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/subscribe": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": [
+    [
+      "get-/projects"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "put-/projects/{id}/issues/{issue_iid}": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/move": [
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/projects/{id}/issues": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/unsubscribe": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/closed_by": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "get-/projects": [
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/add_spent_time": [
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/groups": [],
+  "put-/projects/{id}/issues/{issue_iid}/reorder": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/metric_images": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/time_estimate": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/projects",
+      "get-/projects/{id}/issues/{issue_iid}/time_stats"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/groups": [
+    [
+      "post-/groups"
+    ]
+  ],
+  "get-/groups/{id}/issues": [
+    [
+      "get-/groups"
+    ],
+    [
+      "post-/groups"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/todo": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/issues": [],
+  "post-/projects": [],
+  "get-/issues/{id}": [
+    [
+      "get-/issues"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/participants": [
+    [
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/time_stats": [
+    [
+      "get-/projects"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues": [
+    [
+      "get-/issues"
+    ],
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/metric_images": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/projects"
+    ]
+  ]
+}

@@ -1,0 +1,414 @@
+{
+  "post-/projects/user/{user_id}": {
+    "Project": {
+      "user_id": "id"
+    },
+    "ProjectWithAcess": {
+      "user_id": "id"
+    },
+    "StarProject": {
+      "user_id": "id"
+    },
+    "BasicProjectDetails": {
+      "user_id": "id"
+    }
+  },
+  "get-/projects/{id}": {
+    "Project": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}": {
+    "Project": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}": {
+    "Project": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/users": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/fork": {
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/fork": {
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/forks": {
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/star": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/unstar": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/starrers": {
+    "Project": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/languages": {
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/archive": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/unarchive": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/restore": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/uploads": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/share": {
+    "ProjectGroupLink": {
+      "id": "id",
+      "group_access": "group_access",
+      "group_id": "group_id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/share/{group_id}": {
+    "Project": {
+      "id": "id",
+      "group_id": "id"
+    },
+    "ProjectHook": {
+      "id": "id",
+      "group_id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id",
+      "group_id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id",
+      "group_id": "id"
+    }
+  },
+  "get-/projects/{id}/hooks": {
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/hooks": {
+    "ProjectHook": {
+      "id": "id",
+      "url": "url"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/hooks/{hook_id}": {
+    "ProjectHook": {
+      "id": "id",
+      "hook_id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}/hooks/{hook_id}": {
+    "ProjectHook": {
+      "hook_id": "id",
+      "url": "url"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/hooks/{hook_id}": {
+    "ProjectHook": {
+      "hook_id": "id",
+      "id": "project_id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/housekeeping": {
+    "ProjectGroupLink": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}/transfer": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/fork/{forked_from_id}": {
+    "Project": {
+      "id": "id",
+      "forked_from_id": "id"
+    },
+    "ForkedFromProject": {
+      "id": "id",
+      "forked_from_id": "id"
+    }
+  },
+  "get-/projects/{id}/snapshot": {
+    "ProjectHook": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "get-/users/{user_id}/projects": {
+    "StarProject": {
+      "user_id": "id"
+    },
+    "Project": {
+      "user_id": "id"
+    },
+    "BasicProjectDetails": {
+      "user_id": "id"
+    },
+    "ProjectWithAcess": {
+      "user_id": "id"
+    }
+  },
+  "get-/users/{user_id}/starred_projects": {
+    "StarProject": {
+      "user_id": "id"
+    },
+    "Project": {
+      "user_id": "id"
+    },
+    "ArchiveProject": {
+      "user_id": "id"
+    },
+    "ProjectWithAcess": {
+      "user_id": "id"
+    }
+  }
+}

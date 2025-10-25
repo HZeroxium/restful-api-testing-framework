@@ -1,0 +1,32 @@
+{
+  "test_case": {
+    "id": "_api_v1_spec_Spec_0_2",
+    "name": "_api_v1_spec_Spec_0_2",
+    "description": "Test case for endpoint get-/api/v1/spec",
+    "endpoint": "get-/api/v1/spec",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/api/v1/spec",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

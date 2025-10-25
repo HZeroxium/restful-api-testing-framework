@@ -1,0 +1,529 @@
+{
+  "get-/projects": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/user/{user_id}": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/projects/{id}": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/projects/{id}": {
+    "status_codes": [
+      "204",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/users": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/fork": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/projects/{id}/fork": {
+    "status_codes": [
+      "204",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/forks": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/star": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/unstar": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/starrers": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/languages": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/archive": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/unarchive": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/restore": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/uploads": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/share": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/projects/{id}/share/{group_id}": {
+    "status_codes": [
+      "204",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/hooks": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/hooks": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/projects/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "delete-/projects/{id}/hooks/{hook_id}": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/housekeeping": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "put-/projects/{id}/transfer": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "post-/projects/{id}/fork/{forked_from_id}": {
+    "status_codes": [
+      "201",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/projects/{id}/snapshot": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/users/{user_id}/projects": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  },
+  "get-/users/{user_id}/starred_projects": {
+    "status_codes": [
+      "200",
+      "default"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": [
+        "default"
+      ]
+    }
+  }
+}

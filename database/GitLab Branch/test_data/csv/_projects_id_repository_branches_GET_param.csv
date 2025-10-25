@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1001, ""search"": ""feature""}",2xx,"id=1001 is a concrete integer path parameter; search='feature' is a valid string. However, no context-resolvable project ID is available, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+2,"{""id"": 1001}",2xx,"id=1001 is a concrete integer path parameter. However, no context-resolvable project ID is available, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+3,"{""id"": ""abc"", ""search"": ""feature""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds the typical 32-bit integer maximum, violating 'type=integer' parseability for path parameter."
+5,"{""id"": 1001, ""search"": 123}",4xx,"search=123 is not a string, violating 'type=string' for query parameter."
+6,"{""id"": ""abc"", ""search"": ""feature""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": -1}",4xx,"id=-1 is negative, violating 'type=integer' for path parameter (realistic IDs should be positive)."
+8,"{""id"": 0}",4xx,"id=0 is not a realistic project ID, violating 'type=integer' for path parameter (IDs should be positive)."
+9,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds typical 32-bit integer range, violating 'type=integer' for path parameter."
+10,"{""id"": 1.5}",4xx,"id=1.5 is not an integer, violating 'type=integer' for path parameter."

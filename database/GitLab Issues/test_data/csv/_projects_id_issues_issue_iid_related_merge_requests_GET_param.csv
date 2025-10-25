@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+2,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 2147483649, ""issue_iid"": 1}",4xx,"id=2147483649 exceeds typical 32-bit integer bounds; while no explicit maximum is set, this value is excessively large and may violate implementation limits."
+4,"{""id"": -5, ""issue_iid"": 2}",4xx,"id=-5 is negative; while no explicit minimum is set, negative IDs are not realistic for resource identifiers."
+5,"{""id"": 0, ""issue_iid"": 0}",4xx,id=0 and issue_iid=0 are not realistic for resource identifiers; typically IDs are positive integers.
+6,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+7,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
+8,"{""id"": ""12.5"", ""issue_iid"": 7}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path/parseability."
+9,"{""id"": 99, ""issue_iid"": ""true""}",4xx,"issue_iid='true' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""id"": ""xyz"", ""issue_iid"": ""false""}",4xx,"id='xyz' and issue_iid='false' are not parseable as integer, violating 'type=integer' for both path parameters."

@@ -32,38 +32,29 @@ def standardize_string(string):
 
 # Extract endpoint-schema dependencies from GPT's response
 def extract_relevant_schemas(response):
-    # Pattern to capture schema name and parameter mappings 
-    # Pattern looks for: SchemaName: param1 -> field1, param2 -> field2
-    pattern = r'(\w+):\s*([^:\n]+?)(?=\n\w+:|$)'
+    pattern = r'(\w+): (\w+ -> \w+)'
 
-    matches = re.findall(pattern, response, re.DOTALL)
+    matches = re.findall(pattern, response)
 
     result = {}
     for match in matches:
         schema_info = {}
         schema_name, schema_details = match
-        schema_name = schema_name.strip()
-        schema_details = schema_details.strip()
-        
-        if schema_details in ["None", "Not Found", ""]:
+        if schema_details == "None" and schema_details == "Not Found":
             continue
         else:
-            # Split by comma to get individual parameter mappings
-            param_pairs = [pair.strip() for pair in schema_details.split(',') if pair.strip()]
-            
+            schema_details = schema_details.strip()
+            param_pairs = schema_details.split(", ")
             for pair in param_pairs:
-                if " -> " in pair:
-                    parts = pair.split(" -> ")
-                    if len(parts) == 2:
-                        endpoint_param, schema_param = parts
-                        endpoint_param = standardize_string(endpoint_param.strip())
-                        schema_param = schema_param.strip()
-                        # Only accept simple direct mappings, ignore nested paths
-                        if '.' not in schema_param:
-                            schema_info[endpoint_param] = schema_param
-                    
+                params = pair.split(" -> ")
+                if len(params) == 2:
+                    endpoint_param, schema_param = params
+                    endpoint_param = standardize_string(endpoint_param)
+                    schema_param = standardize_string(schema_param)
+                    schema_info[endpoint_param] = schema_param
+                else:
+                    print(f"Error: {pair}")
         result[schema_name] = schema_info
-        
     return result
 
 '''
@@ -296,14 +287,11 @@ class ODGGenerator():
             
             ranked_schemas = self.get_best_mathching_schema(endpoint)
             
-            # Filter schemas to only include relevant ones for this endpoint type
-            filtered_schemas = self.filter_relevant_schemas_for_endpoint(endpoint, ranked_schemas)
-            
             no_of_input_params = len(self.simplified_swagger[endpoint]["parameters"])
-            if 2*no_of_input_params > 5 and 2*no_of_input_params < len(filtered_schemas):
-                ranked_schemas = filtered_schemas[:2*no_of_input_params]
+            if 2*no_of_input_params > 5 and 2*no_of_input_params < len(ranked_schemas):
+                ranked_schemas = ranked_schemas[:2*no_of_input_params]
             else:
-                ranked_schemas = filtered_schemas[:5]
+                ranked_schemas = ranked_schemas[:5]
             
             number_of_schemas_in_group = 5
             schema_groups = [list(ranked_schemas)[i:i+number_of_schemas_in_group] for i in range(0, len(ranked_schemas), number_of_schemas_in_group)]
@@ -319,11 +307,10 @@ class ODGGenerator():
                 parameter_description = ""
             
             for schemas in schema_groups:
-                # Create context about schema with enhanced nested path information
+                # Create context about schema
                 schema_context = ""
                 for schema in schemas:
-                    enhanced_schema_info = self.enhance_schema_context_with_paths(schema, self.simplified_schemas[schema])
-                    schema_context += f"\n{enhanced_schema_info}"
+                    schema_context += f"\n{schema}: {self.simplified_schemas[schema]}"
                 
                 prompt = base_prompt.format(specific_endpoint_params=specific_endpoint_params, parameter_description=parameter_description, simplified_schemas=schema_context)
                 
@@ -575,9 +562,8 @@ class ODGGenerator():
         joint_graph_topo_list_file_path = self.working_directory + "topolist.json"
         
         # Reverse the delete endpoints
-        for i in reversed(range(len(joint_graph))):
+        for i in range(len(joint_graph_topo_list) - 1, -1, -1):
             if joint_graph_topo_list[i].startswith('delete-'):
-                # Move this element to the last
                 joint_graph_topo_list.append(joint_graph_topo_list.pop(i))
         
         with open(joint_graph_topo_list_file_path, "w") as f:

@@ -1,0 +1,16 @@
+index,data,expected_status_code,reason
+1,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": 10}",2xx,"Category='Public' is in the allowed enum ['Public','Private','Hybrid']; Skip=0 and Take=10 are valid integers."
+2,"{""Category"": ""Hybrid""}",2xx,"Category='Hybrid' is in the allowed enum ['Public','Private','Hybrid']."
+3,"{""Category"": ""Corporate"", ""Skip"": 5}",4xx,"Category='Corporate' is not in enum ['Public','Private','Hybrid']."
+4,"{""Skip"": ""abc"", ""Take"": 20}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+5,"{""Take"": ""12x""}",4xx,"Take='12x' is not parseable as integer, violating 'type=integer' for query/parseability."
+6,"{""Category"": ""Government""}",4xx,"Category='Government' is not in enum {""Public"", ""Private"", ""Hybrid""}."
+7,"{""Skip"": ""abc""}",4xx,"Skip='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+8,"{""Take"": ""xyz""}",4xx,"Take='xyz' is not parseable as integer, violating 'type=integer' for query/parseability."
+9,"{""Category"": ""Hybrid"", ""Skip"": ""-1""}",4xx,Skip='-1' is parseable as integer but may be out of allowed range if negative values are not accepted; violating 'type=integer' or implicit range.
+10,"{""Category"": ""Private"", ""Take"": ""2147483649""}",4xx,"Take='2147483649' exceeds int32 maximum (2147483647), violating 'format=int32'."
+11,"{""Category"": """", ""Skip"": -1, ""Take"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""Category"": ""Public"", ""Skip"": ""123456"", ""Take"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""Category"": ""Public"", ""Skip"": 0, ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""Category"": ""Public"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""Category"": ""Public"", ""Skip"": ""123456"", ""Take"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

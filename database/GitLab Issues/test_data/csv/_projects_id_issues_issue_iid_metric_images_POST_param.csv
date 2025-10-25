@@ -1,0 +1,14 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1, ""issue_iid"": 1, ""url"": ""https://metrics.example.com/view/123""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint or example values for 'id' and 'issue_iid'; cannot generate valid concrete values.
+2,"{""id"": 1, ""issue_iid"": 1}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint or example values for 'id' and 'issue_iid'; cannot generate valid concrete values.
+3,"{""id"": -1, ""issue_iid"": 456, ""url"": ""https://metrics.example.com/info""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 123, ""issue_iid"": 0, ""url"": ""https://metrics.example.com/info""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": ""abc"", ""issue_iid"": 1}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 1, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1, ""issue_iid"": 1, ""url"": 12345}",4xx,url has type integer but the spec requires string (query parameter type mismatch).
+8,"{""id"": ""abc"", ""issue_iid"": 2, ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 123, ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": 123, ""issue_iid"": 456, ""url"": 789}",4xx,"url=789 has type integer but the spec requires string, violating 'type=string' for query parameter."
+11,"{""id"": ""abc"", ""issue_iid"": 1}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": 1, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+13,"{""id"": 1, ""issue_iid"": 1, ""url"": 12345}",4xx,url has type integer but the spec requires string (query parameter type mismatch).

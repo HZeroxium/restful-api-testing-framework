@@ -1,0 +1,251 @@
+{
+  "get-/projects": [
+    [
+      "post-/projects"
+    ]
+  ],
+  "post-/projects/user/{user_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "put-/projects/{id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "delete-/projects/{id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/users": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/fork": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "delete-/projects/{id}/fork": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/forks": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/star": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/unstar": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/starrers": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/languages": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/archive": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/unarchive": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/restore": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/uploads": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/share": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "delete-/projects/{id}/share/{group_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/hooks": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/hooks": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/hooks/{hook_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "put-/projects/{id}/hooks/{hook_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "delete-/projects/{id}/hooks/{hook_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/housekeeping": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "put-/projects/{id}/transfer": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/fork/{forked_from_id}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/snapshot": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects": []
+}

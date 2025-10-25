@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""3"", ""sha"": ""main"", ""stats"": true}",2xx,id='3' is a valid project ID from context; sha='main' matches the default branch; stats=true is a valid boolean.
+2,"{""id"": ""MyProject"", ""sha"": ""main""}",2xx,id='MyProject' is a valid project path from context; sha='main' matches the default branch; stats omitted (optional).
+3,"{""id"": ""root/MyProject"", ""sha"": ""main"", ""stats"": false}",2xx,id='root/MyProject' is a valid URL-encoded project path from context; sha='main' matches the default branch; stats=false is a valid boolean.
+4,"{""id"": ""3"", ""sha"": ""aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff00112233445566778899"", ""stats"": true}",2xx,id='3' is a valid project ID; sha is a long string but within allowed type=string (no maxLength constraint); stats=true is valid.
+5,"{""id"": ""3"", ""sha"": ""main"", ""stats"": ""tru""}",4xx,"stats='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."
+6,"{""id"": 3, ""sha"": ""main"", ""stats"": true}",4xx,"id=3 is an integer, but the spec requires a string for path parameter 'id', violating 'type=string'."
+7,"{""id"": ""MyProject"", ""sha"": 123456, ""stats"": false}",4xx,"sha=123456 is an integer, but the spec requires a string for path parameter 'sha', violating 'type=string'."
+8,"{""id"": ""MyProject"", ""sha"": ""main"", ""stats"": ""tru""}",4xx,"stats='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+9,"{""id"": [""MyProject""], ""sha"": ""main"", ""stats"": true}",4xx,"id=['MyProject'] is an array, but the spec requires a string for path parameter 'id', violating 'type=string'."
+10,"{""id"": ""MyProject"", ""sha"": {""branch"": ""main""}, ""stats"": false}",4xx,"sha={'branch': 'main'} is an object, but the spec requires a string for path parameter 'sha', violating 'type=string'."

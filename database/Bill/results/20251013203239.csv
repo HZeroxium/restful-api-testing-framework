@@ -1,0 +1,8 @@
+test_case_id,step_number,endpoint,method,test_data_row,reason,request_params,request_body,final_url,response_status,expected_status,execution_time,status
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,1,billId=%not-sure% indicates uncertain path parameter requiring dependency resolution.,{},{},https://bills-api.parliament.uk/api/v1/Bills/3973,200,2xx,0.329s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,2,,{},{},https://bills-api.parliament.uk/api/v1/Bills/3973,200,2xx,0.069s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,3,"billId=0 < minimum=1, violating 'minimum' constraint.",{},{},https://bills-api.parliament.uk/api/v1/Bills/0,404,4xx,0.325s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,4,"billId=0 < minimum=1, violating 'minimum'.",{},{},https://bills-api.parliament.uk/api/v1/Bills/0,404,4xx,0.060s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,5,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability.",{},{},https://bills-api.parliament.uk/api/v1/Bills/abc,404,4xx,0.443s,PASS
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,6,,{},{},https://bills-api.parliament.uk/api/v1/Bills/,200,4xx,6.474s,FAIL
+_api_v1_Bills_billId__GetBill_1_1,2,get-/api/v1/Bills/{billId},GET,7,,{},{},https://bills-api.parliament.uk/api/v1/Bills/123456,404,4xx,6.860s,PASS

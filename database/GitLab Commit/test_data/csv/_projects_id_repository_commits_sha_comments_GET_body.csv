@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""note"": ""Refactor variable naming for clarity."", ""path"": ""src/utils/helpers.py"", ""line"": 42, ""line_type"": ""new""}",2xx,"note is present and type string; path is a valid string; line is integer; line_type='new' is in allowed enum {""new"", ""old""}."
+2,"{""note"": ""Typo in documentation."", ""line_type"": ""old""}",2xx,"note is present and type string; line_type='old' is in allowed enum {""new"", ""old""}; optional fields omitted."
+3,"{""note"": ""Add error handling."", ""path"": ""app/main.js"", ""line"": 10}",2xx,note is present and type string; path is a valid string; line is integer; optional line_type omitted.
+4,"{""note"": ""Should be integer"", ""line"": ""abc""}",4xx,"line='abc' is not parseable as integer, violating 'type=integer'."
+5,"{""note"": ""Enum violation"", ""line_type"": ""current""}",4xx,"line_type='current' is not in enum {""new"", ""old""}."
+6,"{""path"": ""src/app/main.py"", ""line"": 42, ""line_type"": ""new""}",4xx,"note is required but missing, violating 'required'."
+7,"{""note"": ""Looks good!"", ""path"": ""src/app/main.py"", ""line"": ""forty-two"", ""line_type"": ""new""}",4xx,"line='forty-two' is not parseable as integer, violating 'type=integer'."
+8,"{""note"": ""Please fix this."", ""path"": ""src/app/main.py"", ""line"": 10, ""line_type"": ""middle""}",4xx,"line_type='middle' is not in enum ['new', 'old']."
+9,"{""note"": ""Check this line."", ""path"": ""src/app/main.py"", ""line"": ""ten"", ""line_type"": ""future""}",4xx,"line='ten' is not parseable as integer, violating 'type=integer'; line_type='future' is not in enum ['new', 'old']."
+10,"{""path"": ""src/app/main.py"", ""line"": ""zero"", ""line_type"": ""past""}",4xx,"note is required but missing, violating 'required'; line='zero' is not parseable as integer, violating 'type=integer'; line_type='past' is not in enum ['new', 'old']."

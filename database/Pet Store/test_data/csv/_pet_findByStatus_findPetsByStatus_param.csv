@@ -1,0 +1,25 @@
+index,data,expected_status_code,reason
+1,"{""status"": ""available""}",2xx,"status='available' is in the allowed enum ['available', 'pending', 'sold']."
+2,"{""status"": ""pending,sold""}",2xx,"status='pending,sold' contains only allowed enum values ['available', 'pending', 'sold']."
+3,"{""status"": ""sold,available,pending""}",2xx,"status='sold,available,pending' contains only allowed enum values ['available', 'pending', 'sold']."
+4,"{""status"": ""available""}",2xx,llm_success_ignore_optional
+5,"{""status"": ""lost""}",4xx,"status='lost' is not in enum ['available', 'pending', 'sold']."
+6,{},4xx,"status is required but missing, violating 'required'."
+7,"{""status"": ""lost""}",4xx,"status='lost' is not in enum {'available', 'pending', 'sold'}."
+8,{},4xx,"status is required but missing, violating 'required'."
+9,"{""status"": 123}",4xx,"status=123 is not a string, violating 'type=string' for query parameter."
+10,"{""status"": """"}",4xx,"status='' is not in enum {'available', 'pending', 'sold'}."
+11,"{""status"": ""available,lost""}",4xx,"status='available,lost' contains 'lost' which is not in enum {'available', 'pending', 'sold'}."
+12,"{""status"": ""available""}",2xx,"status='available' is in the allowed enum {""available"", ""pending"", ""sold""}."
+13,"{""status"": ""pending""}",2xx,"status='pending' is in the allowed enum {""available"", ""pending"", ""sold""}."
+14,"{""status"": ""sold""}",2xx,"status='sold' is in the allowed enum {""available"", ""pending"", ""sold""}."
+15,"{""status"": ""available,pending""}",2xx,"status='available,pending' is a valid comma-separated string of allowed enum values."
+16,"{""status"": ""lost""}",4xx,"status='lost' is not in enum {""available"", ""pending"", ""sold""}."
+17,"{""status"": ""inactive""}",4xx,"status='inactive' is not in enum {'available', 'pending', 'sold'}."
+18,{},4xx,"status is required but missing, violating 'required'."
+19,"{""status"": 123}",4xx,"status=123 is not a string, violating 'type=string' for query parameter."
+20,"{""status"": null}",4xx,"status=null is not allowed for required query parameter, violating 'required'."
+21,"{""status"": """"}",4xx,"status='' is not in enum {'available', 'pending', 'sold'}."
+22,"{""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+23,"{""status"": null}",4xx,mutate_missing_required: set status=None
+24,"{""status"": 123456789}",4xx,"status='available' is in the allowed enum {""available"", ""pending"", ""sold""}."

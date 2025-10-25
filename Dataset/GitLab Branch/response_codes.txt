@@ -1,0 +1,71 @@
+DELETE /projects/{id}/protected_branches/{name}
+  status_codes: 202
+  2xx: 202
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+DELETE /projects/{id}/repository/branches/{branch}
+  status_codes: 202
+  2xx: 202
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+DELETE /projects/{id}/repository/merged_branches
+  status_codes: 202
+  2xx: 202
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects
+  status_codes: 200, default
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+GET /projects/{id}/repository/branches
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+GET /projects/{id}/repository/branches/{branch}
+  status_codes: 200
+  2xx: 200
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+POST /projects
+  status_codes: 201, default
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: default
+
+POST /projects/{id}/protected_branches
+  status_codes: 201
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -
+
+POST /projects/{id}/repository/branches
+  status_codes: 201
+  2xx: 201
+  3xx: -
+  4xx: -
+  5xx: -
+  other: -

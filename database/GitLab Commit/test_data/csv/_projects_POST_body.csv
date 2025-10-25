@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*delete.*"", ""name_regex_keep"": "".*keep.*"", ""next_run_at"": ""2024-06-01T12:00:00Z""}",2xx,All provided fields are valid and match their required types; next_run_at matches format date-time.
+2,"{""keep_n"": 2147483649}",2xx,keep_n=2147483649 is a valid integer and within typical bounds; no minimum/maximum specified.
+3,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'."
+4,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+5,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+6,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+7,"{""enabled"": ""yes""}",4xx,enabled has type string but the spec requires boolean (JSON body type mismatch).
+8,"{""keep_n"": ""ten""}",4xx,keep_n has type string but the spec requires integer (JSON body type mismatch).
+9,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+10,"{""older_than"": 2024}",4xx,older_than has type integer but the spec requires string (JSON body type mismatch).

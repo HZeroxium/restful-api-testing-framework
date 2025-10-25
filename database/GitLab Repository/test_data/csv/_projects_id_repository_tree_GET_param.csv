@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": null}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context for path parameter 'id'.
+2,"{""PRIVATE_TOKEN"": ""wrongToken"", ""id"": 12345}",4xx,"PRIVATE_TOKEN='wrongToken' is not in enum ['23uGhZzaqfUhFSH5VxrV'], violating 'enum'."
+3,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 12345, ""recursive"": ""tru""}",4xx,"recursive='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+5,"{""id"": 12345}",4xx,"PRIVATE_TOKEN is required but missing, violating 'required'."
+6,"{""PRIVATE_TOKEN"": ""invalidToken"", ""id"": 12345}",4xx,PRIVATE_TOKEN='invalidToken' is not in enum ['23uGhZzaqfUhFSH5VxrV'].
+7,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 12345, ""recursive"": ""tru""}",4xx,"recursive='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+9,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 12345, ""per_page"": ""twenty""}",4xx,"per_page='twenty' is not parseable as integer, violating 'type=integer' for query parameter."
+10,"{""PRIVATE_TOKEN"": ""badToken"", ""id"": ""notAnInt""}",4xx,"PRIVATE_TOKEN='badToken' is not in enum ['23uGhZzaqfUhFSH5VxrV']; id='notAnInt' is not parseable as integer, violating 'type=integer' for path parameter."

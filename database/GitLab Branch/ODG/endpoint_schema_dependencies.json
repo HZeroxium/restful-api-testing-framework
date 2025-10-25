@@ -1,0 +1,51 @@
+{
+  "get-/projects/{id}/repository/branches": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/repository/branches": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "Branch": {
+      "branch": "name"
+    }
+  },
+  "get-/projects/{id}/repository/branches/{branch}": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/repository/branches/{branch}": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/protected_branches": {
+    "ProtectedBranch": {
+      "id": "id",
+      "name": "name"
+    },
+    "BasicProjectDetails": {
+      "id": "id",
+      "name": "name",
+      "path": "path"
+    }
+  },
+  "delete-/projects/{id}/protected_branches/{name}": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/repository/merged_branches": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "ProtectedBranch": {
+      "id": "id"
+    },
+    "Branch": {},
+    "Statistics": {}
+  }
+}

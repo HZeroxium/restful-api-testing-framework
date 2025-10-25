@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <graph edgedefault="directed">
+    <node id="post-/projects" />
+    <node id="get-/projects" />
+    <node id="post-/projects/user/{user_id}" />
+    <node id="get-/projects/{id}" />
+    <node id="delete-/projects/{id}" />
+    <node id="get-/projects/{id}/users" />
+    <node id="post-/projects/{id}/fork" />
+    <node id="delete-/projects/{id}/fork" />
+    <node id="post-/projects/{id}/fork/{forked_from_id}" />
+    <node id="get-/projects/{id}/forks" />
+    <node id="put-/projects/{id}" />
+    <node id="post-/projects/{id}/star" />
+    <node id="get-/projects/{id}/starrers" />
+    <node id="get-/users/{user_id}/projects" />
+    <node id="get-/users/{user_id}/starred_projects" />
+    <node id="post-/projects/{id}/unstar" />
+    <node id="get-/projects/{id}/languages" />
+    <node id="post-/projects/{id}/archive" />
+    <node id="post-/projects/{id}/unarchive" />
+    <node id="post-/projects/{id}/restore" />
+    <node id="post-/projects/{id}/uploads" />
+    <node id="post-/projects/{id}/share" />
+    <node id="delete-/projects/{id}/share/{group_id}" />
+    <node id="post-/projects/{id}/housekeeping" />
+    <node id="get-/projects/{id}/hooks" />
+    <node id="get-/projects/{id}/hooks/{hook_id}" />
+    <node id="put-/projects/{id}/hooks/{hook_id}" />
+    <node id="delete-/projects/{id}/hooks/{hook_id}" />
+    <node id="post-/projects/{id}/hooks" />
+    <node id="get-/projects/{id}/snapshot" />
+    <node id="put-/projects/{id}/transfer" />
+    <edge source="post-/projects" target="get-/projects" />
+    <edge source="get-/projects" target="post-/projects/user/{user_id}" />
+    <edge source="get-/projects" target="get-/projects/{id}" />
+    <edge source="get-/projects/{id}" target="delete-/projects/{id}" />
+    <edge source="get-/projects/{id}" target="get-/projects/{id}/users" />
+    <edge source="get-/projects/{id}" target="post-/projects/{id}/fork" />
+    <edge source="get-/projects/{id}" target="get-/projects/{id}/forks" />
+    <edge source="post-/projects/{id}/fork" target="delete-/projects/{id}/fork" />
+    <edge source="post-/projects/{id}/fork" target="post-/projects/{id}/fork/{forked_from_id}" />
+    <edge source="get-/projects/{id}/forks" target="put-/projects/{id}" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/star" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/unstar" />
+    <edge source="put-/projects/{id}" target="get-/projects/{id}/languages" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/archive" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/unarchive" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/restore" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/uploads" />
+    <edge source="put-/projects/{id}" target="post-/projects/{id}/share" />
+    <edge source="put-/projects/{id}" target="get-/projects/{id}/hooks" />
+    <edge source="put-/projects/{id}" target="put-/projects/{id}/transfer" />
+    <edge source="post-/projects/{id}/star" target="get-/projects/{id}/starrers" />
+    <edge source="post-/projects/{id}/star" target="get-/users/{user_id}/projects" />
+    <edge source="post-/projects/{id}/star" target="get-/users/{user_id}/starred_projects" />
+    <edge source="post-/projects/{id}/share" target="delete-/projects/{id}/share/{group_id}" />
+    <edge source="post-/projects/{id}/share" target="post-/projects/{id}/housekeeping" />
+    <edge source="get-/projects/{id}/hooks" target="get-/projects/{id}/hooks/{hook_id}" />
+    <edge source="get-/projects/{id}/hooks/{hook_id}" target="put-/projects/{id}/hooks/{hook_id}" />
+    <edge source="get-/projects/{id}/hooks/{hook_id}" target="post-/projects/{id}/hooks" />
+    <edge source="put-/projects/{id}/hooks/{hook_id}" target="delete-/projects/{id}/hooks/{hook_id}" />
+    <edge source="post-/projects/{id}/hooks" target="get-/projects/{id}/snapshot" />
+  </graph>
+</graphml>

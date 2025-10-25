@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="get-/groups/{id}/hooks"/>
+<node id="get-/groups/{id}"/>
+<node id="post-/groups/{id}/hooks"/>
+<node id="get-/groups/{id}/hooks/{hook_id}"/>
+<node id="put-/groups/{id}"/>
+<node id="delete-/groups/{id}"/>
+<node id="get-/groups"/>
+<node id="post-/groups/{id}/share"/>
+<node id="post-/groups"/>
+<node id="delete-/groups/{id}/share/{group_id}"/>
+<node id="get-/groups/{id}/subgroups"/>
+<node id="put-/groups/{id}/hooks/{hook_id}"/>
+<node id="delete-/groups/{id}/hooks/{hook_id}"/>
+<node id="get-/groups/{id}/descendant_groups"/>
+<node id="get-/groups/{id}/projects"/>
+<node id="post-/groups/{id}/projects/{project_id}"/>
+<node id="get-/groups/{id}/projects/shared"/>
+<edge source="get-/groups/{id}/hooks" target="get-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks" target="put-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks" target="delete-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks" target="delete-/groups/{id}/share/{group_id}"/>
+<edge source="get-/groups/{id}/hooks" target="post-/groups/{id}/hooks"/>
+<edge source="get-/groups/{id}/hooks" target="get-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups/{id}/hooks" target="put-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups/{id}/hooks" target="delete-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups/{id}" target="get-/groups/{id}/projects"/>
+<edge source="get-/groups/{id}" target="post-/groups/{id}/projects/{project_id}"/>
+<edge source="get-/groups/{id}" target="get-/groups/{id}/projects/shared"/>
+<edge source="post-/groups/{id}/hooks" target="get-/groups/{id}"/>
+<edge source="post-/groups/{id}/hooks" target="put-/groups/{id}"/>
+<edge source="post-/groups/{id}/hooks" target="delete-/groups/{id}"/>
+<edge source="post-/groups/{id}/hooks" target="delete-/groups/{id}/share/{group_id}"/>
+<edge source="post-/groups/{id}/hooks" target="get-/groups/{id}/hooks"/>
+<edge source="post-/groups/{id}/hooks" target="get-/groups/{id}/hooks/{hook_id}"/>
+<edge source="post-/groups/{id}/hooks" target="put-/groups/{id}/hooks/{hook_id}"/>
+<edge source="post-/groups/{id}/hooks" target="delete-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="get-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="put-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="delete-/groups/{id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="delete-/groups/{id}/share/{group_id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="get-/groups/{id}/hooks"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="post-/groups/{id}/hooks"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="put-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups/{id}/hooks/{hook_id}" target="delete-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups" target="post-/groups/{id}/share"/>
+<edge source="get-/groups" target="get-/groups/{id}/subgroups"/>
+<edge source="get-/groups" target="get-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups" target="put-/groups/{id}/hooks/{hook_id}"/>
+<edge source="get-/groups" target="get-/groups/{id}/descendant_groups"/>
+<edge source="post-/groups/{id}/share" target="get-/groups/{id}/projects"/>
+<edge source="post-/groups/{id}/share" target="post-/groups/{id}/projects/{project_id}"/>
+<edge source="post-/groups/{id}/share" target="get-/groups/{id}/projects/shared"/>
+<edge source="post-/groups" target="post-/groups/{id}/share"/>
+<edge source="post-/groups" target="get-/groups/{id}/subgroups"/>
+<edge source="post-/groups" target="get-/groups/{id}/hooks/{hook_id}"/>
+<edge source="post-/groups" target="put-/groups/{id}/hooks/{hook_id}"/>
+<edge source="post-/groups" target="get-/groups/{id}/descendant_groups"/>
+<edge source="get-/groups/{id}/projects" target="post-/groups/{id}/projects/{project_id}"/>
+<edge source="get-/groups/{id}/projects" target="get-/groups/{id}/projects/shared"/>
+<edge source="get-/groups/{id}/projects/shared" target="post-/groups/{id}/projects/{project_id}"/>
+</graph></graphml>

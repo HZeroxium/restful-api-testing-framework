@@ -1,0 +1,72 @@
+{
+  "get-/pet/findByStatus": {
+    "Pet": {
+      "status": "status"
+    }
+  },
+  "get-/pet/findByTags": {
+    "Pet": {
+      "tags": "tags"
+    },
+    "Tag": {
+      "tags": "name"
+    }
+  },
+  "get-/pet/{petId}": {
+    "Pet": {
+      "petId": "id"
+    },
+    "Order": {
+      "petId": "petId"
+    }
+  },
+  "post-/pet/{petId}": {
+    "Pet": {
+      "petId": "id"
+    },
+    "Order": {
+      "petId": "petId"
+    }
+  },
+  "delete-/pet/{petId}": {
+    "Pet": {
+      "petId": "id"
+    },
+    "Order": {
+      "petId": "petId"
+    }
+  },
+  "post-/pet/{petId}/uploadImage": {
+    "Pet": {
+      "petId": "id"
+    },
+    "Order": {
+      "petId": "petId"
+    }
+  },
+  "get-/store/order/{orderId}": {
+    "Order": {
+      "orderId": "id"
+    }
+  },
+  "delete-/store/order/{orderId}": {
+    "Order": {
+      "orderId": "id"
+    }
+  },
+  "get-/user/{username}": {
+    "User": {
+      "username": "username"
+    }
+  },
+  "put-/user/{username}": {
+    "User": {
+      "username": "username"
+    }
+  },
+  "delete-/user/{username}": {
+    "User": {
+      "username": "username"
+    }
+  }
+}

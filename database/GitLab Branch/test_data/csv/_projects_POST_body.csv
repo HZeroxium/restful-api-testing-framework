@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1 week"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*delete.*"", ""name_regex_keep"": "".*keep.*"", ""next_run_at"": ""2024-06-01T12:00:00Z""}",2xx,All fields are present and match their required types; next_run_at matches format 'date-time'.
+2,"{""cadence"": ""weekly""}",2xx,cadence is a string and matches its type; all other fields are optional and missing.
+3,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'."
+4,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+5,"{""keep_n"": 10}",4xx,"keep_n=10 is of type integer, but the spec requires type 'string'."
+6,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+7,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not a boolean, violating 'type=boolean'."
+8,"{""cadence"": 123}",4xx,"cadence=123 is not a string, violating 'type=string'."
+9,"{""keep_n"": false}",4xx,"keep_n=false is not a string, violating 'type=string'."
+10,"{""older_than"": 2147483649}",4xx,"older_than=2147483649 is not a string, violating 'type=string'."

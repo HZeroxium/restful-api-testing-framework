@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2, ""group_id"": 3, ""group_access"": 20, ""expires_at"": ""2024-06-15""}",2xx,"id=2 is a valid integer from context; group_id=3 is a valid integer; group_access=20 is in the allowed enum [10, 20, 30, 40, 50]; expires_at='2024-06-15' matches format date."
+2,"{""id"": 2, ""group_id"": 3, ""group_access"": 10}",2xx,"id=2 is a valid integer from context; group_id=3 is a valid integer; group_access=10 is in the allowed enum [10, 20, 30, 40, 50]; expires_at is omitted (optional)."
+3,"{""id"": ""abc"", ""group_id"": 3, ""group_access"": 20}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+4,"{""id"": 2, ""group_id"": ""xyz"", ""group_access"": 30}",4xx,"group_id='xyz' is not parseable as integer (type=parseability), violating 'type=integer' for query parameter."
+5,"{""id"": 2, ""group_id"": 3, ""group_access"": 99, ""expires_at"": ""2024-06-15""}",4xx,"group_access=99 is not in enum [10, 20, 30, 40, 50]."
+6,"{""id"": ""abc"", ""group_id"": 123, ""group_access"": 20, ""expires_at"": ""2024-06-01""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1001, ""group_id"": ""notanint"", ""group_access"": 30, ""expires_at"": ""2024-06-01""}",4xx,"group_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
+8,"{""id"": 1001, ""group_id"": 123, ""group_access"": 99, ""expires_at"": ""2024-06-01""}",4xx,"group_access=99 is not in enum {10, 20, 30, 40, 50}, violating 'enum'."
+9,"{""id"": 1001, ""group_id"": 123, ""group_access"": 10, ""expires_at"": ""2024-02-30""}",4xx,"expires_at='2024-02-30' does not match format date (invalid date), violating 'format=date'."
+10,"{""id"": ""notanint"", ""group_id"": ""badid"", ""group_access"": 99, ""expires_at"": ""2024-13-01""}",4xx,"id='notanint' is not parseable as integer; group_id='badid' is not parseable as integer; group_access=99 is not in enum {10, 20, 30, 40, 50}; expires_at='2024-13-01' does not match format date (invalid month); all fields violate their constraints."

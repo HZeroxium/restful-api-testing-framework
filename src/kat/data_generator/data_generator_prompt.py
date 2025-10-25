@@ -70,6 +70,9 @@ BODY ID-LIKE FIELD RULES (applies when {part} is "body" or includes a JSON paylo
 
 TRANSPORT-LEVEL RULES for PATH/QUERY parameters:
 - All values are sent as text; servers parse them back.
+- String parameters:
+  • Valid: any text unless restricted by enum, pattern, format, minLength/maxLength.
+  • Invalid (4xx): only when violating enum/pattern/format/length — NOT because the text looks numeric.
 - Integer/number tests:
   • Valid: values that parse as numbers and satisfy bounds.
   • Invalid (4xx): non-parseable tokens ("abc", "12x"), or out-of-range numbers.

@@ -1,0 +1,66 @@
+{
+  "test_case": {
+    "id": "_projects_id_issues_issue_iid_move_POST_1_1",
+    "name": "_projects_id_issues_issue_iid_move_POST_1_1",
+    "description": "Test case for endpoint post-/projects/{id}/issues/{issue_iid}/move",
+    "endpoint": "post-/projects/{id}/issues/{issue_iid}/move",
+    "sequence_index": 1,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/projects/{id}/issues/{issue_iid}/todo",
+        "method": "POST",
+        "path_variables": {
+          "id": null,
+          "issue_iid": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "post-/projects/{id}/issues/{issue_iid}/move",
+        "method": "POST",
+        "path_variables": {
+          "id": null,
+          "issue_iid": null
+        },
+        "query_parameters": {
+          "to_project_id": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          },
+          "to_project_id": {
+            "from_step": 1,
+            "field_mappings": {
+              "to_project_id": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

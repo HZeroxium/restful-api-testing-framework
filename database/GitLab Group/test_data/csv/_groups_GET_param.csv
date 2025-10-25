@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""page"": 2, ""per_page"": 50, ""skip_groups"": [101, 202, 303], ""all_available"": true, ""search"": ""devops"", ""order_by"": ""name"", ""sort"": ""asc"", ""statistics"": false, ""with_custom_attributes"": true, ""owned"": false, ""min_access_level"": 30, ""top_level_only"": true}",2xx,"All provided fields are within their allowed types, enums, and ranges."
+2,"{""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
+3,"{""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum {'name', 'path', 'id'}."
+4,"{""skip_groups"": [100, ""abc""]}",4xx,"skip_groups[1]='abc' is not parseable as integer, violating 'type=integer' for array items."
+5,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+6,"{""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
+7,"{""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum {""name"", ""path"", ""id""}."
+8,"{""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum {""desc"", ""asc""}."
+9,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+10,"{""skip_groups"": [123, ""abc"", 456]}",4xx,"skip_groups[1]='abc' is not parseable as integer, violating 'type=integer' for array items."

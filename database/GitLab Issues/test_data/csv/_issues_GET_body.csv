@@ -1,0 +1,13 @@
+index,data,expected_status_code,reason
+1,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 77, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""author_username"": ""charlie""}",2xx,author_username is present and matches type string; all constraints satisfied.
+3,{},2xx,"No fields provided; all fields are optional, so this is valid."
+4,"{""labels"": ""feature"", ""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is type string, but the spec requires integer (JSON body type mismatch)."
+5,"{""milestone"": 123, ""assignee_id"": 88}",4xx,"milestone=123 is type integer, but the spec requires string (JSON body type mismatch)."
+6,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+7,"{""milestone"": false}",4xx,milestone has type boolean but the spec requires string (JSON body type mismatch).
+8,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+9,"{""assignee_id"": 3.14}",4xx,assignee_id has type number (float) but the spec requires integer (JSON body type mismatch).
+10,"{""my_reaction_emoji"": [""thumbs_up""]}",4xx,my_reaction_emoji has type array but the spec requires string (JSON body type mismatch).
+11,"{""labels"": ""feature"", ""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is type string, but the spec requires integer (JSON body type mismatch)."
+12,"{""milestone"": 123, ""assignee_id"": 88}",4xx,"milestone=123 is type integer, but the spec requires string (JSON body type mismatch)."

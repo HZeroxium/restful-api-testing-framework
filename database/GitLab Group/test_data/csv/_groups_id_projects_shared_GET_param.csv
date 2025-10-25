@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1, ""per_page"": 20, ""order_by"": ""created_at"", ""sort"": ""desc"", ""visibility"": ""public""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid group 'id' can be resolved from producer endpoints or examples.
+2,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 1, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum' constraint."
+4,"{""id"": 1, ""visibility"": ""protected""}",4xx,"visibility='protected' is not in enum {'public', 'internal', 'private'}."
+5,"{""id"": 1, ""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum' constraint."
+8,"{""id"": 1, ""visibility"": ""protected""}",4xx,"visibility='protected' is not in enum {public, internal, private}."
+9,"{""id"": 1, ""order_by"": ""size""}",4xx,"order_by='size' is not in enum {id, name, path, created_at, updated_at, last_activity_at}."
+10,"{""id"": 1, ""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."

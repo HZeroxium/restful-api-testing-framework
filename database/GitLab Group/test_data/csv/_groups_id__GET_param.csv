@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 1001, ""with_custom_attributes"": true, ""with_projects"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+2,"{""id"": ""abc"", ""with_custom_attributes"": true}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": -1, ""with_projects"": true}",4xx,"id=-1 is a negative integer; while not explicitly forbidden, negative IDs are not realistic for resource identifiers and violate real-world expectations."
+4,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds the typical 32-bit integer range; while not explicitly forbidden, such large values are not realistic for resource identifiers."
+5,"{""id"": 1001, ""with_custom_attributes"": ""tru""}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+6,"{""id"": ""abc"", ""with_custom_attributes"": true, ""with_projects"": false}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 2147483647, ""with_custom_attributes"": ""tru"", ""with_projects"": false}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+8,"{""id"": 2147483647, ""with_custom_attributes"": true, ""with_projects"": ""yes""}",4xx,"with_projects='yes' is not parseable as boolean, violating 'type=boolean' for query parameter."
+9,"{""id"": ""abc"", ""with_custom_attributes"": ""tru"", ""with_projects"": false}",4xx,"id='abc' is not parseable as integer, and with_custom_attributes='tru' is not parseable as boolean; both violate their respective 'type' constraints."
+10,"{""id"": ""abc"", ""with_custom_attributes"": ""tru"", ""with_projects"": ""yes""}",4xx,"id='abc' is not parseable as integer, with_custom_attributes='tru' is not parseable as boolean, and with_projects='yes' is not parseable as boolean; all violate their respective 'type' constraints."

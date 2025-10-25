@@ -1,0 +1,96 @@
+{
+  "post-/pet": [],
+  "get-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "get-/pet/findByStatus": [
+    [
+      "post-/pet"
+    ],
+    [
+      "post-/pet",
+      "put-/pet"
+    ]
+  ],
+  "get-/user/login": [
+    [
+      "post-/user"
+    ]
+  ],
+  "put-/pet": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "post-/pet/{petId}": [
+    [
+      "post-/pet"
+    ],
+    [
+      "post-/pet",
+      "put-/pet"
+    ]
+  ],
+  "get-/pet/findByTags": [
+    [
+      "post-/pet"
+    ],
+    [
+      "post-/pet",
+      "put-/pet"
+    ]
+  ],
+  "post-/user": [],
+  "put-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "delete-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "delete-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "delete-/store/order/{orderId}": [
+    [
+      "post-/store/order"
+    ]
+  ],
+  "get-/store/order/{orderId}": [
+    [
+      "post-/store/order"
+    ]
+  ],
+  "post-/store/order": [],
+  "post-/user/createWithList": [
+    [
+      "post-/user"
+    ]
+  ],
+  "get-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "post-/pet/{petId}/uploadImage": [
+    [
+      "post-/pet"
+    ]
+  ]
+}

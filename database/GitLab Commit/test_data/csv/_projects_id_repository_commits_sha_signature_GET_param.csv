@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""3"", ""sha"": ""a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0""}",2xx,"Both path parameters 'id' and 'sha' are present and are strings, satisfying 'required' and 'type=string'."
+2,"{""id"": ""root/MyProject"", ""sha"": ""a1b2c3d4""}",2xx,"'id' uses a valid project path; 'sha' is a valid short commit SHA; both are strings and present, satisfying 'required' and 'type=string'."
+3,"{""id"": 3, ""sha"": ""a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0""}",4xx,"'id'=3 is an integer, violating 'type=string' for path parameter."
+4,"{""id"": ""3"", ""sha"": 1234567890}",4xx,"'sha'=1234567890 is an integer, violating 'type=string' for path parameter."
+5,"{""id"": ""3"", ""sha"": """"}",4xx,"'sha' is an empty string, violating the OpenAPI rule that path parameters must be non-empty."
+6,"{""id"": 3, ""sha"": ""abc123def456""}",4xx,"id=3 is an integer, but the spec requires type=string for path parameter 'id' (parseability/type violation)."
+7,"{""id"": ""MyProject"", ""sha"": 123456}",4xx,"sha=123456 is an integer, but the spec requires type=string for path parameter 'sha' (parseability/type violation)."
+8,"{""id"": true, ""sha"": ""abc123def456""}",4xx,"id=true is a boolean, but the spec requires type=string for path parameter 'id' (parseability/type violation)."
+9,"{""id"": ""MyProject"", ""sha"": false}",4xx,"sha=false is a boolean, but the spec requires type=string for path parameter 'sha' (parseability/type violation)."
+10,"{""id"": [""MyProject""], ""sha"": {""sha"": ""abc123def456""}}",4xx,"id=['MyProject'] is an array and sha={'sha': 'abc123def456'} is an object, but both path parameters require type=string (parseability/type violation for both)."

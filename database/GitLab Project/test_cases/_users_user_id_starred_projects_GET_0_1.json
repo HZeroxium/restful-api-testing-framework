@@ -1,0 +1,49 @@
+{
+  "test_case": {
+    "id": "_users_user_id_starred_projects_GET_0_1",
+    "name": "_users_user_id_starred_projects_GET_0_1",
+    "description": "Test case for endpoint get-/users/{user_id}/starred_projects",
+    "endpoint": "get-/users/{user_id}/starred_projects",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/users/{user_id}/starred_projects",
+        "method": "GET",
+        "path_variables": {
+          "user_id": null
+        },
+        "query_parameters": {
+          "archived": null,
+          "membership": null,
+          "min_access_level": null,
+          "order_by": null,
+          "owned": null,
+          "search": null,
+          "simple": null,
+          "sort": null,
+          "starred": null,
+          "statistics": null,
+          "visibility": null,
+          "with_custom_attributes": null,
+          "with_issues_enabled": null,
+          "with_merge_requests_enabled": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

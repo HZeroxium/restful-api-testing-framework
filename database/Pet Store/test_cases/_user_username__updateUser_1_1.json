@@ -1,0 +1,76 @@
+{
+  "test_case": {
+    "id": "_user_username__updateUser_1_1",
+    "name": "_user_username__updateUser_1_1",
+    "description": "Test case for endpoint put-/user/{username}",
+    "endpoint": "put-/user/{username}",
+    "sequence_index": 1,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/user",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {},
+        "request_body": {
+          "schema of User": {
+            "id": "integer",
+            "username": "string",
+            "firstName": "string",
+            "lastName": "string",
+            "email": "string",
+            "password": "string",
+            "phone": "string",
+            "userStatus": "integer"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "put-/user/{username}",
+        "method": "PUT",
+        "path_variables": {
+          "username": null
+        },
+        "query_parameters": {},
+        "request_body": {
+          "schema of User": {
+            "id": "integer",
+            "username": "string",
+            "firstName": "string",
+            "lastName": "string",
+            "email": "string",
+            "password": "string",
+            "phone": "string",
+            "userStatus": "integer"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "username": {
+            "from_step": 1,
+            "field_mappings": {
+              "username": "username"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

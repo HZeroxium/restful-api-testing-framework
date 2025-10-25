@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 123, ""issue_iid"": 456, ""duration"": ""3h30m""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No producer endpoint or example for valid 'id' and 'issue_iid'; cannot guarantee these are contextually valid.
+2,"{""id"": ""abc"", ""issue_iid"": 456, ""duration"": ""2h""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 123, ""issue_iid"": ""xyz"", ""duration"": ""1h15m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 123, ""issue_iid"": 456}",4xx,"duration is required but missing, violating 'required'."
+5,"{""id"": 123, ""issue_iid"": 456, ""duration"": 90}",4xx,duration has type integer but the spec requires string (type mismatch for query parameter).
+6,"{""id"": ""abc"", ""issue_iid"": 42, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 123, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 123, ""issue_iid"": 42, ""duration"": ""not_a_time""}",4xx,"duration='not_a_time' does not match the expected human time format (e.g., '3h30m'), violating the format implied by the description."
+9,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, violating 'type=integer' for both path parameters."
+10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": ""not_a_time""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, and duration='not_a_time' does not match the expected human time format, violating constraints for all three parameters."

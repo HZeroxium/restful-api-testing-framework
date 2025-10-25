@@ -1,0 +1,14 @@
+index,data,expected_status_code,reason
+1,"{""file"": ""test-image.png""}",2xx,"file is present and is a string, matching required type and format 'binary'."
+2,"{""file"": ""test-image.png""}",2xx,"file is present and is a string, matching required type and format 'binary'."
+3,"{""file"": ""test-image.png""}",2xx,"file is present and is a string, matching required type and format 'binary'."
+4,"{""file"": ""test-image.png""}",2xx,"file is present and is a string, matching required type and format 'binary'."
+5,{},4xx,"file is required but missing, violating 'required'."
+6,"{""file"": 12345}",4xx,file has type integer but the spec requires string (type mismatch).
+7,"{""file"": null}",4xx,file is null but the spec requires a non-null string (type and required violation).
+8,"{""file"": [""not-a-file""]}",4xx,file has type array but the spec requires string (type mismatch).
+9,{},4xx,"file is required but missing, violating 'required'."
+10,"{""file"": 12345}",4xx,file has type integer but the spec requires string (type mismatch).
+11,"{""file"": ""not-a-binary-file""}",4xx,file='not-a-binary-file' does not match format 'binary'.
+12,"{""file"": """"}",4xx,"file='' is an empty string, violating 'format=binary' and 'required'."
+13,"{""file"": null}",4xx,file=null is not allowed; field is required and must be a string with format 'binary'.

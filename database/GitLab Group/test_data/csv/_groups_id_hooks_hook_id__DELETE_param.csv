@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2147483647, ""hook_id"": 2147483647}",4xx,One or more fields deliberately violate the spec (4xx).
+2,"{""id"": ""abc"", ""hook_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 123, ""hook_id"": ""xyz""}",4xx,"hook_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": -1, ""hook_id"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+5,"{""id"": 1, ""hook_id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+6,"{""id"": ""abc"", ""hook_id"": 12345}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 67890, ""hook_id"": ""notanint""}",4xx,"hook_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.34"", ""hook_id"": 555}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 999, ""hook_id"": ""false""}",4xx,"hook_id='false' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""xyz"", ""hook_id"": ""qwerty""}",4xx,"id='xyz' and hook_id='qwerty' are not parseable as integer, violating 'type=integer' for both path parameters."

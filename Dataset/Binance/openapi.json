@@ -1,0 +1,6027 @@
+{
+  "openapi": "3.1.2",
+  "info": {
+    "title": "Binance Public Spot API",
+    "description": "OpenAPI Specifications for the Binance Public Spot API\n\nAPI documents:\n  - [https://github.com/binance/binance-spot-api-docs](https://github.com/binance/binance-spot-api-docs)\n  - [https://binance-docs.github.io/apidocs/spot/en](https://binance-docs.github.io/apidocs/spot/en)",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.binance.com"
+    },
+    {
+      "url": "https://testnet.binance.vision"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Market",
+      "description": "Market Data"
+    },
+    {
+      "name": "Trade",
+      "description": "Account/Trade"
+    },
+    {
+      "name": "Margin",
+      "description": "Margin Account/Trade"
+    },
+    {
+      "name": "Wallet",
+      "description": "Wallet Endpoints"
+    },
+    {
+      "name": "Sub-Account",
+      "description": "Sub-account Endpoints"
+    },
+    {
+      "name": "Stream",
+      "description": "User Data Stream"
+    },
+    {
+      "name": "Margin Stream",
+      "description": "Margin User Data Stream"
+    },
+    {
+      "name": "Isolated Margin Stream",
+      "description": "Isolated User Data Stream"
+    },
+    {
+      "name": "Savings",
+      "description": "Savings Endpoints"
+    },
+    {
+      "name": "Mining",
+      "description": "Mining Endpoints"
+    },
+    {
+      "name": "Futures",
+      "description": "Futures Endpoints"
+    },
+    {
+      "name": "Futures Algo",
+      "description": "Futures Algo Endpoints"
+    },
+    {
+      "name": "Spot Algo",
+      "description": "Spot Algo Endpoints"
+    },
+    {
+      "name": "Portfolio Margin",
+      "description": "Portfolio Margin Endpoints"
+    },
+    {
+      "name": "BLVT",
+      "description": "Binance Leveraged Tokens Endpoints"
+    },
+    {
+      "name": "Fiat",
+      "description": "Fiat Endpoints"
+    },
+    {
+      "name": "C2C",
+      "description": "Consumer-To-Consumer Endpoints"
+    },
+    {
+      "name": "VIP Loans",
+      "description": "VIP Loans Endpoints"
+    },
+    {
+      "name": "Crypto Loans",
+      "description": "Crypto Loans Endpoints"
+    },
+    {
+      "name": "Pay",
+      "description": "Pay Endpoints"
+    },
+    {
+      "name": "Convert",
+      "description": "Convert Endpoints"
+    },
+    {
+      "name": "Rebate",
+      "description": "Rebate Endpoints"
+    },
+    {
+      "name": "NFT",
+      "description": "NFT Endpoints"
+    },
+    {
+      "name": "Gift Card",
+      "description": "Gift Card Endpoints"
+    },
+    {
+      "name": "Auto-Invest",
+      "description": "Auto-Invest Endpoints"
+    },
+    {
+      "name": "Copy Trading",
+      "description": "Copy Trading Endpoints"
+    },
+    {
+      "name": "Simple Earn",
+      "description": "Simple Earn Endpoints"
+    }
+  ],
+  "path": {
+    "/api/v3/ping": {
+      "get": {
+        "summary": "Test Connectivity",
+        "description": "Test connectivity to the Rest API.\n\nWeight(IP): 1",
+        "tags": ["Market"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/time": {
+      "get": {
+        "summary": "Check Server Time",
+        "description": "Test connectivity to the Rest API and get the current server time.\n\nWeight(IP): 1",
+        "tags": ["Market"],
+        "responses": {
+          "200": {
+            "description": "Binance server UTC timestamp",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "serverTime": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 1499827319559
+                    }
+                  },
+                  "required": ["serverTime"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/exchangeInfo": {
+      "get": {
+        "summary": "Exchange Information",
+        "description": "Current exchange trading rules and symbol information\n\n- If any symbol provided in either symbol or symbols do not exist, the endpoint will throw an error.\n- All parameters are optional.\n- permissions can support single or multiple values (e.g. SPOT, [\"MARGIN\",\"LEVERAGED\"])\n- If permissions parameter not provided, the default values will be [\"SPOT\",\"MARGIN\",\"LEVERAGED\"].\n  - To display all permissions you need to specify them explicitly. (e.g. SPOT, MARGIN,...)\n\nExamples of Symbol Permissions Interpretation from the Response:\n- [[\"A\",\"B\"]] means you may place an order if your account has either permission \"A\" or permission \"B\".\n- [[\"A\"],[\"B\"]] means you can place an order if your account has permission \"A\" and permission \"B\".\n- [[\"A\"],[\"B\",\"C\"]] means you can place an order if your account has permission \"A\" and permission \"B\" or permission \"C\". (Inclusive or is applied here, not exclusive or, so your account may have both permission \"B\" and permission \"C\".)\n\nWeight(IP): 10",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          },
+          {
+            "$ref": "#/components/parameters/permissions"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Current exchange trading rules and symbol information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timezone": {
+                      "type": "string",
+                      "example": "UTC"
+                    },
+                    "serverTime": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 1592882214236
+                    },
+                    "rateLimits": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "rateLimitType": {
+                            "type": "string",
+                            "example": "REQUEST_WEIGHT"
+                          },
+                          "interval": {
+                            "type": "string",
+                            "example": "MINUTE"
+                          },
+                          "intervalNum": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1
+                          },
+                          "limit": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 1200
+                          }
+                        },
+                        "required": [
+                          "rateLimitType",
+                          "interval",
+                          "intervalNum",
+                          "limit"
+                        ]
+                      }
+                    },
+                    "exchangeFilters": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "symbols": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "symbol": {
+                            "type": "string",
+                            "example": "ETHBTC"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "TRADING"
+                          },
+                          "baseAsset": {
+                            "type": "string",
+                            "example": "ETH"
+                          },
+                          "baseAssetPrecision": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 8
+                          },
+                          "quoteAsset": {
+                            "type": "string",
+                            "example": "BTC"
+                          },
+                          "quoteAssetPrecision": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 8
+                          },
+                          "baseCommissionPrecision": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 8
+                          },
+                          "quoteCommissionPrecision": {
+                            "type": "integer",
+                            "format": "int32",
+                            "example": 8
+                          },
+                          "orderTypes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "LIMIT"
+                            }
+                          },
+                          "icebergAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "ocoAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "otoAllowed": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "quoteOrderQtyMarketAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "allowTrailingStop": {
+                            "type": "boolean",
+                            "example": false
+                          },
+                          "cancelReplaceAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "isSpotTradingAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "isMarginTradingAllowed": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "filters": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "filterType": {
+                                  "type": "string",
+                                  "example": "PRICE_FILTER"
+                                },
+                                "minPrice": {
+                                  "type": "string",
+                                  "example": "0.00000100"
+                                },
+                                "maxPrice": {
+                                  "type": "string",
+                                  "example": "100000.00000000"
+                                },
+                                "tickSize": {
+                                  "type": "string",
+                                  "example": "0.00000100"
+                                }
+                              },
+                              "required": [
+                                "filterType",
+                                "minPrice",
+                                "maxPrice",
+                                "tickSize"
+                              ]
+                            }
+                          },
+                          "permissions": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "SPOT"
+                            }
+                          },
+                          "permissionSets": {
+                            "type": "array",
+                            "items": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "example": ["SPOT", "MARGIN"]
+                              }
+                            }
+                          },
+                          "defaultSelfTradePreventionMode": {
+                            "type": "string",
+                            "example": "NONE"
+                          },
+                          "allowedSelfTradePreventionModes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "example": "NONE"
+                            }
+                          }
+                        },
+                        "required": [
+                          "symbol",
+                          "status",
+                          "baseAsset",
+                          "baseAssetPrecision",
+                          "quoteAsset",
+                          "quoteAssetPrecision",
+                          "baseCommissionPrecision",
+                          "quoteCommissionPrecision",
+                          "orderTypes",
+                          "icebergAllowed",
+                          "ocoAllowed",
+                          "otoAllowed",
+                          "quoteOrderQtyMarketAllowed",
+                          "allowTrailingStop",
+                          "cancelReplaceAllowed",
+                          "isSpotTradingAllowed",
+                          "isMarginTradingAllowed",
+                          "filters",
+                          "permissions",
+                          "permissionSets",
+                          "defaultSelfTradePreventionMode",
+                          "allowedSelfTradePreventionModes"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "timezone",
+                    "serverTime",
+                    "rateLimits",
+                    "exchangeFilters",
+                    "symbols"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/depth": {
+      "get": {
+        "summary": "Order Book",
+        "description": "| Limit               | Weight(IP)  |\n|---------------------|-------------|\n| 1-100               | 5           |\n| 101-500             | 25          |\n| 501-1000            | 50          |\n| 1001-5000           | 250         |",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "If limit > 5000, then the response will truncate to 5000",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 100,
+              "maximum": 5000,
+              "example": 100
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order book",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "lastUpdateId": {
+                      "type": "integer",
+                      "format": "int64"
+                    },
+                    "bids": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      }
+                    },
+                    "asks": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minItems": 2,
+                          "maxItems": 2
+                        }
+                      }
+                    }
+                  },
+                  "required": ["lastUpdateId", "bids", "asks"]
+                },
+                "example": {
+                  "lastUpdateId": 1027024,
+                  "bids": [["4.00000000", "431.00000000"]],
+                  "asks": [["4.00000200", "12.00000000"]]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/trades": {
+      "get": {
+        "summary": "Recent Trades List",
+        "description": "Get recent trades.\n\nWeight(IP): 10",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/trade"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/historicalTrades": {
+      "get": {
+        "summary": "Old Trade Lookup",
+        "description": "Get older market trades.\n\nWeight(IP): 10",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          },
+          {
+            "$ref": "#/components/parameters/fromId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/trade"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/aggTrades": {
+      "get": {
+        "summary": "Compressed/Aggregate Trades List",
+        "description": "Get compressed, aggregate trades. Trades that fill at the time, from the same order, with the same price will have the quantity aggregated.\n- If `fromId`, `startTime`, and `endTime` are not sent, the most recent aggregate trades will be returned.\n- Note that if a trade has the following values, this was a duplicate aggregate trade and marked as invalid:\n\n  p = '0' // price\n\n  q = '0' // qty\n\n  f = -1 // ﬁrst_trade_id\n\n  l = -1 // last_trade_id\n\nWeight(IP): 2",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "$ref": "#/components/parameters/fromId"
+          },
+          {
+            "$ref": "#/components/parameters/startTime"
+          },
+          {
+            "$ref": "#/components/parameters/endTime"
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trade list",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/aggTrade"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/klines": {
+      "get": {
+        "summary": "Kline/Candlestick Data",
+        "description": "Kline/candlestick bars for a symbol.\nKlines are uniquely identified by their open time.\n\n- If `startTime` and `endTime` are not sent, the most recent klines are returned.\n\nWeight(IP): 2",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": true,
+            "description": "kline intervals",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1s",
+                "1m",
+                "3m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "4h",
+                "6h",
+                "8h",
+                "12h",
+                "1d",
+                "3d",
+                "1w",
+                "1M"
+              ],
+              "example": "\"1m\""
+            }
+          },
+          {
+            "$ref": "#/components/parameters/startTime"
+          },
+          {
+            "$ref": "#/components/parameters/endTime"
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "required": false,
+            "description": "Default: 0 (UTC)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Kline data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 12,
+                      "maxItems": 12
+                    },
+                    "example": [
+                      1499040000000,
+                      "0.01634790",
+                      "0.80000000",
+                      "0.01575800",
+                      "0.01577100",
+                      "148976.11427815",
+                      1499644799999,
+                      "2434.19055334",
+                      308,
+                      "1756.87402397",
+                      "28.46694368",
+                      "17928899.62484339"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/uiKlines": {
+      "get": {
+        "summary": "UIKlines",
+        "description": "The request is similar to klines having the same parameters and response.\n\nuiKlines return modified kline data, optimized for presentation of candlestick charts.\n\nWeight(IP): 2",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          },
+          {
+            "name": "interval",
+            "in": "query",
+            "required": true,
+            "description": "kline intervals",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1s",
+                "1m",
+                "3m",
+                "5m",
+                "15m",
+                "30m",
+                "1h",
+                "2h",
+                "4h",
+                "6h",
+                "8h",
+                "12h",
+                "1d",
+                "3d",
+                "1w",
+                "1M"
+              ],
+              "example": "\"1m\""
+            }
+          },
+          {
+            "$ref": "#/components/parameters/startTime"
+          },
+          {
+            "$ref": "#/components/parameters/endTime"
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "required": false,
+            "description": "Default: 0 (UTC)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/limit"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "UIKline data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "oneOf": [
+                        {
+                          "type": "integer",
+                          "format": "int64"
+                        },
+                        {
+                          "type": "string"
+                        }
+                      ],
+                      "minItems": 12,
+                      "maxItems": 12
+                    },
+                    "example": [
+                      1499040000000,
+                      "0.01634790",
+                      "0.80000000",
+                      "0.01575800",
+                      "0.01577100",
+                      "148976.11427815",
+                      1499644799999,
+                      "2434.19055334",
+                      308,
+                      "1756.87402397",
+                      "28.46694368",
+                      "0"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/avgPrice": {
+      "get": {
+        "summary": "Current Average Price",
+        "description": "Current average price for a symbol.\n\nWeight(IP): 2",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/symbol"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Average price",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "mins": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 5,
+                      "description": "Average price interval (in minutes)"
+                    },
+                    "price": {
+                      "type": "string",
+                      "example": "9.35751834",
+                      "description": "Average price"
+                    },
+                    "closeTime": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 1694061154503,
+                      "description": "Last trade time"
+                    }
+                  },
+                  "required": ["mins", "price", "closeTime"]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/ticker/24hr": {
+      "get": {
+        "summary": "24hr Ticker Price Change Statistics",
+        "description": "24 hour rolling window price change statistics. Careful when accessing this with no symbol.\n\n- If the symbol is not sent, tickers for all symbols will be returned in an array.\n\nWeight(IP):\n- `2` for a single symbol;\n- `80` when the symbol parameter is omitted;",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          },
+          {
+            "$ref": "#/components/parameters/tickerType"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "24hr ticker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/ticker"
+                    },
+                    {
+                      "$ref": "#/components/schemas/tickerList"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/ticker/tradingDay": {
+      "get": {
+        "summary": "Trading Day Ticker",
+        "description": "Price change statistics for a trading day.\n\nNotes:\n- Supported values for timeZone:\n  - Hours and minutes (e.g. -1:00, 05:45)\n  - Only hours (e.g. 0, 8, 4)\n\nWeight:\n- `4` for each requested symbol.\n- The weight for this request will cap at `200` once the number of symbols in the request is more than `50`.",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          },
+          {
+            "name": "timeZone",
+            "in": "query",
+            "required": false,
+            "description": "Default: 0 (UTC)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/tickerType"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Trading day ticker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/dayTicker"
+                    },
+                    {
+                      "$ref": "#/components/schemas/dayTickerList"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/ticker/price": {
+      "get": {
+        "summary": "Symbol Price Ticker",
+        "description": "Latest price for a symbol or symbols.\n\n- If the symbol is not sent, prices for all symbols will be returned in an array.\n\nWeight(IP):\n- `2` for a single symbol;\n- `4` when the symbol parameter is omitted;",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Price ticker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/priceTicker"
+                    },
+                    {
+                      "$ref": "#/components/schemas/priceTickerList"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/ticker/bookTicker": {
+      "get": {
+        "summary": "Symbol Order Book Ticker",
+        "description": "Best price/qty on the order book for a symbol or symbols.\n\n- If the symbol is not sent, bookTickers for all symbols will be returned in an array.\n\nWeight(IP):\n- `2` for a single symbol;\n- `4` when the symbol parameter is omitted;",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Order book ticker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/bookTicker"
+                    },
+                    {
+                      "$ref": "#/components/schemas/bookTickerList"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v3/ticker": {
+      "get": {
+        "summary": "Rolling window price change statistics",
+        "description": "The window used to compute statistics is typically slightly wider than requested windowSize.\n\nopenTime for /api/v3/ticker always starts on a minute, while the closeTime is the current time of the request. As such, the effective window might be up to 1 minute wider than requested.\n\nE.g. If the closeTime is 1641287867099 (January 04, 2022 09:17:47:099 UTC) , and the windowSize is 1d. the openTime will be: 1641201420000 (January 3, 2022, 09:17:00 UTC)\n\nWeight(IP): 4 for each requested symbol regardless of windowSize.\n\nThe weight for this request will cap at 200 once the number of symbols in the request is more than 50.",
+        "tags": ["Market"],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/optionalSymbol"
+          },
+          {
+            "$ref": "#/components/parameters/arraySymbols"
+          },
+          {
+            "name": "windowSize",
+            "in": "query",
+            "description": "Defaults to 1d if no parameter provided.\nSupported windowSize values:\n1m,2m....59m for minutes\n1h, 2h....23h - for hours\n1d...7d - for days.\n\nUnits cannot be combined (e.g. 1d2h is not allowed)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "description": "Supported values: FULL or MINI.\nIf none provided, the default is FULL",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Rolling price ticker",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "symbol": {
+                      "type": "string",
+                      "example": "BNBBTC"
+                    },
+                    "priceChange": {
+                      "type": "string",
+                      "example": "-8.00000000"
+                    },
+                    "priceChangePercent": {
+                      "type": "string",
+                      "example": "-88.889"
+                    },
+                    "weightedAvgPrice": {
+                      "type": "string",
+                      "example": "2.60427807"
+                    },
+                    "openPrice": {
+                      "type": "string",
+                      "example": "9.00000000"
+                    },
+                    "highPrice": {
+                      "type": "string",
+                      "example": "9.00000000"
+                    },
+                    "lowPrice": {
+                      "type": "string",
+                      "example": "1.00000000"
+                    },
+                    "lastPrice": {
+                      "type": "string",
+                      "example": "1.00000000"
+                    },
+                    "volume": {
+                      "type": "string",
+                      "example": "187.00000000"
+                    },
+                    "quoteVolume": {
+                      "type": "string",
+                      "example": "487.00000000"
+                    },
+                    "openTime": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 1641859200000
+                    },
+                    "closeTime": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 1642031999999
+                    },
+                    "firstId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 0
+                    },
+                    "lastId": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 60
+                    },
+                    "count": {
+                      "type": "integer",
+                      "format": "int64",
+                      "example": 61
+                    }
+                  },
+                  "required": [
+                    "symbol",
+                    "priceChange",
+                    "priceChangePercent",
+                    "weightedAvgPrice",
+                    "openPrice",
+                    "highPrice",
+                    "lowPrice",
+                    "lastPrice",
+                    "volume",
+                    "quoteVolume",
+                    "openTime",
+                    "closeTime",
+                    "firstId",
+                    "lastId",
+                    "count"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "getCrossMargingTransferHistoryType": {
+        "name": "type",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["ROLL_IN", "ROLL_OUT"]
+        }
+      },
+      "spotBNBBurn": {
+        "name": "spotBNBBurn",
+        "in": "query",
+        "description": "Determines whether to use BNB to pay for trading fees on SPOT",
+        "schema": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "example": "true"
+        }
+      },
+      "interestBNBBurn": {
+        "name": "interestBNBBurn",
+        "in": "query",
+        "description": "Determines whether to use BNB to pay for margin loan interest",
+        "schema": {
+          "type": "string",
+          "enum": ["true", "false"],
+          "example": "false"
+        }
+      },
+      "depositHistory": {
+        "name": "status",
+        "in": "query",
+        "description": "* `0` - pending\n* `6` - credited but cannot withdraw\n* `1` - success",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "withdrawHistory": {
+        "name": "status",
+        "in": "query",
+        "description": "* `0` - Email Sent\n* `1` - Cancelled\n* `2` - Awaiting Approval\n* `3` - Rejected\n* `4` - Processing\n* `5` - Failure\n* `6` - Completed",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 6
+        }
+      },
+      "queryConvertTransfer": {
+        "name": "accountType",
+        "in": "query",
+        "description": "MAIN: main account. CARD: funding account. If it is blank, we will query spot and card wallet, otherwise, we just query the corresponding wallet",
+        "schema": {
+          "type": "string",
+          "enum": ["MAIN", "CARD"]
+        }
+      },
+      "querySubAccountList": {
+        "name": "isFreeze",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["true", "false"]
+        }
+      },
+      "asset": {
+        "name": "asset",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "BTC"
+        }
+      },
+      "amount": {
+        "name": "amount",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": "1.01"
+        }
+      },
+      "current": {
+        "name": "current",
+        "in": "query",
+        "description": "Current querying page. Start from 1. Default:1",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        }
+      },
+      "optionalCoin": {
+        "name": "coin",
+        "in": "query",
+        "description": "Coin name",
+        "schema": {
+          "type": "string",
+          "example": "BNB"
+        }
+      },
+      "coin": {
+        "name": "coin",
+        "in": "query",
+        "required": true,
+        "description": "Coin name",
+        "schema": {
+          "type": "string",
+          "example": "BNB"
+        }
+      },
+      "side": {
+        "name": "side",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["SELL", "BUY"],
+          "example": "SELL"
+        }
+      },
+      "optionalSide": {
+        "name": "side",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["SELL", "BUY"],
+          "example": "SELL"
+        }
+      },
+      "positionSide": {
+        "name": "positionSide",
+        "in": "query",
+        "description": "Default BOTH for One-way Mode ; LONG or SHORT for Hedge Mode. It must be sent in Hedge Mode.",
+        "schema": {
+          "type": "string",
+          "enum": ["BOTH", "LONG", "SHORT"],
+          "example": "BOTH"
+        }
+      },
+      "size": {
+        "name": "size",
+        "in": "query",
+        "description": "Default:10 Max:100",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 100
+        }
+      },
+      "symbol": {
+        "name": "symbol",
+        "in": "query",
+        "required": true,
+        "description": "Trading symbol, e.g. BNBUSDT",
+        "schema": {
+          "type": "string",
+          "example": "BNBUSDT"
+        }
+      },
+      "optionalSymbol": {
+        "name": "symbol",
+        "in": "query",
+        "description": "Trading symbol, e.g. BNBUSDT",
+        "schema": {
+          "type": "string",
+          "example": "BNBUSDT"
+        }
+      },
+      "optionalAsset": {
+        "name": "asset",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "example": "BNB"
+        }
+      },
+      "limit": {
+        "name": "limit",
+        "in": "query",
+        "description": "Default 500; max 1000.",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 5
+        }
+      },
+      "limit50": {
+        "name": "limit",
+        "in": "query",
+        "description": "Default 50, Max 50",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 50
+        }
+      },
+      "listenKey": {
+        "name": "listenKey",
+        "in": "query",
+        "description": "User websocket listen key",
+        "schema": {
+          "type": "string",
+          "example": "pqia91ma19a5s61cv6a81va65sdf19v8a65a1a5s61cv6a81va65sdf19v8a65a1"
+        }
+      },
+      "fromId": {
+        "name": "fromId",
+        "in": "query",
+        "description": "Trade id to fetch from. Default gets most recent trades.",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "offset": {
+        "name": "offset",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "orderId": {
+        "name": "orderId",
+        "in": "query",
+        "description": "Order id",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "orderListId": {
+        "name": "orderListId",
+        "in": "query",
+        "description": "Order list id",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "origClientOrderId": {
+        "name": "origClientOrderId",
+        "in": "query",
+        "description": "Order id from client",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "listClientOrderId": {
+        "name": "listClientOrderId",
+        "in": "query",
+        "description": "A unique Id for the entire orderList",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "newClientOrderId": {
+        "name": "newClientOrderId",
+        "in": "query",
+        "description": "Used to uniquely identify this cancel. Automatically generated by default",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "strategyId": {
+        "name": "strategyId",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "strategyType": {
+        "name": "strategyType",
+        "in": "query",
+        "description": "The value cannot be less than 1000000.",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "newOrderRespType": {
+        "name": "newOrderRespType",
+        "in": "query",
+        "description": "Set the response JSON. MARKET and LIMIT order types default to FULL, all other orders default to ACK.",
+        "schema": {
+          "type": "string",
+          "enum": ["ACK", "RESULT", "FULL"]
+        }
+      },
+      "selfTradePreventionMode": {
+        "name": "selfTradePreventionMode",
+        "in": "query",
+        "description": "The allowed enums is dependent on what is configured on the symbol. The possible supported values are EXPIRE_TAKER, EXPIRE_MAKER, EXPIRE_BOTH, NONE.",
+        "schema": {
+          "type": "string",
+          "enum": ["EXPIRE_TAKER", "EXPIRE_MAKER", "EXPIRE_BOTH", "NONE"],
+          "example": "EXPIRE_TAKER"
+        }
+      },
+      "ocoNewOrderRespType": {
+        "name": "newOrderRespType",
+        "in": "query",
+        "description": "Set the response JSON.",
+        "schema": {
+          "type": "string",
+          "enum": ["ACK", "RESULT", "FULL"]
+        }
+      },
+      "startTime": {
+        "name": "startTime",
+        "in": "query",
+        "description": "UTC timestamp in ms",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "endTime": {
+        "name": "endTime",
+        "in": "query",
+        "description": "UTC timestamp in ms",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "startTimeReq": {
+        "name": "startTime",
+        "in": "query",
+        "description": "UTC timestamp in ms",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "endTimeReq": {
+        "name": "endTime",
+        "in": "query",
+        "description": "UTC timestamp in ms",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "collateralCoinReq": {
+        "name": "collateralCoin",
+        "in": "query",
+        "description": "Coin used as collateral",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "BNB"
+        }
+      },
+      "collateralCoin": {
+        "name": "collateralCoin",
+        "in": "query",
+        "description": "Coin used as collateral",
+        "schema": {
+          "type": "string",
+          "example": "BNB"
+        }
+      },
+      "collateralAmount": {
+        "name": "collateralAmount",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "float",
+          "example": 50.5
+        }
+      },
+      "loanCoinReq": {
+        "name": "loanCoin",
+        "in": "query",
+        "description": "Coin loaned",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "BUSD"
+        }
+      },
+      "loanCoin": {
+        "name": "loanCoin",
+        "in": "query",
+        "description": "Coin loaned",
+        "schema": {
+          "type": "string",
+          "example": "BUSD"
+        }
+      },
+      "loanAmount": {
+        "name": "loanAmount",
+        "in": "query",
+        "description": "Loan amount",
+        "schema": {
+          "type": "number",
+          "format": "float",
+          "example": 100.1
+        }
+      },
+      "price": {
+        "name": "price",
+        "in": "query",
+        "required": true,
+        "description": "Order price",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 218
+        }
+      },
+      "optionalPrice": {
+        "name": "price",
+        "in": "query",
+        "description": "Order price",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 219
+        }
+      },
+      "quantity": {
+        "name": "quantity",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 1
+        }
+      },
+      "optionalQuantity": {
+        "name": "quantity",
+        "in": "query",
+        "description": "Order quantity",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 1
+        }
+      },
+      "recvWindow": {
+        "name": "recvWindow",
+        "in": "query",
+        "description": "The value cannot be greater than 60000",
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "example": 5000
+        }
+      },
+      "timestamp": {
+        "name": "timestamp",
+        "in": "query",
+        "required": true,
+        "description": "UTC timestamp in ms",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "timeInForce": {
+        "name": "timeInForce",
+        "in": "query",
+        "description": "Order time in force",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "IOC", "FOK"],
+          "example": "GTC"
+        }
+      },
+      "type": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "orderType": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "description": "Order type",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "LIMIT",
+            "MARKET",
+            "STOP_LOSS",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT",
+            "TAKE_PROFIT_LIMIT",
+            "LIMIT_MAKER"
+          ],
+          "example": "LIMIT"
+        }
+      },
+      "univTransferType": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "description": "Universal transfer type",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "MAIN_C2C",
+            "MAIN_UMFUTURE",
+            "MAIN_CMFUTURE",
+            "MAIN_MARGIN",
+            "MAIN_MINING",
+            "C2C_MAIN",
+            "C2C_UMFUTURE",
+            "C2C_MINING",
+            "C2C_MARGIN",
+            "UMFUTURE_MAIN",
+            "UMFUTURE_C2C",
+            "UMFUTURE_MARGIN",
+            "CMFUTURE_MAIN",
+            "CMFUTURE_MARGIN",
+            "MARGIN_MAIN",
+            "MARGIN_UMFUTURE",
+            "MARGIN_CMFUTURE",
+            "MARGIN_MINING",
+            "MARGIN_C2C",
+            "MINING_MAIN",
+            "MINING_UMFUTURE",
+            "MINING_C2C",
+            "MINING_MARGIN",
+            "MAIN_PAY",
+            "PAY_MAIN",
+            "ISOLATEDMARGIN_MARGIN",
+            "MARGIN_ISOLATEDMARGIN",
+            "ISOLATEDMARGIN_ISOLATEDMARGIN"
+          ],
+          "example": "MAIN_C2C"
+        }
+      },
+      "signature": {
+        "name": "signature",
+        "in": "query",
+        "required": true,
+        "description": "Signature",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "stopPrice": {
+        "name": "stopPrice",
+        "in": "query",
+        "description": "Used with STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, and TAKE_PROFIT_LIMIT orders.",
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 221.01
+        }
+      },
+      "isIsolatedMargin": {
+        "name": "isIsolated",
+        "in": "query",
+        "description": "* `TRUE` - For isolated margin\n* `FALSE` - Default, not for isolated margin",
+        "schema": {
+          "type": "string",
+          "enum": ["TRUE", "FALSE"]
+        }
+      },
+      "transFrom": {
+        "name": "transFrom",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["SPOT", "ISOLATED_MARGIN"],
+          "example": "SPOT"
+        }
+      },
+      "optionalTransFrom": {
+        "name": "transFrom",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["SPOT", "ISOLATED_MARGIN"],
+          "example": "SPOT"
+        }
+      },
+      "transTo": {
+        "name": "transTo",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["SPOT", "ISOLATED_MARGIN"],
+          "example": "ISOLATED_MARGIN"
+        }
+      },
+      "optionalTransTo": {
+        "name": "transTo",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["SPOT", "ISOLATED_MARGIN"],
+          "example": "ISOLATED_MARGIN"
+        }
+      },
+      "symbols": {
+        "name": "symbols",
+        "in": "query",
+        "description": "Max 5 symbols can be sent; separated by ','",
+        "schema": {
+          "type": "string",
+          "example": "BTCUSDT,BNBUSDT,ADAUSDT"
+        }
+      },
+      "arraySymbols": {
+        "name": "symbols",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "example": "[\"BTCUSDT\",\"BNBBTC\"]"
+        }
+      },
+      "tickerType": {
+        "name": "type",
+        "in": "query",
+        "description": "Supported values: FULL or MINI.\nIf none provided, the default is FULL",
+        "schema": {
+          "type": "string",
+          "enum": ["FULL", "MINI"],
+          "example": "FULL"
+        }
+      },
+      "permissions": {
+        "name": "permissions",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "example": "'SPOT' or ['MARGIN','LEVERAGED']"
+        }
+      },
+      "transactionType": {
+        "name": "transactionType",
+        "in": "query",
+        "required": true,
+        "description": "* `0` - deposit\n* `1` - withdraw",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 0,
+          "maximum": 1
+        }
+      },
+      "beginTime": {
+        "name": "beginTime",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1626144956000
+        }
+      },
+      "page": {
+        "name": "page",
+        "in": "query",
+        "description": "Default 1",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        }
+      },
+      "rows": {
+        "name": "rows",
+        "in": "query",
+        "description": "Default 100, max 500",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 300
+        }
+      },
+      "quoteOrderQty": {
+        "name": "quoteOrderQty",
+        "in": "query",
+        "description": "Quote quantity",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "icebergQty": {
+        "name": "icebergQty",
+        "in": "query",
+        "description": "Used with LIMIT, STOP_LOSS_LIMIT, and TAKE_PROFIT_LIMIT to create an iceberg order.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "flexibleProductStatus": {
+        "name": "status",
+        "in": "query",
+        "required": true,
+        "description": "Default `ALL`",
+        "schema": {
+          "type": "string",
+          "enum": ["ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"]
+        }
+      },
+      "optionalFlexibleProductStatus": {
+        "name": "status",
+        "in": "query",
+        "description": "Default `ALL`",
+        "schema": {
+          "type": "string",
+          "enum": ["ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"]
+        }
+      },
+      "optionalFixedAndActivityProductStatus": {
+        "name": "status",
+        "in": "query",
+        "description": "Default `ALL`",
+        "schema": {
+          "type": "string",
+          "enum": ["ALL", "SUBSCRIBABLE", "UNSUBSCRIBABLE"]
+        }
+      },
+      "featured": {
+        "name": "featured",
+        "in": "query",
+        "description": "Default `ALL`",
+        "schema": {
+          "type": "string",
+          "enum": ["ALL", "TRUE"]
+        }
+      },
+      "flexibleProductId": {
+        "name": "productId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "fixedAndActivityProjectId": {
+        "name": "projectId",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "flexibleProductType": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["FAST", "NORMAL"]
+        }
+      },
+      "fixedAndActivityProductType": {
+        "name": "type",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["ACTIVITY", "CUSTOMIZED_FIXED"]
+        }
+      },
+      "sortBy": {
+        "name": "sortBy",
+        "in": "query",
+        "description": "Default `START_TIME`",
+        "schema": {
+          "type": "string",
+          "enum": ["START_TIME", "LOT_SIZE", "INTEREST_RATE", "DURATION"]
+        }
+      },
+      "isSortAsc": {
+        "name": "isSortAsc",
+        "in": "query",
+        "description": "default \"true\"",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "projectId": {
+        "name": "projectId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "lot": {
+        "name": "lot",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "needBtcValuation": {
+        "name": "needBtcValuation",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["true", "false"]
+        }
+      },
+      "lendingType": {
+        "name": "lendingType",
+        "in": "query",
+        "required": true,
+        "description": "* `DAILY` - for flexible\n* `ACTIVITY` - for activity\n* `CUSTOMIZED_FIXED` for fixed",
+        "schema": {
+          "type": "string",
+          "enum": ["DAILY", "ACTIVITY", "CUSTOMIZED_FIXED"]
+        }
+      },
+      "optionalPositionId": {
+        "name": "positionId",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "positionId": {
+        "name": "positionId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "positionStatus": {
+        "name": "status",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["HOLDING", "REDEEMED"]
+        }
+      },
+      "userName": {
+        "name": "userName",
+        "in": "query",
+        "required": true,
+        "description": "Mining Account",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "algo": {
+        "name": "algo",
+        "in": "query",
+        "required": true,
+        "description": "Algorithm(sha256)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pageIndex": {
+        "name": "pageIndex",
+        "in": "query",
+        "description": "Page number, default is first page, start form 1",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "sort": {
+        "name": "sort",
+        "in": "query",
+        "description": "sort sequence(default=0)0 positive sequence, 1 negative sequence",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "sortColumn": {
+        "name": "sortColumn",
+        "in": "query",
+        "description": "Sort by( default 1): 1: miner name, 2: real-time computing power, 3: daily average computing power, 4: real-time rejection rate, 5: last submission time",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "workerStatus": {
+        "name": "workerStatus",
+        "in": "query",
+        "description": "miners status(default=0)0 all, 1 valid, 2 invalid, 3 failure",
+        "schema": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "startDate": {
+        "name": "startDate",
+        "in": "query",
+        "description": "Search date, millisecond timestamp, while empty query all",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "endDate": {
+        "name": "endDate",
+        "in": "query",
+        "description": "Search date, millisecond timestamp, while empty query all",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pageSize": {
+        "name": "pageSize",
+        "in": "query",
+        "description": "Number of pages, minimum 10, maximum 200",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "smallPageSize": {
+        "name": "pageSize",
+        "in": "query",
+        "description": "MIN 1, MAX 100; Default 100",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "configId": {
+        "name": "configId",
+        "in": "query",
+        "required": true,
+        "description": "Mining ID",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "toPoolUser": {
+        "name": "toPoolUser",
+        "in": "query",
+        "required": true,
+        "description": "Mining Account",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "hashRate": {
+        "name": "hashRate",
+        "in": "query",
+        "required": true,
+        "description": "Resale hashrate h/s must be transferred (BTC is greater than 500000000000 ETH is greater than 500000)",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "workerName": {
+        "name": "workerName",
+        "in": "query",
+        "required": true,
+        "description": "Miner’s name",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "blvtTokenName": {
+        "name": "tokenName",
+        "in": "query",
+        "required": true,
+        "description": "BTCDOWN, BTCUP",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "optionalBlvtTokenName": {
+        "name": "tokenName",
+        "in": "query",
+        "description": "BTCDOWN, BTCUP",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "poolId": {
+        "name": "poolId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "optionalPoolId": {
+        "name": "poolId",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "quoteAsset": {
+        "name": "quoteAsset",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "USDT"
+        }
+      },
+      "baseAsset": {
+        "name": "baseAsset",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "BUSD"
+        }
+      },
+      "quoteQty": {
+        "name": "quoteQty",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "subAccountEmail": {
+        "name": "email",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sub-account email"
+      },
+      "optionalSubAccountEmail": {
+        "name": "email",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sub-account email"
+      },
+      "optionalSubAccountFromEmail": {
+        "name": "fromEmail",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sub-account email"
+      },
+      "optionalSubAccountToEmail": {
+        "name": "toEmail",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sub-account email"
+      },
+      "subAccountFromEmail": {
+        "name": "fromEmail",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Sender email"
+      },
+      "subAccountToEmail": {
+        "name": "toEmail",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Recipient email"
+      },
+      "fromSymbol": {
+        "name": "fromSymbol",
+        "in": "query",
+        "description": "Must be sent when type are ISOLATEDMARGIN_MARGIN and ISOLATEDMARGIN_ISOLATEDMARGIN",
+        "schema": {
+          "type": "string",
+          "example": "BNBUSDT"
+        }
+      },
+      "toSymbol": {
+        "name": "toSymbol",
+        "in": "query",
+        "description": "Must be sent when type are MARGIN_ISOLATEDMARGIN and ISOLATEDMARGIN_ISOLATEDMARGIN",
+        "schema": {
+          "type": "string",
+          "example": "BNBUSDT"
+        }
+      },
+      "isolatedSymbol": {
+        "name": "isolatedSymbol",
+        "in": "query",
+        "description": "Isolated symbol",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "archived": {
+        "name": "archived",
+        "in": "query",
+        "description": "Default: false. Set to true for archived data from 6 months ago",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "sideEffectType": {
+        "name": "sideEffectType",
+        "in": "query",
+        "description": "Default `NO_SIDE_EFFECT`",
+        "schema": {
+          "type": "string",
+          "enum": ["NO_SIDE_EFFECT", "MARGIN_BUY", "AUTO_REPAY"]
+        }
+      },
+      "interval": {
+        "name": "interval",
+        "in": "query",
+        "required": true,
+        "description": "kline intervals",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "1s",
+            "1m",
+            "3m",
+            "5m",
+            "15m",
+            "30m",
+            "1h",
+            "2h",
+            "4h",
+            "6h",
+            "8h",
+            "12h",
+            "1d",
+            "3d",
+            "1w",
+            "1M"
+          ],
+          "example": "\"1m\""
+        }
+      },
+      "crossMarginAccountTransferType": {
+        "name": "type",
+        "in": "query",
+        "description": "* `1` - transfer from main account to margin account\n* `2` - transfer from margin account to main account",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "minimum": 1,
+          "maximum": 2
+        }
+      },
+      "limitClientOrderId": {
+        "name": "limitClientOrderId",
+        "in": "query",
+        "description": "A unique Id for the limit order",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "limitStrategyId": {
+        "name": "limitStrategyId",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "limitStrategyType": {
+        "name": "limitStrategyType",
+        "in": "query",
+        "description": "The value cannot be less than 1000000.",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "limitIcebergQty": {
+        "name": "limitIcebergQty",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "stopClientOrderId": {
+        "name": "stopClientOrderId",
+        "in": "query",
+        "description": "A unique Id for the stop loss/stop loss limit leg",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "stopStrategyId": {
+        "name": "stopStrategyId",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "stopStrategyType": {
+        "name": "stopStrategyType",
+        "in": "query",
+        "schema": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "ocoStopPrice": {
+        "name": "stopPrice",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "number",
+          "format": "double",
+          "example": 220
+        }
+      },
+      "stopLimitPrice": {
+        "name": "stopLimitPrice",
+        "in": "query",
+        "description": "If provided, stopLimitTimeInForce is required.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "stopIcebergQty": {
+        "name": "stopIcebergQty",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "stopLimitTimeInForce": {
+        "name": "stopLimitTimeInForce",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "FOK", "IOC"]
+        }
+      },
+      "subAccountApiKey": {
+        "name": "subAccountApiKey",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ipRestrict": {
+        "name": "ipRestrict",
+        "in": "query",
+        "required": true,
+        "description": "true or false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "thirdParty": {
+        "name": "thirdParty",
+        "in": "query",
+        "required": false,
+        "description": "true or false",
+        "schema": {
+          "type": "boolean"
+        }
+      },
+      "thirdPartyName": {
+        "name": "thirdPartyName",
+        "in": "query",
+        "required": false,
+        "description": "third party IP list name",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "ipAddress": {
+        "name": "ipAddress",
+        "in": "query",
+        "required": true,
+        "description": "Can be added in batches, separated by commas",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "optionalIpAddress": {
+        "name": "ipAddress",
+        "in": "query",
+        "description": "Can be added in batches, separated by commas",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "vipLevel": {
+        "name": "vipLevel",
+        "in": "query",
+        "description": "Defaults to user's vip level",
+        "schema": {
+          "type": "integer",
+          "format": "int32",
+          "example": 1
+        }
+      },
+      "clientTranId": {
+        "name": "clientTranId",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "optionalTrailingDelta": {
+        "name": "trailingDelta",
+        "in": "query",
+        "description": "Used with STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, and TAKE_PROFIT_LIMIT orders.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "productId": {
+        "name": "productId",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "optionalIsIsolated": {
+        "name": "isIsolated",
+        "in": "query",
+        "description": "* `TRUE` - For isolated margin\n* `FALSE` - Default, not for isolated margin",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "email": {
+        "name": "email",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "preventedMatchId": {
+        "name": "preventedMatchId",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "integer",
+          "format": "int64",
+          "example": 1
+        }
+      },
+      "cancelRestrictions": {
+        "name": "cancelRestrictions",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "enum": ["ONLY_NEW", "ONLY_PARTIALLY_FILLED"],
+          "example": "ONLY_NEW"
+        }
+      },
+      "network": {
+        "name": "network",
+        "in": "query",
+        "required": false,
+        "schema": {
+          "type": "string",
+          "example": "BTC"
+        }
+      },
+      "targetAsset": {
+        "name": "targetAsset",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "BTC"
+        }
+      },
+      "autoRepay": {
+        "name": "autoRepay",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "boolean",
+          "example": true
+        }
+      },
+      "autoCompoundPlan": {
+        "name": "autoCompoundPlan",
+        "in": "query",
+        "description": "NONE: switch off the plan,\nSTANDARD: standard plan,\nADVANCED: advanced plan;",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "enum": ["NONE", "STANDARD", "ADVANCE"]
+        }
+      },
+      "workingType": {
+        "name": "workingType",
+        "in": "query",
+        "required": true,
+        "description": "Supported values: LIMIT,LIMIT_MAKER",
+        "schema": {
+          "type": "string",
+          "enum": ["LIMIT", "LIMIT_MAKER"]
+        }
+      },
+      "workingSide": {
+        "name": "workingSide",
+        "in": "query",
+        "required": true,
+        "description": "BUY,SELL",
+        "schema": {
+          "type": "string",
+          "enum": ["BUY", "SELL"]
+        }
+      },
+      "workingClientOrderId": {
+        "name": "workingClientOrderId",
+        "in": "query",
+        "description": "Arbitrary unique ID among open orders for the working order. Automatically generated if not sent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "workingPrice": {
+        "name": "workingPrice",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "workingQuantity": {
+        "name": "workingQuantity",
+        "in": "query",
+        "required": true,
+        "description": "Sets the quantity for the working order.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "workingIcebergQty": {
+        "name": "workingIcebergQty",
+        "in": "query",
+        "required": true,
+        "description": "This can only be used if workingTimeInForce is GTC.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "workingTimeInForce": {
+        "name": "workingTimeInForce",
+        "in": "query",
+        "description": "GTC, IOC, FOK",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "IOC", "FOK"]
+        }
+      },
+      "pendingType": {
+        "name": "pendingType",
+        "in": "query",
+        "required": true,
+        "description": "Supported values: Order Types Note that MARKET orders using quoteOrderQty are not supported.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "LIMIT",
+            "MARKET",
+            "STOP_LOSS",
+            "STOP_LOSS_LIMIT",
+            "TAKE_PROFIT",
+            "TAKE_PROFIT_LIMIT",
+            "LIMIT_MAKER"
+          ]
+        }
+      },
+      "pendingSide": {
+        "name": "pendingSide",
+        "in": "query",
+        "required": true,
+        "description": "BUY,SELL",
+        "schema": {
+          "type": "string",
+          "enum": ["BUY", "SELL"]
+        }
+      },
+      "pendingClientOrderId": {
+        "name": "pendingClientOrderId",
+        "in": "query",
+        "description": "Arbitrary unique ID among open orders for the pending order. Automatically generated if not sent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pendingPrice": {
+        "name": "pendingPrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingStopPrice": {
+        "name": "pendingStopPrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingTrailingDelta": {
+        "name": "pendingTrailingDelta",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingQuantity": {
+        "name": "pendingQuantity",
+        "in": "query",
+        "required": true,
+        "description": "Sets the quantity for the pending order.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingIcebergQty": {
+        "name": "pendingIcebergQty",
+        "in": "query",
+        "description": "This can only be used if pendingTimeInForce is GTC.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingTimeInForce": {
+        "name": "pendingTimeInForce",
+        "in": "query",
+        "description": "GTC, IOC, FOK",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "IOC", "FOK"]
+        }
+      },
+      "pendingAboveType": {
+        "name": "pendingAboveType",
+        "in": "query",
+        "required": true,
+        "description": "Supported values: LIMIT_MAKER, STOP_LOSS, and STOP_LOSS_LIMIT",
+        "schema": {
+          "type": "string",
+          "enum": ["LIMIT_MAKER", "STOP_LOSS", "STOP_LOSS_LIMIT"]
+        }
+      },
+      "pendingAboveClientOrderId": {
+        "name": "pendingAboveClientOrderId",
+        "in": "query",
+        "description": "Arbitrary unique ID among open orders for the pending above order. Automatically generated if not sent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pendingAbovePrice": {
+        "name": "pendingAbovePrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingAboveStopPrice": {
+        "name": "pendingAboveStopPrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingAboveTrailingDelta": {
+        "name": "pendingAboveTrailingDelta",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingAboveIcebergQty": {
+        "name": "pendingAboveIcebergQty",
+        "in": "query",
+        "description": "This can only be used if pendingAboveTimeInForce is GTC.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingAboveTimeInForce": {
+        "name": "pendingAboveTimeInForce",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "IOC", "FOK"]
+        }
+      },
+      "pendingBelowType": {
+        "name": "pendingBelowType",
+        "in": "query",
+        "description": "Supported values: LIMIT_MAKER, STOP_LOSS, and STOP_LOSS_LIMIT",
+        "schema": {
+          "type": "string",
+          "enum": ["LIMIT_MAKER", "STOP_LOSS", "STOP_LOSS_LIMIT"]
+        }
+      },
+      "pendingBelowClientOrderId": {
+        "name": "pendingBelowClientOrderId",
+        "in": "query",
+        "description": "Arbitrary unique ID among open orders for the pending below order. Automatically generated if not sent.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "pendingBelowPrice": {
+        "name": "pendingBelowPrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingBelowStopPrice": {
+        "name": "pendingBelowStopPrice",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingBelowTrailingDelta": {
+        "name": "pendingBelowTrailingDelta",
+        "in": "query",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingBelowIcebergQty": {
+        "name": "pendingBelowIcebergQty",
+        "in": "query",
+        "description": "This can only be used if pendingBelowTimeInForce is GTC.",
+        "schema": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "pendingBelowTimeInForce": {
+        "name": "pendingBelowTimeInForce",
+        "in": "query",
+        "schema": {
+          "type": "string",
+          "enum": ["GTC", "IOC", "FOK"]
+        }
+      }
+    },
+    "schemas": {
+      "account": {
+        "type": "object",
+        "properties": {
+          "makerCommission": {
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          },
+          "takerCommission": {
+            "type": "integer",
+            "format": "int64",
+            "example": 15
+          },
+          "buyerCommission": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "sellerCommission": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "commissionRates": {
+            "type": "object",
+            "properties": {
+              "maker": {
+                "type": "string",
+                "example": "0.00150000"
+              },
+              "taker": {
+                "type": "string",
+                "example": "0.00150000"
+              },
+              "buyer": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "seller": {
+                "type": "string",
+                "example": "0.00000000"
+              }
+            },
+            "required": ["maker", "taker", "buyer", "seller"]
+          },
+          "canTrade": {
+            "type": "boolean"
+          },
+          "canWithdraw": {
+            "type": "boolean"
+          },
+          "canDeposit": {
+            "type": "boolean"
+          },
+          "brokered": {
+            "type": "boolean",
+            "example": false
+          },
+          "requireSelfTradePrevention": {
+            "type": "boolean",
+            "example": false
+          },
+          "preventSor": {
+            "type": "boolean",
+            "example": false
+          },
+          "updateTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 123456789
+          },
+          "accountType": {
+            "type": "string",
+            "example": "SPOT"
+          },
+          "balances": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "asset": {
+                  "type": "string",
+                  "example": "BTC"
+                },
+                "free": {
+                  "type": "string",
+                  "example": "4723846.89208129"
+                },
+                "locked": {
+                  "type": "string",
+                  "example": "0.00000000"
+                }
+              },
+              "required": ["asset", "free", "locked"]
+            }
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "SPOT"
+            }
+          },
+          "uid": {
+            "type": "integer",
+            "format": "int64",
+            "example": 354937868
+          }
+        },
+        "required": [
+          "makerCommission",
+          "takerCommission",
+          "buyerCommission",
+          "sellerCommission",
+          "commissionRates",
+          "canTrade",
+          "canWithdraw",
+          "canDeposit",
+          "brokered",
+          "requireSelfTradePrevention",
+          "preventSor",
+          "updateTime",
+          "accountType",
+          "balances",
+          "permissions",
+          "uid"
+        ]
+      },
+      "order": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "origClientOrderId": {
+            "type": "string",
+            "example": "msXkySR3u5uYwpvRMFsi3u"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unless OCO, value will be -1",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "price": {
+            "type": "string",
+            "example": "1.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "FILLED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "LIMIT"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          },
+          "selfTradePreventionMode": {
+            "type": "string",
+            "example": "NONE"
+          }
+        },
+        "required": [
+          "symbol",
+          "origClientOrderId",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side",
+          "selfTradePreventionMode",
+          "transactTime"
+        ]
+      },
+      "ocoOrder": {
+        "type": "object",
+        "properties": {
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1929
+          },
+          "contingencyType": {
+            "type": "string",
+            "example": "OCO"
+          },
+          "listStatusType": {
+            "type": "string",
+            "example": "ALL_DONE"
+          },
+          "listOrderStatus": {
+            "type": "string",
+            "example": "ALL_DONE"
+          },
+          "listClientOrderId": {
+            "type": "string",
+            "example": "C3wyj4WVEktd7u9aVBRXcN"
+          },
+          "transactionTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1574040868128
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string"
+                },
+                "orderId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "clientOrderId": {
+                  "type": "string"
+                }
+              },
+              "required": ["symbol", "orderId", "clientOrderId"]
+            },
+            "example": [
+              {
+                "symbol": "BNBBTC",
+                "orderId": 2,
+                "clientOrderId": "pO9ufTiFGg3nw2fOdgeOXa"
+              },
+              {
+                "symbol": "BNBBTC",
+                "orderId": 3,
+                "clientOrderId": "TXOvglzXuaubXAaENpaRCB"
+              }
+            ]
+          },
+          "orderReports": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string"
+                },
+                "origClientOrderId": {
+                  "type": "string"
+                },
+                "orderId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "orderListId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "clientOrderId": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "string"
+                },
+                "origQty": {
+                  "type": "string"
+                },
+                "executedQty": {
+                  "type": "string"
+                },
+                "cummulativeQuoteQty": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "timeInForce": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "side": {
+                  "type": "string"
+                },
+                "stopPrice": {
+                  "type": "string"
+                },
+                "selfTradePreventionMode": {
+                  "type": "string"
+                },
+                "transactTime": {
+                  "type": "integer",
+                  "format": "int64"
+                }
+              },
+              "required": [
+                "symbol",
+                "origClientOrderId",
+                "orderId",
+                "orderListId",
+                "clientOrderId",
+                "price",
+                "origQty",
+                "executedQty",
+                "cummulativeQuoteQty",
+                "status",
+                "timeInForce",
+                "type",
+                "side",
+                "stopPrice",
+                "selfTradePreventionMode",
+                "transactTime"
+              ]
+            },
+            "example": [
+              {
+                "symbol": "BNBBTC",
+                "origClientOrderId": "pO9ufTiFGg3nw2fOdgeOXa",
+                "orderId": 2,
+                "orderListId": 0,
+                "clientOrderId": "unfWT8ig8i0uj6lPuYLez6",
+                "price": "1.00000000",
+                "origQty": "10.00000000",
+                "executedQty": "0.00000000",
+                "cummulativeQuoteQty": "0.00000000",
+                "status": "CANCELED",
+                "timeInForce": "GTC",
+                "type": "STOP_LOSS_LIMIT",
+                "side": "SELL",
+                "stopPrice": "1.00000000",
+                "transactTime": 1688005070874
+              },
+              {
+                "symbol": "BNBBTC",
+                "origClientOrderId": "TXOvglzXuaubXAaENpaRCB",
+                "orderId": 3,
+                "orderListId": 0,
+                "clientOrderId": "unfWT8ig8i0uj6lPuYLez6",
+                "price": "3.00000000",
+                "origQty": "10.00000000",
+                "executedQty": "0.00000000",
+                "cummulativeQuoteQty": "0.00000000",
+                "status": "CANCELED",
+                "timeInForce": "GTC",
+                "type": "LIMIT_MAKER",
+                "side": "SELL",
+                "selfTradePreventionMode": "NONE",
+                "transactTime": 1688005070874
+              }
+            ]
+          }
+        },
+        "required": [
+          "orderListId",
+          "contingencyType",
+          "listStatusType",
+          "listOrderStatus",
+          "listClientOrderId",
+          "transactionTime",
+          "symbol",
+          "orders",
+          "orderReports"
+        ]
+      },
+      "marginOcoOrder": {
+        "type": "object",
+        "properties": {
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 0
+          },
+          "contingencyType": {
+            "type": "string",
+            "example": "OCO"
+          },
+          "listStatusType": {
+            "type": "string",
+            "example": "ALL_DONE"
+          },
+          "listOrderStatus": {
+            "type": "string",
+            "example": "ALL_DONE"
+          },
+          "listClientOrderId": {
+            "type": "string",
+            "example": "C3wyj4WVEktd7u9aVBRXcN"
+          },
+          "transactionTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1574040868128
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BNBUSDT"
+          },
+          "isIsolated": {
+            "type": "boolean",
+            "example": false
+          },
+          "orders": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string"
+                },
+                "orderId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "clientOrderId": {
+                  "type": "string"
+                }
+              },
+              "required": ["symbol", "orderId", "clientOrderId"],
+              "example": [
+                {
+                  "symbol": "BNBUSDT",
+                  "orderId": 2,
+                  "clientOrderId": "pO9ufTiFGg3nw2fOdgeOXa"
+                },
+                {
+                  "symbol": "BNBUSDT",
+                  "orderId": 3,
+                  "clientOrderId": "TXOvglzXuaubXAaENpaRCB"
+                }
+              ]
+            }
+          },
+          "orderReports": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string"
+                },
+                "origClientOrderId": {
+                  "type": "string"
+                },
+                "orderId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "orderListId": {
+                  "type": "integer",
+                  "format": "int64"
+                },
+                "clientOrderId": {
+                  "type": "string"
+                },
+                "price": {
+                  "type": "string"
+                },
+                "origQty": {
+                  "type": "string"
+                },
+                "executedQty": {
+                  "type": "string"
+                },
+                "cummulativeQuoteQty": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "timeInForce": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "side": {
+                  "type": "string"
+                },
+                "stopPrice": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "symbol",
+                "origClientOrderId",
+                "orderId",
+                "orderListId",
+                "clientOrderId",
+                "price",
+                "origQty",
+                "executedQty",
+                "cummulativeQuoteQty",
+                "status",
+                "timeInForce",
+                "type",
+                "side",
+                "stopPrice"
+              ],
+              "example": [
+                {
+                  "symbol": "BNBUSDT",
+                  "origClientOrderId": "pO9ufTiFGg3nw2fOdgeOXa",
+                  "orderId": 2,
+                  "orderListId": 0,
+                  "clientOrderId": "unfWT8ig8i0uj6lPuYLez6",
+                  "price": "1.00000000",
+                  "origQty": "10.00000000",
+                  "executedQty": "0.00000000",
+                  "cummulativeQuoteQty": "0.00000000",
+                  "status": "CANCELED",
+                  "timeInForce": "GTC",
+                  "type": "STOP_LOSS_LIMIT",
+                  "side": "SELL",
+                  "stopPrice": "1.00000000"
+                },
+                {
+                  "symbol": "BNBUSDT",
+                  "origClientOrderId": "TXOvglzXuaubXAaENpaRCB",
+                  "orderId": 3,
+                  "orderListId": 0,
+                  "clientOrderId": "unfWT8ig8i0uj6lPuYLez6",
+                  "price": "3.00000000",
+                  "origQty": "10.00000000",
+                  "executedQty": "0.00000000",
+                  "cummulativeQuoteQty": "0.00000000",
+                  "status": "CANCELED",
+                  "timeInForce": "GTC",
+                  "type": "LIMIT_MAKER",
+                  "side": "SELL"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "orderListId",
+          "contingencyType",
+          "listStatusType",
+          "listOrderStatus",
+          "listClientOrderId",
+          "transactionTime",
+          "symbol",
+          "isIsolated",
+          "orders",
+          "orderReports"
+        ]
+      },
+      "orderDetails": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "LTCBTC"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unless OCO, value will be -1",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "myOrder1"
+          },
+          "price": {
+            "type": "string",
+            "example": "0.1"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "1.0"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "0.0"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "0.0"
+          },
+          "status": {
+            "type": "string",
+            "example": "NEW"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "LIMIT"
+          },
+          "side": {
+            "type": "string",
+            "example": "BUY"
+          },
+          "stopPrice": {
+            "type": "string",
+            "example": "0.0"
+          },
+          "icebergQty": {
+            "type": "string",
+            "example": "0.0"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1499827319559
+          },
+          "updateTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1499827319559
+          },
+          "isWorking": {
+            "type": "boolean"
+          },
+          "workingTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1499827319559
+          },
+          "origQuoteOrderQty": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "selfTradePreventionMode": {
+            "type": "string",
+            "example": "NONE"
+          },
+          "preventedMatchId": {
+            "type": "integer",
+            "example": 0
+          },
+          "preventedQuantity": {
+            "type": "string",
+            "example": "1.200000"
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side",
+          "stopPrice",
+          "icebergQty",
+          "time",
+          "updateTime",
+          "isWorking",
+          "workingTime",
+          "origQuoteOrderQty",
+          "selfTradePreventionMode"
+        ]
+      },
+      "orderResponseAck": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "transactTime"
+        ]
+      },
+      "orderResponseResult": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "price": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "FILLED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "MARKET"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          },
+          "strategyId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "strategyType": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1000000
+          },
+          "workingTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "selfTradePreventionMode": {
+            "type": "string",
+            "example": "NONE"
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "transactTime",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side",
+          "workingTime",
+          "selfTradePreventionMode"
+        ]
+      },
+      "orderResponseFull": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "price": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "FILLED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "MARKET"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          },
+          "strategyId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1
+          },
+          "strategyType": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1000000
+          },
+          "workingTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "selfTradePreventionMode": {
+            "type": "string",
+            "example": "NONE"
+          },
+          "fills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "string",
+                  "example": "4000.00000000"
+                },
+                "qty": {
+                  "type": "string",
+                  "example": "1.00000000"
+                },
+                "commission": {
+                  "type": "string",
+                  "example": "4.00000000"
+                },
+                "commissionAsset": {
+                  "type": "string",
+                  "example": "USDT"
+                }
+              },
+              "required": ["price", "qty", "commission", "commissionAsset"]
+            }
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "transactTime",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side",
+          "workingTime",
+          "selfTradePreventionMode",
+          "fills"
+        ]
+      },
+      "marginOrder": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "LTCBTC"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "origClientOrderId": {
+            "type": "string",
+            "example": "msXkySR3u5uYwpvRMFsi3u"
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "price": {
+            "type": "string",
+            "example": "1.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "8.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "8.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "CANCELED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "LIMIT"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "origClientOrderId",
+          "clientOrderId",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side"
+        ]
+      },
+      "marginOrderDetail": {
+        "type": "object",
+        "properties": {
+          "clientOrderId": {
+            "type": "string",
+            "example": "ZwfQzuDIGpceVhKW5DvCmO"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "icebergQty": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "isWorking": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 213205622
+          },
+          "origQty": {
+            "type": "string",
+            "example": "0.30000000"
+          },
+          "price": {
+            "type": "string",
+            "example": "0.00493630"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          },
+          "status": {
+            "type": "string",
+            "example": "NEW"
+          },
+          "stopPrice": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "isIsolated": {
+            "type": "boolean"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1562133008725
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "LIMIT"
+          },
+          "updateTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1562133008725
+          },
+          "selfTradePreventionMode": {
+            "type": "string",
+            "example": "NONE"
+          }
+        },
+        "required": [
+          "clientOrderId",
+          "cummulativeQuoteQty",
+          "executedQty",
+          "icebergQty",
+          "isWorking",
+          "orderId",
+          "origQty",
+          "price",
+          "side",
+          "status",
+          "stopPrice",
+          "symbol",
+          "isIsolated",
+          "time",
+          "timeInForce",
+          "type",
+          "updateTime",
+          "selfTradePreventionMode"
+        ]
+      },
+      "canceledMarginOrderDetail": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBUSDT"
+          },
+          "isIsolated": {
+            "type": "boolean"
+          },
+          "origClientOrderId": {
+            "type": "string",
+            "example": "E6APeyTJvkMvLMYMqu1KQ4"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 11
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": -1
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "pXLV6Hz6mprAcVYpVMTGgx"
+          },
+          "price": {
+            "type": "string",
+            "example": "0.089853"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "0.178622"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "0.000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "0.000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "CANCELED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "LIMIT"
+          },
+          "side": {
+            "type": "string",
+            "example": "BUY"
+          }
+        },
+        "required": [
+          "symbol",
+          "isIsolated",
+          "origClientOrderId",
+          "orderId",
+          "orderListId",
+          "clientOrderId",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side"
+        ]
+      },
+      "marginOrderResponseAck": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "isIsolated": {
+            "type": "boolean"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "clientOrderId",
+          "isIsolated",
+          "transactTime"
+        ]
+      },
+      "marginOrderResponseResult": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "price": {
+            "type": "string",
+            "example": "1.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "FILLED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "MARKET"
+          },
+          "isIsolated": {
+            "type": "boolean"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "clientOrderId",
+          "transactTime",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "isIsolated",
+          "side"
+        ]
+      },
+      "marginOrderResponseFull": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "clientOrderId": {
+            "type": "string",
+            "example": "6gCrw2kRUAF9CvJDGP16IP"
+          },
+          "transactTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          },
+          "price": {
+            "type": "string",
+            "example": "1.00000000"
+          },
+          "origQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "executedQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "cummulativeQuoteQty": {
+            "type": "string",
+            "example": "10.00000000"
+          },
+          "status": {
+            "type": "string",
+            "example": "FILLED"
+          },
+          "timeInForce": {
+            "type": "string",
+            "example": "GTC"
+          },
+          "type": {
+            "type": "string",
+            "example": "MARKET"
+          },
+          "side": {
+            "type": "string",
+            "example": "SELL"
+          },
+          "marginBuyBorrowAmount": {
+            "type": "number",
+            "format": "double",
+            "example": 5,
+            "description": "will not return if no margin trade happens"
+          },
+          "marginBuyBorrowAsset": {
+            "type": "string",
+            "example": "BTC",
+            "description": "will not return if no margin trade happens"
+          },
+          "isIsolated": {
+            "type": "boolean"
+          },
+          "fills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "string",
+                  "example": "4000.00000000"
+                },
+                "qty": {
+                  "type": "string",
+                  "example": "1.00000000"
+                },
+                "commission": {
+                  "type": "string",
+                  "example": "4.00000000"
+                },
+                "commissionAsset": {
+                  "type": "string",
+                  "example": "USDT"
+                }
+              },
+              "required": ["price", "qty", "commission", "commissionAsset"]
+            }
+          }
+        },
+        "required": [
+          "symbol",
+          "orderId",
+          "clientOrderId",
+          "transactTime",
+          "price",
+          "origQty",
+          "executedQty",
+          "cummulativeQuoteQty",
+          "status",
+          "timeInForce",
+          "type",
+          "side",
+          "marginBuyBorrowAmount",
+          "marginBuyBorrowAsset",
+          "isIsolated",
+          "fills"
+        ]
+      },
+      "marginTrade": {
+        "type": "object",
+        "properties": {
+          "commission": {
+            "type": "string",
+            "example": "0.00006000"
+          },
+          "commissionAsset": {
+            "type": "string",
+            "example": "BTC"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "isBestMatch": {
+            "type": "boolean"
+          },
+          "isBuyer": {
+            "type": "boolean"
+          },
+          "isMaker": {
+            "type": "boolean"
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 28
+          },
+          "price": {
+            "type": "string",
+            "example": "0.02000000"
+          },
+          "qty": {
+            "type": "string",
+            "example": "1.02000000"
+          },
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "isIsolated": {
+            "type": "boolean",
+            "example": false
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1507725176595
+          }
+        },
+        "required": [
+          "commission",
+          "commissionAsset",
+          "id",
+          "isBestMatch",
+          "isBuyer",
+          "isMaker",
+          "orderId",
+          "price",
+          "qty",
+          "symbol",
+          "isIsolated",
+          "time"
+        ]
+      },
+      "marginTransferDetails": {
+        "type": "object",
+        "properties": {
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "amount": {
+                  "type": "string",
+                  "example": "0.10000000"
+                },
+                "asset": {
+                  "type": "string",
+                  "example": "BNB"
+                },
+                "status": {
+                  "type": "string",
+                  "example": "CONFIRMED"
+                },
+                "timestamp": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1566898617000
+                },
+                "txId": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 5240372201
+                },
+                "type": {
+                  "type": "string",
+                  "example": "ROLL_IN"
+                },
+                "transFrom": {
+                  "type": "string",
+                  "example": "SPOT"
+                },
+                "transTo": {
+                  "type": "string",
+                  "example": "ISOLATED_MARGIN"
+                }
+              },
+              "required": [
+                "amount",
+                "asset",
+                "status",
+                "timestamp",
+                "txId",
+                "transFrom",
+                "transTo"
+              ]
+            }
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32",
+            "example": 1
+          }
+        },
+        "required": ["rows", "total"]
+      },
+      "isolatedMarginAccountInfo": {
+        "type": "object",
+        "properties": {
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "baseAsset": {
+                  "type": "object",
+                  "properties": {
+                    "asset": {
+                      "type": "string",
+                      "example": "BTC"
+                    },
+                    "borrowEnabled": {
+                      "type": "boolean"
+                    },
+                    "borrowed": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "free": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "interest": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "locked": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "netAsset": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "netAssetOfBtc": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "repayEnabled": {
+                      "type": "boolean"
+                    },
+                    "totalAsset": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "borrowEnabled",
+                    "borrowed",
+                    "free",
+                    "interest",
+                    "locked",
+                    "netAsset",
+                    "netAssetOfBtc",
+                    "repayEnabled",
+                    "totalAsset"
+                  ]
+                },
+                "quoteAsset": {
+                  "type": "object",
+                  "properties": {
+                    "asset": {
+                      "type": "string",
+                      "example": "USDT"
+                    },
+                    "borrowEnabled": {
+                      "type": "boolean"
+                    },
+                    "borrowed": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "free": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "interest": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "locked": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "netAsset": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "netAssetOfBtc": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "repayEnabled": {
+                      "type": "boolean"
+                    },
+                    "totalAsset": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "borrowEnabled",
+                    "borrowed",
+                    "free",
+                    "interest",
+                    "locked",
+                    "netAsset",
+                    "netAssetOfBtc",
+                    "repayEnabled",
+                    "totalAsset"
+                  ]
+                },
+                "symbol": {
+                  "type": "string",
+                  "example": "BTCUSDT"
+                },
+                "isolatedCreated": {
+                  "type": "boolean"
+                },
+                "enabled": {
+                  "type": "boolean",
+                  "description": "true-enabled, false-disabled"
+                },
+                "marginLevel": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "marginLevelStatus": {
+                  "type": "string",
+                  "example": "EXCESSIVE",
+                  "description": "\"EXCESSIVE\", \"NORMAL\", \"MARGIN_CALL\", \"PRE_LIQUIDATION\", \"FORCE_LIQUIDATION\""
+                },
+                "marginRatio": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "indexPrice": {
+                  "type": "string",
+                  "example": "10000.00000000"
+                },
+                "liquidatePrice": {
+                  "type": "string",
+                  "example": "1000.00000000"
+                },
+                "liquidateRate": {
+                  "type": "string",
+                  "example": "1.00000000"
+                },
+                "tradeEnabled": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "baseAsset",
+                "quoteAsset",
+                "symbol",
+                "isolatedCreated",
+                "enabled",
+                "marginLevel",
+                "marginLevelStatus",
+                "marginRatio",
+                "indexPrice",
+                "liquidatePrice",
+                "liquidateRate",
+                "tradeEnabled"
+              ]
+            }
+          },
+          "totalAssetOfBtc": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "totalLiabilityOfBtc": {
+            "type": "string",
+            "example": "0.00000000"
+          },
+          "totalNetAssetOfBtc": {
+            "type": "string",
+            "example": "0.00000000"
+          }
+        },
+        "required": [
+          "assets",
+          "totalAssetOfBtc",
+          "totalLiabilityOfBtc",
+          "totalNetAssetOfBtc"
+        ]
+      },
+      "bookTickerList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/bookTicker"
+        }
+      },
+      "bookTicker": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "bidPrice": {
+            "type": "string",
+            "example": "16.36240000"
+          },
+          "bidQty": {
+            "type": "string",
+            "example": "256.78000000"
+          },
+          "askPrice": {
+            "type": "string",
+            "example": "16.36450000"
+          },
+          "askQty": {
+            "type": "string",
+            "example": "12.56000000"
+          }
+        },
+        "required": ["symbol", "bidPrice", "bidQty", "askPrice", "askQty"]
+      },
+      "priceTickerList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/priceTicker"
+        }
+      },
+      "priceTicker": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "price": {
+            "type": "string",
+            "example": "0.17160000"
+          }
+        },
+        "required": ["symbol", "price"]
+      },
+      "repaymentInfo": {
+        "type": "object",
+        "properties": {
+          "loanCoin": {
+            "type": "string",
+            "example": "BUSD"
+          },
+          "remainingPrincipal": {
+            "type": "string",
+            "example": "100.5"
+          },
+          "remainingInterest": {
+            "type": "string",
+            "example": "0"
+          },
+          "collateralCoin": {
+            "type": "string",
+            "example": "BNB"
+          },
+          "remainingCollateral": {
+            "type": "string",
+            "example": "5.253"
+          },
+          "currentLTV": {
+            "type": "string",
+            "example": "0.25"
+          },
+          "repayStatus": {
+            "type": "string",
+            "example": "Repaying"
+          }
+        },
+        "required": [
+          "loanCoin",
+          "remainingPrincipal",
+          "remainingInterest",
+          "collateralCoin",
+          "remainingCollateral",
+          "currentLTV",
+          "repayStatus"
+        ]
+      },
+      "repaymentInfo2": {
+        "type": "object",
+        "properties": {
+          "loanCoin": {
+            "type": "string",
+            "example": "BUSD"
+          },
+          "collateralCoin": {
+            "type": "string",
+            "example": "BNB"
+          },
+          "repayStatus": {
+            "type": "string",
+            "example": "Repaying"
+          }
+        },
+        "required": ["loanCoin", "collateralCoin", "repayStatus"]
+      },
+      "tickerList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/ticker"
+        }
+      },
+      "ticker": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "priceChange": {
+            "type": "string",
+            "example": "0.17160000"
+          },
+          "priceChangePercent": {
+            "type": "string",
+            "example": "1.060"
+          },
+          "prevClosePrice": {
+            "type": "string",
+            "example": "16.35920000"
+          },
+          "lastPrice": {
+            "type": "string",
+            "example": "27.84000000"
+          },
+          "bidPrice": {
+            "type": "string",
+            "example": "16.34488284"
+          },
+          "bidQty": {
+            "type": "string",
+            "example": "16.34488284"
+          },
+          "askPrice": {
+            "type": "string",
+            "example": "16.35920000"
+          },
+          "askQty": {
+            "type": "string",
+            "example": "25.06000000"
+          },
+          "openPrice": {
+            "type": "string",
+            "example": "16.18760000"
+          },
+          "highPrice": {
+            "type": "string",
+            "example": "16.55000000"
+          },
+          "lowPrice": {
+            "type": "string",
+            "example": "16.16940000"
+          },
+          "volume": {
+            "type": "string",
+            "example": "1678279.95000000"
+          },
+          "quoteVolume": {
+            "type": "string",
+            "example": "27431289.14792300"
+          },
+          "openTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1592808788637
+          },
+          "closeTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1592895188637
+          },
+          "firstId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 62683296
+          },
+          "lastId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 62739253
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 55958
+          }
+        },
+        "required": [
+          "symbol",
+          "priceChange",
+          "priceChangePercent",
+          "prevClosePrice",
+          "lastPrice",
+          "bidPrice",
+          "bidQty",
+          "askPrice",
+          "askQty",
+          "openPrice",
+          "highPrice",
+          "lowPrice",
+          "volume",
+          "quoteVolume",
+          "openTime",
+          "closeTime",
+          "firstId",
+          "lastId",
+          "count"
+        ]
+      },
+      "dayTickerList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/dayTicker"
+        }
+      },
+      "dayTicker": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BTCUSDT"
+          },
+          "priceChange": {
+            "type": "string",
+            "example": "-83.13000000",
+            "description": "Absolute price change"
+          },
+          "priceChangePercent": {
+            "type": "string",
+            "example": "-0.317",
+            "description": "Relative price change in percent"
+          },
+          "weightedAvgPrice": {
+            "type": "string",
+            "example": "26234.58803036",
+            "description": "quoteVolume / volume"
+          },
+          "openPrice": {
+            "type": "string",
+            "example": "26304.80000000"
+          },
+          "highPrice": {
+            "type": "string",
+            "example": "26397.46000000"
+          },
+          "lowPrice": {
+            "type": "string",
+            "example": "26088.34000000"
+          },
+          "lastPrice": {
+            "type": "string",
+            "example": "26221.67000000"
+          },
+          "volume": {
+            "type": "string",
+            "description": "Volume in base asset",
+            "example": "18495.35066000"
+          },
+          "quoteVolume": {
+            "type": "string",
+            "example": "485217905.04210480",
+            "description": "Volume in quote asset"
+          },
+          "openTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1695686400000
+          },
+          "closeTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1695772799999
+          },
+          "firstId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3220151555,
+            "description": "Trade ID of the first trade in the interval"
+          },
+          "lastId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 3220849281,
+            "description": "Trade ID of the last trade in the interval"
+          },
+          "count": {
+            "type": "integer",
+            "format": "int64",
+            "example": 697727,
+            "description": "Number of trades in the interval"
+          }
+        },
+        "required": [
+          "symbol",
+          "priceChange",
+          "priceChangePercent",
+          "weightedAvgPrice",
+          "openPrice",
+          "highPrice",
+          "lowPrice",
+          "lastPrice",
+          "volume",
+          "quoteVolume",
+          "openTime",
+          "closeTime",
+          "firstId",
+          "lastId",
+          "count"
+        ]
+      },
+      "myTrade": {
+        "type": "object",
+        "properties": {
+          "symbol": {
+            "type": "string",
+            "example": "BNBBTC"
+          },
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Trade id",
+            "example": 28457
+          },
+          "orderId": {
+            "type": "integer",
+            "format": "int64",
+            "example": 100234
+          },
+          "orderListId": {
+            "type": "integer",
+            "format": "int64",
+            "example": -1
+          },
+          "price": {
+            "type": "string",
+            "description": "Price",
+            "example": "4.00000100"
+          },
+          "qty": {
+            "type": "string",
+            "description": "Amount of base asset",
+            "example": "12.00000000"
+          },
+          "quoteQty": {
+            "type": "string",
+            "description": "Amount of quote asset",
+            "example": "48.000012"
+          },
+          "commission": {
+            "type": "string",
+            "example": "10.10000000"
+          },
+          "commissionAsset": {
+            "type": "string",
+            "example": "BNB"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Trade timestamp",
+            "example": 1499865549590
+          },
+          "isBuyer": {
+            "type": "boolean",
+            "example": false
+          },
+          "isMaker": {
+            "type": "boolean",
+            "example": false
+          },
+          "isBestMatch": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "symbol",
+          "id",
+          "orderId",
+          "orderListId",
+          "price",
+          "qty",
+          "quoteQty",
+          "commission",
+          "commissionAsset",
+          "time",
+          "isBuyer",
+          "isMaker",
+          "isBestMatch"
+        ]
+      },
+      "transaction": {
+        "type": "object",
+        "properties": {
+          "tranId": {
+            "type": "integer",
+            "format": "int64",
+            "description": "transaction id",
+            "example": 345196462
+          }
+        },
+        "required": ["tranId"]
+      },
+      "trade": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64",
+            "description": "trade id",
+            "example": 345196462
+          },
+          "price": {
+            "type": "string",
+            "description": "price",
+            "example": "9638.99000000"
+          },
+          "qty": {
+            "type": "string",
+            "description": "amount of base asset",
+            "example": "0.02077200"
+          },
+          "quoteQty": {
+            "type": "string",
+            "description": "amount of quote asset",
+            "example": "0.02077200"
+          },
+          "time": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Trade executed timestamp, as same as `T` in the stream",
+            "example": 1592887772684
+          },
+          "isBuyerMaker": {
+            "type": "boolean"
+          },
+          "isBestMatch": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "price",
+          "qty",
+          "quoteQty",
+          "time",
+          "isBuyerMaker",
+          "isBestMatch"
+        ]
+      },
+      "aggTrade": {
+        "type": "object",
+        "properties": {
+          "a": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Aggregate tradeId",
+            "example": 26129
+          },
+          "p": {
+            "type": "string",
+            "description": "Price",
+            "example": "0.01633102"
+          },
+          "q": {
+            "type": "string",
+            "description": "Quantity",
+            "example": "4.70443515"
+          },
+          "f": {
+            "type": "integer",
+            "format": "int64",
+            "description": "First tradeId",
+            "example": 27781
+          },
+          "l": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Last tradeId",
+            "example": 27781
+          },
+          "T": {
+            "type": "boolean",
+            "description": "Timestamp",
+            "example": 1498793709153
+          },
+          "m": {
+            "type": "boolean",
+            "description": "Was the buyer the maker?"
+          },
+          "M": {
+            "type": "boolean",
+            "description": "Was the trade the best price match?"
+          }
+        },
+        "required": ["a", "p", "q", "f", "l", "T", "m", "M"]
+      },
+      "bnbBurnStatus": {
+        "type": "object",
+        "properties": {
+          "spotBNBBurn": {
+            "type": "boolean"
+          },
+          "interestBNBBurn": {
+            "type": "boolean",
+            "example": false
+          }
+        },
+        "required": ["spotBNBBurn", "interestBNBBurn"]
+      },
+      "snapshotSpot": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 200
+          },
+          "msg": {
+            "type": "string",
+            "example": ""
+          },
+          "snapshotVos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "balances": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "asset": {
+                            "type": "string",
+                            "example": "BTC"
+                          },
+                          "free": {
+                            "type": "string",
+                            "example": "0.2"
+                          },
+                          "locked": {
+                            "type": "string",
+                            "example": "0.001"
+                          }
+                        },
+                        "required": ["asset", "free", "locked"]
+                      }
+                    },
+                    "totalAssetOfBtc": {
+                      "type": "string",
+                      "example": "0.09905021"
+                    }
+                  },
+                  "required": ["balances", "totalAssetOfBtc"]
+                },
+                "type": {
+                  "type": "string",
+                  "example": "spot"
+                },
+                "updateTime": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1576281599000
+                }
+              },
+              "required": ["data", "type", "updateTime"]
+            }
+          }
+        },
+        "required": ["code", "msg", "snapshotVos"]
+      },
+      "snapshotMargin": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 200
+          },
+          "msg": {
+            "type": "string",
+            "example": ""
+          },
+          "snapshotVos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "marginLevel": {
+                      "type": "string",
+                      "example": "2748.02909813"
+                    },
+                    "totalAssetOfBtc": {
+                      "type": "string",
+                      "example": "0.00274803"
+                    },
+                    "totalLiabilityOfBtc": {
+                      "type": "string",
+                      "example": "0.00000100"
+                    },
+                    "totalNetAssetOfBtc": {
+                      "type": "string",
+                      "example": "0.00274750"
+                    },
+                    "userAssets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "asset": {
+                            "type": "string",
+                            "example": "XRP"
+                          },
+                          "borrowed": {
+                            "type": "string",
+                            "example": "0.00000000"
+                          },
+                          "free": {
+                            "type": "string",
+                            "example": "1.00000000"
+                          },
+                          "interest": {
+                            "type": "string",
+                            "example": "0.00000000"
+                          },
+                          "locked": {
+                            "type": "string",
+                            "example": "0.00000000"
+                          },
+                          "netAsset": {
+                            "type": "string",
+                            "example": "1.00000000"
+                          }
+                        },
+                        "required": [
+                          "asset",
+                          "borrowed",
+                          "free",
+                          "interest",
+                          "locked",
+                          "netAsset"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "marginLevel",
+                    "totalAssetOfBtc",
+                    "totalLiabilityOfBtc",
+                    "totalNetAssetOfBtc",
+                    "userAssets"
+                  ]
+                },
+                "type": {
+                  "type": "string",
+                  "example": "margin"
+                },
+                "updateTime": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1576281599000
+                }
+              },
+              "required": ["data", "type", "updateTime"]
+            }
+          }
+        },
+        "required": ["code", "msg", "snapshotVos"]
+      },
+      "snapshotFutures": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "example": 200
+          },
+          "msg": {
+            "type": "string",
+            "example": ""
+          },
+          "snapshotVos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "assets": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "asset": {
+                            "type": "string",
+                            "example": "USDT"
+                          },
+                          "marginBalance": {
+                            "type": "string",
+                            "example": "118.99782335"
+                          },
+                          "walletBalance": {
+                            "type": "string",
+                            "example": "120.23811389"
+                          }
+                        },
+                        "required": ["asset", "marginBalance", "walletBalance"]
+                      }
+                    },
+                    "position": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "entryPrice": {
+                            "type": "string",
+                            "example": "7130.41000000"
+                          },
+                          "markPrice": {
+                            "type": "string",
+                            "example": "7257.66239673"
+                          },
+                          "positionAmt": {
+                            "type": "string",
+                            "example": "0.01000000"
+                          },
+                          "symbol": {
+                            "type": "string",
+                            "example": "BTCUSDT"
+                          },
+                          "unRealizedProfit": {
+                            "type": "string",
+                            "example": "1.24029054"
+                          }
+                        },
+                        "required": [
+                          "entryPrice",
+                          "markPrice",
+                          "positionAmt",
+                          "symbol",
+                          "unRealizedProfit"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["assets", "position"]
+                },
+                "type": {
+                  "type": "string",
+                  "example": "futures"
+                },
+                "updateTime": {
+                  "type": "integer",
+                  "format": "int64",
+                  "example": 1576281599000
+                }
+              },
+              "required": ["data", "type", "updateTime"]
+            }
+          }
+        },
+        "required": ["code", "msg", "snapshotVos"]
+      },
+      "subAccountUSDTFuturesDetails": {
+        "type": "object",
+        "properties": {
+          "futureAccountResp": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "abc@test.com"
+              },
+              "assets": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "asset": {
+                      "type": "string",
+                      "example": "USDT"
+                    },
+                    "initialMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "maintenanceMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "marginBalance": {
+                      "type": "string",
+                      "example": "0.88308000"
+                    },
+                    "maxWithdrawAmount": {
+                      "type": "string",
+                      "example": "0.88308000"
+                    },
+                    "openOrderInitialMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "positionInitialMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "unrealizedProfit": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "walletBalance": {
+                      "type": "string",
+                      "example": "0.88308000"
+                    }
+                  },
+                  "required": [
+                    "asset",
+                    "initialMargin",
+                    "maintenanceMargin",
+                    "marginBalance",
+                    "maxWithdrawAmount",
+                    "openOrderInitialMargin",
+                    "positionInitialMargin",
+                    "unrealizedProfit",
+                    "walletBalance"
+                  ]
+                }
+              },
+              "canDeposit": {
+                "type": "boolean"
+              },
+              "canTrade": {
+                "type": "boolean"
+              },
+              "canWithdraw": {
+                "type": "boolean"
+              },
+              "feeTier": {
+                "type": "integer",
+                "format": "int64",
+                "example": 2
+              },
+              "maxWithdrawAmount": {
+                "type": "string",
+                "example": "0.88308000"
+              },
+              "totalInitialMargin": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "totalMaintenanceMargin": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "totalMarginBalance": {
+                "type": "string",
+                "example": "0.88308000"
+              },
+              "totalOpenOrderInitialMargin": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "totalPositionInitialMargin": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "totalUnrealizedProfit": {
+                "type": "string",
+                "example": "0.00000000"
+              },
+              "totalWalletBalance": {
+                "type": "string",
+                "example": "0.88308000"
+              },
+              "updateTime": {
+                "type": "integer",
+                "format": "int64",
+                "example": 1576756674610
+              }
+            },
+            "required": [
+              "email",
+              "assets",
+              "canDeposit",
+              "canTrade",
+              "canWithdraw",
+              "feeTier",
+              "maxWithdrawAmount",
+              "totalInitialMargin",
+              "totalMaintenanceMargin",
+              "totalMarginBalance",
+              "totalOpenOrderInitialMargin",
+              "totalPositionInitialMargin",
+              "totalUnrealizedProfit",
+              "totalWalletBalance",
+              "updateTime"
+            ]
+          }
+        },
+        "required": ["futureAccountResp"]
+      },
+      "subAccountCOINFuturesDetails": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "abc@test.com"
+          },
+          "assets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "asset": {
+                  "type": "string",
+                  "example": "BTC"
+                },
+                "initialMargin": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "maintenanceMargin": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "marginBalance": {
+                  "type": "string",
+                  "example": "0.88308000"
+                },
+                "maxWithdrawAmount": {
+                  "type": "string",
+                  "example": "0.88308000"
+                },
+                "openOrderInitialMargin": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "positionInitialMargin": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "unrealizedProfit": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "walletBalance": {
+                  "type": "string",
+                  "example": "0.88308000"
+                }
+              },
+              "required": [
+                "asset",
+                "initialMargin",
+                "maintenanceMargin",
+                "marginBalance",
+                "maxWithdrawAmount",
+                "openOrderInitialMargin",
+                "positionInitialMargin",
+                "unrealizedProfit",
+                "walletBalance"
+              ]
+            }
+          },
+          "canDeposit": {
+            "type": "boolean"
+          },
+          "canTrade": {
+            "type": "boolean"
+          },
+          "canWithdraw": {
+            "type": "boolean"
+          },
+          "feeTier": {
+            "type": "integer",
+            "format": "int64",
+            "example": 2
+          },
+          "updateTime": {
+            "type": "integer",
+            "format": "int64",
+            "example": 1598959682001
+          }
+        },
+        "required": [
+          "email",
+          "assets",
+          "canDeposit",
+          "canTrade",
+          "canWithdraw",
+          "feeTier",
+          "updateTime"
+        ]
+      },
+      "subAccountUSDTFuturesSummary": {
+        "type": "object",
+        "properties": {
+          "futureAccountSummaryResp": {
+            "type": "object",
+            "properties": {
+              "totalInitialMargin": {
+                "type": "string",
+                "example": "9.83137400"
+              },
+              "totalMaintenanceMargin": {
+                "type": "string",
+                "example": "0.41568700"
+              },
+              "totalMarginBalance": {
+                "type": "string",
+                "example": "23.03235621"
+              },
+              "totalOpenOrderInitialMargin": {
+                "type": "string",
+                "example": "9.00000000"
+              },
+              "totalPositionInitialMargin": {
+                "type": "string",
+                "example": "0.83137400"
+              },
+              "totalUnrealizedProfit": {
+                "type": "string",
+                "example": "0.03219710"
+              },
+              "totalWalletBalance": {
+                "type": "string",
+                "example": "22.15879444"
+              },
+              "asset": {
+                "type": "string",
+                "example": "USD",
+                "description": "The sum of BUSD and USDT"
+              },
+              "subAccountList": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "123@test.com"
+                    },
+                    "totalInitialMargin": {
+                      "type": "string",
+                      "example": "9.00000000"
+                    },
+                    "totalMaintenanceMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "totalMarginBalance": {
+                      "type": "string",
+                      "example": "22.12659734"
+                    },
+                    "totalOpenOrderInitialMargin": {
+                      "type": "string",
+                      "example": "9.00000000"
+                    },
+                    "totalPositionInitialMargin": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "totalUnrealizedProfit": {
+                      "type": "string",
+                      "example": "0.00000000"
+                    },
+                    "totalWalletBalance": {
+                      "type": "string",
+                      "example": "22.12659734"
+                    },
+                    "asset": {
+                      "type": "string",
+                      "example": "USD",
+                      "description": "The sum of BUSD and USDT"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "totalInitialMargin",
+                    "totalMaintenanceMargin",
+                    "totalMarginBalance",
+                    "totalOpenOrderInitialMargin",
+                    "totalPositionInitialMargin",
+                    "totalUnrealizedProfit",
+                    "totalWalletBalance",
+                    "asset"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "totalInitialMargin",
+              "totalMaintenanceMargin",
+              "totalMarginBalance",
+              "totalOpenOrderInitialMargin",
+              "totalPositionInitialMargin",
+              "totalUnrealizedProfit",
+              "totalWalletBalance",
+              "asset",
+              "subAccountList"
+            ]
+          }
+        },
+        "required": ["futureAccountSummaryResp"]
+      },
+      "subAccountCOINFuturesSummary": {
+        "type": "object",
+        "properties": {
+          "deliveryAccountSummaryResp": {
+            "type": "object",
+            "properties": {
+              "totalMarginBalanceOfBTC": {
+                "type": "string",
+                "example": 25.03221121
+              },
+              "totalUnrealizedProfitOfBTC": {
+                "type": "string",
+                "example": 0.1223341
+              },
+              "totalWalletBalanceOfBTC": {
+                "type": "string",
+                "example": 22.15879444
+              },
+              "asset": {
+                "type": "string",
+                "example": "BTC"
+              },
+              "subAccountList": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "email": {
+                      "type": "string",
+                      "example": "123@test.com"
+                    },
+                    "totalMarginBalance": {
+                      "type": "string",
+                      "example": 22.12659734
+                    },
+                    "totalUnrealizedProfit": {
+                      "type": "string",
+                      "example": 0
+                    },
+                    "totalWalletBalance": {
+                      "type": "string",
+                      "example": 22.12659734
+                    },
+                    "asset": {
+                      "type": "string",
+                      "example": "BTC"
+                    }
+                  },
+                  "required": [
+                    "email",
+                    "totalMarginBalance",
+                    "totalUnrealizedProfit",
+                    "totalWalletBalance",
+                    "asset"
+                  ]
+                }
+              }
+            },
+            "required": [
+              "totalMarginBalanceOfBTC",
+              "totalUnrealizedProfitOfBTC",
+              "totalWalletBalanceOfBTC",
+              "asset",
+              "subAccountList"
+            ]
+          }
+        },
+        "required": ["deliveryAccountSummaryResp"]
+      },
+      "subAccountUSDTFuturesPositionRisk": {
+        "type": "object",
+        "properties": {
+          "futurePositionRiskVos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "entryPrice": {
+                  "type": "string",
+                  "example": "9975.12000"
+                },
+                "leverage": {
+                  "type": "string",
+                  "example": "50",
+                  "description": "current initial leverage"
+                },
+                "maxNotional": {
+                  "type": "string",
+                  "example": "1000000",
+                  "description": "notional value limit of current initial leverage"
+                },
+                "liquidationPrice": {
+                  "type": "string",
+                  "example": "7963.54"
+                },
+                "markPrice": {
+                  "type": "string",
+                  "example": "9973.50770517"
+                },
+                "positionAmount": {
+                  "type": "string",
+                  "example": "0.010"
+                },
+                "symbol": {
+                  "type": "string",
+                  "example": "BTCUSDT"
+                },
+                "unrealizedProfit": {
+                  "type": "string",
+                  "example": "-0.01612295"
+                }
+              },
+              "required": [
+                "entryPrice",
+                "leverage",
+                "maxNotional",
+                "liquidationPrice",
+                "markPrice",
+                "positionAmount",
+                "symbol",
+                "unrealizedProfit"
+              ]
+            }
+          }
+        },
+        "required": ["futurePositionRiskVos"]
+      },
+      "subAccountCOINFuturesPositionRisk": {
+        "type": "object",
+        "properties": {
+          "deliveryPositionRiskVos": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "entryPrice": {
+                  "type": "string",
+                  "example": "9975.12000"
+                },
+                "markPrice": {
+                  "type": "string",
+                  "example": "9973.50770517"
+                },
+                "leverage": {
+                  "type": "string",
+                  "example": "20"
+                },
+                "isolated": {
+                  "type": "string",
+                  "example": false
+                },
+                "isolatedWallet": {
+                  "type": "string",
+                  "example": "9973.50770517"
+                },
+                "isolatedMargin": {
+                  "type": "string",
+                  "example": "0.00000000"
+                },
+                "isAutoAddMargin": {
+                  "type": "string",
+                  "example": "false"
+                },
+                "positionSide": {
+                  "type": "string",
+                  "example": "BOTH"
+                },
+                "positionAmount": {
+                  "type": "string",
+                  "example": "1.230"
+                },
+                "symbol": {
+                  "type": "string",
+                  "example": "BTCUSD_201225"
+                },
+                "unrealizedProfit": {
+                  "type": "string",
+                  "example": "-0.01612295"
+                }
+              },
+              "required": [
+                "entryPrice",
+                "markPrice",
+                "leverage",
+                "isolated",
+                "isolatedWallet",
+                "isolatedMargin",
+                "isAutoAddMargin",
+                "positionSide",
+                "positionAmount",
+                "symbol",
+                "unrealizedProfit"
+              ]
+            }
+          }
+        },
+        "required": ["deliveryPositionRiskVos"]
+      },
+      "error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Error code"
+          },
+          "msg": {
+            "type": "string",
+            "description": "Error message",
+            "example": "error message"
+          }
+        },
+        "required": ["code", "msg"]
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "name": "X-MBX-APIKEY",
+        "in": "header",
+        "description": "Binance Public API Key",
+        "type": "apiKey"
+      }
+    }
+  }
+}

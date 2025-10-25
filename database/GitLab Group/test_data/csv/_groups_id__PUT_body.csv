@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,{},2xx,avatar is optional; missing optional field is allowed.
+2,"{""avatar"": ""avatar.png""}",4xx,One or more fields deliberately violate the spec (4xx).
+3,"{""avatar"": 12345}",4xx,avatar has type integer but the spec requires string with format 'file' (JSON body type mismatch).
+4,"{""avatar"": null}",4xx,avatar=null violates 'type=string' and 'format=file'; null is not allowed for file uploads.
+5,"{""avatar"": """"}",4xx,"avatar='' is an empty string, violating 'format=file' (must be a file upload, not empty string)."
+6,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
+7,"{""avatar"": 12345}",4xx,"avatar=12345 is an integer, violating 'type=string' and 'format=file' which requires a file upload."
+8,"{""avatar"": """"}",4xx,"avatar='' is an empty string, violating 'format=file' which requires a file upload."
+9,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""not_base64""}}",4xx,"avatar is a JSON object, violating 'type=string' and 'format=file' which requires a file upload."
+10,"{""avatar"": ""data:image/png;base64,not_really_base64""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""avatar"": ""avatar.png""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="post-/projects"/>
+<node id="get-/projects"/>
+<node id="get-/projects/{id}/repository/commits"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<node id="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<node id="post-/projects/{id}/repository/commits"/>
+<node id="get-/projects/{id}/repository/commits/{sha}"/>
+<node id="post-/projects/{id}/repository/commits/{sha}/revert"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/comments"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/discussions"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<node id="post-/projects/{id}/statuses/{sha}"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/signature"/>
+<node id="get-/projects/{id}/repository/commits/{sha}/merge_requests"/>
+<edge source="post-/projects" target="get-/projects"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/commits"/>
+<edge source="get-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}/refs"/>
+<edge source="get-/projects/{id}/repository/commits" target="post-/projects/{id}/repository/commits/{sha}/cherry_pick"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/cherry_pick" target="post-/projects/{id}/repository/commits"/>
+<edge source="post-/projects/{id}/repository/commits" target="get-/projects/{id}/repository/commits/{sha}"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="post-/projects/{id}/repository/commits/{sha}/revert"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/comments"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/discussions"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/statuses"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}" target="get-/projects/{id}/repository/commits/{sha}/merge_requests"/>
+<edge source="post-/projects/{id}/repository/commits/{sha}/revert" target="get-/projects/{id}/repository/commits/{sha}/diff"/>
+<edge source="get-/projects/{id}/repository/commits/{sha}/statuses" target="post-/projects/{id}/statuses/{sha}"/>
+<edge source="post-/projects/{id}/statuses/{sha}" target="get-/projects/{id}/repository/commits/{sha}/signature"/>
+</graph></graphml>

@@ -59,7 +59,9 @@ class TestDataGenerator:
                  selected_endpoints: list = None,
                  generation_mode: str = "all",
                  working_directory: str = None,
-                 odg_dir: str = None):
+                 odg_dir: str = None,
+                 headers: Dict[str, str] = None):
+        self.headers = headers
         self.odg_dir = odg_dir
         self.enabled_mutation = False
         self.swagger_spec: dict = swagger_spec
@@ -86,12 +88,12 @@ class TestDataGenerator:
         self.path_endpoint_schema_dependencies: Path = self.odg_dir / "endpoint_schema_dependencies.json"
         self.path_endpoints_belong_to_schemas: Path = self.odg_dir / "endpoints_belong_to_schemas.json"
         self.artifacts = load_artifacts(odg_path=self.odg_dir)
-        self.dataEndpointDependency = DataEndpointDependency(odg_dir=self.odg_dir, swagger_spec=swagger_spec, artifacts=self.artifacts)
 
         # Init root directory
-# Init root directory (SAFE)
+        # Init root directory (SAFE)
         self.root_dir: str = working_directory
         self.csv_dir = os.path.join(self.root_dir, "csv")
+        self.dataEndpointDependency = DataEndpointDependency(headers=self.headers,odg_dir=self.odg_dir, swagger_spec=swagger_spec, artifacts=self.artifacts, csv_dir=self.csv_dir)
 
         os.makedirs(self.root_dir, exist_ok=True)
         os.makedirs(self.csv_dir, exist_ok=True)
@@ -537,7 +539,9 @@ class TestDataGenerator:
         # =========================
         # 1) PARAMETERS
         # =========================
-        if "parameters" in endpoint_data.get("definition", {}):
+        params = (endpoint_data.get("definition", {}) or {}).get("parameters") or []
+
+        if params:
             ep_param_only = copy.deepcopy(endpoint_data)
             ep_param_only.pop("responses", None)
             ep_param_only["definition"].pop("requestBody", None)
@@ -574,9 +578,9 @@ class TestDataGenerator:
                     extra = DataMutator.ignore_optional_param_combination(
                         self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig
                     )
-                    if extra:
-                        extra = _tag_reason(extra, "llm_success_ignore_optional")
-                        param_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional parameters omitted while staying valid (2xx).")
+                    # if extra:
+                    #     extra = _tag_reason(extra, "llm_success_ignore_optional")
+                    #     param_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional parameters omitted while staying valid (2xx).")
 
             # 4xx
             prompt_p4 = GET_DATASET_PROMPT.format(
@@ -595,52 +599,52 @@ class TestDataGenerator:
                 param_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
 
             # validation script filter
-            # if param_validation_script:
-            #     if param_data_2xx:
-            #         param_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
-            #             param_data_2xx, param_validation_script, filter_valid=True
-            #         )
-            #     if param_data_4xx:
-            #         param_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
-            #             param_data_4xx, param_validation_script, filter_valid=False
-            #         )
+            if param_validation_script:
+                if param_data_2xx:
+                    param_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+                        param_data_2xx, param_validation_script, filter_valid=True
+                    )
+                if param_data_4xx:
+                    param_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+                        param_data_4xx, param_validation_script, filter_valid=False
+                    )
 
             # mutation bồi 4xx
-            # try:
-            #     base_1 = param_data_2xx[0] if param_data_2xx else None
-            #     if not base_1:
-            #         one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
-            #             amount_instruction="containing 1 data item,",
-            #             additional_context=_merge_ctx(inter_ctx, dependency_block),
-            #             part="PARAMETERS",
-            #             additional_instruction=INSTRUCT_SUCCESS,
-            #             endpoint_data=json.dumps(ep_param_only, ensure_ascii=False),
-            #             ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
-            #         ))
-            #         if one_raw:
-            #             base_1 = one_raw[0]
-            #             _ensure_reason(base_1, "seed sample for mutations")
+            try:
+                base_1 = param_data_2xx[0] if param_data_2xx else None
+                if not base_1:
+                    one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
+                        amount_instruction="containing 1 data item,",
+                        additional_context=_merge_ctx(inter_ctx, dependency_block),
+                        part="PARAMETERS",
+                        additional_instruction=INSTRUCT_SUCCESS,
+                        endpoint_data=json.dumps(ep_param_only, ensure_ascii=False),
+                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+                    ))
+                    if one_raw:
+                        base_1 = one_raw[0]
+                        _ensure_reason(base_1, "seed sample for mutations")
 
-            #     if base_1:
-            #         # heuristic/out-of-range mutation
-            #         mutated_404 = DataMutator.mutate(copy.deepcopy(base_1))
-            #         if mutated_404:
-            #             _ensure_reason(mutated_404, "heuristic_mutation: out-of-range/invalid primitives")
-            #             param_data_4xx.append(mutated_404)
+                if base_1:
+                    # heuristic/out-of-range mutation
+                    mutated_404 = DataMutator.mutate(copy.deepcopy(base_1))
+                    if mutated_404:
+                        _ensure_reason(mutated_404, "heuristic_mutation: out-of-range/invalid primitives")
+                        param_data_4xx.append(mutated_404)
 
-            #         # missing-required + wrong dtype
-            #         mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1))
-            #         mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in (mutated or []) ]
+                    # missing-required + wrong dtype
+                    mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1))
+                    mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in (mutated or []) ]
 
-            #         mutated += DataMutator.mutate_wrong_dtype(
-            #             swagger_spec=self.swagger_spec, endpoint_data=ep_param_only, true_data=copy.deepcopy(base_1)
-            #         ) or []
-            #         mutated = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in mutated ]
+                    mutated += DataMutator.mutate_wrong_dtype(
+                        swagger_spec=self.swagger_spec, endpoint_data=ep_param_only, true_data=copy.deepcopy(base_1)
+                    ) or []
+                    mutated = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in mutated ]
 
-            #         if mutated:
-            #             param_data_4xx += mutated
-            # except Exception as e:
-            #     logger.info(f"[PARAM] Mutation error: {e}")
+                    if mutated:
+                        param_data_4xx += mutated
+            except Exception as e:
+                logger.info(f"[PARAM] Mutation error: {e}")
 
         # =========================
         # 2) REQUEST BODY
@@ -678,9 +682,9 @@ class TestDataGenerator:
                     extra = DataMutator.ignore_optional_param_combination(
                         self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig, for_request_body=True
                     )
-                    if extra:
-                        extra = _tag_reason(extra, "llm_success_ignore_optional")
-                        body_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional fields omitted while staying valid (2xx).")
+                    # if extra:
+                    #     extra = _tag_reason(extra, "llm_success_ignore_optional")
+                    #     body_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional fields omitted while staying valid (2xx).")
 
             # 4xx
             prompt_b4 = GET_DATASET_PROMPT.format(
@@ -699,45 +703,45 @@ class TestDataGenerator:
                 body_data_2xx += _reconcile_reasons(valid_2xx, "2xx")
 
             # # validation script filter
-            # if body_validation_script:
-            #     if body_data_2xx:
-            #         body_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
-            #             body_data_2xx, body_validation_script, filter_valid=True
-            #         )
-            #     if body_data_4xx:
-            #         body_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
-            #             body_data_4xx, body_validation_script, filter_valid=False
-            #         )
+            if body_validation_script:
+                if body_data_2xx:
+                    body_data_2xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+                        body_data_2xx, body_validation_script, filter_valid=True
+                    )
+                if body_data_4xx:
+                    body_data_4xx = self.inter_param_dependency_tool.inter_param_data_items_filter(
+                        body_data_4xx, body_validation_script, filter_valid=False
+                    )
 
             # mutation bồi 4xx
-            # try:
-            #     base_1 = body_data_2xx[0] if body_data_2xx else None
-            #     if not base_1:
-            #         one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
-            #             amount_instruction="containing 1 data item,",
-            #             additional_context=_merge_ctx(inter_ctx_b, dependency_block),
-            #             part="REQUEST BODY",
-            #             additional_instruction=INSTRUCT_SUCCESS,
-            #             endpoint_data=json.dumps(ep_body_only, ensure_ascii=False),
-            #             ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
-            #         ), enc=False)
-            #         if one_raw:
-            #             base_1 = one_raw[0]
-            #             _ensure_reason(base_1, "seed sample for mutations")
+            try:
+                base_1 = body_data_2xx[0] if body_data_2xx else None
+                if not base_1:
+                    one_raw = self.generate_data_items(GET_DATASET_PROMPT.format(
+                        amount_instruction="containing 1 data item,",
+                        additional_context=_merge_ctx(inter_ctx_b, dependency_block),
+                        part="REQUEST BODY",
+                        additional_instruction=INSTRUCT_SUCCESS,
+                        endpoint_data=json.dumps(ep_body_only, ensure_ascii=False),
+                        ref_data=f"\nReferenced schemas:\n{ref_data}" if ref_data else "",
+                    ), enc=False)
+                    if one_raw:
+                        base_1 = one_raw[0]
+                        _ensure_reason(base_1, "seed sample for mutations")
 
-            #     if base_1:
-            #         mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1), for_request_body=True) or []
-            #         mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in mutated ]
+                if base_1:
+                    mutated = self.mutate_missing_required(endpoint_sig, copy.deepcopy(base_1), for_request_body=True) or []
+                    mutated = [ _ensure_reason(m, "missing_required: at least one required field omitted") for m in mutated ]
 
-            #         # mở nếu muốn thêm wrong dtype cho body:
-            #         # wd = DataMutator.mutate_wrong_dtype(self.swagger_spec, ep_body_only, copy.deepcopy(base_1)) or []
-            #         # wd = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in wd ]
-            #         # mutated += wd
+                    # mở nếu muốn thêm wrong dtype cho body:
+                    # wd = DataMutator.mutate_wrong_dtype(self.swagger_spec, ep_body_only, copy.deepcopy(base_1)) or []
+                    # wd = [ _ensure_reason(m, "mutate_wrong_dtype: set wrong data types") for m in wd ]
+                    # mutated += wd
 
-            #         if mutated:
-            #             body_data_4xx += mutated
-            # except Exception as e:
-            #     logger.info(f"[BODY] Mutation error: {e}")
+                    if mutated:
+                        body_data_4xx += mutated
+            except Exception as e:
+                logger.info(f"[BODY] Mutation error: {e}")
 
         # =========================
         # 3) Cân bằng & convert to model (KHÔNG GHI FILE)
@@ -775,7 +779,17 @@ class TestDataGenerator:
             """
             # Chọn danh sách endpoint để chạy
 
-            list_endpoints = self.artifacts.topolist
+            try:
+                topo_list = list(self.artifacts.topolist or [])
+            except Exception:
+                topo_list = []
+
+            all_endpoints = extract_endpoints(self.swagger_spec)  # e.g. ["get-/a", "post-/b", ...]
+
+            # 2) Append independent endpoints not in topo
+            seen = set(topo_list)
+            independent = [e for e in all_endpoints if e not in seen]
+            list_endpoints = topo_list + independent
 
             # Bạn đang thử [:3] ở bản nháp; nếu muốn giữ, mở dòng dưới:
             # list_endpoints = list_endpoints[:3]

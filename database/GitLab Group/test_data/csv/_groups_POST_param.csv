@@ -1,0 +1,12 @@
+index,data,expected_status_code,reason
+1,"{""visibility"": ""private"", ""project_creation_level"": ""developer"", ""subgroup_creation_level"": ""owner"", ""default_branch_protection"": 1, ""shared_runners_setting"": ""enabled"", ""auto_devops_enabled"": true, ""require_two_factor_authentication"": false, ""two_factor_grace_period"": 24, ""emails_disabled"": false, ""mentions_disabled"": false, ""lfs_enabled"": true, ""request_access_enabled"": true, ""parent_id"": 12345, ""share_with_group_lock"": false}",2xx,All provided fields match their allowed types and enums; integer and boolean fields are parseable and within allowed values.
+2,"{""visibility"": ""private"", ""project_creation_level"": ""developer"", ""subgroup_creation_level"": ""owner"", ""default_branch_protection"": 1, ""shared_runners_setting"": ""enabled"", ""auto_devops_enabled"": true, ""require_two_factor_authentication"": false, ""two_factor_grace_period"": 24, ""emails_disabled"": false, ""mentions_disabled"": false, ""lfs_enabled"": true, ""request_access_enabled"": true, ""parent_id"": 12345, ""share_with_group_lock"": false}",2xx,All provided fields match their allowed types and enums; integer and boolean fields are parseable and within allowed values.
+3,"{""visibility"": ""secret""}",4xx,"visibility='secret' is not in enum {'private', 'internal', 'public'}."
+4,"{""default_branch_protection"": 3}",4xx,"default_branch_protection=3 is not in enum {0, 1, 2}."
+5,"{""parent_id"": ""abc""}",4xx,"parent_id='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+6,"{""shared_runners_setting"": ""disabled""}",4xx,"shared_runners_setting='disabled' is not in enum {'enabled', 'disabled_with_override', 'disabled_and_unoverridable'}."
+7,"{""visibility"": ""secret""}",4xx,"visibility='secret' is not in enum {'private', 'internal', 'public'}."
+8,"{""project_creation_level"": ""admin""}",4xx,"project_creation_level='admin' is not in enum {'noone', 'maintainer', 'developer'}."
+9,"{""subgroup_creation_level"": ""user""}",4xx,"subgroup_creation_level='user' is not in enum {'owner', 'maintainer'}."
+10,"{""default_branch_protection"": 3}",4xx,"default_branch_protection=3 is not in enum {0, 1, 2}."
+11,"{""shared_runners_setting"": ""off""}",4xx,"shared_runners_setting='off' is not in enum {'enabled', 'disabled_with_override', 'disabled_and_unoverridable'}."

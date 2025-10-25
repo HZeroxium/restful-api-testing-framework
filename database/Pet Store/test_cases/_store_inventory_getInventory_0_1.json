@@ -1,0 +1,32 @@
+{
+  "test_case": {
+    "id": "_store_inventory_getInventory_0_1",
+    "name": "_store_inventory_getInventory_0_1",
+    "description": "Test case for endpoint get-/store/inventory",
+    "endpoint": "get-/store/inventory",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "get-/store/inventory",
+        "method": "GET",
+        "path_variables": {},
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

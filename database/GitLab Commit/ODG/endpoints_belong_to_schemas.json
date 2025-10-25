@@ -1,0 +1,96 @@
+{
+  "Permissions": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Statistics": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "ProjectAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "BasicProjectDetails": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "GroupAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "SharedWithGroups": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Links": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Namespace": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Owner": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "RepoCommit": [
+    "get-/projects/{id}/repository/commits",
+    "post-/projects/{id}/repository/commits/{sha}/cherry_pick",
+    "post-/projects/{id}/repository/commits/{sha}/revert"
+  ],
+  "RepoCommitLastPipeline": [
+    "post-/projects/{id}/repository/commits",
+    "get-/projects/{id}/repository/commits/{sha}"
+  ],
+  "RepoCommitDetail": [
+    "post-/projects/{id}/repository/commits",
+    "get-/projects/{id}/repository/commits/{sha}"
+  ],
+  "RepoCommitStats": [
+    "post-/projects/{id}/repository/commits",
+    "get-/projects/{id}/repository/commits/{sha}"
+  ],
+  "RepoCommitRefs": [
+    "get-/projects/{id}/repository/commits/{sha}/refs"
+  ],
+  "RepoCommitDiff": [
+    "get-/projects/{id}/repository/commits/{sha}/diff"
+  ],
+  "Author": [
+    "get-/projects/{id}/repository/commits/{sha}/comments",
+    "get-/projects/{id}/repository/commits/{sha}/discussions",
+    "get-/projects/{id}/repository/commits/{sha}/statuses",
+    "post-/projects/{id}/statuses/{sha}",
+    "get-/projects/{id}/repository/commits/{sha}/merge_requests"
+  ],
+  "RepoCommitComment": [
+    "get-/projects/{id}/repository/commits/{sha}/comments"
+  ],
+  "Note": [
+    "get-/projects/{id}/repository/commits/{sha}/discussions"
+  ],
+  "RepoCommitDiscussion": [
+    "get-/projects/{id}/repository/commits/{sha}/discussions"
+  ],
+  "CommitStatus": [
+    "get-/projects/{id}/repository/commits/{sha}/statuses",
+    "post-/projects/{id}/statuses/{sha}"
+  ],
+  "MergeRequests": [
+    "get-/projects/{id}/repository/commits/{sha}/merge_requests"
+  ],
+  "TimeStats": [
+    "get-/projects/{id}/repository/commits/{sha}/merge_requests"
+  ],
+  "X509Certificate": [
+    "get-/projects/{id}/repository/commits/{sha}/signature"
+  ],
+  "X509Issuer": [
+    "get-/projects/{id}/repository/commits/{sha}/signature"
+  ],
+  "Signature": [
+    "get-/projects/{id}/repository/commits/{sha}/signature"
+  ]
+}

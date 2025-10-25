@@ -1,0 +1,41 @@
+{
+  "test_case": {
+    "id": "_store_order_placeOrder_0_1",
+    "name": "_store_order_placeOrder_0_1",
+    "description": "Test case for endpoint post-/store/order",
+    "endpoint": "post-/store/order",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/store/order",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {},
+        "request_body": {
+          "schema of Order": {
+            "id": "integer",
+            "petId": "integer",
+            "quantity": "integer",
+            "shipDate": "string",
+            "status": "string",
+            "complete": "boolean"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

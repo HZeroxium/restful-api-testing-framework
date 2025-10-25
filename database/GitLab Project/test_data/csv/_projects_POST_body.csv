@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*delete.*"", ""name_regex_keep"": "".*keep.*"", ""next_run_at"": ""2024-06-01T12:00:00Z""}",2xx,All provided fields match their types; next_run_at matches format date-time.
+2,"{""cadence"": ""1w"", ""enabled"": false}",2xx,"cadence and enabled are valid; enabled is boolean, cadence is string."
+3,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'."
+4,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+5,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+6,"{""enabled"": ""not-a-boolean""}",4xx,"enabled='not-a-boolean' is not parseable as boolean, violating 'type=boolean'."
+7,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+8,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+9,"{""cadence"": 123, ""enabled"": 1}",4xx,"cadence=123 is not a string, violating 'type=string'; enabled=1 is not a boolean, violating 'type=boolean'."
+10,"{""keep_n"": false, ""next_run_at"": 12345, ""name_regex"": 678}",4xx,"keep_n=false is not an integer, violating 'type=integer'; next_run_at=12345 is not a string matching format date-time; name_regex=678 is not a string, violating 'type=string'."

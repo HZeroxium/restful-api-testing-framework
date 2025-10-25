@@ -1,0 +1,10 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""abc"", ""issue_iid"": 123, ""confidential"": true, ""title"": ""Test issue""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+2,"{""id"": 1001, ""issue_iid"": ""xyz"", ""confidential"": false, ""title"": ""Another test""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+3,"{""id"": 1001, ""issue_iid"": 2002, ""state_event"": ""invalid_state"", ""confidential"": false, ""title"": ""State event test""}",4xx,"state_event='invalid_state' is not in enum {'close', 'reopen'}."
+4,"{""id"": 1001, ""issue_iid"": 2002, ""confidential"": ""tru"", ""title"": ""Boolean test""}",4xx,"confidential='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+5,"{""id"": 1001, ""issue_iid"": 2002, ""assignee_ids"": [""abc"", 2], ""confidential"": false, ""title"": ""Assignee IDs test""}",4xx,"assignee_ids[0]='abc' is not parseable as integer, violating 'type=integer' for array items."
+6,"{""id"": ""abc"", ""issue_iid"": 12345, ""title"": ""Test issue""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1001, ""issue_iid"": 12345, ""state_event"": ""invalid_state""}",4xx,"state_event='invalid_state' is not in enum {""close"", ""reopen""}."
+8,"{""id"": 1001, ""issue_iid"": 12345, ""updated_at"": ""2021-02-30T07:60:15Z""}",4xx,"updated_at='2021-02-30T07:60:15Z' does not match format date-time (ISO 8601), violating 'format=date-time'."
+9,"{""id"": 1001, ""issue_iid"": 12345, ""assignee_ids"": [""abc"", 2]}",4xx,"assignee_ids[0]='abc' is not parseable as integer, violating 'type=integer' for array items."

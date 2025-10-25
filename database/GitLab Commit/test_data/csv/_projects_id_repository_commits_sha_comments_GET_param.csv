@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""root%2FMyProject"", ""sha"": ""e1e32b8d8f7c2a1b2c3d4e5f6a7b8c9d0e1f2a3b""}",2xx,id and sha are both non-empty strings; id uses URL-encoded path per spec; sha is a valid commit hash string.
+2,"{""id"": ""3"", ""sha"": ""main""}",2xx,id is the numeric project ID as string; sha is a valid branch name string.
+3,"{""id"": ""root/MyProject"", ""sha"": ""v1.0.0""}",2xx,id is the project path as string; sha is a valid tag name string.
+4,"{""id"": 3, ""sha"": ""main""}",4xx,"id=3 is an integer, violating 'type=string' for path parameter."
+5,"{""id"": ""root%2FMyProject"", ""sha"": [""main""]}",4xx,"sha=['main'] is an array, violating 'type=string' for path parameter."
+6,"{""id"": 3, ""sha"": ""main""}",4xx,"id=3 is an integer, but the spec requires type=string for path parameter 'id'."
+7,"{""id"": ""MyProject"", ""sha"": 123456}",4xx,"sha=123456 is an integer, but the spec requires type=string for path parameter 'sha'."
+8,"{""id"": true, ""sha"": ""main""}",4xx,"id=true is a boolean, but the spec requires type=string for path parameter 'id'."
+9,"{""id"": ""MyProject"", ""sha"": [""main""]}",4xx,"sha=['main'] is an array, but the spec requires type=string for path parameter 'sha'."
+10,"{""id"": {""project"": ""MyProject""}, ""sha"": {""ref"": ""main""}}",4xx,"id={'project': 'MyProject'} and sha={'ref': 'main'} are objects, but the spec requires type=string for both path parameters."

@@ -1,0 +1,15 @@
+index,data,expected_status_code,reason
+1,"{""data"": ""fake-binary-image-content""}",2xx,Request body is a string with format 'binary' as required; petId=10 is resolved from context and valid.
+2,"{""data"": ""not-binary-content.txt""}",2xx,"Request body is a string; while not a real binary, it satisfies 'type=string' and 'format=binary' per spec."
+3,"{""data"": """"}",4xx,"Request body is an empty string, violating 'format=binary' and expected non-empty binary content."
+4,"{""data"": 12345}",4xx,Request body has type integer but the spec requires type string with format 'binary'.
+5,"{""data"": null}",4xx,"Request body is null, violating 'required' and 'type=string'."
+6,"{""data"": 12345}",4xx,Request body has type integer but the spec requires type string with format 'binary'.
+7,"{""data"": true}",4xx,Request body has type boolean but the spec requires type string with format 'binary'.
+8,"{""data"": null}",4xx,Request body is null but the spec requires type string with format 'binary'.
+9,"{""file"": ""not-a-binary""}",4xx,Request body is an object but the spec requires type string with format 'binary'.
+10,"{""data"": ""plain text string""}",4xx,Request body is a plain text string but the spec requires format 'binary' (application/octet-stream).
+11,"{""data"": """"}",4xx,"Request body is an empty string, violating 'format=binary' and expected non-empty binary content."
+12,"{""data"": 12345}",4xx,Request body has type integer but the spec requires type string with format 'binary'.
+13,"{""data"": null}",4xx,"Request body is null, violating 'required' and 'type=string'."
+14,"{""data"": 12345}",4xx,Request body has type integer but the spec requires type string with format 'binary'.

@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": 2, ""name"": ""feature/login"", ""push_access_level"": 40, ""merge_access_level"": 30, ""unprotect_access_level"": 60, ""allow_force_push"": true}",2xx,"All required fields are present; 'id'=2 is a valid project ID from dependency context; access level fields are within allowed enum {0, 30, 40, 60}; 'allow_force_push' is a valid boolean."
+2,"{""id"": 2, ""name"": ""release/*""}",2xx,'id'=2 is a valid project ID from dependency context; 'name' is present and a valid string; optional fields omitted as allowed.
+3,"{""id"": ""abc"", ""name"": ""hotfix/urgent""}",4xx,"'id'='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": 2, ""push_access_level"": 25, ""name"": ""bugfix/typo""}",4xx,"push_access_level=25 is not in enum {0, 30, 40, 60}."
+5,"{""id"": 2}",4xx,"'name' is required but missing, violating 'required'."
+6,"{""id"": ""abc"", ""name"": ""feature/login"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": true}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1001, ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": false}",4xx,"name is required but missing, violating 'required'."
+8,"{""id"": 1001, ""name"": ""feature/search"", ""push_access_level"": 99, ""merge_access_level"": 40, ""unprotect_access_level"": 40, ""allow_force_push"": false}",4xx,"push_access_level=99 is not in enum [0, 30, 40, 60], violating 'enum'."
+9,"{""id"": 1001, ""name"": ""feature/signup"", ""push_access_level"": 40, ""merge_access_level"": -1, ""unprotect_access_level"": 40, ""allow_force_push"": true}",4xx,"merge_access_level=-1 is not in enum [0, 30, 40, 60], violating 'enum'."
+10,"{""id"": 1001, ""name"": ""feature/logout"", ""push_access_level"": 40, ""merge_access_level"": 40, ""unprotect_access_level"": 2147483649, ""allow_force_push"": false}",4xx,"unprotect_access_level=2147483649 is not in enum [0, 30, 40, 60], violating 'enum'."

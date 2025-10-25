@@ -1,12 +1,13 @@
 index,data,expected_status_code,reason
-1,"{""id"": 3973}",2xx,id=3973 is a valid Bill ID from context and is within allowed minimum=1.
-2,"{""id"": 3973}",2xx,llm_success_ignore_optional
-3,"{""id"": 0}",4xx,"id=0 < minimum=1, violating 'minimum' constraint."
-4,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."
-6,"{""id"": -5}",4xx,"id=-5 < minimum=1, violating 'minimum' constraint."
+1,"{""id"": 3973}",2xx,id=3973 is a valid Bill ID from context and is within allowed range [1..2147483647].
+2,"{""id"": 5}",2xx,"id=5 is within allowed range [1..2147483647]; context does not guarantee existence, but value is syntactically valid."
+3,"{""id"": 3973}",2xx,id=3973 is within allowed range [1..2147483647] and is a valid integer Bill ID from context.
+4,"{""id"": 0}",4xx,"id=0 < minimum=1, violating 'minimum' constraint."
+5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+6,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."
 7,"{""id"": 0}",4xx,"id=0 < minimum=1, violating 'minimum'."
 8,"{""id"": -1}",4xx,"id=-1 < minimum=1, violating 'minimum'."
 9,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""id"": 1.5}",4xx,"id=1.5 is not an integer, violating 'type=integer' for path parameter."
-11,"{""id"": ""1x""}",4xx,"id='1x' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""id"": 3.14}",4xx,"id=3.14 is not an integer, violating 'type=integer' for path parameter."
+11,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

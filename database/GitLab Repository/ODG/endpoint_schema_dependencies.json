@@ -1,0 +1,67 @@
+{
+  "post-/projects": {
+    "Namespace": {
+      "name": "name",
+      "path": "path"
+    },
+    "FileTree": {
+      "name": "name",
+      "path": "path"
+    },
+    "Owner": {
+      "name": "name"
+    }
+  },
+  "get-/projects/{id}/repository/tree": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}/raw": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/repository/archive": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  },
+  "get-/projects/{id}/repository/compare": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "Compare": {
+      "from": "compare_same_ref",
+      "to": "compare_same_ref"
+    },
+    "RepoCommit": {
+      "from": "id",
+      "to": "id"
+    }
+  },
+  "get-/projects/{id}/repository/contributors": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "SharedWithGroups": {}
+  },
+  "get-/projects/{id}/repository/merge_base": {
+    "BasicProjectDetails": {
+      "id": "id"
+    },
+    "MergeBase": {
+      "refs": "parent_ids"
+    }
+  },
+  "get-/projects/{id}/repository/changelog": {
+    "BasicProjectDetails": {
+      "id": "id"
+    }
+  }
+}

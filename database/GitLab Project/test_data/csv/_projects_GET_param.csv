@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""archived"": true, ""min_access_level"": 30, ""order_by"": ""created_at"", ""sort"": ""asc"", ""visibility"": ""public""}",2xx,"archived is boolean; min_access_level=30 is in enum [0,10,20,30,40,50]; order_by='created_at' is in allowed enum; sort='asc' is in allowed enum; visibility='public' is in allowed enum."
+2,"{""last_activity_after"": ""2023-05-01T12:00:00Z"", ""last_activity_before"": ""2023-06-01T12:00:00Z""}",2xx,last_activity_after and last_activity_before are valid ISO 8601 date-time strings matching format 'date-time'.
+3,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0,10,20,30,40,50]."
+4,"{""last_activity_after"": ""not-a-date""}",4xx,last_activity_after='not-a-date' does not match format 'date-time'.
+5,"{""sort"": ""descending""}",4xx,"sort='descending' is not in enum ['asc', 'desc']."
+6,"{""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0, 10, 20, 30, 40, 50], violating 'enum'."
+7,"{""order_by"": ""foobar""}",4xx,"order_by='foobar' is not in enum [id, name, path, created_at, updated_at, last_activity_at, repository_size, storage_size, packages_size, wiki_size], violating 'enum'."
+8,"{""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum ['asc', 'desc'], violating 'enum'."
+9,"{""last_activity_after"": ""2021-02-30T07:60:15Z""}",4xx,"last_activity_after='2021-02-30T07:60:15Z' does not match format date-time, violating 'format'."
+10,"{""archived"": ""tru""}",4xx,"archived='tru' is not parseable as boolean, violating 'type=boolean' for query/parseability."

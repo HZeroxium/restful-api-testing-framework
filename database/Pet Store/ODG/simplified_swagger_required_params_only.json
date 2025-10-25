@@ -1,0 +1,435 @@
+{
+  "put-/pet": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Update an existing pet.",
+    "requestBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "post-/pet": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Add a new pet to the store.",
+    "requestBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "get-/pet/findByStatus": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Finds Pets by status.",
+    "parameters": {
+      "status": "string (description: Status values that need to be considered for filter)"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "get-/pet/findByTags": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Finds Pets by tags.",
+    "parameters": {
+      "tags": "array (description: Tags to filter by)"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "get-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Find pet by ID.",
+    "parameters": {
+      "petId": "integer (description: ID of pet to return)"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "post-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Updates a pet in the store with form data.",
+    "parameters": {
+      "petId": "integer (description: ID of pet that needs to be updated)"
+    },
+    "responseBody": {
+      "schema of Pet": {
+        "id": "integer",
+        "name": "string",
+        "category": {
+          "schema of Category": {
+            "id": "integer",
+            "name": "string"
+          }
+        },
+        "photoUrls": "array",
+        "tags": {
+          "array of Tag objects": [
+            {
+              "id": "integer",
+              "name": "string"
+            }
+          ]
+        },
+        "status": "string (description: pet status in the store)"
+      }
+    }
+  },
+  "delete-/pet/{petId}": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Deletes a pet.",
+    "parameters": {
+      "petId": "integer (description: Pet id to delete)"
+    }
+  },
+  "post-/pet/{petId}/uploadImage": {
+    "tags": [
+      "pet"
+    ],
+    "summary": "Uploads an image.",
+    "parameters": {
+      "petId": "integer (description: ID of pet to update)"
+    },
+    "requestBody": "string",
+    "responseBody": {
+      "schema of ApiResponse": {
+        "code": "integer",
+        "type": "string",
+        "message": "string"
+      }
+    }
+  },
+  "get-/store/inventory": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Returns pet inventories by status.",
+    "responseBody": "object"
+  },
+  "post-/store/order": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Place an order for a pet.",
+    "requestBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string (description: Order Status)",
+        "complete": "boolean"
+      }
+    },
+    "responseBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string (description: Order Status)",
+        "complete": "boolean"
+      }
+    }
+  },
+  "get-/store/order/{orderId}": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Find purchase order by ID.",
+    "parameters": {
+      "orderId": "integer (description: ID of order that needs to be fetched)"
+    },
+    "responseBody": {
+      "schema of Order": {
+        "id": "integer",
+        "petId": "integer",
+        "quantity": "integer",
+        "shipDate": "string",
+        "status": "string (description: Order Status)",
+        "complete": "boolean"
+      }
+    }
+  },
+  "delete-/store/order/{orderId}": {
+    "tags": [
+      "store"
+    ],
+    "summary": "Delete purchase order by identifier.",
+    "parameters": {
+      "orderId": "integer (description: ID of the order that needs to be deleted)"
+    }
+  },
+  "post-/user": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Create user.",
+    "requestBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer (description: User Status)"
+      }
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer (description: User Status)"
+      }
+    }
+  },
+  "post-/user/createWithList": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Creates list of users with given input array.",
+    "requestBody": {
+      "id": "integer",
+      "username": "string",
+      "firstName": "string",
+      "lastName": "string",
+      "email": "string",
+      "password": "string",
+      "phone": "string",
+      "userStatus": "integer (description: User Status)"
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer (description: User Status)"
+      }
+    }
+  },
+  "get-/user/login": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Logs user into the system.",
+    "responseBody": "integer"
+  },
+  "get-/user/logout": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Logs out current logged in user session."
+  },
+  "get-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Get user by user name.",
+    "parameters": {
+      "username": "string (description: The name that needs to be fetched. Use user1 for testing)"
+    },
+    "responseBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer (description: User Status)"
+      }
+    }
+  },
+  "put-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Update user resource.",
+    "parameters": {
+      "username": "string (description: name that need to be deleted)"
+    },
+    "requestBody": {
+      "schema of User": {
+        "id": "integer",
+        "username": "string",
+        "firstName": "string",
+        "lastName": "string",
+        "email": "string",
+        "password": "string",
+        "phone": "string",
+        "userStatus": "integer (description: User Status)"
+      }
+    }
+  },
+  "delete-/user/{username}": {
+    "tags": [
+      "user"
+    ],
+    "summary": "Delete user resource.",
+    "parameters": {
+      "username": "string (description: The name that needs to be deleted)"
+    }
+  }
+}

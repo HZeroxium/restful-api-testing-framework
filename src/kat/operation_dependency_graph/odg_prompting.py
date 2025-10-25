@@ -20,21 +20,13 @@ Additionally, you are provided with a list of all data schemas and their attribu
 {simplified_schemas}
 
 Now, for each endpoint parameter, identify all possible matching keys within the given schemas that may used to retrieve the required information for the parameter.
-
-IMPORTANT GUIDELINES:
-1. ONLY use direct fields at the top level of schemas - do NOT use nested paths
-2. For ID parameters, always map to the simple "id" field 
-3. Ignore nested objects and arrays - only consider top-level schema fields
-4. Keep mappings simple and direct
-
 The response is in the format below, no explanation is needed:
 ```
 Retrieval schema's name: endpoint parameter -> matching schema key, another endpoint parameter -> matching schema key
 Another retrieval schema's name: ...
 ```
-Examples: 
-SimpleSchema: itemId -> id, name -> name
-DirectMapping: holidayId -> id, provinceId -> id, userId -> id
+Example: 
+Pet: petId -> id, name -> name (the parameter 'petId' in the given endpoint corresponds to the 'id' field in the 'Pet' schema, and similarly, the parameter 'name' in the given endpoint corresponds to the 'name' field in the 'Pet' schema)
 '''
 
 

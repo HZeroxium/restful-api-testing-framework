@@ -1,0 +1,80 @@
+{
+  "get-/projects": [
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/tree": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/blobs/{sha}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/blobs/{sha}/raw": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/archive": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/compare": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/contributors": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/merge_base": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/changelog": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects": []
+}

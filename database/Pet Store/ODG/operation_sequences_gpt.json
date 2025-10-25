@@ -1,0 +1,70 @@
+{
+  "post-/pet": [],
+  "get-/pet/findByStatus": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "get-/pet/findByTags": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "get-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "post-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "delete-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "post-/pet/{petId}/uploadImage": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "post-/store/order": [],
+  "get-/store/order/{orderId}": [
+    [
+      "post-/store/order"
+    ]
+  ],
+  "delete-/store/order/{orderId}": [
+    [
+      "post-/store/order"
+    ]
+  ],
+  "post-/user": [],
+  "get-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "post-/user/createWithList": [],
+  "put-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "delete-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ]
+}

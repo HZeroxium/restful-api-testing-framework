@@ -1,0 +1,125 @@
+{
+  "get-/projects/{id}/repository/commits/{sha}/discussions": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects": [
+    [
+      "post-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/statuses/{sha}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/repository/commits": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}/merge_requests": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}/signature": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}/statuses": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}/diff": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects": [],
+  "get-/projects/{id}/repository/commits/{sha}/comments": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/repository/commits/{sha}/revert": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/repository/commits/{sha}/refs": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ],
+  "post-/projects/{id}/repository/commits/{sha}/cherry_pick": [
+    [
+      "post-/projects"
+    ],
+    [
+      "post-/projects",
+      "get-/projects"
+    ]
+  ]
+}

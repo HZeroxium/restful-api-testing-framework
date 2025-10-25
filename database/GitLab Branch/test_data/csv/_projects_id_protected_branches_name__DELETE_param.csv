@@ -1,0 +1,11 @@
+index,data,expected_status_code,reason
+1,"{""id"": ""abc"", ""name"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+2,"{""id"": 0, ""name"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+3,"{""id"": -1, ""name"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+4,"{""id"": 2147483649, ""name"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+5,"{""id"": 1001, ""name"": 123}",4xx,name=123 has type integer but the spec requires string (path parameter type mismatch).
+6,"{""id"": ""abc"", ""name"": ""feature-branch""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 123, ""name"": 456}",4xx,"name=456 is not a string, violating 'type=string' for path parameter."
+8,"{""id"": -1, ""name"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": 0, ""name"": [""dev""]}",4xx,"id=0 is not a realistic project ID (type=integer, but likely out of domain); name=['dev'] is not a string, violating 'type=string'."
+10,"{""id"": ""12.34"", ""name"": false}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer'; name=false is not a string, violating 'type=string'."

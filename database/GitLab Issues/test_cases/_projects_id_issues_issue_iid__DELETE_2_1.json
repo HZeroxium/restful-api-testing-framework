@@ -1,0 +1,122 @@
+{
+  "test_case": {
+    "id": "_projects_id_issues_issue_iid__DELETE_2_1",
+    "name": "_projects_id_issues_issue_iid__DELETE_2_1",
+    "description": "Test case for endpoint delete-/projects/{id}/issues/{issue_iid}",
+    "endpoint": "delete-/projects/{id}/issues/{issue_iid}",
+    "sequence_index": 2,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/projects",
+        "method": "POST",
+        "path_variables": {},
+        "query_parameters": {
+          "allow_merge_on_skipped_pipeline": null,
+          "auto_cancel_pending_pipelines": null,
+          "auto_devops_deploy_strategy": null,
+          "auto_devops_enabled": null,
+          "autoclose_referenced_issues": null,
+          "avatar": null,
+          "build_coverage_regex": null,
+          "build_git_strategy": null,
+          "build_timeout": null,
+          "builds_access_level": null,
+          "ci_config_path": null,
+          "container_registry_enabled": null,
+          "default_branch": null,
+          "description": null,
+          "emails_disabled": null,
+          "forking_access_level": null,
+          "import_url": null,
+          "initialize_with_readme": null,
+          "issues_access_level": null,
+          "issues_enabled": null,
+          "jobs_enabled": null,
+          "lfs_enabled": null,
+          "merge_method": null,
+          "merge_requests_access_level": null,
+          "merge_requests_enabled": null,
+          "name": null,
+          "namespace_id": null,
+          "only_allow_merge_if_all_discussions_are_resolved": null,
+          "only_allow_merge_if_pipeline_succeeds": null,
+          "packages_enabled": null,
+          "pages_access_level": null,
+          "requirements_access_level": null,
+          "path": null,
+          "printing_merge_request_link_enabled": null,
+          "public_builds": null,
+          "remove_source_branch_after_merge": null,
+          "repository_access_level": null,
+          "repository_storage": null,
+          "request_access_enabled": null,
+          "resolve_outdated_diff_discussions": null,
+          "shared_runners_enabled": null,
+          "show_default_award_emojis": null,
+          "snippets_access_level": null,
+          "snippets_enabled": null,
+          "tag_list": null,
+          "template_name": null,
+          "visibility": null,
+          "wiki_access_level": null,
+          "wiki_enabled": null
+        },
+        "request_body": {
+          "schema of ContainerExpirationPolicy": {
+            "cadence": "string",
+            "enabled": "boolean",
+            "keep_n": "integer",
+            "older_than": "string",
+            "name_regex": "string",
+            "name_regex_delete": "string",
+            "name_regex_keep": "string",
+            "next_run_at": "string"
+          }
+        },
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      },
+      {
+        "step_number": 2,
+        "endpoint": "delete-/projects/{id}/issues/{issue_iid}",
+        "method": "DELETE",
+        "path_variables": {
+          "id": null,
+          "issue_iid": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          },
+          "issue_iid": {
+            "from_step": 1,
+            "field_mappings": {
+              "issue_iid": "id"
+            }
+          }
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}
