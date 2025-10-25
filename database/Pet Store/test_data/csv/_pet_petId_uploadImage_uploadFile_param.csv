@@ -1,15 +1,15 @@
 index,data,expected_status_code,reason
 1,"{""petId"": 10, ""additionalMetadata"": ""Vaccinated, friendly""}",2xx,petId=10 is a valid integer from context; additionalMetadata is a valid string.
-2,"{""petId"": 10}",2xx,petId=10 is a valid integer from context; additionalMetadata is optional and omitted.
+2,"{""petId"": 10}",2xx,petId=10 is a valid integer from context; additionalMetadata is omitted (optional).
 3,"{""petId"": ""abc"", ""additionalMetadata"": ""Healthy""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
 4,"{""petId"": 10, ""additionalMetadata"": 12345}",4xx,"additionalMetadata=12345 is not a string, violating 'type=string' for query parameter."
-5,"{""petId"": -1, ""additionalMetadata"": ""Old pet""}",4xx,"petId=-1 is a negative integer; while type is integer, negative IDs are forbidden by context (no negative pet IDs in producer data)."
-6,"{""petId"": ""abc"", ""additionalMetadata"": ""cute dog""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""petId"": 2147483649}",4xx,"petId=2147483649 exceeds the maximum safe int64 value for most implementations, violating 'format=int64'."
-8,"{""petId"": -1}",4xx,"petId=-1 is negative; if only positive IDs are allowed, this violates 'type=integer' and typical ID domain."
-9,"{""petId"": 3.14159}",4xx,"petId=3.14159 is a float, not an integer, violating 'type=integer' for path parameter."
-10,"{""petId"": ""123abc""}",4xx,"petId='123abc' is not parseable as integer, violating 'type=integer' for path parameter."
-11,"{""petId"": -1, ""additionalMetadata"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+5,"{""petId"": 3.14, ""additionalMetadata"": ""Playful""}",4xx,"petId=3.14 is not an integer (float provided), violating 'type=integer' for path parameter."
+6,"{""petId"": ""abc123"", ""additionalMetadata"": ""Cute dog""}",4xx,"petId='abc123' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""petId"": ""12.34"", ""additionalMetadata"": ""Playful""}",4xx,"petId='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""petId"": 9223372036854775808, ""additionalMetadata"": ""Loves walks""}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
+9,"{""petId"": -9223372036854775809, ""additionalMetadata"": ""Sleeps a lot""}",4xx,"petId=-9223372036854775809 is less than int64 minimum (-2^63=-9223372036854775808), violating 'format=int64'."
+10,"{""petId"": ""10x"", ""additionalMetadata"": ""Very friendly""}",4xx,"petId='10x' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""petId"": -9999999.0, ""additionalMetadata"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
 12,"{""petId"": ""123456"", ""additionalMetadata"": ""Vaccinated, friendly""}",4xx,One or more fields deliberately violate the spec (4xx).
 13,"{""petId"": 10, ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 14,"{""petId"": ""123456"", ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

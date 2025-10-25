@@ -1,9 +1,9 @@
 {
-  "Statistics": [
+  "ProjectAccess": [
     "get-/projects",
     "post-/projects"
   ],
-  "Owner": [
+  "Namespace": [
     "get-/projects",
     "post-/projects"
   ],
@@ -11,11 +11,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "ProjectAccess": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "SharedWithGroups": [
+  "Permissions": [
     "get-/projects",
     "post-/projects"
   ],
@@ -23,11 +19,15 @@
     "get-/projects",
     "post-/projects"
   ],
-  "Permissions": [
+  "SharedWithGroups": [
     "get-/projects",
     "post-/projects"
   ],
-  "Namespace": [
+  "Statistics": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Owner": [
     "get-/projects",
     "post-/projects"
   ],
@@ -45,10 +45,10 @@
     "post-/projects/{id}/repository/branches",
     "get-/projects/{id}/repository/branches/{branch}"
   ],
-  "AccessLevel": [
+  "ProtectedBranch": [
     "post-/projects/{id}/protected_branches"
   ],
-  "ProtectedBranch": [
+  "AccessLevel": [
     "post-/projects/{id}/protected_branches"
   ]
 }

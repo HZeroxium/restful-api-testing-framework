@@ -1,19 +1,13 @@
 index,data,expected_status_code,reason
-1,"{""username"": ""aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa""}",2xx,"username is a string of 257 characters, which is valid as there is no maxLength constraint."
-2,"{""username"": ""aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa""}",2xx,llm_success_ignore_optional
-3,"{""username"": ""user1""}",2xx,username='user1' is a string and matches the example value; satisfies 'type=string' and 'required'.
-4,"{""username"": 12345}",4xx,"username=12345 is an integer, violating 'type=string' for path parameter."
-5,"{""username"": true}",4xx,"username=true is a boolean, violating 'type=string' for path parameter."
-6,"{""username"": [""user1""]}",4xx,"username=['user1'] is an array, violating 'type=string' for path parameter."
-7,"{""username"": {""name"": ""user1""}}",4xx,"username={""name"": ""user1""} is an object, violating 'type=string' for path parameter."
-8,"{""username"": ""user1""}",2xx,username='user1' matches the example value and satisfies type=string for path parameter.
-9,"{""username"": ""theUser""}",2xx,username='theUser' is a realistic string and satisfies type=string for path parameter.
-10,"{""username"": ""john@email.com""}",2xx,username='john@email.com' is a valid string and satisfies type=string for path parameter.
-11,"{""username"": 12345}",4xx,"username=12345 is not parseable as string, violating 'type=string' for path parameter."
-12,"{""username"": 123}",4xx,"username=123 is not parseable as string in path, violating 'type=string'."
-13,"{""username"": true}",4xx,"username=true is not parseable as string in path, violating 'type=string'."
-14,"{""username"": [""user1""]}",4xx,"username=['user1'] is not parseable as string in path, violating 'type=string'."
-15,"{""username"": {""name"": ""user1""}}",4xx,"username={'name': 'user1'} is not parseable as string in path, violating 'type=string'."
-16,"{""username"": null}",4xx,"username=null is not allowed for path parameters, violating 'required' and 'type=string'."
-17,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-18,"{""username"": 123456789}",4xx,username='user1' matches the example value and satisfies type=string for path parameter.
+1,"{""username"": ""user1""}",2xx,username='user1' matches the example value and satisfies type=string.
+2,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the example style.
+3,"{""username"": ""john_doe""}",2xx,username='john_doe' is a valid string and satisfies type=string.
+4,"{""username"": ""   ""}",2xx,username='   ' is a string and satisfies type=string; no pattern or minLength/maxLength constraints.
+5,"{""username"": ""user1""}",2xx,"username='user1' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
+6,"{""username"": ""john_doe""}",2xx,"username='john_doe' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
+7,"{""username"": ""alice123""}",2xx,"username='alice123' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
+8,"{""username"": ""Bob.Smith""}",2xx,"username='Bob.Smith' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
+9,"{""username"": ""test_user""}",2xx,"username='test_user' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
+10,"{""username"": 12345}",4xx,"username=12345 is an integer, violating 'type=string' for path parameter."
+11,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""username"": 123456789}",4xx,username='user1' matches the example value and satisfies type=string.

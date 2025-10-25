@@ -1,11 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1001, ""search"": ""feature""}",2xx,"id=1001 is a concrete integer path parameter; search='feature' is a valid string. However, no context-resolvable project ID is available, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
-2,"{""id"": 1001}",2xx,"id=1001 is a concrete integer path parameter. However, no context-resolvable project ID is available, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
-3,"{""id"": ""abc"", ""search"": ""feature""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds the typical 32-bit integer maximum, violating 'type=integer' parseability for path parameter."
-5,"{""id"": 1001, ""search"": 123}",4xx,"search=123 is not a string, violating 'type=string' for query parameter."
-6,"{""id"": ""abc"", ""search"": ""feature""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": -1}",4xx,"id=-1 is negative, violating 'type=integer' for path parameter (realistic IDs should be positive)."
-8,"{""id"": 0}",4xx,"id=0 is not a realistic project ID, violating 'type=integer' for path parameter (IDs should be positive)."
-9,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds typical 32-bit integer range, violating 'type=integer' for path parameter."
-10,"{""id"": 1.5}",4xx,"id=1.5 is not an integer, violating 'type=integer' for path parameter."
+1,"{""id"": 11}",2xx,id=11 is a valid integer from dependency context; all required fields are present.
+2,"{""id"": 11, ""search"": ""main""}",2xx,id=11 is a valid integer from dependency context; search='main' is a valid string.
+3,"{""id"": 11, ""search"": """"}",2xx,id=11 is a valid integer; search='' is a valid string (empty string allowed).
+4,"{""id"": 11, ""search"": ""main""}",2xx,id=11 is a valid integer from context; search='main' is a valid string.
+5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 11, ""search"": 123}",4xx,"search=123 is not a string, violating 'type=string' for query parameter."
+7,"{""id"": ""abc"", ""search"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 11, ""search"": 123}",4xx,"search=123 is type integer, but the spec requires string for query parameter."
+9,"{""id"": 11.5, ""search"": ""feature""}",4xx,"id=11.5 is type number (float), but the spec requires integer for path parameter."
+10,"{""id"": true, ""search"": ""hotfix""}",4xx,"id=true is type boolean, but the spec requires integer for path parameter."
+11,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": 11, ""search"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": ""123456"", ""search"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

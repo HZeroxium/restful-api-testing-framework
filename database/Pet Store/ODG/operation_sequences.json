@@ -1,4 +1,59 @@
 {
+  "delete-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "put-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "delete-/store/order/{orderId}": [
+    [
+      "post-/store/order"
+    ]
+  ],
+  "get-/user/login": [
+    [
+      "post-/user"
+    ]
+  ],
+  "get-/user/{username}": [
+    [
+      "post-/user"
+    ],
+    [
+      "post-/user/createWithList"
+    ]
+  ],
+  "get-/pet/{petId}": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "get-/pet/findByTags": [
+    [
+      "post-/pet"
+    ],
+    [
+      "post-/pet",
+      "put-/pet"
+    ]
+  ],
+  "put-/pet": [
+    [
+      "post-/pet"
+    ]
+  ],
+  "post-/pet/{petId}/uploadImage": [
+    [
+      "post-/pet"
+    ]
+  ],
   "delete-/user/{username}": [
     [
       "post-/user"
@@ -16,36 +71,8 @@
       "put-/pet"
     ]
   ],
-  "put-/user/{username}": [
-    [
-      "post-/user"
-    ],
-    [
-      "post-/user/createWithList"
-    ]
-  ],
-  "post-/user": [],
-  "put-/pet": [
-    [
-      "post-/pet"
-    ]
-  ],
-  "post-/pet/{petId}/uploadImage": [
-    [
-      "post-/pet"
-    ]
-  ],
-  "delete-/pet/{petId}": [
-    [
-      "post-/pet"
-    ]
-  ],
   "post-/pet": [],
-  "delete-/store/order/{orderId}": [
-    [
-      "post-/store/order"
-    ]
-  ],
+  "post-/store/order": [],
   "get-/pet/findByStatus": [
     [
       "post-/pet"
@@ -55,42 +82,15 @@
       "put-/pet"
     ]
   ],
-  "get-/user/{username}": [
-    [
-      "post-/user"
-    ],
-    [
-      "post-/user/createWithList"
-    ]
-  ],
-  "get-/user/login": [
-    [
-      "post-/user"
-    ]
-  ],
-  "get-/pet/findByTags": [
-    [
-      "post-/pet"
-    ],
-    [
-      "post-/pet",
-      "put-/pet"
-    ]
-  ],
-  "get-/store/order/{orderId}": [
-    [
-      "post-/store/order"
-    ]
-  ],
-  "post-/store/order": [],
-  "get-/pet/{petId}": [
-    [
-      "post-/pet"
-    ]
-  ],
   "post-/user/createWithList": [
     [
       "post-/user"
+    ]
+  ],
+  "post-/user": [],
+  "get-/store/order/{orderId}": [
+    [
+      "post-/store/order"
     ]
   ]
 }

@@ -222,10 +222,13 @@ def write_outputs(outdir: str, rows, untracked_eps, discovered, five_rows, summa
 # ================== Main ==================
 
 def main():
-    # >>> EDIT THESE 3 PATHS <<<
-    csv_path = r"/Users/npt/Documents/NCKH/restful-api-testing-framework/database/Pet Store/results/20251025134017.csv"
-    doc_json_path = r"/Users/npt/Documents/NCKH/restful-api-testing-framework/Dataset/Pet Store/response_codes_normalized.json"
-    outdir = r"/Users/npt/Documents/NCKH/restful-api-testing-framework/helper_utils/cal_coverage_output"
+    service_name = "GitLab Branch"
+    csv_file_name = "20251025223210"
+
+    csv_path = f"../database/{service_name}/results/{csv_file_name}.csv"
+    doc_json_path = f"../database/{service_name}/response_code/response_codes_normalized.json"
+    outdir = f"../database/{service_name}/coverage_results"
+
 
     COUNT_DEFAULT_IN_DENOMINATOR = False  # include 'default' in overall denominator
 

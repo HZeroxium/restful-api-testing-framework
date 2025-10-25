@@ -25,7 +25,7 @@
       "post-/projects"
     ]
   ],
-  "delete-/projects/{id}/repository/branches/{branch}": [
+  "post-/projects/{id}/protected_branches": [
     [
       "get-/projects"
     ],
@@ -33,7 +33,7 @@
       "post-/projects"
     ]
   ],
-  "post-/projects/{id}/protected_branches": [
+  "delete-/projects/{id}/repository/branches/{branch}": [
     [
       "get-/projects"
     ],
@@ -43,10 +43,12 @@
   ],
   "delete-/projects/{id}/protected_branches/{name}": [
     [
-      "get-/projects"
+      "get-/projects",
+      "get-/projects/{id}/repository/branches"
     ],
     [
-      "post-/projects"
+      "post-/projects",
+      "get-/projects/{id}/repository/branches"
     ]
   ],
   "delete-/projects/{id}/repository/merged_branches": [

@@ -95,10 +95,10 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "id": {
+          "branch": {
             "from_step": 1,
             "field_mappings": {
-              "id": "id"
+              "branch": "name"
             }
           }
         }

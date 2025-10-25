@@ -1,24 +1,13 @@
 index,data,expected_status_code,reason
-1,"{""petId"": 9223372036854775807}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid petId fixture, example, or producer endpoint available."
-2,"{""petId"": 2147483649}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid petId fixture, example, or producer endpoint available."
-3,"{""petId"": -1}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid petId fixture, example, or producer endpoint available."
-4,"{""petId"": 9223372036854775807}",2xx,llm_success_ignore_optional
-5,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-6,"{""petId"": 3.14}",4xx,"petId=3.14 is not an integer (type mismatch), violating 'type=integer' for path parameter."
-7,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""petId"": 3.14}",4xx,"petId=3.14 is a float, violating 'type=integer' for path parameter."
-9,"{""petId"": true}",4xx,"petId=true is a boolean, violating 'type=integer' for path parameter."
-10,"{""petId"": [123]}",4xx,"petId=[123] is an array, violating 'type=integer' for path parameter."
-11,"{""petId"": {""id"": 123}}",4xx,"petId={""id"":123} is an object, violating 'type=integer' for path parameter."
-12,"{""petId"": 10}",2xx,"petId=10 is a valid integer from context (created pet), satisfying required, type=integer, and format=int64."
-13,"{""petId"": 2147483649}",2xx,"petId=2147483649 is a valid int64 value, satisfying type=integer and format=int64."
-14,"{""petId"": -1}",4xx,"petId=-1 is negative; while the spec does not specify minimum, negative IDs are not realistic for resource identifiers."
-15,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-16,"{""petId"": 10.5}",4xx,"petId=10.5 is a float, not an integer, violating 'type=integer' for path parameter."
-17,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-18,"{""petId"": 3.14}",4xx,"petId=3.14 is a float, violating 'type=integer' for path parameter."
-19,"{""petId"": true}",4xx,"petId=true is a boolean, violating 'type=integer' for path parameter."
-20,"{""petId"": [10]}",4xx,"petId=[10] is an array, violating 'type=integer' for path parameter."
-21,"{""petId"": {""id"": 10}}",4xx,"petId={""id"":10} is an object, violating 'type=integer' for path parameter."
-22,"{""petId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-23,"{""petId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""petId"": 10}",2xx,"petId=10 is a valid integer from dependency context; satisfies required, type, and format constraints."
+2,"{""petId"": 2147483649}",2xx,petId=2147483649 is a valid int64 integer; satisfies type and format constraints.
+3,"{""petId"": 10}",2xx,petId=10 is a valid integer (int64) from context; satisfies type and format constraints.
+4,"{""petId"": -1}",4xx,"petId=-1 is negative; while the spec does not specify minimum, negative IDs are not realistic for resource identifiers."
+5,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""petId"": 9223372036854775808}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
+7,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""petId"": 3.14}",4xx,"petId=3.14 is a float, not an integer, violating 'type=integer' for path parameter."
+9,"{""petId"": true}",4xx,"petId=true is a boolean, not an integer, violating 'type=integer' for path parameter."
+10,"{""petId"": 9223372036854775808}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
+11,"{""petId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""petId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -205,19 +205,36 @@ class TestDataGenerator:
                     reason = payload.pop("__reason", default_reason) or default_reason
                 return {
                     "index": str(idx),
-                    "data": json.dumps(payload),
+                    "data": json.dumps(payload, ensure_ascii=False),
                     "expected_status_code": expected_status_code,
                     "reason": humanize_reason(reason),
                 }
 
             header = ["index", "data", "expected_status_code", "reason"]
 
-            # Always overwrite the existing file
-            with open(csv_file_path, "w", newline="", encoding="utf-8") as f:
+            # if file exists, read last index, else create with header
+            last_index = 0
+            if os.path.exists(csv_file_path):
+                with open(csv_file_path, "r", newline="", encoding="utf-8") as fr:
+                    try:
+                        reader = csv.DictReader(fr)
+                        rows = list(reader)
+                        if rows:
+                            last_index = int(rows[-1].get("index", "0")) or 0
+                    except Exception:
+                        # corrupted/empty? rewrite header fresh
+                        last_index = 0
+
+                f = open(csv_file_path, "a", newline="", encoding="utf-8")
+                writer = csv.DictWriter(f, fieldnames=header)
+            else:
+                f = open(csv_file_path, "w", newline="", encoding="utf-8")
                 writer = csv.DictWriter(f, fieldnames=header)
                 writer.writeheader()
-                for i, item in enumerate(new_data):
-                    writer.writerow(_row(i + 1, item))
+
+            with f:
+                for i, item in enumerate(new_data, start=1):
+                    writer.writerow(_row(last_index + i, item))
 
         except Exception as e:
             raise RuntimeError(f"Error when trying to create data file:\n{e}")
@@ -253,26 +270,27 @@ class TestDataGenerator:
         for item in items:
             if not isinstance(item, dict):
                 continue
-                
-            data_payload = item.get("data", {})
-            llm_expected_code = str(item.get("expected_code", "2xx")).lower()
-            reason = item.get("reason", "")
 
-            # Chuẩn hoá payload
-            payload = copy.deepcopy(data_payload)
-            if not isinstance(payload, dict):
-                payload = {"data": payload}
-            # Giữ nguyên reason của LLM, KHÔNG thêm [CORRECTED ...]
+            data_payload = item.get("data", {})
+            llm_expected_code = str(item.get("expected_code", "")).strip().lower()
+            reason = item.get("reason", "")
+            payload = copy.deepcopy(data_payload) if isinstance(data_payload, dict) else {"data": data_payload}
             payload["__reason"] = reason
 
-            # Phân loại THEO LLM (không theo validator)
-            # Hỗ trợ các biến thể: "2xx", "200", "201", ...
-            if llm_expected_code.startswith("2"):
+            # --- FIX: be more tolerant ---
+            if not llm_expected_code:
+                llm_expected_code = "2xx"
+            if llm_expected_code.startswith("2") or llm_expected_code in ["ok", "success"]:
                 valid_2xx.append(payload)
             else:
                 invalid_4xx.append(payload)
-                
+        
+        # --- Optional logging to debug ---
+        if not valid_2xx:
+            logger.warning(f"[WARN] No 2xx items detected for {endpoint} ({part})")
+        
         return valid_2xx, invalid_4xx
+
     def get_path_parameter_names(self, endpoint):
         """Get list of path parameter names for an endpoint"""
         try:
@@ -744,7 +762,7 @@ class TestDataGenerator:
         param_data_4xx = _reconcile_reasons(param_data_4xx, "4xx")
         body_data_4xx  = _reconcile_reasons(body_data_4xx,  "4xx")
 
-        param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
+        # param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
         param_data_4xx, body_data_4xx = DataGeneratorUtils.balancing_test_data_item(param_data_4xx, body_data_4xx)
 
         result = SingleEndpointDetailedResult(
@@ -885,19 +903,18 @@ def read_swagger_data(file_path):
 
 if __name__ == "__main__":
     # --- 1. Khởi tạo ---
-    swagger_file = r"database/Bill/specs/openapi.json"
+    swagger_file = r"database/Pet Store/specs/openapi.json"
 
-    odg_dir = r"database/Bill/ODG"
-    work_dir = r"database/Bill"
-    if not os.path.exists(work_dir):
-        os.makedirs(work_dir)
+    odg_dir = r"database/Pet Store/ODG"
+    work_dir = r"database/Pet Store"
     
      # --- 2. Đọc swagger_spec ---
     swagger_spec = read_swagger_data(swagger_file)
     testDataGenerator = TestDataGenerator(swagger_spec=swagger_spec,
-                                          service_name="Bill",
-                                          collection="Bill Collection",
+                                          service_name="Pet Store",
+                                          collection="default",
                                           generation_mode="all",
                                           working_directory=work_dir)
-    
+
     testDataGenerator.generateData()
+    

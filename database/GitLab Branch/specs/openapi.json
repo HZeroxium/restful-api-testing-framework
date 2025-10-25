@@ -448,6 +448,7 @@
           },
           {
             "name": "name",
+            "required": true,
             "in": "query",
             "description": "The name of the new project. Either path or name is required, not both.",
             "schema": {

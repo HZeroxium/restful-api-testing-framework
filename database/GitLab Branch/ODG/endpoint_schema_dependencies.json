@@ -2,6 +2,9 @@
   "get-/projects/{id}/repository/branches": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "ProtectedBranch": {
+      "id": "id"
     }
   },
   "post-/projects/{id}/repository/branches": {
@@ -9,33 +12,48 @@
       "id": "id"
     },
     "Branch": {
-      "branch": "name"
+      "ref": "name"
+    },
+    "RepoCommit": {
+      "ref": "id"
     }
   },
   "get-/projects/{id}/repository/branches/{branch}": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "ProtectedBranch": {
+      "branch": "name"
     }
   },
   "delete-/projects/{id}/repository/branches/{branch}": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "ProtectedBranch": {
+      "branch": "name"
     }
   },
   "post-/projects/{id}/protected_branches": {
     "ProtectedBranch": {
-      "id": "id",
-      "name": "name"
+      "id": "id"
     },
     "BasicProjectDetails": {
-      "id": "id",
-      "name": "name",
-      "path": "path"
+      "id": "id"
+    },
+    "Branch": {
+      "name": "name"
     }
   },
   "delete-/projects/{id}/protected_branches/{name}": {
+    "ProtectedBranch": {
+      "id": "id"
+    },
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "Branch": {
+      "name": "name"
     }
   },
   "delete-/projects/{id}/repository/merged_branches": {
@@ -45,7 +63,8 @@
     "ProtectedBranch": {
       "id": "id"
     },
-    "Branch": {},
-    "Statistics": {}
+    "Branch": {
+      "id": "name"
+    }
   }
 }

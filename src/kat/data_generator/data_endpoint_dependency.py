@@ -638,52 +638,42 @@ class DataEndpointDependency:
         return path.replace('/', '_').replace('{', '').replace('}', '')
 
     def get_executable_data_for_endpoint(self, endpoint_sig: str) -> Dict[str, Any]:
-        """
-        Trả về:
-            {
-            "parameters": dict|None,
-            "requestBody": dict|None
-            }
-
-        Nguồn: CSV do generator tạo, lấy dòng đầu tiên có expected_status_code thuộc 2xx.
-        Nếu không tìm thấy dữ liệu hợp lệ → raise RuntimeError.
-        """
         method, path = self._split_endpoint_sig(endpoint_sig)
         csv_dir = self.csv_dir
 
-        # --- Build tên file ---
+        # --- Build filenames ---
         param_name = self._get_data_file_basename(method, path, "param") + ".csv"
-        body_name = self._get_data_file_basename(method, path, "body") + ".csv"
+        body_name  = self._get_data_file_basename(method, path, "body")  + ".csv"
 
         param_csv = csv_dir / param_name
-        body_csv = csv_dir / body_name
+        body_csv  = csv_dir / body_name
 
         logger.info("Trying to load test data CSV for endpoint %s", endpoint_sig)
         logger.info("  Param CSV: %s", param_csv)
         logger.info("  Body  CSV: %s", body_csv)
 
-        # --- Đọc CSV ---
+        # --- Read CSVs ---
         p_rows = self._load_csv_rows(param_csv)
         b_rows = self._load_csv_rows(body_csv)
 
-        # --- Chọn dòng 2xx ---
+        # --- Pick first 2xx rows (if any) ---
         p_row_2xx = self._pick_first_2xx_row(p_rows)
         b_row_2xx = self._pick_first_2xx_row(b_rows)
 
-        parameters = self._parse_data_cell(p_row_2xx) if p_row_2xx else None
+        parameters   = self._parse_data_cell(p_row_2xx) if p_row_2xx else None
         request_body = self._parse_data_cell(b_row_2xx) if b_row_2xx else None
 
-        # --- Nếu không có bất kỳ dữ liệu nào hợp lệ → QUĂNG LỖI ---
+        # Previously we raised when both were None. Now we just return what we have.
         if parameters is None and request_body is None:
-            msg = (
-                f"No executable test data found for endpoint '{endpoint_sig}'. "
-                f"Tried files:\n  - {param_csv}\n  - {body_csv}\n"
-                f"Make sure the CSV exists and has at least one row with a 2xx expected status code."
+            logger.exception(
+                "No executable 2xx test data found for endpoint '%s'. Tried files:\n"
+                "  - %s\n  - %s",
+                endpoint_sig, param_csv, body_csv
             )
-            logger.error(msg)
-            raise RuntimeError(msg)
+            return {"parameters": None, "requestBody": None}
 
         return {"parameters": parameters, "requestBody": request_body}
+
 
 
     def get_data_for_endpoint(self, endpoint_sig: str):

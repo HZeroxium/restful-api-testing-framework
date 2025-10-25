@@ -1,28 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""petId"": 7, ""api_key"": ""validApiKey123""}",2xx,petId=7 is a valid integer from context; api_key is a valid optional string.
-2,"{""petId"": 7}",2xx,petId=7 is a valid integer from context; api_key is optional and omitted.
-3,"{""petId"": 2147483649}",2xx,petId=2147483649 is a valid int64 integer; api_key is optional and omitted.
-4,"{""petId"": 7, ""api_key"": null}",2xx,llm_success_ignore_optional
-5,"{""petId"": 7, ""api_key"": ""validApiKey123""}",2xx,llm_success_ignore_optional
-6,"{""petId"": 7, ""api_key"": null}",2xx,llm_success_ignore_optional: petId=7 is a valid integer from context; api_key is a valid optional string.
-7,"{""petId"": ""abc"", ""api_key"": ""validApiKey123""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""petId"": 7, ""api_key"": 12345}",4xx,api_key=12345 has type integer but the spec requires string (header type mismatch).
-9,"{""petId"": ""notanumber"", ""api_key"": ""validApiKey123""}",4xx,"petId='notanumber' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""petId"": 9223372036854775808}",4xx,"petId=9223372036854775808 exceeds int64 maximum value (9223372036854775807), violating 'format=int64'."
-11,"{""petId"": 3.14159}",4xx,"petId=3.14159 is not an integer, violating 'type=integer' for path parameter."
-12,"{""petId"": ""12x""}",4xx,"petId='12x' is not parseable as integer, violating 'type=integer' for path parameter."
-13,"{""petId"": -2147483649}",4xx,"petId=-2147483649 is outside the typical int64 range, violating 'format=int64'."
-14,"{""petId"": 10}",2xx,"petId=10 is a valid integer from context (created pet), satisfying required type and format."
-15,"{""petId"": 10, ""api_key"": ""zLZNJA6PjzudxPEfw2Ui""}",2xx,petId=10 is valid from context; api_key is a valid optional string.
-16,"{""petId"": 2147483649}",2xx,"petId=2147483649 is a valid int64 integer, satisfying type and format constraints."
-17,"{""petId"": 2147483649, ""api_key"": ""validKey123""}",2xx,petId=2147483649 is a valid int64 integer and satisfies the type constraint.
-18,"{""petId"": 0, ""api_key"": ""validKey123""}",2xx,petId=0 is a valid integer and satisfies the type constraint.
-19,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-20,"{""petId"": 10.5}",4xx,"petId=10.5 is not an integer (type mismatch), violating 'type=integer' for path parameter."
-21,"{""petId"": ""abc"", ""api_key"": ""validKey123""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-22,"{""petId"": 3.14159, ""api_key"": ""validKey123""}",4xx,"petId=3.14159 is not an integer, violating 'type=integer' for path parameter."
-23,"{""petId"": ""9223372036854775808"", ""api_key"": ""validKey123""}",4xx,"petId='9223372036854775808' exceeds int64 maximum value, violating 'format=int64'."
-24,"{""petId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-25,"{""petId"": 10, ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-26,"{""petId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-27,"{""petId"": ""123456"", ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""petId"": 10}",2xx,petId=10 is a valid integer (int64) from context; all required fields are present.
+2,"{""petId"": 10, ""api_key"": ""my-secret-key""}",2xx,petId=10 is a valid integer (int64) from context; api_key is optional and provided as a valid string.
+3,"{""petId"": 2147483649}",2xx,petId=2147483649 is a valid int64 integer; all required fields are present.
+4,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""petId"": 10, ""api_key"": 12345}",4xx,api_key=12345 has type integer but the spec requires string (header type mismatch).
+6,"{""petId"": ""abc"", ""api_key"": ""validKey123""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""petId"": -1}",4xx,"petId=-1 is negative; while no explicit minimum, negative IDs are generally invalid for identifiers."
+8,"{""petId"": 3.14}",4xx,"petId=3.14 is not an integer, violating 'type=integer' for path parameter."
+9,"{""petId"": ""10.0""}",4xx,"petId='10.0' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""petId"": 9223372036854775808}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
+11,"{""petId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""petId"": 10, ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""petId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""petId"": ""123456"", ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

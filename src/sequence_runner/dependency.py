@@ -11,7 +11,6 @@ from .http_client import HttpClient
 from .models import TestCaseCore, StepModel
 
 logger = logging.getLogger(__name__)
-NOT_SURE = "%not-sure%"
 
 
 class DependencyService:

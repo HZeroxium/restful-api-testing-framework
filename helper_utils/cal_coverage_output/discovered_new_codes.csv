@@ -1,7 +1,10 @@
 ﻿endpoint,new_codes
-delete-/user/{username},['405']
-get-/user/{username},['405']
-post-/pet,['500']
-post-/pet/{petId},['404']
-post-/user,"['400', '500']"
-post-/user/createWithList,['400']
+delete-/projects/{id}/protected_branches/{name},['404']
+delete-/projects/{id}/repository/branches/{branch},['404']
+delete-/projects/{id}/repository/merged_branches,['404']
+get-/projects,['400']
+get-/projects/{id}/repository/branches,['404']
+get-/projects/{id}/repository/branches/{branch},['404']
+post-/projects,['400']
+post-/projects/{id}/protected_branches,"['400', '404']"
+post-/projects/{id}/repository/branches,"['400', '404']"

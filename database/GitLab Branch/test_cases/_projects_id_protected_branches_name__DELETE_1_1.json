@@ -43,6 +43,30 @@
       },
       {
         "step_number": 2,
+        "endpoint": "get-/projects/{id}/repository/branches",
+        "method": "GET",
+        "path_variables": {
+          "id": null
+        },
+        "query_parameters": {
+          "search": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
         "endpoint": "delete-/projects/{id}/protected_branches/{name}",
         "method": "DELETE",
         "path_variables": {
@@ -57,7 +81,7 @@
         },
         "data_dependencies": {
           "id": {
-            "from_step": 1,
+            "from_step": 2,
             "field_mappings": {
               "id": "id"
             }

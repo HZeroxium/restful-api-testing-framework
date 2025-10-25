@@ -128,8 +128,8 @@ def write_response_codes(spec_dir: str, out_json: str) -> Dict[str, dict]:
 
 
 if __name__ == "__main__":
-    services = ["Pet Store"]  # or: ["Bill", "GitLab Branch", ...]
+    services = ["GitLab Branch"]  # or: ["Bill", "GitLab Branch", ...]
     for service in services:
-        spec_dir = r"/Users/npt/Documents/NCKH/restful-api-testing-framework/Database/{}/specs".format(service)
-        out_json = r"/Users/npt/Documents/NCKH/restful-api-testing-framework/Database/{}/response_code/response_codes_normalized.json".format(service)
+        spec_dir = r"../Database/{}/specs".format(service)
+        out_json = r"../Database/{}/response_code/response_codes_normalized.json".format(service)
         write_response_codes(spec_dir, out_json)

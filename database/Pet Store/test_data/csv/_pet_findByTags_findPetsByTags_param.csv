@@ -1,25 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""tags"": [""tag1"", ""tag2""]}",2xx,tags is present and is an array of strings as required; all items are valid strings.
-2,"{""tags"": [""tag3""]}",2xx,tags is present and contains a single valid string item.
-3,"{""tags"": []}",2xx,"tags is present as an empty array; no minimum item count is specified, so this is allowed."
-4,"{""tags"": [""tag1"", ""tag2""]}",2xx,llm_success_ignore_optional
-5,"{""tags"": [""tag1"", 123]}",4xx,"tags[1]=123 is not a string, violating 'type=string' for array items."
+1,"{""tags"": [""friendly"", ""trained""]}",2xx,tags is present and is an array of strings; all items are valid strings.
+2,"{""tags"": [""tag1"", ""tag2"", ""tag3""]}",2xx,tags is present and is an array of strings similar to the example values.
+3,"{""tags"": [""friendly"", 123]}",4xx,"tags[1]=123 is not a string, violating 'type=string' for array items."
+4,"{""tags"": ""friendly""}",4xx,"tags='friendly' is a string, but the spec requires an array of strings (type mismatch)."
+5,{},4xx,"tags is required but missing, violating 'required'."
 6,{},4xx,"tags is required but missing, violating 'required'."
-7,{},4xx,"tags is required but missing, violating 'required'."
-8,"{""tags"": null}",4xx,"tags=null is not an array of strings, violating 'type=array of string'."
-9,"{""tags"": ""tag1,tag2""}",4xx,"tags='tag1,tag2' is a string, but the spec requires an array of strings, violating 'type=array of string'."
-10,"{""tags"": [""tag1"", 123]}",4xx,"tags[1]=123 is not a string, violating 'type=string' for array items."
-11,"{""tags"": 123}",4xx,"tags=123 is an integer, but the spec requires an array of strings, violating 'type=array of string'."
-12,"{""tags"": [""friendly""]}",2xx,tags is present and contains a string value; array items are valid strings.
-13,"{""tags"": [""tag1"", ""tag2"", ""tag3""]}",2xx,tags is present and contains multiple valid string values as suggested in the spec description.
-14,"{""tags"": [""friendly"", ""playful"", ""cute""]}",2xx,tags is present and contains valid string values; all array items are strings.
-15,"{""tags"": [123, ""friendly""]}",4xx,"tags[0]=123 is not a string, violating 'type=string' for array items."
-16,{},4xx,"tags is required but missing, violating 'required'."
-17,{},4xx,"tags is required but missing, violating 'required'."
-18,"{""tags"": null}",4xx,"tags=null is not allowed for required query parameter, violating 'required'."
-19,"{""tags"": ""dog,cat""}",4xx,"tags has type string but the spec requires array of strings, violating 'type=array'."
-20,"{""tags"": [123, ""dog""]}",4xx,"tags[0]=123 has type integer but the spec requires string for array items, violating 'type=string' for array items."
-21,"{""tags"": []}",4xx,"tags is an empty array; required array parameter should not be empty, violating 'required'."
-22,"{""tags"": [""""]}",4xx,heuristic_mutation: out-of-range/invalid primitives
-23,"{""tags"": null}",4xx,mutate_missing_required: set tags=None
-24,"{""tags"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""tags"": ""friendly""}",4xx,tags has type string but the spec requires array of strings (type mismatch).
+8,"{""tags"": null}",4xx,tags is null but the spec requires array of strings (type mismatch).
+9,"{""tags"": [123, ""friendly""]}",4xx,tags[0]=123 has type integer but the spec requires string for array items (type mismatch).
+10,"{""tags"": [{""name"": ""friendly""}]}",4xx,tags[0] has type object but the spec requires string for array items (type mismatch).
+11,"{""tags"": ["""", """"]}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""tags"": null}",4xx,mutate_missing_required: set tags=None
+13,"{""tags"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

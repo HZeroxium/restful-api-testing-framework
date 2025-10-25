@@ -46,14 +46,25 @@ if __name__ == "__main__":
     # sequence_runner = SequenceRunner(service_name="Gitlab Commit",skip_preload=True, base_url="http://localhost:30000/api/v4", token=None,out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}", headers=headers)
 
     # sequence_runner = SequenceRunner(service_name="Bill",skip_preload=True, base_url="https://bills-api.parliament.uk/", token=None,out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}", headers=headers)
+    # sequence_runner = SequenceRunner(
+    #     service_name="Pet Store",
+    #     skip_preload=True,
+    #     base_url="http://localhost:8081/api/v3",
+    #     out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}",
+    #     headers=headers,
+    #     sampling_strategy="random_quota",
+    #     want_2xx=3,
+    #     want_4xx=10
+    # )
+    # sequence_runner.run_all()
     sequence_runner = SequenceRunner(
-        service_name="Pet Store",
-        skip_preload=True,
-        base_url="https://petstore3.swagger.io/api/v3",
+        service_name="GitLab Branch",
+        skip_preload=False,
+        base_url="http://localhost:30000/api/v4",
         out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}",
         headers=headers,
         sampling_strategy="random_quota",
-        want_2xx=3,
-        want_4xx=10
+        want_2xx=200,
+        want_4xx=0
     )
     sequence_runner.run_all()

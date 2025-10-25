@@ -66,18 +66,6 @@
             "field_mappings": {
               "id": "id"
             }
-          },
-          "name": {
-            "from_step": 1,
-            "field_mappings": {
-              "name": "name"
-            }
-          },
-          "path": {
-            "from_step": 1,
-            "field_mappings": {
-              "path": "path"
-            }
           }
         }
       }

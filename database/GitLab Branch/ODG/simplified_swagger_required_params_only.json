@@ -137,6 +137,18 @@
     "tags": [
       "Project"
     ],
+    "requestBody": {
+      "schema of ContainerExpirationPolicy": {
+        "cadence": "string",
+        "enabled": "boolean",
+        "keep_n": "string",
+        "older_than": "string",
+        "name_regex": "string",
+        "name_regex_delete": "string",
+        "name_regex_keep": "string",
+        "next_run_at": "string"
+      }
+    },
     "responseBody": {
       "schema of BasicProjectDetails": {
         "id": "integer",

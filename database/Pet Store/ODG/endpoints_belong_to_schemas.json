@@ -1,5 +1,5 @@
 {
-  "Category": [
+  "Tag": [
     "put-/pet",
     "post-/pet",
     "get-/pet/findByStatus",
@@ -15,7 +15,7 @@
     "get-/pet/{petId}",
     "post-/pet/{petId}"
   ],
-  "Tag": [
+  "Category": [
     "put-/pet",
     "post-/pet",
     "get-/pet/findByStatus",
