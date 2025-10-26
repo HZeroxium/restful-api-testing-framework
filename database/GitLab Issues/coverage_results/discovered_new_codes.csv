@@ -1,0 +1,23 @@
+﻿endpoint,new_codes
+delete-/projects/{id}/issues/{issue_iid},['404']
+get-/projects/{id}/issues,['404']
+get-/projects/{id}/issues/{issue_iid},['404']
+get-/projects/{id}/issues/{issue_iid}/closed_by,['404']
+get-/projects/{id}/issues/{issue_iid}/metric_images,['404']
+get-/projects/{id}/issues/{issue_iid}/participants,['404']
+get-/projects/{id}/issues/{issue_iid}/related_merge_requests,['404']
+get-/projects/{id}/issues/{issue_iid}/time_stats,['404']
+post-/groups,['400']
+post-/projects,"['400', '422']"
+post-/projects/{id}/issues,"['404', '409']"
+post-/projects/{id}/issues/{issue_iid}/add_spent_time,['404']
+post-/projects/{id}/issues/{issue_iid}/metric_images,['404']
+post-/projects/{id}/issues/{issue_iid}/move,['404']
+post-/projects/{id}/issues/{issue_iid}/reset_spent_time,['404']
+post-/projects/{id}/issues/{issue_iid}/reset_time_estimate,['404']
+post-/projects/{id}/issues/{issue_iid}/subscribe,['404']
+post-/projects/{id}/issues/{issue_iid}/time_estimate,['400']
+post-/projects/{id}/issues/{issue_iid}/todo,['404']
+post-/projects/{id}/issues/{issue_iid}/unsubscribe,['404']
+put-/projects/{id}/issues/{issue_iid},['404']
+put-/projects/{id}/issues/{issue_iid}/reorder,"['400', '404']"

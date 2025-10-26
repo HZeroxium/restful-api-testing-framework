@@ -1,12 +1,94 @@
 index,data,expected_status_code,reason
-1,"{""labels"": ""bug,critical"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All fields are present and valid; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-2,"{""milestone"": ""release-2.0"", ""search"": ""title,description""}",2xx,"milestone is a valid string; search='title,description' is in the allowed enum ['title', 'description', 'title,description']."
-3,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-4,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-5,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
-6,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-7,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-8,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-9,"{""author_id"": ""xyz"", ""search"": ""invalid_value""}",4xx,"author_id='xyz' is not parseable as integer, violating 'type=integer'; search='invalid_value' is not in enum ['title', 'description', 'title,description']."
-10,"{""author_id"": ""nope"", ""assignee_id"": ""nope"", ""search"": ""nope""}",4xx,"author_id='nope' is not parseable as integer, violating 'type=integer'; assignee_id='nope' is not parseable as integer, violating 'type=integer'; search='nope' is not in enum ['title', 'description', 'title,description']."
-11,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+1,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+2,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+3,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+4,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+5,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+6,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+7,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+8,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+9,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+10,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+11,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+12,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+13,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+14,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+15,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+16,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+17,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+18,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+19,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+20,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+21,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+22,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+23,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+24,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+25,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+26,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+27,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+28,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+29,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+30,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+31,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+32,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+33,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+34,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+35,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+36,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
+37,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
+38,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+39,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+40,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+41,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+42,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+43,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+44,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+45,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+46,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+47,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+48,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+49,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+50,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+51,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+52,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+53,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+54,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+55,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+56,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+57,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+58,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+59,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+60,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+61,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+62,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+63,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+64,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+65,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+66,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+67,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+68,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+69,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+70,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+71,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+72,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+73,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+74,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+75,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+76,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+77,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+78,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+79,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+80,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+81,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+82,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+83,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+84,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+85,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+86,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+87,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+88,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
+89,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+90,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+91,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+92,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+93,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."

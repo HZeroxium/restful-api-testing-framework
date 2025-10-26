@@ -56,7 +56,7 @@
       },
       {
         "step_number": 2,
-        "endpoint": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+        "endpoint": "get-/projects/{id}/issues/{issue_iid}/closed_by",
         "method": "GET",
         "path_variables": {
           "id": null,
@@ -73,6 +73,29 @@
             "from_step": 1,
             "field_mappings": {
               "issue_iid": "iid"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
+        "endpoint": "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+        "method": "GET",
+        "path_variables": {
+          "id": null,
+          "issue_iid": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 2,
+            "field_mappings": {
+              "id": "project_id"
             }
           }
         }

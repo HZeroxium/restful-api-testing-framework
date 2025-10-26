@@ -1,11 +1,29 @@
 index,data,expected_status_code,reason
-1,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""develop""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-2,"{""id"": 2147483649, ""from"": ""main"", ""to"": ""develop"", ""from_project_id"": ""notanint""}",4xx,"from_project_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
-3,"{""id"": 2147483647, ""from"": 12345, ""to"": ""feature-branch""}",4xx,from=12345 has type integer but the spec requires string (query parameter type mismatch).
-4,"{""id"": 2147483647, ""from"": ""main"", ""to"": ""feature-branch"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
-5,"{""id"": 2147483647, ""from"": ""main""}",4xx,"to is required but missing, violating 'required' for query parameter."
-6,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""develop""}",4xx,"id='abc' is not parseable as integer in path, violating 'type=integer'."
-7,"{""id"": 12345, ""to"": ""feature-branch""}",4xx,"from is required but missing, violating 'required'."
-8,"{""id"": 12345, ""from"": ""main""}",4xx,"to is required but missing, violating 'required'."
-9,"{""id"": 12345, ""from"": ""main"", ""to"": ""develop"", ""from_project_id"": ""notanint""}",4xx,"from_project_id='notanint' is not parseable as integer in query, violating 'type=integer'."
-10,"{""id"": 12345, ""from"": ""main"", ""to"": ""develop"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean in query, violating 'type=boolean'."
+1,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",2xx,All required fields are present; id=16 is a valid integer from context; from and to are valid branch names; from_project_id=1 is a valid integer; straight=false is a valid boolean.
+2,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz""}",2xx,All required fields are present; id=16 is a valid integer from context; from and to are valid branch names; optional fields omitted as allowed.
+3,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": null, ""straight"": null}",2xx,llm_success_ignore_optional
+4,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": null, ""straight"": false}",2xx,llm_success_ignore_optional
+5,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",2xx,llm_success_ignore_optional
+6,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": null}",2xx,llm_success_ignore_optional: All required fields are present; id=16 is a valid integer from context; from and to are valid branch names; from_project_id=1 is a valid integer; straight=false is a valid boolean.
+7,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": null, ""straight"": false}",2xx,llm_success_ignore_optional: All required fields are present; id=16 is a valid integer from context; from and to are valid branch names; from_project_id=1 is a valid integer; straight=false is a valid boolean.
+8,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""feature-xyz""}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+9,"{""id"": 16, ""from"": ""main""}",4xx,"Missing required field 'to', violating 'required' for query parameter."
+10,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean (type=parseability), violating 'type=boolean' for query parameter."
+11,"{""id"": ""abc"", ""from"": ""main"", ""to"": ""feature-branch""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": 16, ""from"": 123, ""to"": ""feature-branch""}",4xx,"from=123 has type integer but the spec requires string, violating 'type=string' for query parameter."
+13,"{""id"": 16, ""from"": ""main"", ""to"": 456}",4xx,"to=456 has type integer but the spec requires string, violating 'type=string' for query parameter."
+14,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-branch"", ""from_project_id"": ""not-an-int""}",4xx,"from_project_id='not-an-int' is not parseable as integer, violating 'type=integer' for query parameter."
+15,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-branch"", ""straight"": ""tru""}",4xx,"straight='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+16,"{""id"": -9999999.0, ""from"": """", ""to"": """", ""from_project_id"": -1, ""straight"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""id"": 16, ""from"": null, ""to"": null, ""from_project_id"": 1, ""straight"": false}",4xx,"mutate_missing_required: set from, to=None"
+18,"{""id"": 16, ""from"": ""main"", ""to"": null, ""from_project_id"": 1, ""straight"": false}",4xx,mutate_missing_required: set to=None
+19,"{""id"": 16, ""from"": null, ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",4xx,mutate_missing_required: set from=None
+20,"{""id"": ""123456"", ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""id"": 16, ""from"": 123456789, ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+22,"{""id"": 16, ""from"": ""main"", ""to"": 123456789, ""from_project_id"": 1, ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+23,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": ""123456"", ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+24,"{""id"": 16, ""from"": ""main"", ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+25,"{""id"": ""123456"", ""from"": 123456789, ""to"": ""feature-xyz"", ""from_project_id"": 1, ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+26,"{""id"": ""123456"", ""from"": ""main"", ""to"": 123456789, ""from_project_id"": ""123456"", ""straight"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+27,"{""id"": ""123456"", ""from"": 123456789, ""to"": ""feature-xyz"", ""from_project_id"": ""123456"", ""straight"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+28,"{""id"": ""123456"", ""from"": 123456789, ""to"": 123456789, ""from_project_id"": ""123456"", ""straight"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

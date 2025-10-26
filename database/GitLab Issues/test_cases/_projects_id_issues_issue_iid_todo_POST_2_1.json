@@ -82,41 +82,6 @@
       },
       {
         "step_number": 2,
-        "endpoint": "get-/projects",
-        "method": "GET",
-        "path_variables": {},
-        "query_parameters": {
-          "archived": null,
-          "id_after": null,
-          "id_before": null,
-          "last_activity_after": null,
-          "last_activity_before": null,
-          "membership": null,
-          "min_access_level": null,
-          "order_by": null,
-          "owned": null,
-          "repository_storage": null,
-          "search_namespaces": null,
-          "search": null,
-          "simple": null,
-          "sort": null,
-          "starred": null,
-          "statistics": null,
-          "visibility": null,
-          "with_custom_attributes": null,
-          "with_issues_enabled": null,
-          "with_merge_requests_enabled": null,
-          "with_programming_language": null
-        },
-        "request_body": {},
-        "response_validation": {
-          "status_code": "2xx",
-          "body_validation": {}
-        },
-        "data_dependencies": {}
-      },
-      {
-        "step_number": 3,
         "endpoint": "post-/projects/{id}/issues/{issue_iid}/todo",
         "method": "POST",
         "path_variables": {
@@ -131,15 +96,9 @@
         },
         "data_dependencies": {
           "id": {
-            "from_step": 2,
+            "from_step": 1,
             "field_mappings": {
               "id": "id"
-            }
-          },
-          "issue_iid": {
-            "from_step": 2,
-            "field_mappings": {
-              "issue_iid": "id"
             }
           }
         }

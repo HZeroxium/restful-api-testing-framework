@@ -1,11 +1,68 @@
 index,data,expected_status_code,reason
-1,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-2,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,Required fields 'name' and 'path' are present and valid; optional fields are omitted as allowed.
-3,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"Missing required field 'path', violating 'required'."
-4,"{""name"": ""QA"", ""path"": 12345}",4xx,Field 'path' has type integer but the spec requires string (type mismatch).
-5,"{""name"": ""Mobile"", ""path"": ""mobile"", ""avatar"": 98765}",4xx,Field 'avatar' has type integer but the spec requires string (type=file).
-6,"{""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."
-7,"{""name"": ""Test Group"", ""description"": ""A test group"", ""avatar"": ""avatar.png""}",4xx,"path is required but missing, violating 'required'."
-8,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""not_a_file_string""}",4xx,avatar='not_a_file_string' does not match format file.
-9,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": 123, ""avatar"": ""avatar.png""}",4xx,"description=123 is not a string, violating 'type=string'."
-10,"{""path"": ""my-group"", ""description"": ""A test group"", ""avatar"": ""not_a_file_string""}",4xx,"name is required but missing, violating 'required'; avatar='not_a_file_string' does not match format file."
+1,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+2,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+3,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+4,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+5,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+6,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+7,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+8,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+9,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+10,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+11,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+12,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+13,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+14,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+15,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+16,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+17,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+18,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+19,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+20,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+21,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+22,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+23,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+24,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+25,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+26,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+27,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+28,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+29,"{""name"": ""DevOps Team"", ""path"": ""devops-team""}",2xx,Both required fields 'name' and 'path' are present and are strings as specified.
+30,"{""name"": ""Frontend Squad"", ""path"": ""frontend-squad"", ""description"": ""Group for all frontend developers."", ""avatar"": ""logo.png""}",2xx,'name' and 'path' are present as strings; 'description' and 'avatar' are optional and valid strings.
+31,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."
+32,"{""name"": 12345, ""path"": ""numeric-name""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+33,"{""name"": ""QA Team"", ""path"": ""qa-team"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch).
+34,"{""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."
+35,"{""name"": ""Test Group"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path is required but missing, violating 'required'."
+36,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name=12345 has type integer but the spec requires string, violating 'type=string'."
+37,"{""name"": ""Test Group"", ""path"": 67890, ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path=67890 has type integer but the spec requires string, violating 'type=string'."
+38,"{""name"": ""Test Group"", ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""not-a-file""}",4xx,avatar='not-a-file' does not match format file.
+39,"{""name"": null, ""path"": null}",4xx,"mutate_missing_required: set path, name=None"
+40,"{""name"": ""DevOps Team"", ""path"": null}",4xx,mutate_missing_required: set path=None
+41,"{""name"": null, ""path"": ""devops-team""}",4xx,mutate_missing_required: set name=None
+42,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."
+43,"{""name"": 12345, ""path"": ""numeric-name""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+44,"{""name"": ""QA Team"", ""path"": ""qa-team"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch).
+45,"{""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."
+46,"{""name"": ""Test Group"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path is required but missing, violating 'required'."
+47,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name=12345 has type integer but the spec requires string, violating 'type=string'."
+48,"{""name"": ""Test Group"", ""path"": 67890, ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path=67890 has type integer but the spec requires string, violating 'type=string'."
+49,"{""name"": ""Test Group"", ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""not-a-file""}",4xx,avatar='not-a-file' does not match format file.
+50,"{""name"": null, ""path"": null}",4xx,"mutate_missing_required: set path, name=None"
+51,"{""name"": ""DevOps Team"", ""path"": null}",4xx,mutate_missing_required: set path=None
+52,"{""name"": null, ""path"": ""devops-team""}",4xx,mutate_missing_required: set name=None
+53,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."
+54,"{""name"": 12345, ""path"": ""numeric-name""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+55,"{""name"": ""QA Team"", ""path"": ""qa-team"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch).
+56,"{""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."
+57,"{""name"": ""Test Group"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path is required but missing, violating 'required'."
+58,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name=12345 has type integer but the spec requires string, violating 'type=string'."
+59,"{""name"": ""Test Group"", ""path"": 67890, ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"path=67890 has type integer but the spec requires string, violating 'type=string'."
+60,"{""name"": ""Test Group"", ""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""not-a-file""}",4xx,avatar='not-a-file' does not match format file.
+61,"{""name"": null, ""path"": null}",4xx,"mutate_missing_required: set path, name=None"
+62,"{""name"": ""DevOps Team"", ""path"": null}",4xx,mutate_missing_required: set path=None
+63,"{""name"": null, ""path"": ""devops-team""}",4xx,mutate_missing_required: set name=None
+64,"{""name"": ""Backend"", ""description"": ""Handles backend services.""}",4xx,"'path' is required but missing, violating 'required'."
+65,"{""name"": 12345, ""path"": ""numeric-name""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+66,"{""name"": ""QA Team"", ""path"": ""qa-team"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch).
+67,"{""path"": ""valid-path"", ""description"": ""A group for testing."", ""avatar"": ""avatar.png""}",4xx,"name is required but missing, violating 'required'."

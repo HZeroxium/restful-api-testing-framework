@@ -1,0 +1,142 @@
+{
+  "get-/projects": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/tree": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/blobs/{sha}/raw": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/archive": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/compare": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/contributors": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/merge_base": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/repository/changelog": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

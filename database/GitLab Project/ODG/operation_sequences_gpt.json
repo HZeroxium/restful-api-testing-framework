@@ -1,5 +1,6 @@
 {
   "get-/projects/{id}/forks": [],
+  "post-/projects": [],
   "post-/projects/user/{user_id}": [],
   "get-/projects/{id}": [],
   "put-/projects/{id}": [],
@@ -18,11 +19,21 @@
   "post-/projects/{id}/unarchive": [],
   "post-/projects/{id}/restore": [],
   "post-/projects/{id}/uploads": [],
-  "post-/projects/{id}/share": [],
+  "post-/projects/{id}/share": [
+    [
+      "get-/projects"
+    ]
+  ],
+  "get-/projects": [],
   "delete-/projects/{id}/share/{group_id}": [],
   "put-/projects/{id}/hooks/{hook_id}": [],
   "delete-/projects/{id}/hooks/{hook_id}": [],
-  "post-/projects/{id}/housekeeping": [],
+  "post-/projects/{id}/housekeeping": [
+    [
+      "get-/projects",
+      "post-/projects/{id}/share"
+    ]
+  ],
   "put-/projects/{id}/transfer": [],
   "post-/projects/{id}/fork/{forked_from_id}": [],
   "get-/projects/{id}/snapshot": [],

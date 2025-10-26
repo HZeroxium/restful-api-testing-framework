@@ -135,12 +135,6 @@
             "field_mappings": {
               "id": "id"
             }
-          },
-          "group_id": {
-            "from_step": 2,
-            "field_mappings": {
-              "group_id": "id"
-            }
           }
         }
       }

@@ -4,20 +4,8 @@
       "get-/projects"
     ],
     [
-      "post-/projects"
-    ]
-  ],
-  "post-/projects": [
-    [
-      "get-/projects"
-    ]
-  ],
-  "get-/projects/{id}/repository/tree": [
-    [
-      "get-/projects"
-    ],
-    [
-      "post-/projects"
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
     ]
   ],
   "get-/projects/{id}/repository/blobs/{sha}/raw": [
@@ -25,10 +13,16 @@
       "get-/projects"
     ],
     [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
+    ]
+  ],
+  "get-/projects": [
+    [
       "post-/projects"
     ]
   ],
-  "get-/projects/{id}/repository/archive": [
+  "get-/projects/{id}/repository/contributors": [
     [
       "get-/projects"
     ],
@@ -41,12 +35,13 @@
       "get-/projects"
     ],
     [
-      "post-/projects"
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
     ]
   ],
-  "get-/projects": [
+  "post-/projects": [
     [
-      "post-/projects"
+      "get-/projects"
     ]
   ],
   "get-/projects/{id}/repository/merge_base": [
@@ -54,10 +49,19 @@
       "get-/projects"
     ],
     [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
+    ]
+  ],
+  "get-/projects/{id}/repository/tree": [
+    [
+      "get-/projects"
+    ],
+    [
       "post-/projects"
     ]
   ],
-  "get-/projects/{id}/repository/contributors": [
+  "get-/projects/{id}/repository/archive": [
     [
       "get-/projects"
     ],

@@ -85,13 +85,7 @@
           "id": {
             "from_step": 1,
             "field_mappings": {
-              "id": "id"
-            }
-          },
-          "issue_iid": {
-            "from_step": 1,
-            "field_mappings": {
-              "issue_iid": "iid"
+              "id": "project_id"
             }
           }
         }

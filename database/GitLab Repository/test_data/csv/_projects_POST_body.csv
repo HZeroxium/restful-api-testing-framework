@@ -1,0 +1,125 @@
+index,data,expected_status_code,reason
+1,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+2,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+3,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+4,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+5,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+6,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+7,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+8,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+9,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+10,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+11,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+12,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+13,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+14,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+15,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+16,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
+17,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
+18,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+19,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+20,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+21,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+22,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+23,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+24,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+25,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+26,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+27,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+28,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+29,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+30,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+31,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+32,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+33,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+34,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+35,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+36,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+37,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+38,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+39,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+40,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+41,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+42,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+43,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+44,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+45,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+46,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+47,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+48,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+49,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+50,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+51,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+52,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+53,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+54,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+55,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+56,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+57,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+58,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+59,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+60,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+61,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+62,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+63,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+64,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+65,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+66,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+67,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+68,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+69,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+70,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+71,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+72,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+73,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+74,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+75,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+76,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+77,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+78,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+79,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+80,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+81,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+82,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+83,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+84,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+85,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+86,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+87,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+88,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+89,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+90,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+91,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+92,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+93,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+94,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+95,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+96,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+97,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+98,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+99,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+100,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+101,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+102,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+103,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+104,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+105,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+106,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+107,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+108,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+109,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+110,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+111,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+112,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+113,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+114,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+115,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+116,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+117,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
+118,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
+119,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
+120,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
+121,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
+122,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+123,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
+124,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.

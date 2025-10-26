@@ -137,6 +137,9 @@
     "tags": [
       "Project"
     ],
+    "parameters": {
+      "name": "string (description: The name of the new project. Either path or name is required, not both)"
+    },
     "requestBody": {
       "schema of ContainerExpirationPolicy": {
         "cadence": "string",

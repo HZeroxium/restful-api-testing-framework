@@ -1,11 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1, ""issue_iid"": 1}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from dependency endpoints, examples, or fixtures."
+1,"{""id"": 1, ""issue_iid"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
 2,"{""id"": ""abc"", ""issue_iid"": 2}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""id"": 3, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-4,"{""id"": 2147483649, ""issue_iid"": 4}",4xx,"id=2147483649 exceeds typical 32-bit integer bounds, violating 'type=integer' for path parameter."
-5,"{""id"": 5, ""issue_iid"": 2147483649}",4xx,"issue_iid=2147483649 exceeds typical 32-bit integer bounds, violating 'type=integer' for path parameter."
+3,"{""id"": 2, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+4,"{""id"": -5, ""issue_iid"": 3}",4xx,"id=-5 is negative; although no explicit minimum, negative IDs are not realistic for project identifiers."
+5,"{""id"": 4, ""issue_iid"": 0}",4xx,issue_iid=0 is not a realistic internal issue ID; zero is typically invalid for ID fields.
 6,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": ""12.5"", ""issue_iid"": 7}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 99, ""issue_iid"": ""true""}",4xx,"issue_iid='true' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""false"", ""issue_iid"": ""xyz""}",4xx,"id='false' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
+7,"{""id"": 123, ""issue_iid"": ""notanumber""}",4xx,"issue_iid='notanumber' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""xyz"", ""issue_iid"": ""def""}",4xx,"id='xyz' and issue_iid='def' are not parseable as integers, violating 'type=integer' for both path parameters."
+9,"{""id"": 3.14, ""issue_iid"": ""seven""}",4xx,"id=3.14 is a float, not an integer; issue_iid='seven' is not parseable as integer, violating 'type=integer' for both path parameters."
+10,"{""id"": true, ""issue_iid"": false}",4xx,"id=true and issue_iid=false are booleans, not integers, violating 'type=integer' for both path parameters."
+11,"{""data"": {""id"": """", ""issue_iid"": -9999999.0}, ""expected_code"": """", ""reason"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+12,"{""data"": {""id"": ""123456"", ""issue_iid"": 1}, ""expected_code"": ""4xx"", ""reason"": ""id%3D%27abc%27%20is%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20path/parseability.""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+13,"{""data"": {""id"": ""abc"", ""issue_iid"": ""123456""}, ""expected_code"": ""4xx"", ""reason"": ""id%3D%27abc%27%20is%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20path/parseability.""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+14,"{""data"": {""id"": ""123456"", ""issue_iid"": ""123456""}, ""expected_code"": ""4xx"", ""reason"": ""id%3D%27abc%27%20is%20not%20parseable%20as%20integer%2C%20violating%20%27type%3Dinteger%27%20for%20path/parseability.""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."

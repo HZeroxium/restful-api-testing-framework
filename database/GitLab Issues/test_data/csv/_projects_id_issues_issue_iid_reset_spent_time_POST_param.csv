@@ -1,11 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1001, ""issue_iid"": 50123}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no producer endpoint or example values available for 'id' and 'issue_iid'.
-2,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""id"": 2147483649, ""issue_iid"": 42}",4xx,"id=2147483649 exceeds typical 32-bit integer bounds; while not explicitly bounded in spec, this tests extreme value handling."
-4,"{""id"": 42, ""issue_iid"": ""not_an_int""}",4xx,"issue_iid='not_an_int' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""id"": -1, ""issue_iid"": 42}",4xx,"id=-1 is a negative integer; while not explicitly forbidden, this tests for realistic ID domain violations."
-6,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 12.5, ""issue_iid"": 7}",4xx,"id=12.5 is a float, not an integer, violating 'type=integer' for path parameter."
-9,"{""id"": 99, ""issue_iid"": false}",4xx,"issue_iid=false is a boolean, not an integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""1e5"", ""issue_iid"": ""3.14""}",4xx,"id='1e5' and issue_iid='3.14' are not parseable as integer, violating 'type=integer' for path parameters."
+1,"{""id"": 1001, ""issue_iid"": 42}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from context, spec, or dependencies."
+2,"{""id"": -1, ""issue_iid"": 42}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from context, spec, or dependencies."
+3,"{""id"": 1001, ""issue_iid"": 2147483649}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from context, spec, or dependencies."
+4,"{""id"": 1001, ""issue_iid"": 42}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 1001, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": ""not-an-integer"", ""issue_iid"": 2}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 1, ""issue_iid"": ""abc""}",4xx,"issue_iid='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""xyz"", ""issue_iid"": ""def""}",4xx,"id='xyz' and issue_iid='def' are not parseable as integers, violating 'type=integer' for both path parameters."
+10,"{""id"": 2147483649, ""issue_iid"": 2}",4xx,"id=2147483649 exceeds the typical 32-bit integer maximum, violating 'type=integer' boundary for path parameter."
+11,"{""id"": 1, ""issue_iid"": 2147483649}",4xx,"issue_iid=2147483649 exceeds the typical 32-bit integer maximum, violating 'type=integer' boundary for path parameter."
+12,"{""id"": -1, ""issue_iid"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""issue_iid"": 42}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 1001, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": ""123456"", ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

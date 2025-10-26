@@ -1,11 +1,195 @@
 index,data,expected_status_code,reason
-1,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""1 week"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*delete.*"", ""name_regex_keep"": "".*keep.*"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All fields are present and match their required types; next_run_at matches format date-time.
-2,"{""cadence"": ""weekly""}",2xx,cadence is a string and matches its type; all other fields are optional and omitted.
-3,"{""enabled"": ""yes""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'."
-4,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
-5,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time.
-6,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (type mismatch).
-7,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (type mismatch).
-8,"{""keep_n"": ""ten""}",4xx,keep_n='ten' has type string but the spec requires integer (type mismatch).
-9,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-10,"{""cadence"": 0, ""enabled"": ""tru"", ""keep_n"": ""NaN"", ""older_than"": 999, ""name_regex"": false, ""name_regex_delete"": [], ""name_regex_keep"": {}, ""next_run_at"": ""2021-02-30T25:61:61Z""}",4xx,All provided fields violate their type or format constraints: cadence=0 is integer not string; enabled='tru' is string not boolean; keep_n='NaN' is string not integer; older_than=999 is integer not string; name_regex=false is boolean not string; name_regex_delete=[] is array not string; name_regex_keep={} is object not string; next_run_at='2021-02-30T25:61:61Z' does not match format date-time.
+1,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+2,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+3,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+4,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+5,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+6,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+7,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+8,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+9,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+10,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+11,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+12,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+13,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+14,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+15,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+16,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+17,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+18,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+19,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+20,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+21,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+22,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+23,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+24,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+25,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+26,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+27,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+28,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+29,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+30,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+31,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+32,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+33,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+34,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+35,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+36,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+37,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+38,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+39,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+40,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+41,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+42,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+43,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+44,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+45,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+46,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+47,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+48,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+49,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+50,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+51,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+52,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+53,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+54,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+55,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+56,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+57,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+58,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+59,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+60,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+61,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+62,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+63,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+64,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+65,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+66,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+67,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+68,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+69,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+70,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+71,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+72,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+73,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+74,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+75,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+76,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+77,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+78,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+79,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+80,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+81,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+82,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+83,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+84,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+85,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+86,"{""older_than"": ""30d""}",2xx,older_than is optional and '30d' is a valid string value.
+87,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": 10, ""older_than"": ""7d"", ""name_regex"": ""^release-.*$"", ""name_regex_delete"": "".*-delete$"", ""name_regex_keep"": ""^keep-.*$"", ""next_run_at"": ""2024-06-15T12:00:00Z""}",2xx,All provided fields are optional and match their specified types and formats.
+88,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+89,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+90,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+91,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+92,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+93,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+94,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+95,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+96,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+97,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+98,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+99,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+100,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+101,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+102,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+103,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+104,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+105,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+106,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+107,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+108,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+109,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+110,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+111,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+112,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+113,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+114,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+115,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+116,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+117,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+118,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+119,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+120,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+121,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+122,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+123,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+124,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+125,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+126,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+127,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+128,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+129,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+130,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+131,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+132,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+133,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+134,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+135,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+136,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+137,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+138,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+139,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+140,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+141,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+142,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+143,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+144,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+145,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+146,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+147,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+148,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+149,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+150,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+151,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+152,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+153,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+154,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+155,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+156,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+157,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+158,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+159,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+160,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+161,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+162,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+163,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+164,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+165,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+166,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+167,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+168,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+169,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+170,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+171,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+172,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+173,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+174,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+175,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+176,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+177,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+178,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+179,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+180,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+181,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+182,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+183,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+184,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+185,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+186,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).
+187,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+188,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+189,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+190,"{""enabled"": ""false"", ""keep_n"": ""5""}",4xx,enabled='false' is not parseable as boolean; keep_n='5' is not parseable as integer. Both violate their type constraints.
+191,"{""enabled"": 1, ""keep_n"": ""abc"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,enabled=1 is not a boolean; keep_n='abc' is not parseable as integer; next_run_at='2021-02-30T07:60:15Z' does not match format date-time. All violate their constraints.
+192,"{""enabled"": ""yes""}",4xx,"enabled='yes' is a string, but the spec requires boolean (type mismatch)."
+193,"{""keep_n"": ""ten""}",4xx,"keep_n='ten' is not parseable as integer, violating 'type=integer'."
+194,"{""next_run_at"": ""15-06-2024 12:00""}",4xx,next_run_at='15-06-2024 12:00' does not match format date-time (should be ISO 8601).

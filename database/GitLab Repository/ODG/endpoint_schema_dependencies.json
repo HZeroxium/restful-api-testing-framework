@@ -1,34 +1,47 @@
 {
   "post-/projects": {
-    "Namespace": {
-      "name": "name",
-      "path": "path"
+    "Owner": {
+      "name": "name"
     },
     "FileTree": {
-      "name": "name",
-      "path": "path"
+      "name": "name"
     },
-    "Owner": {
+    "Namespace": {
+      "name": "name"
+    },
+    "Contributor": {
       "name": "name"
     }
   },
   "get-/projects/{id}/repository/tree": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "FileTree": {
+      "id": "id"
     }
   },
   "get-/projects/{id}/repository/blobs/{sha}": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "RepoCommit": {
+      "sha": "id"
     }
   },
   "get-/projects/{id}/repository/blobs/{sha}/raw": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "RepoCommit": {
+      "sha": "id"
     }
   },
   "get-/projects/{id}/repository/archive": {
     "BasicProjectDetails": {
+      "id": "id"
+    },
+    "Namespace": {
       "id": "id"
     }
   },
@@ -36,20 +49,23 @@
     "BasicProjectDetails": {
       "id": "id"
     },
-    "Compare": {
-      "from": "compare_same_ref",
-      "to": "compare_same_ref"
-    },
     "RepoCommit": {
-      "from": "id",
-      "to": "id"
+      "from": "id"
+    },
+    "Compare": {
+      "from": "commits"
+    },
+    "Namespace": {
+      "id": "id"
+    },
+    "RepoDiff": {
+      "from": "old_path"
     }
   },
   "get-/projects/{id}/repository/contributors": {
     "BasicProjectDetails": {
       "id": "id"
-    },
-    "SharedWithGroups": {}
+    }
   },
   "get-/projects/{id}/repository/merge_base": {
     "BasicProjectDetails": {
@@ -57,11 +73,17 @@
     },
     "MergeBase": {
       "refs": "parent_ids"
+    },
+    "RepoCommit": {
+      "refs": "parent_ids"
     }
   },
   "get-/projects/{id}/repository/changelog": {
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "RepoCommit": {
+      "version": "id"
     }
   }
 }

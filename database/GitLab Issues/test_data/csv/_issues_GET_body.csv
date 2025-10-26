@@ -1,13 +1,104 @@
 index,data,expected_status_code,reason
-1,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 77, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields satisfy the spec (2xx).
-2,"{""author_username"": ""charlie""}",2xx,author_username is present and matches type string; all constraints satisfied.
+1,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+2,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
 3,{},2xx,"No fields provided; all fields are optional, so this is valid."
-4,"{""labels"": ""feature"", ""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is type string, but the spec requires integer (JSON body type mismatch)."
-5,"{""milestone"": 123, ""assignee_id"": 88}",4xx,"milestone=123 is type integer, but the spec requires string (JSON body type mismatch)."
-6,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
-7,"{""milestone"": false}",4xx,milestone has type boolean but the spec requires string (JSON body type mismatch).
-8,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
-9,"{""assignee_id"": 3.14}",4xx,assignee_id has type number (float) but the spec requires integer (JSON body type mismatch).
-10,"{""my_reaction_emoji"": [""thumbs_up""]}",4xx,my_reaction_emoji has type array but the spec requires string (JSON body type mismatch).
-11,"{""labels"": ""feature"", ""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is type string, but the spec requires integer (JSON body type mismatch)."
-12,"{""milestone"": 123, ""assignee_id"": 88}",4xx,"milestone=123 is type integer, but the spec requires string (JSON body type mismatch)."
+4,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+5,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+6,{},2xx,"No fields provided; all fields are optional, so this is valid."
+7,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+8,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+9,{},2xx,"No fields provided; all fields are optional, so this is valid."
+10,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+11,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+12,{},2xx,"No fields provided; all fields are optional, so this is valid."
+13,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+14,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+15,{},2xx,"No fields provided; all fields are optional, so this is valid."
+16,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+17,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+18,{},2xx,"No fields provided; all fields are optional, so this is valid."
+19,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+20,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+21,{},2xx,"No fields provided; all fields are optional, so this is valid."
+22,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+23,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+24,{},2xx,"No fields provided; all fields are optional, so this is valid."
+25,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+26,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+27,{},2xx,"No fields provided; all fields are optional, so this is valid."
+28,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+29,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+30,{},2xx,"No fields provided; all fields are optional, so this is valid."
+31,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+32,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+33,{},2xx,"No fields provided; all fields are optional, so this is valid."
+34,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+35,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+36,{},2xx,"No fields provided; all fields are optional, so this is valid."
+37,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+38,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+39,{},2xx,"No fields provided; all fields are optional, so this is valid."
+40,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+41,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+42,{},2xx,"No fields provided; all fields are optional, so this is valid."
+43,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+44,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+45,{},2xx,"No fields provided; all fields are optional, so this is valid."
+46,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""author_username"": ""alice"", ""assignee_id"": 99, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup""}",2xx,All provided fields are optional and have correct types; values are realistic.
+47,"{""assignee_id"": 7, ""my_reaction_emoji"": ""rocket""}",2xx,assignee_id is integer as required; my_reaction_emoji is string as required; both fields are valid.
+48,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+49,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+50,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+51,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+52,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+53,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+54,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+55,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+56,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+57,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+58,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+59,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+60,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+61,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+62,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+63,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+64,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+65,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+66,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+67,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+68,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+69,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+70,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+71,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+72,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+73,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+74,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+75,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+76,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+77,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+78,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+79,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+80,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+81,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+82,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+83,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+84,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+85,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+86,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+87,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+88,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+89,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+90,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+91,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+92,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+93,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+94,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+95,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+96,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).
+97,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+98,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+99,"{""labels"": 123}",4xx,labels=123 has type integer but the spec requires string (JSON body type mismatch).
+100,"{""milestone"": false}",4xx,milestone=false has type boolean but the spec requires string (JSON body type mismatch).
+101,"{""author_id"": ""not-an-integer""}",4xx,author_id='not-an-integer' has type string but the spec requires integer (JSON body type mismatch).
+102,"{""assignee_id"": [1, 2, 3]}",4xx,"assignee_id=[1,2,3] has type array but the spec requires integer (JSON body type mismatch)."
+103,"{""author_username"": 999, ""my_reaction_emoji"": {}}",4xx,author_username=999 has type integer but the spec requires string; my_reaction_emoji={} has type object but the spec requires string (JSON body type mismatch).

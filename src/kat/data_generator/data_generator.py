@@ -180,7 +180,7 @@ class TestDataGenerator:
     
         
     def get_data_from_gpt(self, prompt: str) -> str:
-        response = GPTChatCompletion(prompt, system="", temperature=0.0)
+        response = GPTChatCompletion(prompt, system="", temperature=0.2)
         if response:
             self.input_token_count += len(prompt)
             self.output_token_count += len(response)
@@ -288,7 +288,6 @@ class TestDataGenerator:
         # --- Optional logging to debug ---
         if not valid_2xx:
             logger.warning(f"[WARN] No 2xx items detected for {endpoint} ({part})")
-        
         return valid_2xx, invalid_4xx
 
     def get_path_parameter_names(self, endpoint):
@@ -427,10 +426,8 @@ class TestDataGenerator:
         while True:
             i -= 1
             data = DataGeneratorUtils.parse_jsonl_response(self.get_data_from_gpt(prompt),enc=enc)
+
             if data is not None:
-                with open ("debug_generated_data.jsonl", "w", encoding="utf-8") as f:
-                    for item in data:
-                        f.write(json.dumps(item, ensure_ascii=False) + "\n")
                 return data
             if i == 0:
                 break
@@ -443,7 +440,7 @@ class TestDataGenerator:
         self,
         endpoint_sig: str,
         dependency_block: DependencyContext = None,
-        amount_items: int = 5
+        amount_items: int = 10
     ) -> SingleEndpointDetailedResult:
         """
         Sinh test data cho 1 endpoint *không ghi file*, trả về SingleEndpointDetailedResult
@@ -588,9 +585,9 @@ class TestDataGenerator:
                     extra = DataMutator.ignore_optional_param_combination(
                         self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig
                     )
-                    # if extra:
-                    #     extra = _tag_reason(extra, "llm_success_ignore_optional")
-                    #     param_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional parameters omitted while staying valid (2xx).")
+                    if extra:
+                        extra = _tag_reason(extra, "llm_success_ignore_optional")
+                        param_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional parameters omitted while staying valid (2xx).")
 
             # 4xx
             prompt_p4 = GET_DATASET_PROMPT.format(
@@ -917,4 +914,3 @@ if __name__ == "__main__":
                                           working_directory=work_dir)
 
     testDataGenerator.generateData()
-    

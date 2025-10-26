@@ -1,16 +1,33 @@
 {
-  "post-/projects/user/{user_id}": {
+  "post-/projects": {
     "Project": {
-      "user_id": "id"
-    },
-    "ProjectWithAcess": {
-      "user_id": "id"
+      "name": "name"
     },
     "StarProject": {
-      "user_id": "id"
+      "name": "name"
+    },
+    "ProjectWithAcess": {
+      "name": "name"
+    },
+    "ArchiveProject": {
+      "name": "name"
     },
     "BasicProjectDetails": {
-      "user_id": "id"
+      "name": "name"
+    }
+  },
+  "post-/projects/user/{user_id}": {
+    "Project": {
+      "user_id": "creator_id"
+    },
+    "ProjectWithAcess": {
+      "user_id": "creator_id"
+    },
+    "StarProject": {
+      "user_id": "creator_id"
+    },
+    "BasicProjectDetails": {
+      "user_id": "creator_id"
     }
   },
   "get-/projects/{id}": {
@@ -20,11 +37,14 @@
     "StarProject": {
       "id": "id"
     },
-    "ProjectHook": {
-      "id": "id"
-    },
     "ProjectWithAcess": {
       "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
     }
   },
   "put-/projects/{id}": {
@@ -39,6 +59,9 @@
     },
     "ProjectWithAcess": {
       "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
     }
   },
   "delete-/projects/{id}": {
@@ -48,11 +71,14 @@
     "StarProject": {
       "id": "id"
     },
-    "ProjectHook": {
-      "id": "id"
-    },
     "ProjectWithAcess": {
       "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
     }
   },
   "get-/projects/{id}/users": {
@@ -66,7 +92,10 @@
       "id": "id"
     },
     "ProjectHook": {
-      "id": "id"
+      "id": "project_id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/fork": {
@@ -81,19 +110,19 @@
     },
     "StarProject": {
       "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
     }
   },
   "delete-/projects/{id}/fork": {
-    "ProjectHook": {
-      "id": "id"
-    },
     "Project": {
       "id": "id"
     },
-    "ProjectGroupLink": {
+    "StarProject": {
       "id": "id"
     },
-    "StarProject": {
+    "ProjectWithAcess": {
       "id": "id"
     }
   },
@@ -109,6 +138,9 @@
     },
     "ProjectGroupLink": {
       "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
     }
   },
   "post-/projects/{id}/star": {
@@ -123,6 +155,9 @@
     },
     "ProjectHook": {
       "id": "id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
     }
   },
   "post-/projects/{id}/unstar": {
@@ -132,11 +167,14 @@
     "ProjectWithAcess": {
       "id": "id"
     },
-    "ProjectGroupLink": {
-      "id": "id"
-    },
     "StarProject": {
       "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
     }
   },
   "get-/projects/{id}/starrers": {
@@ -151,6 +189,9 @@
     },
     "StarProject": {
       "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
     }
   },
   "get-/projects/{id}/languages": {
@@ -164,7 +205,10 @@
       "id": "id"
     },
     "ProjectGroupLink": {
-      "id": "id"
+      "id": "project_id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/archive": {
@@ -172,12 +216,15 @@
       "id": "id"
     },
     "ProjectHook": {
-      "id": "id"
+      "id": "project_id"
     },
     "ProjectGroupLink": {
-      "id": "id"
+      "id": "project_id"
     },
     "StarProject": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
       "id": "id"
     }
   },
@@ -185,13 +232,16 @@
     "Project": {
       "id": "id"
     },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
     "ProjectHook": {
       "id": "id"
     },
     "ProjectGroupLink": {
-      "id": "id"
-    },
-    "StarProject": {
       "id": "id"
     }
   },
@@ -199,10 +249,13 @@
     "Project": {
       "id": "id"
     },
-    "ProjectHook": {
+    "ProjectWithAcess": {
       "id": "id"
     },
-    "ProjectWithAcess": {
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
       "id": "id"
     },
     "ProjectGroupLink": {
@@ -214,67 +267,21 @@
       "id": "id"
     },
     "ProjectGroupLink": {
-      "id": "id"
+      "id": "project_id"
     },
     "ProjectHook": {
-      "id": "id"
+      "id": "project_id"
     },
     "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
       "id": "id"
     }
   },
   "post-/projects/{id}/share": {
     "ProjectGroupLink": {
-      "id": "id",
-      "group_access": "group_access",
-      "group_id": "group_id"
-    },
-    "Project": {
-      "id": "id"
-    },
-    "ProjectHook": {
-      "id": "id"
-    },
-    "ProjectWithAcess": {
-      "id": "id"
-    }
-  },
-  "delete-/projects/{id}/share/{group_id}": {
-    "Project": {
-      "id": "id",
-      "group_id": "id"
-    },
-    "ProjectHook": {
-      "id": "id",
-      "group_id": "id"
-    },
-    "ProjectGroupLink": {
-      "id": "id",
-      "group_id": "id"
-    },
-    "ProjectWithAcess": {
-      "id": "id",
-      "group_id": "id"
-    }
-  },
-  "get-/projects/{id}/hooks": {
-    "ProjectHook": {
-      "id": "id"
-    },
-    "Project": {
-      "id": "id"
-    },
-    "ProjectWithAcess": {
-      "id": "id"
-    },
-    "ProjectGroupLink": {
-      "id": "id"
-    }
-  },
-  "post-/projects/{id}/hooks": {
-    "ProjectHook": {
-      "id": "id",
-      "url": "url"
+      "id": "project_id"
     },
     "Project": {
       "id": "id"
@@ -284,50 +291,113 @@
     },
     "StarProject": {
       "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
+    },
+    "SharedWithGroups": {
+      "group_id": "group_id"
+    }
+  },
+  "delete-/projects/{id}/share/{group_id}": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    }
+  },
+  "get-/projects/{id}/hooks": {
+    "ProjectHook": {
+      "id": "project_id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    }
+  },
+  "post-/projects/{id}/hooks": {
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
     }
   },
   "get-/projects/{id}/hooks/{hook_id}": {
     "ProjectHook": {
-      "id": "id",
+      "id": "project_id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
+    }
+  },
+  "put-/projects/{id}/hooks/{hook_id}": {
+    "ProjectHook": {
+      "hook_id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    },
+    "StarProject": {
+      "id": "id"
+    },
+    "ArchiveProject": {
+      "id": "id"
+    }
+  },
+  "delete-/projects/{id}/hooks/{hook_id}": {
+    "ProjectHook": {
       "hook_id": "id"
     },
     "Project": {
       "id": "id"
     },
     "ProjectGroupLink": {
-      "id": "id"
-    },
-    "ProjectWithAcess": {
-      "id": "id"
-    }
-  },
-  "put-/projects/{id}/hooks/{hook_id}": {
-    "ProjectHook": {
-      "hook_id": "id",
-      "url": "url"
-    },
-    "Project": {
-      "id": "id"
-    },
-    "ProjectWithAcess": {
-      "id": "id"
-    },
-    "ProjectGroupLink": {
-      "id": "id"
-    }
-  },
-  "delete-/projects/{id}/hooks/{hook_id}": {
-    "ProjectHook": {
-      "hook_id": "id",
-      "id": "project_id"
-    },
-    "Project": {
-      "id": "id"
-    },
-    "ProjectGroupLink": {
       "id": "project_id"
     },
     "ProjectWithAcess": {
+      "id": "id"
+    },
+    "StarProject": {
       "id": "id"
     }
   },
@@ -343,6 +413,9 @@
     },
     "ProjectWithAcess": {
       "id": "id"
+    },
+    "StarProject": {
+      "id": "id"
     }
   },
   "put-/projects/{id}/transfer": {
@@ -357,16 +430,20 @@
     },
     "ArchiveProject": {
       "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/fork/{forked_from_id}": {
     "Project": {
-      "id": "id",
-      "forked_from_id": "id"
+      "id": "id"
     },
     "ForkedFromProject": {
-      "id": "id",
       "forked_from_id": "id"
+    },
+    "StarProject": {
+      "id": "id"
     }
   },
   "get-/projects/{id}/snapshot": {
@@ -381,34 +458,43 @@
     },
     "StarProject": {
       "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
     }
   },
   "get-/users/{user_id}/projects": {
     "StarProject": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "Project": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "BasicProjectDetails": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "ProjectWithAcess": {
-      "user_id": "id"
+      "user_id": "creator_id"
+    },
+    "ArchiveProject": {
+      "user_id": "creator_id"
     }
   },
   "get-/users/{user_id}/starred_projects": {
     "StarProject": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "Project": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "ArchiveProject": {
-      "user_id": "id"
+      "user_id": "creator_id"
     },
     "ProjectWithAcess": {
-      "user_id": "id"
+      "user_id": "creator_id"
+    },
+    "BasicProjectDetails": {
+      "user_id": "creator_id"
     }
   }
 }

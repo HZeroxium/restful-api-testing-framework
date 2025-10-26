@@ -1,0 +1,14 @@
+index,data,expected_status_code,reason
+1,"{""id"": 11}",2xx,id=11 is a valid integer and matches a real project ID from context.
+2,"{""id"": -5}",2xx,id=-5 is a valid integer; no minimum constraint is specified.
+3,"{""id"": 2147483649}",2xx,id=2147483649 is a valid integer; no maximum constraint is specified.
+4,"{""id"": 11}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 3.14}",4xx,"id=3.14 is not an integer (float provided), violating 'type=integer' for path parameter."
+7,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.34""}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""true""}",4xx,"id='true' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""[1,2]""}",4xx,"id='[1,2]' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""id"": ""{\""foo\"":1}""}",4xx,"id='{""foo"":1}' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,0 +1,16 @@
+index,data,expected_status_code,reason
+1,"{""id"": 11, ""name"": ""hotfix""}",2xx,id=11 is a valid integer from dependency context; name='hotfix' is a valid string branch name.
+2,"{""id"": 11, ""name"": ""main""}",2xx,id=11 is a valid integer from dependency context; name='main' is a valid string branch name.
+3,"{""id"": 11, ""name"": ""hotfix""}",2xx,llm_success_ignore_optional
+4,"{""id"": 11, ""name"": ""hotfix""}",2xx,id=11 is a valid integer from context; name='hotfix' is a valid string from context.
+5,"{""id"": ""abc"", ""name"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": -5, ""name"": ""hotfix""}",4xx,"id=-5 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for project IDs and violate real-world expectations."
+7,"{""id"": 11, ""name"": 123}",4xx,"name=123 is type integer, but the spec requires string for path parameter 'name'."
+8,"{""id"": ""abc"", ""name"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": -1, ""name"": ""hotfix""}",4xx,"id=-1 is a negative integer; while not explicitly forbidden, negative IDs are typically invalid for resource identifiers."
+10,"{""id"": 11, ""name"": 123}",4xx,"name=123 is an integer, violating 'type=string' for path parameter."
+11,"{""id"": ""abc"", ""name"": 123}",4xx,id='abc' is not parseable as integer (type violation); name=123 is an integer (type violation). Both path parameters violate their type constraints.
+12,"{""id"": -9999999.0, ""name"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""name"": ""hotfix""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 11, ""name"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": ""123456"", ""name"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

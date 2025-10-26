@@ -100,12 +100,6 @@
             "field_mappings": {
               "id": "id"
             }
-          },
-          "forked_from_id": {
-            "from_step": 1,
-            "field_mappings": {
-              "forked_from_id": "id"
-            }
           }
         }
       }

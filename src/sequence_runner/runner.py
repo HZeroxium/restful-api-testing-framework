@@ -155,6 +155,8 @@ class SequenceRunner:
                     current_step=current_step,
                     step_responses=step_responses or [],
                 )
+            deps_params, deps_body = dict(resolved_params), dict(resolved_body)
+
         except Exception as e:
             self.logger.warning(f"Dependency resolution warning on step {current_step}: {e}")
 
@@ -172,24 +174,34 @@ class SequenceRunner:
         # 3) Prepare endpoint & path vars
         cleaned = clean_endpoint(endpoint)
         all_path_vars = dict(path_vars)  # base
-        # Priority 1: CSV path vars
-        for k, v in csv_path_vars.items():
-            if f"{{{k}}}" in cleaned and v is not None:
-                all_path_vars[k] = v
-        # Priority 2: dependency/merged values, only if used in path
-        for k, v in resolved_params.items():
-            if f"{{{k}}}" in cleaned and (k not in all_path_vars or all_path_vars[k] is None):
-                all_path_vars[k] = v
-        for k, v in resolved_body.items():
-            if isinstance(v, (str, int)) and f"{{{k}}}" in cleaned and (k not in all_path_vars or all_path_vars[k] is None):
-                all_path_vars[k] = v
 
-        # 3b) Fallback for other missing required path vars (simple defaults)
-        req_vars = set(required_path_vars(cleaned))
-        missing_vars = [v for v in req_vars if v not in all_path_vars or all_path_vars[v] is None]
-        if missing_vars:
-            for v in missing_vars:
-                all_path_vars[v] = "1" if ("id" in v.lower() or v.lower().endswith("id")) else "default"
+        def set_if_needed(dst: dict, k: str, v: Any):
+            if v is None:
+                return
+            if k not in dst or dst[k] in (None, ""):
+                dst[k] = v
+
+        # 3a) Ưu tiên GIÁ TRỊ từ dependency resolver (snapshot deps_* trước khi CSV ghi đè)
+        for k, v in (deps_params or {}).items():
+            if f"{{{k}}}" in cleaned:
+                set_if_needed(all_path_vars, k, v)
+        for k, v in (deps_body or {}).items():
+            if isinstance(v, (str, int)) and f"{{{k}}}" in cleaned:
+                set_if_needed(all_path_vars, k, v)
+
+        # 3b) Sau đó mới tới params/body đã merge (có thể là CSV)
+        for k, v in (resolved_params or {}).items():
+            if f"{{{k}}}" in cleaned:
+                set_if_needed(all_path_vars, k, v)
+        for k, v in (resolved_body or {}).items():
+            if isinstance(v, (str, int)) and f"{{{k}}}" in cleaned:
+                set_if_needed(all_path_vars, k, v)
+
+        # 3c) Cuối cùng mới tới CSV path vars (chỉ lấp chỗ trống)
+        for k, v in (csv_path_vars or {}).items():
+            if f"{{{k}}}" in cleaned:
+                set_if_needed(all_path_vars, k, v)
+
 
         # 3c) Remove path variables from query params
         final_params = dict(resolved_params)
@@ -535,7 +547,42 @@ class SequenceRunner:
                 self.logger.error(f"Error running test case {test_case_file.name}: {e}")
 
         return out_file_name
+    def _split_body_into_form_and_files(body: Dict[str, Any]) -> tuple[Dict[str, Any], Dict[str, tuple]]:
+        """
+        Turn a body dict into (form_fields, files) suitable for:
+        requests.post(..., data=form_fields, files=files)
 
+        File detection rules:
+        - key name looks file-ish (avatar, file, image, upload, attachment), OR
+        - value starts with "file:" prefix, e.g., "file:/path/to/logo.png"
+        - value is a string that points to an existing file on disk
+        """
+        if not isinstance(body, dict):
+            return {}, {}
+
+        form_fields: Dict[str, Any] = {}
+        files: Dict[str, tuple] = {}
+
+        for k, v in body.items():
+            # Only strings can be local paths or file: URIs
+            if isinstance(v, str):
+                has_file_prefix = v.startswith("file:")
+                path_str = v[5:] if has_file_prefix else v
+                p = Path(path_str)
+
+                if has_file_prefix or (p.exists() and p.is_file()):
+                    if p.exists() and p.is_file():
+                        # (filename, fileobj)
+                        files[k] = (p.name, p.open("rb"))
+                    else:
+                        # Not a real path; leave as plain form value
+                        form_fields[k] = v
+                    continue
+
+            # default: treat as normal form value (requests will str() as needed)
+            form_fields[k] = "" if v is None else v
+
+        return form_fields, files
     # ------------------------------------------------------------------
     def close(self):
         self.file.close()

@@ -74,12 +74,6 @@
             "field_mappings": {
               "issue_iid": "iid"
             }
-          },
-          "id": {
-            "from_step": 1,
-            "field_mappings": {
-              "id": "id"
-            }
           }
         }
       }

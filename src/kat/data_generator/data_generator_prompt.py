@@ -59,7 +59,7 @@ CRITERIA FOR USING CONCRETE VALUES (for 2XX cases):
 
 BODY ID-LIKE FIELD RULES (applies when {part} is "body" or includes a JSON payload):
 - ID-like detection heuristics (use all that apply):
-  • Field name matches /(.*_)?(id|Id|ID)$/ (e.g., userId, product_id, id).
+  • Field name matches /(.*_)?(id|Id|ID)$/ 
   • Field description mentions "identifier", "id", "UUID/uid", or refers to another resource/entity.
   • Schema is a $ref to another object where that object or its parent clearly acts as a foreign reference.
   • Arrays of references (e.g., itemIds: string[]/integer[]) are also ID-like.

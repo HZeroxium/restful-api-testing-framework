@@ -1,13 +1,5 @@
 {
-  "Statistics": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Namespace": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "ProjectAccess": [
+  "SharedWithGroups": [
     "get-/projects",
     "post-/projects"
   ],
@@ -19,7 +11,15 @@
     "get-/projects",
     "post-/projects"
   ],
-  "GroupAccess": [
+  "Namespace": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "ProjectAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Statistics": [
     "get-/projects",
     "post-/projects"
   ],
@@ -27,15 +27,15 @@
     "get-/projects",
     "post-/projects"
   ],
+  "GroupAccess": [
+    "get-/projects",
+    "post-/projects"
+  ],
   "BasicProjectDetails": [
     "get-/projects",
     "post-/projects"
   ],
-  "SharedWithGroups": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Issue": [
+  "Author": [
     "get-/issues",
     "get-/issues/{id}",
     "get-/groups/{id}/issues",
@@ -47,7 +47,26 @@
     "post-/projects/{id}/issues/{issue_iid}/move",
     "post-/projects/{id}/issues/{issue_iid}/subscribe",
     "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo"
+    "post-/projects/{id}/issues/{issue_iid}/todo",
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by",
+    "get-/projects/{id}/issues/{issue_iid}/participants"
+  ],
+  "TimeStats": [
+    "get-/issues",
+    "get-/issues/{id}",
+    "get-/groups/{id}/issues",
+    "get-/projects/{id}/issues",
+    "post-/projects/{id}/issues",
+    "get-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}/reorder",
+    "post-/projects/{id}/issues/{issue_iid}/move",
+    "post-/projects/{id}/issues/{issue_iid}/subscribe",
+    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
+    "post-/projects/{id}/issues/{issue_iid}/todo",
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
   "ClosedBy": [
     "get-/issues",
@@ -77,7 +96,7 @@
     "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
     "post-/projects/{id}/issues/{issue_iid}/todo"
   ],
-  "Author": [
+  "References": [
     "get-/issues",
     "get-/issues/{id}",
     "get-/groups/{id}/issues",
@@ -91,8 +110,21 @@
     "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
     "post-/projects/{id}/issues/{issue_iid}/todo",
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by",
-    "get-/projects/{id}/issues/{issue_iid}/participants"
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "Issue": [
+    "get-/issues",
+    "get-/issues/{id}",
+    "get-/groups/{id}/issues",
+    "get-/projects/{id}/issues",
+    "post-/projects/{id}/issues",
+    "get-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}/reorder",
+    "post-/projects/{id}/issues/{issue_iid}/move",
+    "post-/projects/{id}/issues/{issue_iid}/subscribe",
+    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
+    "post-/projects/{id}/issues/{issue_iid}/todo"
   ],
   "TaskCompletionStatus": [
     "get-/issues",
@@ -126,38 +158,6 @@
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
-  "References": [
-    "get-/issues",
-    "get-/issues/{id}",
-    "get-/groups/{id}/issues",
-    "get-/projects/{id}/issues",
-    "post-/projects/{id}/issues",
-    "get-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}/reorder",
-    "post-/projects/{id}/issues/{issue_iid}/move",
-    "post-/projects/{id}/issues/{issue_iid}/subscribe",
-    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo",
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
-  "TimeStats": [
-    "get-/issues",
-    "get-/issues/{id}",
-    "get-/groups/{id}/issues",
-    "get-/projects/{id}/issues",
-    "post-/projects/{id}/issues",
-    "get-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}/reorder",
-    "post-/projects/{id}/issues/{issue_iid}/move",
-    "post-/projects/{id}/issues/{issue_iid}/subscribe",
-    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo",
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
   "GroupStatistics": [
     "get-/groups",
     "post-/groups"
@@ -166,10 +166,10 @@
     "get-/groups",
     "post-/groups"
   ],
-  "ProjectInfo": [
+  "Todo": [
     "post-/projects/{id}/issues/{issue_iid}/todo"
   ],
-  "Todo": [
+  "ProjectInfo": [
     "post-/projects/{id}/issues/{issue_iid}/todo"
   ],
   "TimeEstimate": [
@@ -183,7 +183,7 @@
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
-  "DetailedStatus": [
+  "ReqUser": [
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
@@ -191,15 +191,15 @@
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
-  "ReqUser": [
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
-  "MergeRequest": [
+  "DetailedStatus": [
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
   "DiffRefs": [
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "MergeRequest": [
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],

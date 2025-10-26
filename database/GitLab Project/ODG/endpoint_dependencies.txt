@@ -1,3 +1,4 @@
+get-/projects/{id}/forks, post-/projects
 get-/projects/{id}/forks, post-/projects/user/{user_id}
 get-/projects/{id}/forks, get-/projects/{id}
 get-/projects/{id}/forks, put-/projects/{id}
@@ -6,9 +7,7 @@ get-/projects/{id}/forks, get-/projects/{id}/users
 get-/projects/{id}/hooks, post-/projects/{id}/fork
 post-/projects/{id}/hooks, post-/projects/{id}/fork
 get-/projects/{id}/hooks/{hook_id}, post-/projects/{id}/fork
-get-/projects/{id}/hooks, delete-/projects/{id}/fork
-post-/projects/{id}/hooks, delete-/projects/{id}/fork
-get-/projects/{id}/hooks/{hook_id}, delete-/projects/{id}/fork
+get-/projects/{id}/forks, delete-/projects/{id}/fork
 get-/projects/{id}/hooks, get-/projects/{id}/forks
 post-/projects/{id}/hooks, get-/projects/{id}/forks
 get-/projects/{id}/hooks/{hook_id}, get-/projects/{id}/forks
@@ -21,14 +20,11 @@ get-/projects/{id}/forks, post-/projects/{id}/unarchive
 get-/projects/{id}/forks, post-/projects/{id}/restore
 get-/projects/{id}/forks, post-/projects/{id}/uploads
 get-/projects/{id}/forks, post-/projects/{id}/share
+get-/projects, post-/projects/{id}/share
 get-/projects/{id}/forks, delete-/projects/{id}/share/{group_id}
-get-/projects/{id}/hooks, delete-/projects/{id}/share/{group_id}
-post-/projects/{id}/hooks, delete-/projects/{id}/share/{group_id}
-get-/projects/{id}/hooks/{hook_id}, delete-/projects/{id}/share/{group_id}
 post-/projects/{id}/hooks, get-/projects/{id}/hooks
 get-/projects/{id}/hooks/{hook_id}, get-/projects/{id}/hooks
-get-/projects/{id}/hooks, post-/projects/{id}/hooks
-get-/projects/{id}/hooks/{hook_id}, post-/projects/{id}/hooks
+get-/projects/{id}/forks, post-/projects/{id}/hooks
 get-/projects/{id}/hooks, get-/projects/{id}/hooks/{hook_id}
 post-/projects/{id}/hooks, get-/projects/{id}/hooks/{hook_id}
 get-/projects/{id}/hooks, put-/projects/{id}/hooks/{hook_id}

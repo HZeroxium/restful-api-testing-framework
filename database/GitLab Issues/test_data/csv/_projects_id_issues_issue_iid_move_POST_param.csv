@@ -1,11 +1,19 @@
 index,data,expected_status_code,reason
-1,"{""id"": 12345, ""issue_iid"": 678, ""to_project_id"": 98765}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from dependency context or spec examples.
-2,"{""id"": ""abc"", ""issue_iid"": 678, ""to_project_id"": 98765}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-3,"{""id"": 12345, ""issue_iid"": ""notanint"", ""to_project_id"": 98765}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""id"": 12345, ""issue_iid"": 678}",4xx,"to_project_id is required but missing, violating 'required' for query parameter."
-5,"{""id"": 12345, ""issue_iid"": 678, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
-6,"{""id"": ""abc"", ""issue_iid"": 12345, ""to_project_id"": 67890}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 12345, ""issue_iid"": ""xyz"", ""to_project_id"": 67890}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 12345, ""issue_iid"": 67890, ""to_project_id"": ""notanint""}",4xx,"to_project_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
-9,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""to_project_id"": 67890}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for path parameters."
-10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""to_project_id"": ""notanint""}",4xx,"id='abc', issue_iid='xyz', and to_project_id='notanint' are not parseable as integer, violating 'type=integer' for all parameters."
+1,"{""id"": 1001, ""issue_iid"": 42, ""to_project_id"": 2002}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid project or issue IDs available from dependency context or examples.
+2,"{""id"": 1001, ""issue_iid"": 42, ""to_project_id"": 2002}",2xx,llm_success_ignore_optional
+3,"{""id"": ""abc"", ""issue_iid"": 42, ""to_project_id"": 2002}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+4,"{""id"": 1001, ""issue_iid"": ""not_an_int"", ""to_project_id"": 2002}",4xx,"issue_iid='not_an_int' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+5,"{""id"": 1001, ""issue_iid"": 42, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer (type=parseability), violating 'type=integer' for query parameter."
+6,"{""id"": 1001, ""issue_iid"": 42}",4xx,"to_project_id is required but missing, violating 'required' for query parameter."
+7,"{""id"": ""abc"", ""issue_iid"": 42, ""to_project_id"": 100}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 123, ""issue_iid"": ""notanint"", ""to_project_id"": 100}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 123, ""issue_iid"": 42, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
+10,"{""id"": ""abc"", ""issue_iid"": ""notanint"", ""to_project_id"": 100}",4xx,"id='abc' and issue_iid='notanint' are not parseable as integers, violating 'type=integer' for path parameters."
+11,"{""id"": ""abc"", ""issue_iid"": 42, ""to_project_id"": ""xyz""}",4xx,"id='abc' and to_project_id='xyz' are not parseable as integers, violating 'type=integer' for path and query parameters."
+12,"{""id"": -9999999.0, ""issue_iid"": -9999999.0, ""to_project_id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 1001, ""issue_iid"": 42, ""to_project_id"": null}",4xx,mutate_missing_required: set to_project_id=None
+14,"{""id"": ""123456"", ""issue_iid"": 42, ""to_project_id"": 2002}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": 1001, ""issue_iid"": ""123456"", ""to_project_id"": 2002}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 1001, ""issue_iid"": 42, ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 1001, ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

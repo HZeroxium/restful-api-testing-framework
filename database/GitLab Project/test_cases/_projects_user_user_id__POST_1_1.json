@@ -147,7 +147,7 @@
           "user_id": {
             "from_step": 1,
             "field_mappings": {
-              "user_id": "id"
+              "user_id": "creator_id"
             }
           }
         }

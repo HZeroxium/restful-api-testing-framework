@@ -1,9 +1,23 @@
 {
+  "post-/projects": {
+    "ProjectInfo": {
+      "name": "name"
+    },
+    "BasicProjectDetails": {
+      "name": "name"
+    },
+    "Group": {
+      "name": "name"
+    }
+  },
   "get-/issues/{id}": {
     "Issue": {
       "id": "id"
     },
     "Milestone": {
+      "id": "id"
+    },
+    "Pipeline": {
       "id": "id"
     }
   },
@@ -11,9 +25,9 @@
     "Group": {
       "id": "id"
     },
-    "Issue": {},
-    "GroupStatistics": {},
-    "MergeRequest": {}
+    "Issue": {
+      "id": "project_id"
+    }
   },
   "get-/projects/{id}/issues": {
     "Issue": {
@@ -24,45 +38,53 @@
     },
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/issues": {
     "Issue": {
-      "id": "id",
-      "title": "title"
+      "id": "project_id"
     },
     "ProjectInfo": {
+      "id": "id"
+    },
+    "BasicProjectDetails": {
       "id": "id"
     }
   },
   "get-/projects/{id}/issues/{issue_iid}": {
     "Issue": {
-      "id": "project_id",
-      "issue_iid": "iid"
+      "id": "project_id"
     },
     "ProjectInfo": {
       "id": "id"
     },
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "put-/projects/{id}/issues/{issue_iid}": {
     "Issue": {
-      "id": "id",
-      "issue_iid": "iid"
+      "id": "project_id"
     },
     "ProjectInfo": {
       "id": "id"
     },
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "delete-/projects/{id}/issues/{issue_iid}": {
     "Issue": {
-      "id": "project_id",
-      "issue_iid": "iid"
+      "id": "project_id"
     },
     "ProjectInfo": {
       "id": "id"
@@ -73,65 +95,107 @@
   },
   "put-/projects/{id}/issues/{issue_iid}/reorder": {
     "ProjectInfo": {
-      "id": "id"
+      "id": "path_with_namespace"
+    },
+    "BasicProjectDetails": {
+      "id": "path_with_namespace"
     },
     "Issue": {
       "issue_iid": "iid"
     },
-    "BasicProjectDetails": {
-      "id": "id"
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/move": {
+    "Issue": {
+      "id": "project_id"
+    },
     "ProjectInfo": {
-      "id": "id",
-      "to_project_id": "id"
+      "id": "id"
+    },
+    "MergeRequest": {
+      "to_project_id": "target_project_id"
+    },
+    "Milestone": {
+      "id": "project_id"
+    },
+    "BasicProjectDetails": {
+      "id": "id"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/subscribe": {
     "Issue": {
-      "id": "project_id",
-      "issue_iid": "iid"
+      "id": "project_id"
     },
     "ProjectInfo": {
       "id": "id"
     },
     "BasicProjectDetails": {
       "id": "id"
+    },
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/unsubscribe": {
     "ProjectInfo": {
+      "id": "path"
+    },
+    "BasicProjectDetails": {
+      "id": "path"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "Milestone": {
+      "id": "project_id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/todo": {
+    "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "id": "project_id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/time_estimate": {
+    "Issue": {
+      "id": "project_id"
+    },
+    "TimeEstimate": {
+      "duration": "human_time_estimate"
+    },
+    "TimeStats": {
+      "duration": "human_time_estimate"
+    },
+    "ProjectInfo": {
+      "id": "id"
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": {
+    "BasicProjectDetails": {
       "id": "id"
     },
     "Issue": {
       "issue_iid": "iid"
     },
     "Milestone": {
-      "id": "id"
-    }
-  },
-  "post-/projects/{id}/issues/{issue_iid}/todo": {
-    "ProjectInfo": {
-      "id": "id"
-    }
-  },
-  "post-/projects/{id}/issues/{issue_iid}/time_estimate": {
-    "Issue": {
-      "id": "id",
-      "issue_iid": "iid"
-    },
-    "TimeEstimate": {
-      "duration": "human_time_estimate"
-    }
-  },
-  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": {
-    "BasicProjectDetails": {
-      "id": "id"
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/add_spent_time": {
     "ProjectInfo": {
+      "id": "id"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "HeadPipeline": {
+      "duration": "duration"
+    },
+    "BasicProjectDetails": {
       "id": "id"
     }
   },
@@ -149,14 +213,20 @@
   "get-/projects/{id}/issues/{issue_iid}/time_stats": {
     "BasicProjectDetails": {
       "id": "id"
-    }
-  },
-  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": {
-    "Project": {
-      "id": "id"
     },
     "Issue": {
       "issue_iid": "iid"
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": {
+    "MergeRequest": {
+      "id": "project_id"
+    },
+    "Issue": {
+      "id": "project_id"
+    },
+    "Group": {
+      "id": "id"
     }
   },
   "get-/projects/{id}/issues/{issue_iid}/closed_by": {
@@ -168,19 +238,36 @@
     },
     "ClosedBy": {
       "id": "id"
+    },
+    "Milestone": {
+      "id": "project_id"
     }
   },
   "get-/projects/{id}/issues/{issue_iid}/participants": {
     "ProjectInfo": {
-      "id": "id"
+      "id": "path"
+    },
+    "Issue": {
+      "issue_iid": "iid"
+    },
+    "Milestone": {
+      "id": "project_id"
+    },
+    "MergeRequest": {
+      "id": "project_id"
     }
   },
   "get-/projects/{id}/issues/{issue_iid}/metric_images": {
     "BasicProjectDetails": {
       "id": "id"
     },
+    "ProjectInfo": {
+      "id": "id"
+    },
     "Issue": {
-      "issue_iid": "iid",
+      "issue_iid": "iid"
+    },
+    "MetricImage": {
       "id": "id"
     }
   },
@@ -188,10 +275,13 @@
     "BasicProjectDetails": {
       "id": "id"
     },
+    "ProjectInfo": {
+      "id": "id"
+    },
     "Issue": {
       "issue_iid": "iid"
     },
-    "ProjectInfo": {
+    "MetricImage": {
       "id": "id"
     }
   }

@@ -1,17 +1,13 @@
 {
+  "Namespace": [
+    "get-/projects",
+    "post-/projects"
+  ],
   "ProjectAccess": [
     "get-/projects",
     "post-/projects"
   ],
-  "BasicProjectDetails": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Links": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "GroupAccess": [
+  "Owner": [
     "get-/projects",
     "post-/projects"
   ],
@@ -19,11 +15,11 @@
     "get-/projects",
     "post-/projects"
   ],
-  "Namespace": [
+  "GroupAccess": [
     "get-/projects",
     "post-/projects"
   ],
-  "Owner": [
+  "BasicProjectDetails": [
     "get-/projects",
     "post-/projects"
   ],
@@ -35,16 +31,20 @@
     "get-/projects",
     "post-/projects"
   ],
+  "Links": [
+    "get-/projects",
+    "post-/projects"
+  ],
   "FileTree": [
     "get-/projects/{id}/repository/tree"
   ],
   "Compare": [
     "get-/projects/{id}/repository/compare"
   ],
-  "RepoCommit": [
+  "RepoDiff": [
     "get-/projects/{id}/repository/compare"
   ],
-  "RepoDiff": [
+  "RepoCommit": [
     "get-/projects/{id}/repository/compare"
   ],
   "Contributor": [

@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:30000/api/v4"
+      "url": "https://2c4e94e8c7ba.ngrok-free.app/api/v4"
     }
   ],
   "paths": {

@@ -83,13 +83,7 @@
           "id": {
             "from_step": 1,
             "field_mappings": {
-              "id": "id"
-            }
-          },
-          "title": {
-            "from_step": 1,
-            "field_mappings": {
-              "title": "title"
+              "id": "project_id"
             }
           }
         }

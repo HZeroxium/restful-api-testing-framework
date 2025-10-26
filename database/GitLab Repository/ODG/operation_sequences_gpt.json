@@ -13,19 +13,27 @@
   "get-/projects/{id}/repository/blobs/{sha}": [
     [
       "get-/projects"
+    ],
+    [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
+    ]
+  ],
+  "get-/projects/{id}/repository/compare": [
+    [
+      "get-/projects"
     ]
   ],
   "get-/projects/{id}/repository/blobs/{sha}/raw": [
     [
       "get-/projects"
+    ],
+    [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
     ]
   ],
   "get-/projects/{id}/repository/archive": [
-    [
-      "get-/projects"
-    ]
-  ],
-  "get-/projects/{id}/repository/compare": [
     [
       "get-/projects"
     ]
@@ -38,11 +46,19 @@
   "get-/projects/{id}/repository/merge_base": [
     [
       "get-/projects"
+    ],
+    [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
     ]
   ],
   "get-/projects/{id}/repository/changelog": [
     [
       "get-/projects"
+    ],
+    [
+      "get-/projects",
+      "get-/projects/{id}/repository/compare"
     ]
   ]
 }

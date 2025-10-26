@@ -1,0 +1,380 @@
+{
+  "get-/projects": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/issues": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/issues/{id}": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/groups": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/groups": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/groups/{id}/issues": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "put-/projects/{id}/issues/{issue_iid}": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "delete-/projects/{id}/issues/{issue_iid}": {
+    "status_codes": [
+      "204"
+    ],
+    "by_class": {
+      "2xx": [
+        "204"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "put-/projects/{id}/issues/{issue_iid}/reorder": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/move": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/subscribe": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/unsubscribe": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/todo": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/time_estimate": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/add_spent_time": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/time_stats": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/closed_by": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/participants": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/projects/{id}/issues/{issue_iid}/metric_images": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "post-/projects/{id}/issues/{issue_iid}/metric_images": {
+    "status_codes": [
+      "201"
+    ],
+    "by_class": {
+      "2xx": [
+        "201"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

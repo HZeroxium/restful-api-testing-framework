@@ -1,11 +1,22 @@
 index,data,expected_status_code,reason
-1,"{""id"": 12345, ""issue_iid"": 678, ""move_after_id"": 679}",2xx,id and issue_iid are valid positive integers; move_after_id is a valid integer; all required and dependency constraints satisfied. UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT.
-2,"{""id"": 12345, ""issue_iid"": 678, ""move_before_id"": 677}",2xx,"id and issue_iid are valid positive integers; move_before_id is a valid integer; move_after_id is not present, so move_before_id is required and present. UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
-3,"{""id"": 12345, ""issue_iid"": 678}",4xx,"Neither move_after_id nor move_before_id is provided, violating the dependency: if move_after_id is not present, move_before_id is required."
-4,"{""id"": ""abc"", ""issue_iid"": 678, ""move_after_id"": 679}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 12345, ""issue_iid"": 678, ""move_after_id"": ""notanint""}",4xx,"move_after_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
-6,"{""id"": ""abc"", ""issue_iid"": 12345, ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 12345, ""issue_iid"": ""xyz"", ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": ""notanint"", ""move_before_id"": 67891}",4xx,"move_after_id='notanint' is not parseable as integer, violating 'type=integer' for query parameter."
-9,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": 67891, ""move_before_id"": ""nope""}",4xx,"move_before_id='nope' is not parseable as integer, violating 'type=integer' for query parameter."
-10,"{""id"": 12345, ""issue_iid"": 67890}",4xx,"move_after_id is not present and move_before_id is missing, violating the inter-parameter dependency: if move_after_id is not present, move_before_id is required."
+1,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1}",2xx,All required path parameters are present and parseable; move_after_id=-1 is a valid integer (no minimum/maximum constraint specified).
+2,"{""id"": 42, ""issue_iid"": 101, ""move_before_id"": 2147483649}",2xx,All required path parameters are present and parseable; move_before_id=2147483649 is a valid integer (no maximum constraint specified).
+3,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": null}",2xx,llm_success_ignore_optional
+4,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1}",2xx,llm_success_ignore_optional
+5,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": null}",2xx,llm_success_ignore_optional: All required path parameters are present and parseable; move_after_id=-1 is a valid integer (no minimum/maximum constraint specified).
+6,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": ""abc"", ""move_before_id"": 200}",4xx,"move_after_id='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+7,"{""id"": 42, ""issue_iid"": 101, ""move_before_id"": ""not_an_int""}",4xx,"move_before_id='not_an_int' is not parseable as integer, violating 'type=integer' for query/parseability."
+8,"{""id"": 42, ""issue_iid"": 101}",4xx,"move_after_id is not present, so move_before_id is required by inter-parameter dependency."
+9,"{""id"": ""abc"", ""issue_iid"": 12345, ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""id"": 12345, ""issue_iid"": ""xyz"", ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+11,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": ""notanint"", ""move_before_id"": 67891}",4xx,"move_after_id='notanint' is not parseable as integer, violating 'type=integer' for query/parseability."
+12,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": 67891, ""move_before_id"": ""notanint""}",4xx,"move_before_id='notanint' is not parseable as integer, violating 'type=integer' for query/parseability."
+13,"{""id"": 12345, ""issue_iid"": 67890}",4xx,"move_after_id is not present and move_before_id is missing, violating the inter-parameter dependency: 'If move_after_id is not present, move_before_id is required.'"
+14,"{""id"": -9999999.0, ""issue_iid"": -9999999.0, ""move_after_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+15,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 42, ""issue_iid"": ""123456"", ""move_after_id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": -1, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

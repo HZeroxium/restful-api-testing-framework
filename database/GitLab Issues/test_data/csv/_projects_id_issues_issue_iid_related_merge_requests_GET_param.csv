@@ -1,11 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-2,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-3,"{""id"": 2147483649, ""issue_iid"": 1}",4xx,"id=2147483649 exceeds typical 32-bit integer bounds; while no explicit maximum is set, this value is excessively large and may violate implementation limits."
-4,"{""id"": -5, ""issue_iid"": 2}",4xx,"id=-5 is negative; while no explicit minimum is set, negative IDs are not realistic for resource identifiers."
-5,"{""id"": 0, ""issue_iid"": 0}",4xx,id=0 and issue_iid=0 are not realistic for resource identifiers; typically IDs are positive integers.
-6,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-7,"{""id"": 123, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""id"": ""12.5"", ""issue_iid"": 7}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path/parseability."
-9,"{""id"": 99, ""issue_iid"": ""true""}",4xx,"issue_iid='true' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""id"": ""xyz"", ""issue_iid"": ""false""}",4xx,"id='xyz' and issue_iid='false' are not parseable as integer, violating 'type=integer' for both path parameters."
+1,"{""id"": 1001, ""issue_iid"": 42}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project or issue IDs available from dependency endpoints or spec examples.
+2,"{""id"": 1001, ""issue_iid"": 42}",2xx,llm_success_ignore_optional
+3,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+4,"{""id"": 1001, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path/parseability."
+5,"{""id"": -5, ""issue_iid"": 42}",4xx,"id=-5 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for project identifiers."
+6,"{""id"": 1001.5, ""issue_iid"": 42}",4xx,"id=1001.5 is a float, violating 'type=integer' for path/parseability."
+7,"{""id"": ""abc"", ""issue_iid"": 42}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 123, ""issue_iid"": ""not_an_int""}",4xx,"issue_iid='not_an_int' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 1.5, ""issue_iid"": 7}",4xx,"id=1.5 is not an integer (float provided), violating 'type=integer' for path parameter."
+10,"{""id"": 99, ""issue_iid"": true}",4xx,"issue_iid=true is not parseable as integer (boolean provided), violating 'type=integer' for path parameter."
+11,"{""id"": ""xyz"", ""issue_iid"": ""def""}",4xx,"id='xyz' and issue_iid='def' are not parseable as integers, violating 'type=integer' for both path parameters."
+12,"{""id"": -1, ""issue_iid"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""issue_iid"": 42}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 1001, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": ""123456"", ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

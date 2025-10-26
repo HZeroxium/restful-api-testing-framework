@@ -1,24 +1,25 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-  <graph edgedefault="directed">
-    <node id="get-/projects" />
-    <node id="post-/projects" />
-    <node id="get-/projects/{id}/repository/tree" />
-    <node id="get-/projects/{id}/repository/blobs/{sha}" />
-    <node id="get-/projects/{id}/repository/blobs/{sha}/raw" />
-    <node id="get-/projects/{id}/repository/archive" />
-    <node id="get-/projects/{id}/repository/compare" />
-    <node id="get-/projects/{id}/repository/contributors" />
-    <node id="get-/projects/{id}/repository/merge_base" />
-    <node id="get-/projects/{id}/repository/changelog" />
-    <edge source="get-/projects" target="post-/projects" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/tree" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/blobs/{sha}" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/blobs/{sha}/raw" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/archive" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/compare" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/contributors" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/merge_base" />
-    <edge source="get-/projects" target="get-/projects/{id}/repository/changelog" />
-  </graph>
-</graphml>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="get-/projects"/>
+<node id="post-/projects"/>
+<node id="get-/projects/{id}/repository/tree"/>
+<node id="get-/projects/{id}/repository/blobs/{sha}"/>
+<node id="get-/projects/{id}/repository/compare"/>
+<node id="get-/projects/{id}/repository/blobs/{sha}/raw"/>
+<node id="get-/projects/{id}/repository/archive"/>
+<node id="get-/projects/{id}/repository/contributors"/>
+<node id="get-/projects/{id}/repository/merge_base"/>
+<node id="get-/projects/{id}/repository/changelog"/>
+<edge source="get-/projects" target="post-/projects"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/tree"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/blobs/{sha}"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/blobs/{sha}/raw"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/archive"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/compare"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/contributors"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/merge_base"/>
+<edge source="get-/projects" target="get-/projects/{id}/repository/changelog"/>
+<edge source="get-/projects/{id}/repository/compare" target="get-/projects/{id}/repository/blobs/{sha}"/>
+<edge source="get-/projects/{id}/repository/compare" target="get-/projects/{id}/repository/blobs/{sha}/raw"/>
+<edge source="get-/projects/{id}/repository/compare" target="get-/projects/{id}/repository/merge_base"/>
+<edge source="get-/projects/{id}/repository/compare" target="get-/projects/{id}/repository/changelog"/>
+</graph></graphml>

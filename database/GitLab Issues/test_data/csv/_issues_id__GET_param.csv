@@ -1,11 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1001}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No example, producer endpoint, or fixture provided for a valid issue ID."
-2,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""id"": 2147483649}",4xx,"id=2147483649 is extremely large and may exceed typical integer bounds, violating realistic 'type=integer' expectations."
-4,"{""id"": -1}",4xx,"id=-1 is a negative integer; while not explicitly forbidden by the spec, negative IDs are typically invalid for resource identifiers."
-5,"{""id"": 1.5}",4xx,"id=1.5 is a float, not an integer, violating 'type=integer' for path parameter."
-6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": ""12.5""}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": ""1e5""}",4xx,"id='1e5' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": ""-3.14""}",4xx,"id='-3.14' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""true""}",4xx,"id='true' is not parseable as integer, violating 'type=integer' for path parameter."
+1,"{""id"": 2147483649}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no valid issue ID available from dependency context or examples.
+2,"{""id"": -1}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no valid issue ID available from dependency context or examples.
+3,"{""id"": 0}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no valid issue ID available from dependency context or examples.
+4,"{""id"": 2147483649}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 1.5}",4xx,"id=1.5 is not an integer (type mismatch), violating 'type=integer' for path parameter."
+7,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.5""}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""true""}",4xx,"id='true' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""[1,2]""}",4xx,"id='[1,2]' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""id"": ""{\""foo\"":1}""}",4xx,"id='{""foo"":1}' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

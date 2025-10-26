@@ -13,20 +13,6 @@ import os
 #     sequence_runner = SequenceRunner(service_name="GitLab Branch", base_url="http://localhost:30000/api/v4", token=None,out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}", headers=headers, endpoint=endpoint)
 #     sequence_runner.run_all()
 
-dir = "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/database/Bill/test_cases"
-
-
-def load_test_cases_from_dir(dir_path: str) -> list[str]:
-    test_case_files = []
-    for root, dirs, files in os.walk(dir_path):
-        for file in files:
-            if file.endswith(".json") or file.endswith(".yaml") or file.endswith(".yml"):
-                full_path = os.path.join(root, file)
-                filename_no_ext = os.path.splitext(os.path.basename(full_path))[0]
-                test_case_files.append(filename_no_ext)
-    return test_case_files
-
-
 if __name__ == "__main__":
     # sequence_runner = SequenceRunner(service_name="Bill", base_url="https://bills-api.parliament.uk", token=None)
 
@@ -57,14 +43,16 @@ if __name__ == "__main__":
     #     want_4xx=10
     # )
     # sequence_runner.run_all()
+    endpoint = ["_groups_POST_0_1"]
     sequence_runner = SequenceRunner(
-        service_name="GitLab Branch",
+        service_name="GitLab Issues",
         skip_preload=False,
-        base_url="http://localhost:30000/api/v4",
+        base_url="https://2c4e94e8c7ba.ngrok-free.app/api/v4",
         out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}",
         headers=headers,
         sampling_strategy="random_quota",
         want_2xx=200,
-        want_4xx=0
+        want_4xx=0,
+        endpoint=endpoint
     )
     sequence_runner.run_all()

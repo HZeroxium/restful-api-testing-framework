@@ -1,4 +1,15 @@
 {
+  "post-/projects/{id}/issues/{issue_iid}/todo": [
+    [
+      "get-/issues"
+    ]
+  ],
+  "post-/projects": [
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
   "get-/issues": [],
   "get-/issues/{id}": [
     [
@@ -40,17 +51,41 @@
       "get-/issues"
     ]
   ],
-  "post-/projects/{id}/issues/{issue_iid}/todo": [],
   "put-/projects/{id}/issues/{issue_iid}/reorder": [
     [
       "get-/issues"
     ],
     [
+      "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ],
   "post-/projects/{id}/issues/{issue_iid}/move": [
     [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "get-/projects/{id}/issues/{issue_iid}/closed_by"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": [
+    [
+      "get-/issues",
+      "get-/projects/{id}/issues/{issue_iid}/closed_by"
+    ],
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo",
+      "get-/projects/{id}/issues/{issue_iid}/closed_by"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/closed_by": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ],
@@ -64,6 +99,7 @@
       "get-/issues"
     ],
     [
+      "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ],
@@ -72,21 +108,25 @@
       "get-/issues"
     ],
     [
-      "get-/projects",
+      "get-/issues",
       "get-/projects/{id}/issues/{issue_iid}/time_stats"
     ]
   ],
   "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": [
     [
-      "get-/projects"
+      "get-/issues"
     ],
     [
-      "post-/projects"
+      "get-/projects"
     ]
   ],
   "post-/projects/{id}/issues/{issue_iid}/add_spent_time": [
     [
-      "post-/projects/{id}/issues/{issue_iid}/todo"
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "get-/projects/{id}/issues/{issue_iid}/closed_by"
     ]
   ],
   "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": [
@@ -99,29 +139,19 @@
   ],
   "get-/projects/{id}/issues/{issue_iid}/time_stats": [
     [
-      "get-/projects"
+      "get-/issues"
     ],
     [
-      "post-/projects"
+      "get-/projects"
     ]
   ],
   "get-/projects": [],
-  "post-/projects": [],
-  "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": [
-    [
-      "get-/issues"
-    ]
-  ],
-  "get-/projects/{id}/issues/{issue_iid}/closed_by": [
+  "get-/projects/{id}/issues/{issue_iid}/participants": [
     [
       "get-/issues"
     ],
     [
-      "post-/projects/{id}/issues/{issue_iid}/todo"
-    ]
-  ],
-  "get-/projects/{id}/issues/{issue_iid}/participants": [
-    [
+      "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ],

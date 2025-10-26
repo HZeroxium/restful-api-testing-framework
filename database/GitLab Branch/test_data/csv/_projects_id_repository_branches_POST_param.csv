@@ -1,0 +1,21 @@
+index,data,expected_status_code,reason
+1,"{""id"": 11, ""branch"": ""feature/login"", ""ref"": ""main""}",2xx,id=11 is a valid integer from context; branch and ref are present and valid strings.
+2,"{""id"": 11, ""branch"": ""hotfix-2025"", ""ref"": ""a1b2c3d4e5f6g7h8i9j0""}",2xx,id=11 is a valid integer from context; branch and ref are present and valid strings.
+3,"{""id"": 11, ""branch"": ""feature/login"", ""ref"": ""main""}",2xx,llm_success_ignore_optional
+4,"{""id"": ""abc"", ""branch"": ""feature/signup"", ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 11, ""branch"": ""feature/logout""}",4xx,"ref is required but missing, violating 'required' for query parameter."
+6,"{""id"": 11, ""branch"": 12345, ""ref"": ""main""}",4xx,branch=12345 has type integer but the spec requires string for query parameter.
+7,"{""id"": ""not-an-integer"", ""branch"": ""feature/new-api"", ""ref"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 11, ""branch"": 12345, ""ref"": ""main""}",4xx,"branch=12345 is not a string, violating 'type=string' for query parameter."
+9,"{""id"": 11, ""branch"": ""feature/new-api"", ""ref"": 99999}",4xx,"ref=99999 is not a string, violating 'type=string' for query parameter."
+10,"{""id"": ""abc"", ""branch"": 12345, ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=12345 is not a string, violating 'type=string'."
+11,"{""id"": ""xyz"", ""branch"": ""feature/new-api"", ""ref"": 99999}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer'; ref=99999 is not a string, violating 'type=string'."
+12,"{""id"": -1, ""branch"": """", ""ref"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 11, ""branch"": null, ""ref"": null}",4xx,"mutate_missing_required: set branch, ref=None"
+14,"{""id"": 11, ""branch"": ""feature/login"", ""ref"": null}",4xx,mutate_missing_required: set ref=None
+15,"{""id"": 11, ""branch"": null, ""ref"": ""main""}",4xx,mutate_missing_required: set branch=None
+16,"{""id"": ""123456"", ""branch"": ""feature/login"", ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 11, ""branch"": 123456789, ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 11, ""branch"": ""feature/login"", ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": 11, ""branch"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""id"": ""123456"", ""branch"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

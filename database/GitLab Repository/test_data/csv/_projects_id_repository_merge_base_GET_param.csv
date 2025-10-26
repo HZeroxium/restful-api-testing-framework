@@ -1,0 +1,17 @@
+index,data,expected_status_code,reason
+1,"{""id"": 16, ""refs"": [""main"", ""feature-xyz""]}",2xx,id=16 is a valid project ID from context; refs is a non-empty array of strings.
+2,"{""id"": 16, ""refs"": []}",2xx,"id=16 is valid; refs is an empty array, which is allowed as there is no minItems constraint."
+3,"{""id"": 16, ""refs"": [""main"", ""feature-xyz""]}",2xx,llm_success_ignore_optional
+4,"{""id"": ""abc"", ""refs"": [""main"", ""feature-xyz""]}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 16, ""refs"": [""main"", 123]}",4xx,"refs[1]=123 is not a string, violating 'type=string' for array items."
+6,"{""id"": 16}",4xx,"refs is required but missing, violating 'required' constraint."
+7,"{""id"": ""not-an-integer"", ""refs"": [""main"", ""feature-1""]}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 16, ""refs"": ""main""}",4xx,"refs='main' is not an array, violating 'type=array' for query parameter."
+9,"{""id"": ""abc"", ""refs"": 123}",4xx,id='abc' is not parseable as integer (type=integer); refs=123 is not an array (type=array).
+10,"{""id"": 16}",4xx,"refs is required but missing, violating 'required' constraint for query parameter."
+11,"{""id"": -1, ""refs"": [""main"", ""feature-1""]}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -1, ""refs"": ["""", """"]}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 16, ""refs"": null}",4xx,mutate_missing_required: set refs=None
+14,"{""id"": ""123456"", ""refs"": [""main"", ""feature-xyz""]}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": 16, ""refs"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": ""123456"", ""refs"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
