@@ -1,11 +1,44 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
-2,"{""id"": 1, ""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum {'name', 'path', 'id'}."
-3,"{""id"": 1, ""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum {'asc', 'desc'}."
-4,"{""id"": 1, ""skip_groups"": [2, ""abc"", 3]}",4xx,"skip_groups[1]='abc' is not parseable as integer, violating 'type=integer' for array items."
-5,"{""id"": 1, ""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
-6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 2, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum' constraint."
-8,"{""id"": 2, ""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum {'name', 'path', 'id'}."
-9,"{""id"": 2, ""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum {'asc', 'desc'}."
-10,"{""id"": 2, ""skip_groups"": [1, ""not_an_int""]}",4xx,"skip_groups[1]='not_an_int' is not parseable as integer, violating 'type=integer' for array items."
+1,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30}",2xx,id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+2,"{""id"": 50, ""per_page"": null, ""order_by"": null, ""sort"": null, ""min_access_level"": null}",2xx,llm_success_ignore_optional
+3,"{""id"": 50, ""per_page"": null, ""order_by"": null, ""sort"": null, ""min_access_level"": null}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+4,"{""id"": 50, ""per_page"": null, ""order_by"": null, ""sort"": ""asc"", ""min_access_level"": null}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+5,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": null, ""min_access_level"": null}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+6,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30}",2xx,llm_success_ignore_optional
+7,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": null}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+8,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": null, ""min_access_level"": 30}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+9,"{""id"": 50, ""per_page"": 20, ""order_by"": null, ""sort"": ""asc"", ""min_access_level"": 30}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+10,"{""id"": 50, ""per_page"": null, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30}",2xx,llm_success_ignore_optional: id=50 is a valid group ID from context; per_page=20 ≤ maximum=100; order_by='name' and sort='asc' are in their allowed enums; min_access_level=30 is in its allowed enum.
+11,"{""id"": 50, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
+12,"{""id"": 50, ""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum {'name', 'path', 'id'}."
+13,"{""id"": 50, ""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum {0, 10, 20, 30, 40, 50}."
+14,"{""id"": 50, ""skip_groups"": [60, ""abc""]}",4xx,"skip_groups[1]='abc' is not parseable as integer, violating 'type=integer' for array items."
+15,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+16,"{""id"": 50, ""per_page"": 101}",4xx,"per_page=101 > maximum=100, violating 'maximum'."
+17,"{""id"": 50, ""order_by"": ""created_at""}",4xx,"order_by='created_at' is not in enum ['name', 'path', 'id']."
+18,"{""id"": 50, ""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum ['asc', 'desc']."
+19,"{""id"": 50, ""min_access_level"": 15}",4xx,"min_access_level=15 is not in enum [0, 10, 20, 30, 40, 50]."
+20,"{""id"": -9999999.0, ""per_page"": -9999999.0, ""order_by"": """", ""sort"": """", ""min_access_level"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+21,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+22,"{""id"": 50, ""per_page"": ""123456"", ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30}",4xx,One or more fields deliberately violate the spec (4xx).
+23,"{""id"": ""123456"", ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30}",4xx,One or more fields deliberately violate the spec (4xx).
+24,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""skip_groups"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+25,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""all_available"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+26,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""search"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+27,"{""id"": 50, ""per_page"": 20, ""order_by"": 123456789, ""sort"": ""asc"", ""min_access_level"": 30}",4xx,One or more fields deliberately violate the spec (4xx).
+28,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": 123456789, ""min_access_level"": 30}",4xx,One or more fields deliberately violate the spec (4xx).
+29,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""statistics"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+30,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""with_custom_attributes"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+31,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": 30, ""owned"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+32,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": ""asc"", ""min_access_level"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+33,"{""id"": 50, ""per_page"": 20, ""order_by"": ""name"", ""sort"": 123456789, ""min_access_level"": 30, ""skip_groups"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+34,"{""id"": 50, ""per_page"": 20, ""order_by"": 123456789, ""sort"": ""asc"", ""min_access_level"": 30, ""statistics"": ""123456"", ""owned"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+35,"{""id"": 50, ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": ""asc"", ""min_access_level"": ""123456"", ""page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+36,"{""id"": 50, ""per_page"": 20, ""order_by"": 123456789, ""sort"": 123456789, ""min_access_level"": ""123456"", ""skip_groups"": ""123456"", ""with_custom_attributes"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+37,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": ""name"", ""sort"": 123456789, ""min_access_level"": 30, ""with_custom_attributes"": ""123456"", ""skip_groups"": ""123456"", ""owned"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+38,"{""id"": ""123456"", ""per_page"": 20, ""order_by"": 123456789, ""sort"": ""asc"", ""min_access_level"": 30, ""owned"": ""123456"", ""statistics"": ""123456"", ""with_custom_attributes"": ""123456"", ""all_available"": ""123456"", ""page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+39,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": ""asc"", ""min_access_level"": ""123456"", ""search"": 123456789, ""skip_groups"": ""123456"", ""statistics"": ""123456"", ""owned"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+40,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789, ""min_access_level"": ""123456"", ""statistics"": ""123456"", ""owned"": ""123456"", ""page"": ""123456"", ""all_available"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+41,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789, ""min_access_level"": ""123456"", ""statistics"": ""123456"", ""skip_groups"": ""123456"", ""all_available"": ""123456"", ""page"": ""123456"", ""search"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+42,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789, ""min_access_level"": ""123456"", ""with_custom_attributes"": ""123456"", ""page"": ""123456"", ""skip_groups"": ""123456"", ""statistics"": ""123456"", ""owned"": ""123456"", ""all_available"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+43,"{""id"": ""123456"", ""per_page"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789, ""min_access_level"": ""123456"", ""search"": 123456789, ""statistics"": ""123456"", ""with_custom_attributes"": ""123456"", ""page"": ""123456"", ""owned"": ""123456"", ""skip_groups"": ""123456"", ""all_available"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

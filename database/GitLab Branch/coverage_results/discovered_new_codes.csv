@@ -1,9 +1,9 @@
 ﻿endpoint,new_codes
-delete-/projects/{id}/protected_branches/{name},"['204', '404']"
-delete-/projects/{id}/repository/branches/{branch},"['400', '404']"
+delete-/projects/{id}/protected_branches/{name},['404']
+delete-/projects/{id}/repository/branches/{branch},['404']
 delete-/projects/{id}/repository/merged_branches,['404']
 get-/projects/{id}/repository/branches,['404']
 get-/projects/{id}/repository/branches/{branch},['404']
 post-/projects,"['400', '422']"
-post-/projects/{id}/protected_branches,['409']
-post-/projects/{id}/repository/branches,['400']
+post-/projects/{id}/protected_branches,['404']
+post-/projects/{id}/repository/branches,['404']

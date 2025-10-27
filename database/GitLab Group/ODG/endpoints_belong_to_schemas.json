@@ -11,6 +11,25 @@
     "get-/groups/{id}/subgroups",
     "get-/groups/{id}/descendant_groups"
   ],
+  "GroupDetails": [
+    "get-/groups/{id}",
+    "put-/groups/{id}",
+    "post-/groups/{id}/share"
+  ],
+  "Namespace": [
+    "get-/groups/{id}",
+    "put-/groups/{id}",
+    "post-/groups/{id}/share",
+    "get-/groups/{id}/projects",
+    "post-/groups/{id}/projects/{project_id}",
+    "get-/groups/{id}/projects/shared"
+  ],
+  "Project": [
+    "get-/groups/{id}",
+    "put-/groups/{id}",
+    "post-/groups/{id}/share",
+    "get-/groups/{id}/projects"
+  ],
   "SharedWithGroups": [
     "get-/groups/{id}",
     "put-/groups/{id}",
@@ -26,25 +45,6 @@
     "get-/groups/{id}/projects",
     "post-/groups/{id}/projects/{project_id}",
     "get-/groups/{id}/projects/shared"
-  ],
-  "Project": [
-    "get-/groups/{id}",
-    "put-/groups/{id}",
-    "post-/groups/{id}/share",
-    "get-/groups/{id}/projects"
-  ],
-  "Namespace": [
-    "get-/groups/{id}",
-    "put-/groups/{id}",
-    "post-/groups/{id}/share",
-    "get-/groups/{id}/projects",
-    "post-/groups/{id}/projects/{project_id}",
-    "get-/groups/{id}/projects/shared"
-  ],
-  "GroupDetails": [
-    "get-/groups/{id}",
-    "put-/groups/{id}",
-    "post-/groups/{id}/share"
   ],
   "Hook": [
     "get-/groups/{id}/hooks",

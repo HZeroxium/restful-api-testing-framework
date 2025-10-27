@@ -58,10 +58,10 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "id": {
+          "ref": {
             "from_step": 1,
             "field_mappings": {
-              "id": "id"
+              "ref": "name"
             }
           }
         }

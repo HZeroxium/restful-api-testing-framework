@@ -96,9 +96,6 @@
   ],
   "post-/projects/{id}/issues/{issue_iid}/unsubscribe": [
     [
-      "get-/issues"
-    ],
-    [
       "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
@@ -147,9 +144,6 @@
   ],
   "get-/projects": [],
   "get-/projects/{id}/issues/{issue_iid}/participants": [
-    [
-      "get-/issues"
-    ],
     [
       "get-/issues",
       "post-/projects/{id}/issues/{issue_iid}/todo"

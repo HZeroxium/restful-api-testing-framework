@@ -56,6 +56,29 @@
       },
       {
         "step_number": 2,
+        "endpoint": "post-/projects/{id}/issues/{issue_iid}/todo",
+        "method": "POST",
+        "path_variables": {
+          "id": null,
+          "issue_iid": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "project_id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
         "endpoint": "get-/projects/{id}/issues/{issue_iid}/participants",
         "method": "GET",
         "path_variables": {
@@ -69,10 +92,10 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "issue_iid": {
-            "from_step": 1,
+          "id": {
+            "from_step": 2,
             "field_mappings": {
-              "issue_iid": "iid"
+              "id": "project_id"
             }
           }
         }

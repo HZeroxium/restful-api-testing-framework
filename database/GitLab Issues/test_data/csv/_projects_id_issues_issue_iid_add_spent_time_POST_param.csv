@@ -1,19 +1,19 @@
 index,data,expected_status_code,reason
-1,"{""id"": 2147483647, ""issue_iid"": 2147483647, ""duration"": ""3h30m""}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid project or issue IDs available from dependency context, examples, or fixtures."
-2,"{""id"": 2147483647, ""issue_iid"": 2147483647, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
-3,"{""id"": ""abc"", ""issue_iid"": 2147483647, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""id"": 2147483647, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 2147483647, ""issue_iid"": 2147483647}",4xx,"duration is required but missing, violating 'required'."
-6,"{""id"": 2147483647, ""issue_iid"": 2147483647, ""duration"": 12345}",4xx,duration has type integer but the spec requires string (query parameter type mismatch).
-7,"{""id"": ""abc"", ""issue_iid"": 123, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 123, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 123, ""issue_iid"": 456, ""duration"": 120}",4xx,"duration=120 is not a string, violating 'type=string' for query parameter."
-10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": 120}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, and duration=120 is not a string; all violate their respective 'type' constraints."
-11,"{""id"": 123, ""issue_iid"": 456}",4xx,"duration is required but missing, violating 'required' constraint for query parameter."
-12,"{""id"": -9999999.0, ""issue_iid"": -1, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 2147483647, ""issue_iid"": 2147483647, ""duration"": null}",4xx,mutate_missing_required: set duration=None
-14,"{""id"": ""123456"", ""issue_iid"": 2147483647, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 2147483647, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 2147483647, ""issue_iid"": 2147483647, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": 2147483647, ""issue_iid"": ""123456"", ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,id=24 and issue_iid=6 are valid integers from context; duration='3h30m' matches required format and is a valid string.
+2,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""45m""}",2xx,id=24 and issue_iid=6 are valid; duration='45m' is a valid human format string.
+3,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
+4,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 24, ""issue_iid"": 6}",4xx,"duration is required but missing, violating 'required'."
+6,"{""id"": 24, ""issue_iid"": ""notanint"", ""duration"": ""3h30m""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 24, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123}",4xx,"duration=123 is not a string, violating 'type=string' for query parameter."
+10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, violating 'type=integer' for both path parameters."
+11,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": 123}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, and duration=123 is not a string, violating 'type=integer' for path parameters and 'type=string' for query parameter."
+12,"{""id"": -1, ""issue_iid"": -1, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 24, ""issue_iid"": 6, ""duration"": null}",4xx,mutate_missing_required: set duration=None
+14,"{""id"": ""123456"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": 24, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": ""123456"", ""issue_iid"": 6, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

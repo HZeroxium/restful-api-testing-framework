@@ -1,22 +1,39 @@
 index,data,expected_status_code,reason
-1,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1}",2xx,All required path parameters are present and parseable; move_after_id=-1 is a valid integer (no minimum/maximum constraint specified).
-2,"{""id"": 42, ""issue_iid"": 101, ""move_before_id"": 2147483649}",2xx,All required path parameters are present and parseable; move_before_id=2147483649 is a valid integer (no maximum constraint specified).
-3,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": null}",2xx,llm_success_ignore_optional
-4,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1}",2xx,llm_success_ignore_optional
-5,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": null}",2xx,llm_success_ignore_optional: All required path parameters are present and parseable; move_after_id=-1 is a valid integer (no minimum/maximum constraint specified).
-6,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": ""abc"", ""move_before_id"": 200}",4xx,"move_after_id='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
-7,"{""id"": 42, ""issue_iid"": 101, ""move_before_id"": ""not_an_int""}",4xx,"move_before_id='not_an_int' is not parseable as integer, violating 'type=integer' for query/parseability."
-8,"{""id"": 42, ""issue_iid"": 101}",4xx,"move_after_id is not present, so move_before_id is required by inter-parameter dependency."
-9,"{""id"": ""abc"", ""issue_iid"": 12345, ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""id"": 12345, ""issue_iid"": ""xyz"", ""move_after_id"": 67890, ""move_before_id"": 67891}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-11,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": ""notanint"", ""move_before_id"": 67891}",4xx,"move_after_id='notanint' is not parseable as integer, violating 'type=integer' for query/parseability."
-12,"{""id"": 12345, ""issue_iid"": 67890, ""move_after_id"": 67891, ""move_before_id"": ""notanint""}",4xx,"move_before_id='notanint' is not parseable as integer, violating 'type=integer' for query/parseability."
-13,"{""id"": 12345, ""issue_iid"": 67890}",4xx,"move_after_id is not present and move_before_id is missing, violating the inter-parameter dependency: 'If move_after_id is not present, move_before_id is required.'"
-14,"{""id"": -9999999.0, ""issue_iid"": -9999999.0, ""move_after_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-15,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 42, ""issue_iid"": ""123456"", ""move_after_id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-18,"{""id"": 42, ""issue_iid"": 101, ""move_after_id"": -1, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-19,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": -1, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-20,"{""id"": ""123456"", ""issue_iid"": 101, ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-21,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 7, ""move_before_id"": 8}",2xx,All path parameters are valid integers from context; both move_after_id and move_before_id are valid integers.
+2,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 7}",2xx,"All required path parameters are valid; move_after_id is present and valid integer, so move_before_id is not required."
+3,"{""id"": 24, ""issue_iid"": 6, ""move_before_id"": 8}",2xx,"All required path parameters are valid; move_after_id is missing, so move_before_id is present and valid integer, satisfying dependency."
+4,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": null, ""move_before_id"": null}",2xx,llm_success_ignore_optional
+5,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": null, ""move_before_id"": null}",2xx,llm_success_ignore_optional: All path parameters are valid integers from context; both move_after_id and move_before_id are valid integers.
+6,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 7, ""move_before_id"": 8}",2xx,llm_success_ignore_optional
+7,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 7, ""move_before_id"": null}",2xx,llm_success_ignore_optional: All path parameters are valid integers from context; both move_after_id and move_before_id are valid integers.
+8,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": null, ""move_before_id"": 8}",2xx,llm_success_ignore_optional: All path parameters are valid integers from context; both move_after_id and move_before_id are valid integers.
+9,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": ""abc""}",4xx,"move_after_id='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+10,"{""id"": 24, ""issue_iid"": 6}",4xx,"move_after_id is missing and move_before_id is missing, violating dependency: if move_after_id is not present, move_before_id is required."
+11,"{""id"": ""not-an-integer"", ""issue_iid"": 6, ""move_after_id"": 73}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": 24, ""issue_iid"": ""abc"", ""move_after_id"": 73}",4xx,"issue_iid='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+13,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": ""foo""}",4xx,"move_after_id='foo' is not parseable as integer, violating 'type=integer' for query parameter."
+14,"{""id"": 24, ""issue_iid"": 6, ""move_before_id"": ""bar""}",4xx,"move_before_id='bar' is not parseable as integer, violating 'type=integer' for query parameter."
+15,"{""id"": 24, ""issue_iid"": 6}",4xx,"move_after_id is not present and move_before_id is missing, violating inter-parameter dependency: 'If move_after_id is not present, move_before_id is required.'"
+16,"{""id"": -1, ""issue_iid"": -1, ""move_after_id"": -9999999.0, ""move_before_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""id"": ""123456"", ""issue_iid"": 6, ""move_after_id"": 7, ""move_before_id"": 8}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 24, ""issue_iid"": ""123456"", ""move_after_id"": 7, ""move_before_id"": 8}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": ""123456"", ""move_before_id"": 8}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 7, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""id"": 24, ""issue_iid"": ""123456"", ""move_after_id"": ""123456"", ""move_before_id"": 8}",4xx,One or more fields deliberately violate the spec (4xx).
+22,"{""id"": ""123456"", ""issue_iid"": 6, ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+23,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+24,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": 74}",2xx,All path parameters are valid integers from context; both query parameters are valid integers.
+25,"{""id"": 24, ""issue_iid"": 6, ""move_before_id"": 74}",2xx,"id and issue_iid are valid integers from context; move_after_id is missing, so move_before_id is present and valid integer."
+26,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": null, ""move_before_id"": 74}",2xx,llm_success_ignore_optional
+27,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": 74}",2xx,llm_success_ignore_optional
+28,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": null}",2xx,llm_success_ignore_optional: All path parameters are valid integers from context; both query parameters are valid integers.
+29,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": null, ""move_before_id"": 74}",2xx,llm_success_ignore_optional: All path parameters are valid integers from context; both query parameters are valid integers.
+30,"{""id"": 24, ""issue_iid"": 6}",4xx,"move_after_id is not present and move_before_id is missing, violating the inter-parameter dependency: 'If move_after_id is not present, move_before_id is required.'"
+31,"{""id"": -9999999.0, ""issue_iid"": -1, ""move_after_id"": -1, ""move_before_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+32,"{""id"": ""123456"", ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": 74}",4xx,One or more fields deliberately violate the spec (4xx).
+33,"{""id"": 24, ""issue_iid"": ""123456"", ""move_after_id"": 73, ""move_before_id"": 74}",4xx,One or more fields deliberately violate the spec (4xx).
+34,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": ""123456"", ""move_before_id"": 74}",4xx,One or more fields deliberately violate the spec (4xx).
+35,"{""id"": 24, ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+36,"{""id"": ""123456"", ""issue_iid"": 6, ""move_after_id"": 73, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+37,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""move_after_id"": 73, ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+38,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""move_after_id"": ""123456"", ""move_before_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 11, ""name"": ""hotfix""}",2xx,id=11 is a valid integer from dependency context; name='hotfix' is a valid string branch name.
-2,"{""id"": 11, ""name"": ""main""}",2xx,id=11 is a valid integer from dependency context; name='main' is a valid string branch name.
-3,"{""id"": 11, ""name"": ""hotfix""}",2xx,llm_success_ignore_optional
-4,"{""id"": 11, ""name"": ""hotfix""}",2xx,id=11 is a valid integer from context; name='hotfix' is a valid string from context.
-5,"{""id"": ""abc"", ""name"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": -5, ""name"": ""hotfix""}",4xx,"id=-5 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for project IDs and violate real-world expectations."
-7,"{""id"": 11, ""name"": 123}",4xx,"name=123 is type integer, but the spec requires string for path parameter 'name'."
-8,"{""id"": ""abc"", ""name"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": -1, ""name"": ""hotfix""}",4xx,"id=-1 is a negative integer; while not explicitly forbidden, negative IDs are typically invalid for resource identifiers."
-10,"{""id"": 11, ""name"": 123}",4xx,"name=123 is an integer, violating 'type=string' for path parameter."
-11,"{""id"": ""abc"", ""name"": 123}",4xx,id='abc' is not parseable as integer (type violation); name=123 is an integer (type violation). Both path parameters violate their type constraints.
-12,"{""id"": -9999999.0, ""name"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""name"": ""hotfix""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 11, ""name"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 29, ""name"": ""main""}",2xx,id=29 is a valid integer from context; name='main' is a valid string.
+2,"{""id"": 29, ""name"": ""feature/new-feature""}",2xx,id=29 is a valid integer from context; name='feature/new-feature' is a valid string.
+3,"{""id"": 2147483649, ""name"": ""main""}",2xx,id=2147483649 is a valid integer (no maximum constraint specified); name='main' is a valid string.
+4,"{""id"": 29, ""name"": ""main""}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc"", ""name"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 29, ""name"": 123}",4xx,"name=123 has type integer but the spec requires string, violating 'type=string' for path parameter."
+7,"{""id"": ""not-an-integer"", ""name"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 29, ""name"": 12345}",4xx,name=12345 has type integer but the spec requires string for path parameter.
+9,"{""id"": ""abc"", ""name"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; name=123 has type integer but the spec requires string."
+10,"{""id"": -1, ""name"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": ""2147483649"", ""name"": null}",4xx,"id='2147483649' is not parseable as integer (if sent as string), or is out of 32-bit integer range; name=null is not allowed for required path parameter."
+12,"{""id"": -1, ""name"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""name"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 29, ""name"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""name"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

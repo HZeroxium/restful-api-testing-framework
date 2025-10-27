@@ -1,94 +1,195 @@
 index,data,expected_status_code,reason
-1,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-2,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-3,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-4,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-5,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-6,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-7,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-8,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-9,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-10,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-11,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-12,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-13,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-14,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-15,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-16,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-17,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-18,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-19,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-20,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-21,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-22,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-23,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-24,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-25,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-26,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-27,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-28,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-29,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-30,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-31,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-32,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-33,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-34,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-35,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-36,"{""assignee_id"": 2147483649}",2xx,assignee_id=2147483649 is a valid integer and within typical bounds; no maximum specified.
-37,"{""labels"": ""bug,backend"", ""milestone"": ""v1.0"", ""author_id"": 2, ""author_username"": ""gitlab-instance-bf12b68c"", ""assignee_id"": 3, ""assignee_username"": ""developer1"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,"All provided fields match their types; 'search' is in the allowed enum ['title', 'description', 'title,description']."
-38,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-39,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-40,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-41,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-42,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-43,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-44,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-45,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-46,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-47,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-48,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-49,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-50,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-51,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-52,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-53,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-54,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-55,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-56,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-57,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-58,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-59,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-60,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-61,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-62,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+1,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+2,"{""author_username"": ""alice"", ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""in"": ""comments""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""author_id"": 2147483649, ""search"": ""description""}",2xx,"author_id=2147483649 is a valid integer; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+4,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+5,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+6,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+7,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+8,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,llm_success_ignore_optional
+9,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+10,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": null, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+11,"{""labels"": ""bug,urgent"", ""milestone"": null, ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+12,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+13,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+14,"{""author_username"": ""alice"", ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""in"": ""comments""}",2xx,All provided fields satisfy the spec (2xx).
+15,"{""author_id"": 2147483649, ""search"": ""description""}",2xx,"author_id=2147483649 is a valid integer; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+16,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+17,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+18,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+19,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+20,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,llm_success_ignore_optional
+21,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+22,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": null, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+23,"{""labels"": ""bug,urgent"", ""milestone"": null, ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+24,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+25,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+26,"{""author_username"": ""alice"", ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""in"": ""comments""}",2xx,All provided fields satisfy the spec (2xx).
+27,"{""author_id"": 2147483649, ""search"": ""description""}",2xx,"author_id=2147483649 is a valid integer; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+28,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+29,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+30,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+31,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+32,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,llm_success_ignore_optional
+33,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+34,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": null, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+35,"{""labels"": ""bug,urgent"", ""milestone"": null, ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+36,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+37,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,"All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+38,"{""author_username"": ""alice"", ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""in"": ""comments""}",2xx,All provided fields satisfy the spec (2xx).
+39,"{""author_id"": 2147483649, ""search"": ""description""}",2xx,"author_id=2147483649 is a valid integer; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+40,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+41,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,llm_success_ignore_optional
+42,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+43,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": null}",2xx,"llm_success_ignore_optional: All provided fields match their types; 'search' is in the allowed enum {""title"", ""description"", ""title,description""}."
+44,"{""labels"": ""bug,urgent"", ""milestone"": ""v1.0"", ""author_id"": 42, ""search"": ""title""}",2xx,llm_success_ignore_optional
+45,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+46,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+47,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+48,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+49,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+50,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+51,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+52,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+53,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+54,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+55,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+56,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+57,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+58,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+59,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+60,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+61,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+62,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
 63,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-64,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-65,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-66,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-67,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-68,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-69,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-70,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-71,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-72,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-73,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-74,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-75,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-76,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-77,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-78,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-79,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-80,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-81,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-82,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
-83,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-84,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-85,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-86,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
-87,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-88,"{""labels"": [""bug"", ""frontend""]}",4xx,"labels=['bug', 'frontend'] has type array but the spec requires string (JSON body type mismatch)."
-89,"{""author_id"": ""not_an_integer""}",4xx,"author_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+64,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+65,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+66,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+67,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+68,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+69,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+70,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+71,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+72,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+73,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+74,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+75,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+76,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+77,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+78,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+79,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+80,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+81,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+82,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+83,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+84,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+85,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+86,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+87,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+88,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+89,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
 90,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
 91,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
-92,"{""author_id"": ""bad_id"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
-93,"{""author_id"": ""bad_id"", ""assignee_id"": ""bad_assignee"", ""search"": ""invalid_search""}",4xx,"author_id='bad_id' is not parseable as integer, violating 'type=integer'; assignee_id='bad_assignee' is not parseable as integer, violating 'type=integer'; search='invalid_search' is not in enum ['title', 'description', 'title,description']."
+92,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+93,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+94,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+95,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {""title"", ""description"", ""title,description""}."
+96,"{""author_id"": ""not-an-integer""}",4xx,"author_id='not-an-integer' is not parseable as integer, violating 'type=integer'."
+97,"{""assignee_id"": ""abc""}",4xx,"assignee_id='abc' is not parseable as integer, violating 'type=integer'."
+98,"{""search"": ""summary""}",4xx,"search='summary' is not in enum ['title', 'description', 'title,description']."
+99,"{""author_id"": ""xyz"", ""search"": ""not-valid""}",4xx,One or more fields deliberately violate the spec (4xx).
+100,"{""author_id"": ""abc"", ""assignee_id"": ""def"", ""search"": ""foobar""}",4xx,"author_id='abc' is not parseable as integer, violating 'type=integer'; assignee_id='def' is not parseable as integer, violating 'type=integer'; search='foobar' is not in enum ['title', 'description', 'title,description']."
+101,"{""assignee_id"": ""not_an_integer""}",4xx,"assignee_id='not_an_integer' is not parseable as integer, violating 'type=integer'."
+102,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+103,"{""assignee_id"": -5}",2xx,assignee_id=-5 is a valid integer; no minimum constraint specified.
+104,"{""labels"": ""backend"", ""search"": ""title,description""}",2xx,"labels is a valid string; search='title,description' is in the allowed enum."
+105,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": null, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+106,"{""labels"": null, ""milestone"": null, ""author_id"": 49, ""author_username"": null, ""assignee_id"": null, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+107,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+108,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+109,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+110,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+111,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": null, ""in"": ""comments""}",2xx,llm_success_ignore_optional
+112,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+113,"{""labels"": null, ""milestone"": null, ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+114,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional
+115,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+116,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": null, ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+117,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": null, ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+118,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+119,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": null, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+120,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": null, ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+121,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+122,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+123,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+124,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+125,"{""assignee_id"": -5}",2xx,assignee_id=-5 is a valid integer; no minimum constraint specified.
+126,"{""labels"": ""backend"", ""search"": ""title,description""}",2xx,"labels is a valid string; search='title,description' is in the allowed enum."
+127,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": null, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+128,"{""labels"": null, ""milestone"": null, ""author_id"": 49, ""author_username"": null, ""assignee_id"": null, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+129,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+130,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": null, ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional
+131,"{""labels"": null, ""milestone"": null, ""author_id"": null, ""author_username"": null, ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+132,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": null, ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+133,"{""labels"": null, ""milestone"": ""v1.0"", ""author_id"": null, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": null, ""in"": ""comments""}",2xx,llm_success_ignore_optional
+134,"{""labels"": ""bug,frontend"", ""milestone"": null, ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": null, ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+135,"{""labels"": null, ""milestone"": null, ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+136,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": ""comments""}",2xx,llm_success_ignore_optional
+137,"{""labels"": ""bug,frontend"", ""milestone"": ""v1.0"", ""author_id"": 49, ""author_username"": ""alice"", ""assignee_id"": 102, ""assignee_username"": ""bob"", ""my_reaction_emoji"": ""thumbsup"", ""search"": ""title"", ""in"": null}",2xx,llm_success_ignore_optional: All fields are present and valid; 'search' is in the allowed enum; integer fields are valid numbers; string fields are valid.
+138,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+139,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+140,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+141,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+142,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+143,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+144,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+145,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+146,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+147,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+148,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+149,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+150,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+151,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+152,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+153,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+154,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+155,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+156,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+157,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+158,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+159,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+160,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+161,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+162,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+163,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+164,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+165,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+166,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+167,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+168,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+169,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+170,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+171,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+172,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+173,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+174,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+175,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+176,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+177,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+178,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+179,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+180,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+181,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+182,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+183,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+184,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+185,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+186,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+187,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).
+188,"{""search"": ""summary""}",4xx,"search='summary' is not in enum {'title', 'description', 'title,description'}."
+189,"{""search"": ""not_allowed_value""}",4xx,"search='not_allowed_value' is not in enum {'title', 'description', 'title,description'}."
+190,"{""author_id"": ""not_an_integer""}",4xx,author_id has type string but the spec requires integer (JSON body type mismatch).
+191,"{""assignee_id"": ""not_an_integer""}",4xx,assignee_id has type string but the spec requires integer (JSON body type mismatch).
+192,"{""labels"": 123}",4xx,labels has type integer but the spec requires string (JSON body type mismatch).
+193,"{""milestone"": 456}",4xx,milestone has type integer but the spec requires string (JSON body type mismatch).
+194,"{""author_id"": ""not_an_integer""}",4xx,author_id='not_an_integer' has type string but the spec requires integer (JSON body type mismatch).

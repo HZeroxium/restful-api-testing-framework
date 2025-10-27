@@ -1,0 +1,11 @@
+﻿endpoint,new_codes
+delete-/groups/{id},['404']
+delete-/groups/{id}/hooks/{hook_id},['404']
+delete-/groups/{id}/share/{group_id},['404']
+get-/groups/{id}/hooks/{hook_id},['404']
+post-/groups,"['400', '404']"
+post-/groups/{id}/hooks,['404']
+post-/groups/{id}/projects/{project_id},['404']
+post-/groups/{id}/share,"['404', '409']"
+put-/groups/{id},['400']
+put-/groups/{id}/hooks/{hook_id},['404']

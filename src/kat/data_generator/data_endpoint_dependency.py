@@ -349,9 +349,9 @@ class DataEndpointDependency:
         # Swagger 2.0
         host = spec.get("host")
         base_path = spec.get("basePath", "") or ""
-        schemes = spec.get("schemes", []) or ["https"]
+        schemes = spec.get("schemes", []) or ["http"]
         if host:
-            scheme = schemes[0] if schemes else "https"
+            scheme = schemes[0] if schemes else "http"
             return f"{scheme}://{host}{base_path}".rstrip("/")
         # Fallback
         return ""
@@ -515,7 +515,11 @@ class DataEndpointDependency:
         # Chỉ lấy phần tối thiểu
         (path_params, query_params, header_params, cookie_params, json_body) = \
             self._build_minimal_request_parts(endpoint_sig, exec_data)
-
+        if json_body and isinstance(json_body, dict):
+            body_schema = self._get_request_body_schema(raw_path, method)
+            if body_schema:
+                json_body = self._prune_body_to_required(json_body, body_schema)
+                logger.info(f"Pruned body to required fields only: {json_body}")
         # Thay path params
         final_path = self._apply_path_params(raw_path, path_params)
         url = f"{base_url}{final_path}"
@@ -536,6 +540,8 @@ class DataEndpointDependency:
                 "Called api : %s %s | query=%s headers=%s body=%s",
                 method.upper(), url, query_params, header_params, json_body
             )
+            ok = self._is_success_code_value(resp.status_code)
+
         except Exception as e:
             logger.warning("HTTP call failed for %s: %s", endpoint_sig, e)
             return None
@@ -552,6 +558,7 @@ class DataEndpointDependency:
         cached_obj = {
             "status": resp.status_code,
             "body": content,
+            "ok": ok,
             "request": {
                 "method": method.upper(),
                 "url": url,
@@ -676,22 +683,42 @@ class DataEndpointDependency:
 
 
 
+
     def get_data_for_endpoint(self, endpoint_sig: str):
         """
         Lấy dữ liệu upstream cho một endpoint:
-          1) Ưu tiên lấy từ in-memory cache (artifacts.cache).
-          2) Nếu chưa có, thử đọc file <odg_dir>/cache/<endpoint>-response_cache.json.
-          3) Nếu vẫn chưa có, gọi call_api_to_get_data_for_ep() (stub hiện tại).
-             Nếu có data, ghi lại vào cả in-memory lẫn file cache.
-
-        Trả về: JSON-serializable object hoặc None nếu không có.
+        1) Ưu tiên lấy từ in-memory cache (artifacts.cache).
+        2) Nếu chưa có, thử đọc file <odg_dir>/cache/<endpoint>-response_cache.json.
+        3) Nếu vẫn chưa có, gọi call_api_to_get_data_for_ep().
+            Nếu có data, ghi lại vào cả in-memory lẫn file cache.
         """
         # 1) in-memory cache (nếu load_artifacts() đã gọi)
         if self.cache and isinstance(self.cache, list):
-            for entry in self.cache:
+            for i, entry in enumerate(self.cache):
                 if entry.endpoint == endpoint_sig:
                     logger.info("Found in-memory cache for %s", endpoint_sig)
-                    return entry.cache
+                    data = entry.cache
+
+                    # >>> NEW: if cached status is not 2xx, refresh now
+                    try:
+                        status = (data or {}).get("status")
+                        if not (isinstance(status, int) and 200 <= status < 300):
+                            logger.info("Bad in-memory cache for %s (status=%s) → refreshing...", endpoint_sig, status)
+                            fresh = self.call_api_to_get_data_for_ep(endpoint_sig)
+                            if fresh is not None:
+                                self.cache[i] = EndpointCache(endpoint=endpoint_sig, cache=fresh)
+                                cache_path = self._cache_file_for_endpoint(endpoint_sig)
+                                try:
+                                    with cache_path.open("w", encoding="utf-8") as f:
+                                        json.dump(fresh, f, ensure_ascii=False, indent=2)
+                                except Exception as e:
+                                    logger.warning("Failed to write cache file %s: %s", cache_path, e)
+                                return fresh
+                            # if refresh failed, fall back to old data
+                    except Exception:
+                        pass
+
+                    return data
 
         # 2) file cache
         logger.info("No in-memory cache for %s, checking file cache...", endpoint_sig)
@@ -703,28 +730,46 @@ class DataEndpointDependency:
                     data = json.load(f)
                 # đồng bộ vào in-memory cache
                 if self.cache is not None:
-                    new_entry = EndpointCache(endpoint=endpoint_sig, cache=data)
-                    self.cache.append(new_entry)
+                    self.cache.append(EndpointCache(endpoint=endpoint_sig, cache=data))
                 logger.info("Loaded file cache for %s", endpoint_sig)
+
+                # >>> NEW: if file cache status is not 2xx, refresh now
+                try:
+                    status = (data or {}).get("status")
+                    if not (isinstance(status, int) and 200 <= status < 300):
+                        logger.info("Bad file cache for %s (status=%s) → refreshing...", endpoint_sig, status)
+                        fresh = self.call_api_to_get_data_for_ep(endpoint_sig)
+                        if fresh is not None:
+                            # update in-memory (replace last appended)
+                            if self.cache:
+                                self.cache[-1] = EndpointCache(endpoint=endpoint_sig, cache=fresh)
+                            try:
+                                with cache_path.open("w", encoding="utf-8") as wf:
+                                    json.dump(fresh, wf, ensure_ascii=False, indent=2)
+                            except Exception as e:
+                                logger.warning("Failed to write cache file %s: %s", cache_path, e)
+                            return fresh
+                        # if refresh failed, fall back to old data
+                except Exception:
+                    pass
+
                 return data
             except Exception as e:
                 logger.warning("Failed to read cache file %s: %s", cache_path, e)
+
+        # 3) no cache → call API
         logger.info("No file cache found for %s", endpoint_sig)
         try:
-            # 3) gọi API thật
             logger.info("No cache found for %s, calling API...", endpoint_sig)
             data = self.call_api_to_get_data_for_ep(endpoint_sig)
         except Exception as e:
             logger.warning("call_api_to_get_data_for_ep(%s) raised: %s", endpoint_sig, e)
             data = None
 
-        # Nếu có data, ghi lại cache
+        # write back if we got something
         if data is not None:
-            # update in-memory
             if self.cache is not None:
-                new_entry = EndpointCache(endpoint=endpoint_sig, cache=data)
-                self.cache.append(new_entry)
-            # update file
+                self.cache.append(EndpointCache(endpoint=endpoint_sig, cache=data))
             try:
                 with cache_path.open("w", encoding="utf-8") as f:
                     json.dump(data, f, ensure_ascii=False, indent=2)
@@ -732,6 +777,7 @@ class DataEndpointDependency:
                 logger.warning("Failed to write cache file %s: %s", cache_path, e)
 
         return data
+
     def _minify(self, obj: Any) -> str:
         """
         json.dumps dạng minify. Nếu obj không phải JSON-serializable, chuyển sang string trước.

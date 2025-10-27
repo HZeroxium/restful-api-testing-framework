@@ -57,10 +57,10 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "group_id": {
+          "id": {
             "from_step": 1,
             "field_mappings": {
-              "group_id": "id"
+              "id": "id"
             }
           }
         }

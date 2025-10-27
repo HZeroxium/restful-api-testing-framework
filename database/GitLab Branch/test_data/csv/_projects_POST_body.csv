@@ -1,127 +1,181 @@
 index,data,expected_status_code,reason
-1,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-2,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-3,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-4,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-5,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-6,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-7,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-8,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-9,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-10,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-11,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-12,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-13,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-14,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-15,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-16,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-17,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-18,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-19,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*release.*"", ""name_regex_delete"": "".*beta.*"", ""name_regex_keep"": "".*stable.*"", ""next_run_at"": ""2024-07-01T12:00:00Z""}",2xx,All provided fields match their required types; next_run_at matches format date-time.
-20,"{""cadence"": ""1w"", ""enabled"": false}",2xx,cadence and enabled are present and match their required types.
-21,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-22,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-23,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-24,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-25,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-26,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-27,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-28,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-29,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-30,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-31,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-32,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-33,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-34,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-35,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-36,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-37,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-38,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-39,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-40,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-41,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-42,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-43,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-44,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-45,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-46,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-47,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-48,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-49,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-50,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-51,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-52,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-53,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-54,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-55,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-56,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-57,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-58,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-59,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-60,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-61,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-62,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-63,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-64,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-65,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-66,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-67,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-68,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-69,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-70,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-71,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-72,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-73,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-74,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-75,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-76,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-77,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-78,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-79,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-80,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-81,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-82,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-83,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-84,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-85,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-86,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-87,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-88,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-89,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-90,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-91,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-92,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-93,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-94,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-95,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-96,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-97,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-98,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-99,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-100,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-101,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-102,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-103,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-104,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-105,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-106,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-107,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-108,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-109,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-110,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-111,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-112,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-113,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-114,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-115,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-116,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-117,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-118,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
-119,"{""keep_n"": 5}",4xx,"keep_n=5 is type integer, but the spec requires string (type mismatch)."
-120,"{""cadence"": ""daily"", ""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""1w"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-121,"{""cadence"": ""weekly"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""2w"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
-122,"{""cadence"": ""monthly"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""3d"", ""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,next_run_at='2021-13-01T04:03:60Z' does not match format date-time.
-123,"{""cadence"": ""hourly"", ""enabled"": false, ""keep_n"": ""7"", ""older_than"": ""5d"", ""next_run_at"": 1234567890}",4xx,next_run_at=1234567890 is not a string and does not match format date-time.
-124,"{""cadence"": ""daily"", ""enabled"": ""yes"", ""keep_n"": ""2"", ""older_than"": ""1m"", ""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,"next_run_at='2021-01-32T10:73:02Z' does not match format date-time; enabled='yes' is not a boolean, violating 'type=boolean'."
-125,"{""enabled"": ""yes""}",4xx,"enabled='yes' is type string, but the spec requires boolean (type mismatch)."
-126,"{""next_run_at"": ""2024/07/01 12:00""}",4xx,next_run_at='2024/07/01 12:00' does not match format date-time.
+1,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,All fields are present and match their types; next_run_at matches format 'date-time'.
+2,"{""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^release-.*$"", ""name_regex_keep"": ""v[0-9]+"", ""next_run_at"": ""2025-11-01T10:00:00Z""}",2xx,All provided fields match their types and next_run_at matches format 'date-time'.
+3,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+4,"{""cadence"": null, ""enabled"": null, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+5,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+6,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+7,"{""cadence"": null, ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+8,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+9,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+10,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+11,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+12,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+13,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+14,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+15,"{""cadence"": null, ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+16,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,All fields are present and match their types; next_run_at matches format 'date-time'.
+17,"{""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^release-.*$"", ""name_regex_keep"": ""v[0-9]+"", ""next_run_at"": ""2025-11-01T10:00:00Z""}",2xx,All provided fields match their types and next_run_at matches format 'date-time'.
+18,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+19,"{""cadence"": null, ""enabled"": null, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+20,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+21,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+22,"{""cadence"": null, ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+23,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+24,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+25,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+26,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+27,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+28,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+29,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+30,"{""cadence"": null, ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+31,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,All fields are present and match their types; next_run_at matches format 'date-time'.
+32,"{""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^release-.*$"", ""name_regex_keep"": ""v[0-9]+"", ""next_run_at"": ""2025-11-01T10:00:00Z""}",2xx,All provided fields match their types and next_run_at matches format 'date-time'.
+33,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+34,"{""cadence"": null, ""enabled"": null, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+35,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+36,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+37,"{""cadence"": null, ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+38,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+39,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+40,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+41,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+42,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+43,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+44,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+45,"{""cadence"": null, ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+46,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,All fields are present and match their types; next_run_at matches format 'date-time'.
+47,"{""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^release-.*$"", ""name_regex_keep"": ""v[0-9]+"", ""next_run_at"": ""2025-11-01T10:00:00Z""}",2xx,All provided fields match their types and next_run_at matches format 'date-time'.
+48,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+49,"{""cadence"": null, ""enabled"": null, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+50,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+51,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+52,"{""cadence"": null, ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+53,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+54,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+55,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+56,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+57,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+58,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+59,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+60,"{""cadence"": null, ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+61,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,All fields are present and match their types; next_run_at matches format 'date-time'.
+62,"{""enabled"": true, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^release-.*$"", ""name_regex_keep"": ""v[0-9]+"", ""next_run_at"": ""2025-11-01T10:00:00Z""}",2xx,All provided fields match their types and next_run_at matches format 'date-time'.
+63,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+64,"{""cadence"": null, ""enabled"": null, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+65,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+66,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+67,"{""cadence"": null, ""enabled"": false, ""keep_n"": null, ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+68,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": null, ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+69,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional
+70,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+71,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": null, ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+72,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T17:05:36.033Z""}",2xx,llm_success_ignore_optional: All fields are present and match their types; next_run_at matches format 'date-time'.
+73,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+74,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+75,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+76,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+77,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+78,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+79,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+80,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+81,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+82,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+83,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+84,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+85,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+86,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+87,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+88,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+89,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+90,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+91,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+92,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+93,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+94,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+95,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+96,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+97,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+98,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+99,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+100,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+101,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+102,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+103,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+104,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+105,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+106,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+107,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+108,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+109,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+110,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+111,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+112,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+113,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+114,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+115,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+116,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+117,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+118,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+119,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+120,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+121,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+122,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+123,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+124,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+125,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+126,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+127,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+128,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+129,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+130,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+131,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+132,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+133,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+134,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+135,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+136,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+137,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+138,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+139,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+140,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+141,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+142,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+143,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+144,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+145,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+146,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+147,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+148,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+149,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+150,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+151,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+152,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+153,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+154,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+155,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+156,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+157,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+158,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+159,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+160,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+161,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+162,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+163,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+164,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+165,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+166,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+167,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+168,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+169,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+170,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+171,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+172,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.
+173,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
+174,"{""cadence"": 123}",4xx,cadence has type integer but the spec requires string (JSON body type mismatch).
+175,"{""enabled"": ""yes"", ""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,"enabled='yes' is not parseable as boolean, violating 'type=boolean'; next_run_at='2021-02-30T07:60:15Z' does not match format date-time."
+176,"{""enabled"": ""false"", ""next_run_at"": ""invalid-date""}",4xx,next_run_at='invalid-date' does not match format date-time.
+177,"{""enabled"": ""yes"", ""keep_n"": ""10""}",4xx,"enabled='yes' is type string, violating 'type=boolean'."
+178,"{""cadence"": ""7d"", ""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+179,"{""keep_n"": 10}",4xx,"keep_n=10 is type integer, violating 'type=string'."
+180,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format date-time.

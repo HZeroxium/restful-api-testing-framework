@@ -1,0 +1,107 @@
+{
+  "status": 201,
+  "body": {
+    "id": 6,
+    "project": {
+      "id": 24,
+      "description": null,
+      "name": "DevOps Team11242345",
+      "name_with_namespace": "Administrator / DevOps Team11242345",
+      "path": "devops-team34234234",
+      "path_with_namespace": "root/devops-team34234234",
+      "created_at": "2025-10-26T13:44:14.802Z"
+    },
+    "author": {
+      "id": 1,
+      "username": "root",
+      "name": "Administrator",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://localhost:30000/root"
+    },
+    "action_name": "marked",
+    "target_type": "Issue",
+    "target": {
+      "id": 73,
+      "iid": 6,
+      "project_id": 24,
+      "title": "Add CI pipeline for frontend",
+      "description": null,
+      "state": "opened",
+      "created_at": "2025-10-26T14:54:03.701Z",
+      "updated_at": "2025-10-26T17:07:20.657Z",
+      "closed_at": null,
+      "closed_by": null,
+      "labels": [],
+      "milestone": null,
+      "assignees": [],
+      "author": {
+        "id": 1,
+        "username": "root",
+        "name": "Administrator",
+        "state": "active",
+        "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+        "web_url": "http://localhost:30000/root"
+      },
+      "type": "ISSUE",
+      "assignee": null,
+      "user_notes_count": 0,
+      "merge_requests_count": 0,
+      "upvotes": 0,
+      "downvotes": 0,
+      "due_date": null,
+      "confidential": false,
+      "discussion_locked": null,
+      "issue_type": "issue",
+      "web_url": "http://localhost:30000/root/devops-team34234234/-/issues/6",
+      "time_stats": {
+        "time_estimate": 0,
+        "total_time_spent": 0,
+        "human_time_estimate": null,
+        "human_total_time_spent": null
+      },
+      "task_completion_status": {
+        "count": 0,
+        "completed_count": 0
+      },
+      "blocking_issues_count": 0,
+      "has_tasks": false,
+      "_links": {
+        "self": "http://localhost:30000/api/v4/projects/24/issues/6",
+        "notes": "http://localhost:30000/api/v4/projects/24/issues/6/notes",
+        "award_emoji": "http://localhost:30000/api/v4/projects/24/issues/6/award_emoji",
+        "project": "http://localhost:30000/api/v4/projects/24",
+        "closed_as_duplicate_of": null
+      },
+      "references": {
+        "short": "#6",
+        "relative": "#6",
+        "full": "root/devops-team34234234#6"
+      },
+      "severity": "UNKNOWN",
+      "subscribed": false,
+      "moved_to_id": null,
+      "service_desk_reply_to": null
+    },
+    "target_url": "http://localhost:30000/root/devops-team34234234/-/issues/6",
+    "body": "Add CI pipeline for frontend",
+    "state": "pending",
+    "created_at": "2025-10-26T17:07:20.629Z",
+    "updated_at": "2025-10-26T17:07:20.629Z"
+  },
+  "ok": true,
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:30000/api/v4/projects/24/issues/6/todo",
+    "params": {},
+    "path_params": {
+      "id": 24,
+      "issue_iid": 6
+    },
+    "headers": {
+      "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    },
+    "cookies": {},
+    "json": null
+  }
+}

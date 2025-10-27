@@ -34,6 +34,29 @@
       },
       {
         "step_number": 2,
+        "endpoint": "get-/groups/{id}/hooks/{hook_id}",
+        "method": "GET",
+        "path_variables": {
+          "hook_id": null,
+          "id": null
+        },
+        "query_parameters": {},
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        },
+        "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          }
+        }
+      },
+      {
+        "step_number": 3,
         "endpoint": "put-/groups/{id}/hooks/{hook_id}",
         "method": "PUT",
         "path_variables": {
@@ -64,7 +87,7 @@
         },
         "data_dependencies": {
           "id": {
-            "from_step": 1,
+            "from_step": 2,
             "field_mappings": {
               "id": "id"
             }

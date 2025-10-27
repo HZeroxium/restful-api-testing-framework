@@ -28,7 +28,7 @@ try:
         "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
     }
     list_services = ["GitLab Branch", "GitLab Issues", "GitLab Group", "GitLab Project", "GitLab Repository"]
-    service = "GitLab Issues"
+    service = "GitLab Branch"
             
     generator = TestCaseGenerator(
         service_name=service,

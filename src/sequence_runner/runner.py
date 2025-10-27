@@ -128,24 +128,25 @@ class SequenceRunner:
     # Single step executor (handles deps, merge, URL, request)
     # ------------------------------------------------------------------
     def execute_request(
-        self,
-        step: StepModel,
-        test_data_row: Optional[Dict[str, Any]] = None,
-        current_step: int = 1,
-        step_responses: List[Optional[Dict[str, Any]]] = None,
+    self,
+    step: StepModel,
+    test_data_row: Optional[Dict[str, Any]] = None,
+    current_step: int = 1,
+    step_responses: List[Optional[Dict[str, Any]]] = None,
     ) -> Dict[str, Any]:
         endpoint = step.endpoint
         method = step.method.upper()
-        base_params = step.query_parameters
-        base_body = step.request_body
+        base_params = step.query_parameters or {}
         path_vars = step.path_variables
 
         if step_responses is None:
             step_responses = []
-        resolved_params = dict(base_params or {})
-        resolved_body = dict(base_body or {})
 
-        # 1) Resolve explicit data dependencies FIRST (inject values for downstream use)
+        # Start from query params; start body EMPTY (do NOT use step.request_body)
+        resolved_params = dict(base_params)
+        resolved_body: Dict[str, Any] = {}
+
+        # 1) Resolve explicit dependencies FIRST
         try:
             if getattr(step, "data_dependencies", None):
                 resolved_params, resolved_body = self.dep.resolve_dependencies(
@@ -156,21 +157,20 @@ class SequenceRunner:
                     step_responses=step_responses or [],
                 )
             deps_params, deps_body = dict(resolved_params), dict(resolved_body)
-
+            print("Resolved dependencies:", deps_params, deps_body) 
         except Exception as e:
             self.logger.warning(f"Dependency resolution warning on step {current_step}: {e}")
+            deps_params, deps_body = dict(resolved_params), dict(resolved_body)
 
-        # 2) Merge test data (param/body) over resolved values
+        # 2) Merge CSV data (param/body) over resolved values
         csv_path_vars = {}
         if test_data_row:
             data_for = "params" if method in ("GET", "DELETE") else "body"
-            # NOTE: merge_test_data returns (params, body, csv_path_vars, _not_used)
             merged = merge_test_data(
                 resolved_params, resolved_body, test_data_row, endpoint, path_vars, data_for=data_for
             )
             if isinstance(merged, (tuple, list)) and len(merged) >= 3:
                 resolved_params, resolved_body, csv_path_vars = merged[0], merged[1], merged[2]
-
         # 3) Prepare endpoint & path vars
         cleaned = clean_endpoint(endpoint)
         all_path_vars = dict(path_vars)  # base
@@ -181,37 +181,33 @@ class SequenceRunner:
             if k not in dst or dst[k] in (None, ""):
                 dst[k] = v
 
-        # 3a) Ưu tiên GIÁ TRỊ từ dependency resolver (snapshot deps_* trước khi CSV ghi đè)
+        # 3a) Prefer values discovered via deps (before CSV overrides)
         for k, v in (deps_params or {}).items():
             if f"{{{k}}}" in cleaned:
                 set_if_needed(all_path_vars, k, v)
         for k, v in (deps_body or {}).items():
             if isinstance(v, (str, int)) and f"{{{k}}}" in cleaned:
                 set_if_needed(all_path_vars, k, v)
-
-        # 3b) Sau đó mới tới params/body đã merge (có thể là CSV)
+        # 3b) Then use merged params/body (may include CSV)
         for k, v in (resolved_params or {}).items():
             if f"{{{k}}}" in cleaned:
                 set_if_needed(all_path_vars, k, v)
         for k, v in (resolved_body or {}).items():
             if isinstance(v, (str, int)) and f"{{{k}}}" in cleaned:
                 set_if_needed(all_path_vars, k, v)
-
-        # 3c) Cuối cùng mới tới CSV path vars (chỉ lấp chỗ trống)
+        # 3c) Finally, CSV-provided path vars (fill blanks only)
         for k, v in (csv_path_vars or {}).items():
             if f"{{{k}}}" in cleaned:
                 set_if_needed(all_path_vars, k, v)
 
-
-        # 3c) Remove path variables from query params
+        # Remove path variables from query params
         final_params = dict(resolved_params)
         for var in list(all_path_vars.keys()):
             if var in final_params:
                 del final_params[var]
 
-        # 3d) Substitute path vars → endpoint
+        # Substitute path vars → endpoint
         final_endpoint, leftover = substitute_path_vars(cleaned, all_path_vars)
-        # Best-effort: if still leftover (rare), try generic fill then substitute again
         if leftover:
             for v in leftover:
                 if v not in all_path_vars or all_path_vars[v] is None:
@@ -237,6 +233,7 @@ class SequenceRunner:
         if method in ("GET", "DELETE"):
             req_kwargs["params"] = final_params
         else:
+            # Body is ONLY deps + CSV (no step.request_body leakage)
             req_kwargs["json"] = resolved_body
             if final_params:
                 req_kwargs["params"] = final_params
@@ -251,15 +248,13 @@ class SequenceRunner:
             except Exception:
                 resp_json = resp.text
 
-            # 6b) Feed successful responses into dependency cache for later steps/rows
+            # Cache responses & opportunistic IDs for later steps
             try:
                 if isinstance(resp_json, (dict, list)):
-                    # cache by normalized key, e.g. 'get__pet_id' (safe-ish)
                     cache_key = f"{method.lower()}_{final_endpoint}".replace("/", "_").strip("_")
                     if hasattr(self.dep, "global_dependency_cache"):
                         self.dep.global_dependency_cache[cache_key] = resp_json
 
-                    # opportunistically cache extracted IDs
                     if hasattr(self.dep, "extract_ids_from_response"):
                         ids = self.dep.extract_ids_from_response(resp_json)
                         if ids and hasattr(self.dep, "available_ids_cache"):
@@ -347,7 +342,7 @@ class SequenceRunner:
 
         # CSV locate by endpoint_identifier (compat rules)
         endpoint_identifier = (
-            test_case_id.replace("_0_1", "").replace("_1_1", "").replace("_2_1", "")
+            test_case_id["endpoint"]
         )
         files = self.file.find_test_data_files(endpoint_identifier)
 
@@ -514,32 +509,40 @@ class SequenceRunner:
         if not test_case_files:
             self.logger.error("No test case files found!")
             return
+
         out_file_name = self.file.open_csv_output(self.service_name)
 
-        # sort theo topolist nếu có
-        topolist = self.file.load_topolist()
-        if topolist:
-            def sort_key(file_path: Path):
-                filename = file_path.stem
-                for i, endpoint in enumerate(topolist):
-                    if "-" in endpoint:
-                        method, path = endpoint.split("-", 1)
-                        path_pattern = path.replace("/", "_").replace("{", "").replace("}", "_")
-                        patterns = [
-                            f"{path_pattern}",
-                            f"{method.lower()}{path_pattern}",
-                            f"{path_pattern}{method}",
-                            f"{path_pattern}{method.title()}",
-                        ]
-                        for p in patterns:
-                            if p in filename:
-                                return i
-                return len(topolist)
+        # ---- exact, canonical sort using the endpoint inside each JSON ----
+        topolist = self.file.load_topolist() or []
+        topo_index = {ep.strip(): i for i, ep in enumerate(topolist)}
 
-            self.logger.info("📋 Sorting test cases by topolist order...")
-            test_case_files.sort(key=sort_key)
+        def _endpoint_of(p: Path) -> str:
+            try:
+                d = self.file.load_test_case(p)
+                case = parse_test_case_core_from_dict(d)
+                return (case.endpoint or "").strip()
+            except Exception:
+                return ""
 
-        for test_case_file in test_case_files:
+        # build sortable list
+        decorated = []
+        for seq_idx, p in enumerate(test_case_files):
+            ep = _endpoint_of(p)
+            idx_in_topo = topo_index.get(ep, len(topolist) + 1)  # unmatched go last
+            decorated.append((idx_in_topo, seq_idx, ep, p))
+
+        # sort strictly by topolist order
+        decorated.sort(key=lambda t: (t[0], t[1]))
+        ordered_files = [p for (_, _, _, p) in decorated]
+
+        # log final order for confirmation
+        self.logger.info("📋 Final execution order (following topolist.json):")
+        for p in ordered_files:
+            self.logger.info(f"  - {_endpoint_of(p) or p.name}")
+
+        # run in sorted order
+        for test_case_file in ordered_files:
+            print(f"Running test case file: {test_case_file}")
             try:
                 if self.run_test_case(test_case_file):
                     pass
@@ -547,6 +550,8 @@ class SequenceRunner:
                 self.logger.error(f"Error running test case {test_case_file.name}: {e}")
 
         return out_file_name
+
+
     def _split_body_into_form_and_files(body: Dict[str, Any]) -> tuple[Dict[str, Any], Dict[str, tuple]]:
         """
         Turn a body dict into (form_fields, files) suitable for:
@@ -593,3 +598,4 @@ class SequenceRunner:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+# src/sequence_runner/dependency.py (or wherever the runner plans steps)

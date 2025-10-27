@@ -1,11 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 2}",2xx,"id=2 is a valid integer path parameter, resolved from producer endpoint get-/groups."
-2,"{""id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
-3,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
-5,"{""id"": 2147483649}",4xx,"id=2147483649 is an excessively large integer, likely exceeding practical ID bounds for resource identifiers."
-6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 3.14}",4xx,"id=3.14 is a float, but the spec requires integer type for path parameter."
-8,"{""id"": true}",4xx,"id=true is a boolean, but the spec requires integer type for path parameter."
-9,"{""id"": [123]}",4xx,"id=[123] is an array, but the spec requires integer type for path parameter."
-10,"{""id"": {""value"": 123}}",4xx,"id={""value"": 123} is an object, but the spec requires integer type for path parameter."
+1,"{""id"": 50}",2xx,id=50 is a valid integer path parameter from dependency context.
+2,"{""id"": 50}",2xx,llm_success_ignore_optional
+3,"{""id"": 50}",2xx,id=50 is a valid integer and matches an existing group ID from context.
+4,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": -1}",4xx,"id=-1 is negative, violating 'type=integer' (realistic group IDs are positive)."
+6,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""id"": 2147483649}",4xx,"id=2147483649 is excessively large and unrealistic for a group ID, violating reasonable bounds for 'type=integer'."
+8,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""12x""}",4xx,"id='12x' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": 3.14}",4xx,"id=3.14 is a float, not an integer, violating 'type=integer' for path parameter."
+11,"{""id"": -1}",4xx,"id=-1 is a negative integer, which is not a realistic group ID and may violate implicit domain constraints."
+12,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

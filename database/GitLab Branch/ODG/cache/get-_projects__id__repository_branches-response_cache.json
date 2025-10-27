@@ -1,12 +1,13 @@
 {
   "status": 200,
   "body": [],
+  "ok": true,
   "request": {
     "method": "GET",
-    "url": "http://localhost:30000/api/v4/projects/11/repository/branches",
+    "url": "http://localhost:30000/api/v4/projects/29/repository/branches",
     "params": {},
     "path_params": {
-      "id": 11
+      "id": 29
     },
     "headers": {
       "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"

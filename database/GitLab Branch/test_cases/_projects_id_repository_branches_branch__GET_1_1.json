@@ -56,10 +56,16 @@
           "body_validation": {}
         },
         "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "field_mappings": {
+              "id": "id"
+            }
+          },
           "branch": {
             "from_step": 1,
             "field_mappings": {
-              "branch": "name"
+              "branch": "id"
             }
           }
         }

@@ -9,9 +9,18 @@ post-/groups/{id}/hooks, delete-/groups/{id}
 get-/groups/{id}/hooks/{hook_id}, delete-/groups/{id}
 get-/groups, post-/groups/{id}/share
 post-/groups, post-/groups/{id}/share
+get-/groups/{id}, post-/groups/{id}/share
+get-/groups/{id}/projects, post-/groups/{id}/share
+post-/groups/{id}/projects/{project_id}, post-/groups/{id}/share
+get-/groups/{id}/projects/shared, post-/groups/{id}/share
 get-/groups/{id}/hooks, delete-/groups/{id}/share/{group_id}
 post-/groups/{id}/hooks, delete-/groups/{id}/share/{group_id}
 get-/groups/{id}/hooks/{hook_id}, delete-/groups/{id}/share/{group_id}
+get-/groups/{id}, delete-/groups/{id}/share/{group_id}
+post-/groups/{id}/share, delete-/groups/{id}/share/{group_id}
+get-/groups/{id}/projects, delete-/groups/{id}/share/{group_id}
+post-/groups/{id}/projects/{project_id}, delete-/groups/{id}/share/{group_id}
+get-/groups/{id}/projects/shared, delete-/groups/{id}/share/{group_id}
 get-/groups, get-/groups/{id}/subgroups
 post-/groups, get-/groups/{id}/subgroups
 post-/groups/{id}/hooks, get-/groups/{id}/hooks
@@ -25,8 +34,6 @@ post-/groups, get-/groups/{id}/hooks/{hook_id}
 get-/groups/{id}/hooks, put-/groups/{id}/hooks/{hook_id}
 post-/groups/{id}/hooks, put-/groups/{id}/hooks/{hook_id}
 get-/groups/{id}/hooks/{hook_id}, put-/groups/{id}/hooks/{hook_id}
-get-/groups, put-/groups/{id}/hooks/{hook_id}
-post-/groups, put-/groups/{id}/hooks/{hook_id}
 get-/groups/{id}/hooks, delete-/groups/{id}/hooks/{hook_id}
 post-/groups/{id}/hooks, delete-/groups/{id}/hooks/{hook_id}
 get-/groups/{id}/hooks/{hook_id}, delete-/groups/{id}/hooks/{hook_id}

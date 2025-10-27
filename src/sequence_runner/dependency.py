@@ -28,107 +28,57 @@ class DependencyService:
         current_step: int,
         step_responses: List[Optional[Dict]],
     ) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-        import random
+        def _is_scalar(x: Any) -> bool:
+            return isinstance(x, (str, int, float, bool))
 
-        resolved_params = params.copy()
-        resolved_body = body.copy()
+        resolved_params = dict(params or {})
+        resolved_body = dict(body or {})
 
         if not data_dependencies:
             return resolved_params, resolved_body
 
         for dep_key, dep_info in (data_dependencies or {}).items():
-            if not (isinstance(dep_info, dict) and "from_step" in dep_info):
+            if not isinstance(dep_info, dict):
+                logger.warning(f"⚠️ Dependency '{dep_key}' must be an object; got {type(dep_info).__name__}")
                 continue
 
-            from_step = dep_info["from_step"]
-            field_mappings = dep_info.get("field_mappings", {}) or {}
-
-            # chọn nguồn dữ liệu
-            prev_response = None
-            for cache_key, cached_data in self.global_dependency_cache.items():
-                if any(token in cache_key.lower() for token in dep_key.lower().split("_")):
-                    prev_response = cached_data
-                    logger.info(f"  📋 Using global cached '{cache_key}' for dep '{dep_key}'")
-                    break
-
-            if not prev_response:
-                idx = (from_step - 1)
-                if 0 <= idx < len(step_responses) and step_responses[idx]:
-                    prev_response = step_responses[idx]
-                    logger.info(f"  📋 Using step[{from_step}] response for dep '{dep_key}'")
-
-            if not prev_response and self.global_dependency_cache:
-                any_key = next(iter(self.global_dependency_cache.keys()))
-                prev_response = self.global_dependency_cache[any_key]
-                logger.info(f"  📋 Using fallback cached '{any_key}' for dep '{dep_key}'")
-
-            if not prev_response:
-                logger.warning("❌ No cached data available for dependency resolution")
+            from_step = dep_info.get("from_step", None)
+            if not isinstance(from_step, int) or from_step <= 0:
+                logger.warning(f"⚠️ Dependency '{dep_key}' is missing a valid 'from_step' (1-based).")
                 continue
+
+            idx = from_step - 1
+            if idx < 0 or idx >= len(step_responses):
+                logger.warning(f"⚠️ Step[{from_step}] response not available for dependency '{dep_key}'.")
+                continue
+
+            source_resp = step_responses[idx]
+            if source_resp is None:
+                logger.warning(f"⚠️ Step[{from_step}] returned no JSON body; cannot resolve '{dep_key}'.")
+                continue
+
+            field_mappings = dep_info.get("field_mappings") or {}
 
             if field_mappings:
-                for target_field, source_field in field_mappings.items():
-                    value = None
-
-                    # nếu đã có list id cache cho target_field thì ưu tiên
-                    if self.available_ids_cache.get(target_field):
-                        value = random.choice(self.available_ids_cache[target_field])
-                        logger.info(f"🎲 Random selected {target_field} = {value}")
+                # Map EXACT theo chỉ định
+                for target_field, source_path in field_mappings.items():
+                    extracted = self.extract_from_response(source_resp, str(source_path or "").strip())
+                    if _is_scalar(extracted):
+                        resolved_params[target_field] = str(extracted) if not isinstance(extracted, str) else extracted
+                        logger.info(f"✅ Resolved: {target_field} <- {source_path}")
                     else:
-                        # cố gắng lấy theo 'source_field' (JSON path nhẹ)
-                        extracted = self.extract_from_response(prev_response, source_field)
-
-                        # nếu extract trả về list/dict, cố gắng đoán id
-                        value = self._guess_scalar_from_any(extracted)
-                        if value is None:
-                            # fallback: quét nhẹ toàn response để tìm field phù hợp
-                            if isinstance(prev_response, dict):
-                                for _, v in prev_response.items():
-                                    if isinstance(v, (list, dict)):
-                                        value = self._guess_scalar_from_any(
-                                            self.extract_from_response(v, source_field)
-                                        )
-                                        if value is not None:
-                                            break
-
-                    if value is not None:
-                        resolved_params[target_field] = value
-                        logger.info(f"✅ Resolved dependency: {target_field} = {value}")
-                    else:
-                        logger.warning(f"❌ Failed to resolve dependency: {target_field} from {source_field}")
+                        logger.warning(f"❌ Cannot resolve '{target_field}' from path '{source_path}' (non-scalar/absent).")
             else:
-                # không có field_mappings -> thử lấy trực tiếp theo dep_key
-                if self.available_ids_cache.get(dep_key):
-                    value = random.choice(self.available_ids_cache[dep_key])
-                    resolved_params[dep_key] = value
-                    logger.info(f"🎲 Random selected {dep_key} = {value}")
+                # Không có field_mappings → thử lấy trực tiếp theo dep_key như một path
+                extracted = self.extract_from_response(source_resp, str(dep_key or "").strip())
+                if _is_scalar(extracted):
+                    resolved_params[dep_key] = str(extracted) if not isinstance(extracted, str) else extracted
+                    logger.info(f"✅ Resolved: {dep_key} (direct)")
                 else:
-                    value = self.extract_from_response(prev_response, dep_key)
-                    value = self._guess_scalar_from_any(value)
-                    if value is not None:
-                        resolved_params[dep_key] = value
-                        logger.info(f"✅ Resolved dependency: {dep_key} = {value}")
+                    logger.warning(f"❌ Cannot resolve '{dep_key}' directly (non-scalar/absent).")
 
         return resolved_params, resolved_body
 
-    def resolve_not_sure_parameter(self, param_name: str, step_responses: List[Optional[Dict]]) -> Optional[str]:
-        if self.available_ids_cache.get(param_name):
-            return self.available_ids_cache[param_name][0]
-
-        for resp in step_responses:
-            if not isinstance(resp, dict):
-                continue
-            # direct
-            if param_name in resp:
-                val = str(resp[param_name])
-                self._cache_parameter_value(param_name, val)
-                return val
-            # heuristic đào sâu
-            val = self._extract_id_from_response(resp, param_name)
-            if val:
-                self._cache_parameter_value(param_name, val)
-                return val
-        return None
 
     # ---------- helpers ----------
     def extract_from_response(self, response_data: Any, path: str) -> Any:
@@ -158,28 +108,7 @@ class DependencyService:
                 return None
         return current
 
-    def _guess_scalar_from_any(self, obj: Any) -> Optional[str]:
-        """Thử rút ra 1 scalar (ưu tiên 'id') từ obj (dict/list/scalar)."""
-        if obj is None:
-            return None
-        if isinstance(obj, (str, int, float, bool)):
-            return str(obj)
-        if isinstance(obj, dict):
-            if "id" in obj:
-                return str(obj["id"])
-            # nếu chỉ có 1 key -> lấy luôn
-            if len(obj) == 1:
-                k, v = next(iter(obj.items()))
-                return str(v) if not isinstance(v, (dict, list)) else None
-            return None
-        if isinstance(obj, list) and obj:
-            first = obj[0]
-            if isinstance(first, dict):
-                if "id" in first:
-                    return str(first["id"])
-            elif isinstance(first, (str, int, float, bool)):
-                return str(first)
-        return None
+    
 
     def _cache_parameter_value(self, param_name: str, value: str):
         if value not in self.available_ids_cache[param_name]:
@@ -215,6 +144,7 @@ class DependencyService:
     # ---------- preload ----------
     def extract_ids_from_response(self, response_data: Any) -> List[str]:
         ids: List[str] = []
+        
         if isinstance(response_data, list):
             for it in response_data:
                 if isinstance(it, dict) and "id" in it:

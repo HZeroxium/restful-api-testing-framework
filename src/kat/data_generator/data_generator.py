@@ -689,9 +689,9 @@ class TestDataGenerator:
                     extra = DataMutator.ignore_optional_param_combination(
                         self.swagger_spec, self.swagger_spec_required_fields, valid_2xx[0], endpoint_sig, for_request_body=True
                     )
-                    # if extra:
-                    #     extra = _tag_reason(extra, "llm_success_ignore_optional")
-                    #     body_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional fields omitted while staying valid (2xx).")
+                    if extra:
+                        extra = _tag_reason(extra, "llm_success_ignore_optional")
+                        body_data_2xx += _reconcile_reasons(extra, "2xx", default_reason="Optional fields omitted while staying valid (2xx).")
 
             # 4xx
             prompt_b4 = GET_DATASET_PROMPT.format(
@@ -759,7 +759,7 @@ class TestDataGenerator:
         param_data_4xx = _reconcile_reasons(param_data_4xx, "4xx")
         body_data_4xx  = _reconcile_reasons(body_data_4xx,  "4xx")
 
-        # param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
+        param_data_2xx, body_data_2xx = DataGeneratorUtils.balancing_test_data_item(param_data_2xx, body_data_2xx)
         param_data_4xx, body_data_4xx = DataGeneratorUtils.balancing_test_data_item(param_data_4xx, body_data_4xx)
 
         result = SingleEndpointDetailedResult(
@@ -796,11 +796,11 @@ class TestDataGenerator:
             # 2) Append independent endpoints not in topo
             seen = set(topo_list)
             independent = [e for e in all_endpoints if e not in seen]
-            list_endpoints = topo_list + independent
-
-            # Bạn đang thử [:3] ở bản nháp; nếu muốn giữ, mở dòng dưới:
-            # list_endpoints = list_endpoints[:3]
-
+            list_endpoints =independent + topo_list 
+            for ep in list_endpoints:
+                logger.info(f"Independent endpoint added to run list: {ep}")
+            print(f"Total endpoints to generate data: {len(list_endpoints)}")
+            # raise Exception("Disabled full run for safety. Enable when needed.")
             # Helper convert LineDataBase -> dict payload (phù hợp write_test_data_file)
             def _lines_to_payloads(lines):
                 out = []
@@ -820,7 +820,7 @@ class TestDataGenerator:
             summary = []
             for endpoint in list_endpoints:
                 try:
-                    print(f"Generating data for endpoint: {endpoint}...")
+                    logger.info(f"Generating data for endpoint: {endpoint}...")
 
                     # method/path để đặt tên file CSV
                     method: str = endpoint.split("-")[0]

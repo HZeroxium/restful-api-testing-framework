@@ -1,7 +1,7 @@
 [
-  "post-/projects",
   "get-/projects",
   "get-/projects/{id}/repository/branches",
+  "post-/projects",
   "post-/projects/{id}/repository/branches",
   "get-/projects/{id}/repository/branches/{branch}",
   "post-/projects/{id}/protected_branches",

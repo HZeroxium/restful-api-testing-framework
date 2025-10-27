@@ -1,17 +1,20 @@
 index,data,expected_status_code,reason
-1,"{""id"": 0, ""issue_iid"": 0, ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
-2,"{""id"": ""abc"", ""issue_iid"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""id"": 123, ""issue_iid"": ""not_an_int""}",4xx,"issue_iid='not_an_int' is not parseable as integer, violating 'type=integer' for path/parseability."
-4,"{""id"": 123, ""issue_iid"": 456, ""url"": 789}",4xx,url=789 has type integer but the spec requires string (query parameter type mismatch).
-5,"{""id"": 123, ""issue_iid"": 456}",4xx,One or more fields deliberately violate the spec (4xx).
-6,"{""id"": ""abc"", ""issue_iid"": 42, ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 123, ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, violating 'type=integer' for both path parameters."
-9,"{""id"": 123, ""issue_iid"": 42, ""url"": 999}",4xx,"url=999 is not a string, violating 'type=string' for query parameter."
-10,"{""id"": 123, ""issue_iid"": 42, ""url"": ""https://metrics.example.com/info""}",4xx,One or more fields deliberately violate the spec (4xx).
-11,"{""data"": {""id"": null, ""issue_iid"": null}, ""expected_code"": """", ""reason"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""data"": {""id"": ""123456"", ""issue_iid"": null}, ""expected_code"": ""UNRESOLVABLE%20FOR%202XX%20DUE%20TO%20MISSING%20CONTEXT"", ""reason"": ""No%20concrete%20project%20%27id%27%20or%20%27issue_iid%27%20values%20can%20be%20resolved%20from%20context%2C%20examples%2C%20or%20dependencies%3B%20per%20rules%2C%20cannot%20fabricate%20arbitrary%20IDs%20for%202xx%20test%20cases.""}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""data"": {""id"": null, ""issue_iid"": ""123456""}, ""expected_code"": ""UNRESOLVABLE%20FOR%202XX%20DUE%20TO%20MISSING%20CONTEXT"", ""reason"": ""No%20concrete%20project%20%27id%27%20or%20%27issue_iid%27%20values%20can%20be%20resolved%20from%20context%2C%20examples%2C%20or%20dependencies%3B%20per%20rules%2C%20cannot%20fabricate%20arbitrary%20IDs%20for%202xx%20test%20cases.""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""data"": {""id"": null, ""issue_iid"": null, ""url"": 123456789}, ""expected_code"": ""UNRESOLVABLE%20FOR%202XX%20DUE%20TO%20MISSING%20CONTEXT"", ""reason"": ""No%20concrete%20project%20%27id%27%20or%20%27issue_iid%27%20values%20can%20be%20resolved%20from%20context%2C%20examples%2C%20or%20dependencies%3B%20per%20rules%2C%20cannot%20fabricate%20arbitrary%20IDs%20for%202xx%20test%20cases.""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""data"": {""id"": null, ""issue_iid"": ""123456"", ""url"": 123456789}, ""expected_code"": ""UNRESOLVABLE%20FOR%202XX%20DUE%20TO%20MISSING%20CONTEXT"", ""reason"": ""No%20concrete%20project%20%27id%27%20or%20%27issue_iid%27%20values%20can%20be%20resolved%20from%20context%2C%20examples%2C%20or%20dependencies%3B%20per%20rules%2C%20cannot%20fabricate%20arbitrary%20IDs%20for%202xx%20test%20cases.""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""data"": {""id"": ""123456"", ""issue_iid"": ""123456"", ""url"": 123456789}, ""expected_code"": ""UNRESOLVABLE%20FOR%202XX%20DUE%20TO%20MISSING%20CONTEXT"", ""reason"": ""No%20concrete%20project%20%27id%27%20or%20%27issue_iid%27%20values%20can%20be%20resolved%20from%20context%2C%20examples%2C%20or%20dependencies%3B%20per%20rules%2C%20cannot%20fabricate%20arbitrary%20IDs%20for%202xx%20test%20cases.""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",2xx,id=24 and issue_iid=6 are valid integers from context; url is a valid string.
+2,"{""id"": 24, ""issue_iid"": 6}",2xx,"id=24 and issue_iid=6 are valid integers from context; optional url is missing, which is allowed."
+3,"{""id"": 24, ""issue_iid"": 6, ""url"": null}",2xx,llm_success_ignore_optional
+4,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",2xx,llm_success_ignore_optional
+5,"{""id"": 24, ""issue_iid"": 6, ""url"": null}",2xx,llm_success_ignore_optional: id=24 and issue_iid=6 are valid integers from context; url is a valid string.
+6,"{""id"": -1, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",2xx,id=-1 is parseable as integer; issue_iid=6 is parseable as integer; url is valid string. No explicit minimum/maximum constraints.
+7,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",2xx,id=24 and issue_iid=6 are valid integers from context; url is valid string.
+8,"{""id"": ""abc"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 24, ""issue_iid"": ""notanint"", ""url"": ""https://metrics.example.com/view/123""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": 24, ""issue_iid"": 6, ""url"": 12345}",4xx,url=12345 has type integer but the spec requires string (query parameter type mismatch).
+11,"{""id"": ""abc"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": 24, ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+13,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
+14,"{""id"": -1, ""issue_iid"": -1, ""url"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+15,"{""id"": ""123456"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 24, ""issue_iid"": ""123456"", ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 24, ""issue_iid"": 6, ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

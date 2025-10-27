@@ -50,10 +50,10 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "group_id": {
+          "id": {
             "from_step": 1,
             "field_mappings": {
-              "group_id": "id"
+              "id": "id"
             }
           }
         }
@@ -77,6 +77,12 @@
             "from_step": 2,
             "field_mappings": {
               "id": "id"
+            }
+          },
+          "project_id": {
+            "from_step": 2,
+            "field_mappings": {
+              "project_id": "id"
             }
           }
         }

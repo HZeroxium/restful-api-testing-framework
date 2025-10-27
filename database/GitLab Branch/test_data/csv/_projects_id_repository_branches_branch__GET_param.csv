@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 11, ""branch"": ""hotfix""}",2xx,id=11 is a valid integer from context; branch='hotfix' is a valid string branch name from context.
-2,"{""id"": 11, ""branch"": ""main""}",2xx,id=11 is a valid integer from context; branch='main' is a valid string branch name.
-3,"{""id"": 11, ""branch"": ""hotfix""}",2xx,llm_success_ignore_optional
-4,"{""id"": ""abc"", ""branch"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": -1, ""branch"": ""hotfix""}",4xx,"id=-1 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for project IDs."
-6,"{""id"": 11, ""branch"": 123}",4xx,branch=123 has type integer but the spec requires string for path parameter.
-7,"{""id"": ""abc"", ""branch"": ""hotfix""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 11, ""branch"": 123}",4xx,"branch=123 is not a string, violating 'type=string' for path parameter."
-9,"{""id"": ""xyz"", ""branch"": 456}",4xx,"id='xyz' is not parseable as integer and branch=456 is not a string, violating 'type=integer' and 'type=string' for path parameters."
-10,"{""id"": -1, ""branch"": ""hotfix""}",4xx,"id=-1 is negative and not a realistic project id, violating practical 'type=integer' constraint."
-11,"{""id"": 11, ""branch"": ""aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa""}",4xx,"branch is an excessively long string (257 characters), violating practical string handling even though no explicit maxLength is specified."
-12,"{""id"": -9999999.0, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""branch"": ""hotfix""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 11, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 29, ""branch"": ""main""}",2xx,id=29 is a valid integer from context; branch='main' is a valid string.
+2,"{""id"": 29, ""branch"": ""feature/login""}",2xx,id=29 is a valid integer from context; branch='feature/login' is a valid string.
+3,"{""id"": 2147483649, ""branch"": ""main""}",2xx,id=2147483649 is a valid integer within type constraints; branch='main' is a valid string.
+4,"{""id"": 29, ""branch"": ""main""}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 29, ""branch"": 123}",4xx,"branch=123 has type integer but the spec requires string, violating 'type=string' for path parameter."
+7,"{""id"": ""not-an-integer"", ""branch"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 29, ""branch"": 12345}",4xx,"branch=12345 is not a string, violating 'type=string' for path parameter."
+9,"{""id"": ""abc"", ""branch"": 9876}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=9876 is not a string, violating 'type=string'."
+10,"{""id"": 2147483649, ""branch"": ""main""}",4xx,"id=2147483649 is extremely large and may exceed backend integer bounds, violating 'type=integer'."
+11,"{""id"": 29, ""branch"": ""a................................................................................................................................................................................................................................................................................................................................................................................................................................""}",4xx,"branch is 257 characters long, which may exceed backend maximum length, violating 'type=string'."
+12,"{""id"": -1, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 29, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

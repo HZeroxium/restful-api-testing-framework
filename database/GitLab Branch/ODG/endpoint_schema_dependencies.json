@@ -1,4 +1,18 @@
 {
+  "post-/projects": {
+    "Owner": {
+      "name": "name"
+    },
+    "Branch": {
+      "name": "name"
+    },
+    "Namespace": {
+      "name": "name"
+    },
+    "ProtectedBranch": {
+      "name": "name"
+    }
+  },
   "get-/projects/{id}/repository/branches": {
     "BasicProjectDetails": {
       "id": "id"
@@ -64,7 +78,7 @@
       "id": "id"
     },
     "Branch": {
-      "id": "name"
+      "name": "name"
     }
   }
 }

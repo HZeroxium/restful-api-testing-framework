@@ -1,0 +1,21 @@
+{
+  "status": 400,
+  "body": {
+    "message": "Failed to save group {:path=>[\"has already been taken\"]}"
+  },
+  "ok": false,
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:30000/api/v4/groups",
+    "params": {},
+    "path_params": {},
+    "headers": {
+      "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    },
+    "cookies": {},
+    "json": {
+      "path": "engineering",
+      "name": "Engineering Team"
+    }
+  }
+}

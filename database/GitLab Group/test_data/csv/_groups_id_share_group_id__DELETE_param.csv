@@ -1,11 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": ""abc"", ""group_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-2,"{""id"": 123, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""id"": 2147483649, ""group_id"": 123}",4xx,"id=2147483649 is excessively large and may exceed typical integer bounds, violating realistic 'type=integer' expectations."
-4,"{""id"": 123, ""group_id"": -1}",4xx,"group_id=-1 is a negative value, which is not a realistic group ID, violating 'type=integer' expectations."
-5,"{""id"": 1001, ""group_id"": 50123}",4xx,One or more fields deliberately violate the spec (4xx).
-6,"{""id"": ""abc"", ""group_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 456, ""group_id"": ""notanint""}",4xx,"group_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": ""12.34"", ""group_id"": 789}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 321, ""group_id"": ""false""}",4xx,"group_id='false' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""xyz"", ""group_id"": ""qwerty""}",4xx,"id='xyz' and group_id='qwerty' are not parseable as integer, violating 'type=integer' for both path parameters."
+1,"{""id"": 50, ""group_id"": 50}",2xx,Both 'id'=50 and 'group_id'=50 are valid integers from context; both required path parameters are present and satisfy 'type=integer'.
+2,"{""id"": -1, ""group_id"": 50}",2xx,id=-1 is an integer and satisfies 'type=integer'; no minimum constraint specified.
+3,"{""id"": 50, ""group_id"": 2147483649}",2xx,group_id=2147483649 is an integer and satisfies 'type=integer'; no maximum constraint specified.
+4,"{""id"": 50, ""group_id"": 50}",2xx,llm_success_ignore_optional
+5,"{""id"": ""abc"", ""group_id"": 50}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 50, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": ""abc"", ""group_id"": 50}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 50, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 50.5, ""group_id"": 50}",4xx,"id=50.5 is not an integer (float provided), violating 'type=integer' for path parameter."
+10,"{""id"": 50, ""group_id"": false}",4xx,"group_id=false is not parseable as integer (boolean provided), violating 'type=integer' for path parameter."
+11,"{""id"": ""notanint"", ""group_id"": ""alsonotint""}",4xx,"id='notanint' and group_id='alsonotint' are not parseable as integer, violating 'type=integer' for both path parameters."
+12,"{""id"": -1, ""group_id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""group_id"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 50, ""group_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": ""123456"", ""group_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

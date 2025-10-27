@@ -95,13 +95,13 @@
   },
   "put-/projects/{id}/issues/{issue_iid}/reorder": {
     "ProjectInfo": {
-      "id": "path_with_namespace"
-    },
-    "BasicProjectDetails": {
-      "id": "path_with_namespace"
+      "id": "path"
     },
     "Issue": {
       "issue_iid": "iid"
+    },
+    "BasicProjectDetails": {
+      "id": "path"
     },
     "MergeRequest": {
       "id": "project_id"
@@ -146,7 +146,7 @@
       "id": "path"
     },
     "Issue": {
-      "issue_iid": "iid"
+      "id": "project_id"
     },
     "Milestone": {
       "id": "project_id"
@@ -235,12 +235,6 @@
     },
     "Issue": {
       "issue_iid": "iid"
-    },
-    "ClosedBy": {
-      "id": "id"
-    },
-    "Milestone": {
-      "id": "project_id"
     }
   },
   "get-/projects/{id}/issues/{issue_iid}/participants": {
@@ -248,12 +242,6 @@
       "id": "path"
     },
     "Issue": {
-      "issue_iid": "iid"
-    },
-    "Milestone": {
-      "id": "project_id"
-    },
-    "MergeRequest": {
       "id": "project_id"
     }
   },
