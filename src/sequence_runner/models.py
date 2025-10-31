@@ -117,3 +117,5 @@ class Paths:
     topolist_path: Path
     output_csv_dir: Path
     output_dir: Path
+    spec_file_path: Path
+    cache_dir: Path

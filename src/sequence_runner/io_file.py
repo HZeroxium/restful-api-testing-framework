@@ -8,8 +8,14 @@ import logging
 import os
 from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+import yaml
+
+from shared_config import get_spec_file
+
 from .models import Paths, TEST_CASE_DIR_NAME, TestCaseCore, DataRow
 from .parser import parse_test_case_core_from_path, parse_csv_to_data_rows
+
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +41,8 @@ class FileService:
                 get_test_case_generator_working_dir,
                 get_test_data_working_dir,
                 get_topolist_file_path,
-                get_results_dir
+                get_results_dir,
+                get_cache_dir,
             )
             
             # Use shared config paths
@@ -47,28 +54,13 @@ class FileService:
                 topolist_path=Path(get_topolist_file_path(service_name)),
                 output_csv_dir=Path(get_results_dir(service_name).rstrip('/')),
                 output_dir=Path(get_results_dir(service_name).rstrip('/')) / "output",
+                spec_file_path=Path(get_spec_file(service_name)),
+                cache_dir=Path(get_cache_dir(service_name)),
             )
             
         except ImportError as e:
-            # Fallback to legacy structure
-            print(f"Warning: Could not import shared_config ({e}), using legacy paths")
-            current_file = Path(base_module_file).resolve()
-            # Navigate up to find project root (contains Dataset/, src/, etc.)
-            project_root = current_file
-            while project_root.parent != project_root:
-                if (project_root / "Dataset").exists() and (project_root / "src").exists():
-                    break
-                project_root = project_root.parent
-            
-            base_dir = project_root / TEST_CASE_DIR_NAME / service_name
-            self.paths = Paths(
-                base_dir=base_dir,
-                test_case_dir=base_dir / "test_case_generator",
-                test_data_dir=base_dir / "TestData/csv",
-                topolist_path=base_dir / "ODG/topolist.json",
-                output_csv_dir=base_dir / "Result",
-                output_dir=(project_root / "Output" / service_name),
-            )
+            raise Exception("Could not import shared_config for directory structure.") from e
+           
         
         self.paths.output_dir.mkdir(parents=True, exist_ok=True)
         os.makedirs(self.paths.output_csv_dir, exist_ok=True)
@@ -203,3 +195,30 @@ class FileService:
             # Phòng hờ: nếu ai đó gọi trước open_csv_output
             self._ensure_out_name("run")
         return self.paths.output_csv_dir / f"{self.out_file_name}.log"
+
+    def get_swagger_spec_dict(self) -> Dict[str, Any]:
+        path = Path(self.paths.spec_file_path)  # normalize to Path
+
+        if not path.exists():
+            raise FileNotFoundError(f"Spec file not found: {path}")
+
+        suffix = path.suffix.lower()
+
+        if suffix in {".yml", ".yaml"}:
+            try:
+                with path.open("r", encoding="utf-8") as stream:
+                    return yaml.safe_load(stream) or {}
+            except yaml.YAMLError as exc:
+                raise ValueError(f"Invalid YAML in {path}") from exc
+
+        elif suffix == ".json":
+            try:
+                with path.open("r", encoding="utf-8") as f:
+                    return json.load(f)
+            except json.JSONDecodeError as exc:
+                raise ValueError(f"Invalid JSON in {path}") from exc
+
+        else:
+            raise ValueError(
+                f"Unsupported spec file type: {suffix}. Use .yaml/.yml or .json (path: {path})"
+            )

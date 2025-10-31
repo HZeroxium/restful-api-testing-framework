@@ -2,6 +2,10 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Literal, Optional, Sequence, Tuple, Union
 import csv, json, random, hashlib
+
+from sequence_runner.helper import get_endpoint_id
+
+
 # Minimal TestRow
 @dataclass
 class TestRow:
@@ -113,3 +117,93 @@ class TestDataRunner:
         out = list(chosen.values())[:total]
         random.shuffle(out)
         return out
+
+    def get_first_2xx_row(self) -> Optional[TestRow]:
+        """Return the first TestRow with a 2xx expected status code, or None if none exist."""
+        for row in self.rows:
+            if str(row.expected_status_code).startswith("2"):
+                return row
+        return None
+
+
+# ===========================================================
+# Executable data builder for an endpoint
+# ===========================================================
+
+
+def _path_to_slug(path: str) -> str:
+    """Convert '/a/{id}/b' -> '_a__id__b' (file-system safe-ish slug)."""
+    return path.replace("/", "_").replace("{", "").replace("}", "")
+
+
+def _build_csv_base_name(method: str, path: str, operation_id: Optional[str]) -> str:
+    """
+    Filename base used by the generator:
+      <path_slug>_<operationId>
+    If operation_id is None, fall back to METHOD uppercased.
+    """
+    slug = _path_to_slug(path)
+    op = operation_id.strip() if operation_id else method.upper()
+    return f"{slug}_{op}"
+
+
+def _parse_data_cell_json(row: Optional[TestRow]) -> Optional[dict]:
+    """
+    Turn a TestRow.data_json into a dict:
+      - JSON object -> returned as-is
+      - JSON array/primitive -> wrapped under {'data': <value>}
+      - invalid/missing -> None
+    """
+    if row is None or not row.data_json:
+        return None
+    try:
+        obj = json.loads(row.data_json)
+        if isinstance(obj, dict):
+            return obj
+        return {"data": obj}
+    except Exception:
+        return None
+
+
+def _pick_first_2xx_row_from_csv(csv_path: Path) -> Optional[TestRow]:
+    if not csv_path.exists():
+        return None
+    try:
+        rows = _read_csv(csv_path)
+    except Exception:
+        return None
+    for r in rows:
+        if str(r.expected_status_code).strip().lower().startswith("2"):
+            return r
+    return None
+
+
+
+def get_first_2xx_executable_data_for_endpoint(
+    endpoint_sig: str,
+    swagger_spec: dict,
+    csv_dir: Optional[Path] = None,
+) -> Dict[str, Any]:
+    """
+    Auto-locate and load CSV test data for the given endpoint.
+    Uses your helper `get_endpoint_id` to determine the correct file name.
+    """
+    # Use your helper to get canonical base name
+    base_name = get_endpoint_id(swagger_spec, endpoint_sig)
+
+    if csv_dir is None:
+        raise FileNotFoundError("Could not locate CSV directory. Set KAT_CSV_DIR or provide FileService path.")
+
+    param_csv = csv_dir / f"{base_name}_param.csv"
+    body_csv  = csv_dir / f"{base_name}_body.csv"
+
+    param_row = _pick_first_2xx_row_from_csv(param_csv)
+    body_row  = _pick_first_2xx_row_from_csv(body_csv)
+
+    parameters   = _parse_data_cell_json(param_row)
+    request_body = _parse_data_cell_json(body_row)
+
+    return {
+        "parameters": parameters,
+        "requestBody": request_body,
+    }

@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 # add near other imports
+from sequence_runner.helper import extract_expected_status, is_status_match
 from sequence_runner.models import StepModel
 from .test_data_runner import TestDataRunner, TestRow
 import json
@@ -13,7 +14,6 @@ from typing import Any, Dict, List, Literal, Optional
 
 from .http_client import HttpClient
 from .io_file import FileService
-from .validator import extract_expected_status, is_status_match
 from .data_merge import merge_test_data
 from .dependency import DependencyService  # NOTE: removed NOT_SURE import
 from .url_builder import clean_endpoint, required_path_vars, substitute_path_vars, build_urls
@@ -51,9 +51,9 @@ class SequenceRunner:
         self.headers = headers
         self.http = HttpClient(token=token, default_headers=self.headers)
         self.response_cache: Dict[str, Any] = {}
-
+        self.swagger_spec = self.file.get_swagger_spec_dict()
         # Dependency service (warm cache)
-        self.dep = DependencyService()
+        self.dep = DependencyService(fileService= self.file, swagger_spec=self.swagger_spec)
 
         # CSV output
         # self.file.open_csv_output(service_name)
@@ -159,8 +159,7 @@ class SequenceRunner:
             deps_params, deps_body = dict(resolved_params), dict(resolved_body)
             print("Resolved dependencies:", deps_params, deps_body) 
         except Exception as e:
-            self.logger.warning(f"Dependency resolution warning on step {current_step}: {e}")
-            deps_params, deps_body = dict(resolved_params), dict(resolved_body)
+            raise Exception(f"Dependency resolution failed at step {current_step} ({method} {endpoint}): {e}")
 
         # 2) Merge CSV data (param/body) over resolved values
         csv_path_vars = {}
@@ -323,26 +322,17 @@ class SequenceRunner:
             self.logger.warning(f"No steps found in test case: {test_case_id}")
             return is_pass
 
-        # --- Dependency warm-up for this test case ---
-        # Load persisted cache and preload producer endpoints (GET) for required dependencies
-        self._load_dep_cache()
         if not self.skip_preload:
             try:
-                dep_endpoints, dep_map = self.dep.auto_discover_dependencies([test_case])
-                if dep_endpoints:
-                    self.logger.info(f"🌱 Preloading dependencies: {len(dep_endpoints)} producer endpoint(s)")
-                self.dep.preload_dependencies(
-                    base_url=self.base_url,
-                    http=self.http,
-                    dependency_endpoints=dep_endpoints,
-                    dependency_mappings=dep_map,
-                )
+                # We have not executed any step yet in this test case, so pass an empty list
+                self.dep.preload_endpoints_dependency(steps, step_responses=[])
+                self.logger.info("🌱 Preloaded dependency source endpoints to cache dir")
             except Exception as e:
                 self.logger.warning(f"Dependency preloading warning: {e}")
 
         # CSV locate by endpoint_identifier (compat rules)
         endpoint_identifier = (
-            test_case_id["endpoint"]
+            test_case_id.replace("_0_1", "").replace("_1_1", "").replace("_2_1", "")
         )
         files = self.file.find_test_data_files(endpoint_identifier)
 
@@ -350,18 +340,6 @@ class SequenceRunner:
         param_tr_rows: List[TestRow] = self.get_test_rows_from_path(files["param"]) if files["param"] else []
         body_tr_rows: List[TestRow] = self.get_test_rows_from_path(files["body"]) if files["body"] else []
 
-        if files["param"]:
-            self.logger.info(
-                f"📄 Param CSV: {files['param'].name} -> {len(param_tr_rows)} rows "
-                f"(strategy='{getattr(self, 'sampling_strategy', 'random_quota')}', "
-                f"want_2xx={getattr(self, 'want_2xx', 10)}, want_4xx={getattr(self, 'want_4xx', 10)})"
-            )
-        if files["body"]:
-            self.logger.info(
-                f"📄 Body  CSV: {files['body'].name}  -> {len(body_tr_rows)} rows "
-                f"(strategy='{getattr(self, 'sampling_strategy', 'random_quota')}', "
-                f"want_2xx={getattr(self, 'want_2xx', 10)}, want_4xx={getattr(self, 'want_4xx', 10)})"
-            )
 
         # Convert TestRow → side dict your pipeline expects
         def _testrow_to_obj(tr: Optional[TestRow]) -> Dict[str, Any]:

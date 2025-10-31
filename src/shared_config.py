@@ -41,11 +41,10 @@ def ensure_service_structure(service_name: str) -> Path:
     return service_dir
 
 # KAT Integration Functions
-def get_data_dir_file(service_name: str) -> str:
+def get_spec_file(service_name: str) -> str:
     """Get OpenAPI spec file path"""
     service_dir = ensure_service_structure(service_name)
     return str(service_dir / "specs" / "openapi.json")
-
 def get_output_dir(service_name: str, phase: str) -> str:
     """Get output directory for a specific phase"""
     service_dir = ensure_service_structure(service_name)
@@ -93,7 +92,12 @@ def get_logs_dir(service_name: str) -> str:
 def get_root_dir() -> str:
     """Get root database directory"""
     return str(get_database_base_dir()) + "/"
-
+def get_cache_dir(service_name: str) -> str:
+    """Get cache directory for a service"""
+    service_dir = ensure_service_structure(service_name)
+    cache_dir = service_dir / "cache"
+    cache_dir.mkdir(exist_ok=True)
+    return str(cache_dir) + "/"
 # Service Registry Functions
 def register_service(service_name: str, spec_content: str, metadata: dict = None) -> str:
     """Register a service with spec content"""
@@ -143,7 +147,7 @@ WORKING_DIRECTORY = str(get_database_base_dir())
 
 # Export functions that KAT expects
 __all__ = [
-    'get_data_dir_file',
+    'get_spec_file',
     'get_output_dir', 
     'get_odg_working_dir',
     'get_test_case_generator_working_dir',

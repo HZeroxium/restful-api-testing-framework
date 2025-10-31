@@ -520,7 +520,6 @@ class DataEndpointDependency:
             if body_schema:
                 json_body = self._prune_body_to_required(json_body, body_schema)
                 logger.info(f"Pruned body to required fields only: {json_body}")
-        # Thay path params
         final_path = self._apply_path_params(raw_path, path_params)
         url = f"{base_url}{final_path}"
 
