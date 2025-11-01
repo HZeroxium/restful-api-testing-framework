@@ -126,9 +126,19 @@ class FieldDependency:
     from_step: int
     from_endpoint: str
     depend_field_name: str
+    
 
 @dataclass
 class DataDependencies:
     step_index: int
     endpoint_sig: str
     field_dependencies: List[FieldDependency]
+
+@dataclass
+class DependencyResolveValueData:
+    source_field_name: str
+    list_value : List[Any]
+@dataclass
+class DependencyResolveValue:
+    endpoint_sig: str
+    field_dependency_data: List[DependencyResolveValueData]

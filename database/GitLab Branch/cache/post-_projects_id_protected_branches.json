@@ -1,0 +1,30 @@
+{
+  "id": 17,
+  "name": "main",
+  "push_access_levels": [
+    {
+      "access_level": 40,
+      "access_level_description": "Maintainers",
+      "user_id": null,
+      "group_id": null
+    }
+  ],
+  "merge_access_levels": [
+    {
+      "access_level": 40,
+      "access_level_description": "Maintainers",
+      "user_id": null,
+      "group_id": null
+    }
+  ],
+  "allow_force_push": false,
+  "unprotect_access_levels": [
+    {
+      "access_level": 40,
+      "access_level_description": "Maintainers",
+      "user_id": null,
+      "group_id": null
+    }
+  ],
+  "code_owner_approval_required": false
+}

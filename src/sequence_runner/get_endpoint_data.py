@@ -45,18 +45,16 @@ class ApiDataFetcher:
         csv_dir: Optional[Path] = None,
     ) -> None:
         self.swagger_spec = swagger_spec or {}
-        self.headers = dict(headers or {})
+        self.headers = headers
         # Expected keys: "params", "requestBody" (both optional)
         self.session = session or requests.Session()
         self.csv_dir = csv_dir
 
     # ------------------------------ public API ------------------------------
-    def call_api_to_get_data_for_ep(self, endpoint_sig: str) -> Optional[Dict[str, Any]]:
+    def call_api_to_get_data_for_ep(self, endpoint_sig: str, dep_values: Optional[Dict[str, Any]] = None) -> Optional[Dict[str, Any]]:
         """
-        Build a minimal request from swagger + provided exec data model, call the real API,
-        and return a compact cache-ready object.
-
-        Returns None if base URL or executable data is missing, or request fails.
+        Build a minimal request from swagger + CSV, optionally inject dep_values,
+        call the API, and return a compact cache-ready object.
         """
         exec_data = get_first_2xx_executable_data_for_endpoint(
             endpoint_sig,
@@ -72,18 +70,35 @@ class ApiDataFetcher:
         if not base_url:
             logging.error("Base URL missing in swagger spec; cannot call %s", endpoint_sig)
             return None
-        logging.info("➡️  Fetching %s %s", method.upper(), f"{base_url}{raw_path}")
+
         path_params, query_params, header_params, cookie_params, json_body = \
             self._build_minimal_request_parts(endpoint_sig, exec_data)
-        logging.info("    Path params: %s", path_params)
-        # prune body to required fields only (if any body and we can resolve schema)
+
+        # Inject dependency values
+        if dep_values:
+            for k, v in dep_values.items():
+                if path_params is not None and k in path_params:
+                    path_params[k] = v
+                    continue
+                if isinstance(json_body, dict) and k in json_body:
+                    json_body[k] = v
+                    continue
+                if query_params is None:
+                    query_params = {}
+                if k not in query_params or query_params[k] in (None, ""):
+                    query_params[k] = v
+
+        # Optional: prune body to required
         if json_body and isinstance(json_body, dict):
             body_schema = self._get_request_body_schema(raw_path, method)
             if body_schema:
                 json_body = self._prune_body_to_required(json_body, body_schema)
 
-        final_path = self._apply_path_params(raw_path, path_params)
+        final_path = self._apply_path_params(raw_path, path_params or {})
         url = f"{base_url}{final_path}"
+
+        logging.info("➡️  Fetching %s %s", method.upper(), url)
+        logging.info("    Path params: %s", path_params)
 
         try:
             resp = self.session.request(
@@ -98,7 +113,6 @@ class ApiDataFetcher:
             logging.info("    Response status: %d", resp.status_code)
         except Exception as e:
             raise Exception(f"API call failed for {endpoint_sig}: {e}") from e
-            return None
 
         try:
             content = resp.json()
@@ -122,6 +136,8 @@ class ApiDataFetcher:
                 "json": json_body if method.upper() in ("POST", "PUT", "PATCH") else None,
             },
         }
+
+
 
 
 

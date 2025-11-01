@@ -3,7 +3,7 @@ from __future__ import annotations
 
 # add near other imports
 from sequence_runner.helper import extract_expected_status, is_status_match
-from sequence_runner.models import StepModel
+from sequence_runner.models import DependencyResolveValue, StepModel
 from .test_data_runner import TestDataRunner, TestRow
 import json
 from .logging_setup import setup_logging
@@ -52,7 +52,7 @@ class SequenceRunner:
         self.response_cache: Dict[str, Any] = {}
         self.swagger_spec = self.file.get_swagger_spec_dict()
         # Dependency service (warm cache)
-        self.dep = DependencyService(fileService= self.file, swagger_spec=self.swagger_spec)
+        self.dep = DependencyService(fileService= self.file, swagger_spec=self.swagger_spec, headers=self.headers)
 
         # CSV output
         # self.file.open_csv_output(service_name)
@@ -324,8 +324,8 @@ class SequenceRunner:
         if not self.skip_preload:
             try:
                 # We have not executed any step yet in this test case, so pass an empty list
-                self.dep.preload_endpoints_dependency(steps, step_responses=[])
-                self.logger.info("🌱 Preloaded dependency source endpoints to cache dir")
+                dependencyResolveValue: DependencyResolveValue = self.dep.preload_endpoints_dependency(steps=steps, step_responses=[])
+                self.logger.info("🌱 Preloaded depende ncy source endpoints to cache dir")
             except Exception as e:
                 self.logger.warning(f"Dependency preloading warning: {e}")
 
@@ -565,6 +565,9 @@ class SequenceRunner:
             form_fields[k] = "" if v is None else v
 
         return form_fields, files
+    # inside class DependencyService
+
+   
     # ------------------------------------------------------------------
     def close(self):
         self.file.close()
