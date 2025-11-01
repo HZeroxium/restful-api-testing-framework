@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 from collections import defaultdict
+from dataclasses import dataclass
 
 import yaml
 import logging
@@ -34,7 +35,17 @@ class DependencyService:
         self.index_path = self.cache_dir / "_endpoint_sig_cache_response.json"
         self.csv_dir = self.fileService.paths.test_data_dir
         
-
+    @staticmethod
+    def get_cache_name_from_endpoint_sig(endpoint_sig: str) -> str:
+        """
+        Convert endpoint signature into a filesystem-safe filename.
+        Example:
+            get-/projects/{id}/members → get-_projects_{id}_members.json
+        """
+        sanitized = endpoint_sig.replace("/", "_").replace("{", "").replace("}", "")
+        sanitized = sanitized.replace("?", "_").replace(":", "_").replace("\\", "_")
+        sanitized = sanitized.replace(" ", "_")
+        return sanitized
 
     @staticmethod
     def _write_json(path: Path, obj: Any) -> None:
@@ -46,7 +57,7 @@ class DependencyService:
     def _save_cached_response(self, endpoint_sig: str, data: Any) -> None:
         if data is None:
             return
-        file_name = endpoint_sig
+        file_name = f"{self.get_cache_name_from_endpoint_sig(endpoint_sig)}.json"
         fpath = self.cache_dir / file_name
         self._write_json(fpath, data)
 
@@ -65,6 +76,7 @@ class DependencyService:
             return False
         f = self.cache_dir / meta.get("file", "")
         return f.exists()
+
     def preload_endpoints_dependency(
     self,
     steps: List[StepModel],
@@ -82,7 +94,7 @@ class DependencyService:
         """
         needed_sources: Dict[int, str] = {}
         for step in steps:
-            deps = getattr(step, "data_dependencies", None) or {}
+            deps = step.data_dependencies
             if not deps:
                 continue
             for dep_info in deps.values():
@@ -94,7 +106,7 @@ class DependencyService:
         # 2) Loop through each dependency source
         for src_idx, endpoint_sig in needed_sources.items():
             try:
-                cache_path = self.cache_dir / f"{endpoint_sig}.json"
+                cache_path = self.cache_dir / f"{self.get_cache_name_from_endpoint_sig(endpoint_sig)}.json"
 
                 # Skip if already cached
                 if cache_path.exists():

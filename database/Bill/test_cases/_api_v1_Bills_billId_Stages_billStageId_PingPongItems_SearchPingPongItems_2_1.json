@@ -27,42 +27,6 @@
       },
       {
         "step_number": 2,
-        "endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}",
-        "method": "GET",
-        "path_variables": {
-          "billId": null,
-          "billStageId": null,
-          "pingPongItemId": null
-        },
-        "query_parameters": {},
-        "request_body": {},
-        "response_validation": {
-          "status_code": "2xx",
-          "body_validation": {}
-        },
-        "data_dependencies": {
-          "billId": {
-            "from_step": 1,
-            "field_mappings": {
-              "billId": "id"
-            }
-          },
-          "billStageId": {
-            "from_step": 1,
-            "field_mappings": {
-              "billStageId": "id"
-            }
-          },
-          "pingPongItemId": {
-            "from_step": 1,
-            "field_mappings": {
-              "pingPongItemId": "id"
-            }
-          }
-        }
-      },
-      {
-        "step_number": 3,
         "endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems",
         "method": "GET",
         "path_variables": {
@@ -83,15 +47,17 @@
         },
         "data_dependencies": {
           "billId": {
-            "from_step": 2,
+            "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
-              "billId": "id"
+              "billId": "billId"
             }
           },
           "billStageId": {
-            "from_step": 2,
+            "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
-              "billStageId": "id"
+              "billStageId": "billStageId"
             }
           }
         }

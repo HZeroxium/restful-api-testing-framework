@@ -48,14 +48,9 @@
         "data_dependencies": {
           "billId": {
             "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
-              "billId": "id"
-            }
-          },
-          "billStageId": {
-            "from_step": 1,
-            "field_mappings": {
-              "billStageId": "id"
+              "billId": "billId"
             }
           }
         }

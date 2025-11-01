@@ -1,12 +1,12 @@
 {
   "post-/projects": {
+    "Namespace": {
+      "name": "name"
+    },
     "Owner": {
       "name": "name"
     },
     "Branch": {
-      "name": "name"
-    },
-    "Namespace": {
       "name": "name"
     },
     "ProtectedBranch": {
@@ -44,6 +44,9 @@
     "BasicProjectDetails": {
       "id": "id"
     },
+    "RepoBranch": {
+      "branch": "name"
+    },
     "ProtectedBranch": {
       "branch": "name"
     }
@@ -78,7 +81,7 @@
       "id": "id"
     },
     "Branch": {
-      "name": "name"
+      "id": "name"
     }
   }
 }

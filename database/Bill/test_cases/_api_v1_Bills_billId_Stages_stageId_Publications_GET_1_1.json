@@ -51,16 +51,25 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "billId": {
-            "from_step": 1,
-            "field_mappings": {
-              "billId": "id"
-            }
-          },
           "stageId": {
             "from_step": 1,
+            "from_endpoint": "get-/api/v1/Bills",
             "field_mappings": {
-              "stageId": "id"
+              "stageId": "billStageId"
+            }
+          },
+          "billId": {
+            "from_step": 1,
+            "from_endpoint": "get-/api/v1/Bills",
+            "field_mappings": {
+              "billId": "billId"
+            }
+          },
+          "sittingId": {
+            "from_step": 1,
+            "from_endpoint": "get-/api/v1/Bills",
+            "field_mappings": {
+              "sittingId": "sittingId"
             }
           }
         }

@@ -1,4 +1,7 @@
 {
+  "AmendmentSearchItemSearchResult": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
+  ],
   "AmendmentSearchItem": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
   ],
@@ -8,20 +11,17 @@
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems",
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
   ],
-  "AmendmentSearchItemSearchResult": [
-    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
-  ],
-  "AmendmentDetail": [
-    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"
-  ],
   "AmendmentLine": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}",
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
   ],
-  "NewsArticlesSummary": [
-    "get-/api/v1/Bills/{billId}/NewsArticles"
+  "AmendmentDetail": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}"
   ],
   "NewsArticlesSummarySearchResult": [
+    "get-/api/v1/Bills/{billId}/NewsArticles"
+  ],
+  "NewsArticlesSummary": [
     "get-/api/v1/Bills/{billId}/NewsArticles"
   ],
   "BillType": [
@@ -30,6 +30,14 @@
   "BillTypeSearchResult": [
     "get-/api/v1/BillTypes"
   ],
+  "StageSummary": [
+    "get-/api/v1/Bills",
+    "get-/api/v1/Bills/{billId}",
+    "get-/api/v1/Bills/{billId}/Stages"
+  ],
+  "BillSummarySearchResult": [
+    "get-/api/v1/Bills"
+  ],
   "BillStageSitting": [
     "get-/api/v1/Bills",
     "get-/api/v1/Bills/{billId}",
@@ -37,16 +45,17 @@
     "get-/api/v1/Bills/{billId}/Stages",
     "get-/api/v1/Sittings"
   ],
-  "BillSummarySearchResult": [
-    "get-/api/v1/Bills"
-  ],
   "BillSummary": [
     "get-/api/v1/Bills"
   ],
-  "StageSummary": [
-    "get-/api/v1/Bills",
-    "get-/api/v1/Bills/{billId}",
-    "get-/api/v1/Bills/{billId}/Stages"
+  "BillAgent": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Organisation": [
+    "get-/api/v1/Bills/{billId}"
+  ],
+  "Promoter": [
+    "get-/api/v1/Bills/{billId}"
   ],
   "Bill": [
     "get-/api/v1/Bills/{billId}"
@@ -54,22 +63,13 @@
   "Member": [
     "get-/api/v1/Bills/{billId}"
   ],
-  "Promoter": [
-    "get-/api/v1/Bills/{billId}"
-  ],
-  "Organisation": [
-    "get-/api/v1/Bills/{billId}"
-  ],
-  "BillAgent": [
-    "get-/api/v1/Bills/{billId}"
-  ],
   "Sponsor": [
     "get-/api/v1/Bills/{billId}"
   ],
-  "Committee": [
+  "BillStageDetails": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}"
   ],
-  "BillStageDetails": [
+  "Committee": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}"
   ],
   "StageSummarySearchResult": [
@@ -80,7 +80,7 @@
     "get-/api/v1/Bills/{billId}/Publications",
     "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
   ],
-  "AmendmentSummaryMotionSummaryPingPongItemSearchResult": [
+  "MotionSummary": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
   ],
   "AmendmentSummaryMotionSummaryPingPongItem": [
@@ -89,8 +89,14 @@
   "PingPongAmendmentSummary": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
   ],
-  "MotionSummary": [
+  "AmendmentSummaryMotionSummaryPingPongItemSearchResult": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems"
+  ],
+  "AmendmentDetailMotionDetailPingPongItem": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "AmendmentGroup": [
+    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
   ],
   "MotionDetail": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
@@ -101,22 +107,19 @@
   "PingPongAmendmentDetail": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
   ],
-  "AmendmentDetailMotionDetailPingPongItem": [
-    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
-  ],
-  "AmendmentGroup": [
-    "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
-  ],
   "PingPongAmendment": [
     "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+  ],
+  "PublicationTypeSearchResult": [
+    "get-/api/v1/PublicationTypes"
   ],
   "PublicationType": [
     "get-/api/v1/PublicationTypes",
     "get-/api/v1/Bills/{billId}/Publications",
     "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
   ],
-  "PublicationTypeSearchResult": [
-    "get-/api/v1/PublicationTypes"
+  "BillPublication": [
+    "get-/api/v1/Bills/{billId}/Publications"
   ],
   "PublicationLink": [
     "get-/api/v1/Bills/{billId}/Publications",
@@ -125,16 +128,13 @@
   "BillPublicationList": [
     "get-/api/v1/Bills/{billId}/Publications"
   ],
-  "BillPublication": [
-    "get-/api/v1/Bills/{billId}/Publications"
+  "BillStagePublicationList": [
+    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
   ],
   "Publication": [
     "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
   ],
   "BillStageSittingPublicationList": [
-    "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
-  ],
-  "BillStagePublicationList": [
     "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
   ],
   "BillStageSittingSearchResult": [

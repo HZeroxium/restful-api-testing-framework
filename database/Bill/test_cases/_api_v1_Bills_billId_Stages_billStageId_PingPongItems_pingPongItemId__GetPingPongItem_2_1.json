@@ -43,20 +43,16 @@
         "data_dependencies": {
           "billId": {
             "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
-              "billId": "id"
+              "billId": "billId"
             }
           },
           "billStageId": {
             "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
               "billStageId": "id"
-            }
-          },
-          "pingPongItemId": {
-            "from_step": 1,
-            "field_mappings": {
-              "pingPongItemId": "id"
             }
           }
         }

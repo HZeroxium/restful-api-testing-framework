@@ -6352,3 +6352,245 @@ NoneType: None
 2025-10-27 21:41:04,623 - INFO - Retrying request to /chat/completions in 1.000000 seconds
 2025-10-27 21:41:09,597 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
 2025-10-27 21:41:09,598 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-01 13:49:08,117 - ERROR - Error in run_generator.py: [Errno 2] No such file or directory: './KAT_CLONE_TEST_CASES/Bill/ODG/'
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 125, in __init__
+    self.prepare_testing_directory()
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 192, in prepare_testing_directory
+    shutil.rmtree(self.odg_dir)
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/shutil.py", line 759, in rmtree
+    _rmtree_safe_fd(stack, onexc)
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/shutil.py", line 703, in _rmtree_safe_fd
+    onexc(func, path, err)
+  File "/Library/Frameworks/Python.framework/Versions/3.12/lib/python3.12/shutil.py", line 669, in _rmtree_safe_fd
+    orig_st = os.lstat(name, dir_fd=dirfd)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './KAT_CLONE_TEST_CASES/Bill/ODG/'
+2025-11-01 13:52:13,627 - ERROR - Error in run_generator.py: name 'WORKING_DIRECTORY' is not defined
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 111, in __init__
+    self.working_directory = get_test_case_generator_working_dir(service_name)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/directory_config/directory_config.py", line 46, in get_test_case_generator_working_dir
+    return f"{WORKING_DIRECTORY}/{service_name}/test_case_generator/"
+              ^^^^^^^^^^^^^^^^^
+NameError: name 'WORKING_DIRECTORY' is not defined
+2025-11-01 13:59:30,632 - ERROR - Error in run_generator.py: name 'get_data_dir_file' is not defined
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 107, in __init__
+    if not os.path.exists(get_data_dir_file(service_name)):
+                          ^^^^^^^^^^^^^^^^^
+NameError: name 'get_data_dir_file' is not defined
+2025-11-01 14:01:19,762 - ERROR - Error in run_generator.py: Swagger spec file for service Bill not found. Please put it according the path: "Dataset/Bill/openapi.json"
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 106, in __init__
+    raise Exception(
+Exception: Swagger spec file for service Bill not found. Please put it according the path: "Dataset/Bill/openapi.json"
+2025-11-01 14:02:07,233 - ERROR - Error in run_generator.py: Service 'Bill' not found in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/specs/openapi.json. Please register the service first.
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 106, in __init__
+    raise Exception(
+Exception: Service 'Bill' not found in /Users/npt/Documents/NCKH/restful-api-testing-framework/database/Bill/specs/openapi.json. Please register the service first.
+2025-11-01 14:02:52,748 - INFO - Preparing ODG for service: Bill
+2025-11-01 14:02:53,742 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:54,589 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:55,221 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:56,099 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:56,515 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:56,957 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:57,532 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:57,959 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:58,443 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:58,943 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:02:59,636 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:00,071 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:00,802 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:01,375 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:01,857 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:02,386 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:02,827 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:03,385 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:04,096 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:04,826 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:05,545 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:06,154 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:06,648 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:07,494 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:08,102 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:08,957 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:09,452 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:10,037 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:10,241 - INFO - ODG prepared and saved.
+2025-11-01 14:03:10,248 - ERROR - Error in run_generator.py: name 'get_topolist_file_path' is not defined
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 42, in <module>
+    generator.generate_test_cases()
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 390, in generate_test_cases
+    staging_endpoints = self.get_staging_endpoints()
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 359, in get_staging_endpoints
+    topo_sorted_endpoint_list = json.load(open(get_topolist_file_path(self.service_name), "r"))
+                                               ^^^^^^^^^^^^^^^^^^^^^^
+NameError: name 'get_topolist_file_path' is not defined
+2025-11-01 14:03:33,652 - INFO - Preparing ODG for service: Bill
+2025-11-01 14:03:34,470 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:35,269 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:35,862 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:36,701 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:37,107 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:37,547 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:38,149 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:38,553 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:39,117 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:39,668 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:40,441 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:40,943 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:41,629 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:42,189 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:42,610 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:43,108 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:43,507 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:44,034 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:44,677 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:45,466 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:46,207 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:46,766 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:46,826 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-11-01 14:03:46,826 - INFO - Retrying request to /chat/completions in 7.000000 seconds
+2025-11-01 14:03:54,600 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:55,318 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:55,836 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:56,637 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:57,094 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:57,576 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:03:57,766 - INFO - ODG prepared and saved.
+2025-11-01 14:03:57,773 - INFO - path: /api/v1/BillTypes, method: get
+2025-11-01 14:03:57,773 - INFO - path: /api/v1/BillTypes, method: get
+2025-11-01 14:03:57,773 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-11-01 14:03:57,773 - INFO - path: /api/v1/PublicationTypes, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/allbills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/publicbills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Rss/privatebills.rss, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Stages, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Stages, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,774 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills/{billId}, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Rss/Bills/{id}.rss, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills/{billId}/NewsArticles, method: get
+2025-11-01 14:03:57,775 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Bills/{billId}/Stages, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-11-01 14:03:57,776 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills/{billId}/Stages/{stageId}/Publications, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,777 - INFO - path: /api/v1/Bills/{billId}/Publications, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,778 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-11-01 14:03:57,779 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,779 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems, method: get
+2025-11-01 14:03:57,780 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,780 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,781 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Bills, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Sittings, method: get
+2025-11-01 14:03:57,782 - INFO - path: /api/v1/Publications/{publicationId}/Documents/{documentId}/Download, method: get
+2025-11-01 14:29:28,450 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-01 14:29:29,080 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:29,597 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:30,038 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:30,572 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:31,115 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:31,695 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:32,189 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:32,695 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:33,178 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:33,699 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:34,270 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:34,809 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:35,342 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:35,891 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:36,443 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:36,872 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:37,455 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-01 14:29:37,639 - INFO - ODG prepared and saved.
+2025-11-01 14:29:37,643 - INFO - path: /projects, method: post
+2025-11-01 14:29:37,643 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,644 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,644 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-01 14:29:37,644 - INFO - path: /projects, method: post
+2025-11-01 14:29:37,644 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-01 14:29:37,644 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,644 - INFO - path: /projects, method: post
+2025-11-01 14:29:37,645 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,645 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-01 14:29:37,645 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,645 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-01 14:29:37,646 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,646 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-01 14:29:37,646 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,646 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-01 14:29:37,646 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,646 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-01 14:29:37,647 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,647 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-01 14:29:37,648 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,648 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-01 14:29:37,649 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,649 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-01 14:29:37,649 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,649 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-01 14:29:37,650 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,650 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-01 14:29:37,650 - INFO - path: /projects, method: get
+2025-11-01 14:29:37,650 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-01 14:29:37,650 - INFO - path: /projects, method: post
+2025-11-01 14:29:37,650 - INFO - path: /projects/{id}/repository/merged_branches, method: delete

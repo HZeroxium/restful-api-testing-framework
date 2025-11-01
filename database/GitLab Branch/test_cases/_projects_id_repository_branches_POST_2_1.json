@@ -59,6 +59,7 @@
         "data_dependencies": {
           "id": {
             "from_step": 1,
+            "from_endpoint": "get-/projects",
             "field_mappings": {
               "id": "id"
             }
@@ -84,8 +85,16 @@
         "data_dependencies": {
           "id": {
             "from_step": 2,
+            "from_endpoint": "get-/projects/{id}/repository/branches",
             "field_mappings": {
               "id": "id"
+            }
+          },
+          "ref": {
+            "from_step": 2,
+            "from_endpoint": "get-/projects/{id}/repository/branches",
+            "field_mappings": {
+              "ref": "id"
             }
           }
         }

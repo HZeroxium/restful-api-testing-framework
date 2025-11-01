@@ -61,8 +61,16 @@
           "body_validation": {}
         },
         "data_dependencies": {
+          "id": {
+            "from_step": 1,
+            "from_endpoint": "get-/projects",
+            "field_mappings": {
+              "id": "id"
+            }
+          },
           "name": {
             "from_step": 1,
+            "from_endpoint": "get-/projects",
             "field_mappings": {
               "name": "name"
             }
@@ -86,14 +94,16 @@
         "data_dependencies": {
           "id": {
             "from_step": 2,
+            "from_endpoint": "post-/projects/{id}/protected_branches",
             "field_mappings": {
               "id": "id"
             }
           },
           "branch": {
             "from_step": 2,
+            "from_endpoint": "post-/projects/{id}/protected_branches",
             "field_mappings": {
-              "branch": "id"
+              "branch": "name"
             }
           }
         }

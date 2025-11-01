@@ -48,14 +48,9 @@
         "data_dependencies": {
           "billId": {
             "from_step": 1,
+            "from_endpoint": "get-/api/v1/Sittings",
             "field_mappings": {
-              "billId": "id"
-            }
-          },
-          "billStageId": {
-            "from_step": 1,
-            "field_mappings": {
-              "billStageId": "id"
+              "billId": "billId"
             }
           }
         }
@@ -78,20 +73,16 @@
         "data_dependencies": {
           "billId": {
             "from_step": 2,
+            "from_endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
             "field_mappings": {
-              "billId": "id"
+              "billId": "billId"
             }
           },
           "billStageId": {
             "from_step": 2,
+            "from_endpoint": "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments",
             "field_mappings": {
-              "billStageId": "id"
-            }
-          },
-          "amendmentId": {
-            "from_step": 2,
-            "field_mappings": {
-              "amendmentId": "id"
+              "billStageId": "billStageId"
             }
           }
         }

@@ -34,13 +34,13 @@ try:
         service_name=service,
         collection="Default",
         save_prompts=True,
-        regenerate_test_data=True,  # Force regenerate với prompt mới
+        regenerate_test_data=False,  # Force regenerate với prompt mới
         data_generation_mode="all",
         clear_test_cases=True,  # Không xóa test cases khi chỉ generate test data
         headers=gitlab_headers
     )
     generator.generate_test_cases()
-    generator.generate_test_data_for(generator.get_endpoints())
+    # generator.generate_test_data_for(generator.get_endpoints())
     # for service in list_services:
         
     #     generator = TestCaseGenerator(

@@ -9,7 +9,6 @@ from pydantic import BaseModel, Field, field_validator
 # tạm thời fallback nếu chưa có StatusSpec:
 from .status import StatusSpec
 
-TEST_CASE_DIR_NAME = "KAT_CLONE_TEST_CASES"
 
 # ====== RESPONSE VALIDATION ======
 class ResponseValidation(BaseModel):
@@ -99,7 +98,7 @@ class DataRow(BaseModel):
             extra=extra
         )
 
-# ====== DATASET GHÉP ======
+# ====== DATASET  ======
 class InjectedDataset(BaseModel):
     param_rows: List[DataRow] = Field(default_factory=list)
     body_rows: List[DataRow] = Field(default_factory=list)
@@ -119,3 +118,17 @@ class Paths:
     output_dir: Path
     spec_file_path: Path
     cache_dir: Path
+
+
+@dataclass
+class FieldDependency:
+    source_field_name: str
+    from_step: int
+    from_endpoint: str
+    depend_field_name: str
+
+@dataclass
+class DataDependencies:
+    step_index: int
+    endpoint_sig: str
+    field_dependencies: List[FieldDependency]

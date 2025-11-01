@@ -1,0 +1,33 @@
+[
+  {
+    "id": 8,
+    "description": null,
+    "name": "MyProject",
+    "name_with_namespace": "Administrator / MyProject",
+    "path": "MyProject",
+    "path_with_namespace": "root/MyProject",
+    "created_at": "2025-10-11T08:00:14.444Z",
+    "default_branch": "main",
+    "tag_list": [],
+    "topics": [],
+    "ssh_url_to_repo": "git@localhost:root/MyProject.git",
+    "http_url_to_repo": "http://localhost:30000/root/MyProject.git",
+    "web_url": "http://localhost:30000/root/MyProject",
+    "readme_url": null,
+    "forks_count": 0,
+    "avatar_url": null,
+    "star_count": 0,
+    "last_activity_at": "2025-10-11T08:00:14.133Z",
+    "visibility": "public",
+    "namespace": {
+      "id": 1,
+      "name": "Administrator",
+      "path": "root",
+      "kind": "user",
+      "full_path": "root",
+      "parent_id": null,
+      "avatar_url": "https://www.gravatar.com/avatar/6abbb19dfd716ce71351358544bdaadbe14d277b653c6bab4b2363a2b157eb36?s=80&d=identicon",
+      "web_url": "http://localhost:30000/root"
+    }
+  }
+]

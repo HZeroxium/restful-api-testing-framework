@@ -1,43 +1,42 @@
 {
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments": {
     "BillStageSitting": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
     },
     "AmendmentDetail": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
     },
     "PingPongAmendmentSummary": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
     },
     "AmendmentSearchItem": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId"
     }
   },
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}": {
     "AmendmentDetail": {
-      "billId": "billId",
-      "billStageId": "billStageId",
-      "amendmentId": "id"
+      "billId": "billId"
     },
     "AmendmentSearchItem": {
-      "billId": "billId",
-      "billStageId": "billStageId",
-      "amendmentId": "id"
+      "billId": "billId"
     },
     "PingPongAmendmentDetail": {
-      "billId": "billId",
-      "billStageId": "billStageId",
-      "amendmentId": "id"
+      "billId": "billId"
+    },
+    "PingPongAmendmentSummary": {
+      "billId": "billId"
+    },
+    "BillStageSitting": {
+      "billId": "billId"
+    },
+    "BillStagePublicationList": {
+      "billStageId": "billStageId"
     }
   },
   "get-/api/v1/Bills/{billId}/NewsArticles": {
-    "NewsArticlesSummary": {
-      "billId": "id"
-    },
     "BillStageSitting": {
       "billId": "billId"
     },
@@ -46,6 +45,12 @@
     },
     "BillPublicationList": {
       "billId": "billId"
+    },
+    "Bill": {
+      "billId": "billId"
+    },
+    "NewsArticlesSummary": {
+      "billId": "id"
     }
   },
   "get-/api/v1/Bills/{billId}": {
@@ -57,12 +62,14 @@
     },
     "BillStageSitting": {
       "billId": "billId"
+    },
+    "BillPublicationList": {
+      "billId": "billId"
     }
   },
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}": {
     "BillStageSitting": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
     },
     "BillStageDetails": {
       "billStageId": "id"
@@ -71,6 +78,9 @@
       "billStageId": "billStageId"
     },
     "Bill": {
+      "billId": "billId"
+    },
+    "BillSummary": {
       "billId": "billId"
     }
   },
@@ -85,10 +95,16 @@
       "billId": "billId"
     },
     "BillStageDetails": {
-      "billId": "id"
+      "billId": "billId"
+    },
+    "BillStagePublicationList": {
+      "billId": "billId"
     }
   },
   "get-/api/v1/Publications/{publicationId}/Documents/{documentId}": {
+    "PublicationDocument": {
+      "documentId": "id"
+    },
     "Publication": {
       "publicationId": "id"
     }
@@ -96,28 +112,40 @@
   "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download": {
     "Publication": {
       "publicationId": "id"
+    },
+    "PublicationDocument": {
+      "documentId": "id"
     }
   },
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": {
+    "BillStageSitting": {
+      "billId": "billId"
+    },
     "PingPongAmendmentSummary": {
-      "billId": "billId",
-      "billStageId": "billStageId"
+      "billId": "billId"
     },
     "PingPongAmendmentDetail": {
-      "billId": "billId",
+      "billId": "billId"
+    },
+    "BillStagePublicationList": {
       "billStageId": "billStageId"
     }
   },
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": {
     "BillStageSitting": {
-      "billId": "billId",
-      "billStageId": "billStageId",
-      "pingPongItemId": "id"
+      "billId": "billId"
     },
     "PingPongAmendmentSummary": {
-      "billId": "billId",
-      "billStageId": "billStageId",
-      "pingPongItemId": "id"
+      "billId": "billId"
+    },
+    "BillStagePublicationList": {
+      "billStageId": "billStageId"
+    },
+    "BillStageDetails": {
+      "billStageId": "id"
+    },
+    "PingPongAmendmentDetail": {
+      "billId": "billId"
     }
   },
   "get-/api/v1/Bills/{billId}/Publications": {
@@ -125,10 +153,16 @@
       "billId": "billId"
     },
     "BillPublication": {
-      "billId": "id"
+      "billId": "None"
+    },
+    "BillStagePublicationList": {
+      "billId": "None"
     },
     "Publication": {
-      "billId": "id"
+      "billId": "None"
+    },
+    "BillStageSitting": {
+      "billId": "billId"
     }
   },
   "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": {
@@ -136,25 +170,18 @@
       "stageId": "billStageId"
     },
     "BillStageSitting": {
-      "billId": "id",
-      "stageId": "id"
+      "billId": "billId"
     },
     "BillStageSittingPublicationList": {
-      "sittingId": "id"
-    },
-    "BillPublicationList": {
-      "billId": "billId"
+      "sittingId": "sittingId"
     }
   },
   "get-/api/v1/Rss/Bills/{id}.rss": {
     "BillSummary": {
       "id": "billId"
     },
-    "BillType": {
-      "id": "id"
-    },
     "BillStageSitting": {
-      "id": "id"
+      "id": "billId"
     }
   }
 }

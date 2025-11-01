@@ -18,7 +18,6 @@ from .data_merge import merge_test_data
 from .dependency import DependencyService  # NOTE: removed NOT_SURE import
 from .url_builder import clean_endpoint, required_path_vars, substitute_path_vars, build_urls
 from .parser import parse_test_case_core_from_dict, parse_all_from_files
-import datetime
 
 
 class SequenceRunner:

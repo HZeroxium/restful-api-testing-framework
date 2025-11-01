@@ -13,7 +13,7 @@ import yaml
 
 from shared_config import get_spec_file
 
-from .models import Paths, TEST_CASE_DIR_NAME, TestCaseCore, DataRow
+from .models import Paths, TestCaseCore, DataRow
 from .parser import parse_test_case_core_from_path, parse_csv_to_data_rows
 
 

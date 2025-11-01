@@ -19,7 +19,7 @@
       "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments"
     ]
   ],
-  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": [
+  "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": [
     [
       "get-/api/v1/Bills"
     ],
@@ -48,7 +48,7 @@
       "get-/api/v1/Sittings"
     ]
   ],
-  "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": [
+  "get-/api/v1/Bills/{billId}/Stages": [
     [
       "get-/api/v1/Bills"
     ],
@@ -56,12 +56,14 @@
       "get-/api/v1/Sittings"
     ]
   ],
-  "get-/api/v1/Bills/{billId}/Stages": [
+  "get-/api/v1/Bills/{billId}/Publications": [
     [
-      "get-/api/v1/Bills"
+      "get-/api/v1/Bills",
+      "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
     ],
     [
-      "get-/api/v1/Sittings"
+      "get-/api/v1/Sittings",
+      "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
     ]
   ],
   "get-/api/v1/Publications/{publicationId}/Documents/{documentId}": [
@@ -86,22 +88,18 @@
   ],
   "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": [
     [
-      "get-/api/v1/Bills",
-      "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+      "get-/api/v1/Bills"
     ],
     [
-      "get-/api/v1/Sittings",
-      "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}"
+      "get-/api/v1/Sittings"
     ]
   ],
-  "get-/api/v1/Bills/{billId}/Publications": [
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": [
     [
-      "get-/api/v1/Bills",
-      "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+      "get-/api/v1/Bills"
     ],
     [
-      "get-/api/v1/Sittings",
-      "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications"
+      "get-/api/v1/Sittings"
     ]
   ],
   "get-/api/v1/Rss/Bills/{id}.rss": [

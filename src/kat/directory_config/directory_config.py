@@ -12,7 +12,7 @@ sys.path.insert(0, str(src_path))
 
 try:
     from shared_config import (
-        get_data_dir_file,
+        get_spec_file,
         get_output_dir,
         get_odg_working_dir,
         get_test_case_generator_working_dir,
@@ -28,9 +28,6 @@ try:
 except ImportError as e:
     print(f"Warning: Could not import shared_config: {e}")
     print("Falling back to legacy directory structure")
-    
-    # Fallback to legacy structure if shared_config not available
-    WORKING_DIRECTORY = "./KAT_CLONE_TEST_CASES"
 
     def get_output_dir(service_name, phase):
         return f"{WORKING_DIRECTORY}/{service_name}/{phase}/"

@@ -20,7 +20,6 @@ def get_service_base_dir(service_name: str) -> Path:
     service_dir = get_database_base_dir() / service_name
     service_dir.mkdir(exist_ok=True)
     return service_dir
-
 def ensure_service_structure(service_name: str) -> Path:
     """Ensure complete service directory structure exists"""
     service_dir = get_service_base_dir(service_name)

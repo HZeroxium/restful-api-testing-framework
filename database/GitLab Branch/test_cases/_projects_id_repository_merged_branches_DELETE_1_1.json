@@ -55,10 +55,11 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "name": {
+          "id": {
             "from_step": 1,
+            "from_endpoint": "get-/projects",
             "field_mappings": {
-              "name": "name"
+              "id": "name"
             }
           }
         }
