@@ -53,7 +53,7 @@ if __name__ == "__main__":
         out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}",
         headers=headers,
         sampling_strategy="random_quota",
-        want_2xx=1,
+        want_2xx=10,
         want_4xx=0,
         endpoint=endpoint
     )
