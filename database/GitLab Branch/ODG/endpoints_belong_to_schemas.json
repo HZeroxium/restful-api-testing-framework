@@ -1,5 +1,5 @@
 {
-  "Permissions": [
+  "Statistics": [
     "get-/projects",
     "post-/projects"
   ],
@@ -7,19 +7,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "ProjectAccess": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Links": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Statistics": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "BasicProjectDetails": [
+  "GroupAccess": [
     "get-/projects",
     "post-/projects"
   ],
@@ -27,11 +15,23 @@
     "get-/projects",
     "post-/projects"
   ],
-  "GroupAccess": [
+  "Permissions": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Links": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "BasicProjectDetails": [
     "get-/projects",
     "post-/projects"
   ],
   "Owner": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "ProjectAccess": [
     "get-/projects",
     "post-/projects"
   ],

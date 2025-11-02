@@ -1,21 +1,21 @@
 index,data,expected_status_code,reason
-1,"{""id"": 29, ""branch"": ""feature/new-api"", ""ref"": ""main""}",2xx,id=29 is a valid project ID from context; branch and ref are present and valid strings.
-2,"{""id"": 29, ""branch"": ""hotfix/urgent"", ""ref"": ""a1b2c3d4e5f6g7h8i9j0""}",2xx,id=29 is a valid project ID from context; branch and ref are present and valid strings.
-3,"{""id"": 29, ""branch"": ""feature/new-api"", ""ref"": ""main""}",2xx,llm_success_ignore_optional
-4,"{""id"": ""abc"", ""branch"": ""feature/new-api"", ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 29, ""branch"": ""feature/new-api""}",4xx,"ref is required but missing, violating 'required' for query parameter."
-6,"{""id"": 29, ""branch"": 123, ""ref"": ""main""}",4xx,branch=123 has type integer but the spec requires string (query type mismatch).
-7,"{""id"": ""not-an-integer"", ""branch"": ""feature/test"", ""ref"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 29, ""branch"": 12345, ""ref"": ""main""}",4xx,"branch=12345 has type integer but the spec requires string, violating 'type=string' for query parameter."
-9,"{""id"": 29, ""branch"": ""feature/test"", ""ref"": false}",4xx,"ref=false has type boolean but the spec requires string, violating 'type=string' for query parameter."
-10,"{""id"": ""abc"", ""branch"": 12345, ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=12345 has type integer but the spec requires string, violating 'type=string'."
-11,"{""id"": ""xyz"", ""branch"": 12345, ""ref"": true}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer'; branch=12345 has type integer but the spec requires string, violating 'type=string'; ref=true has type boolean but the spec requires string, violating 'type=string'."
-12,"{""id"": -1, ""branch"": """", ""ref"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 29, ""branch"": null, ""ref"": null}",4xx,"mutate_missing_required: set branch, ref=None"
-14,"{""id"": 29, ""branch"": ""feature/new-api"", ""ref"": null}",4xx,mutate_missing_required: set ref=None
-15,"{""id"": 29, ""branch"": null, ""ref"": ""main""}",4xx,mutate_missing_required: set branch=None
-16,"{""id"": ""123456"", ""branch"": ""feature/new-api"", ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": 29, ""branch"": 123456789, ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
-18,"{""id"": 29, ""branch"": ""feature/new-api"", ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-19,"{""id"": 29, ""branch"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 2147483649, ""branch"": ""feature/new-login"", ""ref"": ""main""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no concrete project ID available from dependency context.
+2,"{""id"": 1, ""branch"": """", ""ref"": ""main""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT; no concrete project ID available from dependency context.
+3,"{""id"": 2147483649, ""branch"": ""feature/new-login"", ""ref"": ""main""}",2xx,llm_success_ignore_optional
+4,"{""id"": ""abc"", ""branch"": ""feature/new-login"", ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 1, ""branch"": ""feature/new-login""}",4xx,"ref is required but missing, violating 'required' for query parameter."
+6,"{""id"": 1, ""branch"": ""feature/new-login"", ""ref"": 12345}",4xx,ref=12345 has type integer but the spec requires string (query type mismatch).
+7,"{""id"": ""not-an-integer"", ""branch"": ""feature/test"", ""ref"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
+8,"{""id"": 2147483647, ""branch"": 12345, ""ref"": ""main""}",4xx,branch=12345 has type integer but the spec requires string (query type mismatch).
+9,"{""id"": 2147483647, ""branch"": ""feature/test"", ""ref"": 67890}",4xx,ref=67890 has type integer but the spec requires string (query type mismatch).
+10,"{""id"": ""abc"", ""branch"": 12345, ""ref"": ""main""}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer'; branch=12345 has type integer but the spec requires string."
+11,"{""id"": 2147483647, ""branch"": ""feature/test"", ""ref"": {""sha"": ""abcdef""}}",4xx,"ref={""sha"":""abcdef""} has type object but the spec requires string (query type mismatch)."
+12,"{""id"": -9999999.0, ""branch"": """", ""ref"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 2147483649, ""branch"": null, ""ref"": null}",4xx,"mutate_missing_required: set branch, ref=None"
+14,"{""id"": 2147483649, ""branch"": ""feature/new-login"", ""ref"": null}",4xx,mutate_missing_required: set ref=None
+15,"{""id"": 2147483649, ""branch"": null, ""ref"": ""main""}",4xx,mutate_missing_required: set branch=None
+16,"{""id"": ""123456"", ""branch"": ""feature/new-login"", ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 2147483649, ""branch"": 123456789, ""ref"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 2147483649, ""branch"": ""feature/new-login"", ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": 2147483649, ""branch"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 20,"{""id"": ""123456"", ""branch"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

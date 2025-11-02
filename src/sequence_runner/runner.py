@@ -24,7 +24,7 @@ class SequenceRunner:
         service_name: str,
         base_url: str,
         token: Optional[str] = None,
-        endpoint: List[str] | None = None,
+        test_case: List[str] | None = None,
         skip_preload: bool = False,
         base_module_file: str = __file__,
         out_file_name: Optional[str] = None,
@@ -44,7 +44,7 @@ class SequenceRunner:
         self.logger = setup_logging(log_file=self.file.get_log_path())
         self.service_name = service_name
         self.base_url = base_url.rstrip("/")
-        self.endpoint_filter = endpoint
+        self.testcase = test_case
         self.headers = headers or {}
         self.http = HttpClient(token=token, default_headers=self.headers)
 
@@ -284,7 +284,6 @@ class SequenceRunner:
             self.logger.info(f"🧪 Will run {len(test_data_rows)} times (combine param/body rows by index)")
 
         # Output CSV init
-        out_file_name = self.file.open_csv_output(self.service_name)
 
         # Iterate rows
         for row_idx, row in enumerate(test_data_rows, start=1):
@@ -370,17 +369,23 @@ class SequenceRunner:
                 # Only one target step—break after asserting
                 break
 
-        return out_file_name
+        return is_pass
+    # ------------------------------------------------------------------
+    # Run all test cases
+    # ------------------------------------------------------------------
     def run_all(self):
-        """Discover, strictly topologically sort, and execute all test cases."""
         self.logger.info(f"Starting test execution for service: {self.service_name}")
-
-        test_case_files = self.file.find_test_case_files(self.endpoint_filter)
+        
+        test_case_files = self.file.find_test_case_files(self.testcase)
+        
         if not test_case_files:
             self.logger.error("No test case files found!")
-            return None
+            return
 
-        # Load topological order (list of endpoint strings)
+        # SỬA LỖI CSV: Mở tệp CSV MỘT LẦN DUY NHẤT ở đây
+        out_file_name = self.file.open_csv_output(self.service_name)
+
+        # ---- exact, canonical sort using the endpoint inside each JSON ----
         topolist = self.file.load_topolist() or []
         topo_index = {ep.strip(): i for i, ep in enumerate(topolist)}
 
@@ -392,34 +397,34 @@ class SequenceRunner:
             except Exception:
                 return ""
 
-        # Decorate with sortable keys: (index in topolist, original order, endpoint, path)
+        # build sortable list
         decorated = []
         for seq_idx, p in enumerate(test_case_files):
             ep = _endpoint_of(p)
-            idx_in_topo = topo_index.get(ep, len(topolist) + 1)  # unknown endpoints go last
+            idx_in_topo = topo_index.get(ep, len(topolist) + 1)  # unmatched go last
             decorated.append((idx_in_topo, seq_idx, ep, p))
 
-        # Sort strictly by topolist order, then stable by discovery order
+        # sort strictly by topolist order
         decorated.sort(key=lambda t: (t[0], t[1]))
         ordered_files = [p for (_, _, _, p) in decorated]
 
-        # Log the final execution order (by endpoint when possible)
+        # log final order for confirmation
         self.logger.info("📋 Final execution order (following topolist.json):")
-        for _, _, ep, p in decorated:
-            self.logger.info(f"  - {ep or p.name}")
+        for p in ordered_files:
+            self.logger.info(f"  - {_endpoint_of(p) or p.name}")
 
-        # Run in order; keep the first non-empty CSV name returned by run_test_case
-        out_file_name: Optional[str] = None
+        # run in sorted order
         for test_case_file in ordered_files:
+            print(f"Running test case file: {test_case_file}")
             try:
-                res = self.run_test_case(test_case_file)
-                if res and not out_file_name:
-                    out_file_name = res
+                # run_test_case (phiên bản đã sửa) sẽ chỉ ghi vào tệp đã mở
+                if self.run_test_case(test_case_file):
+                    pass
             except Exception as e:
                 self.logger.error(f"Error running test case {test_case_file.name}: {e}")
 
+        # Trả về tên tệp CSV đã được tạo
         return out_file_name
-
     # ------------------------------------------------------------------
     def close(self):
         self.file.close()

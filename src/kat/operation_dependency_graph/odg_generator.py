@@ -319,15 +319,35 @@ class ODGGenerator():
         Check if a dependency establishment is valid or not
         We need to discuss this function further!
     '''
+    '''
+        Check if a dependency establishment is valid or not
+        We need to discuss this function further!
+    '''
     def is_valid_dependency(self, preceeding_endpoint, endpoint):
         if preceeding_endpoint == endpoint:
             return False
-        # chặn GET-/X -> POST-/X
-        if preceeding_endpoint.startswith("get-") and endpoint.startswith("post-"):
-            u = preceeding_endpoint[4:].split("/{")[0]
-            v = endpoint[5:].split("/{")[0]
+        
+        # Tách phương thức và đường dẫn
+        try:
+            pre_method, pre_path = preceeding_endpoint.split("-", 1)
+            cur_method, cur_path = endpoint.split("-", 1)
+        except ValueError:
+            return False # Xử lý các endpoint có tên không hợp lệ
+
+        # SỬA LỖI: Chặn logic ngược "con" -> "cha"
+        # Ví dụ: producer "post-/projects/{id}/branches" (con)
+        #         consumer "post-/projects" (cha)
+        # Đường dẫn của con (/projects/{id}/branches) BẮT ĐẦU BẰNG đường dẫn của cha (/projects)
+        if pre_path.startswith(cur_path) and pre_path != cur_path:
+            return False
+
+        # chặn GET-/X -> POST-/X (Logic cũ của bạn)
+        if pre_method == "get" and cur_method == "post":
+            u = pre_path.split("/{")[0]
+            v = cur_path.split("/{")[0]
             if u == v:
                 return False
+        
         return True
 
     
@@ -579,24 +599,32 @@ class ODGGenerator():
         for endpoint in endpoint_list:
             operation_sequences[endpoint] = []
             
-            # Add the operation sequences from GPT ODG
-            gpt_sequences = GPT_ODG_analyzer.operation_sequences_dict.get(endpoint, [])
-            gpt_sequences.sort(key=len)
-            # Add the operation sequences from heuristic ODG
+            # Prioritize heuristic sequences as they follow logical API patterns
             heuristic_sequences = heuristic_ODG_analyzer.operation_sequences_dict.get(endpoint, [])
             heuristic_sequences.sort(key=len)
             
-            all_sequences = gpt_sequences + heuristic_sequences
+            # Add GPT sequences but filter out circular dependencies
+            gpt_sequences = GPT_ODG_analyzer.operation_sequences_dict.get(endpoint, [])
+            gpt_sequences.sort(key=len)
+            
+            # Filter out sequences that create circular dependencies
+            filtered_gpt_sequences = []
+            for sequence in gpt_sequences:
+                if not self._has_circular_dependency(endpoint, sequence):
+                    filtered_gpt_sequences.append(sequence)
+            
+            # Combine sequences with heuristic taking priority
+            all_sequences = heuristic_sequences + filtered_gpt_sequences
             unique_sequences = []
             seen_sequences = set()
 
             for sequence in all_sequences:
                 tuple_sequence = tuple(sequence)
-                if tuple_sequence not in seen_sequences:
+                if tuple_sequence not in seen_sequences and not self._creates_logical_inconsistency(endpoint, sequence):
                     unique_sequences.append(sequence)
                     seen_sequences.add(tuple_sequence)
 
-            if len(unique_sequences)>2:
+            if len(unique_sequences) > 2:
                 operation_sequences[endpoint] = unique_sequences[:2]
             else:
                 operation_sequences[endpoint] = unique_sequences
@@ -659,3 +687,59 @@ class ODGGenerator():
         with open(self.working_directory + "odg_generation_token_count.json", "w") as f:
             json.dump(GPT_ODG_token_count, f, indent=2)
         return GPT_ODG, heuristic_ODG
+
+    def _has_circular_dependency(self, endpoint, sequence):
+        """
+        Check if adding this sequence would create a circular dependency.
+        """
+        if not sequence:
+            return False
+        
+        # Check if the endpoint appears in its own dependency sequence
+        if endpoint in sequence:
+            return True
+        
+        # Check for obvious circular patterns like A->B and B->A
+        for i, dep_endpoint in enumerate(sequence):
+            if self._would_create_cycle(endpoint, dep_endpoint):
+                return True
+        
+        return False
+    
+    def _would_create_cycle(self, endpoint_a, endpoint_b):
+        """
+        Check if creating dependency endpoint_a -> endpoint_b would create a cycle
+        based on existing known dependencies.
+        """
+        # Basic check: if B already depends on A, then A->B creates a cycle
+        for dep_pair in self.endpoint_dependencies:
+            if dep_pair[0] == endpoint_b and dep_pair[1] == endpoint_a:
+                return True
+        return False
+    
+    def _creates_logical_inconsistency(self, endpoint, sequence):
+        """
+        Check if the sequence creates logical inconsistencies based on REST API patterns.
+        """
+        if not sequence:
+            return False
+        
+        endpoint_method = endpoint.split("-")[0]
+        endpoint_path = "-".join(endpoint.split("-")[1:])
+        
+        for dep_endpoint in sequence:
+            dep_method = dep_endpoint.split("-")[0]
+            dep_path = "-".join(dep_endpoint.split("-")[1:])
+            
+            # Rule 1: Resource creation (POST) should not depend on operations that need the resource ID
+            if endpoint_method == "post" and "{id}" not in endpoint_path:
+                if "{id}" in dep_path and endpoint_path in dep_path:
+                    # POST /projects should not depend on POST /projects/{id}/branches
+                    return True
+            
+            # Rule 2: Operations requiring resource ID should depend on resource creation
+            if "{id}" in endpoint_path and dep_method == "post" and "{id}" not in dep_path:
+                # This is a valid dependency pattern - continue checking
+                continue
+                
+        return False

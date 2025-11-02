@@ -1,10 +1,10 @@
 ﻿endpoint,documented_codes,observed_codes,matched_codes,documented_2xx,matched_2xx,coverage_2xx_pct,documented_4xx,matched_4xx,coverage_4xx_pct,coverage_pct
 get-/projects,['200'],['200'],['200'],['200'],['200'],100.0,[],[],0.0,100.0
-post-/projects,['201'],[],[],['201'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/branches,['200'],[],[],['200'],[],0.0,[],[],0.0,0.0
-post-/projects/{id}/repository/branches,['201'],[],[],['201'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/branches/{branch},['200'],[],[],['200'],[],0.0,[],[],0.0,0.0
-delete-/projects/{id}/repository/branches/{branch},['202'],[],[],['202'],[],0.0,[],[],0.0,0.0
-post-/projects/{id}/protected_branches,['201'],[],[],['201'],[],0.0,[],[],0.0,0.0
-delete-/projects/{id}/protected_branches/{name},['202'],[],[],['202'],[],0.0,[],[],0.0,0.0
-delete-/projects/{id}/repository/merged_branches,['202'],[],[],['202'],[],0.0,[],[],0.0,0.0
+post-/projects,['201'],"['400', '422']",[],['201'],[],0.0,[],[],0.0,0.0
+get-/projects/{id}/repository/branches,['200'],['200'],['200'],['200'],['200'],100.0,[],[],0.0,100.0
+post-/projects/{id}/repository/branches,['201'],"['400', '404']",[],['201'],[],0.0,[],[],0.0,0.0
+get-/projects/{id}/repository/branches/{branch},['200'],"['200', '404']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
+delete-/projects/{id}/repository/branches/{branch},['202'],"['400', '404']",[],['202'],[],0.0,[],[],0.0,0.0
+post-/projects/{id}/protected_branches,['201'],['400'],[],['201'],[],0.0,[],[],0.0,0.0
+delete-/projects/{id}/protected_branches/{name},['202'],"['204', '404']",[],['202'],[],0.0,[],[],0.0,0.0
+delete-/projects/{id}/repository/merged_branches,['202'],"['202', '404']",['202'],['202'],['202'],100.0,[],[],0.0,100.0

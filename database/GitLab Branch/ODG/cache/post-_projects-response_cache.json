@@ -1,0 +1,30 @@
+{
+  "status": 400,
+  "body": {
+    "message": {
+      "project_namespace.name": [
+        "has already been taken"
+      ],
+      "name": [
+        "has already been taken"
+      ],
+      "path": [
+        "has already been taken"
+      ]
+    }
+  },
+  "ok": false,
+  "request": {
+    "method": "POST",
+    "url": "http://localhost:30000/api/v4/projects",
+    "params": {
+      "name": "MyProject"
+    },
+    "path_params": {},
+    "headers": {
+      "PRIVATE-TOKEN": "glpat-StZArnyBReXqgPkznx-c"
+    },
+    "cookies": {},
+    "json": {}
+  }
+}

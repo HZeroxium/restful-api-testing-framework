@@ -7411,3 +7411,475 @@ AttributeError: 'str' object has no attribute 'get'
 2025-11-02 13:45:56,306 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
 2025-11-02 13:45:56,307 - INFO - path: /projects, method: post
 2025-11-02 13:45:56,307 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 17:08:11,575 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 17:08:12,758 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:13,266 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:13,689 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:14,262 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:14,818 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:15,416 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:15,816 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:16,284 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:16,820 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:17,327 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:17,882 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:18,458 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:19,053 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:19,794 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:20,347 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:20,802 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:21,385 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 17:08:21,589 - INFO - ODG prepared and saved.
+2025-11-02 17:08:21,593 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,593 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,594 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,594 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,594 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,594 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,594 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,594 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,595 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,595 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 17:08:21,595 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,595 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 17:08:21,595 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,595 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 17:08:21,595 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,595 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 17:08:21,596 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,596 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 17:08:21,596 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,596 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 17:08:21,597 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,597 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 17:08:21,597 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,597 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 17:08:21,598 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,598 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 17:08:21,598 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 17:08:21,599 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 17:08:21,599 - INFO - path: /projects, method: get
+2025-11-02 17:08:21,599 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 17:08:21,600 - INFO - path: /projects, method: post
+2025-11-02 17:08:21,600 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 18:00:38,012 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 18:00:38,659 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:39,155 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:39,561 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:40,070 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:40,623 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:41,180 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:41,578 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:42,054 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:42,662 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:43,167 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:43,716 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:44,219 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:44,799 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:45,313 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:45,866 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:46,297 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:46,892 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:00:47,153 - INFO - ODG prepared and saved.
+2025-11-02 18:00:47,157 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,158 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,158 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,158 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,159 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,159 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,159 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,159 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,160 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,160 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 18:00:47,160 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,160 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 18:00:47,160 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,160 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 18:00:47,160 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,161 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 18:00:47,161 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,161 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 18:00:47,161 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,161 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 18:00:47,162 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,162 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 18:00:47,163 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,163 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 18:00:47,163 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,163 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 18:00:47,163 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:00:47,163 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 18:00:47,163 - INFO - path: /projects, method: get
+2025-11-02 18:00:47,164 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 18:00:47,164 - INFO - path: /projects, method: post
+2025-11-02 18:00:47,164 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 18:00:47,165 - ERROR - Error in run_generator.py: name 'extract_endpoint' is not defined
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 43, in <module>
+    generator.generate_test_data_for(generator.get_endpoints())
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 457, in generate_test_data_for
+    data_generator = TestDataGenerator(
+                     ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/data_generator/data_generator.py", line 75, in __init__
+    self.swagger_spec_required_fields = get_required_fields(self.swagger_spec)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/utils/swagger_utils/swagger_utils.py", line 367, in get_required_fields
+    endpoints = extract_endpoint(spec)
+                ^^^^^^^^^^^^^^^^
+NameError: name 'extract_endpoint' is not defined. Did you mean: 'extract_endpoints'?
+2025-11-02 18:01:31,074 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 18:01:31,075 - INFO - ODG files already exist. Skipping ODG generation.
+2025-11-02 18:01:31,081 - WARNING - Request body of get-/projects is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-11-02 18:01:31,082 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-11-02 18:01:31,083 - INFO - Loaded 0 cache entries from /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache
+2025-11-02 18:01:31,084 - WARNING - Request body of get-/projects is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-11-02 18:01:31,084 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: post-/projects
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: get-/projects
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: post-/projects/{id}/repository/branches
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: get-/projects/{id}/repository/branches
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: post-/projects/{id}/protected_branches
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: get-/projects/{id}/repository/branches/{branch}
+2025-11-02 18:01:31,084 - INFO - Independent endpoint added to run list: delete-/projects/{id}/protected_branches/{name}
+2025-11-02 18:01:31,085 - INFO - Independent endpoint added to run list: delete-/projects/{id}/repository/branches/{branch}
+2025-11-02 18:01:31,085 - INFO - Independent endpoint added to run list: delete-/projects/{id}/repository/merged_branches
+2025-11-02 18:01:31,085 - INFO - Generating data for endpoint: post-/projects...
+2025-11-02 18:01:31,085 - INFO - No in-memory cache for post-/projects/{id}/repository/branches, checking file cache...
+2025-11-02 18:01:31,085 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache/post-_projects__id__repository_branches-response_cache.json
+2025-11-02 18:01:31,085 - INFO - No file cache found for post-/projects/{id}/repository/branches
+2025-11-02 18:01:31,085 - INFO - No cache found for post-/projects/{id}/repository/branches, calling API...
+2025-11-02 18:01:31,085 - INFO - Trying to load test data CSV for endpoint post-/projects/{id}/repository/branches
+2025-11-02 18:01:31,085 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_param.csv
+2025-11-02 18:01:31,085 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_body.csv
+2025-11-02 18:01:31,086 - ERROR - No executable 2xx test data found for endpoint 'post-/projects/{id}/repository/branches'. Tried files:
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_param.csv
+  - /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_body.csv
+NoneType: None
+2025-11-02 18:01:31,086 - INFO - No executable data found for post-/projects/{id}/repository/branches
+2025-11-02 18:01:35,038 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:38,981 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:45,441 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:49,757 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:49,759 - WARNING - [WARN] No 2xx items detected for post-/projects (param)
+2025-11-02 18:01:53,658 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:57,402 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:01:57,404 - WARNING - [WARN] No 2xx items detected for post-/projects (body)
+2025-11-02 18:01:57,443 - INFO - Generating data for endpoint: get-/projects...
+2025-11-02 18:01:57,445 - INFO - No in-memory cache for post-/projects, checking file cache...
+2025-11-02 18:01:57,446 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache/post-_projects-response_cache.json
+2025-11-02 18:01:57,446 - INFO - No file cache found for post-/projects
+2025-11-02 18:01:57,446 - INFO - No cache found for post-/projects, calling API...
+2025-11-02 18:01:57,446 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:01:57,446 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:01:57,446 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:01:57,448 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:01:58,259 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:01:58,644 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:02,172 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:05,340 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:05,352 - WARNING - [WARN] No 2xx items detected for get-/projects (param)
+2025-11-02 18:02:05,356 - INFO - Generating data for endpoint: post-/projects/{id}/repository/branches...
+2025-11-02 18:02:05,356 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:02:05,709 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:09,688 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:13,323 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:13,325 - WARNING - [WARN] No 2xx items detected for post-/projects/{id}/repository/branches (param)
+2025-11-02 18:02:13,326 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:02:13,329 - INFO - Generating data for endpoint: get-/projects/{id}/repository/branches...
+2025-11-02 18:02:13,329 - INFO - No in-memory cache for get-/projects, checking file cache...
+2025-11-02 18:02:13,329 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache/get-_projects-response_cache.json
+2025-11-02 18:02:13,329 - INFO - No file cache found for get-/projects
+2025-11-02 18:02:13,330 - INFO - No cache found for get-/projects, calling API...
+2025-11-02 18:02:13,330 - INFO - Trying to load test data CSV for endpoint get-/projects
+2025-11-02 18:02:13,330 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_GET_param.csv
+2025-11-02 18:02:13,330 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_GET_body.csv
+2025-11-02 18:02:14,305 - INFO - Called api : GET http://localhost:30000/api/v4/projects | query={} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body=None
+2025-11-02 18:02:14,659 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:17,969 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:18,013 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-11-02 18:02:18,014 - INFO - Retrying request to /chat/completions in 18.000000 seconds
+2025-11-02 18:02:40,467 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:40,475 - WARNING - [WARN] No 2xx items detected for get-/projects/{id}/repository/branches (param)
+2025-11-02 18:02:40,476 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:02:40,479 - INFO - Generating data for endpoint: post-/projects/{id}/protected_branches...
+2025-11-02 18:02:40,479 - INFO - No in-memory cache for post-/projects/{id}/repository/branches, checking file cache...
+2025-11-02 18:02:40,480 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache/post-_projects__id__repository_branches-response_cache.json
+2025-11-02 18:02:40,480 - INFO - No file cache found for post-/projects/{id}/repository/branches
+2025-11-02 18:02:40,480 - INFO - No cache found for post-/projects/{id}/repository/branches, calling API...
+2025-11-02 18:02:40,480 - INFO - Trying to load test data CSV for endpoint post-/projects/{id}/repository/branches
+2025-11-02 18:02:40,480 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_param.csv
+2025-11-02 18:02:40,480 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_id_repository_branches_POST_body.csv
+2025-11-02 18:02:42,454 - INFO - Called api : POST http://localhost:30000/api/v4/projects/11/repository/branches | query={'branch': 'feature/new-login', 'ref': 'main'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body=None
+2025-11-02 18:02:42,865 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:46,765 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:51,543 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:51,544 - WARNING - [WARN] No 2xx items detected for post-/projects/{id}/protected_branches (param)
+2025-11-02 18:02:51,544 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:02:51,546 - INFO - Generating data for endpoint: get-/projects/{id}/repository/branches/{branch}...
+2025-11-02 18:02:51,546 - INFO - Found in-memory cache for get-/projects
+2025-11-02 18:02:51,905 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:55,438 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:58,882 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:02:58,883 - WARNING - [WARN] No 2xx items detected for get-/projects/{id}/repository/branches/{branch} (param)
+2025-11-02 18:02:58,883 - INFO - Excluding path parameters from mutation: ['id', 'branch']
+2025-11-02 18:02:58,885 - INFO - Generating data for endpoint: delete-/projects/{id}/protected_branches/{name}...
+2025-11-02 18:02:58,885 - INFO - Found in-memory cache for post-/projects/{id}/repository/branches
+2025-11-02 18:02:59,210 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:02,177 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:05,829 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:05,830 - INFO - Excluding path parameters from mutation: ['id', 'name']
+2025-11-02 18:03:05,832 - INFO - Generating data for endpoint: delete-/projects/{id}/repository/branches/{branch}...
+2025-11-02 18:03:05,832 - INFO - Found in-memory cache for get-/projects
+2025-11-02 18:03:06,150 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:09,521 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:13,034 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:13,096 - WARNING - [WARN] No 2xx items detected for delete-/projects/{id}/repository/branches/{branch} (param)
+2025-11-02 18:03:13,107 - INFO - Excluding path parameters from mutation: ['id', 'branch']
+2025-11-02 18:03:13,161 - INFO - Generating data for endpoint: delete-/projects/{id}/repository/merged_branches...
+2025-11-02 18:03:13,161 - INFO - Found in-memory cache for get-/projects
+2025-11-02 18:03:13,597 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:16,781 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:20,103 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:03:20,109 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:16:10,978 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 18:16:11,566 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:12,108 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:12,522 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:13,062 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:13,635 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:14,097 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:14,494 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:15,041 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:15,553 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:16,101 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:16,633 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:17,315 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:17,936 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:18,447 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:19,001 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:19,434 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:20,023 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:16:20,205 - ERROR - Error in run_generator.py: Analyzer.__init__() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/test_case_generator/test_case_generator.py", line 160, in prepare_odg
+    odg_generator.generate_operation_dependency_graph()
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/operation_dependency_graph/odg_generator.py", line 676, in generate_operation_dependency_graph
+    self.build_complete_graph_from()
+  File "/Users/npt/Documents/NCKH/restful-api-testing-framework/src/kat/operation_dependency_graph/odg_generator.py", line 531, in build_complete_graph_from
+    heuristic_ODG_analyzer = Analyzer(self.service_name, self.working_directory)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Analyzer.__init__() takes 2 positional arguments but 3 were given
+2025-11-02 18:18:38,893 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 18:18:39,611 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:40,211 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:40,638 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:41,190 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:41,803 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:42,370 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:42,786 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:43,238 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:43,825 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:44,352 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:44,951 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:45,479 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:46,059 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:46,552 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:47,147 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:47,554 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:48,172 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:18:48,231 - INFO - ODG prepared and saved.
+2025-11-02 18:18:48,236 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,236 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,237 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,237 - INFO - path: /projects, method: get
+2025-11-02 18:18:48,237 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,238 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:18:48,238 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,238 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 18:18:48,239 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,239 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 18:18:48,239 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,239 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 18:18:48,239 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,239 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 18:18:48,240 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,240 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 18:18:48,240 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,240 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 18:18:48,241 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,241 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 18:18:48,242 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,242 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 18:18:48,243 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,243 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 18:18:48,243 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,243 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 18:18:48,243 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,243 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 18:18:48,244 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,244 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 18:18:48,244 - INFO - path: /projects, method: post
+2025-11-02 18:18:48,244 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 18:28:46,763 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 18:28:46,764 - INFO - ODG files already exist. Skipping ODG generation.
+2025-11-02 18:28:46,771 - WARNING - Request body of get-/projects is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-11-02 18:28:46,771 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-11-02 18:28:46,772 - INFO - Loaded 0 cache entries from /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache
+2025-11-02 18:28:46,773 - WARNING - Request body of get-/projects is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of get-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of post-/projects/{id}/repository/branches is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of get-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of delete-/projects/{id}/repository/branches/{branch} is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of post-/projects/{id}/protected_branches is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of delete-/projects/{id}/protected_branches/{name} is not a dictionary
+2025-11-02 18:28:46,773 - WARNING - Request body of delete-/projects/{id}/repository/merged_branches is not a dictionary
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: post-/projects
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: get-/projects
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: post-/projects/{id}/repository/branches
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: get-/projects/{id}/repository/branches
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: post-/projects/{id}/protected_branches
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: get-/projects/{id}/repository/branches/{branch}
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: delete-/projects/{id}/protected_branches/{name}
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: delete-/projects/{id}/repository/branches/{branch}
+2025-11-02 18:28:46,773 - INFO - Independent endpoint added to run list: delete-/projects/{id}/repository/merged_branches
+2025-11-02 18:28:46,773 - INFO - Generating data for endpoint: post-/projects...
+2025-11-02 18:28:50,145 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:28:53,655 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:01,732 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:04,781 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:04,784 - WARNING - [WARN] No 2xx items detected for post-/projects (param)
+2025-11-02 18:29:09,179 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:12,801 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:12,803 - WARNING - [WARN] No 2xx items detected for post-/projects (body)
+2025-11-02 18:29:12,826 - INFO - Generating data for endpoint: get-/projects...
+2025-11-02 18:29:12,827 - INFO - No in-memory cache for post-/projects, checking file cache...
+2025-11-02 18:29:12,827 - INFO - Cache file path: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/ODG/cache/post-_projects-response_cache.json
+2025-11-02 18:29:12,828 - INFO - No file cache found for post-/projects
+2025-11-02 18:29:12,828 - INFO - No cache found for post-/projects, calling API...
+2025-11-02 18:29:12,828 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:29:12,828 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:29:12,828 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:29:12,831 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:29:13,952 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:29:14,335 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:17,747 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:21,084 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:21,087 - WARNING - [WARN] No 2xx items detected for get-/projects (param)
+2025-11-02 18:29:21,091 - INFO - Generating data for endpoint: post-/projects/{id}/repository/branches...
+2025-11-02 18:29:21,092 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:29:21,092 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:29:21,092 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:29:21,092 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:29:21,092 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:29:21,096 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:29:21,806 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:29:22,168 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:25,822 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:29,411 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:29,412 - WARNING - [WARN] No 2xx items detected for post-/projects/{id}/repository/branches (param)
+2025-11-02 18:29:29,412 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:29:29,414 - INFO - Generating data for endpoint: get-/projects/{id}/repository/branches...
+2025-11-02 18:29:29,414 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:29:29,414 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:29:29,414 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:29:29,414 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:29:29,414 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:29:29,416 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:29:29,796 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:29:30,138 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:34,320 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:38,476 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:38,480 - WARNING - [WARN] No 2xx items detected for get-/projects/{id}/repository/branches (param)
+2025-11-02 18:29:38,480 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:29:38,482 - INFO - Generating data for endpoint: post-/projects/{id}/protected_branches...
+2025-11-02 18:29:38,482 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:29:38,482 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:29:38,482 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:29:38,482 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:29:38,482 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:29:38,485 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:29:42,641 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:29:43,007 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:47,152 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:47,152 - WARNING - [WARN] No 2xx items detected for post-/projects/{id}/protected_branches (param)
+2025-11-02 18:29:47,201 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-11-02 18:29:47,201 - INFO - Retrying request to /chat/completions in 3.000000 seconds
+2025-11-02 18:29:55,293 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:55,311 - WARNING - [WARN] No 2xx items detected for post-/projects/{id}/protected_branches (param)
+2025-11-02 18:29:58,394 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:29:58,398 - INFO - Excluding path parameters from mutation: ['id']
+2025-11-02 18:29:58,427 - INFO - Generating data for endpoint: get-/projects/{id}/repository/branches/{branch}...
+2025-11-02 18:29:58,427 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:29:58,427 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:29:58,428 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:29:58,428 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:29:58,428 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:29:58,432 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:30:00,993 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:30:01,341 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:01,401 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 429 Too Many Requests"
+2025-11-02 18:30:01,401 - INFO - Retrying request to /chat/completions in 1.000000 seconds
+2025-11-02 18:30:06,511 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:10,894 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:10,897 - WARNING - [WARN] No 2xx items detected for get-/projects/{id}/repository/branches/{branch} (param)
+2025-11-02 18:30:10,898 - INFO - Excluding path parameters from mutation: ['id', 'branch']
+2025-11-02 18:30:10,899 - INFO - Generating data for endpoint: delete-/projects/{id}/protected_branches/{name}...
+2025-11-02 18:30:10,899 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:30:10,899 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:30:10,899 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:30:10,899 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:30:10,899 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:30:10,903 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:30:11,491 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:30:11,846 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:15,980 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:15,982 - WARNING - [WARN] No 2xx items detected for delete-/projects/{id}/protected_branches/{name} (param)
+2025-11-02 18:30:20,462 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:20,470 - INFO - Excluding path parameters from mutation: ['id', 'name']
+2025-11-02 18:30:20,474 - INFO - Generating data for endpoint: delete-/projects/{id}/repository/branches/{branch}...
+2025-11-02 18:30:20,475 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:30:20,475 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:30:20,475 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:30:20,475 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:30:20,476 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:30:20,483 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:30:20,959 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:30:21,307 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:26,360 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:30,726 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:30,730 - INFO - Excluding path parameters from mutation: ['id', 'branch']
+2025-11-02 18:30:30,734 - INFO - Generating data for endpoint: delete-/projects/{id}/repository/merged_branches...
+2025-11-02 18:30:30,734 - INFO - Found in-memory cache for post-/projects
+2025-11-02 18:30:30,734 - INFO - Bad in-memory cache for post-/projects (status=400) → refreshing...
+2025-11-02 18:30:30,734 - INFO - Trying to load test data CSV for endpoint post-/projects
+2025-11-02 18:30:30,734 - INFO -   Param CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_param.csv
+2025-11-02 18:30:30,735 - INFO -   Body  CSV: /Users/npt/Documents/NCKH/restful-api-testing-framework/database/GitLab Branch/test_data/csv/_projects_POST_body.csv
+2025-11-02 18:30:30,742 - INFO - Pruned body to required fields only: {}
+2025-11-02 18:30:31,187 - INFO - Called api : POST http://localhost:30000/api/v4/projects | query={'name': 'MyProject'} headers={'PRIVATE-TOKEN': 'glpat-StZArnyBReXqgPkznx-c'} body={}
+2025-11-02 18:30:31,609 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:37,586 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:41,081 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 18:30:41,084 - INFO - Excluding path parameters from mutation: ['id']

@@ -364,7 +364,7 @@ def get_schema_required_fields(body, spec, visited_refs=None):
     return new_schema
 
 def get_required_fields(spec: dict):
-    endpoints = extract_endpoint(spec)
+    endpoints = extract_endpoints(spec)
     endpoint_params_only_dict = {}
 
     for endpoint in endpoints:

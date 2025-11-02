@@ -78,7 +78,7 @@
       "id": "id"
     },
     "Branch": {
-      "id": "name"
+      "name": "name"
     }
   }
 }

@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 29, ""branch"": ""main""}",2xx,id=29 is a valid integer from dependency context; branch='main' is a valid string.
-2,"{""id"": 29, ""branch"": ""feature-login""}",2xx,id=29 is a valid integer from dependency context; branch='feature-login' is a valid string.
-3,"{""id"": 29, ""branch"": ""main""}",2xx,llm_success_ignore_optional
-4,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 29, ""branch"": 123}",4xx,"branch=123 has type integer but the spec requires string, violating 'type=string' for path parameter."
-6,"{""id"": -1, ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
-7,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 29, ""branch"": 12345}",4xx,"branch=12345 is not a string, violating 'type=string' for path parameter."
-9,"{""id"": -1, ""branch"": ""main""}",4xx,"id=-1 is negative; although no explicit minimum, negative IDs are typically invalid for resource identifiers."
-10,"{""id"": 29, ""branch"": """"}",4xx,"branch='' is an empty string; path parameters must be non-empty, violating 'required'."
-11,"{""id"": ""29.5"", ""branch"": ""main""}",4xx,"id='29.5' is not parseable as integer, violating 'type=integer' for path parameter."
+1,"{""id"": 1001, ""branch"": ""feature/login""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID is available from DependencyContext or examples; cannot generate a valid 2xx test row.
+2,"{""id"": -5, ""branch"": ""feature/login""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID is available from DependencyContext or examples; cannot generate a valid 2xx test row.
+3,"{""id"": 1001, ""branch"": ""feature/login""}",2xx,llm_success_ignore_optional
+4,"{""id"": -1, ""branch"": ""main""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context.
+5,"{""id"": 2147483649, ""branch"": ""dev""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context.
+6,"{""id"": ""abc"", ""branch"": ""feature/login""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": 1001, ""branch"": 123}",4xx,branch has type integer but the spec requires string for path parameter (type mismatch).
+8,"{""id"": 1001.5, ""branch"": ""feature/login""}",4xx,"id=1001.5 is not an integer (type mismatch), violating 'type=integer' for path parameter."
+9,"{""id"": ""not-an-integer"", ""branch"": ""feature/login""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": 12345, ""branch"": 6789}",4xx,"branch=6789 has type integer, but the spec requires string for path parameter."
+11,"{""id"": ""abc"", ""branch"": 456}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=456 has type integer, but the spec requires string."
 12,"{""id"": -1, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 29, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": ""123456"", ""branch"": ""feature/login""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 1001, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

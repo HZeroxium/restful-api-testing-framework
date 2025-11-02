@@ -1,10 +1,4 @@
 {
-  "post-/projects/{id}/repository/branches": [],
-  "post-/projects": [
-    [
-      "post-/projects/{id}/repository/branches"
-    ]
-  ],
   "get-/projects": [],
   "get-/projects/{id}/repository/branches": [
     [
@@ -34,6 +28,7 @@
       "post-/projects/{id}/protected_branches"
     ]
   ],
+  "post-/projects/{id}/repository/branches": [],
   "delete-/projects/{id}/protected_branches/{name}": [
     [
       "post-/projects/{id}/repository/branches"

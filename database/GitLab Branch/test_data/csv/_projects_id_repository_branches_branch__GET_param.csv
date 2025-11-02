@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 29, ""branch"": ""main""}",2xx,id=29 is a valid integer from context; branch='main' is a valid string.
-2,"{""id"": 29, ""branch"": ""feature/login""}",2xx,id=29 is a valid integer from context; branch='feature/login' is a valid string.
-3,"{""id"": 2147483649, ""branch"": ""main""}",2xx,id=2147483649 is a valid integer within type constraints; branch='main' is a valid string.
-4,"{""id"": 29, ""branch"": ""main""}",2xx,llm_success_ignore_optional
-5,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": 29, ""branch"": 123}",4xx,"branch=123 has type integer but the spec requires string, violating 'type=string' for path parameter."
-7,"{""id"": ""not-an-integer"", ""branch"": ""main""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 29, ""branch"": 12345}",4xx,"branch=12345 is not a string, violating 'type=string' for path parameter."
-9,"{""id"": ""abc"", ""branch"": 9876}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=9876 is not a string, violating 'type=string'."
-10,"{""id"": 2147483649, ""branch"": ""main""}",4xx,"id=2147483649 is extremely large and may exceed backend integer bounds, violating 'type=integer'."
-11,"{""id"": 29, ""branch"": ""a................................................................................................................................................................................................................................................................................................................................................................................................................................""}",4xx,"branch is 257 characters long, which may exceed backend maximum length, violating 'type=string'."
-12,"{""id"": -1, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+1,"{""id"": 1001, ""branch"": ""main""}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context, examples, or prior test rows."
+2,"{""id"": 1001, ""branch"": ""main""}",2xx,llm_success_ignore_optional
+3,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+4,"{""id"": -5, ""branch"": ""main""}",4xx,"id=-5 is negative; while no explicit minimum is set, negative IDs are not realistic for project IDs and violate typical positive integer expectations."
+5,"{""id"": 2147483649, ""branch"": ""main""}",4xx,"id=2147483649 exceeds the maximum 32-bit signed integer value; while no explicit maximum is set, this value is excessively large for an ID."
+6,"{""id"": 1001, ""branch"": 123}",4xx,branch=123 has type integer but the spec requires string for path parameter.
+7,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+8,"{""id"": ""-1"", ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": ""1.5"", ""branch"": ""main""}",4xx,"id='1.5' is not parseable as integer, violating 'type=integer' for path/parseability."
+10,"{""id"": ""100123"", ""branch"": 123}",4xx,"branch=123 is not a string, violating 'type=string' for path parameter."
+11,"{""id"": ""100123"", ""branch"": [""main""]}",4xx,"branch=['main'] is not a string, violating 'type=string' for path parameter."
+12,"{""id"": -9999999.0, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
 13,"{""id"": ""123456"", ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 29, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 1001, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

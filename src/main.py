@@ -16,13 +16,13 @@ import os
 if __name__ == "__main__":
     # sequence_runner = SequenceRunner(service_name="Bill", base_url="https://bills-api.parliament.uk", token=None)
 
-    # headers = {
-    #     "PRIVATE-TOKEN": "glpat-StZArnyBReXqgPkznx-c"
-    # }   
     headers = {
-        "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui",
-    }
-    # _api_v1_Bills_billId_NewsArticles_GetNewsArticles_2_1	
+        "PRIVATE-TOKEN": "glpat-oS8Kk3oMHc-eHxH_GFE9"
+}   
+    # headers = {
+    #     "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui",
+    # }
+    # _api_v1_Bills_billId_NewsArticles_GetNesArticles_2_1	
     # _api_v1_Bills_billId_Stages_GET_1_1	
     # list_endpoints = load_test_cases_from_dir(dir)
     # pop_endpoints = ["_api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_1_1", "_api_v1_Bills_billId_Stages_billStageId_Amendments_amendmentId__GetAmendment_0_1"]
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     #     want_4xx=10
     # )
     # sequence_runner.run_all()
-    # endpoint = ["_projects_id_repository_branches_POST_1_1"]
+    test_case = ["_projects_POST_0_1"]
     # endpoint = None
     # endpoint = ["_api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1"]
     sequence_runner = SequenceRunner(
@@ -55,6 +55,6 @@ if __name__ == "__main__":
         sampling_strategy="random_quota",
         want_2xx=20,
         want_4xx=0,
-        # endpoint=endpoint
+        # test_case=test_case
     )
     sequence_runner.run_all()
