@@ -1,22 +1,14 @@
 {
-  "get-/projects": [],
+  "post-/projects/{id}/repository/branches": [],
   "post-/projects": [
     [
-      "get-/projects"
+      "post-/projects/{id}/repository/branches"
     ]
   ],
+  "get-/projects": [],
   "get-/projects/{id}/repository/branches": [
     [
       "get-/projects"
-    ]
-  ],
-  "post-/projects/{id}/repository/branches": [
-    [
-      "get-/projects"
-    ],
-    [
-      "get-/projects",
-      "get-/projects/{id}/repository/branches"
     ]
   ],
   "get-/projects/{id}/repository/branches/{branch}": [
@@ -24,17 +16,13 @@
       "get-/projects"
     ],
     [
-      "get-/projects",
+      "post-/projects/{id}/repository/branches",
       "post-/projects/{id}/protected_branches"
     ]
   ],
   "post-/projects/{id}/protected_branches": [
     [
-      "get-/projects"
-    ],
-    [
-      "get-/projects",
-      "get-/projects/{id}/repository/branches"
+      "post-/projects/{id}/repository/branches"
     ]
   ],
   "delete-/projects/{id}/repository/branches/{branch}": [
@@ -42,18 +30,17 @@
       "get-/projects"
     ],
     [
-      "get-/projects",
+      "post-/projects/{id}/repository/branches",
       "post-/projects/{id}/protected_branches"
     ]
   ],
   "delete-/projects/{id}/protected_branches/{name}": [
     [
-      "get-/projects",
-      "get-/projects/{id}/repository/branches"
+      "post-/projects/{id}/repository/branches"
     ],
     [
       "get-/projects",
-      "get-/projects/{id}/repository/branches/{branch}"
+      "get-/projects/{id}/repository/branches"
     ]
   ],
   "delete-/projects/{id}/repository/merged_branches": [

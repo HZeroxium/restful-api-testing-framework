@@ -4,7 +4,6 @@ import copy
 import heapq
 from queue import PriorityQueue
 
-from kat.document_parser.document_parser import extract_endpoints
 
 def is_post_operation(operation):
     return operation.split("-")[0] == "post"

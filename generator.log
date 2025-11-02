@@ -6594,3 +6594,820 @@ NameError: name 'get_topolist_file_path' is not defined
 2025-11-01 14:29:37,650 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
 2025-11-01 14:29:37,650 - INFO - path: /projects, method: post
 2025-11-01 14:29:37,650 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:14:48,208 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:14:49,448 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:49,935 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:50,370 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:50,903 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:51,504 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:52,071 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:52,456 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:52,929 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:53,569 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:54,084 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:54,652 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:55,177 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:55,843 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:56,361 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:56,972 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:57,409 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:58,005 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:14:58,125 - INFO - ODG prepared and saved.
+2025-11-02 12:14:58,142 - INFO - path: /projects, method: post
+2025-11-02 12:14:58,142 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,143 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,143 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:14:58,144 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,144 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:14:58,144 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,144 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:14:58,146 - INFO - path: /projects, method: post
+2025-11-02 12:14:58,146 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:14:58,147 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,147 - INFO - path: /projects, method: post
+2025-11-02 12:14:58,148 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,148 - INFO - path: /projects, method: post
+2025-11-02 12:14:58,149 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,149 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:14:58,149 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,150 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:14:58,150 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,150 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:14:58,151 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,151 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:14:58,152 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,152 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:14:58,153 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,153 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:14:58,154 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,154 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:14:58,155 - INFO - path: /projects, method: post
+2025-11-02 12:14:58,155 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:14:58,156 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,156 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:14:58,156 - INFO - path: /projects, method: get
+2025-11-02 12:14:58,157 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:27:35,700 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 11, in <module>
+    from kat.operation_dependency_graph.graph_utils.graph_analyzer import Analyzer
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\graph_utils\graph_analyzer.py", line 7, in <module>
+    from kat.document_parser.document_parser import extract_endpoints
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:28:19,147 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 11, in <module>
+    from kat.operation_dependency_graph.graph_utils.graph_analyzer import Analyzer
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\graph_utils\graph_analyzer.py", line 7, in <module>
+    from kat.document_parser.document_parser import extract_endpoints
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:28:41,724 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 11, in <module>
+    from kat.operation_dependency_graph.graph_utils.graph_analyzer import Analyzer
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\graph_utils\graph_analyzer.py", line 7, in <module>
+    from kat.document_parser.document_parser import extract_endpoints
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:29:51,172 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 12, in <module>
+    from kat.operation_dependency_graph.odg_heuristic import heuristically_generate_dependencies
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_heuristic.py", line 5, in <module>
+    from kat.utils.swagger_utils.swagger_utils import find_object_with_key
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\__init__.py", line 3, in <module>
+    from .swagger_utils import get_ref, find_object_with_key, get_schema_params
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 6, in <module>
+    from kat.document_parser.document_parser import extract_endpoints
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:30:30,140 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 11, in <module>
+    from kat.data_generator.data_generator import TestDataGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\data_generator\data_generator.py", line 27, in <module>
+    from kat.document_parser.document_parser import extract_endpoints, get_all_reference_schema_path_in_endpoint_object, get_endpoint_data, get_object_from_path
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:31:23,322 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 11, in <module>
+    from kat.data_generator.data_generator import TestDataGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\data_generator\data_generator.py", line 28, in <module>
+    from kat.inter_params_dependency.inter_params_dependency import INTER_PARAM_CONTEXT, VIOLATE_INTER_PARAM_CONTEXT, InterParamsDependencyTool
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\inter_params_dependency\inter_params_dependency.py", line 2, in <module>
+    from kat.document_parser.document_parser import extract_endpoints, get_swagger_spec, write_anything_to_file
+ImportError: cannot import name 'extract_endpoints' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:31:37,683 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 12, in <module>
+    from kat.operation_dependency_graph.odg_heuristic import heuristically_generate_dependencies
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_heuristic.py", line 5, in <module>
+    from kat.utils.swagger_utils.swagger_utils import find_object_with_key
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\__init__.py", line 3, in <module>
+    from .swagger_utils import get_ref, find_object_with_key, get_schema_params
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 6, in <module>
+    from kat.document_parser.document_parser import extract_endpoint
+ImportError: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:31:46,129 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 16, in <module>
+    from kat.document_parser.document_parser import extract_endpoint
+ImportError: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:31:56,966 - ERROR - Error in run_generator.py: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 11, in <module>
+    from kat.data_generator.data_generator import TestDataGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\data_generator\data_generator.py", line 27, in <module>
+    from kat.document_parser.document_parser import extract_endpoint, get_all_reference_schema_path_in_endpoint_object, get_endpoint_data, get_object_from_path
+ImportError: cannot import name 'extract_endpoint' from 'kat.document_parser.document_parser' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\document_parser\document_parser.py)
+2025-11-02 12:32:20,798 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:32:20,800 - ERROR - Error in run_generator.py: name 'extract_endpoint' is not defined
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 159, in prepare_odg
+    odg_generator = ODGGenerator(self.swagger_spec, self.service_name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 90, in __init__
+    self.initialize()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 101, in initialize
+    self.simplified_swagger = get_endpoint_params(self.swagger_spec, get_not_required_params=False, get_description=True)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 146, in get_endpoint_params
+    endpoints = extract_endpoint(spec)
+                ^^^^^^^^^^^^^^^^
+NameError: name 'extract_endpoint' is not defined
+2025-11-02 12:32:29,831 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:32:29,834 - ERROR - Error in run_generator.py: name 'extract_endpoint' is not defined
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 159, in prepare_odg
+    odg_generator = ODGGenerator(self.swagger_spec, self.service_name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 90, in __init__
+    self.initialize()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 103, in initialize
+    self.simplified_schemas = get_simplified_schema(self.swagger_spec)
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 470, in get_simplified_schema
+    endpoints = extract_endpoint(spec)
+                ^^^^^^^^^^^^^^^^
+NameError: name 'extract_endpoint' is not defined
+2025-11-02 12:32:36,336 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:32:36,340 - ERROR - Error in run_generator.py: name 'extract_endpoint' is not defined
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 160, in prepare_odg
+    odg_generator.generate_operation_dependency_graph()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 630, in generate_operation_dependency_graph
+    self.generate_endpoint_dependencies()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 344, in generate_endpoint_dependencies
+    self.endpoints_belong_to_schemas = get_endpoints_belong_to_schemas(self.swagger_spec)
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\utils\swagger_utils\swagger_utils.py", line 521, in get_endpoints_belong_to_schemas
+    endpoints = extract_endpoint(swagger)
+                ^^^^^^^^^^^^^^^^
+NameError: name 'extract_endpoint' is not defined
+2025-11-02 12:32:41,823 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:32:43,040 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:43,639 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:44,124 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:44,688 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:45,284 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:45,909 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:46,361 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:46,899 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:47,461 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:48,050 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:48,637 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:49,222 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:49,791 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:50,398 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:51,085 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:51,587 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:52,222 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:32:52,226 - ERROR - Error in run_generator.py: [Errno 2] No such file or directory: './KataApiTestGen/input/GitLab Branch/endpoints_belong_to_schemas.json'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 160, in prepare_odg
+    odg_generator.generate_operation_dependency_graph()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 630, in generate_operation_dependency_graph
+    self.generate_endpoint_dependencies()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 437, in generate_endpoint_dependencies
+    with open(f"./KataApiTestGen/input/{self.service_name}/endpoints_belong_to_schemas.json", "w") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: './KataApiTestGen/input/GitLab Branch/endpoints_belong_to_schemas.json'
+2025-11-02 12:33:29,317 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:33:30,065 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:30,532 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:30,952 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:56,437 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:33:57,480 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:58,078 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:58,519 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:59,084 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:33:59,664 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:00,240 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:00,630 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:01,131 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:01,700 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:02,265 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:02,870 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:03,401 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:03,970 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:04,486 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:05,071 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:05,519 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:06,149 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:06,154 - ERROR - Error in run_generator.py: 'ODGGenerator' object has no attribute 'save_dir'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 160, in prepare_odg
+    odg_generator.generate_operation_dependency_graph()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 630, in generate_operation_dependency_graph
+    self.generate_endpoint_dependencies()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 445, in generate_endpoint_dependencies
+    endpoint_schema_dependencies_path = self.save_dir + "endpoint_schema_dependencies.json"
+                                        ^^^^^^^^^^^^^
+AttributeError: 'ODGGenerator' object has no attribute 'save_dir'
+2025-11-02 12:34:16,999 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:34:18,021 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:18,484 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:18,906 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:19,439 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:20,108 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:20,652 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:21,057 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:21,517 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:22,111 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:22,615 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:23,126 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:23,626 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:24,195 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:24,704 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:25,234 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:25,658 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:26,222 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:34:26,277 - INFO - ODG prepared and saved.
+2025-11-02 12:34:26,289 - INFO - path: /projects, method: post
+2025-11-02 12:34:26,290 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,290 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,291 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:34:26,291 - INFO - path: /projects, method: post
+2025-11-02 12:34:26,291 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:34:26,292 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,292 - INFO - path: /projects, method: post
+2025-11-02 12:34:26,293 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,293 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:34:26,294 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,294 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:34:26,294 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,296 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:34:26,297 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,297 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:34:26,298 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,298 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:34:26,298 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,298 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:34:26,299 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,299 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:34:26,300 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,300 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:34:26,300 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,300 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:34:26,301 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,301 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:34:26,302 - INFO - path: /projects, method: get
+2025-11-02 12:34:26,302 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:34:26,303 - INFO - path: /projects, method: post
+2025-11-02 12:34:26,303 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:36:29,631 - ERROR - Error in run_generator.py: No module named 'components'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 2, in <module>
+    from components.gptcall import *
+ModuleNotFoundError: No module named 'components'
+2025-11-02 12:36:41,743 - ERROR - Error in run_generator.py: cannot import name 'ODGGenerator' from 'kat.operation_dependency_graph.odg_generator' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py)
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 24, in <module>
+    from kat.test_case_generator.test_case_generator import TestCaseGenerator
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 8, in <module>
+    from kat.operation_dependency_graph.odg_generator import ODGGenerator
+ImportError: cannot import name 'ODGGenerator' from 'kat.operation_dependency_graph.odg_generator' (C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py)
+2025-11-02 12:37:02,682 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:37:02,683 - ERROR - Error in run_generator.py: ODGGenerator.__init__() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 159, in prepare_odg
+    odg_generator = ODGGenerator(self.swagger_spec, self.service_name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: ODGGenerator.__init__() takes 2 positional arguments but 3 were given
+2025-11-02 12:37:43,071 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:37:43,838 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:44,304 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:44,720 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:45,244 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:45,802 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:46,345 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:46,737 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:47,226 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:47,732 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:48,242 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:48,758 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:49,285 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:49,826 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:50,348 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:50,861 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:51,301 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:51,871 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:37:51,925 - INFO - ODG prepared and saved.
+2025-11-02 12:37:51,944 - INFO - path: /projects, method: post
+2025-11-02 12:37:51,944 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,945 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,945 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:37:51,946 - INFO - path: /projects, method: post
+2025-11-02 12:37:51,946 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:37:51,947 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,947 - INFO - path: /projects, method: post
+2025-11-02 12:37:51,948 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,948 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:37:51,949 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,949 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:37:51,950 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,950 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:37:51,951 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,952 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:37:51,953 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,953 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:37:51,954 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,954 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:37:51,956 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,956 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:37:51,957 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,957 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:37:51,957 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,958 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:37:51,958 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,958 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:37:51,960 - INFO - path: /projects, method: get
+2025-11-02 12:37:51,960 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:37:51,961 - INFO - path: /projects, method: post
+2025-11-02 12:37:51,961 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:38:22,197 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:38:23,157 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:23,709 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:24,161 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:24,725 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:25,311 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:25,784 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:26,181 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:26,674 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:27,164 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:27,700 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:28,225 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:28,747 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:29,317 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:29,822 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:30,360 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:30,807 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:31,392 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:38:31,436 - INFO - ODG prepared and saved.
+2025-11-02 12:38:31,448 - INFO - path: /projects, method: post
+2025-11-02 12:38:31,449 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,450 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,450 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:38:31,451 - INFO - path: /projects, method: post
+2025-11-02 12:38:31,451 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:38:31,451 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,452 - INFO - path: /projects, method: post
+2025-11-02 12:38:31,452 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,452 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:38:31,453 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,453 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:38:31,454 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,454 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:38:31,455 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,455 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:38:31,456 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,457 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:38:31,458 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,458 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:38:31,459 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,459 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:38:31,460 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,460 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:38:31,461 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,461 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:38:31,461 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,461 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:38:31,463 - INFO - path: /projects, method: get
+2025-11-02 12:38:31,463 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:38:31,464 - INFO - path: /projects, method: post
+2025-11-02 12:38:31,464 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:39:36,794 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:39:37,533 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:38,118 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:38,513 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:39,033 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:39,583 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:40,105 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:40,493 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:40,956 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:41,429 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:41,948 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:42,446 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:42,957 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:43,434 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:43,955 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:44,456 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:44,865 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:45,414 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:39:45,456 - INFO - ODG prepared and saved.
+2025-11-02 12:39:45,468 - INFO - path: /projects, method: post
+2025-11-02 12:39:45,469 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,469 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,470 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:39:45,470 - INFO - path: /projects, method: post
+2025-11-02 12:39:45,471 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:39:45,471 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,471 - INFO - path: /projects, method: post
+2025-11-02 12:39:45,472 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,472 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:39:45,472 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,472 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:39:45,473 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,473 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:39:45,474 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,474 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:39:45,474 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,475 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:39:45,475 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,475 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:39:45,476 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,476 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:39:45,477 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,477 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:39:45,478 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,478 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:39:45,478 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,478 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:39:45,479 - INFO - path: /projects, method: get
+2025-11-02 12:39:45,479 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:39:45,480 - INFO - path: /projects, method: post
+2025-11-02 12:39:45,480 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:43:43,640 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:43:43,642 - ERROR - Error in run_generator.py: 'str' object has no attribute 'get'
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\run_generator.py", line 33, in <module>
+    generator = TestCaseGenerator(
+                ^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 114, in __init__
+    self.prepare_odg()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\test_case_generator\test_case_generator.py", line 159, in prepare_odg
+    odg_generator = ODGGenerator(self.swagger_spec, self.service_name)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 90, in __init__
+    self.initialize()
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 113, in initialize
+    kept = {k: v for k, v in params.items() if v.get("in") in ("path", "query")}
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\Desktop\NCKH\restful-api-testing-framework\src\kat\operation_dependency_graph\odg_generator.py", line 113, in <dictcomp>
+    kept = {k: v for k, v in params.items() if v.get("in") in ("path", "query")}
+                                               ^^^^^
+AttributeError: 'str' object has no attribute 'get'
+2025-11-02 12:45:11,504 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:45:12,458 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:12,995 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:13,456 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:13,936 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:14,438 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:14,959 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:15,449 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:16,000 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:16,437 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:16,994 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:45:17,046 - INFO - ODG prepared and saved.
+2025-11-02 12:45:17,063 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,064 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,064 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,064 - INFO - path: /projects, method: get
+2025-11-02 12:45:17,065 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,065 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:45:17,066 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,066 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:45:17,067 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,067 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:45:17,067 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,067 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:45:17,068 - INFO - path: /projects, method: get
+2025-11-02 12:45:17,068 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:45:17,069 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,069 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:45:17,070 - INFO - path: /projects, method: get
+2025-11-02 12:45:17,070 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:45:17,071 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,071 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:45:17,072 - INFO - path: /projects, method: get
+2025-11-02 12:45:17,072 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:45:17,072 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,072 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:45:17,073 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:45:17,073 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:45:17,074 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:45:17,074 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:45:17,074 - INFO - path: /projects, method: get
+2025-11-02 12:45:17,074 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:45:17,076 - INFO - path: /projects, method: post
+2025-11-02 12:45:17,076 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:50:05,299 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 12:50:06,298 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:06,752 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:07,199 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:07,720 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:08,292 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:08,828 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:09,201 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:09,652 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:10,159 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:10,641 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:11,205 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:11,711 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:12,257 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:12,762 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:13,272 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:13,716 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:14,283 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 12:50:14,332 - INFO - ODG prepared and saved.
+2025-11-02 12:50:14,353 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,354 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,354 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,354 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,355 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,355 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:50:14,356 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,356 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 12:50:14,357 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,357 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,357 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,357 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,358 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,358 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:50:14,359 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,359 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 12:50:14,360 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,360 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:50:14,360 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,360 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 12:50:14,362 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,363 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:50:14,363 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,363 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 12:50:14,364 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,364 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:50:14,365 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 12:50:14,365 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 12:50:14,366 - INFO - path: /projects, method: get
+2025-11-02 12:50:14,366 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 12:50:14,367 - INFO - path: /projects, method: post
+2025-11-02 12:50:14,367 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:17:39,292 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 13:17:39,293 - INFO - ODG files already exist. Skipping ODG generation.
+2025-11-02 13:17:39,299 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,299 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,300 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,300 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,302 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,302 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:17:39,303 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,303 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:17:39,303 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,303 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,306 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,306 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,307 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,307 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:17:39,308 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,308 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:17:39,308 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,308 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:17:39,309 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,309 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:17:39,310 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,310 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:17:39,310 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,310 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:17:39,311 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,312 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:17:39,312 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:17:39,313 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:17:39,313 - INFO - path: /projects, method: get
+2025-11-02 13:17:39,314 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:17:39,314 - INFO - path: /projects, method: post
+2025-11-02 13:17:39,314 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:31:41,339 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 13:31:42,193 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:42,655 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:43,078 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:43,650 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:44,180 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:44,766 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:45,130 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:45,621 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:46,213 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:46,732 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:47,340 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:47,887 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:48,543 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:49,043 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:49,754 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:50,163 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:50,747 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:31:50,796 - INFO - ODG prepared and saved.
+2025-11-02 13:31:50,812 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,812 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,813 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,814 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,815 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,815 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:31:50,816 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,816 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:31:50,817 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,817 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,818 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,818 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,819 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,819 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:31:50,820 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,821 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:31:50,821 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,822 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:31:50,822 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,822 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:31:50,824 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,824 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:31:50,825 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,825 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:31:50,826 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,827 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:31:50,828 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:31:50,828 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:31:50,829 - INFO - path: /projects, method: get
+2025-11-02 13:31:50,830 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:31:50,830 - INFO - path: /projects, method: post
+2025-11-02 13:31:50,830 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:45:06,162 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 13:45:06,851 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:07,357 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:07,805 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:08,340 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:08,893 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:09,467 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:09,837 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:10,313 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:10,899 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:11,396 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:11,942 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:12,447 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:12,940 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:13,431 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:13,985 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:14,420 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:14,996 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:15,035 - INFO - ODG prepared and saved.
+2025-11-02 13:45:15,047 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,048 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,048 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,049 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,049 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,049 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:45:15,050 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,050 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:45:15,051 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,051 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,052 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,052 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,053 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,053 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:45:15,053 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,054 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:45:15,054 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,054 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:45:15,055 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,055 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:45:15,055 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,055 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:45:15,057 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,057 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:45:15,058 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,058 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:45:15,059 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:15,059 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:45:15,060 - INFO - path: /projects, method: get
+2025-11-02 13:45:15,060 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:45:15,061 - INFO - path: /projects, method: post
+2025-11-02 13:45:15,061 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:45:47,300 - INFO - Preparing ODG for service: GitLab Branch
+2025-11-02 13:45:48,049 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:48,597 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:48,992 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:49,534 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:50,083 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:50,665 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:51,035 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:51,524 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:52,028 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:52,545 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:53,092 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:53,615 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:54,185 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:54,702 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:55,254 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:55,703 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:56,231 - INFO - HTTP Request: POST https://kat.openai.azure.com/openai/deployments/gpt-4.1/chat/completions?api-version=2024-12-01-preview "HTTP/1.1 200 OK"
+2025-11-02 13:45:56,275 - INFO - ODG prepared and saved.
+2025-11-02 13:45:56,293 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,293 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,294 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,294 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,295 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,295 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,296 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,296 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,297 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,297 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:45:56,297 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,298 - INFO - path: /projects/{id}/repository/branches, method: get
+2025-11-02 13:45:56,299 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,299 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:45:56,299 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,300 - INFO - path: /projects/{id}/protected_branches, method: post
+2025-11-02 13:45:56,300 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,300 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:45:56,301 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,301 - INFO - path: /projects/{id}/repository/branches/{branch}, method: get
+2025-11-02 13:45:56,302 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,302 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:45:56,302 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,302 - INFO - path: /projects/{id}/protected_branches/{name}, method: delete
+2025-11-02 13:45:56,303 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,303 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:45:56,304 - INFO - path: /projects/{id}/repository/branches, method: post
+2025-11-02 13:45:56,304 - INFO - path: /projects/{id}/repository/branches/{branch}, method: delete
+2025-11-02 13:45:56,306 - INFO - path: /projects, method: get
+2025-11-02 13:45:56,306 - INFO - path: /projects/{id}/repository/merged_branches, method: delete
+2025-11-02 13:45:56,307 - INFO - path: /projects, method: post
+2025-11-02 13:45:56,307 - INFO - path: /projects/{id}/repository/merged_branches, method: delete

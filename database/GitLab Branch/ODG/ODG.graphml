@@ -1,19 +1,41 @@
 <?xml version='1.0' encoding='utf-8'?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd"><graph edgedefault="directed"><node id="get-/projects"/>
-<node id="get-/projects/{id}/repository/branches"/>
-<node id="post-/projects/{id}/repository/branches"/>
-<node id="get-/projects/{id}/repository/branches/{branch}"/>
-<node id="delete-/projects/{id}/repository/branches/{branch}"/>
-<node id="post-/projects/{id}/protected_branches"/>
-<node id="delete-/projects/{id}/protected_branches/{name}"/>
-<node id="delete-/projects/{id}/repository/merged_branches"/>
-<node id="post-/projects"/>
-<edge source="get-/projects" target="get-/projects/{id}/repository/branches"/>
-<edge source="get-/projects" target="delete-/projects/{id}/repository/merged_branches"/>
-<edge source="get-/projects" target="post-/projects"/>
-<edge source="get-/projects/{id}/repository/branches" target="delete-/projects/{id}/repository/branches/{branch}"/>
-<edge source="get-/projects/{id}/repository/branches" target="post-/projects/{id}/repository/branches"/>
-<edge source="post-/projects/{id}/repository/branches" target="get-/projects/{id}/repository/branches/{branch}"/>
-<edge source="get-/projects/{id}/repository/branches/{branch}" target="post-/projects/{id}/protected_branches"/>
-<edge source="post-/projects/{id}/protected_branches" target="delete-/projects/{id}/protected_branches/{name}"/>
-</graph></graphml>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
+  <graph edgedefault="directed">
+    <node id="get-/projects" />
+    <node id="get-/projects/{id}/repository/branches" />
+    <node id="post-/projects/{id}/repository/branches" />
+    <node id="get-/projects/{id}/repository/branches/{branch}" />
+    <node id="delete-/projects/{id}/repository/branches/{branch}" />
+    <node id="post-/projects/{id}/protected_branches" />
+    <node id="delete-/projects/{id}/protected_branches/{name}" />
+    <node id="delete-/projects/{id}/repository/merged_branches" />
+    <node id="post-/projects" />
+    <edge source="get-/projects" target="get-/projects/{id}/repository/branches" />
+    <edge source="get-/projects" target="get-/projects/{id}/repository/branches/{branch}" />
+    <edge source="get-/projects" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="get-/projects" target="post-/projects/{id}/protected_branches" />
+    <edge source="get-/projects" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="get-/projects" target="delete-/projects/{id}/repository/merged_branches" />
+    <edge source="get-/projects/{id}/repository/branches" target="get-/projects/{id}/repository/branches/{branch}" />
+    <edge source="get-/projects/{id}/repository/branches" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="get-/projects/{id}/repository/branches" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="post-/projects/{id}/repository/branches" target="get-/projects/{id}/repository/branches" />
+    <edge source="post-/projects/{id}/repository/branches" target="get-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects/{id}/repository/branches" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects/{id}/repository/branches" target="post-/projects/{id}/protected_branches" />
+    <edge source="post-/projects/{id}/repository/branches" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="get-/projects/{id}/repository/branches/{branch}" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="get-/projects/{id}/repository/branches/{branch}" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="post-/projects/{id}/protected_branches" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="post-/projects/{id}/protected_branches" target="get-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects/{id}/protected_branches" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects" target="get-/projects" />
+    <edge source="post-/projects" target="get-/projects/{id}/repository/branches" />
+    <edge source="post-/projects" target="post-/projects/{id}/repository/branches" />
+    <edge source="post-/projects" target="get-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects" target="delete-/projects/{id}/repository/branches/{branch}" />
+    <edge source="post-/projects" target="post-/projects/{id}/protected_branches" />
+    <edge source="post-/projects" target="delete-/projects/{id}/protected_branches/{name}" />
+    <edge source="post-/projects" target="delete-/projects/{id}/repository/merged_branches" />
+  </graph>
+</graphml>

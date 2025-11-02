@@ -44,9 +44,6 @@
     "BasicProjectDetails": {
       "id": "id"
     },
-    "RepoBranch": {
-      "branch": "name"
-    },
     "ProtectedBranch": {
       "branch": "name"
     }

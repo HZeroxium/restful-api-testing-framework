@@ -9,31 +9,14 @@
     "steps": [
       {
         "step_number": 1,
-        "endpoint": "get-/projects",
-        "method": "GET",
-        "path_variables": {},
+        "endpoint": "post-/projects/{id}/repository/branches",
+        "method": "POST",
+        "path_variables": {
+          "id": null
+        },
         "query_parameters": {
-          "archived": null,
-          "id_after": null,
-          "id_before": null,
-          "last_activity_after": null,
-          "last_activity_before": null,
-          "membership": null,
-          "min_access_level": null,
-          "order_by": null,
-          "owned": null,
-          "repository_storage": null,
-          "search_namespaces": null,
-          "search": null,
-          "simple": null,
-          "sort": null,
-          "starred": null,
-          "statistics": null,
-          "visibility": null,
-          "with_custom_attributes": null,
-          "with_issues_enabled": null,
-          "with_merge_requests_enabled": null,
-          "with_programming_language": null
+          "branch": null,
+          "ref": null
         },
         "request_body": {},
         "response_validation": {
@@ -61,16 +44,9 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "id": {
-            "from_step": 1,
-            "from_endpoint": "get-/projects",
-            "field_mappings": {
-              "id": "id"
-            }
-          },
           "name": {
             "from_step": 1,
-            "from_endpoint": "get-/projects",
+            "from_endpoint": "post-/projects/{id}/repository/branches",
             "field_mappings": {
               "name": "name"
             }
@@ -92,13 +68,6 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "id": {
-            "from_step": 2,
-            "from_endpoint": "post-/projects/{id}/protected_branches",
-            "field_mappings": {
-              "id": "id"
-            }
-          },
           "branch": {
             "from_step": 2,
             "from_endpoint": "post-/projects/{id}/protected_branches",

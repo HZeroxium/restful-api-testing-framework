@@ -43,13 +43,14 @@
       },
       {
         "step_number": 2,
-        "endpoint": "get-/projects/{id}/repository/branches/{branch}",
+        "endpoint": "get-/projects/{id}/repository/branches",
         "method": "GET",
         "path_variables": {
-          "id": null,
-          "branch": null
+          "id": null
         },
-        "query_parameters": {},
+        "query_parameters": {
+          "search": null
+        },
         "request_body": {},
         "response_validation": {
           "status_code": "2xx",
@@ -61,13 +62,6 @@
             "from_endpoint": "get-/projects",
             "field_mappings": {
               "id": "id"
-            }
-          },
-          "branch": {
-            "from_step": 1,
-            "from_endpoint": "get-/projects",
-            "field_mappings": {
-              "branch": "name"
             }
           }
         }
@@ -86,22 +80,7 @@
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "id": {
-            "from_step": 2,
-            "from_endpoint": "get-/projects/{id}/repository/branches/{branch}",
-            "field_mappings": {
-              "id": "id"
-            }
-          },
-          "name": {
-            "from_step": 2,
-            "from_endpoint": "get-/projects/{id}/repository/branches/{branch}",
-            "field_mappings": {
-              "name": "name"
-            }
-          }
-        }
+        "data_dependencies": {}
       }
     ],
     "test_data": {

@@ -364,7 +364,7 @@ def get_schema_required_fields(body, spec, visited_refs=None):
     return new_schema
 
 def get_required_fields(spec: dict):
-    endpoints = extract_endpoints(spec)
+    endpoints = extract_endpoint(spec)
     endpoint_params_only_dict = {}
 
     for endpoint in endpoints:
@@ -466,7 +466,7 @@ def get_schema_recursive(body, spec, visited_refs=None):
 
 def get_simplified_schema(spec: dict, get_not_required_params=True):
     simplified_schema_dict = {}
-    
+
     endpoints = extract_endpoints(spec)
 
     for endpoint in endpoints:
@@ -517,7 +517,7 @@ def get_relevant_schema_of_endpoint(endpoint, swagger_spec):
 
 def get_endpoints_belong_to_schemas(swagger):
     endpoints_belong_to_schemas = {}
-    
+
     endpoints = extract_endpoints(swagger)
     for endpoint in endpoints:
         relevant_schemas = get_relevant_schema_of_endpoint(endpoint, swagger)

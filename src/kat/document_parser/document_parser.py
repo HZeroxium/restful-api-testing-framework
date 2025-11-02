@@ -22,10 +22,13 @@ def write_anything_to_file(path, data):
 
 # Extract the endpoints from the OpenAPI specification file.
 # data is a dictionary of the OpenAPI specification file.
-def extract_endpoints(data):
-
+def extract_endpoints(spec):
+    '''
+    Currently work well with OAS 3.0
+    '''
     endpoints = []
-    paths = data['paths']
+    paths = spec['paths']
+    valid_methods = ['get', 'post', 'put', 'delete', 'patch', 'head', 'options', 'trace']
     for path in paths:
         for method in paths[path]:
             if method.startswith('x-') or method not in valid_methods:

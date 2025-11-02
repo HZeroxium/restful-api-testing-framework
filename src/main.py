@@ -43,7 +43,7 @@ if __name__ == "__main__":
     #     want_4xx=10
     # )
     # sequence_runner.run_all()
-    endpoint = ["_projects_id_repository_branches_POST_1_1"]
+    # endpoint = ["_projects_id_repository_branches_POST_1_1"]
     # endpoint = None
     # endpoint = ["_api_v1_Publications_publicationId_Documents_documentId_Download_GET_2_1"]
     sequence_runner = SequenceRunner(
@@ -53,8 +53,8 @@ if __name__ == "__main__":
         out_file_name=f"{datetime.now().strftime('%Y%m%d%H%M%S')}",
         headers=headers,
         sampling_strategy="random_quota",
-        want_2xx=10,
+        want_2xx=20,
         want_4xx=0,
-        endpoint=endpoint
+        # endpoint=endpoint
     )
     sequence_runner.run_all()

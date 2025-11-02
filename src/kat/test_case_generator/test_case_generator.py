@@ -13,7 +13,6 @@ from kat.data_generator.data_generator import TestDataGenerator
 from kat.document_parser.document_parser import (
 get_delete_operation_store,
 )
-from kat.utils.llm.gpt.gpt import GPTChatCompletion
 from kat.utils.swagger_utils.swagger_utils import (
     add_test_object_to_swagger,
     get_endpoint_id,
@@ -272,32 +271,53 @@ class TestCaseGenerator():
         - Only use endpoint_schema_dependencies[endpoint][schema] where source field is a simple top-level name (no dots).
         - Build per-target field dependency pointing to the *previous* step.
         - No heuristics, no 'not-sure' placeholders.
+
+        [FIXED]
+        - Added a check to ensure the prev_endpoint *produces* the schema
+        that the current endpoint *requires*.
+
         Returns: Dict[target_param, dependency_obj]
         """
+        # 1. Get all *required* dependencies for the current endpoint (e.g., step 3)
+        # (e.g., { "BasicProjectDetails": {"id": "id"}, "Branch": {"ref": "name"}, ... })
         deps_for_endpoint = self.endpoint_schema_dependencies.get(endpoint, {})
         if not deps_for_endpoint:
             return {}
 
-        # Flatten: {target_param: source_field}
-        flat: Dict[str, str] = {}
-        for _schema, mappings in deps_for_endpoint.items():
-            for target_param, source_param in (mappings or {}).items():
-                if isinstance(source_param, str) and '.' not in source_param:
-                    flat[target_param] = source_param  # keep last wins if duplicated
+        # 2. Get all *produced* schemas from the previous endpoint (e.g., step 2)
+        #    We use simplified_swagger_param_type_only because it contains responseBody
+        prev_endpoint_info = self.simplified_swagger_param_type_only.get(prev_endpoint, {})
+        response_body = prev_endpoint_info.get('responseBody', {})
+        produced_schemas = set()
+        for key in response_body.keys():
+            # Extract schema name (e.g., "BasicProjectDetails" from "schema of BasicProjectDetails")
+            match = re.search(r'schema of (\w+)', key)
+            if match:
+                produced_schemas.add(match.group(1))
 
-        if not flat:
-            return {}
+        # (e.g., for 'get-/projects', produced_schemas = {'BasicProjectDetails'})
+        if not produced_schemas:
+            return {}  # Previous step produces nothing, so we can't map.
 
+        # 3. Iterate required dependencies and check against what's produced
         result = {}
-        for target_param, source_param in flat.items():
-            result[target_param] = {
-                "from_step": prev_step_number,
-                "from_endpoint": prev_endpoint,
-                "field_mappings": {
-                    target_param: source_param
-                }
-            }
+        for required_schema, mappings in deps_for_endpoint.items():
+            # THE FIX: Only proceed if the previous step *actually produces* the schema we need.
+            if required_schema in produced_schemas:
+                # Now, map the fields for this *matched* schema
+                for target_param, source_param in (mappings or {}).items():
+                    if isinstance(source_param, str) and '.' not in source_param:
+                        # Create a dependency object for this specific parameter
+                        result[target_param] = {
+                            "from_step": prev_step_number,
+                            "from_endpoint": prev_endpoint,
+                            "field_mappings": {
+                                target_param: source_param
+                            }
+                        }
+
         return result
+
 
     def generate_test_case_core(self, sequence):
         """

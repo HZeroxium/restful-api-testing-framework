@@ -13,7 +13,7 @@ from kat.operation_dependency_graph.odg_heuristic import heuristically_generate_
 from kat.operation_dependency_graph.odg_prompting import *
 from difflib import SequenceMatcher
 
-from kat.document_parser.document_parser import extract_endpoints, get_swagger_spec
+from kat.document_parser.document_parser import extract_endpoints
 from kat.utils.llm.gpt.gpt import GPTChatCompletion
 from kat.utils.swagger_utils.swagger_utils import get_endpoint_params, get_endpoints_belong_to_schemas, get_simplified_schema
 
@@ -40,7 +40,7 @@ def extract_relevant_schemas(response):
     for match in matches:
         schema_info = {}
         schema_name, schema_details = match
-        if schema_details == "None" and schema_details == "Not Found":
+        if schema_details == "None" or schema_details == "Not Found":
             continue
         else:
             schema_details = schema_details.strip()
@@ -103,8 +103,7 @@ class ODGGenerator():
         self.simplified_schemas = get_simplified_schema(self.swagger_spec)
         self.path_common_prefix = find_common_prefix(list(self.swagger_spec["paths"].keys()))
         
-        self.prepare_working_directory()
-        
+
         with open(self.working_directory + "simplified_swagger_required_params_only.json", "w") as file:
             json.dump(self.simplified_swagger, file, indent=2)
 
@@ -161,6 +160,9 @@ class ODGGenerator():
                 
                 self.input_token_count += len(prompt)
                 response = GPTChatCompletion(prompt, system="", temperature=0.0)
+                with open(self.working_directory + " debug " + f"schema_dependency.txt", "a") as file:
+                    file.write(f"Prompt for {schema}:\n{prompt}\n")
+                    file.write(f"Response for {schema}:\n{response}\n")
                 if response:
                     self.output_token_count += len(response)
             
@@ -209,27 +211,6 @@ class ODGGenerator():
                 
         return field_paths
 
-    def filter_relevant_schemas_for_endpoint(self, endpoint, all_schemas):
-        """
-        Filter schemas to only include those relevant for this endpoint type.
-        This prevents cross-schema dependencies that don't make logical sense.
-        """
-        # Simple heuristic: match schema type with endpoint type
-        if '/holidays' in endpoint and '{holidayId}' in endpoint:
-            # Holiday endpoint should only depend on Holiday schema
-            return [schema for schema in all_schemas if 'Holiday' in schema]
-        elif '/provinces' in endpoint and '{provinceId}' in endpoint:
-            # Province endpoint should only depend on Province schema  
-            return [schema for schema in all_schemas if 'Province' in schema]
-        elif '/holidays' in endpoint:
-            # Generic holidays endpoint can use Holiday schema
-            return [schema for schema in all_schemas if 'Holiday' in schema]
-        elif '/provinces' in endpoint:
-            # Generic provinces endpoint can use Province schema
-            return [schema for schema in all_schemas if 'Province' in schema]
-        
-        # For other endpoints, return all schemas (fallback)
-        return all_schemas
 
     def enhance_schema_context_with_paths(self, schema_name, schema_data):
         """
@@ -341,7 +322,14 @@ class ODGGenerator():
     def is_valid_dependency(self, preceeding_endpoint, endpoint):
         if preceeding_endpoint == endpoint:
             return False
+        # chặn GET-/X -> POST-/X
+        if preceeding_endpoint.startswith("get-") and endpoint.startswith("post-"):
+            u = preceeding_endpoint[4:].split("/{")[0]
+            v = endpoint[5:].split("/{")[0]
+            if u == v:
+                return False
         return True
+
     
     '''
         Find relevant schemas of an schema from self.schema_dependencies dict
@@ -362,117 +350,116 @@ class ODGGenerator():
         Main function generates endpoint dependencies
     '''
     def generate_endpoint_dependencies(self):
-        self.endpoints_belong_to_schemas = get_endpoints_belong_to_schemas(self.swagger_spec)
-        endpoint_schema_dependencies_path = self.working_directory + "endpoint_schema_dependencies.json"
-        # Always regenerate endpoint_schema_dependencies for now to apply new filtering logic
-        # TODO: Restore caching after logic is stable
-        self.endpoint_schema_dependencies = self.GPT_infer_endpoint_schema_dependencies()
-        with open(endpoint_schema_dependencies_path, "w") as f:
-            json.dump(self.endpoint_schema_dependencies, f, indent=2)
-        
-        # Generate endpoint dependencies
-        endpoints = extract_endpoints(self.swagger_spec)
-        for endpoint in endpoints:
-            # If the endpoint does not have any required parameters, skip it
-            if "parameters" not in self.simplified_swagger[endpoint]:
-                continue
+            self.endpoints_belong_to_schemas = get_endpoints_belong_to_schemas(self.swagger_spec)
+            self.endpoint_schema_dependencies = self.GPT_infer_endpoint_schema_dependencies()
+            # self.schema_dependencies = self.GPT_generate_schema_dependencies()
             
-            # Get the endpoint's required parameters
-            parameters = list(self.simplified_swagger[endpoint]["parameters"].keys())
-            
-            # If the endpoint does not have any schema dependencies, skip it. Sometimes, it has required parameters but does not have any dependencies. We can discuss further.
-            if self.has_schema_dependency(endpoint):
-                # Get schema dependencies of the endpoint
-                schema_dependencies_of_endpoint = copy.deepcopy(self.endpoint_schema_dependencies[endpoint])
-                name_schema_dependencies_of_endpoint = list(schema_dependencies_of_endpoint.keys())
+            # Generate endpoint dependencies
+            endpoints = extract_endpoints(self.swagger_spec)
+            for endpoint in endpoints:
+                # If the endpoint does not have any required parameters, skip it
+                if "parameters" not in self.simplified_swagger[endpoint]:
+                    continue
                 
-                # Config valid create resource endpoints
-                config_create_source_endpoint = Config()
+                # Get the endpoint's required parameters
+                parameters = list(self.simplified_swagger[endpoint]["parameters"].keys())
                 
-                visited_schemas = []
-                print(f"Schemas to find dependencies: {name_schema_dependencies_of_endpoint}")
-                for schema_name in self.endpoint_schema_dependencies[endpoint]:
-                    visited_schemas.append(schema_name)
-                    print(f"Visited schemas: {visited_schemas}")
-                    parameter_dependencies = list(schema_dependencies_of_endpoint[schema_name].keys())
-                    print(f"Parameters need to be retrieved from schema {schema_name}: {parameter_dependencies}")
-                    for param in parameter_dependencies:
-                        found_dependency = False
-                        if param in parameters:
-                            if schema_name in self.endpoints_belong_to_schemas:
-                                print(f"Find dependencies at schema {schema_name}")
-                                dependency_candidates = self.endpoints_belong_to_schemas[schema_name]
-                                create_resource_endpoints = self.find_endpoints_creating_resource(dependency_candidates, config=config_create_source_endpoint)
+                # If the endpoint does not have any schema dependencies, skip it. Sometimes, it has required parameters but does not have any dependencies. We can discuss further.
+                if self.has_schema_dependency(endpoint):
+                    # Get schema dependencies of the endpoint
+                    schema_dependencies_of_endpoint = copy.deepcopy(self.endpoint_schema_dependencies[endpoint])
+                    name_schema_dependencies_of_endpoint = list(schema_dependencies_of_endpoint.keys())
+                    
+                    # Config valid create resource endpoints
+                    config_create_source_endpoint = Config()
+                    
+                    visited_schemas = []
+                    print(f"Schemas to find dependencies: {name_schema_dependencies_of_endpoint}")
+                    for schema_name in self.endpoint_schema_dependencies[endpoint]:
+                        visited_schemas.append(schema_name)
+                        print(f"Visited schemas: {visited_schemas}")
+                        parameter_dependencies = list(schema_dependencies_of_endpoint[schema_name].keys())
+                        print(f"Parameters need to be retrieved from schema {schema_name}: {parameter_dependencies}")
+                        for param in parameter_dependencies:
+                            found_dependency = False
+                            if param in parameters:
+                                if schema_name in self.endpoints_belong_to_schemas:
+                                    print(f"Find dependencies at schema {schema_name}")
+                                    dependency_candidates = self.endpoints_belong_to_schemas[schema_name]
+                                    create_resource_endpoints = self.find_endpoints_creating_resource(dependency_candidates, config=config_create_source_endpoint)
 
-                                if create_resource_endpoints:
-                                    print(f"Found dependency candidates: {create_resource_endpoints}")
-                                    print(f"Accepted dependency candidates:")
-                                    for preceeding_endpoint in create_resource_endpoints:
-                                        if self.is_valid_dependency(preceeding_endpoint, endpoint) and (preceeding_endpoint, endpoint) not in self.endpoint_dependencies:
-                                            self.endpoint_dependencies.append((preceeding_endpoint, endpoint))
-                                            found_dependency = True
-                        else:
-                            print(f"Parameter {param} does not exist in {endpoint}")
+                                    if create_resource_endpoints:
+                                        print(f"Found dependency candidates: {create_resource_endpoints}")
+                                        print(f"Accepted dependency candidates:")
+                                        for preceeding_endpoint in create_resource_endpoints:
+                                            if self.is_valid_dependency(preceeding_endpoint, endpoint) and (preceeding_endpoint, endpoint) not in self.endpoint_dependencies:
+                                                self.endpoint_dependencies.append((preceeding_endpoint, endpoint))
+                                                found_dependency = True
+                            else:
+                                print(f"Parameter {param} does not exist in {endpoint}")
+                            
+                            if found_dependency:
+                                parameters.remove(param)
+                                parameter_dependencies.remove(param)
+                        if not parameter_dependencies:
+                            name_schema_dependencies_of_endpoint.remove(schema_name)
+                    
+                    
+                #     # If there are still parameters left, we need to find dependencies through the schema dependencies
+                #     while parameters:
+                #         print(f"Parameters are leaving: {parameters}")
+                #         schema_schema_dependencies_of_endpoint = []
+                #         for schema in name_schema_dependencies_of_endpoint:
+                #             if schema in self.schema_dependencies:
+                #                 schema_schema_dependencies_of_endpoint.extend(self.schema_dependencies[schema])
+                #         schema_schema_dependencies_of_endpoint = list(set(schema_schema_dependencies_of_endpoint) - set(visited_schemas))
                         
-                        if found_dependency:
-                            parameters.remove(param)
-                            parameter_dependencies.remove(param)
-                    if not parameter_dependencies:
-                        name_schema_dependencies_of_endpoint.remove(schema_name)
-                
-                
-            #     # If there are still parameters left, we need to find dependencies through the schema dependencies
-            #     while parameters:
-            #         print(f"Parameters are leaving: {parameters}")
-            #         schema_schema_dependencies_of_endpoint = []
-            #         for schema in name_schema_dependencies_of_endpoint:
-            #             if schema in self.schema_dependencies:
-            #                 schema_schema_dependencies_of_endpoint.extend(self.schema_dependencies[schema])
-            #         schema_schema_dependencies_of_endpoint = list(set(schema_schema_dependencies_of_endpoint) - set(visited_schemas))
+                #         print(f"Found dependencies via schema dependencies: {schema_schema_dependencies_of_endpoint}")
+                #         if not schema_schema_dependencies_of_endpoint:
+                #             break
+                        
+                #         for schema_name in schema_schema_dependencies_of_endpoint:
+                #             visited_schemas.append(schema_name)
+                #             found_dependency = False
+                #             if schema_name not in self.endpoints_belong_to_schemas:
+                #                 continue
+                #             create_resource_endpoints = find_endpoints_which_create_resource(self.endpoints_belong_to_schemas[schema_name], config=config_create_source_endpoint)
+                #             if create_resource_endpoints:
+                #                 for dep_endpoint in create_resource_endpoints:
+                #                     if self.is_valid_dependency(endpoint, dep_endpoint) and (dep_endpoint, endpoint) not in self.endpoint_dependencies:
+                #                         self.endpoint_dependencies.append((dep_endpoint, endpoint))
                     
-            #         print(f"Found dependencies via schema dependencies: {schema_schema_dependencies_of_endpoint}")
-            #         if not schema_schema_dependencies_of_endpoint:
-            #             break
+                #     if parameters:
+                #         print(f"Parameters left a dependency: {parameters}")                  
+                # else:
+                #     print(f"Can not find schema dependency for {endpoint}")
                     
-            #         for schema_name in schema_schema_dependencies_of_endpoint:
-            #             visited_schemas.append(schema_name)
-            #             found_dependency = False
-            #             if schema_name not in self.endpoints_belong_to_schemas:
-            #                 continue
-            #             create_resource_endpoints = find_endpoints_which_create_resource(self.endpoints_belong_to_schemas[schema_name], config=config_create_source_endpoint)
-            #             if create_resource_endpoints:
-            #                 for dep_endpoint in create_resource_endpoints:
-            #                     if self.is_valid_dependency(endpoint, dep_endpoint) and (dep_endpoint, endpoint) not in self.endpoint_dependencies:
-            #                         self.endpoint_dependencies.append((dep_endpoint, endpoint))
+            # Write documents to Tests dir
+            with open(f"{self.working_directory}" + "endpoint_dependencies.txt" , 'w') as file:
+                for item in self.endpoint_dependencies:
+                    line = f"{item[0]}, {item[1]}\n"
+                    file.write(line)
+                    
+            endpoints_belong_to_schemas_path = self.working_directory + "endpoints_belong_to_schemas.json"
+            with open(endpoints_belong_to_schemas_path, "w") as f:
+                json.dump(self.endpoints_belong_to_schemas, f, indent=2)
+            with open(self.working_directory + "endpoints_belong_to_schemas.json", "w") as f:
+                json.dump(self.endpoints_belong_to_schemas, f, indent=2)
                 
-            #     if parameters:
-            #         print(f"Parameters left a dependency: {parameters}")                  
-            # else:
-            #     print(f"Can not find schema dependency for {endpoint}")
+            # schema_dependencies_path = self.save_dir + "schema_dependencies.json"
+            # with open(schema_dependencies_path, "w") as f:
+            #     json.dump(self.schema_dependencies, f, indent=2)          
+            # print(f"{'-'*20}\nSchema-dependencies saved to {schema_dependencies_path}\n{'-'*20}")
                 
-        # Write documents to Tests dir
-        with open(self.working_directory + "endpoint_dependencies.txt" , 'w') as file:
-            for item in self.endpoint_dependencies:
-                line = f"{item[0]}, {item[1]}\n"
-                file.write(line)
+            endpoint_schema_dependencies_path = self.working_directory + "endpoint_schema_dependencies.json"
+            with open(endpoint_schema_dependencies_path, "w") as f:
+                json.dump(self.endpoint_schema_dependencies, f, indent=2)
+            with open(self.working_directory + "endpoint_schema_dependencies.json", "w") as f:
+                json.dump(self.endpoint_schema_dependencies, f, indent=2)
                 
-        endpoints_belong_to_schemas_path = self.working_directory + "endpoints_belong_to_schemas.json"
-        with open(endpoints_belong_to_schemas_path, "w") as f:
-            json.dump(self.endpoints_belong_to_schemas, f, indent=2)
-        with open(self.working_directory + "endpoints_belong_to_schemas.json", "w") as f:
-            json.dump(self.endpoints_belong_to_schemas, f, indent=2)
-            
-        # schema_dependencies_path = self.save_dir + "schema_dependencies.json"
-        # with open(schema_dependencies_path, "w") as f:
-        #     json.dump(self.schema_dependencies, f, indent=2)          
-        # print(f"{'-'*20}\nSchema-dependencies saved to {schema_dependencies_path}\n{'-'*20}")
-            
-        with open(self.working_directory + "endpoint_schema_dependencies.json", "w") as f:
-            json.dump(self.endpoint_schema_dependencies, f, indent=2)
-        
-        # Token counts
-        self.input_token_count = round(self.input_token_count/4)
-        self.output_token_count = round(self.output_token_count/4)
+            # Token counts
+            self.input_token_count = round(self.input_token_count/4)
+            self.output_token_count = round(self.output_token_count/4)
         
     def get_best_mathching_schema(self, operation):
         if "parameters" not in self.simplified_swagger[operation]:
@@ -535,21 +522,26 @@ class ODGGenerator():
         joint_graph = nx.compose(heuristic_ODG_analyzer.graph, GPT_ODG_analyzer.graph)
         # If it is not a DAG, then we need to remove some edges
         if not nx.is_directed_acyclic_graph(joint_graph):
-            # Remove the edges that cause the cycle
-            joint_graph = nx.DiGraph(joint_graph)
-            joint_graph.remove_edges_from(nx.find_cycle(joint_graph))
-            # Remove the nodes that are not reachable from the start node
-            joint_graph = nx.DiGraph(joint_graph)
-            # Mark the start node, which has the least number of incoming edges, and the most number of outgoing edges
-            start_node = None
-            max_outgoing_edges = 0
-            for node in joint_graph.nodes:
-                if len(list(joint_graph.predecessors(node))) == 0:
-                    if len(list(joint_graph.successors(node))) > max_outgoing_edges:
-                        start_node = node
-                        max_outgoing_edges = len(list(joint_graph.successors(node)))
-            # Build spanning tree from the start node
-            joint_graph = nx.dfs_tree(joint_graph, source=start_node)
+            print("[WARN] Phát hiện chu trình (cycle) trong đồ thị. Đang cố gắng phá vỡ...")
+            
+            # Liên tục tìm và phá vỡ chu trình cho đến khi đồ thị là DAG
+            while not nx.is_directed_acyclic_graph(joint_graph):
+                try:
+                    # Tìm một chu trình
+                    cycle = nx.find_cycle(joint_graph)
+                    if not cycle:
+                        break  # Đã trở thành DAG
+                    
+                    # Lấy cạnh đầu tiên trong chu trình (ví dụ: (A, B))
+                    edge_to_remove = cycle[0] 
+                    u, v = edge_to_remove[0], edge_to_remove[1]
+                    
+                    print(f"[FIX] Xóa cạnh {u} -> {v} để phá vỡ chu trình.")
+                    joint_graph.remove_edge(u, v)
+                
+                except nx.NetworkXNoCycle:
+                    # Không còn chu trình nào
+                    break 
         
         assert nx.is_directed_acyclic_graph(joint_graph)
         
