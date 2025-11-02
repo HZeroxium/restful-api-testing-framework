@@ -16,12 +16,7 @@ import os
 if __name__ == "__main__":
     # sequence_runner = SequenceRunner(service_name="Bill", base_url="https://bills-api.parliament.uk", token=None)
 
-#     headers = {
-#         "PRIVATE-TOKEN": "glpat-oS8Kk3oMHc-eHxH_GFE9"
-# }   
-    # headers = {
-    #     "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui",
-    # }
+
     # _api_v1_Bills_billId_NewsArticles_GetNesArticles_2_1	
     # _api_v1_Bills_billId_Stages_GET_1_1	
     # list_endpoints = load_test_cases_from_dir(dir)

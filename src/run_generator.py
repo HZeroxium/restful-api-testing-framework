@@ -23,10 +23,6 @@ print("=" * 60)
 try:
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
     
-    # Khởi tạo generator với service name và collection name
-    gitlab_headers = {
-        "PRIVATE-TOKEN": "glpat-StZArnyBReXqgPkznx-c"
-    }
     list_services = ["GitLab Branch", "GitLab Issues", "GitLab Group", "GitLab Project", "GitLab Repository"]
     service = "GitLab Branch"
             
