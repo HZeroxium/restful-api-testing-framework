@@ -1,68 +1,68 @@
 index,data,expected_status_code,reason
-1,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-2,"{""name"": ""Marketing"", ""path"": ""marketing""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
-3,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
-4,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-5,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-6,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-7,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-8,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-9,"{""name"": ""Marketing"", ""path"": ""marketing""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
-10,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
-11,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-12,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-13,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-14,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-15,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-16,"{""name"": ""Marketing"", ""path"": ""marketing""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
-17,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
-18,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-19,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-20,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-21,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-22,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-23,"{""name"": ""Marketing"", ""path"": ""marketing""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
-24,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
-25,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-26,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,llm_success_ignore_optional
-27,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-28,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": null, ""avatar"": ""team_logo.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-29,"{""name"": ""Engineering Team"", ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",2xx,"All required fields ('name', 'path') are present and of type string; optional fields ('description', 'avatar') are valid strings."
-30,"{""name"": ""Marketing"", ""path"": ""marketing""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
-31,"{""name"": ""Design"", ""description"": ""Design group""}",4xx,"'path' is required but missing, violating 'required'."
-32,"{""name"": 12345, ""path"": ""finance""}",4xx,'name' has type integer but the spec requires string (type mismatch).
-33,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch for format=file).
-34,"{""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
-35,"{""name"": ""Test Group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
-36,"{""name"": 12345, ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
-37,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": 12345}",4xx,Field 'avatar' has type integer but the spec requires string with format 'file' (type and format mismatch).
-38,"{""name"": 12345, ""path"": 67890, ""description"": 999, ""avatar"": false}",4xx,"Fields 'name', 'path', 'description', and 'avatar' have types integer/integer/integer/boolean, but the spec requires string/string/string/string (type mismatches for all fields)."
-39,"{""name"": null, ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,"mutate_missing_required: set name, path=None"
-40,"{""name"": ""Engineering Team"", ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set path=None
-41,"{""name"": null, ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set name=None
-42,"{""name"": ""Design"", ""description"": ""Design group""}",4xx,"'path' is required but missing, violating 'required'."
-43,"{""name"": 12345, ""path"": ""finance""}",4xx,'name' has type integer but the spec requires string (type mismatch).
-44,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch for format=file).
-45,"{""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
-46,"{""name"": ""Test Group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
-47,"{""name"": 12345, ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
-48,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": 12345}",4xx,Field 'avatar' has type integer but the spec requires string with format 'file' (type and format mismatch).
-49,"{""name"": 12345, ""path"": 67890, ""description"": 999, ""avatar"": false}",4xx,"Fields 'name', 'path', 'description', and 'avatar' have types integer/integer/integer/boolean, but the spec requires string/string/string/string (type mismatches for all fields)."
-50,"{""name"": null, ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,"mutate_missing_required: set name, path=None"
-51,"{""name"": ""Engineering Team"", ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set path=None
-52,"{""name"": null, ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set name=None
-53,"{""name"": ""Design"", ""description"": ""Design group""}",4xx,"'path' is required but missing, violating 'required'."
-54,"{""name"": 12345, ""path"": ""finance""}",4xx,'name' has type integer but the spec requires string (type mismatch).
-55,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch for format=file).
-56,"{""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
-57,"{""name"": ""Test Group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
-58,"{""name"": 12345, ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
-59,"{""name"": ""Test Group"", ""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": 12345}",4xx,Field 'avatar' has type integer but the spec requires string with format 'file' (type and format mismatch).
-60,"{""name"": 12345, ""path"": 67890, ""description"": 999, ""avatar"": false}",4xx,"Fields 'name', 'path', 'description', and 'avatar' have types integer/integer/integer/boolean, but the spec requires string/string/string/string (type mismatches for all fields)."
-61,"{""name"": null, ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,"mutate_missing_required: set name, path=None"
-62,"{""name"": ""Engineering Team"", ""path"": null, ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set path=None
-63,"{""name"": null, ""path"": ""engineering"", ""description"": ""Group for all engineering projects."", ""avatar"": ""team_logo.png""}",4xx,mutate_missing_required: set name=None
-64,"{""name"": ""Design"", ""description"": ""Design group""}",4xx,"'path' is required but missing, violating 'required'."
-65,"{""name"": 12345, ""path"": ""finance""}",4xx,'name' has type integer but the spec requires string (type mismatch).
-66,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 98765}",4xx,'avatar' has type integer but the spec requires string (type mismatch for format=file).
-67,"{""path"": ""my-group"", ""description"": ""A group for testing"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
+1,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+2,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+3,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
+4,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+5,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,llm_success_ignore_optional
+6,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+7,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": ""team_avatar.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+8,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+9,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+10,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
+11,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+12,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,llm_success_ignore_optional
+13,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+14,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": ""team_avatar.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+15,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+16,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+17,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
+18,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+19,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,llm_success_ignore_optional
+20,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+21,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": ""team_avatar.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+22,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+23,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+24,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
+25,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+26,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,llm_success_ignore_optional
+27,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": null}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+28,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": ""team_avatar.png""}",2xx,"llm_success_ignore_optional: All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+29,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",2xx,"All required fields ('name', 'path') are present and valid strings; optional fields ('description', 'avatar') are valid strings."
+30,"{""name"": ""Frontend"", ""path"": ""frontend""}",2xx,'name' and 'path' are present and valid strings; optional fields are omitted as allowed.
+31,"{""name"": ""DevOps Team"", ""path"": ""devops-team"", ""description"": null, ""avatar"": null}",2xx,llm_success_ignore_optional
+32,"{""name"": ""Backend"", ""description"": ""Handles API and server logic.""}",4xx,"'path' is required but missing, violating 'required'."
+33,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 12345}",4xx,'avatar' has type integer but the spec requires string with format 'file' (type mismatch).
+34,"{""name"": 789, ""path"": ""data-science""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+35,"{""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
+36,"{""name"": ""Valid Group"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
+37,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
+38,"{""name"": ""Valid Group"", ""path"": 67890, ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'path' has type integer but the spec requires string (type mismatch).
+39,"{""name"": ""Valid Group"", ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""not_a_file_string""}",4xx,Field 'avatar' does not match format 'file'.
+40,"{""name"": null, ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,"mutate_missing_required: set name, path=None"
+41,"{""name"": ""DevOps Team"", ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set path=None
+42,"{""name"": null, ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set name=None
+43,"{""name"": ""Backend"", ""description"": ""Handles API and server logic.""}",4xx,"'path' is required but missing, violating 'required'."
+44,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 12345}",4xx,'avatar' has type integer but the spec requires string with format 'file' (type mismatch).
+45,"{""name"": 789, ""path"": ""data-science""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+46,"{""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
+47,"{""name"": ""Valid Group"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
+48,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
+49,"{""name"": ""Valid Group"", ""path"": 67890, ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'path' has type integer but the spec requires string (type mismatch).
+50,"{""name"": ""Valid Group"", ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""not_a_file_string""}",4xx,Field 'avatar' does not match format 'file'.
+51,"{""name"": null, ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,"mutate_missing_required: set name, path=None"
+52,"{""name"": ""DevOps Team"", ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set path=None
+53,"{""name"": null, ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set name=None
+54,"{""name"": ""Backend"", ""description"": ""Handles API and server logic.""}",4xx,"'path' is required but missing, violating 'required'."
+55,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 12345}",4xx,'avatar' has type integer but the spec requires string with format 'file' (type mismatch).
+56,"{""name"": 789, ""path"": ""data-science""}",4xx,'name' has type integer but the spec requires string (type mismatch).
+57,"{""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'name', violating 'required'."
+58,"{""name"": ""Valid Group"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,"Missing required field 'path', violating 'required'."
+59,"{""name"": 12345, ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'name' has type integer but the spec requires string (type mismatch).
+60,"{""name"": ""Valid Group"", ""path"": 67890, ""description"": ""A group"", ""avatar"": ""avatar.png""}",4xx,Field 'path' has type integer but the spec requires string (type mismatch).
+61,"{""name"": ""Valid Group"", ""path"": ""valid-path"", ""description"": ""A group"", ""avatar"": ""not_a_file_string""}",4xx,Field 'avatar' does not match format 'file'.
+62,"{""name"": null, ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,"mutate_missing_required: set name, path=None"
+63,"{""name"": ""DevOps Team"", ""path"": null, ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set path=None
+64,"{""name"": null, ""path"": ""devops-team"", ""description"": ""Group for DevOps engineers working on CI/CD pipelines."", ""avatar"": ""team_avatar.png""}",4xx,mutate_missing_required: set name=None
+65,"{""name"": ""Backend"", ""description"": ""Handles API and server logic.""}",4xx,"'path' is required but missing, violating 'required'."
+66,"{""name"": ""QA"", ""path"": ""qa"", ""avatar"": 12345}",4xx,'avatar' has type integer but the spec requires string with format 'file' (type mismatch).
+67,"{""name"": 789, ""path"": ""data-science""}",4xx,'name' has type integer but the spec requires string (type mismatch).

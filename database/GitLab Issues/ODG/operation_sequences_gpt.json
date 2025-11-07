@@ -1,23 +1,6 @@
 {
-  "post-/projects/{id}/issues/{issue_iid}/todo": [
-    [
-      "get-/issues"
-    ]
-  ],
-  "post-/projects": [
-    [
-      "get-/issues",
-      "post-/projects/{id}/issues/{issue_iid}/todo"
-    ]
-  ],
-  "get-/issues": [],
-  "get-/issues/{id}": [
-    [
-      "get-/issues"
-    ]
-  ],
   "get-/groups": [],
-  "get-/groups/{id}/issues": [
+  "post-/projects": [
     [
       "get-/groups"
     ],
@@ -26,6 +9,20 @@
     ]
   ],
   "post-/groups": [],
+  "get-/issues": [],
+  "get-/issues/{id}": [
+    [
+      "get-/issues"
+    ]
+  ],
+  "get-/groups/{id}/issues": [
+    [
+      "get-/groups"
+    ],
+    [
+      "post-/groups"
+    ]
+  ],
   "get-/projects/{id}/issues": [
     [
       "get-/issues"
@@ -51,6 +48,11 @@
       "get-/issues"
     ]
   ],
+  "post-/projects/{id}/issues/{issue_iid}/todo": [
+    [
+      "get-/issues"
+    ]
+  ],
   "put-/projects/{id}/issues/{issue_iid}/reorder": [
     [
       "get-/issues"
@@ -63,10 +65,70 @@
   "post-/projects/{id}/issues/{issue_iid}/move": [
     [
       "get-/issues"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/subscribe": [
+    [
+      "get-/issues"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/unsubscribe": [
+    [
+      "get-/issues"
     ],
     [
       "get-/issues",
-      "get-/projects/{id}/issues/{issue_iid}/closed_by"
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/time_estimate": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/add_spent_time"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": [
+    [
+      "get-/issues"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/add_spent_time": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo"
+    ]
+  ],
+  "get-/projects": [],
+  "get-/projects/{id}/issues/{issue_iid}/time_stats": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/projects"
+    ]
+  ],
+  "get-/projects/{id}/issues/{issue_iid}/closed_by": [
+    [
+      "get-/issues"
+    ],
+    [
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ],
   "get-/projects/{id}/issues/{issue_iid}/related_merge_requests": [
@@ -80,69 +142,6 @@
       "get-/projects/{id}/issues/{issue_iid}/closed_by"
     ]
   ],
-  "get-/projects/{id}/issues/{issue_iid}/closed_by": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/issues",
-      "post-/projects/{id}/issues/{issue_iid}/todo"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/subscribe": [
-    [
-      "get-/issues"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/unsubscribe": [
-    [
-      "get-/issues",
-      "post-/projects/{id}/issues/{issue_iid}/todo"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/time_estimate": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/issues",
-      "get-/projects/{id}/issues/{issue_iid}/time_stats"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/reset_time_estimate": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/projects"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/add_spent_time": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/issues",
-      "get-/projects/{id}/issues/{issue_iid}/closed_by"
-    ]
-  ],
-  "post-/projects/{id}/issues/{issue_iid}/reset_spent_time": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/projects"
-    ]
-  ],
-  "get-/projects/{id}/issues/{issue_iid}/time_stats": [
-    [
-      "get-/issues"
-    ],
-    [
-      "get-/projects"
-    ]
-  ],
-  "get-/projects": [],
   "get-/projects/{id}/issues/{issue_iid}/participants": [
     [
       "get-/issues",
@@ -162,7 +161,8 @@
       "get-/issues"
     ],
     [
-      "get-/projects"
+      "get-/issues",
+      "post-/projects/{id}/issues/{issue_iid}/todo"
     ]
   ]
 }

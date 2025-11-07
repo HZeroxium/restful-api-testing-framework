@@ -1,0 +1,40 @@
+--- PROMPT ---
+Given below information about the endpoint, you will create a dataset containing 5 data items, about the PARAMETERS of the endpoint, to be used for testing the endpoint. 
+
+Your responsibility is to generate a data set containing valid data items that satisfy the following conditions:
+
+Conditions for valid data:
+1. Include all required fields: Ensure that all mandatory fields are present in the generated data items (refer to the API endpoint specification, required fields are marked with the key "required" with the value "true" or exist in the "required" array).
+2. Use correct data types: Generate data items with fields that satisfy their data type as specified by the API endpoint's specification.
+3. Satisfy constraints: Ensure that the generated data items have fields adhering to their constraints or limitations as specified in the API endpoint's specification.
+4. Take into account example values specified in the API endpoint's specification: Generate data items with fields that are similar to the example values specified in the API endpoint's specification.
+
+Additionally, you must strictly follow these rules to create the dataset file:
+- The data will be generated based on real-world data as much as possible.
+- The generated test data must be in the JSONL format.
+- DO NOT add any additional fields that are not specified in the endpoint's specification.
+- ONLY generate the data based on the PARAMETERS's specification.
+- Important to note that do not giving too large values for the data items, such as a very long string, a very large number, etc. to avoid the response being too large. For example, if you want to use a large integer, just use the value of INT_MAX + 1, which is 2147483649. Or, if you want to use a very long string, put on a limitation at 257 characters. This is to avoid the response being too large and causing the system to crash. Again, avoid using too large values for the data items.
+
+Given information:
+<begin>
+Data from Swagger Spec:
+{"method": "DELETE", "path": "/pet/{petId}", "definition": {"tags": ["pet"], "summary": "Deletes a pet.", "description": "Delete a pet.", "operationId": "deletePet", "parameters": [{"name": "api_key", "in": "header", "description": "", "required": false, "schema": {"type": "string"}}, {"name": "petId", "in": "path", "description": "Pet id to delete", "required": true, "schema": {"type": "integer", "format": "int64"}}], "security": [{"petstore_auth": ["write:pets", "read:pets"]}], "test_object": "Object Repository/Swagger Petstore - OpenAPI 3_0/_pet_petId_/deletePet"}}
+
+<end>
+DependencyContext(schemas=['Pet', 'Order'], blocks=[])
+Note that the dataset is created for PARAMETERS only, so it would be only one dataset for this section. Also, your response will have a brief explanation about your approach to identify which field to create data, and create the dataset with the awareness of the above rules and instructions. Then, you dataset will be written down in JSONL format below it, between two sets of ``` marks in for better view in markdown.
+
+A format below is recommended for a response:
+Approach: ...
+
+Dataset in the JSONL format (with each line representing a data item. If only one data item is required, it should also be written in one line):
+```json
+{ "data": { "field1": "value1", "field2": "value2", ... }, "expected_code": <When requesting by this data item, what is the expected response code?> // "2xx" or "4xx" }
+{ "data": { ... }, "expected_code": <When requesting by this data item, what is the expected response code?> // "2xx" or "4xx" } }, 
+...
+```
+
+
+--- RAW RESPONSE ---
+[{"data": {"petId": 12345, "api_key": "abc123xyz"}, "expected_code": "2xx"}, {"data": {"petId": 1}, "expected_code": "2xx"}, {"data": {"petId": 999999, "api_key": "petstore-test-key"}, "expected_code": "2xx"}, {"data": {"petId": 2147483649}, "expected_code": "2xx"}, {"data": {"petId": 42, "api_key": "A1B2C3D4E5F6"}, "expected_code": "2xx"}]

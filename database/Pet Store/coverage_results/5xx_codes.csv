@@ -1,0 +1,3 @@
+﻿endpoint,5xx_codes,count
+post-/pet,['500'],1
+post-/user,['500'],1

@@ -9,6 +9,7 @@ from .logging_setup import setup_logging
 import time
 from pathlib import Path
 from typing import Any, Dict, List, Literal, Optional, Tuple
+import shutil
 
 from .http_client import HttpClient
 from .io_file import FileService
@@ -50,7 +51,7 @@ class SequenceRunner:
 
         # swagger for helpers (if needed by other utils)
         self.swagger_spec = self.file.get_swagger_spec_dict()
-
+        self.cache_dir = self.file.paths.cache_dir
         # Use your strict dependency preloader (no in-run global caches here)
         self.dep = DependencyService(
             fileService=self.file,

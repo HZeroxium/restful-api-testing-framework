@@ -1,32 +1,65 @@
 {
-  "get-/groups/{id}/hooks": [
-    [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ],
-    [
-      "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ]
-  ],
+  "get-/groups": [],
   "get-/groups/{id}": [
     [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
+      "get-/groups"
+    ],
+    [
+      "post-/groups"
+    ]
+  ],
+  "post-/groups": [],
+  "put-/groups/{id}": [
+    [
+      "get-/groups"
+    ],
+    [
+      "post-/groups"
+    ]
+  ],
+  "delete-/groups/{id}": [
+    [
+      "get-/groups"
+    ],
+    [
+      "post-/groups"
+    ]
+  ],
+  "post-/groups/{id}/share": [
+    [
+      "post-/groups"
     ],
     [
       "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
+      "post-/groups/{id}/share",
+      "post-/groups/{id}/projects/{project_id}"
+    ]
+  ],
+  "post-/groups/{id}/projects/{project_id}": [
+    [
+      "post-/groups",
+      "post-/groups/{id}/share"
+    ]
+  ],
+  "get-/groups/{id}/hooks": [
+    [
+      "post-/groups",
+      "post-/groups/{id}/hooks"
+    ]
+  ],
+  "delete-/groups/{id}/share/{group_id}": [
+    [
+      "get-/groups",
+      "get-/groups/{id}"
+    ],
+    [
+      "post-/groups",
+      "get-/groups/{id}"
     ]
   ],
   "post-/groups/{id}/hooks": [
     [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ],
-    [
-      "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
+      "post-/groups"
     ]
   ],
   "get-/groups/{id}/hooks/{hook_id}": [
@@ -37,74 +70,24 @@
       "post-/groups"
     ]
   ],
-  "put-/groups/{id}": [
-    [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ],
-    [
-      "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ]
-  ],
-  "delete-/groups/{id}": [
-    [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ],
-    [
-      "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ]
-  ],
-  "get-/groups": [],
-  "post-/groups/{id}/share": [
-    [
-      "get-/groups"
-    ],
-    [
-      "post-/groups"
-    ]
-  ],
-  "post-/groups": [],
   "get-/groups/{id}/projects": [
     [
       "get-/groups",
-      "post-/groups/{id}/share"
+      "get-/groups/{id}"
     ],
     [
       "post-/groups",
-      "post-/groups/{id}/share"
-    ]
-  ],
-  "post-/groups/{id}/projects/{project_id}": [
-    [
-      "get-/groups",
-      "post-/groups/{id}/share"
-    ],
-    [
-      "post-/groups",
-      "post-/groups/{id}/share"
+      "get-/groups/{id}"
     ]
   ],
   "get-/groups/{id}/projects/shared": [
     [
       "get-/groups",
-      "post-/groups/{id}/share"
+      "get-/groups/{id}"
     ],
     [
       "post-/groups",
-      "post-/groups/{id}/share"
-    ]
-  ],
-  "delete-/groups/{id}/share/{group_id}": [
-    [
-      "get-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
-    ],
-    [
-      "post-/groups",
-      "get-/groups/{id}/hooks/{hook_id}"
+      "get-/groups/{id}"
     ]
   ],
   "get-/groups/{id}/subgroups": [

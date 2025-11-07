@@ -3,22 +3,25 @@ import copy
 import logging
 import re
 import sys
-from typing import Dict
+from typing import Dict, List # Import List
 
+from kat.data_generator.data_generator import TestDataGenerator
 from kat.operation_dependency_graph.odg_generator import ODGGenerator
 from shared_config import get_endpoint_schema_dependencies_file_path, get_odg_working_dir, get_operation_sequences_file_path, get_output_dir, get_root_dir, get_test_case_generator_working_dir, get_test_data_working_dir, get_spec_file, get_topolist_file_path
-from .response_validation_utils import *
-from kat.data_generator.data_generator import TestDataGenerator
+# Assuming response_validation_utils are in the same directory or accessible
+# from .response_validation_utils import * from kat.data_generator.data_generator import TestDataGenerator
 
 from kat.document_parser.document_parser import (
 get_delete_operation_store,
 )
+from kat.utils.llm.gpt.gpt import GPTChatCompletion
 from kat.utils.swagger_utils.swagger_utils import (
     add_test_object_to_swagger,
     get_endpoint_id,
     get_endpoint_params,
 )
-from .generator_utils import *
+# Assuming generator_utils are in the same directory or accessible
+# from .generator_utils import *
 sys.path.append('..')
 
 import os
@@ -265,59 +268,41 @@ class TestCaseGenerator():
         test_case_data["steps"].append(step)
         return test_case_data
 
-    def _simple_schema_dependency_mapping(self, endpoint: str, prev_step_number: int, prev_endpoint: str):
+    def _simple_schema_dependency_mapping(self, endpoint: str, prev_step_number: int, prev_endpoint: str, path_params_list: List[str]):
         """
         Original-style, strict mapping:
         - Only use endpoint_schema_dependencies[endpoint][schema] where source field is a simple top-level name (no dots).
         - Build per-target field dependency pointing to the *previous* step.
         - No heuristics, no 'not-sure' placeholders.
-
-        [FIXED]
-        - Added a check to ensure the prev_endpoint *produces* the schema
-        that the current endpoint *requires*.
-
+        - **MODIFIED**: Only maps dependencies where the 'target_param' is in the provided 'path_params_list'.
         Returns: Dict[target_param, dependency_obj]
         """
-        # 1. Get all *required* dependencies for the current endpoint (e.g., step 3)
-        # (e.g., { "BasicProjectDetails": {"id": "id"}, "Branch": {"ref": "name"}, ... })
         deps_for_endpoint = self.endpoint_schema_dependencies.get(endpoint, {})
         if not deps_for_endpoint:
             return {}
 
-        # 2. Get all *produced* schemas from the previous endpoint (e.g., step 2)
-        #    We use simplified_swagger_param_type_only because it contains responseBody
-        prev_endpoint_info = self.simplified_swagger_param_type_only.get(prev_endpoint, {})
-        response_body = prev_endpoint_info.get('responseBody', {})
-        produced_schemas = set()
-        for key in response_body.keys():
-            # Extract schema name (e.g., "BasicProjectDetails" from "schema of BasicProjectDetails")
-            match = re.search(r'schema of (\w+)', key)
-            if match:
-                produced_schemas.add(match.group(1))
+        # Flatten: {target_param: source_field}
+        flat: Dict[str, str] = {}
+        for _schema, mappings in deps_for_endpoint.items():
+            for target_param, source_param in (mappings or {}).items():
+                # --- MODIFICATION HERE ---
+                # Only add mapping if it's a simple string, no dots, AND the target is a path parameter
+                if isinstance(source_param, str) and '.' not in source_param and target_param in path_params_list:
+                    flat[target_param] = source_param  # keep last wins if duplicated
 
-        # (e.g., for 'get-/projects', produced_schemas = {'BasicProjectDetails'})
-        if not produced_schemas:
-            return {}  # Previous step produces nothing, so we can't map.
+        if not flat:
+            return {}
 
-        # 3. Iterate required dependencies and check against what's produced
         result = {}
-        for required_schema, mappings in deps_for_endpoint.items():
-            # THE FIX: Only proceed if the previous step *actually produces* the schema we need.
-            if required_schema in produced_schemas:
-                # Now, map the fields for this *matched* schema
-                for target_param, source_param in (mappings or {}).items():
-                    if isinstance(source_param, str) and '.' not in source_param:
-                        # Create a dependency object for this specific parameter
-                        result[target_param] = {
-                            "from_step": prev_step_number,
-                            "from_endpoint": prev_endpoint,
-                            "field_mappings": {
-                                target_param: source_param
-                            }
-                        }
-
+        for target_param, source_param in flat.items():
+            result[target_param] = {
+                "from_step": prev_step_number,
+                "from_endpoint": prev_endpoint,
+                "field_mappings": {
+                    target_param: source_param
+                }
+            }
         return result
-
 
     def generate_test_case_core(self, sequence):
         """
@@ -343,25 +328,30 @@ class TestCaseGenerator():
                 },
                 "data_dependencies": {}
             }
-
-            # Parameters
+            
+            # --- MODIFICATION HERE ---
+            # First, determine which parameters are path vs query
+            path_params_list = []
             if 'parameters' in self.simplified_swagger[endpoint]:
                 for param, type_ in self.simplified_swagger[endpoint]['parameters'].items():
                     if type_ == "PATH VARIABLE":
                         step["path_variables"][param] = None
+                        path_params_list.append(param) # Collect path params
                     else:
                         step["query_parameters"][param] = None
-
+            
             # Request body
             if 'requestBody' in self.simplified_swagger[endpoint]:
                 step["request_body"] = self.simplified_swagger[endpoint]["requestBody"]
 
             # Dependencies: STRICT explicit mapping only
             # We always reference the *previous* step for simplicity (original style tied retrieval to latest response_i).
+            # Pass the collected path_params_list to the mapping function
             simple_map = self._simple_schema_dependency_mapping(
                 endpoint=endpoint,
-                prev_step_number=i,          # previous step number (1-based)
-                prev_endpoint=prev_endpoint  # previous endpoint sig
+                prev_step_number=i,           # previous step number (1-based)
+                prev_endpoint=prev_endpoint,  # previous endpoint sig
+                path_params_list=path_params_list # Pass the list of path params
             )
             if simple_map:
                 step["data_dependencies"] = simple_map

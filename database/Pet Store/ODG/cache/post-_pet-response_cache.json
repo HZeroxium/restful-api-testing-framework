@@ -1,26 +1,13 @@
 {
-  "status": 200,
+  "status": 500,
   "body": {
-    "id": 10,
-    "category": {
-      "id": 1,
-      "name": "Dogs"
-    },
-    "name": "doggie",
-    "photoUrls": [
-      "https://example.com/dog1.jpg"
-    ],
-    "tags": [
-      {
-        "id": 100,
-        "name": "friendly"
-      }
-    ],
-    "status": "available"
+    "code": 500,
+    "message": "There was an error processing your request. It has been logged (ID: 3af9383ba1622ed5)"
   },
+  "ok": false,
   "request": {
     "method": "POST",
-    "url": "http://localhost:8081/api/v3/pet",
+    "url": "https://petstore3.swagger.io/api/v3/pet",
     "params": {},
     "path_params": {},
     "headers": {
@@ -28,27 +15,10 @@
     },
     "cookies": {},
     "json": {
-      "id": 10,
-      "name": "doggie",
-      "category": {
-        "id": 1,
-        "name": "Dogs"
-      },
       "photoUrls": [
-        "https://example.com/dog1.jpg",
-        "https://example.com/dog2.jpg"
+        "https://example.com/dog1.jpg"
       ],
-      "tags": [
-        {
-          "id": 100,
-          "name": "friendly"
-        },
-        {
-          "id": 101,
-          "name": "trained"
-        }
-      ],
-      "status": "available"
+      "name": "doggie"
     }
   }
 }

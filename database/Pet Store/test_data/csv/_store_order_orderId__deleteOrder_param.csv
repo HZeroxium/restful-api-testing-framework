@@ -1,13 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""orderId"": 10}",2xx,"orderId=10 is a valid integer < 1000, matching the dependency context and satisfying all constraints."
-2,"{""orderId"": 1001}",4xx,"orderId=1001 > maximum allowed (<1000), violating the 'maximum' constraint."
-3,"{""orderId"": -5}",4xx,"orderId=-5 is negative; although the spec does not specify a minimum, negative IDs are not realistic and violate typical ID conventions."
-4,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""orderId"": 12.5}",4xx,"orderId=12.5 is not an integer, violating 'type=integer' for path parameter."
-6,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+1,"{""orderId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""orderId"": 999}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""orderId"": 500}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""orderId"": 1}",2xx,llm_success_ignore_optional
+5,"{""orderId"": 1000}",4xx,One or more fields deliberately violate the spec (4xx).
+6,"{""orderId"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
 7,"{""orderId"": 1000}",4xx,One or more fields deliberately violate the spec (4xx).
-8,"{""orderId"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""orderId"": 1001}",4xx,One or more fields deliberately violate the spec (4xx).
 9,"{""orderId"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
-10,"{""orderId"": 12.34}",4xx,"orderId=12.34 is not an integer, violating 'type=integer' for path parameter."
-11,"{""orderId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""orderId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""orderId"": ""abc""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""orderId"": 999.5}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""orderId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""orderId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

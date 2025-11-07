@@ -96,6 +96,7 @@
         "data_dependencies": {
           "id": {
             "from_step": 1,
+            "from_endpoint": "post-/projects",
             "field_mappings": {
               "id": "id"
             }

@@ -68,7 +68,9 @@ def get_operation_sequences_file_path(service_name: str) -> str:
 def get_endpoint_schema_dependencies_file_path(service_name: str) -> str:
     """Get endpoint schema dependencies file path"""
     return get_odg_working_dir(service_name) + "endpoint_schema_dependencies.json"
-
+def get_endpoints_belong_to_schemas_file_path(service_name: str) -> str:
+    """Get endpoints belong to schemas file path"""
+    return get_odg_working_dir(service_name) + "endpoints_belong_to_schemas.json"
 def get_topolist_file_path(service_name: str) -> str:
     """Get topolist file path"""
     return get_odg_working_dir(service_name) + "topolist.json"
@@ -161,5 +163,6 @@ __all__ = [
     'list_services',
     'service_exists',
     'ensure_service_structure',
-    'WORKING_DIRECTORY'
+    'WORKING_DIRECTORY',
+    'get_endpoints_belong_to_schemas_file_path',
 ]

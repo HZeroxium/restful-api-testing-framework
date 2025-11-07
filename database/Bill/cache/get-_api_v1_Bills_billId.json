@@ -1,0 +1,56 @@
+{
+  "longTitle": "A Bill to provide for a review of the safety of the A34 slip roads at East Ilsley and Beedon; and to require the publication of plans to address any deficiencies in safety identified by that review.",
+  "summary": null,
+  "sponsors": [
+    {
+      "member": {
+        "memberId": 5337,
+        "name": "Olivia Bailey",
+        "party": "Labour",
+        "partyColour": "d50000",
+        "house": "Commons",
+        "memberPhoto": "https://members-api.parliament.uk/api/Members/5337/Thumbnail",
+        "memberPage": "https://members.parliament.uk/member/5337/contact",
+        "memberFrom": "Reading West and Mid Berkshire"
+      },
+      "organisation": null,
+      "sortOrder": 1
+    }
+  ],
+  "promoters": [],
+  "petitioningPeriod": null,
+  "petitionInformation": null,
+  "agent": null,
+  "billId": 3973,
+  "shortTitle": "A34 Slip Road Safety (East Ilsley and Beedon) Bill",
+  "formerShortTitle": null,
+  "currentHouse": "Commons",
+  "originatingHouse": "Commons",
+  "lastUpdate": "2025-09-16T17:08:18.2184786",
+  "billWithdrawn": "2025-09-15T00:00:00",
+  "isDefeated": false,
+  "billTypeId": 5,
+  "introducedSessionId": 39,
+  "includedSessionIds": [
+    39
+  ],
+  "isAct": false,
+  "currentStage": {
+    "id": 19929,
+    "stageId": 7,
+    "sessionId": 39,
+    "description": "2nd reading",
+    "abbreviation": "2R",
+    "house": "Commons",
+    "stageSittings": [
+      {
+        "id": 17032,
+        "stageId": 7,
+        "billStageId": 19929,
+        "billId": 3973,
+        "date": "2025-07-11T00:00:00"
+      }
+    ],
+    "sortOrder": 2
+  }
+}

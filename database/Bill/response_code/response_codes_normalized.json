@@ -1,0 +1,376 @@
+{
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/Amendments/{amendmentId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/NewsArticles": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/BillTypes": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Publications/{publicationId}/Documents/{documentId}/Download": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{billStageId}/PingPongItems/{pingPongItemId}": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/PublicationTypes": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Publications": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Rss/allbills.rss": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Rss/publicbills.rss": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Rss/privatebills.rss": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Rss/Bills/{id}.rss": {
+    "status_codes": [
+      "200",
+      "400",
+      "404"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400",
+        "404"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Sittings": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/Stages": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

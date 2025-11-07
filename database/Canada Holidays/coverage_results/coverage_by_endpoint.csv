@@ -1,0 +1,5 @@
+﻿endpoint,documented_codes,observed_codes,matched_codes,documented_2xx,matched_2xx,coverage_2xx_pct,documented_4xx,matched_4xx,coverage_4xx_pct,coverage_pct
+get-/api/v1/holidays,['200'],"['200', '400']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
+get-/api/v1/provinces,['200'],"['200', '400']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
+get-/api/v1/provinces/{provinceId},"['200', '400']","['200', '400']","['200', '400']",['200'],['200'],100.0,['400'],['400'],100.0,100.0
+get-/api/v1/holidays/{holidayId},"['200', '400']","['200', '400']","['200', '400']",['200'],['200'],100.0,['400'],['400'],100.0,100.0

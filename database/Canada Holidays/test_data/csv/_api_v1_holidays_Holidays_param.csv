@@ -1,18 +1,24 @@
 index,data,expected_status_code,reason
-1,"{""year"": 2025, ""federal"": ""true"", ""optional"": ""false""}",2xx,year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
-2,"{""year"": 2035, ""federal"": ""0"", ""optional"": ""1""}",2xx,year=2035 is at maximum; federal='0' and optional='1' are in their allowed enums.
+1,"{""year"": 2025, ""federal"": ""true"", ""optional"": ""false""}",2xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+2,{},2xx,All parameters are optional and omitted; defaults apply where specified.
 3,"{""year"": null, ""federal"": null, ""optional"": null}",2xx,llm_success_ignore_optional
-4,"{""year"": null, ""federal"": null, ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
-5,"{""year"": 2025, ""federal"": null, ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+4,"{""year"": null, ""federal"": null, ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+5,"{""year"": null, ""federal"": ""true"", ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
 6,"{""year"": 2025, ""federal"": ""true"", ""optional"": ""false""}",2xx,llm_success_ignore_optional
-7,"{""year"": 2025, ""federal"": ""true"", ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
-8,"{""year"": 2025, ""federal"": null, ""optional"": ""false""}",2xx,llm_success_ignore_optional: year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
-9,"{""year"": null, ""federal"": ""true"", ""optional"": ""false""}",2xx,llm_success_ignore_optional: year=2025 is within [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+7,"{""year"": 2025, ""federal"": ""true"", ""optional"": null}",2xx,llm_success_ignore_optional: year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+8,"{""year"": 2025, ""federal"": null, ""optional"": ""false""}",2xx,llm_success_ignore_optional: year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+9,"{""year"": null, ""federal"": ""true"", ""optional"": ""false""}",2xx,llm_success_ignore_optional: year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
 10,"{""year"": 2013}",4xx,"year=2013 < minimum=2014, violating 'minimum'."
-11,"{""federal"": ""yes""}",4xx,"federal='yes' is not in enum ['1','0','true','false']."
-12,"{""year"": ""abc"", ""optional"": ""1""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
-13,"{""year"": 2036}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
-14,"{""federal"": ""yes""}",4xx,"federal='yes' is not in enum {'1','0','true','false'}, violating 'enum'."
-15,"{""optional"": ""maybe""}",4xx,"optional='maybe' is not in enum {'1','0','true','false'}, violating 'enum'."
-16,"{""year"": 2013, ""federal"": ""tru""}",4xx,"year=2013 < minimum=2014, violating 'minimum'; federal='tru' is not in enum {'1','0','true','false'}, violating 'enum'."
-17,"{""year"": ""abc"", ""optional"": ""nope""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer'; optional='nope' is not in enum {'1','0','true','false'}, violating 'enum'."
+11,"{""year"": ""abc"", ""federal"": ""1""}",4xx,"year='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
+12,"{""federal"": ""yes"", ""optional"": ""false""}",4xx,"federal='yes' is not in enum {'1','0','true','false'}."
+13,"{""year"": 2036, ""federal"": ""1"", ""optional"": ""false""}",4xx,"year=2036 > maximum=2035, violating 'maximum'."
+14,"{""year"": 2025, ""federal"": ""yes"", ""optional"": ""false""}",4xx,"federal='yes' is not in enum {'1','0','true','false'}."
+15,"{""year"": 2025, ""federal"": ""1"", ""optional"": ""maybe""}",4xx,"optional='maybe' is not in enum {'1','0','true','false'}."
+16,"{""year"": 2013, ""federal"": ""tru"", ""optional"": ""false""}",4xx,"year=2013 < minimum=2014, violating 'minimum'; federal='tru' is not in enum {'1','0','true','false'}."
+17,"{""year"": 2147483649, ""federal"": ""nope"", ""optional"": ""perhaps""}",4xx,"year=2147483649 > maximum=2035, violating 'maximum'; federal='nope' is not in enum {'1','0','true','false'}; optional='perhaps' is not in enum {'1','0','true','false'}."
+18,"{""year"": -9999999.0, ""federal"": """", ""optional"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+19,"{""year"": ""123456"", ""federal"": ""true"", ""optional"": ""false""}",4xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+20,"{""year"": 2025, ""federal"": 123456789, ""optional"": ""false""}",4xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+21,"{""year"": 2025, ""federal"": ""true"", ""optional"": 123456789}",4xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+22,"{""year"": ""123456"", ""federal"": 123456789, ""optional"": ""false""}",4xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.
+23,"{""year"": ""123456"", ""federal"": 123456789, ""optional"": 123456789}",4xx,year=2025 is within allowed range [2014..2035]; federal='true' and optional='false' are in their allowed enums.

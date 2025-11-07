@@ -1,15 +1,29 @@
 {
+  "GroupStatistics": [
+    "get-/groups",
+    "post-/groups",
+    "get-/groups/{id}/subgroups",
+    "get-/groups/{id}/descendant_groups"
+  ],
   "Group": [
     "get-/groups",
     "post-/groups",
     "get-/groups/{id}/subgroups",
     "get-/groups/{id}/descendant_groups"
   ],
-  "GroupStatistics": [
-    "get-/groups",
-    "post-/groups",
-    "get-/groups/{id}/subgroups",
-    "get-/groups/{id}/descendant_groups"
+  "Project": [
+    "get-/groups/{id}",
+    "put-/groups/{id}",
+    "post-/groups/{id}/share",
+    "get-/groups/{id}/projects"
+  ],
+  "Links": [
+    "get-/groups/{id}",
+    "put-/groups/{id}",
+    "post-/groups/{id}/share",
+    "get-/groups/{id}/projects",
+    "post-/groups/{id}/projects/{project_id}",
+    "get-/groups/{id}/projects/shared"
   ],
   "GroupDetails": [
     "get-/groups/{id}",
@@ -24,21 +38,7 @@
     "post-/groups/{id}/projects/{project_id}",
     "get-/groups/{id}/projects/shared"
   ],
-  "Project": [
-    "get-/groups/{id}",
-    "put-/groups/{id}",
-    "post-/groups/{id}/share",
-    "get-/groups/{id}/projects"
-  ],
   "SharedWithGroups": [
-    "get-/groups/{id}",
-    "put-/groups/{id}",
-    "post-/groups/{id}/share",
-    "get-/groups/{id}/projects",
-    "post-/groups/{id}/projects/{project_id}",
-    "get-/groups/{id}/projects/shared"
-  ],
-  "Links": [
     "get-/groups/{id}",
     "put-/groups/{id}",
     "post-/groups/{id}/share",

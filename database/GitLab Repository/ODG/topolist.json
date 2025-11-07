@@ -1,11 +1,12 @@
 [
+  "post-/projects",
   "get-/projects",
   "get-/projects/{id}/repository/tree",
   "get-/projects/{id}/repository/blobs/{sha}",
-  "get-/projects/{id}/repository/blobs/{sha}/raw",
   "get-/projects/{id}/repository/archive",
   "get-/projects/{id}/repository/compare",
   "get-/projects/{id}/repository/contributors",
-  "get-/projects/{id}/repository/merge_base",
-  "get-/projects/{id}/repository/changelog"
+  "get-/projects/{id}/repository/changelog",
+  "get-/projects/{id}/repository/blobs/{sha}/raw",
+  "get-/projects/{id}/repository/merge_base"
 ]

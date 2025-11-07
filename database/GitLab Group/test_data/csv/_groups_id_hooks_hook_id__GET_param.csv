@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 50, ""hook_id"": 1}",2xx,"id=50 is a valid group ID from context; hook_id=1 is a syntactically valid integer for hook_id, but no hook_id context is provided. UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
-2,"{""id"": 50, ""hook_id"": 1}",2xx,llm_success_ignore_optional
-3,"{""id"": 50, ""hook_id"": ""abc""}",4xx,"hook_id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""id"": ""xyz"", ""hook_id"": 1}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 50, ""hook_id"": -1}",4xx,"hook_id=-1 is a negative integer, which is not realistic for an ID and may violate implicit positive integer constraint."
-6,"{""id"": 2147483649, ""hook_id"": 1}",4xx,"id=2147483649 exceeds the typical 32-bit integer range, violating implicit maximum constraint for integer IDs."
-7,"{""id"": ""abc"", ""hook_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 50, ""hook_id"": ""notanint""}",4xx,"hook_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": ""xyz"", ""hook_id"": ""notanint""}",4xx,"id='xyz' and hook_id='notanint' are both not parseable as integer, violating 'type=integer' for path parameters."
-10,"{""id"": 50.5, ""hook_id"": 123}",4xx,"id=50.5 is a float, not parseable as integer, violating 'type=integer' for path parameter."
-11,"{""id"": 50, ""hook_id"": 12.34}",4xx,"hook_id=12.34 is a float, not parseable as integer, violating 'type=integer' for path parameter."
-12,"{""id"": -1, ""hook_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 50, ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": ""123456"", ""hook_id"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 60, ""hook_id"": 123}",2xx,"id=60 is a valid group ID from context; hook_id=123 is a syntactically valid integer, but no hook_id is provided in context, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+2,"{""id"": 60, ""hook_id"": 2147483649}",2xx,"id=60 is a valid group ID from context; hook_id=2147483649 is a syntactically valid integer, but no hook_id is provided in context, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+3,"{""id"": 60, ""hook_id"": -1}",2xx,"id=60 is a valid group ID from context; hook_id=-1 is a syntactically valid integer, but no hook_id is provided in context, so this row is UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT."
+4,"{""id"": 60, ""hook_id"": 123}",2xx,llm_success_ignore_optional
+5,"{""id"": -1, ""hook_id"": 123}",2xx,id=-1 is parseable as integer; hook_id=123 is parseable as integer. No minimum/maximum constraints specified.
+6,"{""id"": 60, ""hook_id"": 2147483649}",2xx,id=60 and hook_id=2147483649 are both parseable as integers. No minimum/maximum constraints specified.
+7,"{""id"": 60, ""hook_id"": ""abc""}",4xx,"hook_id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
+8,"{""id"": ""xyz"", ""hook_id"": 123}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
+9,"{""id"": ""abc"", ""hook_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": 60, ""hook_id"": ""notanint""}",4xx,"hook_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""id"": ""xyz"", ""hook_id"": ""def""}",4xx,"id='xyz' and hook_id='def' are not parseable as integers, violating 'type=integer' for both path parameters."
+12,"{""id"": -9999999.0, ""hook_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 60, ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": ""123456"", ""hook_id"": 123}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

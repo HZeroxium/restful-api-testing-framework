@@ -1,14 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1}",2xx,id=1 is parseable as integer and is a realistic positive project ID; within allowed type and required constraint.
-2,"{""id"": 1}",2xx,llm_success_ignore_optional
-3,"{""id"": 100123}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid project ID available from dependency context or examples.
-4,"{""id"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
-5,"{""id"": -1}",4xx,"id=-1 is parseable as integer but negative, violating typical positive ID convention; spec does not specify minimum, but negative IDs are not realistic for project IDs."
+1,"{""id"": 35}",2xx,id=35 is a valid integer from the producer context (created project); satisfies 'type=integer' and 'required'.
+2,"{""id"": 0}",2xx,id=0 is an integer and satisfies 'type=integer'; no minimum constraint specified.
+3,"{""id"": -5}",2xx,id=-5 is an integer and satisfies 'type=integer'; no minimum constraint specified.
+4,"{""id"": 2147483649}",2xx,id=2147483649 is an integer and satisfies 'type=integer'; no maximum constraint specified.
+5,"{""id"": 35}",2xx,llm_success_ignore_optional
 6,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
-8,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 0}",4xx,"id=0 is not a realistic project ID; although no explicit minimum, 0 is typically invalid for resource IDs."
-10,"{""id"": -1}",4xx,id=-1 is not parseable as a valid positive integer ID; negative IDs are typically invalid for resource IDs.
-11,"{""id"": 2147483649}",4xx,id=2147483649 exceeds the typical 32-bit integer range; may violate backend integer constraints.
+7,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": ""12.5""}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""true""}",4xx,"id='true' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""@!$""}",4xx,"id='@!$' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""id"": ""2147483649abc""}",4xx,"id='2147483649abc' is not parseable as integer, violating 'type=integer' for path parameter."
 12,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456""}",4xx,id=1 is parseable as integer and is a realistic positive project ID; within allowed type and required constraint.
+13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

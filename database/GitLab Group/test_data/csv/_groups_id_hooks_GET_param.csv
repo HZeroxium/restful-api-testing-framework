@@ -1,14 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 50}",2xx,id=50 is a valid integer and matches the resolved group ID from context.
-2,"{""id"": 50}",2xx,llm_success_ignore_optional
-3,"{""id"": 50}",2xx,id=50 is a valid integer from context and satisfies 'type=integer'.
-4,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
-6,"{""id"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
-7,"{""id"": 3.14}",4xx,"id=3.14 is not an integer, violating 'type=integer' for path parameter."
+1,"{""id"": 60}",2xx,id=60 is a valid integer and matches the concrete group ID from the producer endpoint.
+2,"{""id"": 60}",2xx,llm_success_ignore_optional
+3,"{""id"": 60}",2xx,id=60 is a valid integer from dependency context and satisfies 'type=integer' for path parameter.
+4,"{""id"": -1}",4xx,"id=-1 is negative, violating the typical positive integer constraint for IDs."
+5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": 0}",4xx,"id=0 is not a realistic positive integer for a group ID, violating typical ID constraints."
+7,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds the 32-bit signed integer maximum, violating 'type=integer' and realistic ID bounds."
 8,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 3.14}",4xx,"id=3.14 is a float, not an integer, violating 'type=integer' for path parameter."
-10,"{""id"": true}",4xx,"id=true is a boolean, not an integer, violating 'type=integer' for path parameter."
-11,"{""id"": [1, 2]}",4xx,"id=[1,2] is an array, not an integer, violating 'type=integer' for path parameter."
+9,"{""id"": 0}",4xx,id=0 is a boundary value often reserved for invalid IDs and may violate implicit domain constraints for resource IDs.
+10,"{""id"": -1}",4xx,id=-1 is negative and violates the implicit constraint that IDs must be positive integers.
+11,"{""id"": 3.14}",4xx,"id=3.14 is a float, not an integer, violating 'type=integer' for path parameter."
 12,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
 13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

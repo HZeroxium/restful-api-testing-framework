@@ -1,0 +1,36 @@
+{
+  "test_case": {
+    "id": "_pet_petId_uploadImage_uploadFile_0_1",
+    "name": "_pet_petId_uploadImage_uploadFile_0_1",
+    "description": "Test case for endpoint post-/pet/{petId}/uploadImage",
+    "endpoint": "post-/pet/{petId}/uploadImage",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "post-/pet/{petId}/uploadImage",
+        "method": "POST",
+        "path_variables": {
+          "petId": null
+        },
+        "query_parameters": {
+          "additionalMetadata": null
+        },
+        "request_body": "string",
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

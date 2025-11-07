@@ -1,15 +1,18 @@
 index,data,expected_status_code,reason
-1,"{""petId"": 10, ""additionalMetadata"": ""Vaccinated, friendly""}",2xx,petId=10 is a valid integer from context; additionalMetadata is a valid string.
-2,"{""petId"": 10}",2xx,petId=10 is a valid integer from context; additionalMetadata is omitted (optional).
-3,"{""petId"": ""abc"", ""additionalMetadata"": ""Healthy""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-4,"{""petId"": 10, ""additionalMetadata"": 12345}",4xx,"additionalMetadata=12345 is not a string, violating 'type=string' for query parameter."
-5,"{""petId"": 3.14, ""additionalMetadata"": ""Playful""}",4xx,"petId=3.14 is not an integer (float provided), violating 'type=integer' for path parameter."
-6,"{""petId"": ""abc123"", ""additionalMetadata"": ""Cute dog""}",4xx,"petId='abc123' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""petId"": ""12.34"", ""additionalMetadata"": ""Playful""}",4xx,"petId='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""petId"": 9223372036854775808, ""additionalMetadata"": ""Loves walks""}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
-9,"{""petId"": -9223372036854775809, ""additionalMetadata"": ""Sleeps a lot""}",4xx,"petId=-9223372036854775809 is less than int64 minimum (-2^63=-9223372036854775808), violating 'format=int64'."
-10,"{""petId"": ""10x"", ""additionalMetadata"": ""Very friendly""}",4xx,"petId='10x' is not parseable as integer, violating 'type=integer' for path parameter."
-11,"{""petId"": -9999999.0, ""additionalMetadata"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""petId"": ""123456"", ""additionalMetadata"": ""Vaccinated, friendly""}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""petId"": 10, ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""petId"": ""123456"", ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""petId"": 1, ""additionalMetadata"": ""Vaccinated and friendly""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""petId"": 100}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""petId"": 999999, ""additionalMetadata"": ""Golden retriever, 3 years old""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""petId"": 2147483649, ""additionalMetadata"": ""Recently groomed""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""petId"": 42, ""additionalMetadata"": ""Adopted from shelter""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""petId"": 1, ""additionalMetadata"": null}",2xx,llm_success_ignore_optional
+7,"{""petId"": 1, ""additionalMetadata"": ""Vaccinated and friendly""}",2xx,llm_success_ignore_optional
+8,"{""petId"": 1, ""additionalMetadata"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+9,"{""petId"": ""notAnInteger"", ""additionalMetadata"": ""Cute dog""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""petId"": 3.1415, ""additionalMetadata"": ""Fluffy cat""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""petId"": null, ""additionalMetadata"": ""Missing ID""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""petId"": -1, ""additionalMetadata"": ""Negative ID""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""petId"": 9223372036854775808, ""additionalMetadata"": ""Too large ID""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""petId"": -9999999.0, ""additionalMetadata"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+15,"{""petId"": ""123456"", ""additionalMetadata"": ""Vaccinated and friendly""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""petId"": 1, ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""petId"": ""123456"", ""additionalMetadata"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,17 +1,18 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 2}",4xx,One or more fields deliberately violate the spec (4xx).
-2,"{""billId"": 0, ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-3,"{""billId"": 3973, ""billStageId"": ""abc"", ""amendmentId"": 1}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-4,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 0}",4xx,"amendmentId=0 < minimum=1, violating 'minimum' constraint."
-5,"{""billId"": ""xyz"", ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-6,"{""billId"": 0, ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-7,"{""billId"": 3973, ""billStageId"": -1, ""amendmentId"": 1}",4xx,"billStageId=-1 < minimum=1, violating 'minimum' constraint."
-8,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 0}",4xx,"amendmentId=0 < minimum=1, violating 'minimum' constraint."
-9,"{""billId"": ""abc"", ""billStageId"": 19929, ""amendmentId"": 1}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""billId"": 0, ""billStageId"": ""xyz"", ""amendmentId"": 1}",4xx,"billId=0 < minimum=1, violating 'minimum'; billStageId='xyz' is not parseable as integer, violating 'type=integer'."
-11,"{""data"": {""billId"": -1, ""billStageId"": -9999999.0, ""amendmentId"": null}, ""expected_code"": """", ""reason"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""data"": {""billId"": ""123456"", ""billStageId"": 19929, ""amendmentId"": null}, ""expected_code"": ""4xx"", ""reason"": ""amendmentId%20is%20required%20and%20must%20be%20a%20valid%20integer%20%E2%89%A51%2C%20but%20no%20valid%20amendmentId%20is%20available%20in%20context%3B%20null%20is%20forbidden%20for%20path%20parameters%2C%20violating%20%27required%27%20and%20%27type%3Dinteger%27.""}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""data"": {""billId"": 3973, ""billStageId"": ""123456"", ""amendmentId"": null}, ""expected_code"": ""4xx"", ""reason"": ""amendmentId%20is%20required%20and%20must%20be%20a%20valid%20integer%20%E2%89%A51%2C%20but%20no%20valid%20amendmentId%20is%20available%20in%20context%3B%20null%20is%20forbidden%20for%20path%20parameters%2C%20violating%20%27required%27%20and%20%27type%3Dinteger%27.""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""data"": {""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": ""123456""}, ""expected_code"": ""4xx"", ""reason"": ""amendmentId%20is%20required%20and%20must%20be%20a%20valid%20integer%20%E2%89%A51%2C%20but%20no%20valid%20amendmentId%20is%20available%20in%20context%3B%20null%20is%20forbidden%20for%20path%20parameters%2C%20violating%20%27required%27%20and%20%27type%3Dinteger%27.""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": null}, ""expected_code"": ""4xx"", ""reason"": ""amendmentId%20is%20required%20and%20must%20be%20a%20valid%20integer%20%E2%89%A51%2C%20but%20no%20valid%20amendmentId%20is%20available%20in%20context%3B%20null%20is%20forbidden%20for%20path%20parameters%2C%20violating%20%27required%27%20and%20%27type%3Dinteger%27.""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""data"": {""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": ""123456""}, ""expected_code"": ""4xx"", ""reason"": ""amendmentId%20is%20required%20and%20must%20be%20a%20valid%20integer%20%E2%89%A51%2C%20but%20no%20valid%20amendmentId%20is%20available%20in%20context%3B%20null%20is%20forbidden%20for%20path%20parameters%2C%20violating%20%27required%27%20and%20%27type%3Dinteger%27.""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""billId"": 100, ""billStageId"": 250, ""amendmentId"": 5}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""billId"": 1, ""billStageId"": 1, ""amendmentId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""billId"": 2147483647, ""billStageId"": 2147483647, ""amendmentId"": 2147483647}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""billId"": 5000, ""billStageId"": 30000, ""amendmentId"": 123}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 1}",2xx,llm_success_ignore_optional
+7,"{""billId"": 0, ""billStageId"": 19929, ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""billId"": 3973, ""billStageId"": -1, ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""billId"": ""abc"", ""billStageId"": 19929, ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""billId"": 3973, ""billStageId"": ""xyz"", ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""billId"": -1, ""billStageId"": -1, ""amendmentId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""billId"": ""123456"", ""billStageId"": 19929, ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""billId"": 3973, ""billStageId"": ""123456"", ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""billId"": 3973, ""billStageId"": 19929, ""amendmentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""amendmentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

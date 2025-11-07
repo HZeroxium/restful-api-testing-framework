@@ -1,17 +1,18 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 17032}",2xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
-2,"{""billId"": 0, ""billStageId"": 19929, ""pingPongItemId"": 17032}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-3,"{""billId"": 3973, ""billStageId"": ""abc"", ""pingPongItemId"": 17032}",4xx,"billStageId='abc' is not parseable as integer, violating 'type=int32' for path/parseability."
-4,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 2147483649}",4xx,"pingPongItemId=2147483649 > maximum for int32=2147483647, violating 'format=int32'."
-5,"{""billId"": ""abc"", ""billStageId"": 19929, ""pingPongItemId"": 17032}",4xx,"billId='abc' is not parseable as integer, violating 'type=int32' for path/parseability."
-6,"{""billId"": 0, ""billStageId"": 19929, ""pingPongItemId"": 17032}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-7,"{""billId"": 3973, ""billStageId"": 0, ""pingPongItemId"": 17032}",4xx,"billStageId=0 < minimum=1, violating 'minimum' constraint."
-8,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 0}",4xx,"pingPongItemId=0 < minimum=1, violating 'minimum' constraint."
-9,"{""billId"": 0, ""billStageId"": 0, ""pingPongItemId"": 17032}",4xx,"billId=0 and billStageId=0 < minimum=1, both violating 'minimum' constraint."
-10,"{""billId"": 0, ""billStageId"": 0, ""pingPongItemId"": 0}",4xx,"billId=0, billStageId=0, and pingPongItemId=0 < minimum=1, all violating 'minimum' constraint."
-11,"{""billId"": -9999999.0, ""billStageId"": -9999999.0, ""pingPongItemId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""billId"": ""123456"", ""billStageId"": 19929, ""pingPongItemId"": 17032}",4xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
-13,"{""billId"": 3973, ""billStageId"": ""123456"", ""pingPongItemId"": 17032}",4xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
-14,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": ""123456""}",4xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
-15,"{""billId"": ""123456"", ""billStageId"": 19929, ""pingPongItemId"": ""123456""}",4xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
-16,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""pingPongItemId"": ""123456""}",4xx,"billId=3973, billStageId=19929, pingPongItemId=17032 are all integers ≥1, satisfying 'type=int32' and 'minimum=1'."
+1,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""billId"": 102, ""billStageId"": 305, ""pingPongItemId"": 12}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""billId"": 5000, ""billStageId"": 25000, ""pingPongItemId"": 100}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""billId"": 1, ""billStageId"": 1, ""pingPongItemId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""billId"": 2147483, ""billStageId"": 99999, ""pingPongItemId"": 500}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 1}",2xx,llm_success_ignore_optional
+7,"{""billId"": 0, ""billStageId"": 19929, ""pingPongItemId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""billId"": 3973, ""billStageId"": -1, ""pingPongItemId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""billId"": -1, ""billStageId"": 0, ""pingPongItemId"": 17032}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""billId"": 0, ""billStageId"": 0, ""pingPongItemId"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""billId"": -1, ""billStageId"": -1, ""pingPongItemId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""billId"": ""123456"", ""billStageId"": 19929, ""pingPongItemId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""billId"": 3973, ""billStageId"": ""123456"", ""pingPongItemId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""billId"": 3973, ""billStageId"": 19929, ""pingPongItemId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""pingPongItemId"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""billId"": ""123456"", ""billStageId"": ""123456"", ""pingPongItemId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

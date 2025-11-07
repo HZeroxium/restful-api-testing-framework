@@ -1,13 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973}",2xx,billId=3973 is within allowed range [1..2147483647] and matches type integer.
-2,"{""billId"": 2147483649}",2xx,billId=2147483649 is above int32 typical max but the spec only enforces minimum=1; type is integer and value is parseable.
-3,"{""billId"": 3973}",2xx,billId=3973 is within allowed range [1..2147483647] and is a valid integer per context.
-4,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum' constraint."
-5,"{""billId"": -5}",4xx,"billId=-5 < minimum=1, violating 'minimum' constraint."
-6,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-7,"{""billId"": 0}",4xx,"billId=0 < minimum=1, violating 'minimum'."
-8,"{""billId"": -1}",4xx,"billId=-1 < minimum=1, violating 'minimum'."
-9,"{""billId"": ""abc""}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""billId"": 2147483649}",4xx,"billId=2147483649 exceeds int32 maximum=2147483647, violating 'format=int32'."
-11,"{""billId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""billId"": ""123456""}",4xx,billId=3973 is within allowed range [1..2147483647] and matches type integer.
+1,"{""billId"": 3973}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""billId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""billId"": 2500}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""billId"": 2147483647}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""billId"": 100}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""billId"": 3973}",2xx,llm_success_ignore_optional
+7,"{""billId"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""billId"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""billId"": ""abc123""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""billId"": 2147483648}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""billId"": 3.14}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""billId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""billId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

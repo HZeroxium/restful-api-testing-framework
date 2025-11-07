@@ -206,8 +206,8 @@ def write_outputs(outdir: str, rows, untracked_eps, discovered, five_rows, summa
 # ================== Main ==================
 
 def main():
-    service_name = "GitLab Branch"
-    csv_file_name = "20251102183243"
+    service_name = "Pet Store"
+    csv_file_name = "20251106203345"
 
     csv_path = f"../database/{service_name}/results/{csv_file_name}.csv"
     doc_json_path = f"../database/{service_name}/response_code/response_codes_normalized.json"

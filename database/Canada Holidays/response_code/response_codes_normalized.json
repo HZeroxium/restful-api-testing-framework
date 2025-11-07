@@ -1,0 +1,64 @@
+{
+  "get-/api/v1/holidays": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/provinces": {
+    "status_codes": [
+      "200"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/provinces/{provinceId}": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  },
+  "get-/api/v1/holidays/{holidayId}": {
+    "status_codes": [
+      "200",
+      "400"
+    ],
+    "by_class": {
+      "2xx": [
+        "200"
+      ],
+      "3xx": [],
+      "4xx": [
+        "400"
+      ],
+      "5xx": [],
+      "other": []
+    }
+  }
+}

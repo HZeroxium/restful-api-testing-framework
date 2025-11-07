@@ -2,8 +2,9 @@
 get-/projects/{id}/repository/archive,['404']
 get-/projects/{id}/repository/blobs/{sha},['404']
 get-/projects/{id}/repository/blobs/{sha}/raw,['404']
-get-/projects/{id}/repository/changelog,['422']
+get-/projects/{id}/repository/changelog,"['404', '422']"
 get-/projects/{id}/repository/compare,"['400', '404']"
-get-/projects/{id}/repository/merge_base,['400']
+get-/projects/{id}/repository/contributors,['404']
+get-/projects/{id}/repository/merge_base,"['400', '404']"
 get-/projects/{id}/repository/tree,['404']
 post-/projects,"['400', '422']"

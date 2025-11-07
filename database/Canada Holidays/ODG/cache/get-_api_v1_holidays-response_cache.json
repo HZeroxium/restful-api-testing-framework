@@ -1,0 +1,36 @@
+{
+  "status": 200,
+  "body": {
+    "holidays": [
+      {
+        "id": 1,
+        "date": "2025-01-01",
+        "nameEn": "New Year’s Day",
+        "nameFr": "Jour de l’An",
+        "federal": 1,
+        "observedDate": "2025-01-01",
+        "provinces": [
+          {
+            "id": "AB",
+            "nameEn": "Alberta",
+            "nameFr": "Alberta",
+            "sourceLink": "https://www.alberta.ca/alberta-general-holidays.aspx#jumplinks-1",
+            "sourceEn": "General holidays in Alberta"
+          }
+        ]
+      }
+    ]
+  },
+  "ok": true,
+  "request": {
+    "method": "GET",
+    "url": "https://canada-holidays.ca/api/v1/holidays",
+    "params": {},
+    "path_params": {},
+    "headers": {
+      "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui"
+    },
+    "cookies": {},
+    "json": null
+  }
+}

@@ -1,21 +1,27 @@
 ﻿endpoint,new_codes
-delete-/projects/{id}/issues/{issue_iid},['404']
-get-/groups/{id}/issues,['404']
-get-/projects/{id}/issues/{issue_iid}/closed_by,['404']
+delete-/projects/{id}/issues/{issue_iid},"['400', '404']"
+get-/groups,['400']
+get-/groups/{id}/issues,"['400', '404']"
+get-/issues,['400']
+get-/projects,['400']
+get-/projects/{id}/issues,"['400', '404']"
+get-/projects/{id}/issues/{issue_iid},"['400', '404']"
+get-/projects/{id}/issues/{issue_iid}/closed_by,"['400', '404']"
 get-/projects/{id}/issues/{issue_iid}/metric_images,['404']
-get-/projects/{id}/issues/{issue_iid}/participants,['404']
-get-/projects/{id}/issues/{issue_iid}/related_merge_requests,['404']
-get-/projects/{id}/issues/{issue_iid}/time_stats,['404']
-post-/groups,"['400', '404']"
-post-/projects,"['400', '422']"
-post-/projects/{id}/issues,['409']
-post-/projects/{id}/issues/{issue_iid}/metric_images,"['400', '404']"
-post-/projects/{id}/issues/{issue_iid}/move,['404']
-post-/projects/{id}/issues/{issue_iid}/reset_spent_time,"['200', '404']"
-post-/projects/{id}/issues/{issue_iid}/reset_time_estimate,"['200', '404']"
+get-/projects/{id}/issues/{issue_iid}/participants,"['400', '404']"
+get-/projects/{id}/issues/{issue_iid}/related_merge_requests,"['400', '404']"
+get-/projects/{id}/issues/{issue_iid}/time_stats,"['400', '404']"
+post-/groups,['400']
+post-/projects,['400']
+post-/projects/{id}/issues,"['400', '404', '409']"
+post-/projects/{id}/issues/{issue_iid}/add_spent_time,"['400', '404']"
+post-/projects/{id}/issues/{issue_iid}/metric_images,"['400', '403', '404']"
+post-/projects/{id}/issues/{issue_iid}/move,"['201', '400', '404']"
+post-/projects/{id}/issues/{issue_iid}/reset_spent_time,"['200', '400', '404']"
+post-/projects/{id}/issues/{issue_iid}/reset_time_estimate,"['200', '400', '404']"
 post-/projects/{id}/issues/{issue_iid}/subscribe,"['304', '404']"
-post-/projects/{id}/issues/{issue_iid}/time_estimate,['200']
-post-/projects/{id}/issues/{issue_iid}/todo,['304']
-post-/projects/{id}/issues/{issue_iid}/unsubscribe,"['304', '404']"
-put-/projects/{id}/issues/{issue_iid},['400']
-put-/projects/{id}/issues/{issue_iid}/reorder,"['400', '422']"
+post-/projects/{id}/issues/{issue_iid}/time_estimate,"['200', '400', '404']"
+post-/projects/{id}/issues/{issue_iid}/todo,"['304', '400', '404']"
+post-/projects/{id}/issues/{issue_iid}/unsubscribe,['404']
+put-/projects/{id}/issues/{issue_iid},"['400', '404']"
+put-/projects/{id}/issues/{issue_iid}/reorder,"['400', '404', '422']"

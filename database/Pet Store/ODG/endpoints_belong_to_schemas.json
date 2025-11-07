@@ -1,4 +1,12 @@
 {
+  "Category": [
+    "put-/pet",
+    "post-/pet",
+    "get-/pet/findByStatus",
+    "get-/pet/findByTags",
+    "get-/pet/{petId}",
+    "post-/pet/{petId}"
+  ],
   "Tag": [
     "put-/pet",
     "post-/pet",
@@ -8,14 +16,6 @@
     "post-/pet/{petId}"
   ],
   "Pet": [
-    "put-/pet",
-    "post-/pet",
-    "get-/pet/findByStatus",
-    "get-/pet/findByTags",
-    "get-/pet/{petId}",
-    "post-/pet/{petId}"
-  ],
-  "Category": [
     "put-/pet",
     "post-/pet",
     "get-/pet/findByStatus",

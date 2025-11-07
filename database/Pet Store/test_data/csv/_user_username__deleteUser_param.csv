@@ -1,12 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""username"": ""theUser""}",2xx,username='theUser' matches the example value from context and satisfies type=string.
-2,"{""username"": ""john_doe""}",2xx,username='john_doe' is a valid string and satisfies type=string.
-3,"{""username"": ""user!@#2024""}",2xx,"username='user!@#2024' is a valid string with special characters, satisfying type=string."
-4,"{""username"": ""1234567890""}",2xx,"username='1234567890' is a valid string that looks numeric, satisfying type=string."
-5,"{""username"": ""theUser""}",2xx,username='theUser' is a string and satisfies the 'type=string' constraint for path parameter.
-6,"{""username"": 12345}",4xx,"username=12345 is an integer, violating 'type=string' for path parameter."
-7,"{""username"": true}",4xx,"username=true is a boolean, violating 'type=string' for path parameter."
-8,"{""username"": [""theUser""]}",4xx,"username=['theUser'] is an array, violating 'type=string' for path parameter."
-9,"{""username"": {""name"": ""theUser""}}",4xx,"username={""name"": ""theUser""} is an object, violating 'type=string' for path parameter."
-10,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-11,"{""username"": 123456789}",4xx,username='theUser' matches the example value from context and satisfies type=string.
+1,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""username"": ""alice123""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""username"": ""a""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""username"": ""user.name""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""username"": ""verylongusername_abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ_0123456789""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""username"": ""john_doe""}",2xx,llm_success_ignore_optional
+7,"{""username"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""username"": ""     ""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""username"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""username"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""username"": ""@invalid!""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""username"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

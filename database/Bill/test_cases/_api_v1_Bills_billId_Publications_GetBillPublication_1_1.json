@@ -38,44 +38,6 @@
       },
       {
         "step_number": 2,
-        "endpoint": "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications",
-        "method": "GET",
-        "path_variables": {
-          "billId": null,
-          "stageId": null
-        },
-        "query_parameters": {},
-        "request_body": {},
-        "response_validation": {
-          "status_code": "2xx",
-          "body_validation": {}
-        },
-        "data_dependencies": {
-          "stageId": {
-            "from_step": 1,
-            "from_endpoint": "get-/api/v1/Bills",
-            "field_mappings": {
-              "stageId": "billStageId"
-            }
-          },
-          "billId": {
-            "from_step": 1,
-            "from_endpoint": "get-/api/v1/Bills",
-            "field_mappings": {
-              "billId": "billId"
-            }
-          },
-          "sittingId": {
-            "from_step": 1,
-            "from_endpoint": "get-/api/v1/Bills",
-            "field_mappings": {
-              "sittingId": "sittingId"
-            }
-          }
-        }
-      },
-      {
-        "step_number": 3,
         "endpoint": "get-/api/v1/Bills/{billId}/Publications",
         "method": "GET",
         "path_variables": {
@@ -89,8 +51,8 @@
         },
         "data_dependencies": {
           "billId": {
-            "from_step": 2,
-            "from_endpoint": "get-/api/v1/Bills/{billId}/Stages/{stageId}/Publications",
+            "from_step": 1,
+            "from_endpoint": "get-/api/v1/Bills",
             "field_mappings": {
               "billId": "billId"
             }

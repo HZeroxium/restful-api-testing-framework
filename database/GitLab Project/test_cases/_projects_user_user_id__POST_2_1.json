@@ -181,6 +181,7 @@
         "data_dependencies": {
           "user_id": {
             "from_step": 2,
+            "from_endpoint": "get-/projects",
             "field_mappings": {
               "user_id": "creator_id"
             }

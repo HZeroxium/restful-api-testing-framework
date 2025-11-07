@@ -133,6 +133,7 @@
         "data_dependencies": {
           "id": {
             "from_step": 2,
+            "from_endpoint": "get-/projects",
             "field_mappings": {
               "id": "id"
             }

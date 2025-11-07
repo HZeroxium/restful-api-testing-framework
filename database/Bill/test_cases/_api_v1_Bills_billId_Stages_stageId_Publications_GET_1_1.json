@@ -55,7 +55,7 @@
             "from_step": 1,
             "from_endpoint": "get-/api/v1/Bills",
             "field_mappings": {
-              "stageId": "billStageId"
+              "stageId": "sittingId"
             }
           },
           "billId": {
@@ -63,13 +63,6 @@
             "from_endpoint": "get-/api/v1/Bills",
             "field_mappings": {
               "billId": "billId"
-            }
-          },
-          "sittingId": {
-            "from_step": 1,
-            "from_endpoint": "get-/api/v1/Bills",
-            "field_mappings": {
-              "sittingId": "sittingId"
             }
           }
         }

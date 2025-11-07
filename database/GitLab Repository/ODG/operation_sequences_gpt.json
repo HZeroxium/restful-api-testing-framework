@@ -1,25 +1,11 @@
 {
   "get-/projects": [],
-  "post-/projects": [
-    [
-      "get-/projects"
-    ]
-  ],
   "get-/projects/{id}/repository/tree": [
     [
       "get-/projects"
     ]
   ],
   "get-/projects/{id}/repository/blobs/{sha}": [
-    [
-      "get-/projects"
-    ],
-    [
-      "get-/projects",
-      "get-/projects/{id}/repository/compare"
-    ]
-  ],
-  "get-/projects/{id}/repository/compare": [
     [
       "get-/projects"
     ]
@@ -31,6 +17,11 @@
     [
       "get-/projects",
       "get-/projects/{id}/repository/compare"
+    ]
+  ],
+  "get-/projects/{id}/repository/compare": [
+    [
+      "get-/projects"
     ]
   ],
   "get-/projects/{id}/repository/archive": [
@@ -55,10 +46,6 @@
   "get-/projects/{id}/repository/changelog": [
     [
       "get-/projects"
-    ],
-    [
-      "get-/projects",
-      "get-/projects/{id}/repository/compare"
     ]
   ]
 }

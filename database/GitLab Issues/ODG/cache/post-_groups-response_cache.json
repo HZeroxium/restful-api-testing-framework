@@ -1,10 +1,10 @@
 {
   "status": 201,
   "body": {
-    "id": 49,
-    "web_url": "http://localhost:30000/groups/engineering-team",
-    "name": "Engineering Team",
-    "path": "engineering-team",
+    "id": 73,
+    "web_url": "http://localhost:30000/groups/devops-team",
+    "name": "DevOps Team",
+    "path": "devops-team",
     "description": "",
     "visibility": "private",
     "share_with_group_lock": false,
@@ -19,9 +19,9 @@
     "default_branch_protection": 2,
     "avatar_url": null,
     "request_access_enabled": true,
-    "full_name": "Engineering Team",
-    "full_path": "engineering-team",
-    "created_at": "2025-10-26T17:06:18.046Z",
+    "full_name": "DevOps Team",
+    "full_path": "devops-team",
+    "created_at": "2025-11-05T17:00:50.782Z",
     "parent_id": null,
     "ldap_cn": null,
     "ldap_access": null,
@@ -45,8 +45,8 @@
     },
     "cookies": {},
     "json": {
-      "name": "Engineering Team",
-      "path": "engineering-team"
+      "name": "DevOps Team",
+      "path": "devops-team"
     }
   }
 }

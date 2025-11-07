@@ -1,39 +1,40 @@
 {
   "get-/projects/{id}/forks": [],
-  "post-/projects": [],
   "post-/projects/user/{user_id}": [],
   "get-/projects/{id}": [],
-  "put-/projects/{id}": [],
-  "delete-/projects/{id}": [],
+  "put-/projects/{id}": [
+    [
+      "get-/projects/{id}"
+    ]
+  ],
+  "delete-/projects/{id}": [
+    [
+      "get-/projects/{id}"
+    ]
+  ],
   "get-/projects/{id}/users": [],
-  "get-/projects/{id}/hooks": [],
-  "post-/projects/{id}/fork": [],
   "post-/projects/{id}/hooks": [],
-  "get-/projects/{id}/hooks/{hook_id}": [],
+  "post-/projects/{id}/fork": [],
+  "get-/projects/{id}/hooks": [],
   "delete-/projects/{id}/fork": [],
-  "post-/projects/{id}/star": [],
+  "get-/projects/{id}/hooks/{hook_id}": [],
   "post-/projects/{id}/unstar": [],
+  "post-/projects/{id}/star": [],
   "get-/projects/{id}/starrers": [],
-  "get-/projects/{id}/languages": [],
+  "get-/projects/{id}/languages": [
+    [
+      "get-/projects/{id}"
+    ]
+  ],
   "post-/projects/{id}/archive": [],
   "post-/projects/{id}/unarchive": [],
   "post-/projects/{id}/restore": [],
   "post-/projects/{id}/uploads": [],
-  "post-/projects/{id}/share": [
-    [
-      "get-/projects"
-    ]
-  ],
-  "get-/projects": [],
+  "post-/projects/{id}/share": [],
   "delete-/projects/{id}/share/{group_id}": [],
   "put-/projects/{id}/hooks/{hook_id}": [],
   "delete-/projects/{id}/hooks/{hook_id}": [],
-  "post-/projects/{id}/housekeeping": [
-    [
-      "get-/projects",
-      "post-/projects/{id}/share"
-    ]
-  ],
+  "post-/projects/{id}/housekeeping": [],
   "put-/projects/{id}/transfer": [],
   "post-/projects/{id}/fork/{forked_from_id}": [],
   "get-/projects/{id}/snapshot": [],

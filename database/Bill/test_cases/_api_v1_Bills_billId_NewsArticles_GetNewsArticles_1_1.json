@@ -57,7 +57,7 @@
             "from_step": 1,
             "from_endpoint": "get-/api/v1/Bills",
             "field_mappings": {
-              "billId": "id"
+              "billId": "billId"
             }
           }
         }

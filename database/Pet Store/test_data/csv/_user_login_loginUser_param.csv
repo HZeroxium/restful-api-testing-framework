@@ -1,15 +1,20 @@
 index,data,expected_status_code,reason
-1,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,"Both 'username' and 'password' are provided as strings, matching the 'type=string' constraint for query parameters."
-2,"{""username"": ""theUser""}",2xx,"'username' is provided as a string and 'password' is omitted (optional), satisfying all constraints."
-3,"{""password"": ""12345""}",2xx,"'password' is provided as a string and 'username' is omitted (optional), satisfying all constraints."
-4,"{""username"": ""theUser"", ""password"": ""12345""}",2xx,"Both 'username' and 'password' are provided as strings, matching the type=string specification."
-5,"{""username"": ""alice""}",2xx,"'username' is provided as a string; 'password' is omitted, which is allowed since it is optional."
-6,"{""password"": ""hunter2""}",2xx,"'password' is provided as a string; 'username' is omitted, which is allowed since it is optional."
-7,{},2xx,Both 'username' and 'password' are omitted; both are optional and their absence is allowed.
-8,"{""username"": ""bob"", ""password"": ""letmein""}",2xx,"Both 'username' and 'password' are provided as strings, matching the type=string specification."
-9,"{""username"": 12345, ""password"": ""12345""}",4xx,"'username'=12345 is not parseable as string, violating 'type=string' for query parameter."
-10,"{""username"": ""theUser"", ""password"": [""not"", ""a"", ""string""]}",4xx,"'password' is an array, violating 'type=string' for query parameter."
-11,"{""username"": """", ""password"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""username"": 123456789, ""password"": ""12345""}",4xx,"Both 'username' and 'password' are provided as strings, matching the 'type=string' constraint for query parameters."
-13,"{""username"": ""theUser"", ""password"": 123456789}",4xx,"Both 'username' and 'password' are provided as strings, matching the 'type=string' constraint for query parameters."
-14,"{""username"": 123456789, ""password"": 123456789}",4xx,"Both 'username' and 'password' are provided as strings, matching the 'type=string' constraint for query parameters."
+1,"{""username"": ""johndoe"", ""password"": ""Passw0rd!""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""username"": ""alice123""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""password"": ""S3cur3P@ss""}",2xx,All provided fields satisfy the spec (2xx).
+4,{},2xx,All provided fields satisfy the spec (2xx).
+5,"{""username"": ""user_257_characters_long_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"", ""password"": ""short""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""username"": null, ""password"": null}",2xx,llm_success_ignore_optional
+7,"{""username"": ""johndoe"", ""password"": null}",2xx,llm_success_ignore_optional
+8,"{""username"": ""johndoe"", ""password"": ""Passw0rd!""}",2xx,llm_success_ignore_optional
+9,"{""username"": ""johndoe"", ""password"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+10,"{""username"": null, ""password"": ""Passw0rd!""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+11,"{""username"": 12345, ""password"": ""validPassword""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""username"": ""validUser"", ""password"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""username"": [""array"", ""of"", ""strings""], ""password"": ""validPassword""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""username"": ""validUser"", ""password"": {""key"": ""value""}}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""username"": null, ""password"": ""validPassword""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""username"": """", ""password"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""username"": 123456789, ""password"": ""Passw0rd!""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""username"": ""johndoe"", ""password"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""username"": 123456789, ""password"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

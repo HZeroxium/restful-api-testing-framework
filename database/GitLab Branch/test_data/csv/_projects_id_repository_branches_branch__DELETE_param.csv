@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 1001, ""branch"": ""feature/login""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID is available from DependencyContext or examples; cannot generate a valid 2xx test row.
-2,"{""id"": -5, ""branch"": ""feature/login""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID is available from DependencyContext or examples; cannot generate a valid 2xx test row.
-3,"{""id"": 1001, ""branch"": ""feature/login""}",2xx,llm_success_ignore_optional
-4,"{""id"": -1, ""branch"": ""main""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context.
-5,"{""id"": 2147483649, ""branch"": ""dev""}",2xx,UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No concrete project ID available from dependency context.
-6,"{""id"": ""abc"", ""branch"": ""feature/login""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": 1001, ""branch"": 123}",4xx,branch has type integer but the spec requires string for path parameter (type mismatch).
-8,"{""id"": 1001.5, ""branch"": ""feature/login""}",4xx,"id=1001.5 is not an integer (type mismatch), violating 'type=integer' for path parameter."
-9,"{""id"": ""not-an-integer"", ""branch"": ""feature/login""}",4xx,"id='not-an-integer' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": 12345, ""branch"": 6789}",4xx,"branch=6789 has type integer, but the spec requires string for path parameter."
-11,"{""id"": ""abc"", ""branch"": 456}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; branch=456 has type integer, but the spec requires string."
-12,"{""id"": -1, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""branch"": ""feature/login""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 1001, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 35, ""branch"": ""main""}",2xx,id=35 is a valid integer from dependency context; branch='main' is a valid string.
+2,"{""id"": 35, ""branch"": ""feature/login""}",2xx,id=35 is a valid integer from dependency context; branch='feature/login' is a valid string.
+3,"{""id"": 35, ""branch"": ""main""}",2xx,llm_success_ignore_optional
+4,"{""id"": ""abc"", ""branch"": ""main""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 0, ""branch"": ""main""}",4xx,"id=0 is likely invalid as a project ID (GitLab projects start from 1), violating realistic bounds for 'id'."
+6,"{""id"": 35, ""branch"": 123}",4xx,"branch=123 is not parseable as string, violating 'type=string' for path parameter."
+7,"{""id"": ""notAnInt"", ""branch"": ""main""}",4xx,"id='notAnInt' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 35, ""branch"": 12345}",4xx,"branch=12345 is not a string, violating 'type=string' for path parameter."
+9,"{""id"": ""abc"", ""branch"": 6789}",4xx,"id='abc' is not parseable as integer, and branch=6789 is not a string; both violate their 'type' constraints."
+10,"{""id"": -1, ""branch"": ""main""}",4xx,"id=-1 is negative, which is typically invalid for resource IDs, violating practical 'type=integer' expectations."
+11,"{""id"": 35, ""branch"": ""a................................................................................................................................................................................................................................................................................................................................................................................................................................""}",4xx,"branch is an excessively long string (257 characters), violating practical robustness for 'type=string'."
+12,"{""id"": -9999999.0, ""branch"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""branch"": ""main""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 35, ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""branch"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

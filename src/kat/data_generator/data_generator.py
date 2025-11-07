@@ -573,6 +573,8 @@ class TestDataGenerator:
             )
 
             p2_raw = self.generate_data_items(prompt_p2)
+            with open("debug_output.json", "w", encoding="utf-8") as debug_f:
+                debug_f.write(f"--- PROMPT ---\n{prompt_p2}\n\n--- RAW RESPONSE ---\n{json.dumps(p2_raw, ensure_ascii=False)}\n")
             if p2_raw:
                 # normalize/tags before validation split
                 p2_raw = _tag_reason(p2_raw, "llm_success")
@@ -793,12 +795,28 @@ class TestDataGenerator:
 
             all_endpoints = extract_endpoints(self.swagger_spec)  # e.g. ["get-/a", "post-/b", ...]
 
-            # 2) Append independent endpoints not in topo
-            seen = set(topo_list)
-            independent = [e for e in all_endpoints if e not in seen]
-            list_endpoints =independent + topo_list 
-            for ep in list_endpoints:
-                logger.info(f"Independent endpoint added to run list: {ep}")
+            # Handle selected_endpoints with topological order
+            if self.selected_endpoints:
+                # Filter topo_list to only include selected endpoints (preserving topo order)
+                topo_selected = [e for e in topo_list if e in self.selected_endpoints]
+                
+                # Find selected endpoints not in topo (independent ones)
+                seen_in_topo = set(topo_list)
+                independent_selected = [e for e in self.selected_endpoints if e not in seen_in_topo]
+                
+                # Combine: independent selected first, then topo-ordered selected
+                list_endpoints = independent_selected + topo_selected
+                logger.info(f"Running with selected endpoints: {self.selected_endpoints}")
+                logger.info(f"Topo-ordered selected: {topo_selected}")
+                logger.info(f"Independent selected: {independent_selected}")
+            else:
+                # Original logic: all endpoints with topo order
+                seen = set(topo_list)
+                independent = [e for e in all_endpoints if e not in seen]
+                list_endpoints = independent + topo_list
+                for ep in independent:
+                    logger.info(f"Independent endpoint added to run list: {ep}")
+            
             print(f"Total endpoints to generate data: {len(list_endpoints)}")
             # raise Exception("Disabled full run for safety. Enable when needed.")
             # Helper convert LineDataBase -> dict payload (phù hợp write_test_data_file)

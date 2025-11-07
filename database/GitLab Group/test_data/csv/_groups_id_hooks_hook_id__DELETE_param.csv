@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 50, ""hook_id"": 2147483649}",2xx,"id=50 is a valid integer from context; hook_id=2147483649 is a valid integer (no explicit bounds). However, hook_id is not resolvable from context, so this 2xx case may be skipped or downgraded."
-2,"{""id"": 50, ""hook_id"": -1}",2xx,"id=50 is a valid integer from context; hook_id=-1 is a valid integer (no explicit bounds). However, hook_id is not resolvable from context, so this 2xx case may be skipped or downgraded."
-3,"{""id"": 50, ""hook_id"": 2147483649}",2xx,llm_success_ignore_optional
-4,"{""id"": 50, ""hook_id"": ""abc""}",4xx,"hook_id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""id"": ""xyz"", ""hook_id"": 1}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-6,"{""id"": 50, ""hook_id"": 1.5}",4xx,"hook_id=1.5 is not an integer (type violation), violating 'type=integer' for path/parseability."
-7,"{""id"": ""abc"", ""hook_id"": 50}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""id"": 50, ""hook_id"": ""xyz""}",4xx,"hook_id='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-9,"{""id"": ""12.3"", ""hook_id"": 50}",4xx,"id='12.3' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""id"": 50, ""hook_id"": ""12.3""}",4xx,"hook_id='12.3' is not parseable as integer, violating 'type=integer' for path/parseability."
-11,"{""id"": ""abc"", ""hook_id"": ""xyz""}",4xx,"id='abc' and hook_id='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
-12,"{""id"": -9999999.0, ""hook_id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""hook_id"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 50, ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 60, ""hook_id"": 1}",2xx,id=60 and hook_id=1 are both valid integers for required path parameters.
+2,"{""id"": 60, ""hook_id"": -5}",2xx,id=60 and hook_id=-5 are both valid integers; no minimum constraint is specified.
+3,"{""id"": 2147483649, ""hook_id"": 1}",2xx,id=2147483649 and hook_id=1 are both valid integers; no maximum constraint is specified.
+4,"{""id"": 60, ""hook_id"": 1}",2xx,llm_success_ignore_optional
+5,"{""id"": 60, ""hook_id"": ""abc""}",4xx,"hook_id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": ""xyz"", ""hook_id"": 1}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+7,"{""id"": ""abc"", ""hook_id"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+8,"{""id"": 60, ""hook_id"": ""notanint""}",4xx,"hook_id='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": ""12x"", ""hook_id"": ""99y""}",4xx,"id='12x' and hook_id='99y' are not parseable as integer, violating 'type=integer' for both path parameters."
+10,"{""id"": ""-1"", ""hook_id"": ""abc""}",4xx,"id='-1' is parseable as integer but negative; hook_id='abc' is not parseable as integer, violating 'type=integer' for hook_id."
+11,"{""id"": ""group60"", ""hook_id"": ""hook42""}",4xx,"id='group60' and hook_id='hook42' are not parseable as integer, violating 'type=integer' for both path parameters."
+12,"{""id"": -1, ""hook_id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""hook_id"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 60, ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""hook_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

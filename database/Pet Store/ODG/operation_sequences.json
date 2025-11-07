@@ -1,38 +1,27 @@
 {
-  "delete-/pet/{petId}": [
+  "get-/pet/findByStatus": [
     [
       "post-/pet"
-    ]
-  ],
-  "put-/user/{username}": [
-    [
-      "post-/user"
     ],
     [
-      "post-/user/createWithList"
+      "post-/pet",
+      "put-/pet"
     ]
   ],
-  "delete-/store/order/{orderId}": [
+  "delete-/store/order/{orderId}": [],
+  "get-/store/order/{orderId}": [],
+  "post-/pet/{petId}": [
     [
-      "post-/store/order"
-    ]
-  ],
-  "get-/user/login": [
+      "post-/pet"
+    ],
     [
-      "post-/user"
+      "post-/pet",
+      "put-/pet"
     ]
   ],
   "get-/user/{username}": [
     [
       "post-/user"
-    ],
-    [
-      "post-/user/createWithList"
-    ]
-  ],
-  "get-/pet/{petId}": [
-    [
-      "post-/pet"
     ]
   ],
   "get-/pet/findByTags": [
@@ -44,53 +33,43 @@
       "put-/pet"
     ]
   ],
+  "post-/pet/{petId}/uploadImage": [],
+  "get-/user/login": [
+    [
+      "post-/user"
+    ]
+  ],
+  "post-/store/order": [],
+  "post-/user": [],
   "put-/pet": [
     [
       "post-/pet"
     ]
   ],
-  "post-/pet/{petId}/uploadImage": [
-    [
-      "post-/pet"
-    ]
-  ],
+  "delete-/pet/{petId}": [],
   "delete-/user/{username}": [
     [
       "post-/user"
     ],
     [
-      "post-/user/createWithList"
+      "post-/user",
+      "get-/user/{username}"
     ]
   ],
-  "post-/pet/{petId}": [
+  "get-/pet/{petId}": [],
+  "put-/user/{username}": [
     [
-      "post-/pet"
+      "post-/user"
     ],
     [
-      "post-/pet",
-      "put-/pet"
+      "post-/user",
+      "get-/user/{username}"
     ]
   ],
   "post-/pet": [],
-  "post-/store/order": [],
-  "get-/pet/findByStatus": [
-    [
-      "post-/pet"
-    ],
-    [
-      "post-/pet",
-      "put-/pet"
-    ]
-  ],
   "post-/user/createWithList": [
     [
       "post-/user"
-    ]
-  ],
-  "post-/user": [],
-  "get-/store/order/{orderId}": [
-    [
-      "post-/store/order"
     ]
   ]
 }

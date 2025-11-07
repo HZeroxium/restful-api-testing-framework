@@ -1,0 +1,2 @@
+test_case_id,step_number,endpoint,method,test_data_row,reason,request_params,request_body,final_url,response_status,expected_status,execution_time,status
+_projects_id_repository_branches_branch__DELETE_1_1,2,delete-/projects/{id}/repository/branches/{branch},DELETE,1,llm_success_ignore_optional,{},{},http://localhost:30000/api/v4/projects/34/repository/branches/main,404,2xx,0.017s,FAIL

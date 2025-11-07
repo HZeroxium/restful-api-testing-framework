@@ -116,7 +116,13 @@
     }
   },
   "delete-/projects/{id}/fork": {
+    "ProjectHook": {
+      "id": "id"
+    },
     "Project": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
       "id": "id"
     },
     "StarProject": {
@@ -215,16 +221,16 @@
     "Project": {
       "id": "id"
     },
-    "ProjectHook": {
-      "id": "project_id"
-    },
-    "ProjectGroupLink": {
-      "id": "project_id"
-    },
     "StarProject": {
       "id": "id"
     },
     "ProjectWithAcess": {
+      "id": "id"
+    },
+    "ProjectHook": {
+      "id": "id"
+    },
+    "ProjectGroupLink": {
       "id": "id"
     }
   },
@@ -266,17 +272,17 @@
     "Project": {
       "id": "id"
     },
-    "ProjectGroupLink": {
-      "id": "project_id"
-    },
-    "ProjectHook": {
-      "id": "project_id"
-    },
     "ProjectWithAcess": {
       "id": "id"
     },
     "StarProject": {
       "id": "id"
+    },
+    "ProjectGroupLink": {
+      "id": "project_id"
+    },
+    "ProjectHook": {
+      "id": "project_id"
     }
   },
   "post-/projects/{id}/share": {
@@ -331,6 +337,9 @@
     }
   },
   "post-/projects/{id}/hooks": {
+    "ProjectHook": {
+      "id": "project_id"
+    },
     "Project": {
       "id": "id"
     },
@@ -339,9 +348,6 @@
     },
     "StarProject": {
       "id": "id"
-    },
-    "ProjectHook": {
-      "id": "project_id"
     },
     "ProjectGroupLink": {
       "id": "project_id"
@@ -420,19 +426,19 @@
   },
   "put-/projects/{id}/transfer": {
     "Project": {
-      "id": "id"
+      "namespace": "path"
     },
     "ProjectWithAcess": {
-      "id": "id"
+      "namespace": "path"
     },
     "StarProject": {
-      "id": "id"
+      "namespace": "path"
     },
     "ArchiveProject": {
-      "id": "id"
+      "namespace": "path"
     },
     "ProjectGroupLink": {
-      "id": "project_id"
+      "namespace": "group_id"
     }
   },
   "post-/projects/{id}/fork/{forked_from_id}": {

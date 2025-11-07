@@ -1,15 +1,18 @@
 index,data,expected_status_code,reason
-1,"{""petId"": 10}",2xx,petId=10 is a valid integer (int64) from context; all required fields are present.
-2,"{""petId"": 10, ""api_key"": ""my-secret-key""}",2xx,petId=10 is a valid integer (int64) from context; api_key is optional and provided as a valid string.
-3,"{""petId"": 2147483649}",2xx,petId=2147483649 is a valid int64 integer; all required fields are present.
-4,"{""petId"": ""abc""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""petId"": 10, ""api_key"": 12345}",4xx,api_key=12345 has type integer but the spec requires string (header type mismatch).
-6,"{""petId"": ""abc"", ""api_key"": ""validKey123""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""petId"": -1}",4xx,"petId=-1 is negative; while no explicit minimum, negative IDs are generally invalid for identifiers."
-8,"{""petId"": 3.14}",4xx,"petId=3.14 is not an integer, violating 'type=integer' for path parameter."
-9,"{""petId"": ""10.0""}",4xx,"petId='10.0' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""petId"": 9223372036854775808}",4xx,"petId=9223372036854775808 exceeds int64 maximum (2^63-1=9223372036854775807), violating 'format=int64'."
-11,"{""petId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""petId"": 10, ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""petId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""petId"": ""123456"", ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""petId"": 12345, ""api_key"": ""abc123xyz""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""petId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""petId"": 999999, ""api_key"": ""petstore-test-key""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""petId"": 2147483649}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""petId"": 42, ""api_key"": ""A1B2C3D4E5F6""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""petId"": 12345, ""api_key"": null}",2xx,llm_success_ignore_optional
+7,"{""petId"": 12345, ""api_key"": ""abc123xyz""}",2xx,llm_success_ignore_optional
+8,"{""petId"": 12345, ""api_key"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+9,"{""petId"": ""not_an_integer""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""petId"": -1}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""petId"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""petId"": 3.1415}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""petId"": 9223372036854775808}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""petId"": -1, ""api_key"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+15,"{""petId"": 12345, ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""petId"": ""123456"", ""api_key"": ""abc123xyz""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""petId"": ""123456"", ""api_key"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

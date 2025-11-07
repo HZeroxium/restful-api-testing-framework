@@ -1,31 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6}",2xx,id=24 and issue_iid=6 are both valid integers from the dependency context.
-2,"{""id"": 24, ""issue_iid"": 6}",2xx,llm_success_ignore_optional
-3,"{""id"": 24, ""issue_iid"": 6}",2xx,id=24 and issue_iid=6 are both valid integers from dependency context.
-4,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 24, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": -1, ""issue_iid"": 6}",4xx,"id=-1 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for resource identifiers."
-7,"{""id"": 24, ""issue_iid"": 2147483649}",4xx,issue_iid=2147483649 exceeds typical 32-bit integer bounds; extremely large values are not realistic for resource identifiers.
-8,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 24, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""notanint"", ""issue_iid"": ""notanint""}",4xx,"id='notanint' and issue_iid='notanint' are not parseable as integers, violating 'type=integer' for both path parameters."
-11,"{""id"": 24.5, ""issue_iid"": 6}",4xx,"id=24.5 is a float, not an integer, violating 'type=integer' for path parameter."
-12,"{""id"": -9999999.0, ""issue_iid"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""issue_iid"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 24, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 50, ""issue_iid"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 1, ""issue_iid"": 2}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 2147483649, ""issue_iid"": 5}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 2, ""issue_iid"": 2147483649}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 100, ""issue_iid"": 100}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1}",2xx,llm_success_ignore_optional
+7,"{""id"": ""notAnInteger"", ""issue_iid"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": 50, ""issue_iid"": ""invalidIssueId""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": ""abc123"", ""issue_iid"": ""xyz456""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": 3.1415, ""issue_iid"": 2.718}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": null, ""issue_iid"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -1, ""issue_iid"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""issue_iid"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 50, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 24, ""issue_iid"": 6}",2xx,id=24 and issue_iid=6 are both valid integers from context; both path parameters satisfy type=integer and required constraints.
-17,"{""id"": 24, ""issue_iid"": 6}",2xx,llm_success_ignore_optional
-18,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-19,"{""id"": 24, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-20,"{""id"": -1, ""issue_iid"": 6}",4xx,"id=-1 is a negative integer; while type=integer is satisfied, negative values are typically invalid for ID-like fields."
-21,"{""id"": 24, ""issue_iid"": 2147483649}",4xx,issue_iid=2147483649 is excessively large and may exceed typical integer bounds for ID-like fields.
-22,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-23,"{""id"": 24, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-24,"{""id"": 24.5, ""issue_iid"": 6}",4xx,"id=24.5 is a float, not an integer, violating 'type=integer' for path/parseability."
-25,"{""id"": 24, ""issue_iid"": true}",4xx,"issue_iid=true is a boolean, not an integer, violating 'type=integer' for path/parseability."
-26,"{""id"": ""foo"", ""issue_iid"": ""bar""}",4xx,"id='foo' and issue_iid='bar' are not parseable as integers, violating 'type=integer' for path/parseability."
-27,"{""id"": -1, ""issue_iid"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-28,"{""id"": ""123456"", ""issue_iid"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
-29,"{""id"": 24, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-30,"{""id"": ""123456"", ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

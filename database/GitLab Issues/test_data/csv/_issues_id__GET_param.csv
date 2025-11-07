@@ -1,27 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 73}",2xx,id=73 is a valid integer and matches an existing issue ID from context.
-2,"{""id"": 73}",2xx,llm_success_ignore_optional
-3,"{""id"": 73}",2xx,id=73 is a valid integer from the dependency context.
-4,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": -1}",4xx,"id=-1 is a negative integer; while the spec does not specify minimum, negative IDs are not realistic for resource identifiers."
-6,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
-7,"{""id"": 2147483649}",4xx,"id=2147483649 exceeds typical 32-bit integer bounds; while the spec does not specify maximum, such extreme values are not realistic for resource identifiers."
-8,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": ""12.5""}",4xx,"id='12.5' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": ""false""}",4xx,"id='false' is not parseable as integer, violating 'type=integer' for path parameter."
-11,"{""id"": ""-1.2e3""}",4xx,"id='-1.2e3' is not parseable as integer, violating 'type=integer' for path parameter."
-12,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+1,"{""id"": 109}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 12}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 109}",2xx,llm_success_ignore_optional
+4,"{""id"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+5,"{""id"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
+6,"{""id"": 24}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""id"": ""abc123""}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": 12.34}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": true}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": [1, 2, 3]}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
 13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 73}",2xx,"id=73 is a valid integer from context (sample issue), satisfying 'type=integer' and 'required'."
-15,"{""id"": 73}",2xx,llm_success_ignore_optional
-16,"{""id"": 73}",2xx,id=73 is a valid integer path parameter from context and satisfies 'type=integer'.
-17,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-18,"{""id"": -1}",4xx,"id=-1 is a negative integer; while not explicitly forbidden, negative IDs are unrealistic for resource identifiers and violate real-world expectations."
-19,"{""id"": 0}",4xx,One or more fields deliberately violate the spec (4xx).
-20,"{""id"": 2147483649}",4xx,id=2147483649 exceeds typical 32-bit integer bounds; extremely large values are reserved for boundary violation tests.
-21,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-22,"{""id"": ""73.5""}",4xx,"id='73.5' is not parseable as integer, violating 'type=integer' for path parameter."
-23,"{""id"": ""true""}",4xx,"id='true' is not parseable as integer, violating 'type=integer' for path parameter."
-24,"{""id"": ""[73]""}",4xx,"id='[73]' is not parseable as integer, violating 'type=integer' for path parameter."
-25,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-26,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

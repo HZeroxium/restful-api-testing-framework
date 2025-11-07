@@ -1,19 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,id=24 and issue_iid=6 are valid integers from context; duration='3h30m' is a valid string matching the example format.
-2,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""1h""}",2xx,id=24 and issue_iid=6 are valid integers from context; duration='1h' is a valid string matching the example format.
-3,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
-4,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""2h""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 24, ""issue_iid"": 6, ""duration"": 120}",4xx,"duration=120 is of type integer, but the spec requires string, violating 'type=string' for query parameter."
-6,"{""id"": 24, ""issue_iid"": 6}",4xx,"duration is required but missing, violating 'required' for query parameter."
-7,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 24, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123}",4xx,duration=123 has type integer but the spec requires string (query parameter type mismatch).
-10,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": 123}",4xx,"id='abc' is not parseable as integer, violating 'type=integer'; duration=123 has type integer but the spec requires string."
-11,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": 123}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer'; duration=123 has type integer but the spec requires string."
-12,"{""id"": -1, ""issue_iid"": -1, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 24, ""issue_iid"": 6, ""duration"": null}",4xx,mutate_missing_required: set duration=None
-14,"{""id"": ""123456"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 24, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 50, ""issue_iid"": 1, ""duration"": ""3h30m""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 50, ""issue_iid"": 2, ""duration"": ""1h""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 50, ""issue_iid"": 3, ""duration"": ""45m""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 50, ""issue_iid"": 4, ""duration"": ""2h15m""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 50, ""issue_iid"": 5, ""duration"": ""1d2h""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
+7,"{""id"": -9999999.0, ""issue_iid"": -9999999.0, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+8,"{""id"": 50, ""issue_iid"": 1, ""duration"": null}",4xx,mutate_missing_required: set duration=None
+9,"{""id"": ""123456"", ""issue_iid"": 1, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": 50, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": 50, ""issue_iid"": 1, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": ""123456"", ""issue_iid"": 1, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

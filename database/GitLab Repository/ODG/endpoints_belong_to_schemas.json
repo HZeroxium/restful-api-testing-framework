@@ -1,13 +1,25 @@
 {
+  "BasicProjectDetails": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Links": [
+    "get-/projects",
+    "post-/projects"
+  ],
   "Namespace": [
     "get-/projects",
     "post-/projects"
   ],
-  "ProjectAccess": [
+  "SharedWithGroups": [
     "get-/projects",
     "post-/projects"
   ],
   "Owner": [
+    "get-/projects",
+    "post-/projects"
+  ],
+  "Statistics": [
     "get-/projects",
     "post-/projects"
   ],
@@ -19,19 +31,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "BasicProjectDetails": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Statistics": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "SharedWithGroups": [
-    "get-/projects",
-    "post-/projects"
-  ],
-  "Links": [
+  "ProjectAccess": [
     "get-/projects",
     "post-/projects"
   ],
@@ -41,10 +41,10 @@
   "Compare": [
     "get-/projects/{id}/repository/compare"
   ],
-  "RepoDiff": [
+  "RepoCommit": [
     "get-/projects/{id}/repository/compare"
   ],
-  "RepoCommit": [
+  "RepoDiff": [
     "get-/projects/{id}/repository/compare"
   ],
   "Contributor": [

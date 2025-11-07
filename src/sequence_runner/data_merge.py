@@ -3,12 +3,14 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from typing import Any, Dict, Tuple, List
 from .models import DataRow, StepModel
 
 logger = logging.getLogger(__name__)
 
 NOT_SURE = "%not-sure%"
+_PATH_VARS_PATTERN = re.compile(r"\{(\w+)\}")
 
 def _coerce_scalar(v: Any) -> Any:
     """Chuyển '123'->123, '1.5'->1.5, 'true'/'false'->bool. Giữ '' (empty) nguyên để test."""
@@ -63,7 +65,21 @@ def merge_test_data(
     """
     merged_params = dict(base_params or {})
     merged_body = dict(base_body or {})
+    
+    # Extract path variable names from TWO sources to handle OpenAPI spec structure:
+    # 1. path_vars dict: contains path params defined at BOTH path-item level AND operation level
+    #    (already merged by OpenAPI parser)
+    # 2. endpoint pattern: extract {paramName} directly from the URL template
+    #    This is a defensive fallback to catch any path params that might have been missed
     path_var_names = set((path_vars or {}).keys())
+    if endpoint:
+        # Also extract from endpoint pattern to catch all path variables
+        # e.g., "get-/api/v1/holidays/{holidayId}" -> ["holidayId"]
+        endpoint_path_vars = _PATH_VARS_PATTERN.findall(endpoint)
+        path_var_names.update(endpoint_path_vars)
+    
+    if path_var_names:
+        logger.debug(f"  📍 Path variables identified: {path_var_names}")
 
     csv_path_vars: Dict[str, Any] = {}
     not_sure_params: Dict[str, bool] = {}
@@ -107,6 +123,7 @@ def merge_test_data(
             # thường
             if k in path_var_names:
                 csv_path_vars[k] = v
+                logger.debug(f"    ✓ '{k}' identified as path parameter (value={v}), NOT adding to query params")
             else:
                 apply_kv(k, v, "params")
 
@@ -118,6 +135,7 @@ def merge_test_data(
             if k in path_var_names:
                 # path var không đổ vào body
                 csv_path_vars[k] = v
+                logger.debug(f"    ✓ '{k}' identified as path parameter (value={v}), NOT adding to body")
                 continue
             if k == "data" and isinstance(v, str):
                 try:
@@ -158,6 +176,7 @@ def merge_test_data(
         # cặp key/value trực tiếp
         if k in path_var_names:
             csv_path_vars[k] = v
+            logger.debug(f"    ✓ '{k}' identified as path parameter (value={v}), NOT adding to query params")
             continue
         apply_kv(k, v, data_for)
 

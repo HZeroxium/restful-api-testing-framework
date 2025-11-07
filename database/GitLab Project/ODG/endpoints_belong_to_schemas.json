@@ -1,5 +1,32 @@
 {
-  "Links": [
+  "Namespace": [
+    "get-/projects",
+    "post-/projects",
+    "post-/projects/user/{user_id}",
+    "get-/projects/{id}",
+    "put-/projects/{id}",
+    "post-/projects/{id}/fork",
+    "get-/projects/{id}/forks",
+    "post-/projects/{id}/star",
+    "post-/projects/{id}/unstar",
+    "post-/projects/{id}/archive",
+    "post-/projects/{id}/unarchive",
+    "post-/projects/{id}/restore",
+    "put-/projects/{id}/transfer",
+    "get-/users/{user_id}/projects",
+    "get-/users/{user_id}/starred_projects"
+  ],
+  "BasicProjectDetails": [
+    "get-/projects",
+    "post-/projects",
+    "post-/projects/user/{user_id}",
+    "put-/projects/{id}",
+    "post-/projects/{id}/fork",
+    "post-/projects/{id}/restore",
+    "get-/users/{user_id}/projects",
+    "get-/users/{user_id}/starred_projects"
+  ],
+  "SharedWithGroups": [
     "get-/projects",
     "post-/projects",
     "post-/projects/user/{user_id}",
@@ -44,13 +71,18 @@
     "get-/users/{user_id}/projects",
     "get-/users/{user_id}/starred_projects"
   ],
-  "Statistics": [
+  "Links": [
     "get-/projects",
     "post-/projects",
     "post-/projects/user/{user_id}",
     "get-/projects/{id}",
     "put-/projects/{id}",
     "post-/projects/{id}/fork",
+    "get-/projects/{id}/forks",
+    "post-/projects/{id}/star",
+    "post-/projects/{id}/unstar",
+    "post-/projects/{id}/archive",
+    "post-/projects/{id}/unarchive",
     "post-/projects/{id}/restore",
     "put-/projects/{id}/transfer",
     "get-/users/{user_id}/projects",
@@ -63,23 +95,6 @@
     "get-/projects/{id}",
     "put-/projects/{id}",
     "post-/projects/{id}/fork",
-    "post-/projects/{id}/archive",
-    "post-/projects/{id}/unarchive",
-    "post-/projects/{id}/restore",
-    "put-/projects/{id}/transfer",
-    "get-/users/{user_id}/projects",
-    "get-/users/{user_id}/starred_projects"
-  ],
-  "SharedWithGroups": [
-    "get-/projects",
-    "post-/projects",
-    "post-/projects/user/{user_id}",
-    "get-/projects/{id}",
-    "put-/projects/{id}",
-    "post-/projects/{id}/fork",
-    "get-/projects/{id}/forks",
-    "post-/projects/{id}/star",
-    "post-/projects/{id}/unstar",
     "post-/projects/{id}/archive",
     "post-/projects/{id}/unarchive",
     "post-/projects/{id}/restore",
@@ -101,38 +116,19 @@
     "get-/users/{user_id}/projects",
     "get-/users/{user_id}/starred_projects"
   ],
-  "BasicProjectDetails": [
-    "get-/projects",
-    "post-/projects",
-    "post-/projects/user/{user_id}",
-    "put-/projects/{id}",
-    "post-/projects/{id}/fork",
-    "post-/projects/{id}/restore",
-    "get-/users/{user_id}/projects",
-    "get-/users/{user_id}/starred_projects"
-  ],
-  "Namespace": [
+  "Statistics": [
     "get-/projects",
     "post-/projects",
     "post-/projects/user/{user_id}",
     "get-/projects/{id}",
     "put-/projects/{id}",
     "post-/projects/{id}/fork",
-    "get-/projects/{id}/forks",
-    "post-/projects/{id}/star",
-    "post-/projects/{id}/unstar",
-    "post-/projects/{id}/archive",
-    "post-/projects/{id}/unarchive",
     "post-/projects/{id}/restore",
     "put-/projects/{id}/transfer",
     "get-/users/{user_id}/projects",
     "get-/users/{user_id}/starred_projects"
   ],
-  "ProjectWithAcess": [
-    "get-/projects/{id}",
-    "put-/projects/{id}/transfer"
-  ],
-  "ContainerExpirationPolicy": [
+  "ForkedFromProject": [
     "get-/projects/{id}",
     "put-/projects/{id}/transfer"
   ],
@@ -144,7 +140,11 @@
     "post-/projects/{id}/unarchive",
     "put-/projects/{id}/transfer"
   ],
-  "ForkedFromProject": [
+  "ProjectWithAcess": [
+    "get-/projects/{id}",
+    "put-/projects/{id}/transfer"
+  ],
+  "ContainerExpirationPolicy": [
     "get-/projects/{id}",
     "put-/projects/{id}/transfer"
   ],

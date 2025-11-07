@@ -1,13 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""orderId"": 10}",2xx,orderId=10 is > 10 and matches a concrete ID from DependencyContext; within allowed range for valid response.
-2,"{""orderId"": 1}",2xx,orderId=1 is ≤ 5; within allowed range for valid response.
-3,"{""orderId"": 5}",2xx,orderId=5 is ≤ 5; within allowed range for valid response.
-4,"{""orderId"": 6}",4xx,"orderId=6 is in [6..10], which is outside the allowed range (≤5 or >10) per spec."
-5,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""orderId"": ""abc""}",4xx,"orderId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""orderId"": 6}",4xx,"orderId=6 is within [6..10], which is not allowed per description constraint."
-8,"{""orderId"": 7}",4xx,"orderId=7 is within [6..10], which is not allowed per description constraint."
-9,"{""orderId"": 8}",4xx,"orderId=8 is within [6..10], which is not allowed per description constraint."
-10,"{""orderId"": 10}",4xx,"orderId=10 is within [6..10], which is not allowed per description constraint."
-11,"{""orderId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""orderId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""orderId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""orderId"": 5}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""orderId"": 11}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""orderId"": 1}",2xx,llm_success_ignore_optional
+5,"{""orderId"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
+6,"{""orderId"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""orderId"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""orderId"": 7}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""orderId"": 8}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""orderId"": 9}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""orderId"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""orderId"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""orderId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

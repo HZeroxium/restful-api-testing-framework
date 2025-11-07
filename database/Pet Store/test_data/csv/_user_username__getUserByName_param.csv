@@ -1,13 +1,14 @@
 index,data,expected_status_code,reason
-1,"{""username"": ""user1""}",2xx,username='user1' matches the example value and satisfies type=string.
-2,"{""username"": ""theUser""}",2xx,username='theUser' is a valid string and matches the example style.
-3,"{""username"": ""john_doe""}",2xx,username='john_doe' is a valid string and satisfies type=string.
-4,"{""username"": ""   ""}",2xx,username='   ' is a string and satisfies type=string; no pattern or minLength/maxLength constraints.
-5,"{""username"": ""user1""}",2xx,"username='user1' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
-6,"{""username"": ""john_doe""}",2xx,"username='john_doe' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
-7,"{""username"": ""alice123""}",2xx,"username='alice123' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
-8,"{""username"": ""Bob.Smith""}",2xx,"username='Bob.Smith' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
-9,"{""username"": ""test_user""}",2xx,"username='test_user' is a non-empty string and present, satisfying 'type=string' and 'required' constraints."
-10,"{""username"": 12345}",4xx,"username=12345 is an integer, violating 'type=string' for path parameter."
-11,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""username"": 123456789}",4xx,username='user1' matches the example value and satisfies type=string.
+1,"{""username"": ""user1""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""username"": ""JaneDoe2024""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""username"": ""test-user""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""username"": ""user1""}",2xx,llm_success_ignore_optional
+6,"{""username"": ""nonexistent_user""}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""username"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""username"": true}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""username"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""username"": [""user1"", ""user2""]}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""username"": {""name"": ""user1""}}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""username"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

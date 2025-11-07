@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 50, ""group_id"": 50}",2xx,Both 'id'=50 and 'group_id'=50 are valid integers from context; both required path parameters are present and satisfy 'type=integer'.
-2,"{""id"": -1, ""group_id"": 50}",2xx,id=-1 is an integer and satisfies 'type=integer'; no minimum constraint specified.
-3,"{""id"": 50, ""group_id"": 2147483649}",2xx,group_id=2147483649 is an integer and satisfies 'type=integer'; no maximum constraint specified.
-4,"{""id"": 50, ""group_id"": 50}",2xx,llm_success_ignore_optional
-5,"{""id"": ""abc"", ""group_id"": 50}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": 50, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": ""abc"", ""group_id"": 50}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 50, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 50.5, ""group_id"": 50}",4xx,"id=50.5 is not an integer (float provided), violating 'type=integer' for path parameter."
-10,"{""id"": 50, ""group_id"": false}",4xx,"group_id=false is not parseable as integer (boolean provided), violating 'type=integer' for path parameter."
-11,"{""id"": ""notanint"", ""group_id"": ""alsonotint""}",4xx,"id='notanint' and group_id='alsonotint' are not parseable as integer, violating 'type=integer' for both path parameters."
-12,"{""id"": -1, ""group_id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""group_id"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 50, ""group_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": ""123456"", ""group_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 60, ""group_id"": 61}",2xx,"Both 'id'=60 and 'group_id'=61 are positive integers, satisfying 'type=integer' and 'required'."
+2,"{""id"": 60, ""group_id"": 61}",2xx,llm_success_ignore_optional
+3,"{""id"": 60, ""group_id"": 60}",2xx,"id=60 and group_id=60 are both parseable as integers, satisfying 'type=integer' for path parameters."
+4,"{""id"": ""abc"", ""group_id"": 61}",4xx,"'id'='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+5,"{""id"": 60, ""group_id"": ""xyz""}",4xx,"'group_id'='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+6,"{""id"": -5, ""group_id"": 61}",4xx,"'id'=-5 is negative; while no explicit minimum, negative IDs are not realistic for 'type=integer' ID-like path parameters."
+7,"{""id"": 60}",4xx,"'group_id' is required but missing, violating 'required' for path parameter."
+8,"{""id"": ""abc"", ""group_id"": 60}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 60, ""group_id"": ""xyz""}",4xx,"group_id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
+10,"{""id"": ""12.34"", ""group_id"": 60}",4xx,"id='12.34' is not parseable as integer, violating 'type=integer' for path parameter."
+11,"{""id"": ""true"", ""group_id"": ""false""}",4xx,"id='true' and group_id='false' are not parseable as integers, violating 'type=integer' for both path parameters."
+12,"{""id"": -9999999.0, ""group_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""group_id"": 61}",4xx,"Both 'id'=60 and 'group_id'=61 are positive integers, satisfying 'type=integer' and 'required'."
+14,"{""id"": 60, ""group_id"": ""123456""}",4xx,"Both 'id'=60 and 'group_id'=61 are positive integers, satisfying 'type=integer' and 'required'."
+15,"{""id"": ""123456"", ""group_id"": ""123456""}",4xx,"Both 'id'=60 and 'group_id'=61 are positive integers, satisfying 'type=integer' and 'required'."

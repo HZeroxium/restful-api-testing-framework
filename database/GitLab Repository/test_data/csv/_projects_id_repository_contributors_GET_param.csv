@@ -1,18 +1,22 @@
 index,data,expected_status_code,reason
-1,"{""id"": 16}",2xx,"id=16 is a valid integer path parameter from context; optional query parameters omitted, which is allowed."
-2,"{""id"": 16, ""order_by"": ""name"", ""sort"": ""desc""}",2xx,id=16 is valid; order_by='name' and sort='desc' are within their allowed enums.
-3,"{""id"": 16, ""order_by"": ""commits"", ""sort"": ""asc""}",2xx,id=16 is valid; order_by='commits' and sort='asc' are within their allowed enums.
-4,"{""id"": 16}",2xx,llm_success_ignore_optional
-5,"{""id"": ""abc"", ""order_by"": ""commits"", ""sort"": ""asc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": 16, ""order_by"": ""date"", ""sort"": ""asc""}",4xx,"order_by='date' is not in enum ['name', 'email', 'commits']."
-7,"{""id"": ""abc"", ""order_by"": ""commits"", ""sort"": ""asc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 16, ""order_by"": ""date"", ""sort"": ""asc""}",4xx,"order_by='date' is not in enum ['name', 'email', 'commits']."
-9,"{""id"": 16, ""order_by"": ""commits"", ""sort"": ""ascending""}",4xx,"sort='ascending' is not in enum ['asc', 'desc']."
-10,"{""id"": ""xyz"", ""order_by"": ""date"", ""sort"": ""asc""}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer'; order_by='date' is not in enum ['name', 'email', 'commits']."
-11,"{""id"": ""xyz"", ""order_by"": ""date"", ""sort"": ""ascending""}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer'; order_by='date' is not in enum ['name', 'email', 'commits']; sort='ascending' is not in enum ['asc', 'desc']."
-12,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 16, ""order_by"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 16, ""sort"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": ""123456"", ""sort"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 41, ""order_by"": ""commits"", ""sort"": ""asc""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 41, ""order_by"": ""name"", ""sort"": ""desc""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 41, ""order_by"": ""email"", ""sort"": ""asc""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 41, ""order_by"": ""commits"", ""sort"": ""desc""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 41}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 41, ""order_by"": null, ""sort"": null}",2xx,llm_success_ignore_optional
+7,"{""id"": 41, ""order_by"": ""commits"", ""sort"": null}",2xx,llm_success_ignore_optional
+8,"{""id"": 41, ""order_by"": ""commits"", ""sort"": ""asc""}",2xx,llm_success_ignore_optional
+9,"{""id"": 41, ""order_by"": ""commits"", ""sort"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+10,"{""id"": 41, ""order_by"": null, ""sort"": ""asc""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+11,"{""id"": ""not-an-integer"", ""order_by"": ""commits"", ""sort"": ""asc""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": 41, ""order_by"": ""invalid_order"", ""sort"": ""asc""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": 41, ""order_by"": ""name"", ""sort"": ""ascending""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": ""42a"", ""order_by"": ""emails"", ""sort"": ""descend""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": -1, ""order_by"": ""wrong"", ""sort"": ""wrong""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": -1, ""order_by"": """", ""sort"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""id"": ""123456"", ""order_by"": ""commits"", ""sort"": ""asc""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 41, ""order_by"": 123456789, ""sort"": ""asc""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": 41, ""order_by"": ""commits"", ""sort"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""id"": ""123456"", ""order_by"": 123456789, ""sort"": ""asc""}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""id"": ""123456"", ""order_by"": 123456789, ""sort"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

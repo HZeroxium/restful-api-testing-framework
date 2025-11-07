@@ -1,15 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""billId"": 3973, ""billStageId"": 19929}",2xx,"billId=3973 and billStageId=19929 are both valid integers ≥ minimum=0, and are resolved from dependency context."
-2,"{""billId"": -1, ""billStageId"": 19929}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
-3,"{""billId"": 3973, ""billStageId"": -5}",4xx,"billStageId=-5 < minimum=0, violating 'minimum' constraint."
-4,"{""billId"": ""abc"", ""billStageId"": 19929}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""billId"": 3973, ""billStageId"": ""xyz""}",4xx,"billStageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-6,"{""billId"": -1, ""billStageId"": 17032}",4xx,"billId=-1 < minimum=0, violating 'minimum' constraint."
-7,"{""billId"": 3973, ""billStageId"": -1}",4xx,"billStageId=-1 < minimum=0, violating 'minimum' constraint."
-8,"{""billId"": ""abc"", ""billStageId"": 17032}",4xx,"billId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-9,"{""billId"": 3973, ""billStageId"": ""xyz""}",4xx,"billStageId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-10,"{""billId"": -1, ""billStageId"": -1}",4xx,"billId=-1 < minimum=0 and billStageId=-1 < minimum=0, both violating 'minimum' constraint."
-11,"{""billId"": -1, ""billStageId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""billId"": ""123456"", ""billStageId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""billId"": 3973, ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""billId"": ""123456"", ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""billId"": 3973, ""billStageId"": 19929}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""billId"": 3973, ""billStageId"": 17032}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""billId"": 4120, ""billStageId"": 20501}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""billId"": 4121, ""billStageId"": 20502}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""billId"": 4000, ""billStageId"": 20000}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""billId"": 3973, ""billStageId"": 19929}",2xx,llm_success_ignore_optional
+7,"{""billId"": -1, ""billStageId"": 10}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""billId"": 3973, ""billStageId"": -5}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""billStageId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""billId"": 3973}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""billId"": 3973, ""billStageId"": 2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""billId"": -9999999.0, ""billStageId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""billId"": ""123456"", ""billStageId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""billId"": 3973, ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""billId"": ""123456"", ""billStageId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -1,17 +1,22 @@
 index,data,expected_status_code,reason
-1,"{""petId"": 10, ""name"": ""doggie"", ""status"": ""available""}",2xx,petId=10 is a valid integer from context; name and status are valid strings.
-2,"{""petId"": 10, ""name"": ""Max""}",2xx,petId=10 is a valid integer from context; name is a valid string; status is omitted (optional).
-3,"{""petId"": 10}",2xx,petId=10 is a valid integer from context; name and status are omitted (optional).
-4,"{""petId"": ""abc"", ""name"": ""doggie""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""petId"": 10, ""status"": 123}",4xx,status=123 has type integer but the spec requires string for query parameter.
-6,"{""petId"": ""abc"", ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""petId"": 3.14, ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId=3.14 is a float, violating 'type=integer' for path parameter."
-8,"{""petId"": -1, ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId=-1 is negative, which may violate 'type=integer' if only positive IDs are allowed."
-9,"{""petId"": 9223372036854775808, ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId=9223372036854775808 exceeds int64 maximum (9223372036854775807), violating 'format=int64'."
-10,"{""petId"": ""12x"", ""name"": ""doggie"", ""status"": ""available""}",4xx,"petId='12x' is not parseable as integer, violating 'type=integer' for path parameter."
-11,"{""petId"": -9999999.0, ""name"": """", ""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""petId"": ""123456"", ""name"": ""doggie"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""petId"": 10, ""name"": 123456789, ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""petId"": 10, ""name"": ""doggie"", ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""petId"": ""123456"", ""name"": ""doggie"", ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""petId"": ""123456"", ""name"": 123456789, ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""petId"": 101, ""name"": ""Max"", ""status"": ""available""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""petId"": 202, ""name"": ""Bella"", ""status"": ""pending""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""petId"": 303, ""name"": ""Charlie""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""petId"": 404, ""status"": ""sold""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""petId"": 505}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""petId"": 101, ""name"": null, ""status"": null}",2xx,llm_success_ignore_optional
+7,"{""petId"": 101, ""name"": ""Max"", ""status"": null}",2xx,llm_success_ignore_optional
+8,"{""petId"": 101, ""name"": ""Max"", ""status"": ""available""}",2xx,llm_success_ignore_optional
+9,"{""petId"": 101, ""name"": ""Max"", ""status"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+10,"{""petId"": 101, ""name"": null, ""status"": ""available""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+11,"{""name"": ""Fluffy"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""petId"": ""notAnInteger"", ""name"": ""Fluffy"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""petId"": 3.1415, ""name"": ""Fluffy"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""petId"": -1, ""name"": ""Fluffy"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""petId"": 9223372036854775808, ""name"": ""Fluffy"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""petId"": -9999999.0, ""name"": """", ""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""petId"": ""123456"", ""name"": ""Max"", ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""petId"": 101, ""name"": 123456789, ""status"": ""available""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""petId"": 101, ""name"": ""Max"", ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""petId"": ""123456"", ""name"": ""Max"", ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""petId"": ""123456"", ""name"": 123456789, ""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

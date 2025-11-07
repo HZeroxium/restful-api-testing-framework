@@ -1,14 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""status"": ""available""}",2xx,"status='available' is in the allowed enum ['available', 'pending', 'sold']."
-2,"{""status"": ""pending,sold""}",2xx,"status='pending,sold' contains only allowed enum values ['available', 'pending', 'sold'] as comma-separated string."
-3,"{""status"": ""reserved""}",4xx,"status='reserved' is not in enum ['available', 'pending', 'sold']."
-4,"{""status"": ""available,unknown""}",4xx,"status='available,unknown' contains 'unknown' which is not in enum ['available', 'pending', 'sold']."
-5,{},4xx,"status is required but missing, violating 'required'."
-6,"{""status"": ""unknown""}",4xx,"status='unknown' is not in enum ['available', 'pending', 'sold']."
-7,"{""status"": ""123""}",4xx,"status='123' is not in enum ['available', 'pending', 'sold']."
-8,"{""status"": ""true""}",4xx,"status='true' is not in enum ['available', 'pending', 'sold']."
-9,"{""status"": ""available,unknown""}",4xx,"status='available,unknown' contains 'unknown', which is not in enum ['available', 'pending', 'sold']."
-10,"{""status"": ""Available""}",4xx,"status='Available' is not in enum ['available', 'pending', 'sold'] due to case sensitivity."
-11,"{""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""status"": null}",4xx,mutate_missing_required: set status=None
-13,"{""status"": 123456789}",4xx,"status='available' is in the allowed enum ['available', 'pending', 'sold']."
+1,"{""status"": ""available""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""status"": ""pending""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""status"": ""sold""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""status"": ""available,pending""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""status"": ""available,pending,sold""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""status"": ""available""}",2xx,llm_success_ignore_optional
+7,"{""status"": ""inactive""}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""status"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""status"": 123}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""status"": ""availabl""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,{},4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""status"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""status"": null}",4xx,mutate_missing_required: set status=None
+14,"{""status"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

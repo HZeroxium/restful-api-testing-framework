@@ -1,19 +1,19 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,id=24 and issue_iid=6 are valid integers from context; duration='3h30m' matches required format and is a valid string.
-2,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""45m""}",2xx,id=24 and issue_iid=6 are valid; duration='45m' is a valid human format string.
-3,"{""id"": 24, ""issue_iid"": 6, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
-4,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 24, ""issue_iid"": 6}",4xx,"duration is required but missing, violating 'required'."
-6,"{""id"": 24, ""issue_iid"": ""notanint"", ""duration"": ""3h30m""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": ""abc"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 24, ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123}",4xx,"duration=123 is not a string, violating 'type=string' for query parameter."
-10,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": ""3h30m""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, violating 'type=integer' for both path parameters."
-11,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""duration"": 123}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integers, and duration=123 is not a string, violating 'type=integer' for path parameters and 'type=string' for query parameter."
-12,"{""id"": -1, ""issue_iid"": -1, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 24, ""issue_iid"": 6, ""duration"": null}",4xx,mutate_missing_required: set duration=None
-14,"{""id"": ""123456"", ""issue_iid"": 6, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 24, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 24, ""issue_iid"": 6, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": ""123456"", ""issue_iid"": 6, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 50, ""issue_iid"": 1, ""duration"": ""3h30m""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 50, ""issue_iid"": 2, ""duration"": ""1h""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 50, ""issue_iid"": 3, ""duration"": ""45m""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 50, ""issue_iid"": 4, ""duration"": ""2h15m""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 50, ""issue_iid"": 5, ""duration"": ""10m""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1, ""duration"": ""3h30m""}",2xx,llm_success_ignore_optional
+7,"{""id"": ""not_an_integer"", ""issue_iid"": 101, ""duration"": ""2h15m""}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": 50, ""issue_iid"": ""invalid_issue_id"", ""duration"": ""1h""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": 50, ""issue_iid"": 101, ""duration"": ""invalid_duration_format""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": -1, ""issue_iid"": ""NaN"", ""duration"": ""1h""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": ""abc"", ""issue_iid"": -5, ""duration"": ""45minutes""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -1, ""issue_iid"": -9999999.0, ""duration"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": 50, ""issue_iid"": 1, ""duration"": null}",4xx,mutate_missing_required: set duration=None
+14,"{""id"": ""123456"", ""issue_iid"": 1, ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": 50, ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 50, ""issue_iid"": 1, ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": ""3h30m""}",4xx,One or more fields deliberately violate the spec (4xx).
 18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""duration"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

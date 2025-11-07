@@ -1,125 +1,195 @@
 index,data,expected_status_code,reason
-1,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-2,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-3,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-4,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-5,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-6,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-7,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-8,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-9,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-10,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-11,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-12,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-13,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-14,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-15,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-16,"{""cadence"": ""7d"", ""enabled"": true, ""older_than"": ""30d""}",2xx,All provided fields match their types and constraints.
-17,"{""cadence"": ""1d"", ""enabled"": false, ""keep_n"": ""10"", ""older_than"": ""90d"", ""name_regex"": "".*"", ""next_run_at"": ""2025-10-27T04:47:08.808Z""}",2xx,All provided fields match their types; 'next_run_at' matches format 'date-time'.
-18,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-19,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-20,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-21,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-22,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-23,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-24,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-25,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-26,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-27,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-28,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-29,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-30,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-31,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-32,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-33,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-34,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-35,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-36,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-37,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-38,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-39,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-40,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-41,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-42,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-43,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-44,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-45,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-46,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-47,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-48,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-49,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-50,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-51,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-52,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-53,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-54,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-55,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-56,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-57,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-58,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-59,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-60,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-61,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-62,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-63,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-64,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-65,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-66,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-67,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-68,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-69,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-70,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-71,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-72,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-73,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-74,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-75,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-76,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-77,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-78,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-79,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-80,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-81,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-82,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-83,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-84,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-85,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-86,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-87,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-88,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-89,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-90,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-91,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-92,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-93,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-94,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-95,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-96,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-97,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-98,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-99,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-100,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-101,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-102,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-103,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-104,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-105,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-106,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-107,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-108,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-109,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-110,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-111,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-112,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-113,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-114,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-115,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-116,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
-117,"{""cadence"": 123}",4xx,cadence=123 has type integer but the spec requires string (JSON body type mismatch).
-118,"{""enabled"": ""yes""}",4xx,enabled='yes' has type string but the spec requires boolean (JSON body type mismatch).
-119,"{""keep_n"": false}",4xx,keep_n=false has type boolean but the spec requires string (JSON body type mismatch).
-120,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,next_run_at='2021-02-30T07:60:15Z' does not match format date-time.
-121,"{""name_regex"": 999}",4xx,name_regex=999 has type integer but the spec requires string (JSON body type mismatch).
-122,"{""enabled"": ""tru""}",4xx,"enabled='tru' is not parseable as boolean, violating 'type=boolean'."
-123,"{""keep_n"": 10}",4xx,"keep_n has type integer but the spec requires string, violating 'type=string'."
-124,"{""next_run_at"": ""not-a-date""}",4xx,next_run_at='not-a-date' does not match format 'date-time'.
+1,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""cadence"": ""7d"", ""enabled"": false, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^v[0-9]+\\.[0-9]+$"", ""name_regex_delete"": ""^old.*$"", ""name_regex_keep"": ""^stable.*$"", ""next_run_at"": ""2024-07-01T08:30:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""cadence"": ""12h"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""2d"", ""name_regex"": ""^feature-.*$"", ""name_regex_delete"": ""^debug.*$"", ""name_regex_keep"": ""^main.*$"", ""next_run_at"": ""2024-06-20T14:45:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""cadence"": ""1w"", ""enabled"": false, ""keep_n"": ""20"", ""older_than"": ""60d"", ""name_regex"": ""^hotfix-.*$"", ""name_regex_delete"": ""^test.*$"", ""name_regex_keep"": ""^release.*$"", ""next_run_at"": ""2024-06-25T09:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""cadence"": ""24h"", ""enabled"": true, ""keep_n"": ""15"", ""older_than"": ""14d"", ""name_regex"": ""^api-.*$"", ""name_regex_delete"": ""^backup.*$"", ""name_regex_keep"": ""^prod-.*$"", ""next_run_at"": ""2024-07-10T16:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+7,"{""cadence"": null, ""enabled"": true, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+8,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+9,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+10,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+11,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+12,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+13,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+14,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional
+15,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+16,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+17,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+18,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+19,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+20,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+21,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+22,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+23,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+24,"{""cadence"": ""7d"", ""enabled"": false, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^v[0-9]+\\.[0-9]+$"", ""name_regex_delete"": ""^old.*$"", ""name_regex_keep"": ""^stable.*$"", ""next_run_at"": ""2024-07-01T08:30:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+25,"{""cadence"": ""12h"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""2d"", ""name_regex"": ""^feature-.*$"", ""name_regex_delete"": ""^debug.*$"", ""name_regex_keep"": ""^main.*$"", ""next_run_at"": ""2024-06-20T14:45:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+26,"{""cadence"": ""1w"", ""enabled"": false, ""keep_n"": ""20"", ""older_than"": ""60d"", ""name_regex"": ""^hotfix-.*$"", ""name_regex_delete"": ""^test.*$"", ""name_regex_keep"": ""^release.*$"", ""next_run_at"": ""2024-06-25T09:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+27,"{""cadence"": ""24h"", ""enabled"": true, ""keep_n"": ""15"", ""older_than"": ""14d"", ""name_regex"": ""^api-.*$"", ""name_regex_delete"": ""^backup.*$"", ""name_regex_keep"": ""^prod-.*$"", ""next_run_at"": ""2024-07-10T16:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+28,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+29,"{""cadence"": null, ""enabled"": true, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+30,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+31,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+32,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+33,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+34,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+35,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+36,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional
+37,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+38,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+39,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+40,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+41,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+42,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+43,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+44,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+45,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+46,"{""cadence"": ""7d"", ""enabled"": false, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^v[0-9]+\\.[0-9]+$"", ""name_regex_delete"": ""^old.*$"", ""name_regex_keep"": ""^stable.*$"", ""next_run_at"": ""2024-07-01T08:30:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+47,"{""cadence"": ""12h"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""2d"", ""name_regex"": ""^feature-.*$"", ""name_regex_delete"": ""^debug.*$"", ""name_regex_keep"": ""^main.*$"", ""next_run_at"": ""2024-06-20T14:45:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+48,"{""cadence"": ""1w"", ""enabled"": false, ""keep_n"": ""20"", ""older_than"": ""60d"", ""name_regex"": ""^hotfix-.*$"", ""name_regex_delete"": ""^test.*$"", ""name_regex_keep"": ""^release.*$"", ""next_run_at"": ""2024-06-25T09:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+49,"{""cadence"": ""24h"", ""enabled"": true, ""keep_n"": ""15"", ""older_than"": ""14d"", ""name_regex"": ""^api-.*$"", ""name_regex_delete"": ""^backup.*$"", ""name_regex_keep"": ""^prod-.*$"", ""next_run_at"": ""2024-07-10T16:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+50,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+51,"{""cadence"": null, ""enabled"": true, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+52,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+53,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+54,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+55,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+56,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+57,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+58,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional
+59,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+60,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+61,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+62,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+63,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+64,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+65,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+66,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+67,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+68,"{""cadence"": ""7d"", ""enabled"": false, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^v[0-9]+\\.[0-9]+$"", ""name_regex_delete"": ""^old.*$"", ""name_regex_keep"": ""^stable.*$"", ""next_run_at"": ""2024-07-01T08:30:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+69,"{""cadence"": ""12h"", ""enabled"": true, ""keep_n"": ""3"", ""older_than"": ""2d"", ""name_regex"": ""^feature-.*$"", ""name_regex_delete"": ""^debug.*$"", ""name_regex_keep"": ""^main.*$"", ""next_run_at"": ""2024-06-20T14:45:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+70,"{""cadence"": ""1w"", ""enabled"": false, ""keep_n"": ""20"", ""older_than"": ""60d"", ""name_regex"": ""^hotfix-.*$"", ""name_regex_delete"": ""^test.*$"", ""name_regex_keep"": ""^release.*$"", ""next_run_at"": ""2024-06-25T09:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+71,"{""cadence"": ""24h"", ""enabled"": true, ""keep_n"": ""15"", ""older_than"": ""14d"", ""name_regex"": ""^api-.*$"", ""name_regex_delete"": ""^backup.*$"", ""name_regex_keep"": ""^prod-.*$"", ""next_run_at"": ""2024-07-10T16:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+72,"{""cadence"": null, ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+73,"{""cadence"": null, ""enabled"": true, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+74,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": null, ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+75,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": null, ""name_regex_keep"": null, ""next_run_at"": null}",2xx,llm_success_ignore_optional
+76,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+77,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional
+78,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+79,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+80,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional
+81,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+82,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": null, ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+83,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": null, ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+84,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": null, ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+85,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": null, ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+86,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": null, ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+87,"{""cadence"": ""1d"", ""enabled"": null, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+88,"{""cadence"": null, ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+89,"{""cadence"": ""1d"", ""enabled"": true, ""keep_n"": ""10"", ""older_than"": ""7d"", ""name_regex"": "".*-release.*"", ""name_regex_delete"": ""^temp.*$"", ""name_regex_keep"": ""^prod.*$"", ""next_run_at"": ""2024-06-15T10:00:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+90,"{""cadence"": ""7d"", ""enabled"": false, ""keep_n"": ""5"", ""older_than"": ""30d"", ""name_regex"": ""^v[0-9]+\\.[0-9]+$"", ""name_regex_delete"": ""^old.*$"", ""name_regex_keep"": ""^stable.*$"", ""next_run_at"": ""2024-07-01T08:30:00Z""}",2xx,All provided fields satisfy the spec (2xx).
+91,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+92,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+93,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+94,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+95,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+96,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+97,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+98,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+99,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+100,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+101,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+102,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+103,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+104,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+105,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+106,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+107,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+108,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+109,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+110,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+111,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+112,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+113,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+114,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+115,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+116,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+117,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+118,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+119,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+120,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+121,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+122,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+123,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+124,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+125,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+126,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+127,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+128,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+129,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+130,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+131,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+132,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+133,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+134,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+135,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+136,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+137,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+138,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+139,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+140,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+141,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+142,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+143,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+144,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+145,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+146,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+147,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+148,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+149,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+150,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+151,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+152,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+153,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+154,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+155,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+156,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+157,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+158,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+159,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+160,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+161,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+162,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+163,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+164,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+165,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+166,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+167,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+168,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+169,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+170,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+171,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+172,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+173,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+174,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+175,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+176,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+177,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+178,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+179,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+180,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+181,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+182,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+183,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+184,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+185,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+186,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+187,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+188,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+189,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+190,"{""next_run_at"": ""20210601T120000Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+191,"{""next_run_at"": ""not-a-date-time""}",4xx,One or more fields deliberately violate the spec (4xx).
+192,"{""next_run_at"": ""2021-02-30T07:60:15Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+193,"{""next_run_at"": ""2021-13-01T04:03:60Z""}",4xx,One or more fields deliberately violate the spec (4xx).
+194,"{""next_run_at"": ""2021-01-32T10:73:02Z""}",4xx,One or more fields deliberately violate the spec (4xx).

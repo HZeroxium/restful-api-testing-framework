@@ -1,20 +1,20 @@
 index,data,expected_status_code,reason
-1,"{""file"": ""image.png""}",2xx,"file is present, is a string, and simulates a binary file upload as required by 'type=string' and 'format=binary'."
-2,"{""file"": ""metrics_chart.jpeg""}",2xx,"file is present, is a string, and simulates a binary file upload as required by 'type=string' and 'format=binary'."
-3,"{""file"": ""image.png""}",2xx,llm_success_ignore_optional
-4,"{""file"": ""image.png""}",2xx,"file is present, is a string, and simulates a binary file upload as required by 'type=string' and 'format=binary'."
-5,"{""file"": ""metrics_chart.jpeg""}",2xx,"file is present, is a string, and simulates a binary file upload as required by 'type=string' and 'format=binary'."
-6,"{""file"": ""image.png""}",2xx,llm_success_ignore_optional
-7,"{""file"": ""image.png""}",2xx,"file is present, is a string, and simulates a binary file upload as required by 'type=string' and 'format=binary'."
-8,{},4xx,"file is required but missing, violating 'required'."
-9,"{""file"": 12345}",4xx,file has type integer but the spec requires string with format binary (JSON body type mismatch).
-10,"{""file"": null}",4xx,"file is required and must be a string, but null was provided, violating 'type=string' and 'required'."
-11,{},4xx,"file is required but missing, violating 'required'."
-12,"{""file"": 12345}",4xx,file has type integer but the spec requires string (type mismatch).
-13,"{""file"": true}",4xx,file has type boolean but the spec requires string (type mismatch).
-14,"{""file"": ""not_a_binary_file.txt""}",4xx,file='not_a_binary_file.txt' does not match format 'binary'.
-15,"{""file"": null}",4xx,file=null is not allowed; field is required and must be a string with format 'binary'.
-16,"{""file"": null}",4xx,mutate_missing_required: set file=None
-17,{},4xx,"file is required but missing, violating 'required'."
-18,"{""file"": 12345}",4xx,file has type integer but the spec requires string with format binary (JSON body type mismatch).
-19,"{""file"": null}",4xx,"file is required and must be a string, but null was provided, violating 'type=string' and 'required'."
+1,"{""file"": ""metric_chart.png""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""file"": ""performance_graph.jpg""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""file"": ""trend_analysis.jpeg""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""file"": ""summary_2024.bmp""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""file"": ""issue_metric_image.gif""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""file"": ""metric_chart.png""}",2xx,llm_success_ignore_optional
+7,"{""file"": ""metric_chart.png""}",2xx,All provided fields satisfy the spec (2xx).
+8,"{""file"": ""performance_graph.jpg""}",2xx,All provided fields satisfy the spec (2xx).
+9,{},4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""file"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""file"": ""not_a_binary_file""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""file"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""file"": {""filename"": ""image.png"", ""content"": ""fakecontent""}}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""file"": null}",4xx,mutate_missing_required: set file=None
+15,{},4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""file"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""file"": ""not_a_binary_file""}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""file"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""file"": {""filename"": ""image.png"", ""content"": ""fakecontent""}}",4xx,One or more fields deliberately violate the spec (4xx).

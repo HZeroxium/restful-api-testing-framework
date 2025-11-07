@@ -26,7 +26,7 @@
       "id": "id"
     },
     "RepoCommit": {
-      "sha": "id"
+      "id": "id"
     }
   },
   "get-/projects/{id}/repository/blobs/{sha}/raw": {
@@ -51,9 +51,6 @@
     },
     "RepoCommit": {
       "from": "id"
-    },
-    "Compare": {
-      "from": "commits"
     },
     "Namespace": {
       "id": "id"
@@ -81,9 +78,6 @@
   "get-/projects/{id}/repository/changelog": {
     "BasicProjectDetails": {
       "id": "id"
-    },
-    "RepoCommit": {
-      "version": "id"
     }
   }
 }

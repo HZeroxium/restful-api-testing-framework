@@ -146,14 +146,7 @@
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "id": {
-            "from_step": 2,
-            "field_mappings": {
-              "id": "id"
-            }
-          }
-        }
+        "data_dependencies": {}
       }
     ],
     "test_data": {

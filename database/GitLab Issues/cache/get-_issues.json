@@ -1,0 +1,81 @@
+[
+  {
+    "id": 109,
+    "iid": 12,
+    "project_id": 24,
+    "title": "Add CI pipeline for frontend",
+    "description": null,
+    "state": "opened",
+    "created_at": "2025-10-27T14:08:04.186Z",
+    "updated_at": "2025-10-27T14:08:30.205Z",
+    "closed_at": null,
+    "closed_by": null,
+    "labels": [
+      "ci"
+    ],
+    "milestone": null,
+    "assignees": [
+      {
+        "id": 2,
+        "username": "alert-bot",
+        "name": "GitLab Alert Bot",
+        "state": "active",
+        "avatar_url": "http://localhost:30000/uploads/-/system/user/avatar/2/alert-bot.png",
+        "web_url": "http://localhost:30000/alert-bot"
+      }
+    ],
+    "author": {
+      "id": 1,
+      "username": "root",
+      "name": "Administrator",
+      "state": "active",
+      "avatar_url": "https://www.gravatar.com/avatar/e64c7d89f26bd1972efa854d13d7dd61?s=80&d=identicon",
+      "web_url": "http://localhost:30000/root"
+    },
+    "type": "ISSUE",
+    "assignee": {
+      "id": 2,
+      "username": "alert-bot",
+      "name": "GitLab Alert Bot",
+      "state": "active",
+      "avatar_url": "http://localhost:30000/uploads/-/system/user/avatar/2/alert-bot.png",
+      "web_url": "http://localhost:30000/alert-bot"
+    },
+    "user_notes_count": 0,
+    "merge_requests_count": 0,
+    "upvotes": 0,
+    "downvotes": 0,
+    "due_date": "2025-11-01",
+    "confidential": false,
+    "discussion_locked": null,
+    "issue_type": "issue",
+    "web_url": "http://localhost:30000/root/devops-team34234234/-/issues/12",
+    "time_stats": {
+      "time_estimate": 0,
+      "total_time_spent": 0,
+      "human_time_estimate": null,
+      "human_total_time_spent": null
+    },
+    "task_completion_status": {
+      "count": 0,
+      "completed_count": 0
+    },
+    "blocking_issues_count": 0,
+    "has_tasks": false,
+    "_links": {
+      "self": "http://localhost:30000/api/v4/projects/24/issues/12",
+      "notes": "http://localhost:30000/api/v4/projects/24/issues/12/notes",
+      "award_emoji": "http://localhost:30000/api/v4/projects/24/issues/12/award_emoji",
+      "project": "http://localhost:30000/api/v4/projects/24",
+      "closed_as_duplicate_of": null
+    },
+    "references": {
+      "short": "#12",
+      "relative": "#12",
+      "full": "root/devops-team34234234#12"
+    },
+    "severity": "UNKNOWN",
+    "moved_to_id": null,
+    "service_desk_reply_to": null
+  }
+]

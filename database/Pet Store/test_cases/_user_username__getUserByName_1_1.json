@@ -46,6 +46,7 @@
         "data_dependencies": {
           "username": {
             "from_step": 1,
+            "from_endpoint": "post-/user",
             "field_mappings": {
               "username": "username"
             }

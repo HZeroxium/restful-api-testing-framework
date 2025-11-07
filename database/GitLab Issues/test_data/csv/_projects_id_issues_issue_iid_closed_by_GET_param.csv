@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6}",2xx,id=24 and issue_iid=6 are both valid integers from context; both path parameters satisfy 'type=integer' and are present as required.
-2,"{""id"": -1, ""issue_iid"": 6}",2xx,"id=-1 is a valid integer and satisfies 'type=integer'; no minimum constraint specified, so negative values are allowed."
-3,"{""id"": 24, ""issue_iid"": 2147483649}",2xx,issue_iid=2147483649 is a valid integer and satisfies 'type=integer'; no maximum constraint specified.
-4,"{""id"": 24, ""issue_iid"": 6}",2xx,llm_success_ignore_optional
-5,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": 24, ""issue_iid"": ""notanint""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-7,"{""id"": ""abc"", ""issue_iid"": 6}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 24, ""issue_iid"": ""xyz""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": ""abc"", ""issue_iid"": ""xyz""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
-10,"{""id"": 24.5, ""issue_iid"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
-11,"{""id"": 24, ""issue_iid"": 6.7}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 50, ""issue_iid"": 1}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 1, ""issue_iid"": 100}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 2147483647, ""issue_iid"": 2147483647}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 123, ""issue_iid"": 5}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 2147483649, ""issue_iid"": 2}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1}",2xx,llm_success_ignore_optional
+7,"{""id"": ""notAnInteger"", ""issue_iid"": 101}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": 50, ""issue_iid"": ""invalidIssueId""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": 50.5, ""issue_iid"": 101.7}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": null, ""issue_iid"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": -1, ""issue_iid"": -5}",4xx,One or more fields deliberately violate the spec (4xx).
 12,"{""id"": -9999999.0, ""issue_iid"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""issue_iid"": 6}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 24, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": ""123456"", ""issue_iid"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 50, ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""issue_iid"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

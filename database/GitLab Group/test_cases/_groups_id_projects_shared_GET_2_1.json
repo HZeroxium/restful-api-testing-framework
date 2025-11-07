@@ -41,29 +41,29 @@
       },
       {
         "step_number": 2,
-        "endpoint": "post-/groups/{id}/share",
-        "method": "POST",
-        "path_variables": {
-          "id": null
-        },
+        "endpoint": "get-/groups",
+        "method": "GET",
+        "path_variables": {},
         "query_parameters": {
-          "group_id": null,
-          "group_access": null,
-          "expires_at": null
+          "page": null,
+          "per_page": null,
+          "skip_groups": null,
+          "all_available": null,
+          "search": null,
+          "order_by": null,
+          "sort": null,
+          "statistics": null,
+          "with_custom_attributes": null,
+          "owned": null,
+          "min_access_level": null,
+          "top_level_only": null
         },
         "request_body": {},
         "response_validation": {
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "id": {
-            "from_step": 1,
-            "field_mappings": {
-              "id": "id"
-            }
-          }
-        }
+        "data_dependencies": {}
       },
       {
         "step_number": 3,
@@ -93,10 +93,11 @@
           "body_validation": {}
         },
         "data_dependencies": {
-          "group_id": {
+          "id": {
             "from_step": 2,
+            "from_endpoint": "get-/groups",
             "field_mappings": {
-              "group_id": "id"
+              "id": "id"
             }
           }
         }

@@ -34,19 +34,19 @@
     }
   },
   "delete-/groups/{id}": {
-    "Hook": {
+    "Group": {
       "id": "id"
     },
-    "Group": {
+    "GroupDetails": {
+      "id": "id"
+    },
+    "Hook": {
       "id": "id"
     },
     "Project": {
       "id": "id"
     },
     "Namespace": {
-      "id": "id"
-    },
-    "GroupDetails": {
       "id": "id"
     }
   },
@@ -66,7 +66,7 @@
       "id": "id"
     },
     "SharedProject": {
-      "shared_with_groups": "group_id"
+      "id": "id"
     },
     "SharedWithGroups": {
       "group_id": "group_id"
@@ -75,7 +75,7 @@
       "id": "id"
     },
     "Project": {
-      "shared_with_groups": "group_id"
+      "id": "id"
     }
   },
   "get-/groups/{id}/subgroups": {
@@ -94,6 +94,12 @@
       "id": "id"
     },
     "GroupDetails": {
+      "id": "id"
+    },
+    "Project": {
+      "id": "id"
+    },
+    "SharedProject": {
       "id": "id"
     }
   },

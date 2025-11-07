@@ -1,14 +1,17 @@
 <?xml version='1.0' encoding='utf-8'?>
 <graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
   <graph edgedefault="directed">
-    <node id="post-/projects" />
+    <node id="get-/projects" />
     <node id="get-/projects/{id}/issues" />
+    <node id="post-/projects/{id}/issues" />
+    <node id="get-/projects/{id}/issues/{issue_iid}" />
     <node id="put-/projects/{id}/issues/{issue_iid}" />
     <node id="delete-/projects/{id}/issues/{issue_iid}" />
     <node id="put-/projects/{id}/issues/{issue_iid}/reorder" />
     <node id="post-/projects/{id}/issues/{issue_iid}/move" />
     <node id="post-/projects/{id}/issues/{issue_iid}/subscribe" />
     <node id="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <node id="post-/projects/{id}/issues/{issue_iid}/todo" />
     <node id="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
     <node id="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
     <node id="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
@@ -19,18 +22,92 @@
     <node id="get-/projects/{id}/issues/{issue_iid}/participants" />
     <node id="get-/projects/{id}/issues/{issue_iid}/metric_images" />
     <node id="post-/projects/{id}/issues/{issue_iid}/metric_images" />
-    <node id="post-/projects/{id}/issues/{issue_iid}/todo" />
-    <node id="post-/projects/{id}/issues" />
-    <node id="get-/projects/{id}/issues/{issue_iid}" />
-    <edge source="post-/projects" target="get-/projects/{id}/issues" />
-    <edge source="post-/projects" target="post-/projects/{id}/issues" />
+    <node id="post-/projects" />
+    <node id="get-/issues" />
+    <node id="get-/issues/{id}" />
+    <node id="get-/groups" />
+    <node id="get-/groups/{id}/issues" />
+    <node id="post-/groups" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="get-/projects" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/projects" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}" />
     <edge source="get-/projects/{id}/issues" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects/{id}/issues" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects/{id}/issues" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
     <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="get-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects/{id}/issues" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects/{id}/issues" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects/{id}/issues" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="post-/projects/{id}/issues" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="delete-/projects/{id}/issues/{issue_iid}" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/move" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/todo" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
@@ -41,6 +118,62 @@
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/participants" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
     <edge source="put-/projects/{id}/issues/{issue_iid}" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
-    <edge source="post-/projects/{id}/issues" target="get-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/todo" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/add_spent_time" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="get-/projects/{id}/issues/{issue_iid}/closed_by" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="post-/projects/{id}/issues/{issue_iid}/metric_images" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="post-/projects" target="get-/projects" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="post-/projects" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}/related_merge_requests" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}/participants" />
+    <edge source="post-/projects" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="post-/projects" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/issues" target="get-/issues/{id}" />
+    <edge source="get-/issues" target="get-/projects/{id}/issues" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues" />
+    <edge source="get-/issues" target="get-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/issues" target="put-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/issues" target="delete-/projects/{id}/issues/{issue_iid}" />
+    <edge source="get-/issues" target="put-/projects/{id}/issues/{issue_iid}/reorder" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/move" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/subscribe" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/unsubscribe" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/todo" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/time_estimate" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_time_estimate" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/add_spent_time" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/reset_spent_time" />
+    <edge source="get-/issues" target="get-/projects/{id}/issues/{issue_iid}/time_stats" />
+    <edge source="get-/issues" target="get-/projects/{id}/issues/{issue_iid}/closed_by" />
+    <edge source="get-/issues" target="get-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/issues" target="post-/projects/{id}/issues/{issue_iid}/metric_images" />
+    <edge source="get-/groups" target="get-/groups/{id}/issues" />
+    <edge source="get-/groups" target="post-/projects" />
+    <edge source="post-/groups" target="get-/groups" />
+    <edge source="post-/groups" target="get-/groups/{id}/issues" />
+    <edge source="post-/groups" target="post-/projects" />
   </graph>
 </graphml>

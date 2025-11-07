@@ -41,6 +41,9 @@
     },
     "MergeRequest": {
       "id": "project_id"
+    },
+    "IssueLinks": {
+      "id": "project"
     }
   },
   "post-/projects/{id}/issues": {
@@ -63,9 +66,6 @@
     },
     "BasicProjectDetails": {
       "id": "id"
-    },
-    "MergeRequest": {
-      "id": "project_id"
     }
   },
   "put-/projects/{id}/issues/{issue_iid}": {
@@ -97,11 +97,11 @@
     "ProjectInfo": {
       "id": "path"
     },
-    "Issue": {
-      "issue_iid": "iid"
-    },
     "BasicProjectDetails": {
       "id": "path"
+    },
+    "Issue": {
+      "issue_iid": "id"
     },
     "MergeRequest": {
       "id": "project_id"
@@ -113,12 +113,6 @@
     },
     "ProjectInfo": {
       "id": "id"
-    },
-    "MergeRequest": {
-      "to_project_id": "target_project_id"
-    },
-    "Milestone": {
-      "id": "project_id"
     },
     "BasicProjectDetails": {
       "id": "id"
@@ -146,10 +140,10 @@
       "id": "path"
     },
     "Issue": {
-      "id": "project_id"
+      "issue_iid": "iid"
     },
     "Milestone": {
-      "id": "project_id"
+      "issue_iid": "iid"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/todo": {
@@ -187,7 +181,7 @@
   },
   "post-/projects/{id}/issues/{issue_iid}/add_spent_time": {
     "ProjectInfo": {
-      "id": "id"
+      "id": "path"
     },
     "Issue": {
       "issue_iid": "iid"
@@ -254,9 +248,6 @@
     },
     "Issue": {
       "issue_iid": "iid"
-    },
-    "MetricImage": {
-      "id": "id"
     }
   },
   "post-/projects/{id}/issues/{issue_iid}/metric_images": {

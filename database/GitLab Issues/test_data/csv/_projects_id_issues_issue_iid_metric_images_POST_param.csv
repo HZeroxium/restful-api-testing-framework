@@ -1,20 +1,20 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",2xx,id=24 and issue_iid=6 are valid integers from context; url is a valid string.
-2,"{""id"": 24, ""issue_iid"": 6}",2xx,"id=24 and issue_iid=6 are valid integers from context; optional url is missing, which is allowed."
-3,"{""id"": 24, ""issue_iid"": 6, ""url"": null}",2xx,llm_success_ignore_optional
-4,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",2xx,llm_success_ignore_optional
-5,"{""id"": 24, ""issue_iid"": 6, ""url"": null}",2xx,llm_success_ignore_optional: id=24 and issue_iid=6 are valid integers from context; url is a valid string.
-6,"{""id"": -1, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",2xx,id=-1 is parseable as integer; issue_iid=6 is parseable as integer; url is valid string. No explicit minimum/maximum constraints.
-7,"{""id"": 24, ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",2xx,id=24 and issue_iid=6 are valid integers from context; url is valid string.
-8,"{""id"": ""abc"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 24, ""issue_iid"": ""notanint"", ""url"": ""https://metrics.example.com/view/123""}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-10,"{""id"": 24, ""issue_iid"": 6, ""url"": 12345}",4xx,url=12345 has type integer but the spec requires string (query parameter type mismatch).
-11,"{""id"": ""abc"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-12,"{""id"": 24, ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"issue_iid='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-13,"{""id"": ""abc"", ""issue_iid"": ""xyz"", ""url"": ""https://metrics.example.com/info""}",4xx,"id='abc' and issue_iid='xyz' are not parseable as integer, violating 'type=integer' for both path parameters."
+1,"{""id"": 50, ""issue_iid"": 1, ""url"": ""http://metrics.example.com/issue/1""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 51, ""issue_iid"": 2, ""url"": ""https://dashboard.company.com/metrics/issue-2""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 52, ""issue_iid"": 3}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 53, ""issue_iid"": 4, ""url"": ""http://localhost:30000/projects/53/issues/4/metrics""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 54, ""issue_iid"": 5, ""url"": ""https://metrics.org/view?issue=5""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1, ""url"": null}",2xx,llm_success_ignore_optional
+7,"{""id"": 50, ""issue_iid"": 1, ""url"": ""http://metrics.example.com/issue/1""}",2xx,llm_success_ignore_optional
+8,"{""id"": 50, ""issue_iid"": 1, ""url"": null}",2xx,llm_success_ignore_optional: All provided fields satisfy the spec (2xx).
+9,"{""id"": ""not-an-integer"", ""issue_iid"": 101, ""url"": ""http://metrics.example.com/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": 50, ""issue_iid"": ""abc"", ""url"": ""http://metrics.example.com/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": ""bad"", ""issue_iid"": ""worse"", ""url"": ""http://metrics.example.com/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -1, ""issue_iid"": 101, ""url"": ""not-a-url""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": 50, ""issue_iid"": 3.1415, ""url"": ""not-a-url""}",4xx,One or more fields deliberately violate the spec (4xx).
 14,"{""id"": -1, ""issue_iid"": -1, ""url"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-15,"{""id"": ""123456"", ""issue_iid"": 6, ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 24, ""issue_iid"": ""123456"", ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": 24, ""issue_iid"": 6, ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
-18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""url"": ""https://metrics.example.com/view/123""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": ""123456"", ""issue_iid"": 1, ""url"": ""http://metrics.example.com/issue/1""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 50, ""issue_iid"": ""123456"", ""url"": ""http://metrics.example.com/issue/1""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 50, ""issue_iid"": 1, ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": ""123456"", ""issue_iid"": 1, ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 19,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""url"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

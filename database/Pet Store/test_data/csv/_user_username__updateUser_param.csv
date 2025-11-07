@@ -1,13 +1,28 @@
 index,data,expected_status_code,reason
-1,"{""username"": ""theUser"", ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",2xx,username='theUser' matches the example and is a valid string; all body fields are present and match their types and example values.
-2,"{""username"": ""theUser"", ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""not-an-email"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",2xx,"email='not-an-email' is a string; no format constraint is specified, so it is valid."
-3,"{""username"": ""theUser"", ""id"": ""notAnInteger"", ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,id='notAnInteger' is type string but the spec requires integer (JSON body type mismatch).
-4,"{""username"": 12345, ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,username=12345 is type integer but the path parameter requires string (parseability/type violation for path parameter).
-5,"{""username"": ""theUser"", ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": ""active""}",4xx,userStatus='active' is type string but the spec requires integer (JSON body type mismatch).
-6,"{""username"": ""theUser"", ""id"": ""not-an-integer"", ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,"id='not-an-integer' is type string, violating 'type=integer' for id in body."
-7,"{""username"": ""theUser"", ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": ""not-an-integer""}",4xx,"userStatus='not-an-integer' is type string, violating 'type=integer' for userStatus in body."
-8,"{""username"": ""theUser"", ""id"": 9223372036854775808, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,"id=9223372036854775808 exceeds int64 maximum (9223372036854775807), violating 'format=int64'."
-9,"{""username"": ""theUser"", ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 2147483648}",4xx,"userStatus=2147483648 exceeds int32 maximum (2147483647), violating 'format=int32'."
-10,"{""username"": 12345, ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,"username=12345 is type integer, violating 'type=string' for path parameter."
-11,"{""username"": """", ""id"": -1, ""firstName"": """", ""lastName"": """", ""email"": """", ""password"": """", ""phone"": """", ""userStatus"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""username"": 123456789, ""id"": 10, ""firstName"": ""John"", ""lastName"": ""James"", ""email"": ""john@email.com"", ""password"": ""12345"", ""phone"": ""12345"", ""userStatus"": 1}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""username"": ""theUser""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""username"": ""alice123""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""username"": ""user_2024""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""username"": ""petstore_test""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""username"": ""theUser""}",2xx,llm_success_ignore_optional
+7,"{""username"": ""theUser""}",2xx,All provided fields satisfy the spec (2xx).
+8,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+9,"{""username"": ""alice123""}",2xx,All provided fields satisfy the spec (2xx).
+10,"{""username"": ""user_2024""}",2xx,All provided fields satisfy the spec (2xx).
+11,"{""username"": ""petstore_test""}",2xx,All provided fields satisfy the spec (2xx).
+12,"{""username"": ""theUser""}",2xx,llm_success_ignore_optional
+13,"{""username"": ""theUser""}",2xx,All provided fields satisfy the spec (2xx).
+14,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+15,"{""username"": ""alice123""}",2xx,All provided fields satisfy the spec (2xx).
+16,"{""username"": ""user_2024""}",2xx,All provided fields satisfy the spec (2xx).
+17,"{""username"": ""petstore_test""}",2xx,All provided fields satisfy the spec (2xx).
+18,"{""username"": ""theUser""}",2xx,llm_success_ignore_optional
+19,"{""username"": ""theUser""}",2xx,All provided fields satisfy the spec (2xx).
+20,"{""username"": ""john_doe""}",2xx,All provided fields satisfy the spec (2xx).
+21,"{""username"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+22,"{""username"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+23,"{""username"": true}",4xx,One or more fields deliberately violate the spec (4xx).
+24,"{""username"": [""theUser""]}",4xx,One or more fields deliberately violate the spec (4xx).
+25,"{""username"": {""name"": ""theUser""}}",4xx,One or more fields deliberately violate the spec (4xx).
+26,"{""username"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+27,"{""username"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

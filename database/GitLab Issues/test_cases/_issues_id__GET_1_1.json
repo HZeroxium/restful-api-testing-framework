@@ -70,6 +70,7 @@
         "data_dependencies": {
           "id": {
             "from_step": 1,
+            "from_endpoint": "get-/issues",
             "field_mappings": {
               "id": "id"
             }

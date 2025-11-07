@@ -1,18 +1,22 @@
 index,data,expected_status_code,reason
-1,"{""id"": 50}",2xx,id=50 is a valid integer from dependency context; all required and optional parameters satisfy their constraints.
-2,"{""id"": 50, ""with_custom_attributes"": true, ""with_projects"": false}",2xx,id=50 is a valid integer from dependency context; with_custom_attributes=true and with_projects=false are valid booleans.
-3,"{""id"": 50}",2xx,llm_success_ignore_optional
-4,"{""id"": 50, ""with_custom_attributes"": true, ""with_projects"": true}",2xx,id=50 is a valid group id from context; with_custom_attributes=true and with_projects=true are valid booleans.
-5,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-6,"{""id"": 50, ""with_custom_attributes"": ""tru""}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
-7,"{""id"": 50, ""with_projects"": ""yes""}",4xx,"with_projects='yes' is not parseable as boolean, violating 'type=boolean' for query parameter."
-8,"{""id"": ""abc"", ""with_custom_attributes"": true, ""with_projects"": true}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 50, ""with_custom_attributes"": ""tru"", ""with_projects"": true}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
-10,"{""id"": 50, ""with_custom_attributes"": true, ""with_projects"": ""yes""}",4xx,"with_projects='yes' is not parseable as boolean, violating 'type=boolean' for query parameter."
-11,"{""id"": ""xyz"", ""with_custom_attributes"": ""tru"", ""with_projects"": ""yes""}",4xx,"id='xyz' is not parseable as integer; with_custom_attributes='tru' and with_projects='yes' are not parseable as boolean, violating 'type=integer' and 'type=boolean' constraints."
-12,"{""id"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 50, ""with_custom_attributes"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 50, ""with_projects"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 50, ""with_custom_attributes"": ""123456"", ""with_projects"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": ""123456"", ""with_custom_attributes"": ""123456"", ""with_projects"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 60, ""with_custom_attributes"": true, ""with_projects"": false}",2xx,id=60 is a valid group ID from context; with_custom_attributes=true and with_projects=false are valid booleans.
+2,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; optional query parameters omitted, which is allowed."
+3,"{""id"": 60, ""with_custom_attributes"": null, ""with_projects"": null}",2xx,llm_success_ignore_optional
+4,"{""id"": 60, ""with_custom_attributes"": true, ""with_projects"": null}",2xx,llm_success_ignore_optional
+5,"{""id"": 60, ""with_custom_attributes"": true, ""with_projects"": false}",2xx,llm_success_ignore_optional
+6,"{""id"": 60, ""with_custom_attributes"": true, ""with_projects"": null}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; with_custom_attributes=true and with_projects=false are valid booleans.
+7,"{""id"": 60, ""with_custom_attributes"": null, ""with_projects"": false}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; with_custom_attributes=true and with_projects=false are valid booleans.
+8,"{""id"": ""abc"", ""with_projects"": true}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+9,"{""id"": 60, ""with_custom_attributes"": ""tru""}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+10,"{""id"": -1, ""with_projects"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+12,"{""id"": 60, ""with_custom_attributes"": ""tru""}",4xx,"with_custom_attributes='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
+13,"{""id"": 60, ""with_projects"": ""yes""}",4xx,"with_projects='yes' is not parseable as boolean, violating 'type=boolean' for query parameter."
+14,"{""id"": ""abc"", ""with_custom_attributes"": ""tru""}",4xx,id='abc' is not parseable as integer (type=integer); with_custom_attributes='tru' is not parseable as boolean (type=boolean).
+15,"{""id"": ""abc"", ""with_projects"": ""yes""}",4xx,id='abc' is not parseable as integer (type=integer); with_projects='yes' is not parseable as boolean (type=boolean).
+16,"{""id"": -1, ""with_custom_attributes"": -1, ""with_projects"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+17,"{""id"": ""123456"", ""with_custom_attributes"": true, ""with_projects"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""id"": 60, ""with_custom_attributes"": ""123456"", ""with_projects"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""id"": 60, ""with_custom_attributes"": true, ""with_projects"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""id"": ""123456"", ""with_custom_attributes"": ""123456"", ""with_projects"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""id"": ""123456"", ""with_custom_attributes"": ""123456"", ""with_projects"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

@@ -93,8 +93,9 @@
         "data_dependencies": {
           "petId": {
             "from_step": 2,
+            "from_endpoint": "put-/pet",
             "field_mappings": {
-              "petId": "id"
+              "petId": "petId"
             }
           }
         }

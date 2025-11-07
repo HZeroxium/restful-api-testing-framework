@@ -1,33 +1,25 @@
 index,data,expected_status_code,reason
-1,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",2xx,PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-2,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": null, ""ref"": null, ""recursive"": null, ""per_page"": null}",2xx,llm_success_ignore_optional
-3,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": null, ""ref"": null, ""recursive"": null, ""per_page"": null}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-4,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": null, ""recursive"": null, ""per_page"": null}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-5,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": null, ""ref"": ""main"", ""recursive"": true, ""per_page"": null}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-6,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",2xx,llm_success_ignore_optional
-7,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": null}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-8,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": null, ""per_page"": 50}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-9,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": null, ""recursive"": true, ""per_page"": 50}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-10,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": null, ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",2xx,llm_success_ignore_optional: PRIVATE_TOKEN matches allowed enum; id=16 is a valid integer from dependency; all optional fields are valid types and values.
-11,"{""PRIVATE_TOKEN"": ""invalidToken"", ""id"": 16}",4xx,"PRIVATE_TOKEN='invalidToken' is not in enum ['23uGhZzaqfUhFSH5VxrV'], violating 'enum'."
-12,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
-13,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""recursive"": ""tru""}",4xx,"recursive='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
-14,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""per_page"": ""fifty""}",4xx,"per_page='fifty' is not parseable as integer, violating 'type=integer' for query parameter."
-15,"{""PRIVATE_TOKEN"": ""invalidToken"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,"PRIVATE_TOKEN='invalidToken' is not in enum ['23uGhZzaqfUhFSH5VxrV'], violating 'enum'."
-16,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""abc"", ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,"id='abc' is not parseable as integer (type=parseability), violating 'type=integer' for path parameter."
-17,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": ""tru"", ""per_page"": 20}",4xx,"recursive='tru' is not parseable as boolean, violating 'type=boolean' for query parameter."
-18,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": ""twenty""}",4xx,"per_page='twenty' is not parseable as integer, violating 'type=integer' for query parameter."
-19,"{""PRIVATE_TOKEN"": ""invalidToken"", ""id"": ""abc"", ""path"": ""src"", ""ref"": ""main"", ""recursive"": ""tru"", ""per_page"": ""twenty""}",4xx,PRIVATE_TOKEN='invalidToken' is not in enum ['23uGhZzaqfUhFSH5VxrV']; id='abc' is not parseable as integer; recursive='tru' is not parseable as boolean; per_page='twenty' is not parseable as integer. All violate their respective constraints.
-20,"{""PRIVATE_TOKEN"": """", ""id"": -1, ""path"": """", ""ref"": """", ""recursive"": -9999999.0, ""per_page"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-21,"{""PRIVATE_TOKEN"": null, ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",4xx,mutate_missing_required: set PRIVATE_TOKEN=None
-22,"{""PRIVATE_TOKEN"": 123456789, ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-23,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""123456"", ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-24,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": 123456789, ""ref"": ""main"", ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-25,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": 123456789, ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-26,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": ""123456"", ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-27,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": ""src"", ""ref"": ""main"", ""recursive"": true, ""per_page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-28,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 16, ""path"": 123456789, ""ref"": 123456789, ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-29,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""123456"", ""path"": 123456789, ""ref"": 123456789, ""recursive"": true, ""per_page"": 50}",4xx,One or more fields deliberately violate the spec (4xx).
-30,"{""PRIVATE_TOKEN"": 123456789, ""id"": 16, ""path"": ""src"", ""ref"": 123456789, ""recursive"": ""123456"", ""per_page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-31,"{""PRIVATE_TOKEN"": 123456789, ""id"": 16, ""path"": 123456789, ""ref"": 123456789, ""recursive"": ""123456"", ""per_page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-32,"{""PRIVATE_TOKEN"": 123456789, ""id"": ""123456"", ""path"": 123456789, ""ref"": 123456789, ""recursive"": ""123456"", ""per_page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""path"": ""src"", ""ref"": ""main""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""path"": ""docs"", ""ref"": ""v1.0.0"", ""recursive"": true}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""per_page"": 50}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""path"": ""test/unit"", ""ref"": ""feature/login"", ""recursive"": false, ""per_page"": 10}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41}",2xx,llm_success_ignore_optional
+7,"{""PRIVATE_TOKEN"": ""invalid_token"", ""id"": 41, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""not_an_integer"", ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""PRIVATE_TOKEN"": ""wrongtoken"", ""id"": -1, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""PRIVATE_TOKEN"": """", ""id"": 2147483649, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""PRIVATE_TOKEN"": null, ""id"": null, ""path"": ""src"", ""ref"": ""main"", ""recursive"": false, ""per_page"": 20}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""PRIVATE_TOKEN"": """", ""id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""PRIVATE_TOKEN"": null, ""id"": 41}",4xx,mutate_missing_required: set PRIVATE_TOKEN=None
+14,"{""PRIVATE_TOKEN"": 123456789, ""id"": 41}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""path"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+18,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""recursive"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+19,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""per_page"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+20,"{""PRIVATE_TOKEN"": 123456789, ""id"": 41, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+21,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": 41, ""per_page"": ""123456"", ""path"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+22,"{""PRIVATE_TOKEN"": 123456789, ""id"": ""123456"", ""path"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+23,"{""PRIVATE_TOKEN"": ""23uGhZzaqfUhFSH5VxrV"", ""id"": ""123456"", ""recursive"": ""123456"", ""per_page"": ""123456"", ""path"": 123456789, ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+24,"{""PRIVATE_TOKEN"": 123456789, ""id"": ""123456"", ""path"": 123456789, ""per_page"": ""123456"", ""recursive"": ""123456"", ""ref"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

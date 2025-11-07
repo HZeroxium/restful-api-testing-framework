@@ -53,14 +53,7 @@
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "status": {
-            "from_step": 1,
-            "field_mappings": {
-              "status": "status"
-            }
-          }
-        }
+        "data_dependencies": {}
       }
     ],
     "test_data": {

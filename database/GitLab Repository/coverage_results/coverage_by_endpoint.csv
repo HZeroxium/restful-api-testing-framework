@@ -1,11 +1,11 @@
 ﻿endpoint,documented_codes,observed_codes,matched_codes,documented_2xx,matched_2xx,coverage_2xx_pct,documented_4xx,matched_4xx,coverage_4xx_pct,coverage_pct
 get-/projects,['200'],['200'],['200'],['200'],['200'],100.0,[],[],0.0,100.0
-post-/projects,['201'],"['400', '422']",[],['201'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/tree,['200'],['404'],[],['200'],[],0.0,[],[],0.0,0.0
+post-/projects,['201'],"['201', '400', '422']",['201'],['201'],['201'],100.0,[],[],0.0,100.0
+get-/projects/{id}/repository/tree,['200'],"['200', '404']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
 get-/projects/{id}/repository/blobs/{sha},['200'],['404'],[],['200'],[],0.0,[],[],0.0,0.0
 get-/projects/{id}/repository/blobs/{sha}/raw,['200'],['404'],[],['200'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/archive,['200'],['404'],[],['200'],[],0.0,[],[],0.0,0.0
+get-/projects/{id}/repository/archive,['200'],"['200', '404']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
 get-/projects/{id}/repository/compare,['200'],"['400', '404']",[],['200'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/contributors,['200'],['200'],['200'],['200'],['200'],100.0,[],[],0.0,100.0
-get-/projects/{id}/repository/merge_base,['200'],['400'],[],['200'],[],0.0,[],[],0.0,0.0
-get-/projects/{id}/repository/changelog,['200'],"['200', '422']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
+get-/projects/{id}/repository/contributors,['200'],"['200', '404']",['200'],['200'],['200'],100.0,[],[],0.0,100.0
+get-/projects/{id}/repository/merge_base,['200'],"['400', '404']",[],['200'],[],0.0,[],[],0.0,0.0
+get-/projects/{id}/repository/changelog,['200'],"['200', '404', '422']",['200'],['200'],['200'],100.0,[],[],0.0,100.0

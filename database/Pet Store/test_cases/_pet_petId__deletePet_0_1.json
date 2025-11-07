@@ -1,0 +1,36 @@
+{
+  "test_case": {
+    "id": "_pet_petId__deletePet_0_1",
+    "name": "_pet_petId__deletePet_0_1",
+    "description": "Test case for endpoint delete-/pet/{petId}",
+    "endpoint": "delete-/pet/{petId}",
+    "sequence_index": 0,
+    "expected_status_code": "2xx",
+    "steps": [
+      {
+        "step_number": 1,
+        "endpoint": "delete-/pet/{petId}",
+        "method": "DELETE",
+        "path_variables": {
+          "petId": null
+        },
+        "query_parameters": {
+          "api_key": null
+        },
+        "request_body": {},
+        "response_validation": {
+          "status_code": "2xx",
+          "body_validation": {}
+        }
+      }
+    ],
+    "test_data": {
+      "body_data": {
+        "data": []
+      },
+      "parameter_data": {
+        "data": []
+      }
+    }
+  }
+}

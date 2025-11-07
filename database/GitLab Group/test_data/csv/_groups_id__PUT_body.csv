@@ -1,74 +1,74 @@
 index,data,expected_status_code,reason
-1,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-2,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-3,"{""avatar"": null}",2xx,llm_success_ignore_optional
-4,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-5,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-6,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-7,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-8,"{""avatar"": null}",2xx,llm_success_ignore_optional
-9,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-10,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-11,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-12,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-13,"{""avatar"": null}",2xx,llm_success_ignore_optional
-14,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-15,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-16,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-17,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-18,"{""avatar"": null}",2xx,llm_success_ignore_optional
-19,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-20,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-21,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-22,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-23,"{""avatar"": null}",2xx,llm_success_ignore_optional
-24,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-25,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-26,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-27,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-28,"{""avatar"": null}",2xx,llm_success_ignore_optional
-29,"{""avatar"": ""avatar.png""}",2xx,llm_success_ignore_optional
-30,"{""avatar"": null}",2xx,llm_success_ignore_optional: avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-31,"{""avatar"": ""avatar.png""}",2xx,avatar is a string and matches format 'file'; path parameter id=50 is a valid group id from context.
-32,{},2xx,avatar is optional and omitted; path parameter id=50 is a valid group id from context.
-33,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
-34,"{""avatar"": [""avatar.png""]}",4xx,"avatar=['avatar.png'] has type array, violating 'type=string' for the field."
-35,"{""avatar"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
-36,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
-37,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, violating 'type=string' and 'format=file' which requires a file upload."
-38,"{""avatar"": [""fakefile.jpg""]}",4xx,"avatar=['fakefile.jpg'] is an array, violating 'type=string' and 'format=file' which requires a file upload."
-39,"{""avatar"": {""filename"": ""avatar.png""}}",4xx,"avatar={""filename"": ""avatar.png""} is an object, violating 'type=string' and 'format=file' which requires a file upload."
-40,"{""avatar"": null}",4xx,One or more fields deliberately violate the spec (4xx).
-41,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
-42,"{""avatar"": [""avatar.png""]}",4xx,"avatar=['avatar.png'] has type array, violating 'type=string' for the field."
-43,"{""avatar"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
-44,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
-45,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, violating 'type=string' and 'format=file' which requires a file upload."
-46,"{""avatar"": [""fakefile.jpg""]}",4xx,"avatar=['fakefile.jpg'] is an array, violating 'type=string' and 'format=file' which requires a file upload."
-47,"{""avatar"": {""filename"": ""avatar.png""}}",4xx,"avatar={""filename"": ""avatar.png""} is an object, violating 'type=string' and 'format=file' which requires a file upload."
-48,"{""avatar"": null}",4xx,One or more fields deliberately violate the spec (4xx).
-49,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
-50,"{""avatar"": [""avatar.png""]}",4xx,"avatar=['avatar.png'] has type array, violating 'type=string' for the field."
-51,"{""avatar"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
-52,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
-53,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, violating 'type=string' and 'format=file' which requires a file upload."
-54,"{""avatar"": [""fakefile.jpg""]}",4xx,"avatar=['fakefile.jpg'] is an array, violating 'type=string' and 'format=file' which requires a file upload."
-55,"{""avatar"": {""filename"": ""avatar.png""}}",4xx,"avatar={""filename"": ""avatar.png""} is an object, violating 'type=string' and 'format=file' which requires a file upload."
-56,"{""avatar"": null}",4xx,One or more fields deliberately violate the spec (4xx).
-57,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
-58,"{""avatar"": [""avatar.png""]}",4xx,"avatar=['avatar.png'] has type array, violating 'type=string' for the field."
-59,"{""avatar"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
-60,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
-61,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, violating 'type=string' and 'format=file' which requires a file upload."
-62,"{""avatar"": [""fakefile.jpg""]}",4xx,"avatar=['fakefile.jpg'] is an array, violating 'type=string' and 'format=file' which requires a file upload."
-63,"{""avatar"": {""filename"": ""avatar.png""}}",4xx,"avatar={""filename"": ""avatar.png""} is an object, violating 'type=string' and 'format=file' which requires a file upload."
-64,"{""avatar"": null}",4xx,One or more fields deliberately violate the spec (4xx).
-65,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
-66,"{""avatar"": [""avatar.png""]}",4xx,"avatar=['avatar.png'] has type array, violating 'type=string' for the field."
-67,"{""avatar"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
-68,"{""avatar"": ""not_a_file.txt""}",4xx,"avatar='not_a_file.txt' is a plain string, violating 'format=file' which requires a file upload."
-69,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, violating 'type=string' and 'format=file' which requires a file upload."
-70,"{""avatar"": [""fakefile.jpg""]}",4xx,"avatar=['fakefile.jpg'] is an array, violating 'type=string' and 'format=file' which requires a file upload."
-71,"{""avatar"": {""filename"": ""avatar.png""}}",4xx,"avatar={""filename"": ""avatar.png""} is an object, violating 'type=string' and 'format=file' which requires a file upload."
-72,"{""avatar"": null}",4xx,One or more fields deliberately violate the spec (4xx).
-73,"{""avatar"": 12345}",4xx,"avatar=12345 has type integer, violating 'type=string' for the field."
+1,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+2,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+3,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; avatar is optional and missing, which is allowed."
+4,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional
+5,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,llm_success_ignore_optional
+6,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+7,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+8,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+9,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; avatar is optional and missing, which is allowed."
+10,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional
+11,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,llm_success_ignore_optional
+12,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+13,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+14,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+15,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; avatar is optional and missing, which is allowed."
+16,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional
+17,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,llm_success_ignore_optional
+18,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+19,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+20,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+21,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; avatar is optional and missing, which is allowed."
+22,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional
+23,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,llm_success_ignore_optional
+24,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+25,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+26,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+27,"{""id"": 60}",2xx,"id=60 is a valid group ID from context; avatar is optional and missing, which is allowed."
+28,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional
+29,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,llm_success_ignore_optional
+30,"{""avatar"": null, ""id"": 60}",2xx,llm_success_ignore_optional: id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+31,"{""avatar"": ""avatar.png"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='avatar.png' is a valid string matching format 'file'.
+32,"{""avatar"": ""team-photo.jpg"", ""id"": 60}",2xx,id=60 is a valid group ID from context; avatar='team-photo.jpg' is a valid string matching format 'file'.
+33,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+34,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+35,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+36,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+37,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+38,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+39,"{""avatar"": null}",4xx,"avatar=null, but the spec does not allow null for format 'file', violating 'type=string' and 'format=file'."
+40,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+41,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+42,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+43,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+44,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+45,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+46,"{""avatar"": null}",4xx,"avatar=null, but the spec does not allow null for format 'file', violating 'type=string' and 'format=file'."
+47,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+48,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+49,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+50,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+51,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+52,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+53,"{""avatar"": null}",4xx,"avatar=null, but the spec does not allow null for format 'file', violating 'type=string' and 'format=file'."
+54,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+55,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+56,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+57,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+58,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+59,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+60,"{""avatar"": null}",4xx,"avatar=null, but the spec does not allow null for format 'file', violating 'type=string' and 'format=file'."
+61,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+62,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+63,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+64,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+65,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+66,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+67,"{""avatar"": null}",4xx,"avatar=null, but the spec does not allow null for format 'file', violating 'type=string' and 'format=file'."
+68,"{""avatar"": 12345, ""id"": 60}",4xx,"avatar=12345 has type integer, violating 'type=string' for avatar."
+69,"{""avatar"": ""avatar.png"", ""id"": ""abc""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
+70,"{""avatar"": ""not_a_file.jpg""}",4xx,"avatar='not_a_file.jpg' is a string, but the spec requires format 'file' (file upload), violating 'format=file'."
+71,"{""avatar"": 12345}",4xx,"avatar=12345 is a number, but the spec requires format 'file' (file upload), violating 'type=string' and 'format=file'."
+72,"{""avatar"": {""filename"": ""avatar.png"", ""content"": ""fakecontent""}}",4xx,"avatar is an object, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."
+73,"{""avatar"": [""avatar.png""]}",4xx,"avatar is an array, but the spec requires format 'file' (file upload) as a string, violating 'type=string' and 'format=file'."

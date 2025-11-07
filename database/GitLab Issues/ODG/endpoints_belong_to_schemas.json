@@ -1,9 +1,9 @@
 {
-  "Namespace": [
+  "GroupAccess": [
     "get-/projects",
     "post-/projects"
   ],
-  "GroupAccess": [
+  "Statistics": [
     "get-/projects",
     "post-/projects"
   ],
@@ -15,7 +15,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "BasicProjectDetails": [
+  "Namespace": [
     "get-/projects",
     "post-/projects"
   ],
@@ -23,7 +23,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "ProjectAccess": [
+  "BasicProjectDetails": [
     "get-/projects",
     "post-/projects"
   ],
@@ -31,7 +31,7 @@
     "get-/projects",
     "post-/projects"
   ],
-  "Statistics": [
+  "ProjectAccess": [
     "get-/projects",
     "post-/projects"
   ],
@@ -52,53 +52,7 @@
     "get-/projects/{id}/issues/{issue_iid}/closed_by",
     "get-/projects/{id}/issues/{issue_iid}/participants"
   ],
-  "Milestone": [
-    "get-/issues",
-    "get-/issues/{id}",
-    "get-/groups/{id}/issues",
-    "get-/projects/{id}/issues",
-    "post-/projects/{id}/issues",
-    "get-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}/reorder",
-    "post-/projects/{id}/issues/{issue_iid}/move",
-    "post-/projects/{id}/issues/{issue_iid}/subscribe",
-    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo",
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
   "TimeStats": [
-    "get-/issues",
-    "get-/issues/{id}",
-    "get-/groups/{id}/issues",
-    "get-/projects/{id}/issues",
-    "post-/projects/{id}/issues",
-    "get-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}/reorder",
-    "post-/projects/{id}/issues/{issue_iid}/move",
-    "post-/projects/{id}/issues/{issue_iid}/subscribe",
-    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo",
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
-  "ClosedBy": [
-    "get-/issues",
-    "get-/issues/{id}",
-    "get-/groups/{id}/issues",
-    "get-/projects/{id}/issues",
-    "post-/projects/{id}/issues",
-    "get-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}",
-    "put-/projects/{id}/issues/{issue_iid}/reorder",
-    "post-/projects/{id}/issues/{issue_iid}/move",
-    "post-/projects/{id}/issues/{issue_iid}/subscribe",
-    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
-    "post-/projects/{id}/issues/{issue_iid}/todo"
-  ],
-  "TaskCompletionStatus": [
     "get-/issues",
     "get-/issues/{id}",
     "get-/groups/{id}/issues",
@@ -142,7 +96,53 @@
     "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
     "post-/projects/{id}/issues/{issue_iid}/todo"
   ],
+  "TaskCompletionStatus": [
+    "get-/issues",
+    "get-/issues/{id}",
+    "get-/groups/{id}/issues",
+    "get-/projects/{id}/issues",
+    "post-/projects/{id}/issues",
+    "get-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}/reorder",
+    "post-/projects/{id}/issues/{issue_iid}/move",
+    "post-/projects/{id}/issues/{issue_iid}/subscribe",
+    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
+    "post-/projects/{id}/issues/{issue_iid}/todo",
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "ClosedBy": [
+    "get-/issues",
+    "get-/issues/{id}",
+    "get-/groups/{id}/issues",
+    "get-/projects/{id}/issues",
+    "post-/projects/{id}/issues",
+    "get-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}/reorder",
+    "post-/projects/{id}/issues/{issue_iid}/move",
+    "post-/projects/{id}/issues/{issue_iid}/subscribe",
+    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
+    "post-/projects/{id}/issues/{issue_iid}/todo"
+  ],
   "References": [
+    "get-/issues",
+    "get-/issues/{id}",
+    "get-/groups/{id}/issues",
+    "get-/projects/{id}/issues",
+    "post-/projects/{id}/issues",
+    "get-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}",
+    "put-/projects/{id}/issues/{issue_iid}/reorder",
+    "post-/projects/{id}/issues/{issue_iid}/move",
+    "post-/projects/{id}/issues/{issue_iid}/subscribe",
+    "post-/projects/{id}/issues/{issue_iid}/unsubscribe",
+    "post-/projects/{id}/issues/{issue_iid}/todo",
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "Milestone": [
     "get-/issues",
     "get-/issues/{id}",
     "get-/groups/{id}/issues",
@@ -183,15 +183,15 @@
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
-  "ReqUser": [
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
-  "MergeRequest": [
-    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
-    "get-/projects/{id}/issues/{issue_iid}/closed_by"
-  ],
   "Pipeline": [
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "DetailedStatus": [
+    "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
+    "get-/projects/{id}/issues/{issue_iid}/closed_by"
+  ],
+  "ReqUser": [
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
@@ -199,7 +199,7 @@
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],
-  "DetailedStatus": [
+  "MergeRequest": [
     "get-/projects/{id}/issues/{issue_iid}/related_merge_requests",
     "get-/projects/{id}/issues/{issue_iid}/closed_by"
   ],

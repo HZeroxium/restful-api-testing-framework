@@ -1,37 +1,19 @@
 index,data,expected_status_code,reason
-1,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": 101}",2xx,id=24 and issue_iid=6 are valid integers from context; to_project_id=101 is a valid integer.
-2,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": 101}",2xx,llm_success_ignore_optional
-3,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""abc""}",4xx,"to_project_id='abc' is not parseable as integer, violating 'type=integer' for query/parseability."
-4,"{""id"": ""xyz"", ""issue_iid"": 6, ""to_project_id"": 101}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-5,"{""id"": 24, ""issue_iid"": 6}",4xx,"to_project_id is required but missing, violating 'required'."
-6,"{""id"": 24, ""issue_iid"": -5, ""to_project_id"": 101}",4xx,"issue_iid=-5 is negative, violating 'type=integer' (must be a non-negative integer for an ID)."
-7,"{""id"": ""abc"", ""issue_iid"": 6, ""to_project_id"": 24}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-8,"{""id"": 24, ""issue_iid"": ""notanint"", ""to_project_id"": 25}",4xx,"issue_iid='notanint' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
-10,"{""id"": ""abc"", ""issue_iid"": ""def"", ""to_project_id"": 24}",4xx,"id='abc' and issue_iid='def' are not parseable as integers, violating 'type=integer' for path parameters."
-11,"{""id"": ""foo"", ""issue_iid"": ""bar"", ""to_project_id"": ""baz""}",4xx,"id='foo', issue_iid='bar', and to_project_id='baz' are not parseable as integers, violating 'type=integer' for all parameters."
+1,"{""id"": 50, ""issue_iid"": 1, ""to_project_id"": 51}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 50, ""issue_iid"": 2, ""to_project_id"": 52}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 2147483647, ""issue_iid"": 100, ""to_project_id"": 2147483646}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 1, ""issue_iid"": 1, ""to_project_id"": 2}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 123, ""issue_iid"": 10, ""to_project_id"": 124}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 50, ""issue_iid"": 1, ""to_project_id"": 51}",2xx,llm_success_ignore_optional
+7,"{""id"": ""not_an_integer"", ""issue_iid"": 101, ""to_project_id"": 200}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": 50, ""issue_iid"": ""invalid_issue_id"", ""to_project_id"": 200}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": 50, ""issue_iid"": 101, ""to_project_id"": ""bad_project_id""}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": ""wrong_type"", ""issue_iid"": ""also_wrong"", ""to_project_id"": 200}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": ""fail"", ""issue_iid"": ""fail"", ""to_project_id"": ""fail""}",4xx,One or more fields deliberately violate the spec (4xx).
 12,"{""id"": -9999999.0, ""issue_iid"": -1, ""to_project_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": null}",4xx,mutate_missing_required: set to_project_id=None
-14,"{""id"": ""123456"", ""issue_iid"": 6, ""to_project_id"": 101}",4xx,One or more fields deliberately violate the spec (4xx).
-15,"{""id"": 24, ""issue_iid"": ""123456"", ""to_project_id"": 101}",4xx,One or more fields deliberately violate the spec (4xx).
-16,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-17,"{""id"": 24, ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+13,"{""id"": 50, ""issue_iid"": 1, ""to_project_id"": null}",4xx,mutate_missing_required: set to_project_id=None
+14,"{""id"": ""123456"", ""issue_iid"": 1, ""to_project_id"": 51}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""id"": 50, ""issue_iid"": ""123456"", ""to_project_id"": 51}",4xx,One or more fields deliberately violate the spec (4xx).
+16,"{""id"": 50, ""issue_iid"": 1, ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+17,"{""id"": 50, ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
 18,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-19,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": 25}",2xx,id=24 and issue_iid=6 are valid integers from context; to_project_id=25 is a valid integer.
-20,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": 25}",2xx,llm_success_ignore_optional
-21,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""abc""}",4xx,"to_project_id='abc' is not parseable as integer, violating 'type=integer' for query parameter."
-22,"{""id"": ""xyz"", ""issue_iid"": 6, ""to_project_id"": 25}",4xx,"id='xyz' is not parseable as integer, violating 'type=integer' for path parameter."
-23,"{""id"": 24, ""issue_iid"": 6}",4xx,"to_project_id is required but missing, violating 'required' for query parameter."
-24,"{""id"": 2147483649, ""issue_iid"": 6, ""to_project_id"": 25}",4xx,id=2147483649 exceeds typical 32-bit integer bounds; may violate implementation limits for 'type=integer'.
-25,"{""id"": ""not-an-int"", ""issue_iid"": 6, ""to_project_id"": 24}",4xx,"id='not-an-int' is not parseable as integer, violating 'type=integer' for path parameter."
-26,"{""id"": 24, ""issue_iid"": ""abc"", ""to_project_id"": 25}",4xx,"issue_iid='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-27,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""xyz""}",4xx,"to_project_id='xyz' is not parseable as integer, violating 'type=integer' for query parameter."
-28,"{""id"": ""foo"", ""issue_iid"": ""bar"", ""to_project_id"": 24}",4xx,"id='foo' and issue_iid='bar' are not parseable as integer, violating 'type=integer' for path parameters."
-29,"{""id"": ""foo"", ""issue_iid"": ""bar"", ""to_project_id"": ""baz""}",4xx,"id='foo', issue_iid='bar', and to_project_id='baz' are not parseable as integer, violating 'type=integer' for all parameters."
-30,"{""id"": -9999999.0, ""issue_iid"": -1, ""to_project_id"": -9999999.0}",4xx,heuristic_mutation: out-of-range/invalid primitives
-31,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": null}",4xx,mutate_missing_required: set to_project_id=None
-32,"{""id"": ""123456"", ""issue_iid"": 6, ""to_project_id"": 25}",4xx,One or more fields deliberately violate the spec (4xx).
-33,"{""id"": 24, ""issue_iid"": ""123456"", ""to_project_id"": 25}",4xx,One or more fields deliberately violate the spec (4xx).
-34,"{""id"": 24, ""issue_iid"": 6, ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-35,"{""id"": ""123456"", ""issue_iid"": 6, ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-36,"{""id"": ""123456"", ""issue_iid"": ""123456"", ""to_project_id"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

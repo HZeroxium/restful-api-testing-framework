@@ -136,6 +136,13 @@
             "field_mappings": {
               "id": "id"
             }
+          },
+          "branch": {
+            "from_step": 2,
+            "from_endpoint": "get-/projects",
+            "field_mappings": {
+              "branch": "name"
+            }
           }
         }
       }

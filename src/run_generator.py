@@ -22,9 +22,11 @@ print("=" * 60)
 
 try:
     from kat.test_case_generator.test_case_generator import TestCaseGenerator
-    
+    gitlab_headers = {
+        "PRIVATE-TOKEN": "zLZNJA6PjzudxPEfw2Ui",
+    }
     list_services = ["GitLab Branch", "GitLab Issues", "GitLab Group", "GitLab Project", "GitLab Repository"]
-    service = "GitLab Branch"
+    service = "Pet Store"
             
     generator = TestCaseGenerator(
         service_name=service,
@@ -32,13 +34,14 @@ try:
         save_prompts=True,
         regenerate_test_data=True,  # Force regenerate với prompt mới
         data_generation_mode="all",
-        clear_test_cases=False,  # Không xóa test cases khi chỉ generate test data
+        clear_test_cases=True,  # Không xóa test cases khi chỉ generate test data
         headers=gitlab_headers
     )
-    # generator.generate_test_cases()
+    generator.generate_test_cases()
+    # endpoints = ["get-/projects/{id}/issues"]
     generator.generate_test_data_for(generator.get_endpoints())
+    # generator.generate_test_data_for(generator.get_endpoints())
     # for service in list_services:
-        
     #     generator = TestCaseGenerator(
     #         service_name=service,
     #         collection="Default",

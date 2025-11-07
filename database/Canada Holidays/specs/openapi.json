@@ -20,98 +20,6 @@
     }
   ],
   "paths": {
-    "/api/v1": {
-      "get": {
-        "summary": "root",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "description": "A welcome message",
-                      "example": "Hello / Bonjour!"
-                    },
-                    "_links": {
-                      "type": "object",
-                      "properties": {
-                        "self": {
-                          "type": "object",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://canada-holidays.ca/api/v1/",
-                              "description": "Root domain"
-                            }
-                          }
-                        },
-                        "holidays": {
-                          "type": "object",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://canada-holidays.ca/api/v1/holidays",
-                              "description": "Domain to get all holidays"
-                            }
-                          }
-                        },
-                        "provinces": {
-                          "type": "object",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://canada-holidays.ca/api/v1/provinces",
-                              "description": "Domain to get all provinces"
-                            }
-                          }
-                        },
-                        "spec": {
-                          "type": "object",
-                          "properties": {
-                            "href": {
-                              "type": "string",
-                              "example": "https://canada-holidays.ca/api/v1/spec"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "/": {
-                    "value": {
-                      "message": "Hello / Bonjour! Welcome to the Canada Holidays API / Bienvenue dans l’API canadienne des jours fériés",
-                      "_links": {
-                        "self": {
-                          "href": "https://canada-holidays.ca/api/v1/"
-                        },
-                        "holidays": {
-                          "href": "https://canada-holidays.ca/api/v1/holidays"
-                        },
-                        "provinces": {
-                          "href": "https://canada-holidays.ca/api/v1/provinces"
-                        },
-                        "spec": {
-                          "href": "https://canada-holidays.ca/api/v1/spec"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "Root",
-        "description": "Returns a welcome message.",
-        "tags": ["info"]
-      }
-    },
     "/api/v1/holidays": {
       "get": {
         "summary": "Get all holidays",
@@ -808,27 +716,6 @@
           }
         ],
         "tags": ["holidays"]
-      }
-    },
-    "/api/v1/spec": {
-      "get": {
-        "summary": "Get JSON schema",
-        "tags": ["info"],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "headers": {
-              "content-type": {
-                "schema": {
-                  "type": "string"
-                },
-                "description": "text/yaml; charset=UTF-8"
-              }
-            }
-          }
-        },
-        "operationId": "Spec",
-        "description": "Gets the schema for the JSON API as a yaml file."
       }
     }
   },

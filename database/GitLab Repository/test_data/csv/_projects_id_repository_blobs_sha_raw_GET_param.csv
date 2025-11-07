@@ -1,16 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""id"": 16, ""sha"": ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4""}",2xx,id=16 is a valid integer from dependency context; sha='e3b0c44298fc1c149afbf4c8996fb92427ae41e4' is a valid SHA string.
-2,"{""id"": 16, ""sha"": ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4""}",2xx,llm_success_ignore_optional
-3,"{""id"": 16, ""sha"": ""d3adb33f""}",2xx,id=16 is a valid project ID from context; sha='d3adb33f' is a valid string.
-4,"{""id"": ""abc"", ""sha"": ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-5,"{""id"": 16, ""sha"": """"}",4xx,"sha='' is an empty string, violating 'required' and typical SHA string constraints."
-6,"{""id"": -1, ""sha"": ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4""}",4xx,One or more fields deliberately violate the spec (4xx).
-7,"{""id"": 16, ""sha"": 123456}",4xx,"sha=123456 is an integer, violating 'type=string' for path parameter."
-8,"{""id"": ""abc"", ""sha"": ""d3adb33f""}",4xx,"id='abc' is not parseable as integer, violating 'type=integer' for path parameter."
-9,"{""id"": -1, ""sha"": ""d3adb33f""}",4xx,One or more fields deliberately violate the spec (4xx).
-10,"{""id"": 16, ""sha"": 123456}",4xx,"sha=123456 is of type integer, but the spec requires type string for path parameter."
-11,"{""id"": 0, ""sha"": 123456}",4xx,One or more fields deliberately violate the spec (4xx).
-12,"{""id"": -9999999.0, ""sha"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
-13,"{""id"": ""123456"", ""sha"": ""e3b0c44298fc1c149afbf4c8996fb92427ae41e4""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""id"": 16, ""sha"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""id"": 41, ""sha"": ""e69de29bb2d1d6434b8b29ae775ad8c2e48c5391""}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""id"": 42, ""sha"": ""a3c256d9e2f1a2b3c4d5e6f7a8b9c0d1e2f3a4b5""}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""id"": 100, ""sha"": ""FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF""}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""id"": 2147483649, ""sha"": ""1234567890abcdef1234567890abcdef12345678""}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""id"": 1, ""sha"": ""abcdefabcdefabcdefabcdefabcdefabcdefabcd""}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""id"": 41, ""sha"": ""e69de29bb2d1d6434b8b29ae775ad8c2e48c5391""}",2xx,llm_success_ignore_optional
+7,"{""id"": ""not-an-integer"", ""sha"": ""d3adb33f""}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""id"": -1, ""sha"": 123456}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""id"": 41, ""sha"": null}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""id"": 3.1415, ""sha"": ""abcdef1234567890""}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""id"": true, ""sha"": false}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""id"": -1, ""sha"": """"}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""id"": ""123456"", ""sha"": ""e69de29bb2d1d6434b8b29ae775ad8c2e48c5391""}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""id"": 41, ""sha"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).
 15,"{""id"": ""123456"", ""sha"": 123456789}",4xx,One or more fields deliberately violate the spec (4xx).

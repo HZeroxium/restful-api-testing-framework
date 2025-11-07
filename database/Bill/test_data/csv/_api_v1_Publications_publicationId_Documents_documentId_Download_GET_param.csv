@@ -1,15 +1,16 @@
 index,data,expected_status_code,reason
-1,"{""publicationId"": 3973, ""documentId"": 19929}",2xx,"UNRESOLVABLE FOR 2XX DUE TO MISSING CONTEXT: No valid publicationId or documentId can be reliably sourced from dependency context, examples, or fixtures."
-2,"{""publicationId"": ""abc"", ""documentId"": 19929}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-3,"{""publicationId"": 3973, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-4,"{""publicationId"": -1, ""documentId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
-5,"{""publicationId"": 3973, ""documentId"": 2147483649}",4xx,"documentId=2147483649 exceeds int32 maximum (2147483647), violating 'format=int32'."
-6,"{""publicationId"": ""abc"", ""documentId"": 3973}",4xx,"publicationId='abc' is not parseable as integer, violating 'type=integer' for path/parseability."
-7,"{""publicationId"": 3973, ""documentId"": ""xyz""}",4xx,"documentId='xyz' is not parseable as integer, violating 'type=integer' for path/parseability."
-8,"{""publicationId"": 2147483648, ""documentId"": 17032}",4xx,"publicationId=2147483648 exceeds int32 maximum=2147483647, violating 'format=int32'."
-9,"{""publicationId"": 3973, ""documentId"": -2147483649}",4xx,"documentId=-2147483649 is less than int32 minimum=-2147483648, violating 'format=int32'."
-10,"{""publicationId"": ""12.34"", ""documentId"": ""56.78""}",4xx,"publicationId='12.34' and documentId='56.78' are not parseable as integer, violating 'type=integer' for path/parseability."
-11,"{""publicationId"": -1, ""documentId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""publicationId"": ""123456"", ""documentId"": 19929}",4xx,One or more fields deliberately violate the spec (4xx).
-13,"{""publicationId"": 3973, ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
-14,"{""publicationId"": ""123456"", ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""publicationId"": 1, ""documentId"": 100}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""publicationId"": 12345, ""documentId"": 67890}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""publicationId"": 2147483647, ""documentId"": 2147483647}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""publicationId"": 0, ""documentId"": 1}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""publicationId"": 999, ""documentId"": 555}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""publicationId"": 1, ""documentId"": 100}",2xx,llm_success_ignore_optional
+7,"{""publicationId"": ""abc"", ""documentId"": 123}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""publicationId"": 456, ""documentId"": ""xyz""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""publicationId"": 2147483648, ""documentId"": 789}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""publicationId"": 101, ""documentId"": -2147483649}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""publicationId"": 12.34, ""documentId"": 567}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""publicationId"": -9999999.0, ""documentId"": -1}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""publicationId"": ""123456"", ""documentId"": 100}",4xx,One or more fields deliberately violate the spec (4xx).
+14,"{""publicationId"": 1, ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+15,"{""publicationId"": ""123456"", ""documentId"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

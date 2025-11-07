@@ -1,14 +1,15 @@
 index,data,expected_status_code,reason
-1,"{""tags"": [""friendly"", ""trained""]}",2xx,tags is present and is an array of strings; all items are valid strings.
-2,"{""tags"": [""tag1"", ""tag2"", ""tag3""]}",2xx,tags is present and is an array of strings similar to the example values.
-3,"{""tags"": [""friendly"", 123]}",4xx,"tags[1]=123 is not a string, violating 'type=string' for array items."
-4,"{""tags"": ""friendly""}",4xx,"tags='friendly' is a string, but the spec requires an array of strings (type mismatch)."
-5,{},4xx,"tags is required but missing, violating 'required'."
-6,{},4xx,"tags is required but missing, violating 'required'."
-7,"{""tags"": ""friendly""}",4xx,tags has type string but the spec requires array of strings (type mismatch).
-8,"{""tags"": null}",4xx,tags is null but the spec requires array of strings (type mismatch).
-9,"{""tags"": [123, ""friendly""]}",4xx,tags[0]=123 has type integer but the spec requires string for array items (type mismatch).
-10,"{""tags"": [{""name"": ""friendly""}]}",4xx,tags[0] has type object but the spec requires string for array items (type mismatch).
-11,"{""tags"": ["""", """"]}",4xx,heuristic_mutation: out-of-range/invalid primitives
-12,"{""tags"": null}",4xx,mutate_missing_required: set tags=None
-13,"{""tags"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).
+1,"{""tags"": [""dog"", ""puppy""]}",2xx,All provided fields satisfy the spec (2xx).
+2,"{""tags"": [""cat""]}",2xx,All provided fields satisfy the spec (2xx).
+3,"{""tags"": [""tag1"", ""tag2"", ""tag3""]}",2xx,All provided fields satisfy the spec (2xx).
+4,"{""tags"": [""bird"", ""parrot"", ""exotic""]}",2xx,All provided fields satisfy the spec (2xx).
+5,"{""tags"": [""hamster"", ""small-pet""]}",2xx,All provided fields satisfy the spec (2xx).
+6,"{""tags"": [""dog"", ""puppy""]}",2xx,llm_success_ignore_optional
+7,{},4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""tags"": ""dog,cat""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""tags"": [123, 456]}",4xx,One or more fields deliberately violate the spec (4xx).
+10,"{""tags"": []}",4xx,One or more fields deliberately violate the spec (4xx).
+11,"{""tags"": [""dog"", 123, null]}",4xx,One or more fields deliberately violate the spec (4xx).
+12,"{""tags"": ["""", """"]}",4xx,heuristic_mutation: out-of-range/invalid primitives
+13,"{""tags"": null}",4xx,mutate_missing_required: set tags=None
+14,"{""tags"": ""123456""}",4xx,One or more fields deliberately violate the spec (4xx).

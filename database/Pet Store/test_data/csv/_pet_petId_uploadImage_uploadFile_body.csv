@@ -1,15 +1,10 @@
 index,data,expected_status_code,reason
-1,"{""body"": ""fake-binary-data""}",2xx,body is a string and satisfies 'type=string' and 'format=binary'.
-2,"{""body"": ""fake-binary-data""}",2xx,body is a string and satisfies 'type=string' and 'format=binary'.
-3,"{""body"": """"}",4xx,"body='' is an empty string, violating 'format=binary' (should be non-empty binary data)."
-4,"{""body"": 12345}",4xx,"body=12345 is of type integer, violating 'type=string' for request body."
-5,{},4xx,"body is required but missing, violating 'required' for request body."
-6,"{""data"": 12345}",4xx,Request body is integer but the spec requires type=string with format=binary.
-7,"{""data"": [""not"", ""binary"", ""data""]}",4xx,Request body is array but the spec requires type=string with format=binary.
-8,"{""file"": ""not_binary""}",4xx,Request body is object but the spec requires type=string with format=binary.
-9,"{""data"": true}",4xx,Request body is boolean but the spec requires type=string with format=binary.
-10,"{""data"": null}",4xx,Request body is null but the spec requires type=string with format=binary.
-11,"{""body"": """"}",4xx,"body='' is an empty string, violating 'format=binary' (should be non-empty binary data)."
-12,"{""body"": 12345}",4xx,"body=12345 is of type integer, violating 'type=string' for request body."
-13,{},4xx,"body is required but missing, violating 'required' for request body."
-14,"{""data"": 12345}",4xx,Request body is integer but the spec requires type=string with format=binary.
+1,"{""data"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+2,"{""data"": ""This is not binary data.""}",4xx,One or more fields deliberately violate the spec (4xx).
+3,"{""data"": ""{\""image\"": \""fakeimage.jpg\""}""}",4xx,One or more fields deliberately violate the spec (4xx).
+4,"{""data"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).
+5,"{""data"": ""aGVsbG8gd29ybGQ=""}",4xx,One or more fields deliberately violate the spec (4xx).
+6,"{""data"": """"}",4xx,One or more fields deliberately violate the spec (4xx).
+7,"{""data"": ""This is not binary data.""}",4xx,One or more fields deliberately violate the spec (4xx).
+8,"{""data"": ""{\""image\"": \""fakeimage.jpg\""}""}",4xx,One or more fields deliberately violate the spec (4xx).
+9,"{""data"": 12345}",4xx,One or more fields deliberately violate the spec (4xx).

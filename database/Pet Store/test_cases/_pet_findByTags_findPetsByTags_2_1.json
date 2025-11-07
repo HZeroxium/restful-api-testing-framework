@@ -87,14 +87,7 @@
           "status_code": "2xx",
           "body_validation": {}
         },
-        "data_dependencies": {
-          "tags": {
-            "from_step": 2,
-            "field_mappings": {
-              "tags": "tags"
-            }
-          }
-        }
+        "data_dependencies": {}
       }
     ],
     "test_data": {
